@@ -1,0 +1,13 @@
+pandas==2.2.3
+numpy==2.2.4
+scikit-learn==1.7.2
+yfinance==0.2.55
+transformers==4.57.0
+torch==2.8.0
+streamlit==1.44.1
+xgboost==3.0.5
+datasets==4.2.0
+matplotlib==3.10.1
+seaborn==0.13.2
+accelerate==1.10.1
+joblib==1.5.2

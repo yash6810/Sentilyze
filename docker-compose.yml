@@ -1,0 +1,15 @@
+
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./src:/app/src
+      - ./models:/app/models
+      - ./data:/app/data
+      - ./.streamlit:/app/.streamlit
+      - ./.cache:/app/.cache
+    environment:
+      - HF_HOME=/app/.cache
