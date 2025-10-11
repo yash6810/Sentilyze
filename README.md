@@ -67,7 +67,7 @@ This project is fully containerized with Docker, which is the simplest way to ge
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/yash6810/Sentilyze.git
 cd sentilyze
 ```
 
