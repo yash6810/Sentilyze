@@ -14,6 +14,7 @@ from src.feature_engineering import (
     create_features,
 )
 from src.modeling import load_model, make_prediction
+from src.universal_modeling import load_universal_model, make_universal_prediction
 from src.utils import get_logger
 from src.backtesting import run_backtest
 
@@ -35,8 +36,22 @@ def load_sentiment_analyzer():
     )
     return pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
+@st.cache_resource
+def load_universal_model_cached():
+    """Loads the universal model, returns None if it doesn't exist."""
+    logger.info("Loading universal prediction model...")
+    model_path = "models/universal_model.pth"
+    if not os.path.exists(model_path):
+        logger.warning("Universal model not found. Continuing without it.")
+        return None
+    # TODO: The input_size needs to be known. For now, let's hardcode a placeholder.
+    # This should be configured or inferred from the training script.
+    input_size = 15 # Placeholder for number of features
+    return load_universal_model(model_path, input_size=input_size)
+
 
 sentiment_analyzer = load_sentiment_analyzer()
+universal_model = load_universal_model_cached()
 
 # --- Main App ---
 ticker = st.text_input("Enter a stock ticker:", "NVDA")
@@ -58,58 +73,73 @@ with tab1:
     st.header(f"Predict Next-Day Momentum for {ticker}")
     if st.button("Analyze & Predict"):
         try:
-            with st.spinner(f"Fetching latest data for {ticker}..."):
-                # 1. Fetch latest data
-                price_history_df = get_price_history(ticker, period="3mo") # Use 3 months to have enough data for indicators
+            with st.spinner(f"Fetching latest data and making prediction for {ticker}..."):
+                # 1. Fetch and prepare data for both models
+                price_history_df = get_price_history(ticker, period="3mo")
                 news_df = get_news(ticker, os.environ.get("NEWS_API_KEY"))
-
-                # 2. Feature Engineering
                 news_with_sentiment_df = get_sentiment_with_caching(news_df, sentiment_analyzer, ticker)
-                price_history_with_indicators = create_technical_indicators(
-                    price_history_df
-                )
+                price_history_with_indicators = create_technical_indicators(price_history_df)
                 daily_sentiment = aggregate_sentiment_scores(news_with_sentiment_df)
-                features_df = create_features(
-                    price_history_with_indicators, daily_sentiment
-                )
+                features_df = create_features(price_history_with_indicators, daily_sentiment)
 
-                # 3. Get the latest features
-                latest_features = features_df.iloc[-1:].copy()
-                latest_features = latest_features.drop(columns=['target'])
+                # 2. Initialize prediction variables
+                final_prediction = None
+                final_confidence = 0.0
+                prediction_source = ""
 
-                features = [
-                    "ma7",
-                    "ma21",
-                    "rsi",
-                    "macd",
-                    "bollinger_upper",
-                    "bollinger_lower",
-                    "stochastic_oscillator",
-                    "mean_sentiment_score",
-                    "positive",
-                    "negative",
-                    "neutral",
-                ]
+                # 3. Get latest data for Specialist Model (RandomForest)
+                specialist_model_path = f"models/{ticker}_model.joblib"
+                specialist_model = load_model(specialist_model_path) if os.path.exists(specialist_model_path) else None
 
-                # Ensure all feature columns are present
-                for col in features:
-                    if col not in latest_features.columns:
-                        latest_features[col] = 0
+                # 4. Prepare sequence for Universal Model (LSTM)
+                sequence_length = 30
+                feature_columns = [col for col in features_df.columns if col not in ['target']]
+                latest_sequence = features_df[feature_columns].tail(sequence_length).values
+
+                # --- Hybrid Prediction Logic ---
+                if specialist_model and universal_model and latest_sequence.shape[0] == sequence_length:
+                    # --- HYBRID PREDICTION ---
+                    prediction_source = "Hybrid (Specialist + Universal)"
+                    
+                    # Specialist prediction
+                    spec_latest_features = features_df.iloc[-1:][feature_columns]
+                    spec_pred, spec_conf = make_prediction(specialist_model, spec_latest_features, feature_columns)
+                    spec_prob = spec_conf[0][spec_pred[0]]
+
+                    # Universal prediction
+                    uni_pred, uni_conf = make_universal_prediction(universal_model, latest_sequence)
+
+                    # Combine results (weighted average)
+                    final_prob = (spec_prob * 0.7) + (uni_conf * 0.3) # Give more weight to specialist
+                    final_prediction = 1 if final_prob >= 0.5 else 0
+                    final_confidence = final_prob if final_prediction == 1 else 1 - final_prob
+
+                elif specialist_model:
+                    # --- SPECIALIST ONLY ---
+                    prediction_source = "Specialist"
+                    spec_latest_features = features_df.iloc[-1:][feature_columns]
+                    spec_pred, spec_conf = make_prediction(specialist_model, spec_latest_features, feature_columns)
+                    final_prediction = spec_pred[0]
+                    final_confidence = spec_conf[0][final_prediction]
+
+                elif universal_model and latest_sequence.shape[0] == sequence_length:
+                    # --- UNIVERSAL ONLY ---
+                    prediction_source = "Universal"
+                    uni_pred, uni_conf = make_universal_prediction(universal_model, latest_sequence)
+                    final_prediction = uni_pred
+                    final_confidence = uni_conf
                 
-                latest_features = latest_features[features]
-
-
-                # 4. Make prediction
-                prediction, confidence = make_prediction(model, latest_features, features)
-                prediction_label = "Positive" if prediction[0] == 1 else "Negative"
-                confidence_score = confidence[0][prediction[0]]
+                else:
+                    st.error("Could not make a prediction. A trained model is not available or there is not enough data.")
+                    st.stop()
 
                 # 5. Display result
-                st.subheader("Prediction")
+                prediction_label = "Positive" if final_prediction == 1 else "Negative"
+                st.subheader(f"Prediction ({prediction_source})")
                 if prediction_label == "Positive":
-                    st.success(f"The predicted momentum for the next trading day is **{prediction_label}** with a confidence of **{confidence_score:.2%}**.")
+                    st.success(f"The predicted momentum for the next trading day is **{prediction_label}** with a confidence of **{final_confidence:.2%}**.")
                 else:
-                    st.error(f"The predicted momentum for the next trading day is **{prediction_label}** with a confidence of **{confidence_score:.2%}**.")
+                    st.error(f"The predicted momentum for the next trading day is **{prediction_label}** with a confidence of **{final_confidence:.2%}**.")
 
                 st.subheader("Data Used for Prediction")
                 st.write("Latest Price Data with Technical Indicators:")
