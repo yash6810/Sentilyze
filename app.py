@@ -178,7 +178,7 @@ with tab2:
 
                 # 2. Feature Engineering
                 logger.info("Performing feature engineering for backtest...")
-                news_with_sentiment_df = get_sentiment_with_caching(news_df, sentiment_analyzer, ticker)
+                news_with_sentiment_df = get_sentiment(news_df, sentiment_analyzer, ticker)
                 price_history_with_indicators = create_technical_indicators(
                     price_history_df
                 )
@@ -191,17 +191,8 @@ with tab2:
                 # 3. Generate Signals
                 logger.info("Generating trading signals for backtest...")
                 features = [
-                    "ma7",
-                    "ma21",
-                    "rsi",
-                    "macd",
-                    "bollinger_upper",
-                    "bollinger_lower",
-                    "stochastic_oscillator",
-                    "mean_sentiment_score",
-                    "positive",
-                    "negative",
-                    "neutral",
+                    "ma7", "ma21", "rsi", "macd", "bollinger_upper", "bollinger_lower",
+                    "stochastic_oscillator", "mean_sentiment_score", "positive", "negative", "neutral"
                 ]
                 predictions = model.predict(features_df[features])
                 signals = pd.Series(predictions, index=features_df.index).replace({0: -1})
