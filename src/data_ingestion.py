@@ -14,21 +14,35 @@ DATA_DIR = os.path.join(PROJECT_ROOT, "data", "raw")
 
 def get_news(ticker: str, api_key: str) -> pd.DataFrame:
     """
-    Fetch recent news for a given ticker from the NewsAPI.
+    Fetch recent news for a given ticker from the NewsAPI, with caching.
 
     Args:
         ticker (str): The stock ticker to fetch news for.
         api_key (str): The API key for NewsAPI.
 
     Returns:
-        pd.DataFrame: A DataFrame containing the recent news articles.
+        pd.DataFrame: A DataFrame containing the recent news articles, indexed by 'publishedAt'.
     """
-    logger.info(f"Fetching recent news for {ticker} from NewsAPI...")
-    newsapi = NewsApiClient(api_key=api_key)
-    all_articles = newsapi.get_everything(
-        q=ticker, language="en", sort_by="publishedAt", page_size=100
-    )
-    articles_df = pd.DataFrame(all_articles["articles"])
+    cache_path = os.path.join(DATA_DIR, f"{ticker}_news.csv")
+    os.makedirs(DATA_DIR, exist_ok=True)
+
+    if os.path.exists(cache_path):
+        logger.info(f"Loading news for {ticker} from cache...")
+        articles_df = pd.read_csv(cache_path)
+    else:
+        logger.info(f"Fetching recent news for {ticker} from NewsAPI...")
+        newsapi = NewsApiClient(api_key=api_key)
+        all_articles = newsapi.get_everything(
+            q=ticker, language="en", sort_by="publishedAt", page_size=100
+        )
+        articles_df = pd.DataFrame(all_articles["articles"])
+        articles_df.to_csv(cache_path, index=False)
+        logger.info(f"Saved news to {cache_path}")
+
+    # Standardize the DataFrame to have a timezone-aware DatetimeIndex
+    articles_df["publishedAt"] = pd.to_datetime(articles_df["publishedAt"], utc=True)
+    articles_df = articles_df.set_index("publishedAt").sort_index()
+
     return articles_df
 
 

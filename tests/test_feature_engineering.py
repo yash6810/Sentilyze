@@ -21,7 +21,9 @@ def sample_news_with_sentiment() -> pd.DataFrame:
         'sentiment_score': [0.8, 0.2, -0.5],
         'sentiment_label': ['positive', 'neutral', 'negative']
     }
-    return pd.DataFrame(data)
+    df = pd.DataFrame(data)
+    df.set_index('publishedAt', inplace=True)
+    return df
 
 def test_create_technical_indicators(sample_price_history):
     df = create_technical_indicators(sample_price_history)
@@ -39,9 +41,10 @@ def test_aggregate_sentiment_scores(sample_news_with_sentiment):
     assert 'positive' in daily_sentiment.columns
     assert 'negative' in daily_sentiment.columns
     assert 'neutral' in daily_sentiment.columns
-    assert daily_sentiment.loc[pd.to_datetime('2023-01-01').date()]['positive'] == 1
-    assert daily_sentiment.loc[pd.to_datetime('2023-01-01').date()]['neutral'] == 1
-    assert daily_sentiment.loc[pd.to_datetime('2023-01-02').date()]['negative'] == 1
+    # Check values on the correct date index
+    assert daily_sentiment.loc['2023-01-01']['positive'] == 1
+    assert daily_sentiment.loc['2023-01-01']['neutral'] == 1
+    assert daily_sentiment.loc['2023-01-02']['negative'] == 1
 
 def test_create_features(sample_price_history, sample_news_with_sentiment):
     price_history_with_indicators = create_technical_indicators(sample_price_history)
