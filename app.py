@@ -13,7 +13,7 @@ from src.feature_engineering import (
     aggregate_sentiment_scores,
     create_features,
 )
-from src.modeling import load_model
+from src.modeling import load_model, make_prediction
 from src.utils import get_logger
 from src.backtesting import run_backtest
 
@@ -57,7 +57,64 @@ tab1, tab2 = st.tabs(["Next-Day Prediction", "Backtest Analysis"])
 with tab1:
     st.header(f"Predict Next-Day Momentum for {ticker}")
     if st.button("Analyze & Predict"):
-        st.write("Button clicked!")
+        with st.spinner(f"Fetching latest data for {ticker}..."):
+            # 1. Fetch latest data
+            price_history_df = get_price_history(ticker, period="3mo") # Use 3 months to have enough data for indicators
+            news_df = get_news(ticker, os.environ.get("NEWS_API_KEY"))
+
+            # 2. Feature Engineering
+            news_with_sentiment_df = get_sentiment(news_df, sentiment_analyzer)
+            price_history_with_indicators = create_technical_indicators(
+                price_history_df
+            )
+            daily_sentiment = aggregate_sentiment_scores(news_with_sentiment_df)
+            features_df = create_features(
+                price_history_with_indicators, daily_sentiment
+            )
+
+            # 3. Get the latest features
+            latest_features = features_df.iloc[-1:].copy()
+            latest_features = latest_features.drop(columns=['target'])
+
+            features = [
+                "ma7",
+                "ma21",
+                "rsi",
+                "macd",
+                "bollinger_upper",
+                "bollinger_lower",
+                "stochastic_oscillator",
+                "mean_sentiment_score",
+                "positive",
+                "negative",
+                "neutral",
+            ]
+
+            # Ensure all feature columns are present
+            for col in features:
+                if col not in latest_features.columns:
+                    latest_features[col] = 0
+            
+            latest_features = latest_features[features]
+
+
+            # 4. Make prediction
+            prediction, confidence = make_prediction(model, latest_features, features)
+            prediction_label = "Positive" if prediction[0] == 1 else "Negative"
+            confidence_score = confidence[0][prediction[0]]
+
+            # 5. Display result
+            st.subheader("Prediction")
+            if prediction_label == "Positive":
+                st.success(f"The predicted momentum for the next trading day is **{prediction_label}** with a confidence of **{confidence_score:.2%}**.")
+            else:
+                st.error(f"The predicted momentum for the next trading day is **{prediction_label}** with a confidence of **{confidence_score:.2%}**.")
+
+            st.subheader("Data Used for Prediction")
+            st.write("Latest Price Data with Technical Indicators:")
+            st.dataframe(price_history_with_indicators.tail())
+            st.write("Latest News with Sentiment Analysis:")
+            st.dataframe(news_with_sentiment_df.head())
 
 with tab2:
     st.header(f"Run Backtest Analysis for {ticker}")
