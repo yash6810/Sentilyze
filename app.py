@@ -63,6 +63,7 @@ with tab1:
                 price_history_df = get_price_history(ticker, period="3mo") # Use 3 months to have enough data for indicators
                 news_df = get_news(ticker, os.environ.get("NEWS_API_KEY"))
 
+                # 2. Feature Engineering
                 news_with_sentiment_df = get_sentiment_with_caching(news_df, sentiment_analyzer, ticker)
                 price_history_with_indicators = create_technical_indicators(
                     price_history_df
