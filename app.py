@@ -97,17 +97,23 @@ with tab1:
                 latest_sequence = features_df[feature_columns].tail(sequence_length).values
 
                 # --- Hybrid Prediction Logic ---
+                # Define the explicit feature list the model was trained on
+                features = [
+                    "ma7", "ma21", "rsi", "macd", "bollinger_upper", "bollinger_lower",
+                    "stochastic_oscillator", "mean_sentiment_score", "positive", "negative", "neutral"
+                ]
+
                 if specialist_model and universal_model and latest_sequence.shape[0] == sequence_length:
                     # --- HYBRID PREDICTION ---
                     prediction_source = "Hybrid (Specialist + Universal)"
                     
                     # Specialist prediction
-                    spec_latest_features = features_df.iloc[-1:][feature_columns]
-                    spec_pred, spec_conf = make_prediction(specialist_model, spec_latest_features, feature_columns)
+                    spec_latest_features = features_df.iloc[-1:][features]
+                    spec_pred, spec_conf = make_prediction(specialist_model, spec_latest_features, features)
                     spec_prob = spec_conf[0][spec_pred[0]]
 
                     # Universal prediction
-                    uni_pred, uni_conf = make_universal_prediction(universal_model, latest_sequence)
+                    uni_pred, uni_conf = make_universal_prediction(universal_model, latest_sequence) # Note: universal model needs correct sequence features
 
                     # Combine results (weighted average)
                     final_prob = (spec_prob * 0.7) + (uni_conf * 0.3) # Give more weight to specialist
@@ -117,8 +123,8 @@ with tab1:
                 elif specialist_model:
                     # --- SPECIALIST ONLY ---
                     prediction_source = "Specialist"
-                    spec_latest_features = features_df.iloc[-1:][feature_columns]
-                    spec_pred, spec_conf = make_prediction(specialist_model, spec_latest_features, feature_columns)
+                    spec_latest_features = features_df.iloc[-1:][features]
+                    spec_pred, spec_conf = make_prediction(specialist_model, spec_latest_features, features)
                     final_prediction = spec_pred[0]
                     final_confidence = spec_conf[0][final_prediction]
 
