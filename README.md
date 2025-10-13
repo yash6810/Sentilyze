@@ -103,7 +103,23 @@ Sentilyze predicts next-day stock momentum by combining financial news sentiment
 
 This project is fully containerized with Docker, which is the simplest way to get started. All you need is Docker installed on your system.
 
-#### 1. Build and Run the Application
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yash6810/Sentilyze.git
+cd sentilyze
+```
+
+### 2. Set Up API Keys
+
+Create a `.streamlit/secrets.toml` file and add your NewsAPI.org key:
+
+```toml
+NEWS_API_KEY = "your_api_key_here"
+```
+
+### 3. Build and Run the Application
 
 Use Docker Compose to build the image and launch the Streamlit app.
 
