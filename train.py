@@ -3,12 +3,11 @@ load_dotenv()
 import pandas as pd
 import argparse
 from src.data_ingestion import get_news, get_price_history
-from src.sentiment_analysis import get_sentiment
+from src.sentiment_analysis import get_sentiment_with_caching
 from src.feature_engineering import create_technical_indicators, aggregate_sentiment_scores, create_features
 from src.modeling import train_model, save_model
 from src.backtesting import run_backtest
 from src.utils import get_logger
-from sklearn.model_selection import train_test_split
 from transformers import pipeline as transformers_pipeline, AutoTokenizer, AutoModelForSequenceClassification
 
 logger = get_logger(__name__)
@@ -28,7 +27,7 @@ def main(ticker):
     tokenizer = AutoTokenizer.from_pretrained('./models/finbert-fine-tuned')
     finbert_model = AutoModelForSequenceClassification.from_pretrained('./models/finbert-fine-tuned')
     sentiment_analyzer = transformers_pipeline("sentiment-analysis", model=finbert_model, tokenizer=tokenizer)
-    news_with_sentiment_df = get_sentiment(news_df, sentiment_analyzer)
+    news_with_sentiment_df = get_sentiment_with_caching(news_df, sentiment_analyzer, ticker)
 
     # 3. Feature Engineering
     logger.info("Creating features...")
@@ -38,7 +37,7 @@ def main(ticker):
 
     # 4. Prepare data for training
     logger.info("Preparing data for training...")
-    features_df = features_df.dropna()
+    features_df = features_df.dropna().sort_index()  # Ensure data is sorted by date
     features = ['ma7', 'ma21', 'rsi', 'macd', 'bollinger_upper', 'bollinger_lower', 'stochastic_oscillator', 'mean_sentiment_score', 'positive', 'negative', 'neutral']
     target = 'target'
 
@@ -46,9 +45,12 @@ def main(ticker):
     y = features_df[target]
     idx = features_df.index
 
-    X_train, X_test, y_train, y_test, idx_train, idx_test = train_test_split(
-        X, y, idx, test_size=0.2, random_state=42, stratify=y
-    )
+    # Chronological split to prevent temporal leakage
+    split_point = int(len(X) * 0.8)
+    X_train, X_test = X[:split_point], X[split_point:]
+    y_train, y_test = y[:split_point], y[split_point:]
+    idx_train, idx_test = idx[:split_point], idx[split_point:]
+
 
     # 5. Train Model
     logger.info("Training model...")

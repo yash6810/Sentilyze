@@ -47,40 +47,34 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
 
 def aggregate_sentiment_scores(news_with_sentiment: pd.DataFrame) -> pd.DataFrame:
     """
-    Aggregate sentiment scores per day.
+    Aggregate sentiment scores per day by resampling.
 
     Args:
-        news_with_sentiment (pd.DataFrame): A DataFrame containing news data with sentiment scores.
+        news_with_sentiment (pd.DataFrame): A DataFrame containing news data with a DatetimeIndex.
 
     Returns:
         pd.DataFrame: A DataFrame with aggregated daily sentiment scores.
     """
     if news_with_sentiment.empty:
         return pd.DataFrame(
-            columns=["date", "mean_sentiment_score", "positive", "negative", "neutral"]
+            columns=["mean_sentiment_score", "positive", "negative", "neutral"]
         )
 
-    news_with_sentiment["publishedAt"] = pd.to_datetime(
-        news_with_sentiment["publishedAt"]
-    )
-    news_with_sentiment["date"] = news_with_sentiment["publishedAt"].dt.date
-
-    daily_sentiment = news_with_sentiment.groupby("date").agg(
+    # Resample by day and aggregate sentiment scores
+    daily_sentiment = news_with_sentiment.resample("D").agg(
         mean_sentiment_score=("sentiment_score", "mean"),
     )
-    sentiment_counts = (
-        news_with_sentiment.groupby(["date", "sentiment_label"])
-        .size()
-        .unstack(fill_value=0)
-    )
+
+    # Count sentiment labels per day
+    sentiment_counts = pd.get_dummies(news_with_sentiment['sentiment_label']).resample("D").sum()
     daily_sentiment = pd.concat([daily_sentiment, sentiment_counts], axis=1)
 
-    # Ensure sentiment columns exist
+    # Ensure all expected sentiment columns exist
     for col in ["positive", "negative", "neutral"]:
         if col not in daily_sentiment.columns:
             daily_sentiment[col] = 0
 
-    # Fill NaN values
+    # Fill NaN values that result from resampling empty days
     daily_sentiment = daily_sentiment.fillna(0)
 
     return daily_sentiment
@@ -99,8 +93,6 @@ def create_features(
     Returns:
         pd.DataFrame: A merged DataFrame containing the complete feature set.
     """
-    daily_sentiment.index = pd.to_datetime(daily_sentiment.index, utc=True)
-
     merged_df = pd.merge(
         price_history_with_indicators,
         daily_sentiment,

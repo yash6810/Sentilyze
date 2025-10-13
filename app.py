@@ -7,7 +7,7 @@ from transformers import (
     pipeline, AutoTokenizer, AutoModelForSequenceClassification
 )
 from src.data_ingestion import get_price_history, get_news
-from src.sentiment_analysis import get_sentiment
+from src.sentiment_analysis import get_sentiment_with_caching
 from src.feature_engineering import (
     create_technical_indicators,
     aggregate_sentiment_scores,
@@ -57,64 +57,67 @@ tab1, tab2 = st.tabs(["Next-Day Prediction", "Backtest Analysis"])
 with tab1:
     st.header(f"Predict Next-Day Momentum for {ticker}")
     if st.button("Analyze & Predict"):
-        with st.spinner(f"Fetching latest data for {ticker}..."):
-            # 1. Fetch latest data
-            price_history_df = get_price_history(ticker, period="3mo") # Use 3 months to have enough data for indicators
-            news_df = get_news(ticker, os.environ.get("NEWS_API_KEY"))
+        try:
+            with st.spinner(f"Fetching latest data for {ticker}..."):
+                # 1. Fetch latest data
+                price_history_df = get_price_history(ticker, period="3mo") # Use 3 months to have enough data for indicators
+                news_df = get_news(ticker, os.environ.get("NEWS_API_KEY"))
 
-            # 2. Feature Engineering
-            news_with_sentiment_df = get_sentiment(news_df, sentiment_analyzer)
-            price_history_with_indicators = create_technical_indicators(
-                price_history_df
-            )
-            daily_sentiment = aggregate_sentiment_scores(news_with_sentiment_df)
-            features_df = create_features(
-                price_history_with_indicators, daily_sentiment
-            )
+                news_with_sentiment_df = get_sentiment_with_caching(news_df, sentiment_analyzer, ticker)
+                price_history_with_indicators = create_technical_indicators(
+                    price_history_df
+                )
+                daily_sentiment = aggregate_sentiment_scores(news_with_sentiment_df)
+                features_df = create_features(
+                    price_history_with_indicators, daily_sentiment
+                )
 
-            # 3. Get the latest features
-            latest_features = features_df.iloc[-1:].copy()
-            latest_features = latest_features.drop(columns=['target'])
+                # 3. Get the latest features
+                latest_features = features_df.iloc[-1:].copy()
+                latest_features = latest_features.drop(columns=['target'])
 
-            features = [
-                "ma7",
-                "ma21",
-                "rsi",
-                "macd",
-                "bollinger_upper",
-                "bollinger_lower",
-                "stochastic_oscillator",
-                "mean_sentiment_score",
-                "positive",
-                "negative",
-                "neutral",
-            ]
+                features = [
+                    "ma7",
+                    "ma21",
+                    "rsi",
+                    "macd",
+                    "bollinger_upper",
+                    "bollinger_lower",
+                    "stochastic_oscillator",
+                    "mean_sentiment_score",
+                    "positive",
+                    "negative",
+                    "neutral",
+                ]
 
-            # Ensure all feature columns are present
-            for col in features:
-                if col not in latest_features.columns:
-                    latest_features[col] = 0
-            
-            latest_features = latest_features[features]
+                # Ensure all feature columns are present
+                for col in features:
+                    if col not in latest_features.columns:
+                        latest_features[col] = 0
+                
+                latest_features = latest_features[features]
 
 
-            # 4. Make prediction
-            prediction, confidence = make_prediction(model, latest_features, features)
-            prediction_label = "Positive" if prediction[0] == 1 else "Negative"
-            confidence_score = confidence[0][prediction[0]]
+                # 4. Make prediction
+                prediction, confidence = make_prediction(model, latest_features, features)
+                prediction_label = "Positive" if prediction[0] == 1 else "Negative"
+                confidence_score = confidence[0][prediction[0]]
 
-            # 5. Display result
-            st.subheader("Prediction")
-            if prediction_label == "Positive":
-                st.success(f"The predicted momentum for the next trading day is **{prediction_label}** with a confidence of **{confidence_score:.2%}**.")
-            else:
-                st.error(f"The predicted momentum for the next trading day is **{prediction_label}** with a confidence of **{confidence_score:.2%}**.")
+                # 5. Display result
+                st.subheader("Prediction")
+                if prediction_label == "Positive":
+                    st.success(f"The predicted momentum for the next trading day is **{prediction_label}** with a confidence of **{confidence_score:.2%}**.")
+                else:
+                    st.error(f"The predicted momentum for the next trading day is **{prediction_label}** with a confidence of **{confidence_score:.2%}**.")
 
-            st.subheader("Data Used for Prediction")
-            st.write("Latest Price Data with Technical Indicators:")
-            st.dataframe(price_history_with_indicators.tail())
-            st.write("Latest News with Sentiment Analysis:")
-            st.dataframe(news_with_sentiment_df.head())
+                st.subheader("Data Used for Prediction")
+                st.write("Latest Price Data with Technical Indicators:")
+                st.dataframe(price_history_with_indicators.tail())
+                st.write("Latest News with Sentiment Analysis:")
+                st.dataframe(news_with_sentiment_df.head())
+        except Exception as e:
+            logger.error(f"An error occurred during prediction: {e}")
+            st.error(f"An error occurred: {e}. Please check the logs for more details.")
 
 with tab2:
     st.header(f"Run Backtest Analysis for {ticker}")
@@ -133,74 +136,78 @@ with tab2:
         )
 
     if st.button("Run Backtest"):
-        with st.spinner(
-            f"Running 5-year backtest for {ticker}... This may take a moment."
-        ):
-            # 1. Fetch historical data
-            logger.info("Fetching 5 years of historical data for backtest...")
-            price_history_df = get_price_history(ticker, period="5y")
-            news_df = get_news(ticker, os.environ.get("NEWS_API_KEY"))  # Using historical news for backtest
+        try:
+            with st.spinner(
+                f"Running 5-year backtest for {ticker}... This may take a moment."
+            ):
+                # 1. Fetch historical data
+                logger.info("Fetching 5 years of historical data for backtest...")
+                price_history_df = get_price_history(ticker, period="5y")
+                news_df = get_news(ticker, os.environ.get("NEWS_API_KEY"))  # Using historical news for backtest
 
-            # 2. Feature Engineering
-            logger.info("Performing feature engineering for backtest...")
-            news_with_sentiment_df = get_sentiment(news_df, sentiment_analyzer)
-            price_history_with_indicators = create_technical_indicators(
-                price_history_df
-            )
-            daily_sentiment = aggregate_sentiment_scores(news_with_sentiment_df)
-            features_df = create_features(
-                price_history_with_indicators, daily_sentiment
-            )
-            features_df = features_df.dropna()
+                # 2. Feature Engineering
+                logger.info("Performing feature engineering for backtest...")
+                news_with_sentiment_df = get_sentiment_with_caching(news_df, sentiment_analyzer, ticker)
+                price_history_with_indicators = create_technical_indicators(
+                    price_history_df
+                )
+                daily_sentiment = aggregate_sentiment_scores(news_with_sentiment_df)
+                features_df = create_features(
+                    price_history_with_indicators, daily_sentiment
+                )
+                features_df = features_df.dropna()
 
-            # 3. Generate Signals
-            logger.info("Generating trading signals for backtest...")
-            features = [
-                "ma7",
-                "ma21",
-                "rsi",
-                "macd",
-                "bollinger_upper",
-                "bollinger_lower",
-                "stochastic_oscillator",
-                "mean_sentiment_score",
-                "positive",
-                "negative",
-                "neutral",
-            ]
-            predictions = model.predict(features_df[features])
-            signals = pd.Series(predictions, index=features_df.index).replace({0: -1})
+                # 3. Generate Signals
+                logger.info("Generating trading signals for backtest...")
+                features = [
+                    "ma7",
+                    "ma21",
+                    "rsi",
+                    "macd",
+                    "bollinger_upper",
+                    "bollinger_lower",
+                    "stochastic_oscillator",
+                    "mean_sentiment_score",
+                    "positive",
+                    "negative",
+                    "neutral",
+                ]
+                predictions = model.predict(features_df[features])
+                signals = pd.Series(predictions, index=features_df.index).replace({0: -1})
 
-            # 4. Run Backtest
-            logger.info("Running backtest simulation...")
-            portfolio, metrics, heatmap_fig = run_backtest(
-                price_history=price_history_df,
-                signals=signals,
-                initial_capital=initial_capital,
-                transaction_cost_pct=transaction_cost_pct,
-            )
+                # 4. Run Backtest
+                logger.info("Running backtest simulation...")
+                portfolio, metrics, heatmap_fig = run_backtest(
+                    price_history=price_history_df,
+                    signals=signals,
+                    initial_capital=initial_capital,
+                    transaction_cost_pct=transaction_cost_pct,
+                )
 
-            # 5. Display Results
-            st.subheader("Backtest Performance Metrics")
-            row1_col1, row1_col2, row1_col3, row1_col4 = st.columns(4)
-            row1_col1.metric("Strategy Return", metrics["Strategy Total Return"])
-            row1_col2.metric("Buy & Hold Return", metrics["Buy & Hold Total Return"])
-            row1_col3.metric("Sharpe Ratio", metrics["Sharpe Ratio"])
-            row1_col4.metric("Sortino Ratio", metrics["Sortino Ratio"])
+                # 5. Display Results
+                st.subheader("Backtest Performance Metrics")
+                row1_col1, row1_col2, row1_col3, row1_col4 = st.columns(4)
+                row1_col1.metric("Strategy Return", metrics["Strategy Total Return"])
+                row1_col2.metric("Buy & Hold Return", metrics["Buy & Hold Total Return"])
+                row1_col3.metric("Sharpe Ratio", metrics["Sharpe Ratio"])
+                row1_col4.metric("Sortino Ratio", metrics["Sortino Ratio"])
 
-            row2_col1, row2_col2, row2_col3, row2_col4 = st.columns(4)
-            row2_col2.metric("Win Rate", metrics["Win Rate"])
-            row2_col1.metric("Total Trades", metrics["Total Trades"])
-            row2_col3.metric("Strategy Max Drawdown", metrics["Strategy Max Drawdown"])
-            row2_col4.metric(
-                "Buy & Hold Max Drawdown", metrics["Buy & Hold Max Drawdown"]
-            )
+                row2_col1, row2_col2, row2_col3, row2_col4 = st.columns(4)
+                row2_col2.metric("Win Rate", metrics["Win Rate"])
+                row2_col1.metric("Total Trades", metrics["Total Trades"])
+                row2_col3.metric("Strategy Max Drawdown", metrics["Strategy Max Drawdown"])
+                row2_col4.metric(
+                    "Buy & Hold Max Drawdown", metrics["Buy & Hold Max Drawdown"]
+                )
 
-            st.subheader("Portfolio Value Over Time")
-            chart_data = portfolio[["total", "benchmark"]].rename(
-                columns={"total": "Strategy", "benchmark": "Buy & Hold"}
-            )
-            st.line_chart(chart_data)
+                st.subheader("Portfolio Value Over Time")
+                chart_data = portfolio[["total", "benchmark"]].rename(
+                    columns={"total": "Strategy", "benchmark": "Buy & Hold"}
+                )
+                st.line_chart(chart_data)
 
-            st.subheader("Monthly Returns Heatmap")
-            st.pyplot(heatmap_fig)
+                st.subheader("Monthly Returns Heatmap")
+                st.pyplot(heatmap_fig)
+        except Exception as e:
+            logger.error(f"An error occurred during backtest: {e}")
+            st.error(f"An error occurred: {e}. Please check the logs for more details.")
