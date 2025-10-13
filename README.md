@@ -1,16 +1,14 @@
 # Sentilyze
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10-blue.svg" alt="Python 3.10">
-  <img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
-  <img src="https://img.shields.io/badge/CI/CD-GitHub%20Actions-green.svg" alt="CI/CD: GitHub Actions">
-</p>
+![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg)
+![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
+![CI/CD: GitHub Actions](https://img.shields.io/badge/CI/CD-GitHub%20Actions-green.svg)
 
 ---
 
 ## 🔭 Project Vision
 
-To engineer a premier, data-driven algorithmic trading tool that provides a significant competitive edge, capable of identifying and capitalizing on market opportunities with high accuracy.
+To engineer an experimental, data-driven algorithmic trading tool that provides a significant competitive edge, capable of identifying and capitalizing on market opportunities with high accuracy. This project is intended as a prototype and proof-of-concept, not a production-ready trading system.
 
 ---
 
@@ -35,7 +33,6 @@ Sentilyze predicts next-day stock momentum by combining financial news sentiment
 ## 📂 Project Structure
 
 ```
-
 /sentilyze
 |-- .github/workflows/ci.yml    # CI/CD pipeline for automated testing
 |-- .streamlit/
@@ -55,31 +52,58 @@ Sentilyze predicts next-day stock momentum by combining financial news sentiment
 |-- requirements-dev.txt          # Dependencies for development (e.g., pre-commit)
 |-- train.py                      # Script for training models
 |-- README.md
-
 ```
 
 ---
 
-## 🚀 Getting Started with Docker
+## 🚀 Getting Started
+
+### How to Reproduce
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/yash6810/sentilyze.git
+   cd sentilyze
+   ```
+
+2. **Set up a virtual environment:**
+
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows, use `.venv\Scripts\activate`
+   ```
+
+3. **Install dependencies:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Set up API Keys:**
+   Create a `.env` file in the root of the project and add your NewsAPI.org key:
+
+   ```
+   NEWS_API_KEY="your_api_key_here"
+   ```
+
+5. **Train a model:**
+
+   ```bash
+   python train.py --ticker NVDA
+   ```
+
+6. **Run the Streamlit app:**
+
+   ```bash
+   streamlit run app.py
+   ```
+
+### Usage with Docker
 
 This project is fully containerized with Docker, which is the simplest way to get started. All you need is Docker installed on your system.
 
-### 1. Clone the Repository
-
-```bash
-git clone <your-repo-url>
-cd sentilyze
-```
-
-### 2. Set Up API Keys
-
-Create a `.streamlit/secrets.toml` file and add your NewsAPI.org key:
-
-```toml
-NEWS_API_KEY = "your_api_key_here"
-```
-
-### 3. Build and Run the Application
+#### 1. Build and Run the Application
 
 Use Docker Compose to build the image and launch the Streamlit app.
 
@@ -89,7 +113,7 @@ docker-compose up --build
 
 You can now access the Streamlit app in your browser at `http://localhost:8501`.
 
-### 4. Train a New Model
+#### 2. Train a New Model
 
 To train a model for a new stock, run the training script inside a temporary container using Docker Compose.
 
@@ -103,9 +127,29 @@ docker-compose run --rm app python train.py --ticker MSFT
 
 The trained models will be saved to your local `models` directory.
 
-### Development
+---
 
-This setup is ready for development. Because your local `src`, `models`, and `data` directories are synced with the container, any changes you make to the code will be reflected live in the running application.
+## 📈 Results (Placeholder)
+
+This section will be updated with model performance metrics, backtesting results, and feature importance analysis.
+
+* **Model Accuracy:** [TBD]
+* **Precision, Recall, F1-Score:** [TBD]
+* **Backtesting Results:**
+  * Strategy Return vs. Buy & Hold
+  * Sharpe Ratio
+  * Max Drawdown
+* **Feature Importance:** [TBD]
+
+---
+
+## 🔮 Future Improvements
+
+* **Ablation Studies:** Conduct experiments to evaluate the impact of sentiment features vs. technical indicators.
+* **Experiment Tracking:** Integrate MLflow or DVC to track experiments, models, and datasets.
+* **Advanced Models:** Explore more complex models like Gradient Boosting, LSTMs, or Transformers for time-series forecasting.
+* **Explainability:** Use SHAP or LIME to provide deeper insights into model predictions.
+* **More Comprehensive Testing:** Increase test coverage for all modules.
 
 ---
 

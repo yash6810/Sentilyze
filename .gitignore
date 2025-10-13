@@ -1,6 +1,8 @@
-
 # Streamlit secrets
 .streamlit/secrets.toml
+
+# Environment variables
+.env
 
 # Python cache
 __pycache__/
@@ -24,3 +26,12 @@ notebooks/
 # Gemini context file
 gemini.md
 gemini-context.md
+kaggle.json
+
+# Files not for GitHub showcase
+bot.py
+download_dataset.py
+project-overview.md
+Sentilyze_Review_Report.md
+package-lock.json
+Changelog.md

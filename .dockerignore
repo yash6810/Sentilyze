@@ -27,3 +27,4 @@ __pycache__/
 /models/*
 !/data/.gitkeep
 !/models/.gitkeep
+kaggle.json 

@@ -1,9 +1,12 @@
+from dotenv import load_dotenv
+load_dotenv()
 import pandas as pd
 import argparse
-from src.data_ingestion import get_historical_news, get_price_history
+from src.data_ingestion import get_news, get_price_history
 from src.sentiment_analysis import get_sentiment
 from src.feature_engineering import create_technical_indicators, aggregate_sentiment_scores, create_features
 from src.modeling import train_model, save_model
+from src.backtesting import run_backtest
 from src.utils import get_logger
 from sklearn.model_selection import train_test_split
 from transformers import pipeline as transformers_pipeline, AutoTokenizer, AutoModelForSequenceClassification
@@ -13,9 +16,11 @@ logger = get_logger(__name__)
 def main(ticker):
     logger.info(f"Starting training pipeline for {ticker}...")
 
-    # 1. Fetch data
+    import os
+
+# 1. Fetch data
     logger.info("Fetching data...")
-    news_df = get_historical_news(ticker)
+    news_df = get_news(ticker, os.environ.get("NEWS_API_KEY"))
     price_history_df = get_price_history(ticker)
 
     # 2. Analyze sentiment
@@ -39,27 +44,39 @@ def main(ticker):
 
     X = features_df[features]
     y = features_df[target]
+    idx = features_df.index
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+    X_train, X_test, y_train, y_test, idx_train, idx_test = train_test_split(
+        X, y, idx, test_size=0.2, random_state=42, stratify=y
+    )
 
     # 5. Train Model
     logger.info("Training model...")
     model, metrics, y_pred = train_model(X_train, y_train, X_test, y_test)
 
     logger.info("Training complete.")
-    logger.info(f"Model accuracy: {metrics[\'accuracy\']:.4f}")
+    logger.info(f"Model accuracy: {metrics['accuracy']:.4f}")
 
     # 6. Run Backtest
     logger.info("Running backtest on test set predictions...")
-    test_price_history = price_history_df.loc[X_test.index]
+    test_price_history = price_history_df.loc[idx_test]
     # Simple signal: 1 for buy (positive prediction), 0 for hold/sell
-    signals = pd.Series(y_pred, index=X_test.index).replace({0: -1}) # Assuming 1 is buy, 0 is sell/neutral
-    portfolio, backtest_metrics = run_backtest(test_price_history, signals)
+    signals = pd.Series(y_pred, index=idx_test)
+    signals = signals.replace({0: -1})
+    portfolio, backtest_metrics, heatmap_fig = run_backtest(
+        test_price_history, signals
+    )
     logger.info(f"Backtest performance: {backtest_metrics}")
 
-    # 7. Save Model
+    # 7. Save Model and Results
     logger.info(f"Saving model to models/{ticker}_model.joblib...")
-    save_model(model, f'models/{ticker}_model.joblib')
+    save_model(model, f"models/{ticker}_model.joblib")
+
+    # Save the heatmap
+    heatmap_fig.savefig(f"results/{ticker}_monthly_returns_heatmap.png")
+    logger.info(
+        f"Saved monthly returns heatmap to results/{ticker}_monthly_returns_heatmap.png"
+    )
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Train a sentiment-driven stock momentum predictor.')
