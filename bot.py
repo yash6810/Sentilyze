@@ -4,7 +4,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 from src.data_ingestion import get_news, get_price_history
-from src.sentiment_analysis import get_sentiment_with_caching
+from src.sentiment_analysis import get_sentiment
 from src.feature_engineering import create_technical_indicators, aggregate_sentiment_scores, create_features
 from src.modeling import load_model, make_prediction
 from src.universal_modeling import load_universal_model, make_universal_prediction
@@ -77,7 +77,7 @@ def run_bot():
             # 1. Fetch and prepare data
             price_history_df = get_price_history(ticker, period="3mo")
             news_df = get_news(ticker, api_key)
-            news_with_sentiment_df = get_sentiment_with_caching(news_df, sentiment_analyzer, ticker)
+            news_with_sentiment_df = get_sentiment(news_df, sentiment_analyzer, ticker)
             price_history_with_indicators = create_technical_indicators(price_history_df)
             daily_sentiment = aggregate_sentiment_scores(news_with_sentiment_df)
             features_df = create_features(price_history_with_indicators, daily_sentiment)
@@ -91,21 +91,27 @@ def run_bot():
 
             sequence_length = 30
             feature_columns = [col for col in features_df.columns if col not in ['target']]
-            latest_sequence = features_df[feature_columns].tail(sequence_length).values
+            latest_sequence = features_df.tail(sequence_length).values
+
+            # Define the explicit feature list the model was trained on
+            features = [
+                "ma7", "ma21", "rsi", "macd", "bollinger_upper", "bollinger_lower",
+                "stochastic_oscillator", "mean_sentiment_score", "positive", "negative", "neutral"
+            ]
 
             if specialist_model and universal_model and latest_sequence.shape[0] == sequence_length:
                 prediction_source = "Hybrid"
-                spec_latest = features_df.iloc[-1:][feature_columns]
-                spec_pred, spec_conf = make_prediction(specialist_model, spec_latest, feature_columns)
+                spec_latest = features_df.iloc[-1:][features]
+                spec_pred, spec_conf = make_prediction(specialist_model, spec_latest, features)
                 spec_prob = spec_conf[0][spec_pred[0]]
-                uni_pred, uni_conf = make_universal_prediction(universal_model, latest_sequence)
+                uni_pred, uni_conf = make_universal_prediction(universal_model, latest_sequence) # Note: universal model needs correct sequence features
                 final_prob = (spec_prob * 0.7) + (uni_conf * 0.3)
                 final_prediction = 1 if final_prob >= 0.5 else 0
                 final_confidence = final_prob if final_prediction == 1 else 1 - final_prob
             elif specialist_model:
                 prediction_source = "Specialist"
-                spec_latest = features_df.iloc[-1:][feature_columns]
-                spec_pred, spec_conf = make_prediction(specialist_model, spec_latest, feature_columns)
+                spec_latest = features_df.iloc[-1:][features]
+                spec_pred, spec_conf = make_prediction(specialist_model, spec_latest, features)
                 final_prediction = spec_pred[0]
                 final_confidence = spec_conf[0][final_prediction]
             elif universal_model and latest_sequence.shape[0] == sequence_length:
