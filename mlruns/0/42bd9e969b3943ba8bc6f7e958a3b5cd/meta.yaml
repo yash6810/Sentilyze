@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Sentilyze/mlruns/0/42bd9e969b3943ba8bc6f7e958a3b5cd/artifacts
+end_time: 1760465289692
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 42bd9e969b3943ba8bc6f7e958a3b5cd
+run_name: defiant-ox-465
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760465232960
+status: 4
+tags: []
+user_id: HP
