@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Sentilyze/mlruns/0/2bac6b959c2b4999b79b8f98dc8c4a45/artifacts
+end_time: 1760465562575
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 2bac6b959c2b4999b79b8f98dc8c4a45
+run_name: wise-squirrel-564
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760465486149
+status: 3
+tags: []
+user_id: HP
