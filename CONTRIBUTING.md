@@ -23,5 +23,5 @@ If you have an idea for a new feature or an improvement to an existing one, plea
 2.  Set up the development environment as described in the `README.md` (install `requirements-dev.txt` and run `pre-commit install`).
 3.  Make your changes. Ensure your code adheres to the project's style by letting the pre-commit hooks run.
 4.  Add tests for your changes if applicable.
-5.  Ensure all tests pass by running `python -m unittest discover tests`.
+5.  Ensure all tests pass by running `python -m pytest`.
 6.  Submit a pull request with a clear description of your changes.

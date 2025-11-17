@@ -27,7 +27,7 @@ Sentilyze is a sentiment-driven stock momentum predictor that combines financial
 
 ## 1. What the project does
 
-Sentilyze fetches financial news (NewsAPI.org) and historical price data (yfinance), scores headlines using FinBERT, computes technical indicators, builds a combined feature set, and trains a classifier (RandomForest/XGBoost) to predict next-day momentum (up vs down). The project also supports a Streamlit UI and backtesting utilities.
+Sentilyze fetches financial news (NewsAPI.org) and historical price data (yfinance), scores headlines using FinBERT, computes technical indicators, builds a combined feature set, and trains a classifier (XGBoost) to predict next-day momentum (up vs down). The project also supports a Streamlit UI and backtesting utilities.
 
 
 ## 2. Files & structure (where to look)
@@ -89,13 +89,13 @@ A standard training flow (reproducible):
 5. Compute technical indicators: MA7, MA21, RSI(14), MACD, Bollinger Bands, stochastic oscillator, volume change, returns.
 6. Align features with target: next-day momentum (Close_t+1 > Close_t ? 1 : 0) or thresholded returns.
 7. Split data by time (train/validation/test) to avoid lookahead (e.g., train up to 2022, validate 2023, test 2024).
-8. Train baseline models: LogisticRegression, RandomForest, XGBoost.
+8. Train baseline models: LogisticRegression, XGBoost.
 9. Evaluate with metrics: accuracy, precision, recall, F1, ROC-AUC, and return-based Sharpe ratio in backtest.
 10. Use cross-validation on time series (e.g., expanding window) for hyperparameter tuning.
 
 Hyperparameters to try:
 - XGBoost: n_estimators 100-500, learning_rate 0.01-0.2, max_depth 3-8, subsample 0.6-1.0
-- RandomForest: n_estimators 100-500, max_depth None/5-20, min_samples_leaf 1-5
+
 
 
 ## 6. Feature engineering & labeling

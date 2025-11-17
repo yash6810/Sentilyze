@@ -81,33 +81,33 @@ This document provides a detailed, function-by-function overview of the core log
 
 **Purpose**: To manage the machine learning model's lifecycle: training, evaluation, saving, and loading.
 
-### `train_model(...) -> Tuple[RandomForestClassifier, Dict, pd.Series]`
+### `train_model(...) -> Tuple[XGBClassifier, Dict, pd.Series]`
 
-- **Purpose**: Trains a `RandomForestClassifier` model and evaluates its performance.
+- **Purpose**: Trains a `XGBClassifier` model and evaluates its performance.
 - **Parameters**:
   - `X_train, y_train, X_test, y_test`: Standard training and testing data splits (DataFrames and Series).
-- **Returns**: A `tuple` containing three items: the trained `RandomForestClassifier` object, a `dict` of performance metrics (accuracy, classification report), and a `pd.Series` of the predictions made on the test set.
+- **Returns**: A `tuple` containing three items: the trained `XGBClassifier` object, a `dict` of performance metrics (accuracy, classification report), and a `pd.Series` of the predictions made on the test set.
 
-### `save_model(model: RandomForestClassifier, filepath: str) -> None`
+### `save_model(model: XGBClassifier, filepath: str) -> None`
 
 - **Purpose**: Saves a trained model to a file using `joblib`.
 - **Parameters**:
-  - `model (RandomForestClassifier)`: The trained model object to save.
+  - `model (XGBClassifier)`: The trained model object to save.
   - `filepath (str)`: The path where the model will be saved.
 - **Returns**: `None`.
 
-### `load_model(filepath: str) -> RandomForestClassifier`
+### `load_model(filepath: str) -> XGBClassifier`
 
 - **Purpose**: Loads a pre-trained model from a `.joblib` file.
 - **Parameters**:
   - `filepath (str)`: The path to the saved model file.
-- **Returns**: A trained `RandomForestClassifier` object.
+- **Returns**: A trained `XGBClassifier` object.
 
 ### `make_prediction(...) -> Tuple[Any, Any]`
 
 - **Purpose**: Uses a trained model to make a prediction on the latest available data.
 - **Parameters**:
-  - `model (RandomForestClassifier)`: The trained model.
+  - `model (XGBClassifier)`: The trained model.
   - `latest_data (pd.DataFrame)`: A DataFrame containing the single most recent row of features.
   - `features (List[str])`: A list of feature names to use for the prediction.
 - **Returns**: A `tuple` containing the prediction (e.g., `[1]`) and the prediction probabilities (e.g., `[[0.2, 0.8]]`).

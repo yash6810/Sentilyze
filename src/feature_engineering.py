@@ -19,7 +19,7 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
     delta = price_history["Close"].diff()
     gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
     loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
-    rs = gain / loss
+    rs = gain / (loss + 1e-10)  # Add epsilon to prevent division by zero
     price_history["rsi"] = 100 - (100 / (1 + rs))
 
     # MACD
@@ -39,7 +39,7 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
     low14 = price_history["Low"].rolling(window=14).min()
     high14 = price_history["High"].rolling(window=14).max()
     price_history["stochastic_oscillator"] = 100 * (
-        (price_history["Close"] - low14) / (high14 - low14)
+        (price_history["Close"] - low14) / (high14 - low14 + 1e-10)
     )
 
     return price_history
@@ -64,6 +64,9 @@ def aggregate_sentiment_scores(news_with_sentiment: pd.DataFrame) -> pd.DataFram
     daily_sentiment = news_with_sentiment.resample("D").agg(
         mean_sentiment_score=("sentiment_score", "mean"),
     )
+
+    # Convert sentiment labels to lowercase before creating dummies
+    news_with_sentiment['sentiment_label'] = news_with_sentiment['sentiment_label'].str.lower()
 
     # Count sentiment labels per day
     sentiment_counts = pd.get_dummies(news_with_sentiment['sentiment_label']).resample("D").sum()

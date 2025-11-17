@@ -4,6 +4,7 @@ from src.feature_engineering import create_technical_indicators, aggregate_senti
 
 @pytest.fixture
 def sample_price_history() -> pd.DataFrame:
+    """Create a sample price history DataFrame."""
     data = {
         'Date': pd.to_datetime(['2023-01-01', '2023-01-02', '2023-01-03', '2023-01-04', '2023-01-05']),
         'Close': [100, 102, 101, 103, 105],
@@ -16,6 +17,7 @@ def sample_price_history() -> pd.DataFrame:
 
 @pytest.fixture
 def sample_news_with_sentiment() -> pd.DataFrame:
+    """Create a sample news with sentiment DataFrame."""
     data = {
         'publishedAt': pd.to_datetime(['2023-01-01', '2023-01-01', '2023-01-02']),
         'sentiment_score': [0.8, 0.2, -0.5],
@@ -25,7 +27,8 @@ def sample_news_with_sentiment() -> pd.DataFrame:
     df.set_index('publishedAt', inplace=True)
     return df
 
-def test_create_technical_indicators(sample_price_history):
+def test_create_technical_indicators(sample_price_history: pd.DataFrame) -> None:
+    """Test the create_technical_indicators function."""
     df = create_technical_indicators(sample_price_history)
     assert 'ma7' in df.columns
     assert 'ma21' in df.columns
@@ -35,7 +38,8 @@ def test_create_technical_indicators(sample_price_history):
     assert 'bollinger_lower' in df.columns
     assert 'stochastic_oscillator' in df.columns
 
-def test_aggregate_sentiment_scores(sample_news_with_sentiment):
+def test_aggregate_sentiment_scores(sample_news_with_sentiment: pd.DataFrame) -> None:
+    """Test the aggregate_sentiment_scores function."""
     daily_sentiment = aggregate_sentiment_scores(sample_news_with_sentiment)
     assert 'mean_sentiment_score' in daily_sentiment.columns
     assert 'positive' in daily_sentiment.columns
@@ -46,7 +50,8 @@ def test_aggregate_sentiment_scores(sample_news_with_sentiment):
     assert daily_sentiment.loc['2023-01-01']['neutral'] == 1
     assert daily_sentiment.loc['2023-01-02']['negative'] == 1
 
-def test_create_features(sample_price_history, sample_news_with_sentiment):
+def test_create_features(sample_price_history: pd.DataFrame, sample_news_with_sentiment: pd.DataFrame) -> None:
+    """Test the create_features function."""
     price_history_with_indicators = create_technical_indicators(sample_price_history)
     daily_sentiment = aggregate_sentiment_scores(sample_news_with_sentiment)
     features_df = create_features(price_history_with_indicators, daily_sentiment)

@@ -1,222 +1,168 @@
 import os
 import pandas as pd
 import numpy as np
-from src.utils import get_logger
-from src.data_ingestion import get_price_history
-from src.sentiment_analysis import get_sentiment
-from src.feature_engineering import create_technical_indicators, aggregate_sentiment_scores
-from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
-from tqdm import tqdm
-
+from src.utils import get_logger, create_sequences
 from src.universal_modeling import UniversalLSTM
+import argparse
+import mlflow
+import torch
+import torch.nn as nn
+from torch.utils.data import TensorDataset, DataLoader
+from sklearn.model_selection import train_test_split
 
 logger = get_logger(__name__)
 
 
-def load_and_preprocess_data():
-    """
-    Loads the Kaggle dataset and performs initial preprocessing.
-    This will be a major function that needs to merge news with price data for all stocks.
-    """
-    logger.info("Loading and preprocessing universal dataset...")
-    
-    # Define path to the dataset downloaded by download_dataset.py
-    dataset_path = os.path.join("data", "raw", "all-data.csv")
 
-    if not os.path.exists(dataset_path):
-        logger.error(f"Dataset not found at {dataset_path}. Please run download_dataset.py first.")
-        return None
 
-    # Step 1.1: Load and Clean News Data
-    logger.info(f"Loading news data from {dataset_path}...")
-    news_df = pd.read_csv(dataset_path, encoding='ISO-8859-1', header=None, names=["Date", "Title", "Ticker"])
-    news_df.dropna(subset=["Title"], inplace=True)
-    news_df["Date"] = pd.to_datetime(news_df["Date"])
 
-    unique_tickers = news_df["Ticker"].unique()
-    logger.info(f"Found {len(news_df)} articles for {len(unique_tickers)} unique tickers.")
 
-    # Step 1.2: Fetch All Price Data
-    logger.info("Fetching historical price data for all tickers...")
-    all_prices = []
-    for ticker in tqdm(unique_tickers, desc="Fetching price data"):
-        try:
-            price_history = get_price_history(ticker, period="max")
-            if not price_history.empty:
-                price_history['Ticker'] = ticker
-                all_prices.append(price_history)
-        except Exception as e:
-            logger.warning(f"Could not fetch price data for {ticker}: {e}")
-    
-    if not all_prices:
-        logger.error("Failed to fetch any price data. Aborting.")
-        return None
-
-    price_df = pd.concat(all_prices)
-    price_df.set_index(['Ticker', price_df.index], inplace=True)
-    logger.info(f"Successfully fetched price data for {len(price_df['Ticker'].unique())} tickers.")
-
-    # Step 1.3: Perform Bulk Sentiment Analysis
-    logger.info("Performing bulk sentiment analysis on news data...")
-    tokenizer = AutoTokenizer.from_pretrained('./models/finbert-fine-tuned')
-    model = AutoModelForSequenceClassification.from_pretrained('./models/finbert-fine-tuned')
-    sentiment_analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
-    news_df = get_sentiment(news_df, sentiment_analyzer)
-    logger.info("Bulk sentiment analysis complete.")
-
-    # Step 1.4: Merge and Engineer Features
-    logger.info("Merging data and engineering features...")
-    # Aggregate sentiment scores daily for each stock
-    daily_sentiment = news_df.groupby(['Ticker', pd.Grouper(key='Date', freq='D')]).agg(
-        mean_sentiment_score=('sentiment_score', 'mean')
-    ).reset_index()
-    sentiment_counts = pd.get_dummies(news_df['sentiment_label']).groupby([news_df['Ticker'], pd.Grouper(key='Date', freq='D')]).sum().reset_index()
-    daily_sentiment = pd.merge(daily_sentiment, sentiment_counts, on=['Ticker', 'Date'])
-    daily_sentiment.set_index(['Ticker', 'Date'], inplace=True)
-
-    # Calculate technical indicators for each stock
-    price_df = price_df.groupby('Ticker').apply(create_technical_indicators)
-
-    # Merge price data with sentiment data
-    merged_df = pd.merge(price_df, daily_sentiment, left_index=True, right_index=True, how='left')
-    merged_df.ffill(inplace=True) # Forward fill sentiment data on non-news days
-    merged_df.fillna(0, inplace=True)
-
-    # Create the target variable for each stock
-    merged_df['target'] = merged_df.groupby('Ticker')['Close'].shift(-1) > merged_df['Close']
-    merged_df['target'] = merged_df['target'].astype(int)
-    merged_df.dropna(subset=['target'], inplace=True) # Drop the last day for each stock
-
-    logger.info("Feature engineering complete.")
-
-    # Step 1.5: Create Sequences
-    logger.info("Creating sequences for LSTM model...")
-    X, y = create_sequences(merged_df, sequence_length=30)
-    logger.info(f"Created {len(X)} sequences.")
-
-    return X, y
-
-def create_sequences(df: pd.DataFrame, sequence_length: int):
-    """
-    Transforms a DataFrame into sequences for an LSTM model.
-    """
-    sequences = []
-    labels = []
-    # Group by stock ticker to create sequences per stock
-    for ticker, group in df.groupby('Ticker'):
-        feature_columns = [col for col in df.columns if col not in ['Ticker', 'target']]
-        features = group[feature_columns].values
-        target = group['target'].values
-
-        for i in range(len(features) - sequence_length):
-            sequences.append(features[i:i+sequence_length])
-            labels.append(target[i+sequence_length])
-
-    return np.array(sequences), np.array(labels)
-
-def define_model(input_size):
+def define_model(input_size: int, hidden_size: int, num_layers: int):
     """
     Defines the architecture for the universal sequence model (e.g., LSTM).
     """
     logger.info("Defining universal model architecture...")
-    model = UniversalLSTM(input_size=input_size, hidden_size=50, num_layers=2, output_size=1)
+    model = UniversalLSTM(input_size=input_size, hidden_size=hidden_size, num_layers=num_layers, output_size=1)
     logger.info("Model definition complete.")
     return model
 
-def train_universal_model(model, X, y):
+from src.backtesting import run_backtest
+
+def train_universal_model(model, X_train, y_train, X_val, y_val, df_val: pd.DataFrame, input_size: int, learning_rate: float, epochs: int, batch_size: int, sequence_length: int):
     """
-    Handles the main training loop for the universal model.
+    Handles the main training loop for the universal model with MLflow logging.
     """
     logger.info("Starting universal model training loop...")
-    
-    # 1. Split data into training and validation
-    from sklearn.model_selection import train_test_split
-    X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    # 2. Create PyTorch Datasets and DataLoaders
-    from torch.utils.data import TensorDataset, DataLoader
-    X_train_tensor = torch.from_numpy(X_train).float()
-    y_train_tensor = torch.from_numpy(y_train).float()
-    X_val_tensor = torch.from_numpy(X_val).float()
-    y_val_tensor = torch.from_numpy(y_val).float()
+    with mlflow.start_run(run_name="Universal LSTM Training"):
+        mlflow.log_param("hidden_size", model.hidden_size)
+        mlflow.log_param("num_layers", model.num_layers)
+        mlflow.log_param("learning_rate", learning_rate)
+        mlflow.log_param("num_epochs", epochs)
+        mlflow.log_param("batch_size", batch_size)
+        mlflow.log_param("input_size", input_size)
+        mlflow.log_param("sequence_length", sequence_length)
 
-    train_dataset = TensorDataset(X_train_tensor, y_train_tensor)
-    val_dataset = TensorDataset(X_val_tensor, y_val_tensor)
+        X_train_tensor = torch.from_numpy(X_train).float()
+        y_train_tensor = torch.from_numpy(y_train).float()
+        X_val_tensor = torch.from_numpy(X_val).float()
+        y_val_tensor = torch.from_numpy(y_val).float()
 
-    train_loader = DataLoader(dataset=train_dataset, batch_size=64, shuffle=True)
-    val_loader = DataLoader(dataset=val_dataset, batch_size=64, shuffle=False)
+        train_dataset = TensorDataset(X_train_tensor, y_train_tensor)
+        val_dataset = TensorDataset(X_val_tensor, y_val_tensor)
 
-    # 3. Define Loss and Optimizer
-    criterion = nn.BCEWithLogitsLoss() # Better for binary classification
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
+        val_loader = DataLoader(dataset=val_dataset, batch_size=batch_size, shuffle=False)
 
-    # 4. Training Loop
-    num_epochs = 10 # Placeholder
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model.to(device)
+        criterion = nn.BCEWithLogitsLoss()
+        optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        model.to(device)
 
-    for epoch in range(num_epochs):
-        model.train()
-        for i, (sequences, labels) in enumerate(train_loader):
-            sequences = sequences.to(device)
-            labels = labels.to(device).unsqueeze(1)
-
-            # Forward pass
-            outputs = model(sequences)
-            loss = criterion(outputs, labels)
-
-            # Backward and optimize
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-
-            if (i+1) % 100 == 0:
-                logger.info(f'Epoch [{epoch+1}/{num_epochs}], Step [{i+1}/{len(train_loader)}], Loss: {loss.item():.4f}')
-
-        # Validation loop (optional, but good practice)
-        model.eval()
-        with torch.no_grad():
-            correct = 0
-            total = 0
-            for sequences, labels in val_loader:
-                sequences = sequences.to(device)
-                labels = labels.to(device).unsqueeze(1)
+        for epoch in range(epochs):
+            model.train()
+            for i, (sequences, labels) in enumerate(train_loader):
+                sequences, labels = sequences.to(device), labels.to(device).unsqueeze(1)
                 outputs = model(sequences)
-                predicted = torch.round(torch.sigmoid(outputs))
-                total += labels.size(0)
-                correct += (predicted == labels).sum().item()
-            logger.info(f'Validation Accuracy: {(correct/total)*100:.2f}%')
+                loss = criterion(outputs, labels)
+                optimizer.zero_grad()
+                loss.backward()
+                optimizer.step()
+            mlflow.log_metric("train_loss", loss.item(), step=epoch)
 
-    logger.info("Training loop complete.")
-    # 5. Save the model
-    logger.info("Saving universal model...")
-    torch.save(model.state_dict(), 'models/universal_model.pth')
-    logger.info("Model saved to models/universal_model.pth")
+            model.eval()
+            with torch.no_grad():
+                correct, total = 0, 0
+                val_outputs = []
+                for sequences, labels in val_loader:
+                    sequences, labels = sequences.to(device), labels.to(device).unsqueeze(1)
+                    outputs = model(sequences)
+                    predicted = torch.round(torch.sigmoid(outputs))
+                    total += labels.size(0)
+                    correct += (predicted == labels).sum().item()
+                    val_outputs.extend(predicted.cpu().numpy())
+                val_accuracy = (correct / total) if total > 0 else 0
+                logger.info(f'Validation Accuracy: {val_accuracy*100:.2f}%')
+                mlflow.log_metric("val_accuracy", val_accuracy, step=epoch)
 
-def main():
-    """
-    Main function to orchestrate the training of the universal model.
-    """
+        logger.info("Training loop complete.")
+        
+        logger.info("Running backtest on validation set...")
+        y_pred_val = np.array(val_outputs).flatten()
+        
+        index_list = []
+        for ticker, group in df_val.groupby('Ticker'):
+            if len(group) > sequence_length:
+                for i in range(len(group) - sequence_length):
+                    index_list.append(group.index[i + sequence_length])
+
+        if len(index_list) == len(y_pred_val):
+            predictions_df = pd.DataFrame({'prediction': y_pred_val}, index=pd.MultiIndex.from_tuples(index_list, names=['Ticker', 'Date']))
+            
+            all_metrics = []
+            for ticker in predictions_df.index.get_level_values('Ticker').unique():
+                ticker_predictions = predictions_df.loc[ticker]
+                if not ticker_predictions.empty:
+                    signals = ticker_predictions['prediction'].replace({0: -1})
+                    price_history = df_val.loc[ticker_predictions.index]
+                    
+                    _, backtest_metrics, _ = run_backtest(price_history, signals)
+                    all_metrics.append(backtest_metrics)
+
+            if all_metrics:
+                avg_metrics = pd.DataFrame(all_metrics).mean().to_dict()
+                logger.info(f"Average backtest performance: {avg_metrics}")
+                mlflow.log_metrics({f"avg_{k}": v for k, v in avg_metrics.items()})
+
+        logger.info("Saving universal model...")
+        model_path = "models/universal_model.pth"
+        torch.save(model.state_dict(), model_path)
+        mlflow.pytorch.log_model(model, "universal_model")
+        
+        config_path = "models/universal_model_config.json"
+        config = { "input_size": input_size, "hidden_size": model.hidden_size, "num_layers": model.num_layers, "output_size": 1 }
+        with open(config_path, "w") as f:
+            import json
+            json.dump(config, f)
+        mlflow.log_artifact(config_path)
+
+def main(max_tickers: int | None = None, hidden_size: int = 50, num_layers: int = 2, learning_rate: float = 0.001, epochs: int = 10, batch_size: int = 64, sequence_length: int = 30):
     logger.info("--- Starting Universal Model Training Pipeline ---")
-
-    # 1. Load and process data
-    processed_data = load_and_preprocess_data()
-    if processed_data is None:
+    merged_df_path = "data/processed/universal_merged_data.parquet"
+    if not os.path.exists(merged_df_path):
+        logger.error(f"Preprocessed data not found. Please run src/data_optimizer.py first.")
         return
 
-    # 2. Define the model architecture
-    model = define_model()
-    if model is None:
+    merged_df = pd.read_parquet(merged_df_path)
+    
+    unique_dates = merged_df.index.get_level_values('Date').unique().sort_values()
+    split_date = unique_dates[int(len(unique_dates) * 0.8)]
+    
+    df_train = merged_df[merged_df.index.get_level_values('Date') < split_date]
+    df_val = merged_df[merged_df.index.get_level_values('Date') >= split_date]
+
+    X_train, y_train = create_sequences(df_train, sequence_length)
+    X_val, y_val = create_sequences(df_val, sequence_length)
+
+    if X_train.shape[0] == 0 or X_val.shape[0] == 0:
+        logger.error("Not enough data to create training or validation sequences. Please check the data and split date.")
         return
 
-    # 3. Run the training loop
-    train_universal_model(model, processed_data)
+    input_size = X_train.shape[2]
+    model = define_model(input_size, hidden_size, num_layers)
+    if model is None: return
 
-    # 4. Save the final model
-    logger.info("Saving universal model...")
-    # TODO: Save the trained model (e.g., torch.save(model.state_dict(), 'models/universal_model.pth'))
-
+    train_universal_model(model, X_train, y_train, X_val, y_val, df_val, input_size, learning_rate, epochs, batch_size, sequence_length)
     logger.info("--- Universal Model Training Pipeline Finished ---")
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description='Train a universal sentiment-driven stock momentum predictor.')
+    parser.add_argument('--max_tickers', type=int, default=None, help='Optional: Limit the number of tickers to process for faster training/testing.')
+    parser.add_argument('--hidden_size', type=int, default=50, help='Number of features in the hidden state of the LSTM.')
+    parser.add_argument('--num_layers', type=int, default=2, help='Number of recurrent layers in the LSTM.')
+    parser.add_argument('--learning_rate', type=float, default=0.001, help='Learning rate for the optimizer.')
+    parser.add_argument('--epochs', type=int, default=10, help='Number of training epochs.')
+    parser.add_argument('--batch_size', type=int, default=64, help='Batch size for training.')
+    parser.add_argument('--sequence_length', type=int, default=30, help='Sequence length for the LSTM.')
+    args = parser.parse_args()
+    main(max_tickers=args.max_tickers, hidden_size=args.hidden_size, num_layers=args.num_layers, learning_rate=args.learning_rate, epochs=args.epochs, batch_size=args.batch_size, sequence_length=args.sequence_length)
