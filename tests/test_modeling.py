@@ -2,7 +2,7 @@ import os
 import joblib
 import pandas as pd
 import numpy as np
-from sklearn.ensemble import RandomForestClassifier
+import xgboost as xgb
 from src.modeling import train_model, save_model, load_model, make_prediction
 
 # Create a fixture for sample data
@@ -25,7 +25,7 @@ def test_train_model():
     X_train, y_train, X_test, y_test = sample_data()
     model, metrics, y_pred = train_model(X_train, y_train, X_test, y_test)
 
-    assert isinstance(model, RandomForestClassifier)
+    assert isinstance(model, xgb.XGBClassifier)
     assert 'accuracy' in metrics
     assert isinstance(metrics['accuracy'], float)
     assert len(y_pred) == len(y_test)
@@ -44,7 +44,7 @@ def test_save_and_load_model(tmpdir):
 
     # Load the model
     loaded_model = load_model(filepath)
-    assert isinstance(loaded_model, RandomForestClassifier)
+    assert isinstance(loaded_model, xgb.XGBClassifier)
 
     # Check if loaded model can predict
     predictions = loaded_model.predict(X_test)

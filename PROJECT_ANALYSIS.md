@@ -36,7 +36,7 @@ Date handling logic is present in multiple modules. For example, `data_ingestion
 Yes, for the most part.
 
 * The **sentiment engine** is very well-decoupled. The main functions accept a `sentiment_analyzer` object, so you could easily swap in a different model.
-* The **machine learning model** functions are designed around a scikit-learn compatible API (`.fit`, `.predict`), making it easy to swap `RandomForestClassifier` for other similar models.
+* The **machine learning model** functions are designed around a scikit-learn compatible API (`.fit`, `.predict`), making it easy to swap `XGBClassifier` for other similar models.
 * **Data sources** are tied to their specific libraries, but they expose a simple interface to the rest of the app.
 
 ---

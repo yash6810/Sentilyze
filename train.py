@@ -6,17 +6,12 @@ import json
 import shap
 import mlflow
 import numpy as np
-from src.data_ingestion import get_news, get_price_history
-from src.sentiment_analysis import get_sentiment
-from src.feature_engineering import create_technical_indicators, aggregate_sentiment_scores, create_features
 from src.modeling import train_model, save_model
 from src.backtesting import run_backtest
 from src.config import FEATURES
 from src.utils import get_logger
-from sklearn.model_selection import TimeSeriesSplit, GridSearchCV
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, classification_report
-from transformers import pipeline as transformers_pipeline, AutoTokenizer, AutoModelForSequenceClassification
+from src.preprocessing import preprocess_data
+from sklearn.metrics import classification_report
 
 logger = get_logger(__name__)
 
@@ -29,29 +24,12 @@ def main(ticker: str) -> None:
     """
     logger.info(f"Starting training pipeline for {ticker}...")
 
-    import os
+    # 1. Preprocess data
+    logger.info("Preprocessing data...")
+    features_df = preprocess_data(ticker)
 
-    # 1. Fetch data
-    logger.info("Fetching data...")
-    news_df = get_news(ticker, os.environ.get("NEWS_API_KEY"))
-    price_history_df = get_price_history(ticker)
-
-    # 2. Analyze sentiment
-    logger.info("Analyzing sentiment...")
-    tokenizer = AutoTokenizer.from_pretrained('./models/finbert-fine-tuned')
-    finbert_model = AutoModelForSequenceClassification.from_pretrained('./models/finbert-fine-tuned')
-    sentiment_analyzer = transformers_pipeline("sentiment-analysis", model=finbert_model, tokenizer=tokenizer)
-    news_with_sentiment_df = get_sentiment(news_df, sentiment_analyzer, ticker)
-
-    # 3. Feature Engineering
-    logger.info("Creating features...")
-    price_history_with_indicators = create_technical_indicators(price_history_df)
-    daily_sentiment = aggregate_sentiment_scores(news_with_sentiment_df)
-    features_df = create_features(price_history_with_indicators, daily_sentiment)
-
-    # 4. Prepare data for training
+    # 2. Prepare data for training
     logger.info("Preparing data for training...")
-    features_df = features_df.dropna().sort_index()  # Ensure data is sorted by date
     features = FEATURES
     target = 'target'
 
@@ -65,10 +43,12 @@ def main(ticker: str) -> None:
     y_train, y_test = y[:split_point], y[split_point:]
     idx_train, idx_test = idx[:split_point], idx[split_point:]
 
+    logger.info(f"Training data class distribution:\n{y_train.value_counts()}")
+
     with mlflow.start_run():
         mlflow.log_param("ticker", ticker)
 
-        # 5. Train Model
+        # 3. Train Model
         model, metrics, y_pred = train_model(X_train, y_train, X_test, y_test)
 
         mlflow.log_params(metrics['best_params'])
@@ -77,9 +57,10 @@ def main(ticker: str) -> None:
         logger.info(f"Best parameters found: {metrics['best_params']}")
         logger.info(f"Model accuracy: {metrics['accuracy']:.4f}")
 
-        # 6. Run Backtest
+        # 4. Run Backtest
         logger.info("Running backtest on test set predictions...")
-        test_price_history = price_history_df.loc[idx_test]
+        # Get price history for the test set from the original features_df
+        test_price_history = features_df.loc[idx_test]
         # Simple signal: 1 for buy (positive prediction), 0 for hold/sell
         signals = pd.Series(y_pred, index=idx_test)
         signals = signals.replace({0: -1})
@@ -98,7 +79,7 @@ def main(ticker: str) -> None:
             mlflow.log_artifact(report_path)
             logger.info(f"Saved classification report to {report_path}")
 
-        # 7. Save Model and Results
+        # 5. Save Model and Results
         logger.info(f"Saving model to models/{ticker}_model.joblib...")
         save_model(model, f"models/{ticker}_model.joblib")
         mlflow.sklearn.log_model(model, "model")

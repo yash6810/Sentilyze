@@ -31,9 +31,9 @@ def load_universal_model(filepath: str, input_size: int, hidden_size: int = 50, 
     model.eval() # Set model to evaluation mode
     return model
 
-def make_universal_prediction(model: UniversalLSTM, sequence: np.ndarray) -> Tuple[Any, Any]:
+def get_universal_prediction_on_latest_data(model: UniversalLSTM, sequence: np.ndarray) -> Tuple[Any, Any]:
     """
-    Makes a prediction using the universal LSTM model.
+    Gets a prediction from the universal LSTM model for the latest available data sequence.
     """
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     
