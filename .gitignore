@@ -11,22 +11,24 @@ __pycache__/
 # IDE settings
 .vscode/
 
-# Training artifacts
-results/
-logs/
-models/
+# MLflow and training artifacts
+/mlruns
+/results/
+/logs/
+/models/
 
 # Data files
-data/
+/data/
 
 # Notebooks
 *.ipynb
-notebooks/
+/notebooks/
 
-# Gemini context file
+# Gemini context and task files
 gemini.md
 gemini-context.md
 kaggle.json
+task.md
 
 # Files not for GitHub showcase
 bot.py
