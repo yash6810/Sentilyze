@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Sentilyze/mlruns/0/ded2e99d74644c95817467a171fe23fc/artifacts
+end_time: 1760467277467
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ded2e99d74644c95817467a171fe23fc
+run_name: unique-hare-479
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760467209903
+status: 3
+tags: []
+user_id: HP

@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Sentilyze/mlruns/0/68c90eeb34bf446382146674510aaa9b/artifacts
+end_time: 1761146407408
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 68c90eeb34bf446382146674510aaa9b
+run_name: inquisitive-flea-708
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761146383195
+status: 3
+tags: []
+user_id: HP

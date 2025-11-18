@@ -9,7 +9,7 @@ logger = get_logger(__name__)
 
 def create_monthly_returns_heatmap(portfolio: pd.DataFrame) -> plt.Figure:
     """
-    Creates a heatmap of monthly returns from a portfolio.
+    Creates a heatmap of monthly returns from a portfolio with improved aesthetics.
 
     Args:
         portfolio (pd.DataFrame): A DataFrame containing the portfolio history with a 'total' column.
@@ -17,9 +17,10 @@ def create_monthly_returns_heatmap(portfolio: pd.DataFrame) -> plt.Figure:
     Returns:
         matplotlib.figure.Figure: A matplotlib Figure object containing the heatmap.
     """
+    plt.clf() # Clear the current figure to prevent overlap
     plt.style.use("dark_background")  # Set style for dark theme
     daily_returns = portfolio["total"].pct_change().fillna(0)
-    monthly_returns = daily_returns.resample("M").apply(lambda x: (x + 1).prod() - 1)
+    monthly_returns = daily_returns.resample("ME").apply(lambda x: (x + 1).prod() - 1)
     monthly_returns.index = monthly_returns.index.to_period("M")
 
     # Create pivot table for heatmap
@@ -34,18 +35,30 @@ def create_monthly_returns_heatmap(portfolio: pd.DataFrame) -> plt.Figure:
     )
 
     # Create heatmap
-    fig, ax = plt.subplots(figsize=(12, 8))
-    sns.heatmap(returns_pivot, annot=True, fmt=".2%", cmap="vlag", center=0, ax=ax)
-    ax.set_title("Monthly Returns Heatmap")
-    ax.set_xlabel("Month")
-    ax.set_ylabel("Year")
+    fig, ax = plt.subplots(figsize=(14, 10)) # Increased figure size
+    sns.heatmap(
+        returns_pivot,
+        annot=True,
+        fmt=".2%",
+        cmap="RdYlGn", # Changed colormap for better contrast
+        center=0,
+        ax=ax,
+        linewidths=.5, # Add lines between cells
+        linecolor='gray', # Color of the lines
+        cbar_kws={'format': '%.0f%%', 'label': 'Monthly Return'} # Colorbar formatting and label
+    )
+    ax.set_title("Monthly Returns Heatmap (Strategy Performance)", fontsize=16) # More descriptive title and larger font
+    ax.set_xlabel("Month", fontsize=12)
+    ax.set_ylabel("Year", fontsize=12)
+    plt.yticks(rotation=0) # Ensure years are horizontal
+    plt.xticks(rotation=45, ha='right') # Rotate month labels for better readability
     plt.tight_layout()
 
     return fig
 
 
 def run_backtest(
-    price_history: pd.DataFrame, signals: pd.Series, initial_capital: float = 10000.0, transaction_cost_pct: float = 0.001
+    price_history: pd.DataFrame, signals: pd.Series, initial_capital: float = 10000.0, transaction_cost_pct: float = 0.001, slippage_pct: float = 0.0005
 ) -> Tuple[pd.DataFrame, Dict, plt.Figure]:
     """
     Runs a more realistic, iterative backtest on a given set of price history and trading signals.
@@ -55,6 +68,7 @@ def run_backtest(
         signals (pd.Series): A Series containing the trading signals (1 for buy, -1 for sell).
         initial_capital (float): The initial capital for the backtest.
         transaction_cost_pct (float): The transaction cost as a percentage of the trade value.
+        slippage_pct (float): The slippage as a percentage of the trade value.
 
     Returns:
         tuple: A tuple containing:
@@ -63,7 +77,7 @@ def run_backtest(
             - matplotlib.figure.Figure: A matplotlib Figure object containing the monthly returns heatmap.
     """
     logger.info(
-        f"Starting iterative backtest with initial capital: ${initial_capital:,.2f} and transaction cost: {transaction_cost_pct:.2%}"
+        f"Starting iterative backtest with initial capital: ${initial_capital:,.2f}, transaction cost: {transaction_cost_pct:.2%}, and slippage: {slippage_pct:.2%}"
     )
 
     # --- Initialization ---
@@ -110,21 +124,17 @@ def run_backtest(
                 if portfolio.iloc[i, portfolio.columns.get_loc("cash")] > 0:
                     investment = portfolio.iloc[i, portfolio.columns.get_loc("cash")]
                     cost = investment * transaction_cost_pct
-                    portfolio.iloc[i, portfolio.columns.get_loc("cash")] -= (
-                        investment + cost
-                    )
-                    portfolio.iloc[
-                        i, portfolio.columns.get_loc("holdings")
-                    ] += investment
+                    effective_investment = investment / (1 + slippage_pct)
+                    portfolio.iloc[i, portfolio.columns.get_loc("cash")] -= (investment + cost)
+                    portfolio.iloc[i, portfolio.columns.get_loc("holdings")] += effective_investment
             elif signal == -1:  # Sell signal
                 if portfolio.iloc[i - 1, portfolio.columns.get_loc("holdings")] > 0:
                     proceeds = portfolio.iloc[
                         i - 1, portfolio.columns.get_loc("holdings")
                     ]
                     cost = proceeds * transaction_cost_pct
-                    portfolio.iloc[i, portfolio.columns.get_loc("cash")] += (
-                        proceeds - cost
-                    )
+                    effective_proceeds = proceeds * (1 - slippage_pct)
+                    portfolio.iloc[i, portfolio.columns.get_loc("cash")] += (effective_proceeds - cost)
                     portfolio.iloc[i, portfolio.columns.get_loc("holdings")] = 0
 
         # Update total portfolio value for the day
@@ -197,19 +207,19 @@ def calculate_performance_metrics(portfolio: pd.DataFrame) -> Dict:
 
     # Total Return
     total_return = (portfolio["total"].iloc[-1] / portfolio["total"].iloc[0]) - 1
-    metrics["Strategy Total Return"] = f"{total_return:.2%}"
+    metrics["strategy_total_return"] = total_return
 
     # Benchmark (Buy and Hold) Return
     benchmark_return = (
         portfolio["benchmark"].iloc[-1] / portfolio["benchmark"].iloc[0]
     ) - 1
-    metrics["Buy & Hold Total Return"] = f"{benchmark_return:.2%}"
+    metrics["buy_and_hold_total_return"] = benchmark_return
 
     # Max Drawdown
     rolling_max = portfolio["total"].cummax()
     daily_drawdown = portfolio["total"] / rolling_max - 1.0
     max_drawdown = daily_drawdown.min()
-    metrics["Strategy Max Drawdown"] = f"{max_drawdown:.2%}"
+    metrics["strategy_max_drawdown"] = max_drawdown
 
     # Benchmark Max Drawdown
     benchmark_rolling_max = portfolio["benchmark"].cummax()
@@ -217,7 +227,7 @@ def calculate_performance_metrics(portfolio: pd.DataFrame) -> Dict:
         portfolio["benchmark"] / benchmark_rolling_max
     ) - 1.0
     benchmark_max_drawdown = benchmark_daily_drawdown.min()
-    metrics["Buy & Hold Max Drawdown"] = f"{benchmark_max_drawdown:.2%}"
+    metrics["buy_and_hold_max_drawdown"] = benchmark_max_drawdown
 
     # Sharpe Ratio (annualized)
     sharpe_ratio = (
@@ -225,7 +235,7 @@ def calculate_performance_metrics(portfolio: pd.DataFrame) -> Dict:
         if daily_returns.std() != 0
         else 0
     )
-    metrics["Sharpe Ratio"] = f"{sharpe_ratio:.2f}"
+    metrics["sharpe_ratio"] = sharpe_ratio
 
     # Sortino Ratio (annualized)
     downside_returns = daily_returns[daily_returns < 0]
@@ -233,7 +243,7 @@ def calculate_performance_metrics(portfolio: pd.DataFrame) -> Dict:
     sortino_ratio = (
         (daily_returns.mean() / downside_std) * (252**0.5) if downside_std != 0 else 0
     )
-    metrics["Sortino Ratio"] = f"{sortino_ratio:.2f}"
+    metrics["sortino_ratio"] = sortino_ratio
 
     # Win Rate & Trades
     trade_outcomes = _calculate_trade_outcomes(portfolio)
@@ -243,8 +253,8 @@ def calculate_performance_metrics(portfolio: pd.DataFrame) -> Dict:
         if total_trades > 0
         else 0
     )
-    metrics["Total Trades"] = total_trades
-    metrics["Win Rate"] = f"{win_rate:.2%}"
+    metrics["total_trades"] = total_trades
+    metrics["win_rate"] = win_rate
 
     logger.info(f"Performance Metrics: {metrics}")
     return metrics

@@ -19,7 +19,7 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
     delta = price_history["Close"].diff()
     gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
     loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
-    rs = gain / loss
+    rs = gain / (loss + 1e-10)  # Add epsilon to prevent division by zero
     price_history["rsi"] = 100 - (100 / (1 + rs))
 
     # MACD
@@ -39,7 +39,7 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
     low14 = price_history["Low"].rolling(window=14).min()
     high14 = price_history["High"].rolling(window=14).max()
     price_history["stochastic_oscillator"] = 100 * (
-        (price_history["Close"] - low14) / (high14 - low14)
+        (price_history["Close"] - low14) / (high14 - low14 + 1e-10)
     )
 
     return price_history
@@ -47,40 +47,37 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
 
 def aggregate_sentiment_scores(news_with_sentiment: pd.DataFrame) -> pd.DataFrame:
     """
-    Aggregate sentiment scores per day.
+    Aggregate sentiment scores per day by resampling.
 
     Args:
-        news_with_sentiment (pd.DataFrame): A DataFrame containing news data with sentiment scores.
+        news_with_sentiment (pd.DataFrame): A DataFrame containing news data with a DatetimeIndex.
 
     Returns:
         pd.DataFrame: A DataFrame with aggregated daily sentiment scores.
     """
     if news_with_sentiment.empty:
         return pd.DataFrame(
-            columns=["date", "mean_sentiment_score", "positive", "negative", "neutral"]
+            columns=["mean_sentiment_score", "positive", "negative", "neutral"]
         )
 
-    news_with_sentiment["publishedAt"] = pd.to_datetime(
-        news_with_sentiment["publishedAt"]
-    )
-    news_with_sentiment["date"] = news_with_sentiment["publishedAt"].dt.date
-
-    daily_sentiment = news_with_sentiment.groupby("date").agg(
+    # Resample by day and aggregate sentiment scores
+    daily_sentiment = news_with_sentiment.resample("D").agg(
         mean_sentiment_score=("sentiment_score", "mean"),
     )
-    sentiment_counts = (
-        news_with_sentiment.groupby(["date", "sentiment_label"])
-        .size()
-        .unstack(fill_value=0)
-    )
+
+    # Convert sentiment labels to lowercase before creating dummies
+    news_with_sentiment['sentiment_label'] = news_with_sentiment['sentiment_label'].str.lower()
+
+    # Count sentiment labels per day
+    sentiment_counts = pd.get_dummies(news_with_sentiment['sentiment_label']).resample("D").sum()
     daily_sentiment = pd.concat([daily_sentiment, sentiment_counts], axis=1)
 
-    # Ensure sentiment columns exist
+    # Ensure all expected sentiment columns exist
     for col in ["positive", "negative", "neutral"]:
         if col not in daily_sentiment.columns:
             daily_sentiment[col] = 0
 
-    # Fill NaN values
+    # Fill NaN values that result from resampling empty days
     daily_sentiment = daily_sentiment.fillna(0)
 
     return daily_sentiment
@@ -99,8 +96,6 @@ def create_features(
     Returns:
         pd.DataFrame: A merged DataFrame containing the complete feature set.
     """
-    daily_sentiment.index = pd.to_datetime(daily_sentiment.index, utc=True)
-
     merged_df = pd.merge(
         price_history_with_indicators,
         daily_sentiment,
