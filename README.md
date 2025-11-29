@@ -16,10 +16,10 @@ To engineer an experimental, data-driven tool for **analyzing and backtesting** 
 
 Sentilyze predicts next-day stock momentum by combining financial news sentiment with technical analysis. The pipeline is as follows:
 
-1.  **Data Ingestion:** Fetches historical price data from `yfinance` and news headlines from `NewsAPI.org`.
-2.  **Sentiment Analysis:** Uses a pre-trained FinBERT model to analyze the sentiment of each news headline.
-3.  **Feature Engineering:** Calculates a rich set of features based on the ingested data, including sentiment scores and technical indicators (e.g., RSI, MACD).
-4.  **Prediction:** A `XGBClassifier` model, trained on this combined data, predicts the momentum for the next trading day.
+1. **Data Ingestion:** Fetches historical price data from `yfinance` and news headlines from `NewsAPI.org`.
+2. **Sentiment Analysis:** Uses a pre-trained FinBERT model to analyze the sentiment of each news headline.
+3. **Feature Engineering:** Calculates a rich set of features based on the ingested data, including sentiment scores and technical indicators (e.g., RSI, MACD).
+4. **Prediction:** A `XGBClassifier` model, trained on this combined data, predicts the momentum for the next trading day.
 
 ---
 
@@ -31,10 +31,10 @@ To provide full transparency and prove the model's effectiveness, we have create
 
 Here is a summary of the key metrics that define the model's performance:
 
-*   **Accuracy**: The percentage of predictions that were correct (both positive and negative).
-*   **Precision**: Of all the "Positive" predictions made, this is the percentage that were actually correct. It measures the quality of the buy signals.
-*   **Recall**: Of all the actual "Positive" days, this is the percentage that the model correctly predicted. It measures the model's ability to capture opportunities.
-*   **Sharpe Ratio**: This measures the strategy's risk-adjusted return. A higher Sharpe Ratio indicates a better return for the amount of risk taken.
+* **Accuracy**: The percentage of predictions that were correct (both positive and negative).
+* **Precision**: Of all the "Positive" predictions made, this is the percentage that were actually correct. It measures the quality of the buy signals.
+* **Recall**: Of all the actual "Positive" days, this is the percentage that the model correctly predicted. It measures the model's ability to capture opportunities.
+* **Sharpe Ratio**: This measures the strategy's risk-adjusted return. A higher Sharpe Ratio indicates a better return for the amount of risk taken.
 
 | Metric              | Value   |
 | ------------------- | ------- |
@@ -57,7 +57,7 @@ This chart compares the growth of a $10,000 investment using the Sentilyze strat
 
 This heatmap shows the strategy's monthly returns, making it easy to spot trends and seasonality in its performance.
 
-![Monthly Returns](https://via.placeholder.com/800x400.png?text=Monthly+Returns+Heatmap)
+![Monthly Returns](results/NVDA_monthly_returns_heatmap.png)
 
 ### Explainable AI (XAI)
 
@@ -84,9 +84,10 @@ This guide provides a foolproof, step-by-step process to get the Sentilyze appli
 ### Prerequisites
 
 Before you begin, make sure you have the following software installed on your system:
-*   **Python 3.10** or higher
-*   **pip** (the Python package installer)
-*   **Git** (for cloning the repository)
+
+* **Python 3.10** or higher
+* **pip** (the Python package installer)
+* **Git** (for cloning the repository)
 
 ### 1. Clone the Repository
 
@@ -126,6 +127,7 @@ Create a `.env` file in the root of the project. This file will store your NewsA
 ```
 NEWS_API_KEY="your_api_key_here"
 ```
+
 **Important:** The application will not work without a valid NewsAPI key.
 
 ### 5. Train a Model (Optional for Initial Exploration)
@@ -137,13 +139,15 @@ To train a model for a specific stock, run the `train.py` script. For example, t
 ```bash
 python train.py --ticker NVDA
 ```
+
 This script will:
-*   Fetch the latest news and price data for the specified ticker.
-*   Perform sentiment analysis and feature engineering.
-*   Train a `XGBClassifier` model with hyperparameter tuning.
-*   Save the trained model to the `models` directory.
-*   **Log all training results, including metrics, backtest data, feature importances, SHAP values, and the classification report, to MLflow.**
-*   Save all the training results (metrics, backtest data, feature importances, and SHAP values) to the `results` directory.
+
+* Fetch the latest news and price data for the specified ticker.
+* Perform sentiment analysis and feature engineering.
+* Train a `XGBClassifier` model with hyperparameter tuning.
+* Save the trained model to the `models` directory.
+* **Log all training results, including metrics, backtest data, feature importances, SHAP values, and the classification report, to MLflow.**
+* Save all the training results (metrics, backtest data, feature importances, and SHAP values) to the `results` directory.
 
 ### 6. Using the Pre-trained Model (NVDA)
 
@@ -166,24 +170,54 @@ This project is integrated with MLflow for experiment tracking. After you have r
 ```bash
 mlflow ui
 ```
+
 Navigate to `http://localhost:5000` in your browser to see the MLflow dashboard.
+
+---
+
+## ☁️ Deploying to Streamlit Community Cloud
+
+Streamlit Community Cloud allows you to deploy your Streamlit applications directly from a GitHub repository.
+
+1.  **Prepare your GitHub Repository:**
+    *   Ensure your `app.py` (your main Streamlit application file), `requirements.txt`, and all necessary code are pushed to a GitHub repository.
+    *   Make sure your `NEWS_API_KEY` is not committed directly to your repository.
+
+2.  **Set Up Secrets (NEWS_API_KEY):**
+    *   In your project, create a directory named `.streamlit` if it doesn't already exist.
+    *   Inside the `.streamlit` directory, create a file named `secrets.toml`. This file will store your API key.
+    *   Add your NewsAPI.org API key to `secrets.toml` like this:
+        ```toml
+        NEWS_API_KEY="your_api_key_here"
+        ```
+    *   **Crucially, add `.streamlit/secrets.toml` to your `.gitignore` file** to prevent it from being accidentally committed to your public repository.
+    *   When deploying to Streamlit Community Cloud, you will add `NEWS_API_KEY` as an environment secret in the app's settings on the Streamlit Cloud dashboard. This process is explained in the Streamlit documentation under "Manage app secrets".
+
+3.  **Deploy from Streamlit Community Cloud:**
+    *   Go to [share.streamlit.io](https://share.streamlit.io) and sign in with your GitHub account.
+    *   Click "New app" on your dashboard.
+    *   Connect to your GitHub repository.
+    *   Specify the repository, branch (e.g., `main`), and the main file path (`app.py`).
+    *   Click "Deploy!".
+
+    Streamlit Cloud will automatically detect your `requirements.txt` file and install the dependencies.
 
 ---
 
 ## Troubleshooting
 
-*   **`ModuleNotFoundError`:** If you get a `ModuleNotFoundError`, it means that you have not installed all the dependencies. Please run `pip install -r requirements.txt` again.
-*   **API Key Errors:** If you are having issues with fetching news data, make sure that your `NEWS_API_KEY` in the `.env` file is correct and that you have not exceeded your API rate limit.
-*   **`FileNotFoundError` or Missing Data in "Model Performance" Tab:** If you encounter this error or see missing data (e.g., SHAP plots, Classification Report) in the "Model Performance" tab, it likely means that the MLflow artifacts for the selected ticker are either missing or corrupted. Ensure you have trained a model for that ticker using `python train.py --ticker [TICKER]` and that MLflow successfully logged all artifacts.
+* **`ModuleNotFoundError`:** If you get a `ModuleNotFoundError`, it means that you have not installed all the dependencies. Please run `pip install -r requirements.txt` again.
+* **API Key Errors:** If you are having issues with fetching news data, make sure that your `NEWS_API_KEY` in the `.env` file is correct and that you have not exceeded your API rate limit.
+* **`FileNotFoundError` or Missing Data in "Model Performance" Tab:** If you encounter this error or see missing data (e.g., SHAP plots, Classification Report) in the "Model Performance" tab, it likely means that the MLflow artifacts for the selected ticker are either missing or corrupted. Ensure you have trained a model for that ticker using `python train.py --ticker [TICKER]` and that MLflow successfully logged all artifacts.
 
 ---
 
 ## Project Philosophy
 
-*   **Modularity:** The project is organized into a `src` directory with separate modules for each major component (data ingestion, feature engineering, modeling, etc.). This makes the code easier to understand, maintain, and extend.
-*   **Reproducibility:** We use a `requirements.txt` file with pinned dependencies and MLflow for experiment tracking to ensure that our results are reproducible.
-*   **Code Quality:** We use `black` for code formatting and `flake8` for linting to maintain a high level of code quality. These checks are automatically enforced by our CI/CD pipeline.
-*   **Explainability:** We use `SHAP` to provide insights into our model's predictions, so we can understand *why* it is making certain decisions.
+* **Modularity:** The project is organized into a `src` directory with separate modules for each major component (data ingestion, feature engineering, modeling, etc.). This makes the code easier to understand, maintain, and extend.
+* **Reproducibility:** We use a `requirements.txt` file with pinned dependencies and MLflow for experiment tracking to ensure that our results are reproducible.
+* **Code Quality:** We use `black` for code formatting and `flake8` for linting to maintain a high level of code quality. These checks are automatically enforced by our CI/CD pipeline.
+* **Explainability:** We use `SHAP` to provide insights into our model's predictions, so we can understand *why* it is making certain decisions.
 
 ---
 
@@ -191,13 +225,13 @@ Navigate to `http://localhost:5000` in your browser to see the MLflow dashboard.
 
 If you have Docker installed, you can use Docker Compose to build and run the application in a container. This is the simplest way to get started.
 
-1.  **Set Up API Keys:** Create a `.streamlit/secrets.toml` file and add your NewsAPI.org key:
+1. **Set Up API Keys:** Create a `.streamlit/secrets.toml` file and add your NewsAPI.org key:
 
     ```toml
     NEWS_API_KEY = "your_api_key_here"
     ```
 
-2.  **Build and Run:**
+2. **Build and Run:**
 
     ```bash
     docker-compose up --build

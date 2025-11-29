@@ -265,25 +265,7 @@ def main():
 
                     # --- Hybrid Prediction Logic ---
 
-                    if specialist_model and universal_model and latest_sequence.shape[0] == sequence_length:
-
-                        prediction_source = "Hybrid (Specialist + Universal)"
-
-                        spec_latest_features = features_df.iloc[-1:][FEATURES]
-
-                        spec_pred, spec_conf = get_prediction_on_latest_data(specialist_model, spec_latest_features, FEATURES)
-
-                        spec_prob = spec_conf[0][spec_pred[0]]
-
-                        uni_pred, uni_conf = get_universal_prediction_on_latest_data(universal_model, latest_sequence)
-
-                        final_prob = (spec_prob * 0.7) + (uni_conf * 0.3)
-
-                        final_prediction = 1 if final_prob >= 0.5 else 0
-
-                        final_confidence = final_prob if final_prediction == 1 else 1 - final_prob
-
-                    elif specialist_model:
+                    if specialist_model:
 
                         prediction_source = "Specialist"
 
@@ -294,18 +276,6 @@ def main():
                         final_prediction = spec_pred[0]
 
                         final_confidence = spec_conf[0][final_prediction]
-
-                    elif universal_model and latest_sequence.shape[0] == sequence_length:
-
-                        prediction_source = "Universal"
-
-                        st.write(f"Number of features in latest_sequence: {latest_sequence.shape[-1]}")
-
-                        uni_pred, uni_conf = get_universal_prediction_on_latest_data(universal_model, latest_sequence)
-
-                        final_prediction = uni_pred
-
-                        final_confidence = uni_conf
 
                     else:
 
@@ -324,6 +294,25 @@ def main():
                         prediction_label, prediction_source, final_confidence, price_history_with_indicators, news_with_sentiment_df
 
                     )
+
+                    # --- SHAP Explanation for Specialist Model ---
+                    if prediction_source in ["Hybrid (Specialist + Universal)", "Specialist"]:
+                        st.subheader("Prediction Explanation (SHAP Analysis)")
+                        
+                        with st.spinner("Calculating SHAP explanation..."):
+                            try:
+                                explainer = shap.TreeExplainer(specialist_model)
+                                
+                                # Using spec_latest_features which is already prepared
+                                shap_values_latest = explainer.shap_values(spec_latest_features)
+                                
+                                # Create a SHAP force plot for the latest prediction
+                                st_shap(shap.force_plot(explainer.expected_value, shap_values_latest, spec_latest_features))
+                                
+                            except Exception as e:
+                                st.error(f"Could not generate SHAP explanation: {e}")
+                                logger.error(f"SHAP explanation generation failed: {e}")
+
 
 
 

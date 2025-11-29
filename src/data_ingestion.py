@@ -146,4 +146,10 @@ def get_price_history(ticker: str, period: str = "1y", cache_duration_hours: int
             logger.error(f"Could not fetch price history for {ticker} after {retries} retries.")
             return pd.DataFrame()
 
+    # Ensure 'Dividends' and 'Stock Splits' columns are present
+    if 'Dividends' not in history.columns:
+        history['Dividends'] = 0
+    if 'Stock Splits' not in history.columns:
+        history['Stock Splits'] = 0
+
     return history

@@ -125,7 +125,4 @@ def main(ticker: str) -> None:
         logger.info(f"Saved X_test to results/{ticker}_X_test.csv")
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Train a sentiment-driven stock momentum predictor.')
-    parser.add_argument('--ticker', type=str, default='NVDA', help='Stock ticker to train the model on.')
-    args = parser.parse_args()
-    main(args.ticker)
+    main('NVDA')
