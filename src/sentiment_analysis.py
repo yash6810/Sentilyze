@@ -20,10 +20,13 @@ def get_sentiment(articles: pd.DataFrame, sentiment_analyzer: Any, ticker: str |
         os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
 
         if os.path.exists(cache_path):
-            logger.info(f"Loading cached sentiment data for {ticker} from {cache_path}")
-            # Load from cache and ensure index is correct
-            sentiment_df = pd.read_csv(cache_path, index_col='publishedAt', parse_dates=True)
-            return sentiment_df
+            try:
+                logger.info(f"Loading cached sentiment data for {ticker} from {cache_path}")
+                sentiment_df = pd.read_csv(cache_path, index_col='publishedAt', parse_dates=True)
+                return sentiment_df
+            except ValueError:
+                logger.warning(f"Corrupted cache file found for {ticker}. Deleting and re-running sentiment analysis.")
+                os.remove(cache_path)
     
     logger.info(f"Running sentiment analysis (caching {'enabled' if ticker else 'disabled'}).")
     
@@ -41,7 +44,7 @@ def get_sentiment(articles: pd.DataFrame, sentiment_analyzer: Any, ticker: str |
         return articles # Return original articles if no text columns
 
     # Create a temporary DataFrame for sentiment analysis
-    articles_for_sentiment = articles[text_columns + ['Date']].dropna(subset=text_columns).copy()
+    articles_for_sentiment = articles[text_columns].dropna(subset=text_columns).copy()
 
     if "Title" in text_columns and "description" in text_columns:
         articles_for_sentiment["text"] = articles_for_sentiment["Title"] + ". " + articles_for_sentiment["description"]
@@ -60,8 +63,8 @@ def get_sentiment(articles: pd.DataFrame, sentiment_analyzer: Any, ticker: str |
 
     articles_for_sentiment[["sentiment_label", "sentiment_score"]] = [[s["label"], s["score"]] for s in results]
 
-    # Merge sentiment back to original articles DataFrame
-    articles = pd.merge(articles, articles_for_sentiment[['Date', 'sentiment_label', 'sentiment_score']], on='Date', how='left')
+    # Join sentiment back to original articles DataFrame on the index
+    articles = articles.join(articles_for_sentiment[['sentiment_label', 'sentiment_score']])
 
     articles["sentiment_label"] = articles["sentiment_label"].fillna("neutral") # Fill NaN for articles without sentiment
     articles["sentiment_score"] = articles["sentiment_score"].fillna(0.5) # Fill NaN for articles without sentiment
@@ -69,6 +72,6 @@ def get_sentiment(articles: pd.DataFrame, sentiment_analyzer: Any, ticker: str |
 
     if ticker:
         # Save to cache WITH the index
-        articles.to_csv(cache_path, index=False) # Save without index, as Date is a column
+        articles.to_csv(cache_path, index=True) 
         logger.info(f"Saved sentiment data to {cache_path}")
     return articles
