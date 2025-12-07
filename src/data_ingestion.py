@@ -28,6 +28,10 @@ def get_news(ticker: str, api_key: str, cache_duration_hours: int = 24, retries:
     Returns:
         pd.DataFrame: A DataFrame containing the recent news articles, indexed by 'publishedAt'.
     """
+    if not api_key or not isinstance(api_key, str):
+        logger.error("NewsAPI key is not provided or is not a string. Please set the NEWS_API_KEY environment variable.")
+        return pd.DataFrame(columns=['publishedAt', 'Title', 'description', 'url', 'source'])
+        
     cache_path = os.path.join(DATA_DIR, f"{ticker}_news.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
 
@@ -52,6 +56,7 @@ def get_news(ticker: str, api_key: str, cache_duration_hours: int = 24, retries:
                     q=ticker, language="en", sort_by="publishedAt", page_size=100
                 )
                 articles_df = pd.DataFrame(all_articles["articles"])
+                articles_df.rename(columns={'title': 'Title'}, inplace=True)
                 break # Break if successful
             except Exception as e:
                 if attempt < retries - 1:
