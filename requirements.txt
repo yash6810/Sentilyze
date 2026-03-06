@@ -152,7 +152,7 @@ python-multipart==0.0.20
 python-slugify==8.0.4
 pytokens==0.1.10
 pytz==2025.2
-pywin32==311
+
 PyYAML==6.0.3
 referencing==0.36.2
 regex==2025.9.18

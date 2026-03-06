@@ -64,7 +64,7 @@ def run_backtest(
     transaction_cost_pct: float = 0.001, 
     slippage_pct: float = 0.0005,
     prob_threshold: float = 0.50,
-    max_leverage: float = 2.0
+    max_leverage: float = 1.5
 ) -> Tuple[pd.DataFrame, Dict, plt.Figure]:
     """
     Runs an advanced iterative backtest implementing aggressive Leveraged Alpha regime mechanics.
