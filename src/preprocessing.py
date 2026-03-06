@@ -1,10 +1,9 @@
 import pandas as pd
 import yfinance as yf
-from tqdm import tqdm
 import os
 import time
 from src.utils import get_logger
-from src.data_ingestion import get_price_history, get_news
+from src.data_ingestion import get_price_history, get_news, get_vix_data
 from src.sentiment_analysis import get_sentiment
 from src.feature_engineering import create_technical_indicators, aggregate_sentiment_scores, create_features
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
@@ -54,6 +53,7 @@ def clean_headline_data(input_path: str, output_path: str, cache_dir: str = "dat
             import json
             valid_tickers = json.load(f)
     else:
+        from tqdm import tqdm
         logger.info("No valid tickers cache found. Validating all tickers...")
         valid_tickers = []
         invalid_tickers = []
@@ -96,14 +96,14 @@ def clean_headline_data(input_path: str, output_path: str, cache_dir: str = "dat
     logger.info("Done.")
 
 
-def preprocess_data(ticker: str, period: str = "1y") -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+def preprocess_data(ticker: str, period: str = "10y") -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Orchestrates the data acquisition, sentiment analysis, and feature engineering
     for a given ticker.
 
     Args:
         ticker (str): The stock ticker to preprocess data for.
-        period (str): The time period for the data (e.g., "1y", "5y", "max").
+        period (str): The time period for the data (e.g., "10y", "5y", "max").
 
     Returns:
         tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]: A tuple containing:
@@ -117,6 +117,7 @@ def preprocess_data(ticker: str, period: str = "1y") -> tuple[pd.DataFrame, pd.D
     logger.info("Fetching data...")
     news_df = get_news(ticker, os.environ.get("NEWS_API_KEY"))
     price_history_df = get_price_history(ticker, period=period)
+    vix_df = get_vix_data(period=period)
 
     # 2. Analyze sentiment
     logger.info("Analyzing sentiment...")
@@ -127,55 +128,8 @@ def preprocess_data(ticker: str, period: str = "1y") -> tuple[pd.DataFrame, pd.D
     logger.info("Creating features...")
     price_history_with_indicators = create_technical_indicators(price_history_df)
     daily_sentiment = aggregate_sentiment_scores(news_with_sentiment_df)
-    features_df = create_features(price_history_with_indicators, daily_sentiment)
+    features_df = create_features(price_history_with_indicators, daily_sentiment, vix_df)
     features_df = features_df.dropna().sort_index()
 
     logger.info(f"Preprocessing for {ticker} complete. Shape: {features_df.shape}")
     return features_df, price_history_with_indicators, news_with_sentiment_df
-
-
-def bulk_preprocess_data(tickers: list[str], max_tickers: int | None = None, period: str = "1y") -> pd.DataFrame:
-    """
-    Orchestrates the data acquisition, sentiment analysis, and feature engineering
-    for a list of tickers, and concatenates them into a single DataFrame.
-
-    Args:
-        tickers (list[str]): A list of stock tickers to preprocess data for.
-        max_tickers (int | None): Optional: Limit the number of tickers to process.
-        period (str): The time period for the data (e.g., "1y", "5y", "max").
-
-    Returns:
-        pd.DataFrame: A DataFrame with engineered features for all specified tickers.
-    """
-    logger.info("Starting bulk data preprocessing...")
-    all_features_dfs = []
-    processed_tickers_count = 0
-
-    for ticker in tqdm(tickers, desc="Bulk Preprocessing"):
-        if max_tickers and processed_tickers_count >= max_tickers:
-            logger.info(f"Reached max_tickers limit of {max_tickers}. Stopping bulk preprocessing.")
-            break
-        try:
-            features_df, _, _ = preprocess_data(ticker, period=period)
-            if not features_df.empty:
-                features_df['Ticker'] = ticker
-                all_features_dfs.append(features_df)
-                processed_tickers_count += 1
-            else:
-                logger.warning(f"No features generated for {ticker}. Skipping.")
-        except Exception as e:
-            logger.error(f"Error preprocessing data for {ticker}: {e}. Skipping this ticker.")
-            
-    if not all_features_dfs:
-        logger.error("No data processed for any ticker.")
-        return pd.DataFrame()
-
-    final_df = pd.concat(all_features_dfs)
-    # The Ticker column is already present, so we can set the index directly
-    if 'Date' in final_df.columns:
-        final_df = final_df.set_index(['Ticker', 'Date'])
-    else: # In case Date is already the index
-        final_df = final_df.reset_index().set_index(['Ticker', 'Date'])
-
-    logger.info(f"Bulk data preprocessing complete. Final shape: {final_df.shape}")
-    return final_df

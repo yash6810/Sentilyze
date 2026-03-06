@@ -81,7 +81,7 @@ def get_news(ticker: str, api_key: str, cache_duration_hours: int = 24, retries:
     return articles_df
 
 
-def get_price_history(ticker: str, period: str = "1y", cache_duration_hours: int = 24, retries: int = 15, backoff_factor: float = 15) -> pd.DataFrame:
+def get_price_history(ticker: str, period: str = "10y", cache_duration_hours: int = 24, retries: int = 15, backoff_factor: float = 15) -> pd.DataFrame:
     """
     Fetches historical price data for a given ticker from yfinance, with caching.
 
@@ -118,8 +118,27 @@ def get_price_history(ticker: str, period: str = "1y", cache_duration_hours: int
 
     if use_cache:
         logger.info(f"Loading price history for {ticker} from cache...")
-        history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
-        history.index = pd.to_datetime(history.index, utc=True)
+        try:
+            # First try parsing as CSV
+            history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
+            history.index = pd.to_datetime(history.index, utc=True)
+        except Exception:
+            # Fall back to JSON parsing if it originated from our direct API request download
+            import json
+            with open(cache_path, 'r') as f:
+                data = json.load(f)
+            result = data['chart']['result'][0]
+            timestamps = result['timestamp']
+            quote = result['indicators']['quote'][0]
+            
+            # Format columns
+            formatted_quote = {k.capitalize(): v for k, v in quote.items()}
+            # Adj Close might be under 'adjclose' instead of quote. Check if so, or use close.
+            if 'adjclose' in result['indicators']:
+                formatted_quote['Adj Close'] = result['indicators']['adjclose'][0]['adjclose']
+            
+            history = pd.DataFrame(formatted_quote, index=pd.to_datetime(timestamps, unit='s', utc=True))
+            history.index.name = 'Date'
     else:
         logger.info(f"Fetching price history for {ticker} from API...")
         stock = yf.Ticker(ticker)
@@ -137,16 +156,11 @@ def get_price_history(ticker: str, period: str = "1y", cache_duration_hours: int
             except Exception as e:
                 if attempt < retries - 1:
                     sleep_time = backoff_factor * (2**attempt)
-                    logger.warning(
-                        f"API call failed for {ticker} with error: {e}. Retrying in {sleep_time} seconds..."
-                    )
+                    logger.warning(f"API call failed for {ticker} with error: {e}. Retrying in {sleep_time} seconds...")
                     time.sleep(sleep_time)
                 else:
-                    logger.error(
-                        f"API call failed for {ticker} after {retries} attempts."
-                    )
+                    logger.error(f"API call failed for {ticker} after {retries} attempts.")
                     raise e
-        # This part is reached if the loop completes (i.e., all retries fail)
         else:
             logger.error(f"Could not fetch price history for {ticker} after {retries} retries.")
             return pd.DataFrame()
@@ -158,3 +172,76 @@ def get_price_history(ticker: str, period: str = "1y", cache_duration_hours: int
         history['Stock Splits'] = 0
 
     return history
+
+
+def get_vix_data(period: str = "10y", cache_duration_hours: int = 24, retries: int = 5, backoff_factor: float = 2) -> pd.DataFrame:
+    """
+    Fetches historical data for the CBOE Volatility Index (VIX).
+    
+    Args:
+        period (str): The time period for the data. Defaults to "10y".
+        
+    Returns:
+        pd.DataFrame: A DataFrame containing VIX price history.
+    """
+    global last_yfinance_call_time
+    current_time = time.time()
+    elapsed_time = current_time - last_yfinance_call_time
+    if elapsed_time < YFINANCE_CALL_INTERVAL:
+        sleep_duration = YFINANCE_CALL_INTERVAL - elapsed_time
+        logger.info(f"Rate limiting yfinance call for VIX. Sleeping for {sleep_duration:.2f} seconds.")
+        time.sleep(sleep_duration)
+        
+    last_yfinance_call_time = time.time()
+    cache_path = os.path.join(DATA_DIR, "vix_history.csv")
+    os.makedirs(DATA_DIR, exist_ok=True)
+    
+    use_cache = False
+    if os.path.exists(cache_path):
+        cache_age_seconds = time.time() - os.path.getmtime(cache_path)
+        if cache_age_seconds < cache_duration_hours * 3600:
+            use_cache = True
+            
+    if use_cache:
+        logger.info("Loading VIX data from cache...")
+        try:
+            history = pd.read_csv(cache_path)
+            # Handle cases where the index col name might differ from yfinance export
+            if "Date" in history.columns:
+                history.set_index("Date", inplace=True)
+            # Parse dates explicitly
+            history.index = pd.to_datetime(history.index, unit='s', utc=True) if str(history.index[0]).isdigit() else pd.to_datetime(history.index, utc=True)
+        except Exception:
+            import json
+            with open(cache_path, 'r') as f:
+                data = json.load(f)
+            result = data['chart']['result'][0]
+            timestamps = result['timestamp']
+            quote = result['indicators']['quote'][0]
+            formatted_quote = {k.capitalize(): v for k, v in quote.items()}
+            # Check for Adj Close
+            if 'adjclose' in result['indicators']:
+                formatted_quote['Adj Close'] = result['indicators']['adjclose'][0]['adjclose']
+            
+            history = pd.DataFrame(formatted_quote, index=pd.to_datetime(timestamps, unit='s', utc=True))
+            history.index.name = 'Date'
+            
+        return history
+        
+    logger.info("Fetching VIX data from API...")
+    vix = yf.Ticker("^VIX")
+    for attempt in range(retries):
+        try:
+            history = vix.history(period=period)
+            if history.empty:
+                logger.warning("No history data returned for VIX.")
+                return pd.DataFrame()
+            history.to_csv(cache_path)
+            logger.info(f"Saved VIX history to {cache_path}")
+            return history
+        except Exception as e:
+            if attempt < retries - 1:
+                time.sleep(backoff_factor * (attempt + 1))
+            else:
+                logger.error(f"Failed to fetch VIX data: {e}")
+                return pd.DataFrame()

@@ -58,93 +58,170 @@ def create_monthly_returns_heatmap(portfolio: pd.DataFrame) -> plt.Figure:
 
 
 def run_backtest(
-    price_history: pd.DataFrame, signals: pd.Series, initial_capital: float = 10000.0, transaction_cost_pct: float = 0.001, slippage_pct: float = 0.0005
+    price_history: pd.DataFrame, 
+    prediction_probs: pd.Series, 
+    initial_capital: float = 10000.0, 
+    transaction_cost_pct: float = 0.001, 
+    slippage_pct: float = 0.0005,
+    prob_threshold: float = 0.50,
+    max_leverage: float = 2.0
 ) -> Tuple[pd.DataFrame, Dict, plt.Figure]:
     """
-    Runs a more realistic, iterative backtest on a given set of price history and trading signals.
+    Runs an advanced iterative backtest implementing aggressive Leveraged Alpha regime mechanics.
+    
+    Regime Filter: Buy only if P(Up) > prob_threshold (default 0.50) AND RSI < 70
+    Dynamic Risk: Trailing Stop-Loss = Entry - (3.0 * ATR) in Uptrend, or (1.5 * ATR) in Downtrend
+    Take-Profit: None (Let runners run until Stop-Loss)
 
     Args:
-        price_history (pd.DataFrame): A DataFrame containing the historical price data with a 'Close' column.
-        signals (pd.Series): A Series containing the trading signals (1 for buy, -1 for sell).
-        initial_capital (float): The initial capital for the backtest.
-        transaction_cost_pct (float): The transaction cost as a percentage of the trade value.
-        slippage_pct (float): The slippage as a percentage of the trade value.
+        price_history (pd.DataFrame): Historical price data containing features like SMA200, RSI, ATR.
+        prediction_probs (pd.Series): The model's predicted probability of a positive return.
+        initial_capital (float): Starting cash.
+        transaction_cost_pct (float): Broker fee percentage.
+        slippage_pct (float): Estimated slippage percentage.
+        prob_threshold (float): Minimum confidence to trigger a buy.
 
     Returns:
-        tuple: A tuple containing:
-            - pd.DataFrame: The portfolio history.
-            - dict: A dictionary of performance metrics.
-            - matplotlib.figure.Figure: A matplotlib Figure object containing the monthly returns heatmap.
+        tuple: Portfolio history, performance metrics dict, and monthly returns heatmap.
     """
     logger.info(
-        f"Starting iterative backtest with initial capital: ${initial_capital:,.2f}, transaction cost: {transaction_cost_pct:.2%}, and slippage: {slippage_pct:.2%}"
+        f"Starting regime-aware backtest. Capital: ${initial_capital:,.2f}, Threshold: {prob_threshold}"
     )
 
     # --- Initialization ---
     portfolio = pd.DataFrame(index=price_history.index)
-    portfolio["signal"] = signals
-    portfolio["price"] = price_history["Close"]
+    portfolio["prob_up"] = prediction_probs
+    
+    # Copy necessary pricing and indicator columns securely
+    for col in ["Close", "sma200", "rsi", "atr"]:
+        if col in price_history.columns:
+            portfolio[col] = price_history[col]
+        else:
+            logger.warning(f"Missing essential feature '{col}' in price_history for backtesting. Filling with 0.")
+            portfolio[col] = 0
+
     portfolio["cash"] = 0.0
     portfolio["holdings"] = 0.0
     portfolio["total"] = 0.0
+    portfolio["signal"] = 0  # 1 for Buy, -1 for Sell, 0 for Hold
+    portfolio["stop_loss"] = 0.0 
 
     # Set initial capital
     portfolio.iloc[0, portfolio.columns.get_loc("cash")] = initial_capital
     portfolio.iloc[0, portfolio.columns.get_loc("total")] = initial_capital
 
+    # State tracking variables
+    position_open = False
+    current_stop_loss = 0.0
+    borrowed_margin = 0.0
+    days_held = 0
+
+    # Locate column indices to avoid expensive lookups inside the loop
+    cash_idx = portfolio.columns.get_loc("cash")
+    hold_idx = portfolio.columns.get_loc("holdings")
+    tot_idx = portfolio.columns.get_loc("total")
+    close_idx = portfolio.columns.get_loc("Close")
+    sma_idx = portfolio.columns.get_loc("sma200")
+    rsi_idx = portfolio.columns.get_loc("rsi")
+    atr_idx = portfolio.columns.get_loc("atr")
+    prob_idx = portfolio.columns.get_loc("prob_up")
+    sig_idx = portfolio.columns.get_loc("signal")
+    sl_idx = portfolio.columns.get_loc("stop_loss")
+
     # --- Iterative Simulation ---
     for i in range(1, len(portfolio)):
-        # Carry over previous day's values
-        portfolio.iloc[i, portfolio.columns.get_loc("cash")] = portfolio.iloc[
-            i - 1, portfolio.columns.get_loc("cash")
-        ]
-        portfolio.iloc[i, portfolio.columns.get_loc("holdings")] = portfolio.iloc[
-            i - 1, portfolio.columns.get_loc("holdings")
-        ]
+        # Carry over previous day's balances and state
+        portfolio.iloc[i, cash_idx] = portfolio.iloc[i - 1, cash_idx]
+        portfolio.iloc[i, hold_idx] = portfolio.iloc[i - 1, hold_idx]
+        portfolio.iloc[i, sl_idx] = current_stop_loss
 
-        # Get previous day's signal to decide today's trade
-        signal = portfolio.iloc[i - 1, portfolio.columns.get_loc("signal")]
-        prev_signal = (
-            portfolio.iloc[i - 2, portfolio.columns.get_loc("signal")] if i > 1 else 0
-        )
+        today_price = portfolio.iloc[i, close_idx]
+        prev_price = portfolio.iloc[i - 1, close_idx]
 
-        # Update holdings value based on price change
-        if portfolio.iloc[i - 1, portfolio.columns.get_loc("holdings")] > 0:
-            price_change_pct = (
-                portfolio.iloc[i, portfolio.columns.get_loc("price")]
-                / portfolio.iloc[i - 1, portfolio.columns.get_loc("price")]
-            ) - 1
-            portfolio.iloc[i, portfolio.columns.get_loc("holdings")] *= (
-                1 + price_change_pct
-            )
+        # 1. Update holdings value based on today's price action
+        if position_open and prev_price > 0:
+            price_change_pct = (today_price / prev_price) - 1
+            portfolio.iloc[i, hold_idx] *= (1 + price_change_pct)
 
-        # Execute trades if signal changes
-        if signal != prev_signal:
-            if signal == 1:  # Buy signal
-                if portfolio.iloc[i, portfolio.columns.get_loc("cash")] > 0:
-                    investment = portfolio.iloc[i, portfolio.columns.get_loc("cash")]
-                    cost = investment * transaction_cost_pct
-                    effective_investment = investment / (1 + slippage_pct)
-                    portfolio.iloc[i, portfolio.columns.get_loc("cash")] -= (investment + cost)
-                    portfolio.iloc[i, portfolio.columns.get_loc("holdings")] += effective_investment
-            elif signal == -1:  # Sell signal
-                if portfolio.iloc[i - 1, portfolio.columns.get_loc("holdings")] > 0:
-                    proceeds = portfolio.iloc[
-                        i - 1, portfolio.columns.get_loc("holdings")
-                    ]
-                    cost = proceeds * transaction_cost_pct
-                    effective_proceeds = proceeds * (1 - slippage_pct)
-                    portfolio.iloc[i, portfolio.columns.get_loc("cash")] += (effective_proceeds - cost)
-                    portfolio.iloc[i, portfolio.columns.get_loc("holdings")] = 0
+        # 2. Get today's indicators for decision making
+        prob_up = portfolio.iloc[i, prob_idx]
+        sma200 = portfolio.iloc[i, sma_idx]
+        rsi = portfolio.iloc[i, rsi_idx]
+        atr = portfolio.iloc[i, atr_idx]
+
+        execute_trade = 0 # 0=no action, 1=buy, -1=sell
+
+        # 3. Dynamic Risk Management (Sell Logic)
+        if position_open:
+            days_held += 1
+            # Check Stop-Loss
+            if today_price < current_stop_loss:
+                execute_trade = -1
+                logger.debug(f"Stop-loss triggered on Day {portfolio.index[i].date()} at ${today_price:.2f}")
+            else:
+                # Trailing Stop-Loss update (tighten stops as price goes up)
+                # Alpha Strategy: Give 3x the breathing room if we are above the 200 SMA (Bull Regime)
+                atr_multiplier = 3.0 if today_price > sma200 else 1.5
+                new_stop = today_price - (atr_multiplier * atr)
+                if new_stop > current_stop_loss:
+                    current_stop_loss = new_stop
+                    portfolio.iloc[i, sl_idx] = current_stop_loss
+
+        # 4. Regime Filter (Buy Logic)
+        # ONLY look for buys if we don't have a position currently
+        elif not position_open:
+            if prob_up > prob_threshold and rsi < 70:
+                execute_trade = 1
+
+        # 5. Execute Trades
+        portfolio.iloc[i, sig_idx] = execute_trade
+
+        if execute_trade == 1:  # BUY
+            # Determine leverage based on AI conviction
+            leverage = max_leverage if prob_up > 0.80 else 1.0
+            
+            investment = portfolio.iloc[i, cash_idx] * leverage
+            if investment > 0:
+                borrowed_margin = investment - portfolio.iloc[i, cash_idx]
+                
+                cost = investment * transaction_cost_pct
+                effective_investment = investment / (1 + slippage_pct)
+                portfolio.iloc[i, cash_idx] -= (investment + cost)
+                portfolio.iloc[i, hold_idx] += effective_investment
+                
+                position_open = True
+                # Set initial dynamic stop loss with Alpha logic
+                atr_multiplier = 3.0 if today_price > sma200 else 1.5
+                current_stop_loss = today_price - (atr_multiplier * atr)
+                portfolio.iloc[i, sl_idx] = current_stop_loss
+
+        elif execute_trade == -1:  # SELL
+            proceeds = portfolio.iloc[i, hold_idx]
+            if proceeds > 0:
+                # Calculate margin fees (assuming 5% annualized borrowing cost)
+                if borrowed_margin > 0:
+                    margin_interest_cost = borrowed_margin * 0.05 * (days_held / 365)
+                else:
+                    margin_interest_cost = 0.0
+
+                cost = proceeds * transaction_cost_pct
+                effective_proceeds = proceeds * (1 - slippage_pct)
+                
+                # Settle account: add proceeds, subtract fees, pay back borrowed margin
+                portfolio.iloc[i, cash_idx] += (effective_proceeds - cost - margin_interest_cost + borrowed_margin)
+                portfolio.iloc[i, hold_idx] = 0
+                
+                position_open = False
+                current_stop_loss = 0.0
+                borrowed_margin = 0.0
+                days_held = 0
+                portfolio.iloc[i, sl_idx] = 0.0
 
         # Update total portfolio value for the day
-        portfolio.iloc[i, portfolio.columns.get_loc("total")] = (
-            portfolio.iloc[i, portfolio.columns.get_loc("cash")]
-            + portfolio.iloc[i, portfolio.columns.get_loc("holdings")]
-        )
+        portfolio.iloc[i, tot_idx] = portfolio.iloc[i, cash_idx] + portfolio.iloc[i, hold_idx]
 
     # --- Benchmark Simulation ---
-    benchmark_returns = portfolio["price"].pct_change().fillna(0)
+    benchmark_returns = portfolio["Close"].pct_change().fillna(0)
     benchmark_cumulative_returns = (1 + benchmark_returns).cumprod()
     portfolio["benchmark"] = initial_capital * benchmark_cumulative_returns
 
@@ -164,28 +241,26 @@ def _calculate_trade_outcomes(portfolio: pd.DataFrame) -> List[float]:
     Identifies individual trades and calculates their profit/loss.
 
     Args:
-        portfolio (pd.DataFrame): A DataFrame containing the portfolio history with 'signal' and 'price' columns.
+        portfolio (pd.DataFrame): A DataFrame containing the portfolio history with 'signal' and 'Close' columns.
 
     Returns:
         list: A list of PnL for each trade.
     """
-    trades = portfolio["signal"].diff().fillna(0)
-    trade_entry_exit = trades[trades != 0]
-
     pnl_list = []
     position_open = False
     entry_price = 0
 
-    if portfolio["signal"].iloc[0] == 1:
-        entry_price = portfolio["price"].iloc[0]
-        position_open = True
+    # Filter only days where a trade actually occurred
+    trade_events = portfolio[portfolio["signal"] != 0]
 
-    for i, trade in trade_entry_exit.items():
-        if not position_open and trade == 2:  # From -1 (sell) to 1 (buy)
-            entry_price = portfolio.loc[i, "price"]
+    for i, row in trade_events.iterrows():
+        signal = row["signal"]
+        
+        if signal == 1 and not position_open:
+            entry_price = row["Close"]
             position_open = True
-        elif position_open and trade == -2:  # From 1 (buy) to -1 (sell)
-            exit_price = portfolio.loc[i, "price"]
+        elif signal == -1 and position_open:
+            exit_price = row["Close"]
             pnl_list.append(exit_price - entry_price)
             position_open = False
 

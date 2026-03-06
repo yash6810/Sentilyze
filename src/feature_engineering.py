@@ -11,9 +11,10 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The input DataFrame with added technical indicator columns.
     """
-    # 7-day and 21-day moving averages
+    # Moving averages including 200-day for regime filter
     price_history["ma7"] = price_history["Close"].rolling(window=7).mean()
     price_history["ma21"] = price_history["Close"].rolling(window=21).mean()
+    price_history["sma200"] = price_history["Close"].rolling(window=200).mean()
 
     # Relative Strength Index (RSI)
     delta = price_history["Close"].diff()
@@ -41,6 +42,14 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
     price_history["stochastic_oscillator"] = 100 * (
         (price_history["Close"] - low14) / (high14 - low14 + 1e-10)
     )
+
+    # Average True Range (ATR)
+    high_low = price_history['High'] - price_history['Low']
+    high_close = (price_history['High'] - price_history['Close'].shift()).abs()
+    low_close = (price_history['Low'] - price_history['Close'].shift()).abs()
+    ranges = pd.concat([high_low, high_close, low_close], axis=1)
+    true_range = ranges.max(axis=1)
+    price_history["atr"] = true_range.rolling(14).mean()
 
     return price_history
 
@@ -84,14 +93,15 @@ def aggregate_sentiment_scores(news_with_sentiment: pd.DataFrame) -> pd.DataFram
 
 
 def create_features(
-    price_history_with_indicators: pd.DataFrame, daily_sentiment: pd.DataFrame
+    price_history_with_indicators: pd.DataFrame, daily_sentiment: pd.DataFrame, vix_data: pd.DataFrame = None
 ) -> pd.DataFrame:
     """
-    Merges price history with daily sentiment scores to create a feature set.
+    Merges price history with daily sentiment scores and VIX data to create a feature set.
 
     Args:
         price_history_with_indicators (pd.DataFrame): A DataFrame containing price history with technical indicators.
         daily_sentiment (pd.DataFrame): A DataFrame containing aggregated daily sentiment scores.
+        vix_data (pd.DataFrame, optional): A DataFrame containing VIX history.
 
     Returns:
         pd.DataFrame: A merged DataFrame containing the complete feature set.
@@ -103,6 +113,26 @@ def create_features(
         right_index=True,
         how="left",
     )
+    
+    # Merge VIX if provided
+    if vix_data is not None and not vix_data.empty:
+        # Keep only the Close column from VIX and rename it
+        vix_subset = vix_data[['Close']].rename(columns={'Close': 'vix_close'})
+        # Calculate 5-day moving average of VIX
+        vix_subset['vix_ma5'] = vix_subset['vix_close'].rolling(window=5).mean()
+        
+        merged_df = pd.merge(
+            merged_df,
+            vix_subset,
+            left_index=True,
+            right_index=True,
+            how="left"
+        )
+    else:
+        # If no VIX data, fill with 0 (or some default) just to keep columns present
+        merged_df['vix_close'] = 0
+        merged_df['vix_ma5'] = 0
+        
     merged_df.ffill(inplace=True)
     merged_df.fillna(0, inplace=True)
 

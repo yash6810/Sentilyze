@@ -67,7 +67,7 @@ def get_sentiment(articles: pd.DataFrame, sentiment_analyzer: Any, ticker: str |
     articles = articles.join(articles_for_sentiment[['sentiment_label', 'sentiment_score']])
 
     articles["sentiment_label"] = articles["sentiment_label"].fillna("neutral") # Fill NaN for articles without sentiment
-    articles["sentiment_score"] = articles["sentiment_score"].fillna(0.5) # Fill NaN for articles without sentiment
+    articles["sentiment_score"] = articles["sentiment_score"].fillna(0.5).infer_objects(copy=False) # Fill NaN for articles without sentiment
 
 
     if ticker:
