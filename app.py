@@ -15,7 +15,6 @@ from transformers import (
 )
 from src.preprocessing import preprocess_data
 from src.modeling import load_model, get_prediction_on_latest_data
-from src.universal_modeling import load_universal_model, get_universal_prediction_on_latest_data
 from src.utils import get_logger
 from src.backtesting import run_backtest
 from src.config import FEATURES
@@ -73,27 +72,6 @@ def load_sentiment_analyzer() -> Any:
         "./models/finbert-fine-tuned"
     )
     return pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
-
-@st.cache_resource
-def load_universal_model_cached():
-    """Loads the universal model, returns None if it doesn't exist."""
-    logger.info("Loading universal prediction model...")
-    model_path = "models/universal_model.pth"
-    config_path = "models/universal_model_config.json"
-
-    if not os.path.exists(model_path) or not os.path.exists(config_path):
-        logger.warning("Universal model or config not found. Continuing without it.")
-        return None
-
-    try:
-        with open(config_path, "r") as f:
-            config = json.load(f)
-            input_size = config["input_size"]
-    except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
-        logger.error(f"Error loading universal model config: {e}")
-        return None
-
-    return load_universal_model(model_path, input_size=input_size)
 
 
 
@@ -203,8 +181,6 @@ def main():
 
     sentiment_analyzer = load_sentiment_analyzer()
 
-    universal_model = load_universal_model_cached()
-
 
 
     # --- Main App ---
@@ -214,9 +190,9 @@ def main():
     model_path = f"models/{ticker}_model.joblib"
     specialist_model = load_model(model_path) if os.path.exists(model_path) else None
 
-    if not specialist_model and not universal_model:
+    if not specialist_model:
         st.warning(
-            "No models available. Please train a specialist model (e.g., `python train.py --ticker NVDA`) or a universal model (`python train_universal.py`)."
+            f"No trained model found for {ticker}. Please train a model first: `python train.py --ticker {ticker}`"
         )
         st.stop()
 
@@ -264,30 +240,46 @@ def main():
 
 
                     # --- Hybrid Prediction Logic ---
-
                     if specialist_model:
-
                         prediction_source = "Specialist"
-
                         spec_latest_features = features_df.iloc[-1:][FEATURES]
-
                         spec_pred, spec_conf = get_prediction_on_latest_data(specialist_model, spec_latest_features, FEATURES)
-
-                        final_prediction = spec_pred[0]
-
-                        final_confidence = spec_conf[0][final_prediction]
+                        
+                        raw_prediction = spec_pred[0]
+                        final_confidence = spec_conf[0][1] # Probability of 'Up' (class 1)
+                        
+                        # Apply Regime Filter
+                        latest_close = price_history_with_indicators['Close'].iloc[-1]
+                        latest_sma200 = price_history_with_indicators['sma200'].iloc[-1]
+                        latest_rsi = price_history_with_indicators['rsi'].iloc[-1]
+                        
+                        regime_blocked = False
+                        block_reason = ""
+                        
+                        if final_confidence > 0.80 and latest_rsi < 70:
+                            final_prediction = 1
+                            block_reason = "LOCKED: 2.0x Leveraged Buy (Extreme Conviction)"
+                        elif final_confidence > 0.50 and latest_rsi < 70:
+                            final_prediction = 1 # Confirmed Buy
+                        elif final_confidence <= 0.50:
+                            final_prediction = 0 # Sell/Cash
+                            regime_blocked = True
+                            if latest_rsi >= 70:
+                                block_reason += f"Overbought (RSI {latest_rsi:.2f} >= 70). "
+                            if final_confidence <= 0.50:
+                                block_reason += f"Low Confidence (P(Up) {final_confidence:.2%} <= 50%)."
+                        else:
+                            final_prediction = 0 # Sell/Cash
 
                     else:
-
                         st.error("Could not make a prediction. A trained model is not available or there is not enough data.")
-
                         st.stop()
 
-
-
                     # 5. Display result
-
-                    prediction_label = "Positive" if final_prediction == 1 else "Negative"
+                    if regime_blocked:
+                        prediction_label = f"Cash (Regime Filter Blocked: {block_reason})"
+                    else:
+                        prediction_label = "Positive (Buy)" if final_prediction == 1 else "Negative (Sell/Cash)"
 
                     display_prediction_results(
 
@@ -475,13 +467,14 @@ def main():
                     if not specialist_model:
                         st.error(f"A specialist model for {ticker} is required to run a backtest.")
                         st.stop()
-                    predictions = specialist_model.predict(features_df_backtest[FEATURES])
-
-                    signals = pd.Series(predictions, index=features_df_backtest.index).replace({0: -1})
+                        
+                    # Model outputs class probabilities. We want the probability of class 1 ("Up").
+                    probabilities = specialist_model.predict_proba(features_df_backtest[FEATURES])[:, 1]
+                    prediction_probs = pd.Series(probabilities, index=features_df_backtest.index)
 
                     st.session_state.portfolio, st.session_state.metrics, st.session_state.heatmap_fig = run_backtest(
                         price_history=features_df_backtest,
-                        signals=signals,
+                        prediction_probs=prediction_probs,
                         initial_capital=initial_capital,
                         transaction_cost_pct=transaction_cost_pct,
                     )

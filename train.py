@@ -35,37 +35,28 @@ def main(ticker: str) -> None:
 
     X = features_df[features]
     y = features_df[target]
-    idx = features_df.index
-
-    # Chronological split to prevent temporal leakage
-    split_point = int(len(X) * 0.8)
-    X_train, X_test = X[:split_point], X[split_point:]
-    y_train, y_test = y[:split_point], y[split_point:]
-    idx_train, idx_test = idx[:split_point], idx[split_point:]
-
-    logger.info(f"Training data class distribution:\n{y_train.value_counts()}")
+    
+    logger.info(f"Total dataset size: {len(X)} days")
+    logger.info(f"Target distribution:\n{y.value_counts()}")
 
     with mlflow.start_run():
         mlflow.log_param("ticker", ticker)
 
-        # 3. Train Model
-        model, metrics, y_pred = train_model(X_train, y_train, X_test, y_test)
+        # 3. Train Model using WFO
+        # Pass the entire dataset; the function handles the 500-day rolling window
+        model, metrics, oos_predictions = train_model(X, y)
 
         mlflow.log_params(metrics['best_params'])
         mlflow.log_metric("accuracy", metrics['accuracy'])
 
-        logger.info(f"Best parameters found: {metrics['best_params']}")
-        logger.info(f"Model accuracy: {metrics['accuracy']:.4f}")
+        logger.info(f"WFO Model accuracy: {metrics['accuracy']:.4f}")
 
         # 4. Run Backtest
-        logger.info("Running backtest on test set predictions...")
-        # Get price history for the test set from the original features_df
-        test_price_history = features_df.loc[idx_test]
-        # Simple signal: 1 for buy (positive prediction), 0 for hold/sell
-        signals = pd.Series(y_pred, index=idx_test)
-        signals = signals.replace({0: -1})
+        logger.info("Running backtest on out-of-sample predictions...")
+        # Get price history aligning with the OOS predictions
+        test_price_history = features_df.loc[oos_predictions.index]
         portfolio, backtest_metrics, heatmap_fig = run_backtest(
-            test_price_history, signals
+            test_price_history, oos_predictions
         )
         logger.info(f"Backtest performance: {backtest_metrics}")
         mlflow.log_metrics(backtest_metrics)
@@ -111,21 +102,39 @@ def main(ticker: str) -> None:
         mlflow.log_artifact(f"results/{ticker}_feature_importances.csv")
         logger.info(f"Saved feature importances to results/{ticker}_feature_importances.csv")
 
-        # Calculate and save SHAP values
+        # Calculate and save SHAP values on the final OOS features
         logger.info("Calculating SHAP values...")
         explainer = shap.TreeExplainer(model)
-        shap_values = explainer.shap_values(X_test)
+        X_test_oos = X.loc[oos_predictions.index]
+        shap_values = explainer.shap_values(X_test_oos)
         np.save(f"results/{ticker}_shap_values.npy", shap_values)
         mlflow.log_artifact(f"results/{ticker}_shap_values.npy")
         logger.info(f"Saved SHAP values to results/{ticker}_shap_values.npy")
 
-        # Save X_test to a CSV file
-        X_test.to_csv(f"results/{ticker}_X_test.csv")
+        # Save X_test (the OOS period) to a CSV file
+        X_test_oos.to_csv(f"results/{ticker}_X_test.csv")
         mlflow.log_artifact(f"results/{ticker}_X_test.csv")
         logger.info(f"Saved X_test to results/{ticker}_X_test.csv")
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Train a sentiment-driven stock momentum predictor.')
-    parser.add_argument('--ticker', type=str, default='NVDA', help='Stock ticker to train the model on.')
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Train model for a specific stock ticker or all stocks.")
+    parser.add_argument("--ticker", type=str, help="Stock ticker symbol (e.g., NVDA)")
+    parser.add_argument("--all", action="store_true", help="Train models for all tickers in stocks.txt")
     args = parser.parse_args()
-    main(args.ticker)
+
+    if args.all:
+        try:
+            with open("stocks.txt", "r") as f:
+                tickers = [line.strip() for line in f if line.strip()]
+            
+            logger.info(f"Training models for {len(tickers)} tickers found in stocks.txt...")
+            for ticker in tickers:
+                main(ticker)
+                
+            logger.info("Finished processing all tickers.")
+        except FileNotFoundError:
+            logger.error("stocks.txt not found. Cannot run --all.")
+    elif args.ticker:
+        main(args.ticker)
+    else:
+        logger.error("You must provide either --ticker or --all.")

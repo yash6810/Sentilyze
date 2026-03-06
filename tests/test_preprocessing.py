@@ -98,6 +98,7 @@ def test_preprocess_data_orchestrates_correctly(mocker):
     
     mock_get_news = mocker.patch('src.preprocessing.get_news')
     mock_get_price_history = mocker.patch('src.preprocessing.get_price_history')
+    mock_get_vix_data = mocker.patch('src.preprocessing.get_vix_data')
     mock_get_sentiment = mocker.patch('src.preprocessing.get_sentiment')
     mock_create_technical_indicators = mocker.patch('src.preprocessing.create_technical_indicators')
     mock_aggregate_sentiment_scores = mocker.patch('src.preprocessing.aggregate_sentiment_scores')
@@ -106,16 +107,18 @@ def test_preprocess_data_orchestrates_correctly(mocker):
     # Mock return values for all sub-functions
     mock_get_news.return_value = pd.DataFrame()
     mock_get_price_history.return_value = pd.DataFrame()
+    mock_get_vix_data.return_value = pd.DataFrame()
     mock_get_sentiment.return_value = pd.DataFrame()
     mock_create_features.return_value = pd.DataFrame({
         'feature1': [1, 2],
         'target': [0, 1]
     }, index=pd.to_datetime(['2023-01-01', '2023-01-02']))
 
-    result_df = preprocess_data(ticker)
+    result_df, _, _ = preprocess_data(ticker, period="10y")
 
     mock_get_news.assert_called_once_with(ticker, os.environ.get("NEWS_API_KEY"))
-    mock_get_price_history.assert_called_once_with(ticker)
+    mock_get_price_history.assert_called_once_with(ticker, period='10y')
+    mock_get_vix_data.assert_called_once_with(period='10y')
     mocker.patch('src.preprocessing._load_sentiment_analyzer') # Mock internal call to load analyzer
     mock_get_sentiment.assert_called_once()
     mock_create_technical_indicators.assert_called_once()

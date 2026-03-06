@@ -58,9 +58,13 @@ def test_get_price_history_loads_from_cache(mocker, temp_data_dir):
     history = get_price_history(ticker, period="1y")
 
     # Assert
-    # We need to parse the dates in the index when reading from csv
+    # get_price_history adds 'Dividends' and 'Stock Splits' columns if missing
     expected_df = pd.read_csv(cache_path, index_col='Date', parse_dates=True)
     expected_df.index = pd.to_datetime(expected_df.index, utc=True)
+    if 'Dividends' not in expected_df.columns:
+        expected_df['Dividends'] = 0
+    if 'Stock Splits' not in expected_df.columns:
+        expected_df['Stock Splits'] = 0
     pd.testing.assert_frame_equal(history, expected_df)
     mock_ticker.history.assert_not_called()
 
@@ -112,7 +116,7 @@ def test_get_news_fetches_and_caches_data(mocker, temp_data_dir):
 
     # Assert
     assert not news_df.empty
-    assert news_df.iloc[0]['title'] == 'Test Title'
+    assert news_df.iloc[0]['Title'] == 'Test Title'
     cache_path = os.path.join(temp_data_dir, f"{ticker}_news.csv")
     assert os.path.exists(cache_path)
 
@@ -125,7 +129,7 @@ def test_get_news_loads_from_cache(mocker, temp_data_dir):
     ticker = "TEST"
     api_key = "test_api_key"
     cache_path = os.path.join(temp_data_dir, f"{ticker}_news.csv")
-    mock_cached_data = pd.DataFrame({'title': ['Cached Title'], 'description': ['Cached Desc'], 'publishedAt': ['2023-01-02T12:00:00Z']})
+    mock_cached_data = pd.DataFrame({'Title': ['Cached Title'], 'description': ['Cached Desc'], 'publishedAt': ['2023-01-02T12:00:00Z']})
     mock_cached_data.to_csv(cache_path, index=False)
 
     mock_newsapi_client = MagicMock()
@@ -135,7 +139,7 @@ def test_get_news_loads_from_cache(mocker, temp_data_dir):
     news_df = get_news(ticker, api_key)
 
     # Assert
-    assert news_df.iloc[0]['title'] == 'Cached Title'
+    assert news_df.iloc[0]['Title'] == 'Cached Title'
     mock_newsapi_client.get_everything.assert_not_called()
 
 
@@ -163,5 +167,5 @@ def test_get_news_refetches_stale_cache(mocker, temp_data_dir):
     news_df = get_news(ticker, api_key, cache_duration_hours=48)
 
     # Assert
-    assert news_df.iloc[0]['title'] == 'Fresh Title'
+    assert news_df.iloc[0]['Title'] == 'Fresh Title'
     mock_newsapi_client.get_everything.assert_called_once()
