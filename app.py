@@ -443,16 +443,13 @@ def main():
 
 
         # Backtest configuration
-
-        col1, col2 = st.columns(2)
-
+        col1, col2, col3 = st.columns(3)
         with col1:
-
             initial_capital = st.number_input("Initial Capital", value=10000.0, step=1000.0)
-
         with col2:
-
             transaction_cost_pct = (st.number_input("Transaction Cost (%)", value=0.1, step=0.05, format="%.3f") / 100.0)
+        with col3:
+            max_leverage = st.slider("Max Margin Leverage", min_value=1.0, max_value=3.0, value=1.5, step=0.1)
 
 
 
@@ -477,6 +474,7 @@ def main():
                         prediction_probs=prediction_probs,
                         initial_capital=initial_capital,
                         transaction_cost_pct=transaction_cost_pct,
+                        max_leverage=max_leverage,
                     )
 
 
@@ -576,10 +574,10 @@ def main():
                     X_test = pd.read_csv(X_test_path, index_col=0, parse_dates=True)
 
                     st.write("SHAP Summary Plot")
-
+                    fig = plt.figure()
                     shap.summary_plot(shap_values, X_test, show=False)
-
-                    st.pyplot(plt.gcf())
+                    st.pyplot(fig)
+                    plt.close(fig)
 
                 else:
 

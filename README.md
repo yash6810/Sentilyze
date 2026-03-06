@@ -49,7 +49,7 @@ The following charts provide a visual representation of the strategy's performan
 
 This chart compares the growth of a $10,000 investment using the Sentilyze strategy versus a simple buy-and-hold approach.
 
-![Portfolio Performance](https://via.placeholder.com/800x400.png?text=Portfolio+Value+Chart)
+![Portfolio Performance](images/portfolio_performance.png)
 
 #### 2. Monthly Returns Heatmap
 
@@ -65,13 +65,13 @@ We use Explainable AI (XAI) to understand the "why" behind the model's predictio
 
 This chart shows which features (e.g., RSI, news sentiment) have the most impact on the model's predictions.
 
-![Feature Importance](https://via.placeholder.com/800x400.png?text=Feature+Importance+Chart)
+![Feature Importance](images/feature_importance.png)
 
 #### 2. SHAP Summary Plot
 
 This plot provides a more detailed view of how each feature contributes to individual predictions, showing both the magnitude and direction of the effect.
 
-![SHAP Plot](https://via.placeholder.com/800x400.png?text=SHAP+Summary+Plot)
+![SHAP Plot](images/shap_plot.png)
 
 ---
 
