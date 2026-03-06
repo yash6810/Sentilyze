@@ -5,6 +5,7 @@ import xgboost as xgb
 from sklearn.metrics import accuracy_score, classification_report
 from src.utils import get_logger
 from typing import Tuple, Dict, Any, List
+import re
 
 logger = get_logger(__name__)
 
@@ -103,6 +104,43 @@ def train_model(X: pd.DataFrame, y: pd.Series, train_window: int = 500, test_win
     return final_model, metrics, final_oos_preds_series
 
 
+def _validate_model_filepath(filepath: str) -> str:
+    """
+    Validate and normalize the model file path to prevent loading
+    arbitrary files based on untrusted input.
+
+    Ensures that:
+        - The resolved path is inside the expected ``models`` directory.
+        - The file name matches the expected ``*_model.joblib`` pattern
+          and contains only safe characters.
+
+    Args:
+        filepath (str): The original file path.
+
+    Returns:
+        str: A validated absolute path to the model file.
+
+    Raises:
+        ValueError: If the path is outside the ``models`` directory
+            or does not conform to the expected naming pattern.
+    """
+    base_dir = os.path.abspath("models")
+    abs_path = os.path.abspath(filepath)
+
+    # Ensure the model file resides within the models directory
+    if not (abs_path == base_dir or abs_path.startswith(base_dir + os.sep)):
+        logger.error(f"Attempt to access model outside of models directory: {abs_path}")
+        raise ValueError("Invalid model path.")
+
+    filename = os.path.basename(abs_path)
+    # Allow tickers comprised of safe characters only and enforce suffix
+    if not re.fullmatch(r"[A-Za-z0-9_\-]+_model\.joblib", filename):
+        logger.error(f"Invalid model filename: {filename}")
+        raise ValueError("Invalid model filename.")
+
+    return abs_path
+
+
 def save_model(model: xgb.XGBClassifier, filepath: str) -> None:
     """
     Save the trained model to a file.
@@ -126,8 +164,9 @@ def load_model(filepath: str) -> xgb.XGBClassifier:
     Returns:
         xgb.XGBClassifier: The loaded model.
     """
-    logger.info(f"Loading model from {filepath}...")
-    return joblib.load(filepath)
+    safe_path = _validate_model_filepath(filepath)
+    logger.info(f"Loading model from {safe_path}...")
+    return joblib.load(safe_path)
 
 
 def get_prediction_on_latest_data(model: xgb.XGBClassifier, latest_data: pd.DataFrame, features: List[str]) -> Tuple[Any, Any]:
