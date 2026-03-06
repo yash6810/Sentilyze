@@ -55,7 +55,7 @@ This chart compares the growth of a $10,000 investment using the Sentilyze strat
 
 This heatmap shows the strategy's monthly returns, making it easy to spot trends and seasonality in its performance.
 
-![Monthly Returns](results/NVDA_monthly_returns_heatmap.png)
+![Monthly Returns](images/monthly_returns_heatmap.png)
 
 ### Explainable AI (XAI)
 
