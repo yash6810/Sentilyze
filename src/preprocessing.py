@@ -9,6 +9,7 @@ from src.feature_engineering import create_technical_indicators, aggregate_senti
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 from functools import lru_cache
 from typing import Any
+import concurrent.futures
 
 logger = get_logger(__name__)
 
@@ -96,6 +97,19 @@ def clean_headline_data(input_path: str, output_path: str, cache_dir: str = "dat
     logger.info("Done.")
 
 
+def _get_api_key() -> str | None:
+    """Safely attempts to retrieve the API key from Streamlit secrets, falling back to environment variables."""
+    try:
+        import streamlit as st
+        try:
+            if "NEWS_API_KEY" in st.secrets:
+                return st.secrets["NEWS_API_KEY"]
+        except Exception:
+            pass
+    except ImportError:
+        pass
+    return os.environ.get("NEWS_API_KEY")
+
 def preprocess_data(ticker: str, period: str = "10y") -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Orchestrates the data acquisition, sentiment analysis, and feature engineering
@@ -113,11 +127,18 @@ def preprocess_data(ticker: str, period: str = "10y") -> tuple[pd.DataFrame, pd.
     """
     logger.info(f"Starting data preprocessing for {ticker}...")
 
-    # 1. Fetch data
-    logger.info("Fetching data...")
-    news_df = get_news(ticker, os.environ.get("NEWS_API_KEY"))
-    price_history_df = get_price_history(ticker, period=period)
-    vix_df = get_vix_data(period=period)
+    # 1. Fetch data concurrently
+    logger.info("Fetching data concurrently...")
+    api_key = _get_api_key()
+    
+    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+        news_future = executor.submit(get_news, ticker, api_key)
+        price_future = executor.submit(get_price_history, ticker, period)
+        vix_future = executor.submit(get_vix_data, period)
+        
+        news_df = news_future.result()
+        price_history_df = price_future.result()
+        vix_df = vix_future.result()
 
     # 2. Analyze sentiment
     logger.info("Analyzing sentiment...")

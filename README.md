@@ -32,12 +32,12 @@ To provide full transparency and prove the model's algorithmic edge, we engineer
 By requiring extreme AI confidence to execute margin-leveraged trades (`1.5x`), and widening trailing stop-losses to give stocks breathing room during mega-bull markets, Sentilyze successfully shatters traditional Buy & Hold returns on algorithmic tech runners:
 
 | Ticker | Leveraged Alpha Return (1.5x) | Buy & Hold Baseline | Trades Executed | Win Rate |
-|--------|-------------------------------|---------------------|-----------------|----------|
-| AAPL   | **+58,941.25%**               | +491.84%            | 63              | 46.0%    |
-| MSFT   | **+873,660.60%**              | +339.72%            | 61              | 41.0%    |
-| NVDA   | **+6,727,846.43%**            | +2,989.19%          | 74              | 43.2%    |
-| GOOGL  | **+655,003.02%**              | +456.71%            | 75              | 41.3%    |
-| TSLA   | **+736,845.89%**              | +1,721.34%          | 82              | 41.5%    |
+| ------ | ----------------------------- | ------------------- | --------------- | -------- |
+| AAPL   | **+58,941.25%**         | +491.84%            | 63              | 46.0%    |
+| MSFT   | **+873,660.60%**        | +339.72%            | 61              | 41.0%    |
+| NVDA   | **+6,727,846.43%**      | +2,989.19%          | 74              | 43.2%    |
+| GOOGL  | **+655,003.02%**        | +456.71%            | 75              | 41.3%    |
+| TSLA   | **+736,845.89%**        | +1,721.34%          | 82              | 41.5%    |
 
 *Note: The model correctly sacrifices pure Win Rate accuracy in favor of capturing absolute long-term compounding momentum on winning trades, mathematically recovering losses caused by standard market whipsaws.*
 
@@ -188,14 +188,14 @@ If you have Docker installed, you can use Docker Compose to build and run the ap
 
 1. **Set Up API Keys:** Create a `.streamlit/secrets.toml` file and add your NewsAPI.org key:
 
-    ```toml
-    NEWS_API_KEY = "your_api_key_here"
-    ```
+   ```toml
+   NEWS_API_KEY = "your_api_key_here"
+   ```
 
 2. **Build and Run:**
 
-    ```bash
-    docker-compose up --build
-    ```
+   ```bash
+   docker-compose up --build
+   ```
 
-    The app will be available at `http://localhost:8501`.
+   The app will be available at `http://localhost:8501`.
