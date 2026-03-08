@@ -8,11 +8,13 @@ from src.modeling import train_model, save_model, load_model, get_prediction_on_
 # Create a fixture for sample data
 def sample_data():
     """Generates sample data for testing. Needs at least 520 rows for WFO (train_window=500 + test_window=20)."""
+    # Deterministic generation for rigorous testing
     X = pd.DataFrame({
-        'feature1': np.random.rand(550),
-        'feature2': np.random.rand(550)
+        'feature1': np.linspace(-1, 1, 550),
+        'feature2': np.linspace(1, -1, 550)
     })
-    y = pd.Series(np.random.randint(0, 2, 550))
+    # Create a clear pattern: if feature1 > 0, target is 1
+    y = pd.Series((X['feature1'] > 0).astype(int))
     return X, y
 
 def test_train_model():

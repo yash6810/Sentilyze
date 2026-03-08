@@ -117,8 +117,8 @@ def test_preprocess_data_orchestrates_correctly(mocker):
     result_df, _, _ = preprocess_data(ticker, period="10y")
 
     mock_get_news.assert_called_once_with(ticker, os.environ.get("NEWS_API_KEY"))
-    mock_get_price_history.assert_called_once_with(ticker, period='10y')
-    mock_get_vix_data.assert_called_once_with(period='10y')
+    mock_get_price_history.assert_called_once_with(ticker, '10y')
+    mock_get_vix_data.assert_called_once_with('10y')
     mocker.patch('src.preprocessing._load_sentiment_analyzer') # Mock internal call to load analyzer
     mock_get_sentiment.assert_called_once()
     mock_create_technical_indicators.assert_called_once()

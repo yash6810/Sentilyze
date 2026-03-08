@@ -4,6 +4,7 @@ import pandas as pd
 import xgboost as xgb
 from sklearn.metrics import accuracy_score, classification_report
 from src.utils import get_logger
+from src.config import XGB_MODEL_PARAMS
 from typing import Tuple, Dict, Any, List
 
 logger = get_logger(__name__)
@@ -33,14 +34,8 @@ def train_model(X: pd.DataFrame, y: pd.Series, train_window: int = 500, test_win
     oos_true = []
     oos_indices = []
     
-    # Fixed parameters for speed and stability (from the paper)
-    model_params = {
-        'n_estimators': 200,
-        'learning_rate': 0.05,
-        'max_depth': 4,
-        'random_state': 42,
-        'eval_metric': 'logloss'
-    }
+    # Fixed parameters for speed and stability (from the paper/config)
+    model_params = XGB_MODEL_PARAMS
     
     total_samples = len(X)
     
