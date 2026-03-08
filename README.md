@@ -173,45 +173,6 @@ Navigate to `http://localhost:5000` in your browser to see the MLflow dashboard.
 
 ---
 
-## ☁️ Deploying to Streamlit Community Cloud
-
-Streamlit Community Cloud allows you to deploy your Streamlit applications directly from a GitHub repository.
-
-1. **Prepare your GitHub Repository:**
-   * Ensure your `app.py` (your main Streamlit application file), `requirements.txt`, and all necessary code are pushed to a GitHub repository.
-   * Make sure your `NEWS_API_KEY` is not committed directly to your repository.
-
-2. **Set Up Secrets (NEWS_API_KEY):**
-   * In your project, create a directory named `.streamlit` if it doesn't already exist.
-   * Inside the `.streamlit` directory, create a file named `secrets.toml`. This file will store your API key.
-   * Add your NewsAPI.org API key to `secrets.toml` like this:
-
-     ```toml
-     NEWS_API_KEY="your_api_key_here"
-     ```
-
-   * **Crucially, add `.streamlit/secrets.toml` to your `.gitignore` file** to prevent it from being accidentally committed to your public repository.
-   * When deploying to Streamlit Community Cloud, you will add `NEWS_API_KEY` as an environment secret in the app's settings on the Streamlit Cloud dashboard. This process is explained in the Streamlit documentation under "Manage app secrets".
-
-3. **Deploy from Streamlit Community Cloud:**
-   * Go to [share.streamlit.io](https://share.streamlit.io) and sign in with your GitHub account.
-   * Click "New app" on your dashboard.
-   * Connect to your GitHub repository.
-   * Specify the repository, branch (e.g., `main`), and the main file path (`app.py`).
-   * Click "Deploy!".
-
-   Streamlit Cloud will automatically detect your `requirements.txt` file and install the dependencies.
-
----
-
-## Troubleshooting
-
-* **`ModuleNotFoundError`:** If you get a `ModuleNotFoundError`, it means that you have not installed all the dependencies. Please run `pip install -r requirements.txt` again.
-* **API Key Errors:** If you are having issues with fetching news data, make sure that your `NEWS_API_KEY` in the `.env` file is correct and that you have not exceeded your API rate limit.
-* **`FileNotFoundError` or Missing Data in "Model Performance" Tab:** If you encounter this error or see missing data (e.g., SHAP plots, Classification Report) in the "Model Performance" tab, it likely means that the MLflow artifacts for the selected ticker are either missing or corrupted. Ensure you have trained a model for that ticker using `python train.py --ticker [TICKER]` and that MLflow successfully logged all artifacts.
-
----
-
 ## Project Philosophy
 
 * **Modularity:** The project is organized into a `src` directory with separate modules for each major component (data ingestion, feature engineering, modeling, etc.). This makes the code easier to understand, maintain, and extend.
