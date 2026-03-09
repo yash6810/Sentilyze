@@ -13,3 +13,4 @@ shap>=0.45.0
 streamlit-shap>=1.0.2
 pytest>=8.0.0
 pytest-mock>=3.10.0
+matplotlib>=3.7.0
