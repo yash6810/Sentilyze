@@ -1,4 +1,4 @@
-artifact_uri: file:///D:/Sentilyze/mlruns/0/3f8998ce74b5478496ec47c081e485aa/artifacts
+artifact_uri: file:./mlruns/0/3f8998ce74b5478496ec47c081e485aa/artifacts
 end_time: 1772736574487
 entry_point_name: ''
 experiment_id: '0'
