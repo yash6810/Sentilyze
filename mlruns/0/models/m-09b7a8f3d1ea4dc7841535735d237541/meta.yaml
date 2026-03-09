@@ -1,4 +1,4 @@
-artifact_location: file:///D:/Sentilyze/mlruns/0/models/m-09b7a8f3d1ea4dc7841535735d237541/artifacts
+artifact_location: file:./mlruns/0/models/m-09b7a8f3d1ea4dc7841535735d237541/artifacts
 creation_timestamp: 1772736770652
 experiment_id: '0'
 last_updated_timestamp: 1772736775071
