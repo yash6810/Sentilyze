@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Sentilyze/mlruns/0/6987108d7f5048a195f0973164e51e1a/artifacts
+end_time: 1772735924625
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 6987108d7f5048a195f0973164e51e1a
+run_name: traveling-deer-494
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1772735916092
+status: 4
+tags: []
+user_id: HP

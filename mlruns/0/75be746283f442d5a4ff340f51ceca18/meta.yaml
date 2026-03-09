@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Sentilyze/mlruns/0/75be746283f442d5a4ff340f51ceca18/artifacts
+end_time: 1772736691601
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 75be746283f442d5a4ff340f51ceca18
+run_name: abundant-gnu-311
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1772736675840
+status: 3
+tags: []
+user_id: HP

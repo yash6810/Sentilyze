@@ -1,0 +1,10 @@
+artifact_location: file:///D:/Sentilyze/mlruns/0/models/m-aa95ffe7d2c14a20a0b5cf16728b4fdf/artifacts
+creation_timestamp: 1772736803155
+experiment_id: '0'
+last_updated_timestamp: 1772736806574
+model_id: m-aa95ffe7d2c14a20a0b5cf16728b4fdf
+model_type: null
+name: model
+source_run_id: bd957e8c5a304d07a1b49da5ef6a4c67
+status: 2
+status_message: null
