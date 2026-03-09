@@ -1,0 +1,11 @@
+{
+    "accuracy": 0.5129096325719961,
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.48      0.48      0.48       937\n           1       0.54      0.54      0.54      1077\n\n    accuracy                           0.51      2014\n   macro avg       0.51      0.51      0.51      2014\nweighted avg       0.51      0.51      0.51      2014\n",
+    "best_params": {
+        "n_estimators": 200,
+        "learning_rate": 0.05,
+        "max_depth": 4,
+        "random_state": 42,
+        "eval_metric": "logloss"
+    }
+}

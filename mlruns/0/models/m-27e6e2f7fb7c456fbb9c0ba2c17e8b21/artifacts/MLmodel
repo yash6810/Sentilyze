@@ -1,0 +1,22 @@
+artifact_path: file:///D:/Sentilyze/mlruns/0/models/m-27e6e2f7fb7c456fbb9c0ba2c17e8b21/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.13.9
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+mlflow_version: 3.4.0
+model_id: m-27e6e2f7fb7c456fbb9c0ba2c17e8b21
+model_size_bytes: 281008
+model_uuid: m-27e6e2f7fb7c456fbb9c0ba2c17e8b21
+prompts: null
+run_id: e579efe82ead4d37913eec2b45613fe6
+utc_time_created: '2026-03-05 18:51:50.986461'

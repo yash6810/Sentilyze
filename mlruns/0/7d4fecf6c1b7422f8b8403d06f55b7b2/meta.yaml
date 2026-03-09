@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Sentilyze/mlruns/0/7d4fecf6c1b7422f8b8403d06f55b7b2/artifacts
+end_time: 1772737790141
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 7d4fecf6c1b7422f8b8403d06f55b7b2
+run_name: wise-whale-287
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1772737772926
+status: 3
+tags: []
+user_id: HP

@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/Sentilyze/mlruns/0/b7de8efcd2ad4d20a2f66a52e58252d4/artifacts
+end_time: 1772736775506
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b7de8efcd2ad4d20a2f66a52e58252d4
+run_name: gregarious-cub-73
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1772736759403
+status: 3
+tags: []
+user_id: HP
