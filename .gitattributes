@@ -1,3 +1,7 @@
+# Set default behavior to handle line endings.
+* text=auto eol=lf
+
 *.safetensors filter=lfs diff=lfs merge=lfs -text
+*.json filter=lfs diff=lfs merge=lfs -text
 *.joblib filter=lfs diff=lfs merge=lfs -text
 *.pth filter=lfs diff=lfs merge=lfs -text
