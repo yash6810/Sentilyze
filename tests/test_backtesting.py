@@ -8,11 +8,12 @@ from src.backtesting import run_backtest, _calculate_trade_outcomes, calculate_p
 def sample_backtest_data() -> tuple[pd.DataFrame, pd.Series]:
     """Create sample price history and prediction probabilities for backtesting."""
     price_history = pd.DataFrame({
+        'Open': [100, 101, 102, 104, 96, 106, 108, 108, 110, 81],
         'Close': [100, 102, 105, 95, 106, 108, 107, 110, 80, 111],
         'sma200': [90, 90, 90, 90, 90, 90, 90, 90, 90, 90],  # Price > SMA200 (Uptrend)
         'rsi': [40, 45, 50, 48, 55, 60, 58, 65, 75, 70],    # RSI < 70 mostly
         'atr': [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0] # Average True Range
-    }, index=pd.to_datetime(pd.date_range('2025-01-01', periods=10)))
+    }, index=pd.to_datetime(pd.date_range('2025-01-01', periods=10)).normalize())
 
     # Instead of hard -1/1 signals, run_backtest now expects predicted probabilities.
     # We set strong probabilities (>0.55) to trigger buys, and low (<0.5) to trigger sells.
@@ -32,8 +33,8 @@ def test_calculate_trade_outcomes(sample_backtest_data: tuple[pd.DataFrame, pd.S
     trade_outcomes = _calculate_trade_outcomes(portfolio)
 
     assert len(trade_outcomes) == 2
-    # Specific outcomes depend on the dynamic stop-loss logic (currently yields -7.0 for the first trade)
-    assert trade_outcomes[0] == pytest.approx(-7.0)
+    # Specific outcomes depend on the dynamic stop-loss logic
+    assert trade_outcomes[0] == pytest.approx(-5.0)
     assert isinstance(trade_outcomes[1], float)
 
 def test_calculate_performance_metrics(sample_backtest_data: tuple[pd.DataFrame, pd.Series]) -> None:

@@ -12,7 +12,7 @@ __pycache__/
 .vscode/
 
 # MLflow and training artifacts
-# /mlruns  # Allow MLflow runs to be pushed for the Streamlit dashboard
+/mlruns/
 /results/
 /logs/
 
