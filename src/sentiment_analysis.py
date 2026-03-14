@@ -10,7 +10,10 @@ logger = get_logger(__name__)
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PROCESSED_DATA_DIR = os.path.join(PROJECT_ROOT, "data", "processed")
 
-def get_sentiment(articles: pd.DataFrame, sentiment_analyzer: Any, ticker: str | None = None) -> pd.DataFrame:
+
+def get_sentiment(
+    articles: pd.DataFrame, sentiment_analyzer: Any, ticker: str | None = None
+) -> pd.DataFrame:
     """
     Analyzes the sentiment of news articles, with optional file-based caching.
     If ticker is None, caching is bypassed.
@@ -21,15 +24,23 @@ def get_sentiment(articles: pd.DataFrame, sentiment_analyzer: Any, ticker: str |
 
         if os.path.exists(cache_path):
             try:
-                logger.info(f"Loading cached sentiment data for {ticker} from {cache_path}")
-                sentiment_df = pd.read_csv(cache_path, index_col='publishedAt', parse_dates=True)
+                logger.info(
+                    f"Loading cached sentiment data for {ticker} from {cache_path}"
+                )
+                sentiment_df = pd.read_csv(
+                    cache_path, index_col="publishedAt", parse_dates=True
+                )
                 return sentiment_df
             except ValueError:
-                logger.warning(f"Corrupted cache file found for {ticker}. Deleting and re-running sentiment analysis.")
+                logger.warning(
+                    f"Corrupted cache file found for {ticker}. Deleting and re-running sentiment analysis."
+                )
                 os.remove(cache_path)
-    
-    logger.info(f"Running sentiment analysis (caching {'enabled' if ticker else 'disabled'}).")
-    
+
+    logger.info(
+        f"Running sentiment analysis (caching {'enabled' if ticker else 'disabled'})."
+    )
+
     from tqdm import tqdm
 
     # Determine available text columns and construct 'text' for sentiment analysis
@@ -38,16 +49,22 @@ def get_sentiment(articles: pd.DataFrame, sentiment_analyzer: Any, ticker: str |
         text_columns.append("Title")
     if "description" in articles.columns:
         text_columns.append("description")
-    
+
     if not text_columns:
-        logger.warning("No 'Title' or 'description' columns found for sentiment analysis. Skipping.")
-        return articles # Return original articles if no text columns
+        logger.warning(
+            "No 'Title' or 'description' columns found for sentiment analysis. Skipping."
+        )
+        return articles  # Return original articles if no text columns
 
     # Create a temporary DataFrame for sentiment analysis
     articles_for_sentiment = articles[text_columns].dropna(subset=text_columns).copy()
 
     if "Title" in text_columns and "description" in text_columns:
-        articles_for_sentiment["text"] = articles_for_sentiment["Title"] + ". " + articles_for_sentiment["description"]
+        articles_for_sentiment["text"] = (
+            articles_for_sentiment["Title"]
+            + ". "
+            + articles_for_sentiment["description"]
+        )
     elif "Title" in text_columns:
         articles_for_sentiment["text"] = articles_for_sentiment["Title"]
     elif "description" in text_columns:
@@ -55,23 +72,30 @@ def get_sentiment(articles: pd.DataFrame, sentiment_analyzer: Any, ticker: str |
 
     results = []
     text_list = articles_for_sentiment["text"].tolist()
-    chunk_size = 32 # Process 32 articles at a time
-    
+    chunk_size = 32  # Process 32 articles at a time
+
     for i in tqdm(range(0, len(text_list), chunk_size), desc="Analyzing sentiment"):
-        chunk = text_list[i:i+chunk_size]
+        chunk = text_list[i : i + chunk_size]
         results.extend(sentiment_analyzer(chunk))
 
-    articles_for_sentiment[["sentiment_label", "sentiment_score"]] = [[s["label"], s["score"]] for s in results]
+    articles_for_sentiment[["sentiment_label", "sentiment_score"]] = [
+        [s["label"], s["score"]] for s in results
+    ]
 
     # Join sentiment back to original articles DataFrame on the index
-    articles = articles.join(articles_for_sentiment[['sentiment_label', 'sentiment_score']])
+    articles = articles.join(
+        articles_for_sentiment[["sentiment_label", "sentiment_score"]]
+    )
 
-    articles["sentiment_label"] = articles["sentiment_label"].fillna("neutral") # Fill NaN for articles without sentiment
-    articles["sentiment_score"] = articles["sentiment_score"].fillna(0.5).infer_objects(copy=False) # Fill NaN for articles without sentiment
-
+    articles["sentiment_label"] = articles["sentiment_label"].fillna(
+        "neutral"
+    )  # Fill NaN for articles without sentiment
+    articles["sentiment_score"] = (
+        articles["sentiment_score"].fillna(0.5).infer_objects(copy=False)
+    )  # Fill NaN for articles without sentiment
 
     if ticker:
         # Save to cache WITH the index
-        articles.to_csv(cache_path, index=True) 
+        articles.to_csv(cache_path, index=True)
         logger.info(f"Saved sentiment data to {cache_path}")
     return articles

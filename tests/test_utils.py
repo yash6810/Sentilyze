@@ -1,6 +1,7 @@
 import logging
 from src.utils import get_logger
 
+
 def test_get_logger():
     """Tests that the get_logger function returns a configured logger."""
     logger_name = "test_logger"

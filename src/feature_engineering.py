@@ -47,9 +47,9 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
     )
 
     # Average True Range (ATR)
-    high_low = ph_shifted['High'] - ph_shifted['Low']
-    high_close = (ph_shifted['High'] - price_history['Close'].shift(2)).abs()
-    low_close = (ph_shifted['Low'] - price_history['Close'].shift(2)).abs()
+    high_low = ph_shifted["High"] - ph_shifted["Low"]
+    high_close = (ph_shifted["High"] - price_history["Close"].shift(2)).abs()
+    low_close = (ph_shifted["Low"] - price_history["Close"].shift(2)).abs()
     ranges = pd.concat([high_low, high_close, low_close], axis=1)
     true_range = ranges.max(axis=1)
     price_history["atr"] = true_range.rolling(14).mean()
@@ -79,10 +79,14 @@ def aggregate_sentiment_scores(news_with_sentiment: pd.DataFrame) -> pd.DataFram
     daily_sentiment.index = daily_sentiment.index.normalize()
 
     # Convert sentiment labels to lowercase before creating dummies
-    news_with_sentiment['sentiment_label'] = news_with_sentiment['sentiment_label'].str.lower()
+    news_with_sentiment["sentiment_label"] = news_with_sentiment[
+        "sentiment_label"
+    ].str.lower()
 
     # Count sentiment labels per day
-    sentiment_counts = pd.get_dummies(news_with_sentiment['sentiment_label']).resample("D").sum()
+    sentiment_counts = (
+        pd.get_dummies(news_with_sentiment["sentiment_label"]).resample("D").sum()
+    )
     daily_sentiment = pd.concat([daily_sentiment, sentiment_counts], axis=1)
 
     # Ensure all expected sentiment columns exist
@@ -113,7 +117,9 @@ def create_features(
         pd.DataFrame: A merged DataFrame containing the complete feature set.
     """
     # Normalize indices to ensure clean alignment on midnight UTC
-    price_history_with_indicators.index = price_history_with_indicators.index.normalize()
+    price_history_with_indicators.index = (
+        price_history_with_indicators.index.normalize()
+    )
     daily_sentiment.index = daily_sentiment.index.normalize()
 
     # SHIFT sentiment data to prevent lookahead bias (use yesterday's news for today's prediction)
@@ -126,27 +132,23 @@ def create_features(
         right_index=True,
         how="left",
     )
-    
+
     # Merge VIX if provided
     if vix_data is not None and not vix_data.empty:
         # Keep only the Close column from VIX and rename it
-        vix_subset = vix_data[['Close']].rename(columns={'Close': 'vix_close'})
+        vix_subset = vix_data[["Close"]].rename(columns={"Close": "vix_close"})
         # Calculate 5-day moving average of VIX
-        vix_subset['vix_ma5'] = vix_subset['vix_close'].rolling(window=5).mean()
+        vix_subset["vix_ma5"] = vix_subset["vix_close"].rolling(window=5).mean()
         vix_subset = vix_subset.shift(1)
-        
+
         merged_df = pd.merge(
-            merged_df,
-            vix_subset,
-            left_index=True,
-            right_index=True,
-            how="left"
+            merged_df, vix_subset, left_index=True, right_index=True, how="left"
         )
     else:
         # If no VIX data, fill with 0 (or some default) just to keep columns present
-        merged_df['vix_close'] = 0
-        merged_df['vix_ma5'] = 0
-        
+        merged_df["vix_close"] = 0
+        merged_df["vix_ma5"] = 0
+
     merged_df.ffill(inplace=True)
     merged_df.fillna(0, inplace=True)
 
@@ -154,9 +156,17 @@ def create_features(
     merged_df["target"] = (merged_df["Close"].shift(-1) > merged_df["Close"]).astype(
         int
     )
-    
+
     # Drop raw price data to prevent leakage
-    cols_to_drop = ['Open', 'High', 'Low', 'Close', 'Volume', 'Dividends', 'Stock Splits']
+    cols_to_drop = [
+        "Open",
+        "High",
+        "Low",
+        "Close",
+        "Volume",
+        "Dividends",
+        "Stock Splits",
+    ]
     merged_df = merged_df.drop(columns=cols_to_drop)
 
     return merged_df
