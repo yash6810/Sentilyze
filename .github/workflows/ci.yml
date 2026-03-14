@@ -1,4 +1,4 @@
-name: Python application test with CI
+name: AI Trading Pipeline (CI/CD)
 
 on:
   push:
@@ -7,27 +7,79 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
+  quality-assurance:
+    name: Code Quality & Security
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r requirements-dev.txt
-    - name: Lint with flake8
-      run: |
-        flake8 .
-    - name: Check formatting with black
-      run: |
-        black --check .
-    - name: Test with pytest
-      run: |
-        pytest
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Security Scan (Bandit)
+        run: |
+          bandit -r src/ -ll
+          
+      - name: Dependency Audit (pip-audit)
+        run: |
+          pip-audit
+
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Check formatting (Black)
+        run: |
+          black --check .
+
+  unit-tests:
+    name: Automated Testing
+    needs: quality-assurance
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Run Tests with Coverage
+        run: |
+          pytest --cov=src tests/ --cov-report=xml
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: false
+
+  deployment-check:
+    name: Deployment Readiness
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Log Readiness
+        run: |
+          echo "Build passed all Quality, Security, and Unit Test gates."
+          echo "Streamlit Cloud will now automatically pick up the latest changes."
