@@ -184,8 +184,8 @@ def main():
 
     ticker = st.text_input("Enter a stock ticker:", "NVDA")
 
-    model_path = f"models/{ticker}_model.joblib"
-    specialist_model = load_model(model_path) if os.path.exists(model_path) else None
+    model_path = f"models/{ticker}_model.json"
+    specialist_model = load_model(model_path) if (os.path.exists(model_path) or os.path.exists(model_path.replace('.json', '.joblib'))) else None
 
     if not specialist_model:
         st.warning(
