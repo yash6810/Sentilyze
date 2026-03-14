@@ -1,11 +1,3 @@
-{
-    "accuracy": 0.4900695134061569,
-    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.47      0.46      0.46       971\n           1       0.51      0.52      0.51      1043\n\n    accuracy                           0.49      2014\n   macro avg       0.49      0.49      0.49      2014\nweighted avg       0.49      0.49      0.49      2014\n",
-    "best_params": {
-        "n_estimators": 200,
-        "learning_rate": 0.05,
-        "max_depth": 4,
-        "random_state": 42,
-        "eval_metric": "logloss"
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:a5b6288751f7724f70d500494f9f2d7ee12ca5deff6338b5a77ee571bfec1ea0
+size 588
