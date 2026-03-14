@@ -93,7 +93,7 @@ def run_backtest(
     portfolio["prob_up"] = prediction_probs
     
     # Copy necessary pricing and indicator columns securely
-    for col in ["Close", "sma200", "rsi", "atr"]:
+    for col in ["Open", "Close", "sma200", "rsi", "atr"]:
         if col in price_history.columns:
             portfolio[col] = price_history[col]
         else:
@@ -120,6 +120,7 @@ def run_backtest(
     cash_idx = portfolio.columns.get_loc("cash")
     hold_idx = portfolio.columns.get_loc("holdings")
     tot_idx = portfolio.columns.get_loc("total")
+    open_idx = portfolio.columns.get_loc("Open")
     close_idx = portfolio.columns.get_loc("Close")
     sma_idx = portfolio.columns.get_loc("sma200")
     rsi_idx = portfolio.columns.get_loc("rsi")
@@ -135,51 +136,49 @@ def run_backtest(
         portfolio.iloc[i, hold_idx] = portfolio.iloc[i - 1, hold_idx]
         portfolio.iloc[i, sl_idx] = current_stop_loss
 
-        today_price = portfolio.iloc[i, close_idx]
-        prev_price = portfolio.iloc[i - 1, close_idx]
+        # Get data from previous day for decision making
+        prev_prob_up = portfolio.iloc[i - 1, prob_idx]
+        prev_sma200 = portfolio.iloc[i - 1, sma_idx]
+        prev_rsi = portfolio.iloc[i - 1, rsi_idx]
+        prev_atr = portfolio.iloc[i - 1, atr_idx]
+        prev_close = portfolio.iloc[i-1, close_idx]
+
+        today_open_price = portfolio.iloc[i, open_idx]
+        today_close_price = portfolio.iloc[i, close_idx]
 
         # 1. Update holdings value based on today's price action
-        if position_open and prev_price > 0:
-            price_change_pct = (today_price / prev_price) - 1
+        if position_open and prev_close > 0:
+            price_change_pct = (today_close_price / prev_close) - 1
             portfolio.iloc[i, hold_idx] *= (1 + price_change_pct)
-
-        # 2. Get today's indicators for decision making
-        prob_up = portfolio.iloc[i, prob_idx]
-        sma200 = portfolio.iloc[i, sma_idx]
-        rsi = portfolio.iloc[i, rsi_idx]
-        atr = portfolio.iloc[i, atr_idx]
 
         execute_trade = 0 # 0=no action, 1=buy, -1=sell
 
-        # 3. Dynamic Risk Management (Sell Logic)
+        # 2. Dynamic Risk Management (Sell Logic)
         if position_open:
             days_held += 1
-            # Check Stop-Loss
-            if today_price < current_stop_loss:
+            # Check Stop-Loss at today's open
+            if today_open_price < current_stop_loss:
                 execute_trade = -1
-                logger.debug(f"Stop-loss triggered on Day {portfolio.index[i].date()} at ${today_price:.2f}")
+                logger.debug(f"Stop-loss triggered on Day {portfolio.index[i].date()} at ${today_open_price:.2f}")
             else:
-                # Trailing Stop-Loss update (tighten stops as price goes up)
-                # Alpha Strategy: Give 3x the breathing room if we are above the 200 SMA (Bull Regime)
-                atr_multiplier = 3.0 if today_price > sma200 else 1.5
-                new_stop = today_price - (atr_multiplier * atr)
+                # Trailing Stop-Loss update based on previous day's close
+                atr_multiplier = 3.0 if prev_close > prev_sma200 else 1.5
+                new_stop = prev_close - (atr_multiplier * prev_atr)
                 if new_stop > current_stop_loss:
                     current_stop_loss = new_stop
                     portfolio.iloc[i, sl_idx] = current_stop_loss
 
-        # 4. Regime Filter (Buy Logic)
-        # ONLY look for buys if we don't have a position currently
+        # 3. Regime Filter (Buy Logic)
         elif not position_open:
-            if prob_up > prob_threshold and rsi < 70:
+            if prev_prob_up > prob_threshold and prev_rsi < 70:
                 execute_trade = 1
 
-        # 5. Execute Trades
+        # 4. Execute Trades at today's open price
         portfolio.iloc[i, sig_idx] = execute_trade
+        trade_price = today_open_price
 
         if execute_trade == 1:  # BUY
-            # Determine leverage based on AI conviction
-            leverage = max_leverage if prob_up > 0.80 else 1.0
-            
+            leverage = max_leverage if prev_prob_up > 0.80 else 1.0
             investment = portfolio.iloc[i, cash_idx] * leverage
             if investment > 0:
                 borrowed_margin = investment - portfolio.iloc[i, cash_idx]
@@ -190,15 +189,13 @@ def run_backtest(
                 portfolio.iloc[i, hold_idx] += effective_investment
                 
                 position_open = True
-                # Set initial dynamic stop loss with Alpha logic
-                atr_multiplier = 3.0 if today_price > sma200 else 1.5
-                current_stop_loss = today_price - (atr_multiplier * atr)
+                atr_multiplier = 3.0 if prev_close > prev_sma200 else 1.5
+                current_stop_loss = prev_close - (atr_multiplier * prev_atr)
                 portfolio.iloc[i, sl_idx] = current_stop_loss
 
         elif execute_trade == -1:  # SELL
             proceeds = portfolio.iloc[i, hold_idx]
             if proceeds > 0:
-                # Calculate margin fees (assuming 5% annualized borrowing cost)
                 if borrowed_margin > 0:
                     margin_interest_cost = borrowed_margin * 0.05 * (days_held / 365)
                 else:
@@ -207,7 +204,6 @@ def run_backtest(
                 cost = proceeds * transaction_cost_pct
                 effective_proceeds = proceeds * (1 - slippage_pct)
                 
-                # Settle account: add proceeds, subtract fees, pay back borrowed margin
                 portfolio.iloc[i, cash_idx] += (effective_proceeds - cost - margin_interest_cost + borrowed_margin)
                 portfolio.iloc[i, hold_idx] = 0
                 
@@ -257,10 +253,10 @@ def _calculate_trade_outcomes(portfolio: pd.DataFrame) -> List[float]:
         signal = row["signal"]
         
         if signal == 1 and not position_open:
-            entry_price = row["Close"]
+            entry_price = row["Open"] # Use Open for entry price
             position_open = True
         elif signal == -1 and position_open:
-            exit_price = row["Close"]
+            exit_price = row["Open"] # Use Open for exit price
             pnl_list.append(exit_price - entry_price)
             position_open = False
 

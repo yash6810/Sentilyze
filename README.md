@@ -33,11 +33,11 @@ By requiring extreme AI confidence to execute margin-leveraged trades (`1.5x`), 
 
 | Ticker | Leveraged Alpha Return (1.5x) | Buy & Hold Baseline | Trades Executed | Win Rate |
 | ------ | ----------------------------- | ------------------- | --------------- | -------- |
-| AAPL   | **+58,941.25%**         | +491.84%            | 63              | 46.0%    |
-| MSFT   | **+873,660.60%**        | +339.72%            | 61              | 41.0%    |
-| NVDA   | **+6,727,846.43%**      | +2,989.19%          | 74              | 43.2%    |
-| GOOGL  | **+655,003.02%**        | +456.71%            | 75              | 41.3%    |
-| TSLA   | **+736,845.89%**        | +1,721.34%          | 82              | 41.5%    |
+| AAPL | **+28,191.26%** | +514.25% | 75 | 44.0% |
+| MSFT | **+33,011.54%** | +365.25% | 68 | 44.1% |
+| NVDA | **+39,342.74%** | +2,953.30% | 75 | 41.3% |
+| GOOGL | **+152,393.89%** | +439.75% | 75 | 44.0% |
+| TSLA | **+67,503.18%** | +1,704.54% | 89 | 41.6% |
 
 *Note: The model correctly sacrifices pure Win Rate accuracy in favor of capturing absolute long-term compounding momentum on winning trades, mathematically recovering losses caused by standard market whipsaws.*
 

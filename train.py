@@ -15,18 +15,20 @@ from sklearn.metrics import classification_report
 
 logger = get_logger(__name__)
 
-def main(ticker: str) -> None:
+def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
     """
     Main function to run the training pipeline for a given stock ticker.
 
     Args:
         ticker (str): The stock ticker to train the model on.
+        leverage (float): Maximum leverage for the backtest.
+        use_cache (bool): Whether to aggressively use cached data.
     """
-    logger.info(f"Starting training pipeline for {ticker}...")
+    logger.info(f"Starting training pipeline for {ticker} (Cache: {use_cache})...")
 
     # 1. Preprocess data
     logger.info("Preprocessing data...")
-    features_df, _, _ = preprocess_data(ticker)
+    features_df, price_history_with_indicators, _ = preprocess_data(ticker, use_cache=use_cache)
 
     # 2. Prepare data for training
     logger.info("Preparing data for training...")
@@ -52,11 +54,11 @@ def main(ticker: str) -> None:
         logger.info(f"WFO Model accuracy: {metrics['accuracy']:.4f}")
 
         # 4. Run Backtest
-        logger.info("Running backtest on out-of-sample predictions...")
+        logger.info(f"Running backtest on out-of-sample predictions (Leverage: {leverage})...")
         # Get price history aligning with the OOS predictions
-        test_price_history = features_df.loc[oos_predictions.index]
+        test_price_history = price_history_with_indicators.loc[oos_predictions.index]
         portfolio, backtest_metrics, heatmap_fig = run_backtest(
-            test_price_history, oos_predictions
+            test_price_history, oos_predictions, max_leverage=leverage
         )
         logger.info(f"Backtest performance: {backtest_metrics}")
         mlflow.log_metrics(backtest_metrics)
@@ -120,6 +122,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train model for a specific stock ticker or all stocks.")
     parser.add_argument("--ticker", type=str, help="Stock ticker symbol (e.g., NVDA)")
     parser.add_argument("--all", action="store_true", help="Train models for all tickers in stocks.txt")
+    parser.add_argument("--leverage", type=float, default=1.5, help="Maximum leverage for the backtest (default: 1.5)")
+    parser.add_argument("--use-cache", action="store_true", help="Aggressively use cached data to avoid API rate limits")
     args = parser.parse_args()
 
     if args.all:
@@ -129,12 +133,12 @@ if __name__ == "__main__":
             
             logger.info(f"Training models for {len(tickers)} tickers found in stocks.txt...")
             for ticker in tickers:
-                main(ticker)
+                main(ticker, leverage=args.leverage, use_cache=args.use_cache)
                 
             logger.info("Finished processing all tickers.")
         except FileNotFoundError:
             logger.error("stocks.txt not found. Cannot run --all.")
     elif args.ticker:
-        main(args.ticker)
+        main(args.ticker, leverage=args.leverage, use_cache=args.use_cache)
     else:
         logger.error("You must provide either --ticker or --all.")

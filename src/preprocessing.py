@@ -110,7 +110,7 @@ def _get_api_key() -> str | None:
         pass
     return os.environ.get("NEWS_API_KEY")
 
-def preprocess_data(ticker: str, period: str = "10y") -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+def preprocess_data(ticker: str, period: str = "10y", use_cache: bool = False) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Orchestrates the data acquisition, sentiment analysis, and feature engineering
     for a given ticker.
@@ -118,6 +118,7 @@ def preprocess_data(ticker: str, period: str = "10y") -> tuple[pd.DataFrame, pd.
     Args:
         ticker (str): The stock ticker to preprocess data for.
         period (str): The time period for the data (e.g., "10y", "5y", "max").
+        use_cache (bool): If True, aggressively favors cached data (1 year duration).
 
     Returns:
         tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]: A tuple containing:
@@ -125,20 +126,18 @@ def preprocess_data(ticker: str, period: str = "10y") -> tuple[pd.DataFrame, pd.
             - price_history_with_indicators: The price history with technical indicators.
             - news_with_sentiment_df: The news headlines with sentiment scores.
     """
-    logger.info(f"Starting data preprocessing for {ticker}...")
+    logger.info(f"Starting data preprocessing for {ticker} (Use Cache: {use_cache})...")
 
-    # 1. Fetch data concurrently
-    logger.info("Fetching data concurrently...")
+    # 1. Fetch data sequentially to avoid yfinance rate limits
+    logger.info("Fetching data...")
     api_key = _get_api_key()
     
-    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-        news_future = executor.submit(get_news, ticker, api_key)
-        price_future = executor.submit(get_price_history, ticker, period)
-        vix_future = executor.submit(get_vix_data, period)
-        
-        news_df = news_future.result()
-        price_history_df = price_future.result()
-        vix_df = vix_future.result()
+    # Use 1 year cache duration if use_cache is True
+    cache_duration = 8760 if use_cache else 24
+    
+    news_df = get_news(ticker, api_key, cache_duration_hours=cache_duration)
+    price_history_df = get_price_history(ticker, period, cache_duration_hours=cache_duration)
+    vix_df = get_vix_data(period, cache_duration_hours=cache_duration)
 
     # 2. Analyze sentiment
     logger.info("Analyzing sentiment...")

@@ -11,42 +11,45 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: The input DataFrame with added technical indicator columns.
     """
+    # SHIFT price data to prevent lookahead bias.
+    ph_shifted = price_history.shift(1)
+
     # Moving averages including 200-day for regime filter
-    price_history["ma7"] = price_history["Close"].rolling(window=7).mean()
-    price_history["ma21"] = price_history["Close"].rolling(window=21).mean()
-    price_history["sma200"] = price_history["Close"].rolling(window=200).mean()
+    price_history["ma7"] = ph_shifted["Close"].rolling(window=7).mean()
+    price_history["ma21"] = ph_shifted["Close"].rolling(window=21).mean()
+    price_history["sma200"] = ph_shifted["Close"].rolling(window=200).mean()
 
     # Relative Strength Index (RSI)
-    delta = price_history["Close"].diff()
+    delta = ph_shifted["Close"].diff()
     gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
     loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
     rs = gain / (loss + 1e-10)  # Add epsilon to prevent division by zero
     price_history["rsi"] = 100 - (100 / (1 + rs))
 
     # MACD
-    exp12 = price_history["Close"].ewm(span=12, adjust=False).mean()
-    exp26 = price_history["Close"].ewm(span=26, adjust=False).mean()
+    exp12 = ph_shifted["Close"].ewm(span=12, adjust=False).mean()
+    exp26 = ph_shifted["Close"].ewm(span=26, adjust=False).mean()
     price_history["macd"] = exp12 - exp26
 
     # Bollinger Bands
     price_history["bollinger_upper"] = (
-        price_history["ma21"] + 2 * price_history["Close"].rolling(window=21).std()
+        price_history["ma21"] + 2 * ph_shifted["Close"].rolling(window=21).std()
     )
     price_history["bollinger_lower"] = (
-        price_history["ma21"] - 2 * price_history["Close"].rolling(window=21).std()
+        price_history["ma21"] - 2 * ph_shifted["Close"].rolling(window=21).std()
     )
 
     # Stochastic Oscillator
-    low14 = price_history["Low"].rolling(window=14).min()
-    high14 = price_history["High"].rolling(window=14).max()
+    low14 = ph_shifted["Low"].rolling(window=14).min()
+    high14 = ph_shifted["High"].rolling(window=14).max()
     price_history["stochastic_oscillator"] = 100 * (
-        (price_history["Close"] - low14) / (high14 - low14 + 1e-10)
+        (ph_shifted["Close"] - low14) / (high14 - low14 + 1e-10)
     )
 
     # Average True Range (ATR)
-    high_low = price_history['High'] - price_history['Low']
-    high_close = (price_history['High'] - price_history['Close'].shift()).abs()
-    low_close = (price_history['Low'] - price_history['Close'].shift()).abs()
+    high_low = ph_shifted['High'] - ph_shifted['Low']
+    high_close = (ph_shifted['High'] - price_history['Close'].shift(2)).abs()
+    low_close = (ph_shifted['Low'] - price_history['Close'].shift(2)).abs()
     ranges = pd.concat([high_low, high_close, low_close], axis=1)
     true_range = ranges.max(axis=1)
     price_history["atr"] = true_range.rolling(14).mean()
@@ -69,10 +72,11 @@ def aggregate_sentiment_scores(news_with_sentiment: pd.DataFrame) -> pd.DataFram
             columns=["mean_sentiment_score", "positive", "negative", "neutral"]
         )
 
-    # Resample by day and aggregate sentiment scores
+    # Resample by day and aggregate sentiment scores, then normalize index
     daily_sentiment = news_with_sentiment.resample("D").agg(
         mean_sentiment_score=("sentiment_score", "mean"),
     )
+    daily_sentiment.index = daily_sentiment.index.normalize()
 
     # Convert sentiment labels to lowercase before creating dummies
     news_with_sentiment['sentiment_label'] = news_with_sentiment['sentiment_label'].str.lower()
@@ -93,7 +97,9 @@ def aggregate_sentiment_scores(news_with_sentiment: pd.DataFrame) -> pd.DataFram
 
 
 def create_features(
-    price_history_with_indicators: pd.DataFrame, daily_sentiment: pd.DataFrame, vix_data: pd.DataFrame = None
+    price_history_with_indicators: pd.DataFrame,
+    daily_sentiment: pd.DataFrame,
+    vix_data: pd.DataFrame = None,
 ) -> pd.DataFrame:
     """
     Merges price history with daily sentiment scores and VIX data to create a feature set.
@@ -106,6 +112,13 @@ def create_features(
     Returns:
         pd.DataFrame: A merged DataFrame containing the complete feature set.
     """
+    # Normalize indices to ensure clean alignment on midnight UTC
+    price_history_with_indicators.index = price_history_with_indicators.index.normalize()
+    daily_sentiment.index = daily_sentiment.index.normalize()
+
+    # SHIFT sentiment data to prevent lookahead bias (use yesterday's news for today's prediction)
+    daily_sentiment = daily_sentiment.shift(1)
+
     merged_df = pd.merge(
         price_history_with_indicators,
         daily_sentiment,
@@ -120,6 +133,7 @@ def create_features(
         vix_subset = vix_data[['Close']].rename(columns={'Close': 'vix_close'})
         # Calculate 5-day moving average of VIX
         vix_subset['vix_ma5'] = vix_subset['vix_close'].rolling(window=5).mean()
+        vix_subset = vix_subset.shift(1)
         
         merged_df = pd.merge(
             merged_df,
@@ -140,5 +154,9 @@ def create_features(
     merged_df["target"] = (merged_df["Close"].shift(-1) > merged_df["Close"]).astype(
         int
     )
+    
+    # Drop raw price data to prevent leakage
+    cols_to_drop = ['Open', 'High', 'Low', 'Close', 'Volume', 'Dividends', 'Stock Splits']
+    merged_df = merged_df.drop(columns=cols_to_drop)
 
     return merged_df

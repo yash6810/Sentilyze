@@ -200,7 +200,7 @@ def main():
 
     # --- TABS ---
 
-    tab1, tab2, tab3, tab4 = st.tabs(["Prediction Analysis", "Results Dashboard", "Backtest Analysis", "Advanced Model Analysis"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Prediction Analysis", "Results Dashboard", "Pre-computed Backtest Analysis", "Advanced Model Analysis"])
 
 
 
@@ -435,105 +435,45 @@ def main():
 
 
     with tab3:
+        st.header(f"Pre-computed Backtest Analysis for {ticker}")
+        st.write("This tab displays the results of the backtest performed during the last training run. The backtest was run on out-of-sample data using a walk-forward optimization approach.")
 
-        st.header(f"Run Backtest Analysis for {ticker}")
+        mlflow_data = get_latest_mlflow_run_data(ticker)
 
-        st.write("This will simulate the trading strategy over the last 5 years of historical data.")
-
-
-
-        # Backtest configuration
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            initial_capital = st.number_input("Initial Capital", value=10000.0, step=1000.0)
-        with col2:
-            transaction_cost_pct = (st.number_input("Transaction Cost (%)", value=0.1, step=0.05, format="%.3f") / 100.0)
-        with col3:
-            max_leverage = st.slider("Max Margin Leverage", min_value=1.0, max_value=3.0, value=1.5, step=0.1)
-
-
-
-        if st.button("Run Backtest"):
-
-            try:
-
-                with st.spinner(f"Running 5-year backtest for {ticker}... This may take a moment."):
-                    features_df_backtest, _, _ = preprocess_data(ticker, period="5y")
-                    features_df_backtest = features_df_backtest.dropna()
-
-                    if not specialist_model:
-                        st.error(f"A specialist model for {ticker} is required to run a backtest.")
-                        st.stop()
-                        
-                    # Model outputs class probabilities. We want the probability of class 1 ("Up").
-                    probabilities = specialist_model.predict_proba(features_df_backtest[FEATURES])[:, 1]
-                    prediction_probs = pd.Series(probabilities, index=features_df_backtest.index)
-
-                    st.session_state.portfolio, st.session_state.metrics, st.session_state.heatmap_fig = run_backtest(
-                        price_history=features_df_backtest,
-                        prediction_probs=prediction_probs,
-                        initial_capital=initial_capital,
-                        transaction_cost_pct=transaction_cost_pct,
-                        max_leverage=max_leverage,
-                    )
-
-
-
-            except requests.exceptions.RequestException as e:
-
-                logger.error(f"A network error occurred during backtest: {e}")
-
-                st.error("A network error occurred. Please check your internet connection and NewsAPI key.")
-
-            except Exception as e:
-
-                logger.error(f"An unexpected error occurred during backtest: {e}")
-
-                st.error(f"An unexpected error occurred: {e}. Please check the logs for more details.")
-
-
-
-        # --- Display Backtest Results from Session State ---
-
-        if st.session_state.portfolio is not None:
-
+        if mlflow_data:
+            metrics = mlflow_data["metrics"]
+            artifact_uri = mlflow_data["artifact_uri"]
+            local_path = mlflow.artifacts.download_artifacts(artifact_uri=artifact_uri)
+            
             st.subheader("Backtest Performance Metrics")
-
             row1_col1, row1_col2, row1_col3, row1_col4 = st.columns(4)
-
-            row1_col1.metric("Strategy Return", f"{st.session_state.metrics['strategy_total_return']:.2%}")
-
-            row1_col2.metric("Buy & Hold Return", f"{st.session_state.metrics['buy_and_hold_total_return']:.2%}")
-
-            row1_col3.metric("Sharpe Ratio", f"{st.session_state.metrics['sharpe_ratio']:.2f}")
-
-            row1_col4.metric("Sortino Ratio", f"{st.session_state.metrics['sortino_ratio']:.2f}")
-
-
+            row1_col1.metric("Strategy Return", f"{metrics.get('strategy_total_return', 0.0):.2%}")
+            row1_col2.metric("Buy & Hold Return", f"{metrics.get('buy_and_hold_total_return', 0.0):.2%}")
+            row1_col3.metric("Sharpe Ratio", f"{metrics.get('sharpe_ratio', 0.0):.2f}")
+            row1_col4.metric("Sortino Ratio", f"{metrics.get('sortino_ratio', 0.0):.2f}")
 
             row2_col1, row2_col2, row2_col3, row2_col4 = st.columns(4)
-
-            row2_col2.metric("Win Rate", f"{st.session_state.metrics['win_rate']:.2%}")
-
-            row2_col1.metric("Total Trades", st.session_state.metrics['total_trades'])
-
-            row2_col3.metric("Strategy Max Drawdown", f"{st.session_state.metrics['strategy_max_drawdown']:.2%}")
-
-            row2_col4.metric("Buy & Hold Max Drawdown", f"{st.session_state.metrics['buy_and_hold_max_drawdown']:.2%}")
-
-
+            row2_col2.metric("Win Rate", f"{metrics.get('win_rate', 0.0):.2%}")
+            row2_col1.metric("Total Trades", metrics.get('total_trades', 0))
+            row2_col3.metric("Strategy Max Drawdown", f"{metrics.get('strategy_max_drawdown', 0.0):.2%}")
+            row2_col4.metric("Buy & Hold Max Drawdown", f"{metrics.get('buy_and_hold_max_drawdown', 0.0):.2%}")
 
             st.subheader("Portfolio Value Over Time")
-
-            chart_data = st.session_state.portfolio[["total", "benchmark"]].rename(columns={"total": "Strategy", "benchmark": "Buy & Hold"})
-
-            st.line_chart(chart_data)
-
-
+            portfolio_path = os.path.join(local_path, f"{ticker}_portfolio.csv")
+            if os.path.exists(portfolio_path):
+                portfolio = pd.read_csv(portfolio_path, index_col=0, parse_dates=True)
+                st.line_chart(portfolio[["total", "benchmark"]].rename(columns={"total": "Strategy", "benchmark": "Buy & Hold"}))
+            else:
+                st.warning("Portfolio artifact not found.")
 
             st.subheader("Monthly Returns Heatmap")
-
-            st.pyplot(st.session_state.heatmap_fig)
+            heatmap_path = os.path.join(local_path, f"{ticker}_monthly_returns_heatmap.png")
+            if os.path.exists(heatmap_path):
+                st.image(heatmap_path)
+            else:
+                st.warning("Monthly returns heatmap artifact not found.")
+        else:
+            st.warning(f"No MLflow run data found for {ticker}. Please run a training first.")
 
 
 
