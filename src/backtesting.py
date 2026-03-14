@@ -17,7 +17,7 @@ def create_monthly_returns_heatmap(portfolio: pd.DataFrame) -> plt.Figure:
     Returns:
         matplotlib.figure.Figure: A matplotlib Figure object containing the heatmap.
     """
-    plt.clf() # Clear the current figure to prevent overlap
+    plt.clf()  # Clear the current figure to prevent overlap
     plt.style.use("dark_background")  # Set style for dark theme
     daily_returns = portfolio["total"].pct_change().fillna(0)
     monthly_returns = daily_returns.resample("ME").apply(lambda x: (x + 1).prod() - 1)
@@ -35,40 +35,45 @@ def create_monthly_returns_heatmap(portfolio: pd.DataFrame) -> plt.Figure:
     )
 
     # Create heatmap
-    fig, ax = plt.subplots(figsize=(14, 10)) # Increased figure size
+    fig, ax = plt.subplots(figsize=(14, 10))  # Increased figure size
     sns.heatmap(
         returns_pivot,
         annot=True,
         fmt=".2%",
-        cmap="RdYlGn", # Changed colormap for better contrast
+        cmap="RdYlGn",  # Changed colormap for better contrast
         center=0,
         ax=ax,
-        linewidths=.5, # Add lines between cells
-        linecolor='gray', # Color of the lines
-        cbar_kws={'format': '%.0f%%', 'label': 'Monthly Return'} # Colorbar formatting and label
+        linewidths=0.5,  # Add lines between cells
+        linecolor="gray",  # Color of the lines
+        cbar_kws={
+            "format": "%.0f%%",
+            "label": "Monthly Return",
+        },  # Colorbar formatting and label
     )
-    ax.set_title("Monthly Returns Heatmap (Strategy Performance)", fontsize=16) # More descriptive title and larger font
+    ax.set_title(
+        "Monthly Returns Heatmap (Strategy Performance)", fontsize=16
+    )  # More descriptive title and larger font
     ax.set_xlabel("Month", fontsize=12)
     ax.set_ylabel("Year", fontsize=12)
-    plt.yticks(rotation=0) # Ensure years are horizontal
-    plt.xticks(rotation=45, ha='right') # Rotate month labels for better readability
+    plt.yticks(rotation=0)  # Ensure years are horizontal
+    plt.xticks(rotation=45, ha="right")  # Rotate month labels for better readability
     plt.tight_layout()
 
     return fig
 
 
 def run_backtest(
-    price_history: pd.DataFrame, 
-    prediction_probs: pd.Series, 
-    initial_capital: float = 10000.0, 
-    transaction_cost_pct: float = 0.001, 
+    price_history: pd.DataFrame,
+    prediction_probs: pd.Series,
+    initial_capital: float = 10000.0,
+    transaction_cost_pct: float = 0.001,
     slippage_pct: float = 0.0005,
     prob_threshold: float = 0.50,
-    max_leverage: float = 1.5
+    max_leverage: float = 1.5,
 ) -> Tuple[pd.DataFrame, Dict, plt.Figure]:
     """
     Runs an advanced iterative backtest implementing aggressive Leveraged Alpha regime mechanics.
-    
+
     Regime Filter: Buy only if P(Up) > prob_threshold (default 0.50) AND RSI < 70
     Dynamic Risk: Trailing Stop-Loss = Entry - (3.0 * ATR) in Uptrend, or (1.5 * ATR) in Downtrend
     Take-Profit: None (Let runners run until Stop-Loss)
@@ -91,20 +96,22 @@ def run_backtest(
     # --- Initialization ---
     portfolio = pd.DataFrame(index=price_history.index)
     portfolio["prob_up"] = prediction_probs
-    
+
     # Copy necessary pricing and indicator columns securely
     for col in ["Open", "Close", "sma200", "rsi", "atr"]:
         if col in price_history.columns:
             portfolio[col] = price_history[col]
         else:
-            logger.warning(f"Missing essential feature '{col}' in price_history for backtesting. Filling with 0.")
+            logger.warning(
+                f"Missing essential feature '{col}' in price_history for backtesting. Filling with 0."
+            )
             portfolio[col] = 0
 
     portfolio["cash"] = 0.0
     portfolio["holdings"] = 0.0
     portfolio["total"] = 0.0
     portfolio["signal"] = 0  # 1 for Buy, -1 for Sell, 0 for Hold
-    portfolio["stop_loss"] = 0.0 
+    portfolio["stop_loss"] = 0.0
 
     # Set initial capital
     portfolio.iloc[0, portfolio.columns.get_loc("cash")] = initial_capital
@@ -141,7 +148,7 @@ def run_backtest(
         prev_sma200 = portfolio.iloc[i - 1, sma_idx]
         prev_rsi = portfolio.iloc[i - 1, rsi_idx]
         prev_atr = portfolio.iloc[i - 1, atr_idx]
-        prev_close = portfolio.iloc[i-1, close_idx]
+        prev_close = portfolio.iloc[i - 1, close_idx]
 
         today_open_price = portfolio.iloc[i, open_idx]
         today_close_price = portfolio.iloc[i, close_idx]
@@ -149,9 +156,9 @@ def run_backtest(
         # 1. Update holdings value based on today's price action
         if position_open and prev_close > 0:
             price_change_pct = (today_close_price / prev_close) - 1
-            portfolio.iloc[i, hold_idx] *= (1 + price_change_pct)
+            portfolio.iloc[i, hold_idx] *= 1 + price_change_pct
 
-        execute_trade = 0 # 0=no action, 1=buy, -1=sell
+        execute_trade = 0  # 0=no action, 1=buy, -1=sell
 
         # 2. Dynamic Risk Management (Sell Logic)
         if position_open:
@@ -159,7 +166,9 @@ def run_backtest(
             # Check Stop-Loss at today's open
             if today_open_price < current_stop_loss:
                 execute_trade = -1
-                logger.debug(f"Stop-loss triggered on Day {portfolio.index[i].date()} at ${today_open_price:.2f}")
+                logger.debug(
+                    f"Stop-loss triggered on Day {portfolio.index[i].date()} at ${today_open_price:.2f}"
+                )
             else:
                 # Trailing Stop-Loss update based on previous day's close
                 atr_multiplier = 3.0 if prev_close > prev_sma200 else 1.5
@@ -182,12 +191,12 @@ def run_backtest(
             investment = portfolio.iloc[i, cash_idx] * leverage
             if investment > 0:
                 borrowed_margin = investment - portfolio.iloc[i, cash_idx]
-                
+
                 cost = investment * transaction_cost_pct
                 effective_investment = investment / (1 + slippage_pct)
-                portfolio.iloc[i, cash_idx] -= (investment + cost)
+                portfolio.iloc[i, cash_idx] -= investment + cost
                 portfolio.iloc[i, hold_idx] += effective_investment
-                
+
                 position_open = True
                 atr_multiplier = 3.0 if prev_close > prev_sma200 else 1.5
                 current_stop_loss = prev_close - (atr_multiplier * prev_atr)
@@ -203,10 +212,12 @@ def run_backtest(
 
                 cost = proceeds * transaction_cost_pct
                 effective_proceeds = proceeds * (1 - slippage_pct)
-                
-                portfolio.iloc[i, cash_idx] += (effective_proceeds - cost - margin_interest_cost + borrowed_margin)
+
+                portfolio.iloc[i, cash_idx] += (
+                    effective_proceeds - cost - margin_interest_cost + borrowed_margin
+                )
                 portfolio.iloc[i, hold_idx] = 0
-                
+
                 position_open = False
                 current_stop_loss = 0.0
                 borrowed_margin = 0.0
@@ -214,7 +225,9 @@ def run_backtest(
                 portfolio.iloc[i, sl_idx] = 0.0
 
         # Update total portfolio value for the day
-        portfolio.iloc[i, tot_idx] = portfolio.iloc[i, cash_idx] + portfolio.iloc[i, hold_idx]
+        portfolio.iloc[i, tot_idx] = (
+            portfolio.iloc[i, cash_idx] + portfolio.iloc[i, hold_idx]
+        )
 
     # --- Benchmark Simulation ---
     benchmark_returns = portfolio["Close"].pct_change().fillna(0)
@@ -251,12 +264,12 @@ def _calculate_trade_outcomes(portfolio: pd.DataFrame) -> List[float]:
 
     for i, row in trade_events.iterrows():
         signal = row["signal"]
-        
+
         if signal == 1 and not position_open:
-            entry_price = row["Open"] # Use Open for entry price
+            entry_price = row["Open"]  # Use Open for entry price
             position_open = True
         elif signal == -1 and position_open:
-            exit_price = row["Open"] # Use Open for exit price
+            exit_price = row["Open"]  # Use Open for exit price
             pnl_list.append(exit_price - entry_price)
             position_open = False
 
@@ -294,9 +307,7 @@ def calculate_performance_metrics(portfolio: pd.DataFrame) -> Dict:
 
     # Benchmark Max Drawdown
     benchmark_rolling_max = portfolio["benchmark"].cummax()
-    benchmark_daily_drawdown = (
-        portfolio["benchmark"] / benchmark_rolling_max
-    ) - 1.0
+    benchmark_daily_drawdown = (portfolio["benchmark"] / benchmark_rolling_max) - 1.0
     benchmark_max_drawdown = benchmark_daily_drawdown.min()
     metrics["buy_and_hold_max_drawdown"] = benchmark_max_drawdown
 
