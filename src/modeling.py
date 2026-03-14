@@ -100,29 +100,44 @@ def train_model(X: pd.DataFrame, y: pd.Series, train_window: int = 500, test_win
 
 def save_model(model: xgb.XGBClassifier, filepath: str) -> None:
     """
-    Save the trained model to a file.
+    Save the trained model to a file using XGBoost's native format.
+    This is safer than joblib/pickle and prevents arbitrary code execution.
 
     Args:
         model (xgb.XGBClassifier): The trained model to save.
         filepath (str): The path to save the model to.
     """
-    logger.info(f"Saving model to {filepath}...")
+    # Change extension to .json if not already provided
+    if not filepath.endswith('.json'):
+        filepath = filepath.replace('.joblib', '.json')
+
+    logger.info(f"Saving model in native format to {filepath}...")
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
-    joblib.dump(model, filepath)
+    model.save_model(filepath)
 
 
 def load_model(filepath: str) -> xgb.XGBClassifier:
     """
-    Load a trained model from a file.
-
+    Load a trained model from a file using XGBoost's native format.
+    
     Args:
         filepath (str): The path to load the model from.
 
     Returns:
         xgb.XGBClassifier: The loaded model.
     """
-    logger.info(f"Loading model from {filepath}...")
-    return joblib.load(filepath)
+    # If the file doesn't exist but a .json version might, try adjusting
+    if not os.path.exists(filepath):
+        json_path = filepath.replace('.joblib', '.json')
+        if os.path.exists(json_path):
+            filepath = json_path
+
+    logger.info(f"Loading model in safe native format from {filepath}...")
+    
+    # Initialize a new model instance with default params
+    model = xgb.XGBClassifier()
+    model.load_model(filepath)
+    return model
 
 
 def get_prediction_on_latest_data(model: xgb.XGBClassifier, latest_data: pd.DataFrame, features: List[str]) -> Tuple[Any, Any]:

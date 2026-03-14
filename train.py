@@ -73,8 +73,8 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
             logger.info(f"Saved classification report to {report_path}")
 
         # 5. Save Model and Results
-        logger.info(f"Saving model to models/{ticker}_model.joblib...")
-        save_model(model, f"models/{ticker}_model.joblib")
+        logger.info(f"Saving model to models/{ticker}_model.json...")
+        save_model(model, f"models/{ticker}_model.json")
         mlflow.sklearn.log_model(model, "model")
 
         # Save the heatmap
