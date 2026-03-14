@@ -19,39 +19,36 @@ from src.utils import get_logger
 from src.backtesting import run_backtest
 from src.config import FEATURES
 
-import mlflow
 
 logger = get_logger(__name__)
 
-def get_latest_mlflow_run_data(ticker: str) -> Dict[str, Any] | None:
+def get_historical_results(ticker: str) -> Dict[str, Any] | None:
     """
-    Retrieves the latest MLflow run data (metrics and artifact URIs) for a given ticker.
+    Retrieves pre-computed result data (metrics and file paths) from the results directory.
     """
-    # Ensure MLflow is configured to use the local 'mlruns' directory
-    mlflow.set_tracking_uri("file:./mlruns")
-
-    runs = mlflow.search_runs(
-        experiment_ids=["0"],  # Assuming experiment_id 0 for now
-        filter_string=f"params.ticker = '{ticker}'",
-        order_by=["start_time DESC"],
-        max_results=1
-    )
-
-    if runs.empty:
+    results_dir = "results"
+    metrics_path = os.path.join(results_dir, f"{ticker}_metrics.json")
+    
+    if not os.path.exists(metrics_path):
         return None
 
-    latest_run = runs.iloc[0]
-    run_id = latest_run.run_id
-    artifact_uri = latest_run.artifact_uri
-
-    # Fetch metrics
-    metrics = mlflow.get_run(run_id).data.metrics
-
-    return {
-        "run_id": run_id,
-        "metrics": metrics,
-        "artifact_uri": artifact_uri
-    }
+    try:
+        with open(metrics_path, 'r') as f:
+            metrics = json.load(f)
+        
+        return {
+            "metrics": metrics,
+            "results_dir": results_dir,
+            "portfolio_path": os.path.join(results_dir, f"{ticker}_portfolio.csv"),
+            "heatmap_path": os.path.join(results_dir, f"{ticker}_monthly_returns_heatmap.png"),
+            "importances_path": os.path.join(results_dir, f"{ticker}_feature_importances.csv"),
+            "report_path": os.path.join(results_dir, f"{ticker}_classification_report.txt"),
+            "shap_path": os.path.join(results_dir, f"{ticker}_shap_values.npy"),
+            "xtest_path": os.path.join(results_dir, f"{ticker}_X_test.csv")
+        }
+    except Exception as e:
+        logger.error(f"Error reading metrics for {ticker}: {e}")
+        return None
 
 
 @st.cache_resource
@@ -323,127 +320,64 @@ def main():
 
 
     with tab2:
-
         st.header(f"Results Dashboard for {ticker}")
 
+        results_data = get_historical_results(ticker)
 
+        if results_data:
+            metrics = results_data["metrics"]
 
-        mlflow_data = get_latest_mlflow_run_data(ticker)
+            st.subheader("Key Performance Metrics")
+            col1, col2, col3, col4 = st.columns(4)
+            col1.metric("Accuracy", f"{metrics.get('accuracy', 0.0):.2%}")
+            
+            report_path = results_data["report_path"]
+            if os.path.exists(report_path):
+                class_metrics = parse_classification_report(report_path)
+                col2.metric("Precision", f"{class_metrics.get('precision', 0.0):.2%}")
+                col3.metric("Recall", f"{class_metrics.get('recall', 0.0):.2%}")
+            else:
+                col2.metric("Precision", "N/A")
+                col3.metric("Recall", "N/A")
 
+            col4.metric("Sharpe Ratio", f"{metrics.get('sharpe_ratio', 0.0):.2f}")
 
+            st.subheader("Backtest Performance: Strategy vs. Buy & Hold")
+            portfolio_path = results_data["portfolio_path"]
+            if os.path.exists(portfolio_path):
+                portfolio = pd.read_csv(portfolio_path, index_col=0, parse_dates=True)
+                st.line_chart(portfolio[["total", "benchmark"]].rename(columns={"total": "Strategy", "benchmark": "Buy & Hold"}))
+            else:
+                st.warning("Portfolio file not found in results directory.")
 
-        if mlflow_data:
+            st.subheader("Monthly Returns Heatmap")
+            heatmap_path = results_data["heatmap_path"]
+            if os.path.exists(heatmap_path):
+                st.image(heatmap_path)
+            else:
+                st.warning("Monthly returns heatmap not found in results directory.")
 
-            metrics = mlflow_data["metrics"]
-
-            artifact_uri = mlflow_data["artifact_uri"]
-
-
-
-            try:
-
-                local_path = mlflow.artifacts.download_artifacts(artifact_uri=artifact_uri)
-
-
-
-                st.subheader("Key Performance Metrics")
-
-                col1, col2, col3, col4 = st.columns(4)
-
-                col1.metric("Accuracy", f"{metrics.get('accuracy', 0.0):.2%}")
-
-                
-
-                classification_report_path = os.path.join(local_path, f"{ticker}_classification_report.txt")
-
-                if os.path.exists(classification_report_path):
-
-                    class_metrics = parse_classification_report(classification_report_path)
-
-                    col2.metric("Precision", f"{class_metrics.get('precision', 0.0):.2%}")
-
-                    col3.metric("Recall", f"{class_metrics.get('recall', 0.0):.2%}")
-
-                else:
-
-                    col2.metric("Precision", "N/A")
-
-                    col3.metric("Recall", "N/A")
-
-
-
-                col4.metric("Sharpe Ratio", f"{metrics.get('sharpe_ratio', 0.0):.2f}")
-
-
-
-                st.subheader("Backtest Performance: Strategy vs. Buy & Hold")
-
-                portfolio_path = os.path.join(local_path, f"{ticker}_portfolio.csv")
-
-                if os.path.exists(portfolio_path):
-
-                    portfolio = pd.read_csv(portfolio_path, index_col=0, parse_dates=True)
-
-                    st.line_chart(portfolio[["total", "benchmark"]].rename(columns={"total": "Strategy", "benchmark": "Buy & Hold"}))
-
-                else:
-
-                    st.warning("Portfolio artifact not found.")
-
-
-
-                st.subheader("Monthly Returns Heatmap")
-
-                heatmap_path = os.path.join(local_path, f"{ticker}_monthly_returns_heatmap.png")
-
-                if os.path.exists(heatmap_path):
-
-                    st.image(heatmap_path)
-
-                else:
-
-                    st.warning("Monthly returns heatmap artifact not found.")
-
-
-
-                st.subheader("Feature Importance")
-
-                feature_importances_path = os.path.join(local_path, f"{ticker}_feature_importances.csv")
-
-                if os.path.exists(feature_importances_path):
-
-                    feature_importances = pd.read_csv(feature_importances_path)
-
-                    st.bar_chart(feature_importances.set_index('feature'))
-
-                else:
-
-                    st.warning("Feature importances artifact not found.")
-
-
-
-            except Exception as e:
-
-                st.error(f"Error loading MLflow data: {e}")
-
-                logger.error(f"Error loading MLflow data: {e}")
+            st.subheader("Feature Importance")
+            importances_path = results_data["importances_path"]
+            if os.path.exists(importances_path):
+                feature_importances = pd.read_csv(importances_path)
+                st.bar_chart(feature_importances.set_index('feature'))
+            else:
+                st.warning("Feature importances not found in results directory.")
 
         else:
-
-            st.warning(f"No MLflow run data found for {ticker}. Please ensure a model has been trained and logged with MLflow.")
+            st.warning(f"No pre-computed results found for {ticker} in the 'results/' directory. Run training locally to generate these files.")
 
 
 
     with tab3:
         st.header(f"Pre-computed Backtest Analysis for {ticker}")
-        st.write("This tab displays the results of the backtest performed during the last training run. The backtest was run on out-of-sample data using a walk-forward optimization approach.")
+        st.write("This tab displays the results for the full 10-year leveraged simulation.")
 
-        mlflow_data = get_latest_mlflow_run_data(ticker)
+        results_data = get_historical_results(ticker)
 
-        if mlflow_data:
-            metrics = mlflow_data["metrics"]
-            artifact_uri = mlflow_data["artifact_uri"]
-            local_path = mlflow.artifacts.download_artifacts(artifact_uri=artifact_uri)
+        if results_data:
+            metrics = results_data["metrics"]
             
             st.subheader("Backtest Performance Metrics")
             row1_col1, row1_col2, row1_col3, row1_col4 = st.columns(4)
@@ -459,99 +393,61 @@ def main():
             row2_col4.metric("Buy & Hold Max Drawdown", f"{metrics.get('buy_and_hold_max_drawdown', 0.0):.2%}")
 
             st.subheader("Portfolio Value Over Time")
-            portfolio_path = os.path.join(local_path, f"{ticker}_portfolio.csv")
+            portfolio_path = results_data["portfolio_path"]
             if os.path.exists(portfolio_path):
                 portfolio = pd.read_csv(portfolio_path, index_col=0, parse_dates=True)
                 st.line_chart(portfolio[["total", "benchmark"]].rename(columns={"total": "Strategy", "benchmark": "Buy & Hold"}))
             else:
-                st.warning("Portfolio artifact not found.")
+                st.warning("Portfolio file no found.")
 
             st.subheader("Monthly Returns Heatmap")
-            heatmap_path = os.path.join(local_path, f"{ticker}_monthly_returns_heatmap.png")
+            heatmap_path = results_data["heatmap_path"]
             if os.path.exists(heatmap_path):
                 st.image(heatmap_path)
             else:
-                st.warning("Monthly returns heatmap artifact not found.")
+                st.warning("Heatmap file not found.")
         else:
-            st.warning(f"No MLflow run data found for {ticker}. Please run a training first.")
+            st.warning(f"No results data found for {ticker}. Run a training session locally.")
 
 
 
     with tab4:
-
         st.header(f"Advanced Model Analysis for {ticker}")
 
+        results_data = get_historical_results(ticker)
 
-
-        mlflow_data = get_latest_mlflow_run_data(ticker)
-
-
-
-        if mlflow_data:
-
-            artifact_uri = mlflow_data["artifact_uri"]
-
-
-
+        if results_data:
             try:
-
-                local_path = mlflow.artifacts.download_artifacts(artifact_uri=artifact_uri)
-
-
-
                 st.subheader("Explainable AI (XAI) - SHAP Analysis")
+                
+                shap_values_path = results_data["shap_path"]
+                xtest_path = results_data["xtest_path"]
 
-                # Load SHAP values and X_test
-
-                shap_values_path = os.path.join(local_path, f"{ticker}_shap_values.npy")
-
-                X_test_path = os.path.join(local_path, f"{ticker}_X_test.csv")
-
-                if os.path.exists(shap_values_path) and os.path.exists(X_test_path):
-
+                if os.path.exists(shap_values_path) and os.path.exists(xtest_path):
                     shap_values = np.load(shap_values_path)
-
-                    X_test = pd.read_csv(X_test_path, index_col=0, parse_dates=True)
+                    X_test = pd.read_csv(xtest_path, index_col=0, parse_dates=True)
 
                     st.write("SHAP Summary Plot")
                     fig = plt.figure()
                     shap.summary_plot(shap_values, X_test, show=False)
                     st.pyplot(fig)
                     plt.close(fig)
-
                 else:
-
-                    st.warning("SHAP values or X_test artifact not found.")
-
-
+                    st.warning(f"SHAP data files not found for {ticker}.")
 
                 with st.expander("Detailed Classification Report"):
-
-                    classification_report_path = os.path.join(local_path, f"{ticker}_classification_report.txt")
-
-                    if os.path.exists(classification_report_path):
-
-                        with open(classification_report_path, 'r') as f:
-
+                    report_path = results_data["report_path"]
+                    if os.path.exists(report_path):
+                        with open(report_path, 'r') as f:
                             st.text(f.read())
-
                     else:
-
-                        st.warning("Classification report artifact not found.")
-
-
+                        st.warning("Classification report text file not found.")
 
             except Exception as e:
-
-                st.error(f"Error loading MLflow data: {e}")
-
-                logger.error(f"Error loading MLflow data: {e}")
-
-
-
+                st.error(f"Error loading analysis data: {e}")
+                logger.error(f"Error loading analysis data: {e}")
         else:
-
-            st.warning(f"No MLflow run data found for {ticker}. Please ensure a model has been trained and logged with MLflow.")
+            st.warning(f"No historical analysis data found for {ticker}.")
 
 
 
