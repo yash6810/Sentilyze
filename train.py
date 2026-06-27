@@ -39,7 +39,7 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
     features = FEATURES
     target = "target"
 
-    X = features_df[features]
+    X = pd.DataFrame(features_df[features])
     y = features_df[target]
 
     logger.info(f"Total dataset size: {len(X)} days")
@@ -62,7 +62,9 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
             f"Running backtest on out-of-sample predictions (Leverage: {leverage})..."
         )
         # Get price history aligning with the OOS predictions
-        test_price_history = price_history_with_indicators.loc[oos_predictions.index]
+        test_price_history = pd.DataFrame(
+            price_history_with_indicators.loc[oos_predictions.index]
+        )
         portfolio, backtest_metrics, heatmap_fig = run_backtest(
             test_price_history, oos_predictions, max_leverage=leverage
         )
