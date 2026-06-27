@@ -33,5 +33,14 @@ bot.py
 download_dataset.py
 project-overview.md
 Sentilyze_Review_Report.md
+CODEBASE_SWOT_REPORT.md
 package-lock.json
 Changelog.md
+leverage_analysis.py
+leverage_results.txt
+summarize_for_paper.py
+convert_models.py
+Sentilyze_Research_Paper.md
+
+# Old model format (replaced by .json)
+*.joblib
