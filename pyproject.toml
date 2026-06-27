@@ -16,6 +16,10 @@ exclude = '''
 )/
 '''
 
+[tool.pyright]
+extraPaths = ["."]
+pythonVersion = "3.10"
+
 [tool.isort]
 profile = "black"
 line_length = 88

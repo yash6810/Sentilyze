@@ -10,7 +10,7 @@ import shap
 import numpy as np
 import matplotlib.pyplot as plt
 from streamlit_shap import st_shap
-from typing import Any, Dict
+from typing import Any, Dict, List
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 from src.preprocessing import preprocess_data
 from src.modeling import load_model, get_prediction_on_latest_data
@@ -18,14 +18,229 @@ from src.utils import get_logger
 from src.backtesting import run_backtest
 from src.config import FEATURES
 
-
 logger = get_logger(__name__)
+
+# --- Supported Tickers ---
+SUPPORTED_TICKERS = ["NVDA", "AAPL", "MSFT", "GOOGL", "META", "TSLA", "AMZN"]
+
+
+def inject_custom_css():
+    """Inject premium financial dashboard CSS."""
+    st.markdown(
+        """
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+    /* --- Global --- */
+    html, body, [class*="css"] {
+        font-family: 'Inter', sans-serif !important;
+    }
+    .block-container { padding-top: 1.5rem; padding-bottom: 1rem; }
+
+    /* --- Header Banner --- */
+    .hero-banner {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        border: 1px solid rgba(0, 212, 170, 0.15);
+        border-radius: 16px;
+        padding: 2rem 2.5rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        overflow: hidden;
+    }
+    .hero-banner::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #00D4AA, #7C3AED, #00D4AA);
+        background-size: 200% 100%;
+        animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+        0%, 100% { background-position: 200% 0; }
+        50% { background-position: -200% 0; }
+    }
+    .hero-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #00D4AA, #7C3AED);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+    .hero-subtitle {
+        color: #94A3B8;
+        font-size: 1rem;
+        font-weight: 400;
+        margin-top: 0.3rem;
+    }
+
+    /* --- Metric Cards --- */
+    .metric-card {
+        background: linear-gradient(145deg, #111827, #1a2332);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 12px;
+        padding: 1.2rem 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    .metric-card:hover {
+        border-color: rgba(0, 212, 170, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 212, 170, 0.08);
+    }
+    .metric-label {
+        font-size: 0.75rem;
+        color: #64748B;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        font-weight: 600;
+        margin-bottom: 0.4rem;
+    }
+    .metric-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #E2E8F0;
+    }
+    .metric-value.positive { color: #00D4AA; }
+    .metric-value.negative { color: #EF4444; }
+    .metric-value.neutral { color: #F59E0B; }
+
+    /* --- Signal Badge --- */
+    .signal-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem 1.8rem;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+    .signal-buy {
+        background: rgba(0, 212, 170, 0.12);
+        border: 2px solid #00D4AA;
+        color: #00D4AA;
+    }
+    .signal-sell {
+        background: rgba(239, 68, 68, 0.12);
+        border: 2px solid #EF4444;
+        color: #EF4444;
+    }
+    .signal-hold {
+        background: rgba(245, 158, 11, 0.12);
+        border: 2px solid #F59E0B;
+        color: #F59E0B;
+    }
+
+    /* --- Section Headers --- */
+    .section-header {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #CBD5E1;
+        padding-bottom: 0.5rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        letter-spacing: 0.3px;
+    }
+
+    /* --- Sidebar --- */
+    section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #0A0E17 0%, #111827 100%);
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    section[data-testid="stSidebar"] .block-container { padding-top: 2rem; }
+
+    /* --- Tabs --- */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 0;
+        background: #111827;
+        border-radius: 10px;
+        padding: 4px;
+        border: 1px solid rgba(255,255,255,0.06);
+    }
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 8px;
+        padding: 0.6rem 1.2rem;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: #64748B;
+    }
+    .stTabs [aria-selected="true"] {
+        background: rgba(0, 212, 170, 0.1) !important;
+        color: #00D4AA !important;
+    }
+
+    /* --- Divider --- */
+    .subtle-divider {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        margin: 1.5rem 0;
+    }
+
+    /* --- Hide default Streamlit elements --- */
+    #MainMenu { visibility: hidden; }
+    footer { visibility: hidden; }
+    header { visibility: hidden; }
+    </style>
+    """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_metric_card(label: str, value: str, style: str = ""):
+    """Render a single styled metric card."""
+    css_class = ""
+    if style == "positive":
+        css_class = "positive"
+    elif style == "negative":
+        css_class = "negative"
+    elif style == "neutral":
+        css_class = "neutral"
+
+    st.markdown(
+        f"""
+        <div class="metric-card">
+            <div class="metric-label">{label}</div>
+            <div class="metric-value {css_class}">{value}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def render_signal_badge(signal: str, confidence: float):
+    """Render a trading signal badge."""
+    if signal == "BUY":
+        badge_class = "signal-buy"
+        icon = "▲"
+    elif signal == "SELL":
+        badge_class = "signal-sell"
+        icon = "▼"
+    else:
+        badge_class = "signal-hold"
+        icon = "●"
+
+    st.markdown(
+        f"""
+        <div style="display: flex; align-items: center; gap: 1.5rem; margin: 1rem 0;">
+            <div class="signal-badge {badge_class}">{icon} {signal}</div>
+            <div style="color: #94A3B8; font-size: 0.9rem;">
+                Confidence: <span style="color: #E2E8F0; font-weight: 600;">{confidence:.1%}</span>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+# --- Data Loading ---
 
 
 def get_historical_results(ticker: str) -> Dict[str, Any] | None:
-    """
-    Retrieves pre-computed result data (metrics and file paths) from the results directory.
-    """
+    """Retrieves pre-computed result data from the results directory."""
     results_dir = "results"
     metrics_path = os.path.join(results_dir, f"{ticker}_metrics.json")
 
@@ -59,465 +274,462 @@ def get_historical_results(ticker: str) -> Dict[str, Any] | None:
 
 @st.cache_resource
 def load_sentiment_analyzer() -> Any:
-    """
-    Loads the FinBERT sentiment analysis model and tokenizer from the local
-    './models/finbert-fine-tuned' directory and returns a Hugging Face pipeline.
-
-    The model is cached using Streamlit's cache_resource to prevent reloading
-    on every app rerun.
-
-    Returns:
-        Any: A Hugging Face sentiment-analysis pipeline object.
-    """
+    """Loads the FinBERT sentiment analysis model (cached)."""
     logger.info("Loading FinBERT sentiment analysis model...")
     tokenizer = AutoTokenizer.from_pretrained("./models/finbert-fine-tuned")
     model = AutoModelForSequenceClassification.from_pretrained(
         "./models/finbert-fine-tuned"
     )
-    return pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
-
-
-def display_prediction_results(
-    prediction_label: str,
-    prediction_source: str,
-    final_confidence: float,
-    price_history_with_indicators: pd.DataFrame,
-    news_with_sentiment_df: pd.DataFrame,
-) -> None:
-    """
-    Displays the prediction results in a structured and analytical way.
-    """
-    st.subheader(f"Prediction ({prediction_source})")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.metric(label="Model Signal", value=prediction_label)
-
-    with col2:
-        st.metric(label="Confidence Score", value=f"{final_confidence:.2%}")
-
-    with st.expander("View Data Used for Prediction"):
-        st.write("Latest Price Data with Technical Indicators:")
-        st.dataframe(price_history_with_indicators.tail())
-        st.write("Latest News with Sentiment Analysis:")
-        st.dataframe(news_with_sentiment_df.head())
+    task_name: Any = "sentiment-analysis"
+    return pipeline(task_name, model=model, tokenizer=tokenizer)
 
 
 def parse_classification_report(report_path: str) -> Dict[str, float]:
-    """
-    Parses a classification report from a text file and returns a dictionary of metrics.
-    """
+    """Parses a classification report text file for precision and recall."""
     metrics = {}
     try:
         with open(report_path, "r") as f:
-            content = f.read()
-            lines = content.split("\n")
-
-            # Find the line corresponding to class '1' (positive class)
-            for line in lines:
-                if line.strip().startswith(
-                    "1 "
-                ):  # Ensure it's for class 1 and not part of '10', '11', etc.
+            for line in f:
+                if line.strip().startswith("1 "):
                     parts = line.split()
-                    if (
-                        len(parts) >= 4
-                    ):  # Expected: '1', 'precision', 'recall', 'f1-score', 'support'
+                    if len(parts) >= 4:
                         metrics["precision"] = float(parts[1])
                         metrics["recall"] = float(parts[2])
-                        break
+                    break
     except (FileNotFoundError, IndexError, ValueError) as e:
-        logger.error(f"Error parsing classification report from {report_path}: {e}")
+        logger.error(f"Error parsing report from {report_path}: {e}")
     return metrics
 
 
+# --- Tab Renderers ---
+
+
+def render_prediction_tab(ticker: str, model_path: str):
+    """Tab 1: Live Prediction Analysis."""
+    st.markdown(
+        '<div class="section-header">📡 Live Signal Generation</div>',
+        unsafe_allow_html=True,
+    )
+
+    col_btn, col_info = st.columns([1, 3])
+    with col_btn:
+        run_clicked = st.button("⚡ Generate Signal", use_container_width=True)
+    with col_info:
+        st.caption("Fetches latest news & prices, runs FinBERT + XGBoost pipeline")
+
+    if not run_clicked:
+        st.info(
+            "Click **⚡ Generate Signal** to fetch the latest data and produce a "
+            "real-time momentum prediction for this ticker."
+        )
+        return
+
+    try:
+        with st.spinner("Fetching data & running inference pipeline..."):
+            features_df, price_hist, news_df = preprocess_data(ticker)
+            specialist_model = (
+                load_model(model_path) if os.path.exists(model_path) else None
+            )
+
+            if not specialist_model:
+                st.error("Model unavailable.")
+                return
+
+            spec_features = features_df.iloc[-1:][FEATURES]
+            pred, conf = get_prediction_on_latest_data(
+                specialist_model, spec_features, FEATURES
+            )
+
+            raw_pred = pred[0]
+            confidence = conf[0][1]
+            rsi = price_hist["rsi"].iloc[-1]
+
+            # Regime filter logic
+            if confidence > 0.80 and rsi < 70:
+                signal, final_pred = "BUY", 1
+            elif confidence > 0.50 and rsi < 70:
+                signal, final_pred = "BUY", 1
+            elif confidence <= 0.50:
+                signal, final_pred = "SELL", 0
+            else:
+                signal, final_pred = "HOLD", 0
+
+        # --- Display Signal ---
+        st.markdown('<hr class="subtle-divider">', unsafe_allow_html=True)
+        render_signal_badge(signal, confidence)
+
+        # Key indicators row
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
+            render_metric_card("Close Price", f"${price_hist['Close'].iloc[-1]:.2f}")
+        with c2:
+            render_metric_card(
+                "RSI (14)",
+                f"{rsi:.1f}",
+                "negative" if rsi >= 70 else ("positive" if rsi <= 30 else ""),
+            )
+        with c3:
+            render_metric_card(
+                "P(Up)",
+                f"{confidence:.1%}",
+                "positive" if confidence > 0.5 else "negative",
+            )
+        with c4:
+            sma = price_hist["sma200"].iloc[-1]
+            above = price_hist["Close"].iloc[-1] > sma
+            render_metric_card(
+                "Trend (SMA200)",
+                "▲ Bullish" if above else "▼ Bearish",
+                "positive" if above else "negative",
+            )
+
+        # SHAP explanation
+        st.markdown(
+            '<div class="section-header">🧠 Decision Explanation (SHAP)</div>',
+            unsafe_allow_html=True,
+        )
+        with st.spinner("Computing SHAP values..."):
+            try:
+                explainer = shap.TreeExplainer(specialist_model)
+                shap_vals = explainer.shap_values(spec_features)
+                st_shap(
+                    shap.force_plot(explainer.expected_value, shap_vals, spec_features)
+                )
+            except Exception as e:
+                st.warning(f"SHAP unavailable: {e}")
+
+        # Raw data
+        with st.expander("📊 View Raw Data"):
+            st.write("**Price History (last 5 days)**")
+            st.dataframe(price_hist.tail(), use_container_width=True)
+            st.write("**News Headlines with Sentiment**")
+            st.dataframe(news_df.head(10), use_container_width=True)
+
+    except requests.exceptions.RequestException as e:
+        st.error("⚠️ Network error. Check your connection and NewsAPI key.")
+        logger.error(f"Network error: {e}")
+    except Exception as e:
+        st.error(f"⚠️ Pipeline error: {e}")
+        logger.error(f"Prediction error: {e}")
+
+
+def render_dashboard_tab(ticker: str):
+    """Tab 2: Results Dashboard."""
+    results = get_historical_results(ticker)
+    if not results:
+        st.warning(
+            f"No pre-computed results for **{ticker}**. "
+            f"Run `python train.py --ticker {ticker}` locally."
+        )
+        return
+
+    metrics = results["metrics"]
+
+    # --- KPI Row ---
+    st.markdown(
+        '<div class="section-header">📊 Model Performance</div>',
+        unsafe_allow_html=True,
+    )
+    c1, c2, c3, c4 = st.columns(4)
+    rpt = results["report_path"]
+    cm = parse_classification_report(rpt) if os.path.exists(rpt) else {}
+    with c1:
+        render_metric_card("Accuracy", f"{metrics.get('accuracy', 0):.1%}")
+    with c2:
+        if cm:
+            render_metric_card("Precision", f"{cm.get('precision', 0):.1%}")
+        else:
+            render_metric_card("Precision", "N/A")
+    with c3:
+        if cm:
+            render_metric_card("Recall", f"{cm.get('recall', 0):.1%}")
+        else:
+            render_metric_card("Recall", "N/A")
+    with c4:
+        render_metric_card(
+            "Sharpe", f"{metrics.get('sharpe_ratio', 0):.2f}", "positive"
+        )
+
+    # --- Equity Curve ---
+    st.markdown(
+        '<div class="section-header">📈 Strategy vs Buy & Hold</div>',
+        unsafe_allow_html=True,
+    )
+    ppath = results["portfolio_path"]
+    if os.path.exists(ppath):
+        portfolio = pd.read_csv(ppath, index_col=0, parse_dates=True)
+        portfolio_subset = pd.DataFrame(portfolio[["total", "benchmark"]])
+        st.line_chart(
+            portfolio_subset.rename(
+                columns={"total": "Strategy", "benchmark": "Buy & Hold"}
+            )
+        )
+
+    else:
+        st.warning("Portfolio data not found.")
+
+    # --- Feature Importance & Heatmap ---
+    left, right = st.columns(2)
+    with left:
+        st.markdown(
+            '<div class="section-header">🏆 Feature Importance</div>',
+            unsafe_allow_html=True,
+        )
+        ipath = results["importances_path"]
+        if os.path.exists(ipath):
+            fi = pd.read_csv(ipath)
+            st.bar_chart(fi.set_index("feature"))
+        else:
+            st.warning("Feature importances not found.")
+
+    with right:
+        st.markdown(
+            '<div class="section-header">🗓️ Monthly Returns</div>',
+            unsafe_allow_html=True,
+        )
+        hpath = results["heatmap_path"]
+        if os.path.exists(hpath):
+            st.image(hpath, use_container_width=True)
+        else:
+            st.warning("Heatmap not found.")
+
+
+def render_backtest_tab(ticker: str):
+    """Tab 3: Backtest Analysis."""
+    results = get_historical_results(ticker)
+    if not results:
+        st.warning(f"No backtest data for **{ticker}**.")
+        return
+
+    metrics = results["metrics"]
+
+    st.markdown(
+        '<div class="section-header">⚡ Performance Summary</div>',
+        unsafe_allow_html=True,
+    )
+
+    # Row 1: Returns
+    c1, c2, c3, c4 = st.columns(4)
+    strat_ret = metrics.get("strategy_total_return", 0)
+    bh_ret = metrics.get("buy_and_hold_total_return", 0)
+    with c1:
+        render_metric_card(
+            "Strategy Return",
+            f"{strat_ret:.1%}",
+            "positive" if strat_ret > 0 else "negative",
+        )
+    with c2:
+        render_metric_card(
+            "Buy & Hold",
+            f"{bh_ret:.1%}",
+            "positive" if bh_ret > 0 else "negative",
+        )
+    with c3:
+        render_metric_card(
+            "Sharpe Ratio",
+            f"{metrics.get('sharpe_ratio', 0):.2f}",
+            "positive" if metrics.get("sharpe_ratio", 0) > 1 else "",
+        )
+    with c4:
+        render_metric_card(
+            "Sortino Ratio",
+            f"{metrics.get('sortino_ratio', 0):.2f}",
+            "positive" if metrics.get("sortino_ratio", 0) > 1 else "",
+        )
+
+    # Row 2: Risk
+    st.markdown(
+        '<div class="section-header">🛡️ Risk Metrics</div>',
+        unsafe_allow_html=True,
+    )
+    c1, c2, c3, c4 = st.columns(4)
+    with c1:
+        render_metric_card("Total Trades", str(metrics.get("total_trades", 0)))
+    with c2:
+        wr = metrics.get("win_rate", 0)
+        render_metric_card(
+            "Win Rate", f"{wr:.1%}", "positive" if wr > 0.5 else "negative"
+        )
+    with c3:
+        sdd = metrics.get("strategy_max_drawdown", 0)
+        render_metric_card("Strategy Drawdown", f"{sdd:.1%}", "negative")
+    with c4:
+        bhdd = metrics.get("buy_and_hold_max_drawdown", 0)
+        render_metric_card("B&H Drawdown", f"{bhdd:.1%}", "negative")
+
+    # Alpha badge
+    alpha = strat_ret - bh_ret
+    if alpha > 0:
+        st.success(f"🏆 Strategy generated **{alpha:.1%}** alpha over Buy & Hold.")
+    else:
+        st.warning(f"Strategy underperformed Buy & Hold by **{abs(alpha):.1%}**.")
+
+    # Equity curve
+    st.markdown(
+        '<div class="section-header">📈 Portfolio Value</div>',
+        unsafe_allow_html=True,
+    )
+    ppath = results["portfolio_path"]
+    if os.path.exists(ppath):
+        portfolio = pd.read_csv(ppath, index_col=0, parse_dates=True)
+        portfolio_subset = pd.DataFrame(portfolio[["total", "benchmark"]])
+        st.line_chart(
+            portfolio_subset.rename(
+                columns={"total": "Strategy", "benchmark": "Buy & Hold"}
+            )
+        )
+
+    hpath = results["heatmap_path"]
+    if os.path.exists(hpath):
+        st.markdown(
+            '<div class="section-header">🗓️ Monthly Returns</div>',
+            unsafe_allow_html=True,
+        )
+        st.image(hpath, use_container_width=True)
+
+
+def render_xai_tab(ticker: str):
+    """Tab 4: Explainable AI."""
+    results = get_historical_results(ticker)
+    if not results:
+        st.warning(f"No analysis data for **{ticker}**.")
+        return
+
+    st.markdown(
+        '<div class="section-header">🔬 SHAP Feature Analysis</div>',
+        unsafe_allow_html=True,
+    )
+
+    spath = results["shap_path"]
+    xpath = results["xtest_path"]
+
+    if os.path.exists(spath) and os.path.exists(xpath):
+        shap_values = np.load(spath)
+        X_test = pd.read_csv(xpath, index_col=0, parse_dates=True)
+
+        fig = plt.figure(figsize=(10, 6))
+        shap.summary_plot(shap_values, X_test, show=False)
+        st.pyplot(fig)
+        plt.close(fig)
+    else:
+        st.warning("SHAP data files not found.")
+
+    with st.expander("📋 Full Classification Report"):
+        rpath = results["report_path"]
+        if os.path.exists(rpath):
+            with open(rpath, "r") as f:
+                st.code(f.read(), language="text")
+        else:
+            st.warning("Report not found.")
+
+
+# --- Main App ---
+
+
 def main():
+    st.set_page_config(
+        layout="wide",
+        page_title="Sentilyze | AI Trading Intelligence",
+        page_icon="📈",
+        initial_sidebar_state="expanded",
+    )
 
-    st.set_page_config(layout="wide", page_title="Sentilyze", page_icon="📈")
-
-    # --- Initialize Session State for Backtest ---
-
-    if "portfolio" not in st.session_state:
-
-        st.session_state.portfolio = None
-
-    if "metrics" not in st.session_state:
-
-        st.session_state.metrics = None
-
-    if "heatmap_fig" not in st.session_state:
-
-        st.session_state.heatmap_fig = None
+    inject_custom_css()
 
     # --- Sidebar ---
-
-    st.sidebar.title("How it Works")
-
-    st.sidebar.info(
-        """
-
-        Sentilyze predicts next-day stock momentum by combining financial news sentiment with technical analysis.
-
-        
-
-        1.  **Data Ingestion**: Fetches historical price data from `yfinance` and news headlines from `NewsAPI.org`.
-
-        2.  **Sentiment Analysis**: Uses a pre-trained FinBERT model to analyze the sentiment of each news headline.
-
-        3.  **Feature Engineering**: Calculates a rich set of features, including sentiment scores and technical indicators (e.g., RSI, MACD).
-
-        4.  **Prediction**: An `XGBClassifier` model, trained on this combined data, predicts the momentum for the next trading day.
-
-        """
-    )
-
-    st.title("📈 Sentilyze")
-
-    st.write("A sentiment-driven stock momentum predictor.")
-
-    # --- Model and Tokenizer Loading ---
-
-    sentiment_analyzer = load_sentiment_analyzer()
-
-    # --- Main App ---
-
-    ticker = st.text_input("Enter a stock ticker:", "NVDA")
-
-    model_path = f"models/{ticker}_model.json"
-    specialist_model = (
-        load_model(model_path)
-        if (
-            os.path.exists(model_path)
-            or os.path.exists(model_path.replace(".json", ".joblib"))
+    with st.sidebar:
+        st.markdown(
+            """
+            <div style="text-align: center; padding: 1rem 0;">
+                <div style="font-size: 2.5rem;">📈</div>
+                <div style="font-size: 1.3rem; font-weight: 700;
+                    background: linear-gradient(135deg, #00D4AA, #7C3AED);
+                    -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    Sentilyze
+                </div>
+                <div style="color: #64748B; font-size: 0.75rem; margin-top: 0.3rem;">
+                    AI Trading Intelligence
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
-        else None
+
+        st.markdown("---")
+
+        ticker = st.selectbox(
+            "Select Ticker",
+            SUPPORTED_TICKERS,
+            index=0,
+            help="Choose from pre-trained models",
+        )
+
+        st.markdown("---")
+
+        with st.expander("ℹ️ How it Works", expanded=False):
+            st.markdown(
+                """
+                **1. Data Ingestion**
+                Fetches price data (yfinance) + news (NewsAPI)
+
+                **2. Sentiment Analysis**
+                FinBERT classifies each headline
+
+                **3. Feature Engineering**
+                RSI, MACD, Bollinger Bands, VIX + sentiment scores
+
+                **4. Prediction**
+                XGBoost with Walk-Forward Optimization
+                """
+            )
+
+        st.markdown("---")
+        st.caption("Built with Streamlit • XGBoost • FinBERT")
+
+    # --- Hero Banner ---
+    st.markdown(
+        f"""
+        <div class="hero-banner">
+            <p class="hero-title">Sentilyze</p>
+            <p class="hero-subtitle">
+                AI-powered momentum prediction combining NLP sentiment with technical analysis
+                &nbsp;·&nbsp; Analyzing <b>{ticker}</b>
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
-    if not specialist_model:
-        st.warning(
-            f"No trained model found for {ticker}. Please train a model first: `python train.py --ticker {ticker}`"
+    # --- Load Model ---
+    model_path = f"models/{ticker}_model.json"
+    model_exists = os.path.exists(model_path) or os.path.exists(
+        model_path.replace(".json", ".joblib")
+    )
+
+    if not model_exists:
+        st.error(
+            f"⚠️ No trained model for **{ticker}**. "
+            f"Run: `python train.py --ticker {ticker}`"
         )
         st.stop()
 
-    # --- TABS ---
+    # Load sentiment analyzer in background
+    _ = load_sentiment_analyzer()
 
+    # --- Tabs ---
     tab1, tab2, tab3, tab4 = st.tabs(
-        [
-            "Prediction Analysis",
-            "Results Dashboard",
-            "Pre-computed Backtest Analysis",
-            "Advanced Model Analysis",
-        ]
+        ["⚡ Live Signal", "📊 Dashboard", "🏦 Backtest", "🧠 XAI"]
     )
 
     with tab1:
-
-        st.header(f"Analyze Model Predictions for {ticker}")
-
-        if st.button("Run Analysis"):
-
-            try:
-
-                with st.spinner(
-                    f"Fetching latest data and making prediction for {ticker}..."
-                ):
-
-                    # 1. Fetch and prepare data
-                    (
-                        features_df,
-                        price_history_with_indicators,
-                        news_with_sentiment_df,
-                    ) = preprocess_data(ticker)
-
-                    # 2. Initialize prediction variables
-
-                    final_prediction = None
-
-                    final_confidence = 0.0
-
-                    prediction_source = ""
-
-                    # 3. Get latest data for models
-
-                    specialist_model = (
-                        load_model(model_path) if os.path.exists(model_path) else None
-                    )
-
-                    sequence_length = 30
-
-                    feature_columns = [
-                        col for col in features_df.columns if col not in ["target"]
-                    ]
-
-                    latest_sequence = (
-                        features_df[feature_columns].tail(sequence_length).values
-                    )
-
-                    # --- Hybrid Prediction Logic ---
-                    if specialist_model:
-                        prediction_source = "Specialist"
-                        spec_latest_features = features_df.iloc[-1:][FEATURES]
-                        spec_pred, spec_conf = get_prediction_on_latest_data(
-                            specialist_model, spec_latest_features, FEATURES
-                        )
-
-                        raw_prediction = spec_pred[0]
-                        final_confidence = spec_conf[0][
-                            1
-                        ]  # Probability of 'Up' (class 1)
-
-                        # Apply Regime Filter
-                        latest_close = price_history_with_indicators["Close"].iloc[-1]
-                        latest_sma200 = price_history_with_indicators["sma200"].iloc[-1]
-                        latest_rsi = price_history_with_indicators["rsi"].iloc[-1]
-
-                        regime_blocked = False
-                        block_reason = ""
-
-                        if final_confidence > 0.80 and latest_rsi < 70:
-                            final_prediction = 1
-                            block_reason = (
-                                "LOCKED: 2.0x Leveraged Buy (Extreme Conviction)"
-                            )
-                        elif final_confidence > 0.50 and latest_rsi < 70:
-                            final_prediction = 1  # Confirmed Buy
-                        elif final_confidence <= 0.50:
-                            final_prediction = 0  # Sell/Cash
-                            regime_blocked = True
-                            if latest_rsi >= 70:
-                                block_reason += (
-                                    f"Overbought (RSI {latest_rsi:.2f} >= 70). "
-                                )
-                            if final_confidence <= 0.50:
-                                block_reason += f"Low Confidence (P(Up) {final_confidence:.2%} <= 50%)."
-                        else:
-                            final_prediction = 0  # Sell/Cash
-
-                    else:
-                        st.error(
-                            "Could not make a prediction. A trained model is not available or there is not enough data."
-                        )
-                        st.stop()
-
-                    # 5. Display result
-                    if regime_blocked:
-                        prediction_label = (
-                            f"Cash (Regime Filter Blocked: {block_reason})"
-                        )
-                    else:
-                        prediction_label = (
-                            "Positive (Buy)"
-                            if final_prediction == 1
-                            else "Negative (Sell/Cash)"
-                        )
-
-                    display_prediction_results(
-                        prediction_label,
-                        prediction_source,
-                        final_confidence,
-                        price_history_with_indicators,
-                        news_with_sentiment_df,
-                    )
-
-                    # --- SHAP Explanation for Specialist Model ---
-                    if prediction_source in [
-                        "Hybrid (Specialist + Universal)",
-                        "Specialist",
-                    ]:
-                        st.subheader("Prediction Explanation (SHAP Analysis)")
-
-                        with st.spinner("Calculating SHAP explanation..."):
-                            try:
-                                explainer = shap.TreeExplainer(specialist_model)
-
-                                # Using spec_latest_features which is already prepared
-                                shap_values_latest = explainer.shap_values(
-                                    spec_latest_features
-                                )
-
-                                # Create a SHAP force plot for the latest prediction
-                                st_shap(
-                                    shap.force_plot(
-                                        explainer.expected_value,
-                                        shap_values_latest,
-                                        spec_latest_features,
-                                    )
-                                )
-
-                            except Exception as e:
-                                st.error(f"Could not generate SHAP explanation: {e}")
-                                logger.error(f"SHAP explanation generation failed: {e}")
-
-            except requests.exceptions.RequestException as e:
-
-                logger.error(f"A network error occurred during prediction: {e}")
-
-                st.error(
-                    "A network error occurred. Please check your internet connection and NewsAPI key."
-                )
-
-            except Exception as e:
-
-                logger.error(f"An unexpected error occurred during prediction: {e}")
-
-                st.error(
-                    f"An unexpected error occurred: {e}. Please check the logs for more details."
-                )
-
+        render_prediction_tab(ticker, model_path)
     with tab2:
-        st.header(f"Results Dashboard for {ticker}")
-
-        results_data = get_historical_results(ticker)
-
-        if results_data:
-            metrics = results_data["metrics"]
-
-            st.subheader("Key Performance Metrics")
-            col1, col2, col3, col4 = st.columns(4)
-            col1.metric("Accuracy", f"{metrics.get('accuracy', 0.0):.2%}")
-
-            report_path = results_data["report_path"]
-            if os.path.exists(report_path):
-                class_metrics = parse_classification_report(report_path)
-                col2.metric("Precision", f"{class_metrics.get('precision', 0.0):.2%}")
-                col3.metric("Recall", f"{class_metrics.get('recall', 0.0):.2%}")
-            else:
-                col2.metric("Precision", "N/A")
-                col3.metric("Recall", "N/A")
-
-            col4.metric("Sharpe Ratio", f"{metrics.get('sharpe_ratio', 0.0):.2f}")
-
-            st.subheader("Backtest Performance: Strategy vs. Buy & Hold")
-            portfolio_path = results_data["portfolio_path"]
-            if os.path.exists(portfolio_path):
-                portfolio = pd.read_csv(portfolio_path, index_col=0, parse_dates=True)
-                st.line_chart(
-                    portfolio[["total", "benchmark"]].rename(
-                        columns={"total": "Strategy", "benchmark": "Buy & Hold"}
-                    )
-                )
-            else:
-                st.warning("Portfolio file not found in results directory.")
-
-            st.subheader("Monthly Returns Heatmap")
-            heatmap_path = results_data["heatmap_path"]
-            if os.path.exists(heatmap_path):
-                st.image(heatmap_path)
-            else:
-                st.warning("Monthly returns heatmap not found in results directory.")
-
-            st.subheader("Feature Importance")
-            importances_path = results_data["importances_path"]
-            if os.path.exists(importances_path):
-                feature_importances = pd.read_csv(importances_path)
-                st.bar_chart(feature_importances.set_index("feature"))
-            else:
-                st.warning("Feature importances not found in results directory.")
-
-        else:
-            st.warning(
-                f"No pre-computed results found for {ticker} in the 'results/' directory. Run training locally to generate these files."
-            )
-
+        render_dashboard_tab(ticker)
     with tab3:
-        st.header(f"Pre-computed Backtest Analysis for {ticker}")
-        st.write(
-            "This tab displays the results for the full 10-year leveraged simulation."
-        )
-
-        results_data = get_historical_results(ticker)
-
-        if results_data:
-            metrics = results_data["metrics"]
-
-            st.subheader("Backtest Performance Metrics")
-            row1_col1, row1_col2, row1_col3, row1_col4 = st.columns(4)
-            row1_col1.metric(
-                "Strategy Return", f"{metrics.get('strategy_total_return', 0.0):.2%}"
-            )
-            row1_col2.metric(
-                "Buy & Hold Return",
-                f"{metrics.get('buy_and_hold_total_return', 0.0):.2%}",
-            )
-            row1_col3.metric("Sharpe Ratio", f"{metrics.get('sharpe_ratio', 0.0):.2f}")
-            row1_col4.metric(
-                "Sortino Ratio", f"{metrics.get('sortino_ratio', 0.0):.2f}"
-            )
-
-            row2_col1, row2_col2, row2_col3, row2_col4 = st.columns(4)
-            row2_col2.metric("Win Rate", f"{metrics.get('win_rate', 0.0):.2%}")
-            row2_col1.metric("Total Trades", metrics.get("total_trades", 0))
-            row2_col3.metric(
-                "Strategy Max Drawdown",
-                f"{metrics.get('strategy_max_drawdown', 0.0):.2%}",
-            )
-            row2_col4.metric(
-                "Buy & Hold Max Drawdown",
-                f"{metrics.get('buy_and_hold_max_drawdown', 0.0):.2%}",
-            )
-
-            st.subheader("Portfolio Value Over Time")
-            portfolio_path = results_data["portfolio_path"]
-            if os.path.exists(portfolio_path):
-                portfolio = pd.read_csv(portfolio_path, index_col=0, parse_dates=True)
-                st.line_chart(
-                    portfolio[["total", "benchmark"]].rename(
-                        columns={"total": "Strategy", "benchmark": "Buy & Hold"}
-                    )
-                )
-            else:
-                st.warning("Portfolio file no found.")
-
-            st.subheader("Monthly Returns Heatmap")
-            heatmap_path = results_data["heatmap_path"]
-            if os.path.exists(heatmap_path):
-                st.image(heatmap_path)
-            else:
-                st.warning("Heatmap file not found.")
-        else:
-            st.warning(
-                f"No results data found for {ticker}. Run a training session locally."
-            )
-
+        render_backtest_tab(ticker)
     with tab4:
-        st.header(f"Advanced Model Analysis for {ticker}")
-
-        results_data = get_historical_results(ticker)
-
-        if results_data:
-            try:
-                st.subheader("Explainable AI (XAI) - SHAP Analysis")
-
-                shap_values_path = results_data["shap_path"]
-                xtest_path = results_data["xtest_path"]
-
-                if os.path.exists(shap_values_path) and os.path.exists(xtest_path):
-                    shap_values = np.load(shap_values_path)
-                    X_test = pd.read_csv(xtest_path, index_col=0, parse_dates=True)
-
-                    st.write("SHAP Summary Plot")
-                    fig = plt.figure()
-                    shap.summary_plot(shap_values, X_test, show=False)
-                    st.pyplot(fig)
-                    plt.close(fig)
-                else:
-                    st.warning(f"SHAP data files not found for {ticker}.")
-
-                with st.expander("Detailed Classification Report"):
-                    report_path = results_data["report_path"]
-                    if os.path.exists(report_path):
-                        with open(report_path, "r") as f:
-                            st.text(f.read())
-                    else:
-                        st.warning("Classification report text file not found.")
-
-            except Exception as e:
-                st.error(f"Error loading analysis data: {e}")
-                logger.error(f"Error loading analysis data: {e}")
-        else:
-            st.warning(f"No historical analysis data found for {ticker}.")
+        render_xai_tab(ticker)
 
 
 if __name__ == "__main__":
-
     main()
