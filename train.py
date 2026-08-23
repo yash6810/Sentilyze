@@ -8,7 +8,7 @@ import shap
 import mlflow
 import numpy as np
 from src.modeling import train_model, save_model
-from src.backtesting import run_backtest
+from src.backtesting import run_backtest, run_significance_test
 from src.config import FEATURES
 from src.utils import get_logger
 from src.preprocessing import preprocess_data
@@ -48,20 +48,20 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
     with mlflow.start_run():
         mlflow.log_param("ticker", ticker)
 
-        # 3. Train Model using WFO
-        # Pass the entire dataset; the function handles the 500-day rolling window
+        # 3. Train Model using WFO (alongside Baseline Logistic Regression)
         model, metrics, oos_predictions = train_model(X, y)
 
         mlflow.log_params(metrics["best_params"])
         mlflow.log_metric("accuracy", metrics["accuracy"])
+        mlflow.log_metric("roc_auc", metrics.get("roc_auc", 0.5))
+        mlflow.log_metric("baseline_logistic_accuracy", metrics.get("baseline_logistic_accuracy", 0.5))
 
-        logger.info(f"WFO Model accuracy: {metrics['accuracy']:.4f}")
+        logger.info(f"WFO Model accuracy: {metrics['accuracy']:.4f}, ROC-AUC: {metrics.get('roc_auc', 0.5):.4f}")
 
         # 4. Run Backtest
         logger.info(
             f"Running backtest on out-of-sample predictions (Leverage: {leverage})..."
         )
-        # Get price history aligning with the OOS predictions
         test_price_history = pd.DataFrame(
             price_history_with_indicators.loc[oos_predictions.index]
         )
@@ -70,6 +70,13 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
         )
         logger.info(f"Backtest performance: {backtest_metrics}")
         mlflow.log_metrics(backtest_metrics)
+
+        # 5. Run Statistical Significance Test
+        logger.info("Running permutation significance test...")
+        significance_results = run_significance_test(
+            portfolio, test_price_history, n_simulations=1000
+        )
+        mlflow.log_metric("significance_p_value", significance_results["p_value"])
 
         # Log classification report as an artifact
         classification_report_str = metrics.get("classification_report", "N/A")
@@ -80,7 +87,7 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
             mlflow.log_artifact(report_path)
             logger.info(f"Saved classification report to {report_path}")
 
-        # 5. Save Model and Results
+        # 6. Save Model and Results
         logger.info(f"Saving model to models/{ticker}_model.json...")
         save_model(model, f"models/{ticker}_model.json")
         mlflow.sklearn.log_model(model, "model")
@@ -92,11 +99,18 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
             f"Saved monthly returns heatmap to results/{ticker}_monthly_returns_heatmap.png"
         )
 
-        # Save metrics to a JSON file
+        # Save combined metrics to a JSON file
+        combined_metrics = {**metrics, **backtest_metrics}
         with open(f"results/{ticker}_metrics.json", "w") as f:
-            json.dump(metrics, f, indent=4)
+            json.dump(combined_metrics, f, indent=4)
         mlflow.log_artifact(f"results/{ticker}_metrics.json")
         logger.info(f"Saved metrics to results/{ticker}_metrics.json")
+
+        # Save significance results
+        with open(f"results/{ticker}_significance.json", "w") as f:
+            json.dump(significance_results, f, indent=4)
+        mlflow.log_artifact(f"results/{ticker}_significance.json")
+        logger.info(f"Saved significance to results/{ticker}_significance.json")
 
         # Save portfolio to a CSV file
         portfolio.to_csv(f"results/{ticker}_portfolio.csv")

@@ -12,7 +12,10 @@ PROCESSED_DATA_DIR = os.path.join(PROJECT_ROOT, "data", "processed")
 
 
 def get_sentiment(
-    articles: pd.DataFrame, sentiment_analyzer: Any, ticker: str | None = None
+    articles: pd.DataFrame,
+    sentiment_analyzer: Any,
+    ticker: str | None = None,
+    cache_duration_hours: int = 24,
 ) -> pd.DataFrame:
     """
     Analyzes the sentiment of news articles, with optional file-based caching.
@@ -23,19 +26,30 @@ def get_sentiment(
         os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
 
         if os.path.exists(cache_path):
-            try:
+            import time
+
+            cache_age_hours = (time.time() - os.path.getmtime(cache_path)) / 3600.0
+            if cache_age_hours < cache_duration_hours:
+                try:
+                    logger.info(
+                        f"Loading cached sentiment data for {ticker} from {cache_path}"
+                    )
+                    sentiment_df = pd.read_csv(
+                        cache_path, index_col="publishedAt", parse_dates=True
+                    )
+                    return sentiment_df
+                except Exception as e:
+                    logger.warning(
+                        f"Corrupted cache file found for {ticker} ({e}). Re-running sentiment analysis."
+                    )
+                    try:
+                        os.remove(cache_path)
+                    except OSError:
+                        pass
+            else:
                 logger.info(
-                    f"Loading cached sentiment data for {ticker} from {cache_path}"
+                    f"Sentiment cache for {ticker} is stale ({cache_age_hours:.1f}h old). Re-analyzing fresh news..."
                 )
-                sentiment_df = pd.read_csv(
-                    cache_path, index_col="publishedAt", parse_dates=True
-                )
-                return sentiment_df
-            except ValueError:
-                logger.warning(
-                    f"Corrupted cache file found for {ticker}. Deleting and re-running sentiment analysis."
-                )
-                os.remove(cache_path)
 
     logger.info(
         f"Running sentiment analysis (caching {'enabled' if ticker else 'disabled'})."

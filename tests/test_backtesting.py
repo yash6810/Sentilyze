@@ -8,6 +8,7 @@ from src.backtesting import (
     run_backtest,
     _calculate_trade_outcomes,
     calculate_performance_metrics,
+    run_significance_test,
 )
 
 
@@ -47,12 +48,6 @@ def sample_backtest_data() -> tuple[pd.DataFrame, pd.Series]:
         index=pd.to_datetime(pd.date_range("2025-01-01", periods=10)).normalize(),
     )
 
-    # Instead of hard -1/1 signals, run_backtest now expects predicted probabilities.
-    # We set strong probabilities (>0.55) to trigger buys, and low (<0.5) to trigger sells.
-    # Day 0: Prob=0.6 -> Buy at day 1 Open (100)
-    # Day 3: Price drops to 95. Stop loss at entry - 1.5*ATR (100 - 3 = 97). So trade closed.
-    # Day 4: Prob=0.7 -> Buy
-    # Day 8: Prob=0.2 -> Sell
     prediction_probs = pd.Series(
         [0.6, 0.6, 0.6, 0.4, 0.7, 0.8, 0.9, 0.3, 0.2, 0.1], index=price_history.index
     )
@@ -66,11 +61,9 @@ def test_calculate_trade_outcomes(
     price_history, probs = sample_backtest_data
     portfolio, _, _ = run_backtest(price_history, probs)
 
-    # We call the internal function with the portfolio dataframe that now has 'signal' from run_backtest
     trade_outcomes = _calculate_trade_outcomes(portfolio)
 
     assert len(trade_outcomes) == 2
-    # Specific outcomes depend on the dynamic stop-loss logic
     assert trade_outcomes[0] == pytest.approx(-5.0)
     assert isinstance(trade_outcomes[1], float)
 
@@ -90,7 +83,6 @@ def test_calculate_performance_metrics(
     assert "sortino_ratio" in metrics
     assert "strategy_max_drawdown" in metrics
 
-    # We just ensure the calculations run without error rather than hardcoding PnL math
     assert isinstance(metrics["total_trades"], int)
 
 
@@ -109,3 +101,17 @@ def test_run_backtest(sample_backtest_data: tuple[pd.DataFrame, pd.Series]) -> N
     assert "win_rate" in metrics
 
     assert heatmap_fig is not None
+
+
+def test_run_significance_test(sample_backtest_data: tuple[pd.DataFrame, pd.Series]) -> None:
+    """Test the run_significance_test function."""
+    price_history, signals = sample_backtest_data
+    portfolio, _, _ = run_backtest(price_history, signals)
+    sig_res = run_significance_test(portfolio, price_history, n_simulations=50)
+
+    assert "p_value" in sig_res
+    assert "strategy_sharpe" in sig_res
+    assert "confidence_interval_95" in sig_res
+    assert isinstance(sig_res["is_statistically_significant"], bool)
+    assert 0.0 <= sig_res["p_value"] <= 1.0
+

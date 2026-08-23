@@ -1,4 +1,6 @@
 streamlit>=1.37.1
+fastapi>=0.115.0
+uvicorn>=0.31.0
 pandas>=2.2.2
 numpy>=1.26.4
 xgboost>=2.1.0

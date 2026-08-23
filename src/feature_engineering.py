@@ -54,6 +54,36 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
     true_range = ranges.max(axis=1)
     price_history["atr"] = true_range.rolling(14).mean()
 
+    # Short and medium-term price momentum (zero-lookahead since using ph_shifted)
+    price_history["return_1d"] = ph_shifted["Close"].pct_change(1)
+    price_history["return_5d"] = ph_shifted["Close"].pct_change(5)
+    price_history["return_21d"] = ph_shifted["Close"].pct_change(21)
+    price_history["volatility_21d"] = (
+        ph_shifted["Close"].pct_change(1).rolling(21).std()
+    )
+    price_history["price_to_sma200"] = ph_shifted["Close"] / (
+        price_history["sma200"] + 1e-10
+    )
+    price_history["rsi_slope"] = price_history["rsi"].diff(3)
+
+    # Enhanced momentum, volume, and volatility ratio features
+    price_history["ma_spread"] = (
+        (price_history["ma7"] - price_history["ma21"])
+        / (price_history["ma21"] + 1e-5)
+    ).replace([float("inf"), float("-inf")], 0.0).fillna(0.0)
+
+    if "Volume" in ph_shifted.columns:
+        price_history["volume_ratio"] = (
+            ph_shifted["Volume"]
+            / (ph_shifted["Volume"].rolling(20).mean() + 1e-5)
+        ).replace([float("inf"), float("-inf")], 1.0).fillna(1.0)
+    else:
+        price_history["volume_ratio"] = 1.0
+
+    price_history["atr_ratio"] = (
+        price_history["atr"] / (ph_shifted["Close"] + 1e-5)
+    ).replace([float("inf"), float("-inf")], 0.0).fillna(0.0)
+
     return price_history
 
 
@@ -139,6 +169,7 @@ def create_features(
         vix_subset = vix_data[["Close"]].rename(columns={"Close": "vix_close"})
         # Calculate 5-day moving average of VIX
         vix_subset["vix_ma5"] = vix_subset["vix_close"].rolling(window=5).mean()
+        vix_subset["vix_change_1d"] = vix_subset["vix_close"].pct_change(1)
         vix_subset = vix_subset.shift(1)
 
         merged_df = pd.merge(
@@ -148,9 +179,11 @@ def create_features(
         # If no VIX data, fill with 0 (or some default) just to keep columns present
         merged_df["vix_close"] = 0
         merged_df["vix_ma5"] = 0
+        merged_df["vix_change_1d"] = 0
 
     merged_df.ffill(inplace=True)
-    merged_df.fillna(0, inplace=True)
+    merged_df.replace([float("inf"), float("-inf")], 0.0, inplace=True)
+    merged_df.fillna(0.0, inplace=True)
 
     # Create the target variable: 1 if next day's close is higher, 0 otherwise
     merged_df["target"] = (merged_df["Close"].shift(-1) > merged_df["Close"]).astype(
@@ -167,6 +200,6 @@ def create_features(
         "Dividends",
         "Stock Splits",
     ]
-    merged_df = merged_df.drop(columns=cols_to_drop)
+    merged_df = merged_df.drop(columns=cols_to_drop, errors="ignore")
 
     return merged_df

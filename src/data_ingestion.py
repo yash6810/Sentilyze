@@ -1,4 +1,5 @@
 import os
+import requests
 import pandas as pd
 from newsapi import NewsApiClient
 import yfinance as yf
@@ -17,86 +18,124 @@ last_yfinance_call_time = 0
 YFINANCE_CALL_INTERVAL = 30  # seconds
 
 
+def _fetch_yfinance_news(ticker: str) -> pd.DataFrame:
+    """Fetches real-time live market news headlines directly from Yahoo Finance."""
+    try:
+        session = _get_browser_session()
+        t = yf.Ticker(ticker, session=session)
+        raw_news = t.news or []
+        articles = []
+        for item in raw_news:
+            title = item.get("title") or item.get("content", {}).get("title")
+            if not title:
+                continue
+            pub_time = item.get("providerPublishTime") or item.get("content", {}).get(
+                "pubDate"
+            )
+            if isinstance(pub_time, (int, float)):
+                published_at = pd.to_datetime(pub_time, unit="s", utc=True)
+            elif pub_time:
+                published_at = pd.to_datetime(pub_time, utc=True)
+            else:
+                published_at = pd.to_datetime("now", utc=True)
+
+            publisher = item.get("publisher") or item.get("content", {}).get(
+                "provider", {}
+            ).get("displayName", "Yahoo Finance")
+            link = (
+                item.get("link")
+                or item.get("content", {}).get("canonicalUrl", {}).get("url", "")
+            )
+            summary = item.get("summary") or item.get("content", {}).get(
+                "summary", ""
+            )
+
+            articles.append(
+                {
+                    "publishedAt": published_at,
+                    "Title": title,
+                    "description": summary,
+                    "url": link,
+                    "source": {"name": publisher},
+                }
+            )
+
+        if articles:
+            df = pd.DataFrame(articles)
+            logger.info(
+                f"Successfully fetched {len(df)} real-time live news articles for {ticker} from Yahoo Finance"
+            )
+            return df
+    except Exception as e:
+        logger.warning(f"Live yfinance news fetch failed for {ticker}: {e}")
+    return pd.DataFrame()
+
+
 def get_news(
     ticker: str,
-    api_key: str,
+    api_key: str = None,
     cache_duration_hours: int = 24,
     retries: int = 3,
     backoff_factor: float = 1,
 ) -> pd.DataFrame:
     """
-    Fetch recent news for a given ticker from the NewsAPI, with caching.
+    Fetch recent news for a given ticker from live sources (Yahoo Finance + NewsAPI), with caching.
 
     Args:
         ticker (str): The stock ticker to fetch news for.
-        api_key (str): The API key for NewsAPI.
-        cache_duration_hours (int, optional): The number of hours to keep the cache before it's considered stale. Defaults to 24.
+        api_key (str, optional): The API key for NewsAPI.
+        cache_duration_hours (int, optional): Cache freshness duration. Defaults to 24.
 
     Returns:
-        pd.DataFrame: A DataFrame containing the recent news articles, indexed by 'publishedAt'.
+        pd.DataFrame: A DataFrame containing recent news articles, indexed by 'publishedAt'.
     """
-    if not api_key or not isinstance(api_key, str):
-        logger.error(
-            "NewsAPI key is not provided or is not a string. Please set the NEWS_API_KEY environment variable."
-        )
-        return pd.DataFrame(
-            columns=["publishedAt", "Title", "description", "url", "source"]
-        )
-
     cache_path = os.path.join(DATA_DIR, f"{ticker}_news.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
 
     use_cache = False
     if os.path.exists(cache_path):
-        # Check if the cache is stale
         cache_age_seconds = time.time() - os.path.getmtime(cache_path)
         if cache_age_seconds < cache_duration_hours * 3600:
             use_cache = True
         else:
-            logger.info(f"News cache for {ticker} is stale. Re-fetching...")
+            logger.info(f"News cache for {ticker} is stale. Re-fetching fresh live news...")
 
     if use_cache:
         logger.info(f"Loading news for {ticker} from cache...")
         articles_df = pd.read_csv(cache_path)
     else:
-        logger.info(f"Fetching recent news for {ticker} from NewsAPI...")
-        newsapi = NewsApiClient(api_key=api_key)
-        for attempt in range(retries):
+        logger.info(f"Fetching fresh live news for {ticker}...")
+        # 1. Primary: Try fetching up-to-the-minute live news from Yahoo Finance
+        articles_df = _fetch_yfinance_news(ticker)
+
+        # 2. Fallback / Augment with NewsAPI if available and yfinance was empty
+        if articles_df.empty and api_key and isinstance(api_key, str):
             try:
+                newsapi = NewsApiClient(api_key=api_key)
                 all_articles = newsapi.get_everything(
                     q=ticker, language="en", sort_by="publishedAt", page_size=100
                 )
-                articles_df = pd.DataFrame(all_articles["articles"])
-                articles_df.rename(columns={"title": "Title"}, inplace=True)
-                break  # Break if successful
+                if all_articles.get("articles"):
+                    articles_df = pd.DataFrame(all_articles["articles"])
+                    articles_df.rename(columns={"title": "Title"}, inplace=True)
             except Exception as e:
-                # Catch 401/403 errors indicating API key issues or Cloud restrictions
-                if "401" in str(e) or "403" in str(e) or "Unauthorized" in str(e):
-                    logger.warning(
-                        f"NewsAPI blocked access (likely due to Cloud IP or Invalid Key): {e}. Falling back to generating dummy news data for demonstration purposes."
-                    )
-                    articles_df = _generate_dummy_news(ticker)
-                    break
+                logger.warning(f"NewsAPI query failed for {ticker}: {e}")
 
-                if attempt < retries - 1:
-                    sleep_time = backoff_factor * (2**attempt)
-                    logger.warning(
-                        f"NewsAPI call failed for {ticker} with error: {e}. Retrying in {sleep_time} seconds..."
-                    )
-                    time.sleep(sleep_time)
-                else:
-                    logger.error(
-                        f"NewsAPI call failed for {ticker} after {retries} attempts. Falling back to dummy data."
-                    )
-                    articles_df = _generate_dummy_news(ticker)
-                    break
+        # 3. If still empty, fallback to cached data or dummy data
+        if articles_df.empty:
+            if os.path.exists(cache_path):
+                logger.warning(f"Using existing cached news for {ticker} as fallback.")
+                articles_df = pd.read_csv(cache_path)
+            else:
+                articles_df = _generate_dummy_news(ticker)
 
         articles_df.to_csv(cache_path, index=False)
-        logger.info(f"Saved news to {cache_path}")
+        logger.info(f"Saved fresh news to {cache_path}")
 
     # Standardize the DataFrame to have a timezone-aware DatetimeIndex
-    articles_df["publishedAt"] = pd.to_datetime(articles_df["publishedAt"], utc=True)
-    articles_df = articles_df.set_index("publishedAt").sort_index()
+    if "publishedAt" in articles_df.columns:
+        articles_df["publishedAt"] = pd.to_datetime(articles_df["publishedAt"], utc=True)
+        articles_df = articles_df.set_index("publishedAt").sort_index(ascending=False)
 
     return articles_df
 
@@ -137,43 +176,101 @@ def _generate_dummy_news(ticker: str) -> pd.DataFrame:
     return pd.DataFrame(dummy_articles)
 
 
+def _get_browser_session() -> requests.Session:
+    """Creates a requests Session with modern desktop browser headers to prevent 429 scraper detection."""
+    session = requests.Session()
+    session.headers.update(
+        {
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/124.0.0.0 Safari/537.36"
+            ),
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Sec-Ch-Ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+            "Sec-Ch-Ua-Platform": '"Windows"',
+        }
+    )
+    return session
+
+
+def _fetch_direct_yahoo_chart(ticker: str, period: str = "10y") -> pd.DataFrame:
+    """Fetches full historical price data directly from Yahoo Finance Chart API up to today."""
+    try:
+        url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
+        params = {
+            "range": period,
+            "interval": "1d",
+            "events": "div,splits",
+        }
+        session = _get_browser_session()
+        res = session.get(url, params=params, timeout=12)
+        if res.status_code == 200:
+            data = res.json()
+            result = data["chart"]["result"][0]
+            timestamps = result.get("timestamp", [])
+            indicators = result.get("indicators", {})
+            quotes = indicators.get("quote", [{}])[0]
+
+            if not timestamps or not quotes.get("close"):
+                return pd.DataFrame()
+
+            import datetime
+
+            dates = [
+                datetime.datetime.fromtimestamp(
+                    ts, tz=datetime.timezone.utc
+                )
+                for ts in timestamps
+            ]
+            dt_index = pd.DatetimeIndex(dates, name="Date").normalize()
+            df = pd.DataFrame(
+                {
+                    "Open": quotes.get("open", []),
+                    "High": quotes.get("high", []),
+                    "Low": quotes.get("low", []),
+                    "Close": quotes.get("close", []),
+                    "Volume": quotes.get("volume", []),
+                },
+                index=dt_index,
+            )
+            df["Dividends"] = 0.0
+            df["Stock Splits"] = 0.0
+
+            df = df.ffill().dropna()
+            logger.info(
+                f"Directly fetched {len(df)} price bars for {ticker} up to {df.index[-1].strftime('%Y-%m-%d')}"
+            )
+            return df
+    except Exception as e:
+        logger.warning(f"Direct Yahoo chart fetch failed for {ticker}: {e}")
+    return pd.DataFrame()
+
+
 def get_price_history(
     ticker: str,
     period: str = "10y",
     cache_duration_hours: int = 24,
-    retries: int = 15,
-    backoff_factor: float = 30,
+    retries: int = 3,
+    backoff_factor: float = 2,
 ) -> pd.DataFrame:
     """
-    Fetches historical price data for a given ticker from yfinance, with caching.
+    Fetches historical price data up to today for a given ticker, with caching.
 
     Args:
-        ticker (str): The stock ticker to fetch price history for.
-        period (str, optional): The period for which to fetch the data. Defaults to "1y".
-        cache_duration_hours (int, optional): The number of hours to keep the cache before it's considered stale. Defaults to 24.
-        retries (int, optional): The number of retries for the API call. Defaults to 3.
-        backoff_factor (float, optional): The backoff factor for exponential backoff between retries. Defaults to 1.
+        ticker (str): Stock ticker symbol.
+        period (str, optional): Time range (e.g. '10y', '1y'). Defaults to '10y'.
+        cache_duration_hours (int, optional): Cache freshness duration. Defaults to 24.
 
     Returns:
-        pd.DataFrame: A DataFrame containing the historical price data.
+        pd.DataFrame: A DataFrame containing historical OHLCV data.
     """
-    global last_yfinance_call_time
-    current_time = time.time()
-    elapsed_time = current_time - last_yfinance_call_time
-    if elapsed_time < YFINANCE_CALL_INTERVAL:
-        sleep_duration = YFINANCE_CALL_INTERVAL - elapsed_time
-        logger.info(
-            f"Rate limiting yfinance call. Sleeping for {sleep_duration:.2f} seconds."
-        )
-        time.sleep(sleep_duration)
-
-    last_yfinance_call_time = time.time()
     cache_path = os.path.join(DATA_DIR, f"{ticker}_price_history.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
 
     use_cache = False
     if os.path.exists(cache_path):
-        # Check if the cache is stale
         cache_age_seconds = time.time() - os.path.getmtime(cache_path)
         if cache_age_seconds < cache_duration_hours * 3600:
             use_cache = True
@@ -183,47 +280,51 @@ def get_price_history(
     if use_cache:
         logger.info(f"Loading price history for {ticker} from cache...")
         history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
-    else:
-        logger.info(f"Fetching price history for {ticker} from API...")
-        stock = yf.Ticker(ticker)
-        for attempt in range(retries):
-            try:
-                history = stock.history(period=period)
-                if history.empty:
-                    logger.warning(
-                        f"No history data returned for {ticker}. Returning empty DataFrame."
-                    )
-                    return pd.DataFrame()
-
-                # Convert to UTC and normalize to midnight before saving
-                history.index = history.index.tz_convert("UTC").normalize()
-                history.to_csv(cache_path)
-                logger.info(f"Saved price history to {cache_path}")
-                break  # Break out of the loop on success
-            except Exception as e:
-                if attempt < retries - 1:
-                    sleep_time = backoff_factor * (2**attempt)
-                    logger.warning(
-                        f"API call failed for {ticker} with error: {e}. Retrying in {sleep_time} seconds..."
-                    )
-                    time.sleep(sleep_time)
-                else:
-                    logger.error(
-                        f"API call failed for {ticker} after {retries} attempts."
-                    )
-                    if os.path.exists(cache_path):
-                        logger.warning(
-                            f"Falling back to STALE cache for {ticker} due to API failure."
-                        )
-                        return pd.read_csv(
-                            cache_path, index_col="Date", parse_dates=True
-                        )
-                    raise e
+        if history.index.tz is None:
+            history.index = history.index.tz_localize("UTC").normalize()
         else:
-            logger.error(
-                f"Could not fetch price history for {ticker} after {retries} retries."
-            )
-            return pd.DataFrame()
+            history.index = history.index.tz_convert("UTC").normalize()
+    else:
+        logger.info(f"Fetching fresh live price history for {ticker}...")
+        # 1. Primary: Direct Yahoo Finance Chart API (immune to yfinance scraper rate limits)
+        history = _fetch_direct_yahoo_chart(ticker, period=period)
+
+        # 2. Fallback to yfinance if direct chart was empty
+        if history.empty:
+            try:
+                session = _get_browser_session()
+                stock = yf.Ticker(ticker, session=session)
+                history = stock.history(period=period)
+                if not history.empty:
+                    if history.index.tz is None:
+                        history.index = history.index.tz_localize("UTC").normalize()
+                    else:
+                        history.index = history.index.tz_convert("UTC").normalize()
+            except Exception as e:
+                logger.warning(f"yfinance fallback failed for {ticker}: {e}")
+
+        # 3. Fallback to existing cache if API failed
+        if history.empty:
+            if os.path.exists(cache_path):
+                logger.warning(f"Using existing cached prices for {ticker}.")
+                history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
+                if history.index.tz is None:
+                    history.index = history.index.tz_localize("UTC").normalize()
+                else:
+                    history.index = history.index.tz_convert("UTC").normalize()
+            else:
+                return pd.DataFrame()
+        else:
+            history.to_csv(cache_path)
+            logger.info(f"Saved updated price history to {cache_path}")
+
+    # Ensure required columns exist
+    if "Dividends" not in history.columns:
+        history["Dividends"] = 0
+    if "Stock Splits" not in history.columns:
+        history["Stock Splits"] = 0
+
+    return history
 
     # Ensure 'Dividends' and 'Stock Splits' columns are present
     if "Dividends" not in history.columns:
@@ -272,31 +373,40 @@ def get_vix_data(
     if use_cache:
         logger.info("Loading VIX data from cache...")
         history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
-
+        if history.index.tz is None:
+            history.index = history.index.tz_localize("UTC").normalize()
+        else:
+            history.index = history.index.tz_convert("UTC").normalize()
         return history
 
-    logger.info("Fetching VIX data from API...")
-    vix = yf.Ticker("^VIX")
-    for attempt in range(retries):
-        try:
-            history = vix.history(period=period)
-            if history.empty:
-                logger.warning("No history data returned for VIX.")
-                return pd.DataFrame()
+    else:
+        logger.info("Fetching fresh live VIX data...")
+        history = _fetch_direct_yahoo_chart("^VIX", period=period)
 
-            # Convert to UTC and normalize to midnight before saving
-            history.index = history.index.tz_convert("UTC").normalize()
-            history.to_csv(cache_path)
-            logger.info(f"Saved VIX history to {cache_path}")
-            return history
-        except Exception as e:
-            if attempt < retries - 1:
-                time.sleep(backoff_factor * (attempt + 1))
+        if history.empty:
+            try:
+                vix = yf.Ticker("^VIX", session=_get_browser_session())
+                history = vix.history(period=period)
+                if not history.empty:
+                    if history.index.tz is None:
+                        history.index = history.index.tz_localize("UTC").normalize()
+                    else:
+                        history.index = history.index.tz_convert("UTC").normalize()
+            except Exception as e:
+                logger.warning(f"VIX yfinance fallback failed: {e}")
+
+        if history.empty:
+            if os.path.exists(cache_path):
+                logger.warning("Using cached VIX data.")
+                history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
+                if history.index.tz is None:
+                    history.index = history.index.tz_localize("UTC").normalize()
+                else:
+                    history.index = history.index.tz_convert("UTC").normalize()
             else:
-                logger.error(f"Failed to fetch VIX data: {e}")
-                if os.path.exists(cache_path):
-                    logger.warning(
-                        "Falling back to STALE cache for VIX due to API failure."
-                    )
-                    return pd.read_csv(cache_path, index_col="Date", parse_dates=True)
                 return pd.DataFrame()
+        else:
+            history.to_csv(cache_path)
+            logger.info(f"Saved fresh VIX history to {cache_path}")
+
+        return history

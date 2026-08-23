@@ -41,7 +41,7 @@ def test_save_and_load_model(tmpdir):
     model, _, _ = train_model(X, y)
 
     # Create a temporary file path
-    filepath = os.path.join(str(tmpdir), "test_model.joblib")
+    filepath = os.path.join(str(tmpdir), "test_model.json")
     save_model(model, filepath)
 
     # Check if file exists
