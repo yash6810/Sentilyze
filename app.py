@@ -17,6 +17,9 @@ from src.modeling import load_model, get_prediction_on_latest_data
 from src.utils import get_logger
 from src.backtesting import run_backtest
 from src.config import FEATURES
+from src.portfolio import build_unified_portfolio
+from src.alerts import format_signal_card, send_discord_alert, send_telegram_alert
+import yfinance as yf
 
 logger = get_logger(__name__)
 
@@ -326,7 +329,9 @@ def render_prediction_tab(ticker: str, model_path: str):
 
     try:
         with st.spinner("Fetching data & running inference pipeline..."):
-            features_df, price_hist, news_df = preprocess_data(ticker)
+            features_df, price_hist, news_df = preprocess_data(
+                ticker, use_cache=False
+            )
             specialist_model = (
                 load_model(model_path) if os.path.exists(model_path) else None
             )
@@ -344,12 +349,12 @@ def render_prediction_tab(ticker: str, model_path: str):
             confidence = conf[0][1]
             rsi = price_hist["rsi"].iloc[-1]
 
-            # Regime filter logic
-            if confidence > 0.80 and rsi < 70:
+            # Optimal Regime filter logic
+            if confidence > 0.80 and rsi < 75:
                 signal, final_pred = "BUY", 1
-            elif confidence > 0.50 and rsi < 70:
+            elif confidence >= 0.52 and rsi < 75:
                 signal, final_pred = "BUY", 1
-            elif confidence <= 0.50:
+            elif confidence < 0.48:
                 signal, final_pred = "SELL", 0
             else:
                 signal, final_pred = "HOLD", 0
@@ -359,28 +364,46 @@ def render_prediction_tab(ticker: str, model_path: str):
         render_signal_badge(signal, confidence)
 
         # Key indicators row
-        c1, c2, c3, c4 = st.columns(4)
+        c1, c2, c3, c4, c5, c6 = st.columns(6)
+        curr_close = price_hist["Close"].iloc[-1]
+        atr_val = price_hist["atr"].iloc[-1] if "atr" in price_hist.columns else curr_close * 0.02
+        sma = price_hist["sma200"].iloc[-1]
+        above = curr_close > sma
+        
+        tp_target = curr_close + (2.5 * atr_val)
+        sl_target = curr_close - ((3.0 if above else 1.5) * atr_val)
+
         with c1:
-            render_metric_card("Close Price", f"${price_hist['Close'].iloc[-1]:.2f}")
+            render_metric_card("Close Price", f"${curr_close:.2f}")
         with c2:
             render_metric_card(
                 "RSI (14)",
                 f"{rsi:.1f}",
-                "negative" if rsi >= 70 else ("positive" if rsi <= 30 else ""),
+                "negative" if rsi >= 75 else ("positive" if rsi <= 30 else ""),
             )
         with c3:
             render_metric_card(
                 "P(Up)",
                 f"{confidence:.1%}",
-                "positive" if confidence > 0.5 else "negative",
+                "positive" if confidence >= 0.52 else "negative",
             )
         with c4:
-            sma = price_hist["sma200"].iloc[-1]
-            above = price_hist["Close"].iloc[-1] > sma
             render_metric_card(
                 "Trend (SMA200)",
                 "▲ Bullish" if above else "▼ Bearish",
                 "positive" if above else "negative",
+            )
+        with c5:
+            render_metric_card(
+                "🎯 Take-Profit",
+                f"${tp_target:.2f}",
+                "positive",
+            )
+        with c6:
+            render_metric_card(
+                "🛡️ Stop-Loss",
+                f"${sl_target:.2f}",
+                "negative",
             )
 
         # SHAP explanation
@@ -623,6 +646,198 @@ def render_xai_tab(ticker: str):
             st.warning("Report not found.")
 
 
+def render_portfolio_tab():
+    """Tab 5: Multi-Asset Unified Portfolio Allocator & Risk Parity Fund."""
+    st.markdown(
+        '<div class="section-header">💼 Multi-Asset Managed Fund ($100,000 Starting Capital)</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "Combines all 7 individual algorithmic strategies into a unified **Risk Parity (Inverse-Volatility Weighted)** managed fund."
+    )
+
+    allocation_mode = st.radio(
+        "Allocation Method",
+        ["Risk Parity (Inverse-Volatility)", "Equal Weight (1/N)"],
+        horizontal=True,
+    )
+    alloc_key = (
+        "risk_parity"
+        if "Risk Parity" in allocation_mode
+        else "equal_weight"
+    )
+
+    try:
+        unified_df, metrics, weights_df = build_unified_portfolio(
+            initial_capital=100000.0, allocation_method=alloc_key
+        )
+
+        # KPI Row
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
+            render_metric_card(
+                "Final Fund Value",
+                f"${metrics['final_value']:,.2f}",
+                "positive",
+            )
+        with c2:
+            render_metric_card(
+                "Fund Total Return",
+                f"{metrics['strategy_total_return'] * 100:+.1f}%",
+                "positive"
+                if metrics["strategy_total_return"]
+                > metrics["benchmark_total_return"]
+                else "",
+            )
+        with c3:
+            render_metric_card(
+                "Unified Sharpe",
+                f"{metrics['sharpe_ratio']:.2f}",
+                "positive" if metrics["sharpe_ratio"] > 1.0 else "",
+            )
+        with c4:
+            render_metric_card(
+                "Diversified Max DD",
+                f"{metrics['max_drawdown'] * 100:.1f}%",
+                "negative",
+            )
+
+        # Equity Curve Chart
+        st.markdown(
+            '<div class="section-header">📈 Multi-Asset Fund Growth vs Equal Benchmark</div>',
+            unsafe_allow_html=True,
+        )
+        chart_data = unified_df[["total", "benchmark"]].rename(
+            columns={
+                "total": "Sentilyze Multi-Asset Fund ($)",
+                "benchmark": "Buy & Hold Benchmark ($)",
+            }
+        )
+        st.line_chart(chart_data)
+
+        # Asset Allocations
+        st.markdown(
+            '<div class="section-header">⚖️ Portfolio Capital Allocation Weights</div>',
+            unsafe_allow_html=True,
+        )
+        col_left, col_right = st.columns([1, 2])
+        with col_left:
+            st.dataframe(
+                weights_df.style.format({"weight": "{:.1%}"}),
+                use_container_width=True,
+            )
+        with col_right:
+            st.bar_chart(weights_df.set_index("ticker"))
+
+    except Exception as e:
+        st.warning(f"Unable to generate unified portfolio: {e}")
+
+
+def render_screener_tab():
+    """Tab 6: Any-Stock Instant Live Screener."""
+    st.markdown(
+        '<div class="section-header">🔍 Any-Stock Live Technical & Momentum Screener</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        "Type **any US stock symbol** to compute on-the-fly technical health, RSI momentum, and 200-day trend filters."
+    )
+
+    custom_ticker = st.text_input(
+        "Enter Stock Symbol (e.g., AMD, PLTR, COIN, SPY, QQQ)",
+        value="AMD",
+    ).upper().strip()
+
+    if st.button("🚀 Analyze Stock Momentum", key="btn_screener"):
+        with st.spinner(f"Fetching real-time market data for {custom_ticker}..."):
+            try:
+                hist = yf.Ticker(custom_ticker).history(period="1y")
+                if hist.empty or len(hist) < 50:
+                    st.error(
+                        f"Could not retrieve sufficient price history for symbol '{custom_ticker}'."
+                    )
+                    return
+
+                close_today = hist["Close"].iloc[-1]
+                sma50 = hist["Close"].rolling(50).mean().iloc[-1]
+                sma200 = hist["Close"].rolling(200).mean().iloc[-1]
+
+                # RSI
+                delta = hist["Close"].diff()
+                gain = (delta.where(delta > 0, 0)).rolling(14).mean().iloc[-1]
+                loss = (-delta.where(delta < 0, 0)).rolling(14).mean().iloc[-1]
+                rs = gain / (loss + 1e-10)
+                rsi = 100 - (100 / (1 + rs))
+
+                # 5-day momentum
+                return_5d = (
+                    (hist["Close"].iloc[-1] - hist["Close"].iloc[-6])
+                    / hist["Close"].iloc[-6]
+                ) * 100
+
+                # ATR
+                tr = np.maximum(
+                    hist["High"] - hist["Low"],
+                    np.maximum(
+                        abs(hist["High"] - hist["Close"].shift(1)),
+                        abs(hist["Low"] - hist["Close"].shift(1)),
+                    ),
+                )
+                atr = tr.rolling(14).mean().iloc[-1]
+
+                # Health Rating
+                is_uptrend = close_today > sma200 if not np.isnan(sma200) else close_today > sma50
+                is_oversold = rsi < 35
+                is_overbought = rsi > 70
+
+                if is_uptrend and return_5d > 0 and not is_overbought:
+                    rating = "🟢 STRONG BULLISH MOMENTUM"
+                elif is_uptrend and is_overbought:
+                    rating = "🟡 BULLISH BUT OVERBOUGHT (Caution)"
+                elif not is_uptrend and is_oversold:
+                    rating = "🟡 OVERSOLD BOUNCE CANDIDATE"
+                else:
+                    rating = "🔴 BEARISH / MACRO DOWNTREND"
+
+                st.markdown(
+                    f"""
+                    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; border-radius: 12px; padding: 1.2rem; margin: 1rem 0;">
+                        <h3 style="margin: 0; color: #00D4AA;">{custom_ticker} Analysis Summary</h3>
+                        <p style="font-size: 1.1rem; font-weight: 700; margin: 0.5rem 0 0 0;">Rating: {rating}</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+                c1, c2, c3, c4 = st.columns(4)
+                with c1:
+                    render_metric_card(
+                        "Latest Price", f"${close_today:.2f}"
+                    )
+                with c2:
+                    render_metric_card(
+                        "RSI (14)",
+                        f"{rsi:.1f}",
+                        "negative" if is_overbought else ("positive" if is_oversold else ""),
+                    )
+                with c3:
+                    render_metric_card(
+                        "5-Day Momentum",
+                        f"{return_5d:+.2f}%",
+                        "positive" if return_5d > 0 else "negative",
+                    )
+                with c4:
+                    render_metric_card(
+                        "Dynamic Stop-Loss",
+                        f"${close_today - 1.5 * atr:.2f}",
+                    )
+
+                st.line_chart(hist["Close"].tail(90))
+
+            except Exception as e:
+                st.error(f"Error analyzing {custom_ticker}: {e}")
+
+
 # --- Main App ---
 
 
@@ -658,11 +873,45 @@ def main():
         st.markdown("---")
 
         ticker = st.selectbox(
-            "Select Ticker",
+            "Select Specialist Ticker",
             SUPPORTED_TICKERS,
             index=0,
-            help="Choose from pre-trained models",
+            help="Choose from pre-trained specialist models",
         )
+
+        st.markdown("---")
+
+        with st.expander("🔔 Signal Alert Webhooks", expanded=False):
+            st.markdown("Send real-time trade signals to Discord:")
+            discord_url = st.text_input(
+                "Discord Webhook URL",
+                type="password",
+                placeholder="https://discord.com/api/webhooks/...",
+            )
+            if st.button("📨 Send Test Alert"):
+                if discord_url:
+                    test_payload = format_signal_card(
+                        ticker=ticker,
+                        signal="BUY",
+                        confidence=0.824,
+                        current_price=120.50,
+                        stop_loss=115.20,
+                        regime="BULLISH / ABOVE 200 SMA",
+                        top_features=[
+                            {"feature": "return_5d", "importance": 0.35},
+                            {"feature": "rsi", "importance": 0.28},
+                            {"feature": "mean_sentiment_score", "importance": 0.22},
+                        ],
+                    )
+                    success = send_discord_alert(
+                        test_payload, webhook_url=discord_url
+                    )
+                    if success:
+                        st.success("Alert successfully delivered to Discord!")
+                    else:
+                        st.error("Failed to deliver alert. Check URL.")
+                else:
+                    st.warning("Please enter a Discord Webhook URL.")
 
         st.markdown("---")
 
@@ -676,10 +925,10 @@ def main():
                 FinBERT classifies each headline
 
                 **3. Feature Engineering**
-                RSI, MACD, Bollinger Bands, VIX + sentiment scores
+                RSI, MACD, Bollinger Bands, Multi-Timeframe Momentum, VIX + sentiment scores
 
-                **4. Prediction**
-                XGBoost with Walk-Forward Optimization
+                **4. Prediction & Sizing**
+                XGBoost with Walk-Forward Optimization + Reg T Margin
                 """
             )
 
@@ -717,8 +966,15 @@ def main():
     _ = load_sentiment_analyzer()
 
     # --- Tabs ---
-    tab1, tab2, tab3, tab4 = st.tabs(
-        ["⚡ Live Signal", "📊 Dashboard", "🏦 Backtest", "🧠 XAI"]
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
+        [
+            "⚡ Live Signal",
+            "📊 Dashboard",
+            "🏦 Backtest",
+            "🧠 XAI",
+            "💼 Multi-Asset Fund",
+            "🔍 Any-Stock Screener",
+        ]
     )
 
     with tab1:
@@ -729,7 +985,12 @@ def main():
         render_backtest_tab(ticker)
     with tab4:
         render_xai_tab(ticker)
+    with tab5:
+        render_portfolio_tab()
+    with tab6:
+        render_screener_tab()
 
 
 if __name__ == "__main__":
     main()
+

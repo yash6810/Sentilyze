@@ -168,7 +168,9 @@ def preprocess_data(
     # 2. Analyze sentiment
     logger.info("Analyzing sentiment...")
     sentiment_analyzer = _load_sentiment_analyzer()
-    news_with_sentiment_df = get_sentiment(news_df, sentiment_analyzer, ticker)
+    news_with_sentiment_df = get_sentiment(
+        news_df, sentiment_analyzer, ticker, cache_duration_hours=cache_duration
+    )
 
     # 3. Feature Engineering
     logger.info("Creating features...")

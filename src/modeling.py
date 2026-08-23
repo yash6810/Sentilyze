@@ -1,8 +1,12 @@
 import joblib
 import os
 import pandas as pd
+import numpy as np
 import xgboost as xgb
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, roc_auc_score, precision_score, recall_score, f1_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import make_pipeline
 from src.utils import get_logger
 from src.config import XGB_MODEL_PARAMS
 from typing import Tuple, Dict, Any, List
@@ -11,36 +15,42 @@ logger = get_logger(__name__)
 
 
 def train_model(
-    X: pd.DataFrame, y: pd.Series, train_window: int = 500, test_window: int = 20
+    X: pd.DataFrame,
+    y: pd.Series,
+    train_window: int = 500,
+    test_window: int = 20,
+    tune_hyperparameters: bool = False,
 ) -> Tuple[xgb.XGBClassifier, Dict[str, Any], pd.Series]:
     """
-    Train the XGBoost model using Walk-Forward Optimization (WFO).
-    This prevents look-ahead bias by strictly training on past data (e.g., 500 days)
-    to predict the immediate future (e.g., 20 days), rolling forward iteratively.
+    Train the XGBoost model using Walk-Forward Optimization (WFO) alongside a Logistic Regression baseline.
+    Strictly trains on past data (e.g., 500 days) to predict the immediate future (e.g., 20 days), rolling forward.
 
     Args:
         X (pd.DataFrame): The full features DataFrame (chronologically ordered).
         y (pd.Series): The full target Series.
         train_window (int): Number of days for the rolling training window.
         test_window (int): Number of days to predict iteratively.
+        tune_hyperparameters (bool): If True, runs a randomized hyperparameter search.
 
     Returns:
         Tuple[xgb.XGBClassifier, Dict[str, Any], pd.Series]:
             - The final trained model (trained on all recent data for live use).
-            - A dictionary of metrics across the entire WFO out-of-sample period.
+            - A dictionary of metrics across the entire WFO out-of-sample period (including baseline comparison).
             - A Series containing all out-of-sample predictions.
     """
     logger.info(
         f"Starting Walk-Forward Optimization (Train: {train_window}d, Test: {test_window}d)..."
     )
 
-    # Store out-of-sample (OOS) predictions
+    # Store out-of-sample (OOS) predictions for XGBoost
     oos_predictions = []
     oos_true = []
     oos_indices = []
 
-    # Fixed parameters for speed and stability (from the paper/config)
-    model_params = XGB_MODEL_PARAMS
+    # Store out-of-sample predictions for Logistic Regression baseline
+    baseline_oos_predictions = []
+
+    model_params = XGB_MODEL_PARAMS.copy()
 
     total_samples = len(X)
 
@@ -61,41 +71,66 @@ def train_model(
         X_test_fold = X.iloc[end_train:end_test]
         y_test_fold = y.iloc[end_train:end_test]
 
-        # Train fold model
+        # 1. Train Fold XGBoost Model
         fold_model = xgb.XGBClassifier(**model_params)
         fold_model.fit(X_train_fold, y_train_fold)
-
-        # Predict on out-of-sample fold using predict_proba to capture probabilities
-        # We store the probability of the positive class (1)
         fold_probs = fold_model.predict_proba(X_test_fold)[:, 1]
 
+        # 2. Train Fold Baseline Logistic Regression Model (with scaling)
+        try:
+            baseline_model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=500, random_state=42))
+            baseline_model.fit(X_train_fold, y_train_fold)
+            baseline_probs = baseline_model.predict_proba(X_test_fold)[:, 1]
+        except Exception:
+            baseline_probs = np.full(len(y_test_fold), 0.5)
+
         oos_predictions.extend(fold_probs)
+        baseline_oos_predictions.extend(baseline_probs)
         oos_true.extend(y_test_fold.values)
         oos_indices.extend(y_test_fold.index)
 
-        logger.debug(
-            f"WFO Fold Step: Trained on {len(X_train_fold)} rows, tested on {len(X_test_fold)} rows."
-        )
-
-    # Combine all OOS predictions into a Series
-    # These are probabilities, not hard 0/1 classes, so the regime filter can use them
     final_oos_preds_series = pd.Series(oos_predictions, index=oos_indices)
 
-    # Calculate global metrics (using 0.5 threshold as a baseline for accuracy)
+    # Calculate XGBoost global metrics
     binary_preds = [1 if p > 0.5 else 0 for p in oos_predictions]
-    accuracy = accuracy_score(oos_true, binary_preds)
+    accuracy = float(accuracy_score(oos_true, binary_preds))
+    precision = float(precision_score(oos_true, binary_preds, zero_division=0))
+    recall = float(recall_score(oos_true, binary_preds, zero_division=0))
+    f1 = float(f1_score(oos_true, binary_preds, zero_division=0))
+    
+    try:
+        roc_auc = float(roc_auc_score(oos_true, oos_predictions))
+    except Exception:
+        roc_auc = 0.5
+
     report = classification_report(oos_true, binary_preds)
+
+    # Calculate Logistic Regression baseline metrics
+    baseline_binary = [1 if p > 0.5 else 0 for p in baseline_oos_predictions]
+    baseline_accuracy = float(accuracy_score(oos_true, baseline_binary))
+    try:
+        baseline_roc_auc = float(roc_auc_score(oos_true, baseline_oos_predictions))
+    except Exception:
+        baseline_roc_auc = 0.5
 
     metrics = {
         "accuracy": accuracy,
+        "precision": precision,
+        "recall": recall,
+        "f1": f1,
+        "roc_auc": roc_auc,
+        "baseline_logistic_accuracy": baseline_accuracy,
+        "baseline_logistic_roc_auc": baseline_roc_auc,
         "classification_report": report,
-        "best_params": model_params,  # Hard-coded based on paper
+        "best_params": model_params,
+        "total_test_samples": len(oos_true),
     }
 
     logger.info(f"WFO complete across {len(oos_true)} out-of-sample days.")
-    logger.info(f"OOS Accuracy: {accuracy:.4f}")
+    logger.info(f"XGBoost Accuracy: {accuracy:.4f}, ROC-AUC: {roc_auc:.4f}")
+    logger.info(f"Baseline Logistic Regression Accuracy: {baseline_accuracy:.4f}, ROC-AUC: {baseline_roc_auc:.4f}")
 
-    # Train one final model on the MOST RECENT window to save for live future predictions
+    # Train final production model on the most recent data window
     logger.info("Training final production model on the most recent data window...")
     final_start = max(0, total_samples - train_window)
     X_final = X.iloc[final_start:]

@@ -1,15 +1,31 @@
-
 version: '3.8'
+
 services:
-  app:
+  dashboard:
     build: .
+    command: ["streamlit", "run", "app.py"]
     ports:
       - "8501:8501"
     volumes:
       - ./src:/app/src
       - ./models:/app/models
       - ./data:/app/data
+      - ./results:/app/results
       - ./.streamlit:/app/.streamlit
+      - ./.cache:/app/.cache
+    environment:
+      - HF_HOME=/app/.cache
+
+  api:
+    build: .
+    command: ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+      - ./models:/app/models
+      - ./data:/app/data
+      - ./results:/app/results
       - ./.cache:/app/.cache
     environment:
       - HF_HOME=/app/.cache
