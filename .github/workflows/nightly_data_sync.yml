@@ -2,8 +2,8 @@ name: Nightly Data Lake Sync
 
 on:
   schedule:
-    # Runs every day at 02:00 UTC (10:00 PM EST)
-    - cron: '0 2 * * *'
+    # Runs every day at 00:00 UTC (5:30 AM IST)
+    - cron: '0 0 * * *'
   workflow_dispatch: # Allows manual trigger from GitHub Actions tab
 
 jobs:

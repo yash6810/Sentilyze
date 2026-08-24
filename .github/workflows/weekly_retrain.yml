@@ -2,8 +2,8 @@ name: Weekly Model Retraining & Drift Check
 
 on:
   schedule:
-    # Runs every Sunday at 00:00 UTC (8:00 PM EST Saturday)
-    - cron: '0 0 * * 0'
+    # Runs every Sunday at 04:30 UTC (10:00 AM IST Sunday Morning)
+    - cron: '30 4 * * 0'
   workflow_dispatch: # Allows manual 1-click trigger
 
 jobs:
