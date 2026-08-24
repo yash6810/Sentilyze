@@ -41,4 +41,3 @@ XGB_MODEL_PARAMS = {
     "random_state": 42,
     "eval_metric": "logloss",
 }
-

@@ -3,7 +3,14 @@ import os
 import pandas as pd
 import numpy as np
 import xgboost as xgb
-from sklearn.metrics import accuracy_score, classification_report, roc_auc_score, precision_score, recall_score, f1_score
+from sklearn.metrics import (
+    accuracy_score,
+    classification_report,
+    roc_auc_score,
+    precision_score,
+    recall_score,
+    f1_score,
+)
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
@@ -78,7 +85,9 @@ def train_model(
 
         # 2. Train Fold Baseline Logistic Regression Model (with scaling)
         try:
-            baseline_model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=500, random_state=42))
+            baseline_model = make_pipeline(
+                StandardScaler(), LogisticRegression(max_iter=500, random_state=42)
+            )
             baseline_model.fit(X_train_fold, y_train_fold)
             baseline_probs = baseline_model.predict_proba(X_test_fold)[:, 1]
         except Exception:
@@ -97,7 +106,7 @@ def train_model(
     precision = float(precision_score(oos_true, binary_preds, zero_division=0))
     recall = float(recall_score(oos_true, binary_preds, zero_division=0))
     f1 = float(f1_score(oos_true, binary_preds, zero_division=0))
-    
+
     try:
         roc_auc = float(roc_auc_score(oos_true, oos_predictions))
     except Exception:
@@ -128,7 +137,9 @@ def train_model(
 
     logger.info(f"WFO complete across {len(oos_true)} out-of-sample days.")
     logger.info(f"XGBoost Accuracy: {accuracy:.4f}, ROC-AUC: {roc_auc:.4f}")
-    logger.info(f"Baseline Logistic Regression Accuracy: {baseline_accuracy:.4f}, ROC-AUC: {baseline_roc_auc:.4f}")
+    logger.info(
+        f"Baseline Logistic Regression Accuracy: {baseline_accuracy:.4f}, ROC-AUC: {baseline_roc_auc:.4f}"
+    )
 
     # Train final production model on the most recent data window
     logger.info("Training final production model on the most recent data window...")

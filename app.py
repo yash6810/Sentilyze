@@ -329,9 +329,7 @@ def render_prediction_tab(ticker: str, model_path: str):
 
     try:
         with st.spinner("Fetching data & running inference pipeline..."):
-            features_df, price_hist, news_df = preprocess_data(
-                ticker, use_cache=False
-            )
+            features_df, price_hist, news_df = preprocess_data(ticker, use_cache=False)
             specialist_model = (
                 load_model(model_path) if os.path.exists(model_path) else None
             )
@@ -366,10 +364,14 @@ def render_prediction_tab(ticker: str, model_path: str):
         # Key indicators row
         c1, c2, c3, c4, c5, c6 = st.columns(6)
         curr_close = price_hist["Close"].iloc[-1]
-        atr_val = price_hist["atr"].iloc[-1] if "atr" in price_hist.columns else curr_close * 0.02
+        atr_val = (
+            price_hist["atr"].iloc[-1]
+            if "atr" in price_hist.columns
+            else curr_close * 0.02
+        )
         sma = price_hist["sma200"].iloc[-1]
         above = curr_close > sma
-        
+
         tp_target = curr_close + (2.5 * atr_val)
         sl_target = curr_close - ((3.0 if above else 1.5) * atr_val)
 
@@ -661,11 +663,7 @@ def render_portfolio_tab():
         ["Risk Parity (Inverse-Volatility)", "Equal Weight (1/N)"],
         horizontal=True,
     )
-    alloc_key = (
-        "risk_parity"
-        if "Risk Parity" in allocation_mode
-        else "equal_weight"
-    )
+    alloc_key = "risk_parity" if "Risk Parity" in allocation_mode else "equal_weight"
 
     try:
         unified_df, metrics, weights_df = build_unified_portfolio(
@@ -684,10 +682,12 @@ def render_portfolio_tab():
             render_metric_card(
                 "Fund Total Return",
                 f"{metrics['strategy_total_return'] * 100:+.1f}%",
-                "positive"
-                if metrics["strategy_total_return"]
-                > metrics["benchmark_total_return"]
-                else "",
+                (
+                    "positive"
+                    if metrics["strategy_total_return"]
+                    > metrics["benchmark_total_return"]
+                    else ""
+                ),
             )
         with c3:
             render_metric_card(
@@ -743,10 +743,14 @@ def render_screener_tab():
         "Type **any US stock symbol** to compute on-the-fly technical health, RSI momentum, and 200-day trend filters."
     )
 
-    custom_ticker = st.text_input(
-        "Enter Stock Symbol (e.g., AMD, PLTR, COIN, SPY, QQQ)",
-        value="AMD",
-    ).upper().strip()
+    custom_ticker = (
+        st.text_input(
+            "Enter Stock Symbol (e.g., AMD, PLTR, COIN, SPY, QQQ)",
+            value="AMD",
+        )
+        .upper()
+        .strip()
+    )
 
     if st.button("🚀 Analyze Stock Momentum", key="btn_screener"):
         with st.spinner(f"Fetching real-time market data for {custom_ticker}..."):
@@ -786,7 +790,11 @@ def render_screener_tab():
                 atr = tr.rolling(14).mean().iloc[-1]
 
                 # Health Rating
-                is_uptrend = close_today > sma200 if not np.isnan(sma200) else close_today > sma50
+                is_uptrend = (
+                    close_today > sma200
+                    if not np.isnan(sma200)
+                    else close_today > sma50
+                )
                 is_oversold = rsi < 35
                 is_overbought = rsi > 70
 
@@ -811,14 +819,16 @@ def render_screener_tab():
 
                 c1, c2, c3, c4 = st.columns(4)
                 with c1:
-                    render_metric_card(
-                        "Latest Price", f"${close_today:.2f}"
-                    )
+                    render_metric_card("Latest Price", f"${close_today:.2f}")
                 with c2:
                     render_metric_card(
                         "RSI (14)",
                         f"{rsi:.1f}",
-                        "negative" if is_overbought else ("positive" if is_oversold else ""),
+                        (
+                            "negative"
+                            if is_overbought
+                            else ("positive" if is_oversold else "")
+                        ),
                     )
                 with c3:
                     render_metric_card(
@@ -903,9 +913,7 @@ def main():
                             {"feature": "mean_sentiment_score", "importance": 0.22},
                         ],
                     )
-                    success = send_discord_alert(
-                        test_payload, webhook_url=discord_url
-                    )
+                    success = send_discord_alert(test_payload, webhook_url=discord_url)
                     if success:
                         st.success("Alert successfully delivered to Discord!")
                     else:
@@ -993,4 +1001,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

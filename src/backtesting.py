@@ -51,9 +51,7 @@ def create_monthly_returns_heatmap(portfolio: pd.DataFrame) -> plt.Figure:
             "label": "Monthly Return",
         },
     )
-    ax.set_title(
-        "Monthly Returns Heatmap (Strategy Performance)", fontsize=16
-    )
+    ax.set_title("Monthly Returns Heatmap (Strategy Performance)", fontsize=16)
     ax.set_xlabel("Month", fontsize=12)
     ax.set_ylabel("Year", fontsize=12)
     plt.yticks(rotation=0)
@@ -107,9 +105,7 @@ def run_backtest(
     common_dates = price_history.index.intersection(prediction_probs.index)
     if len(common_dates) == 0:
         logger.error("No overlapping dates between price history and predictions.")
-        raise ValueError(
-            "No overlapping dates between price history and predictions."
-        )
+        raise ValueError("No overlapping dates between price history and predictions.")
 
     price_history = price_history.loc[common_dates].copy()
     prediction_probs = prediction_probs.loc[common_dates].copy()
@@ -123,9 +119,7 @@ def run_backtest(
         if "sma200" in price_history.columns
         else price_history["Close"].rolling(200).mean()
     )
-    portfolio["rsi"] = (
-        price_history["rsi"] if "rsi" in price_history.columns else 50.0
-    )
+    portfolio["rsi"] = price_history["rsi"] if "rsi" in price_history.columns else 50.0
     portfolio["atr"] = (
         price_history["atr"]
         if "atr" in price_history.columns
@@ -197,16 +191,23 @@ def run_backtest(
         if position_open:
             days_held += 1
             current_holdings = portfolio.iloc[i, hold_idx]
-            current_equity = current_holdings + portfolio.iloc[i, cash_idx] - borrowed_margin
+            current_equity = (
+                current_holdings + portfolio.iloc[i, cash_idx] - borrowed_margin
+            )
 
             # A. Maintenance Margin Call Check (Reg T 25% threshold)
-            if current_holdings > 0 and (current_equity / current_holdings) < maintenance_margin_pct:
+            if (
+                current_holdings > 0
+                and (current_equity / current_holdings) < maintenance_margin_pct
+            ):
                 execute_trade = -1
                 logger.warning(
                     f"Margin Call: Forced liquidation on Day {portfolio.index[i].date()} at ${today_open_price:.2f}"
                 )
             # B. Take-Profit Target Hit (+2.5 ATR or +6%)
-            elif entry_price > 0 and today_open_price >= (entry_price + (take_profit_atr_mult * entry_atr)):
+            elif entry_price > 0 and today_open_price >= (
+                entry_price + (take_profit_atr_mult * entry_atr)
+            ):
                 execute_trade = -1
                 logger.debug(
                     f"Take-Profit triggered on Day {portfolio.index[i].date()} at ${today_open_price:.2f}"
@@ -228,7 +229,11 @@ def run_backtest(
         # 3. Regime Filter (Buy Logic)
         elif not position_open:
             available_cash = portfolio.iloc[i, cash_idx]
-            if prev_prob_up >= prob_threshold and prev_rsi < 75 and available_cash > 100.0:
+            if (
+                prev_prob_up >= prob_threshold
+                and prev_rsi < 75
+                and available_cash > 100.0
+            ):
                 execute_trade = 1
 
         # 4. Execute Trades at today's open price
@@ -237,7 +242,7 @@ def run_backtest(
         if execute_trade == 1:  # BUY
             current_cash = portfolio.iloc[i, cash_idx]
             leverage = max_leverage if prev_prob_up > 0.80 else 1.0
-            
+
             # Position sizing: leverage is applied to available un-leveraged equity
             total_investment = current_cash * leverage
             borrowed_margin = max(0.0, total_investment - current_cash)
@@ -278,7 +283,9 @@ def run_backtest(
 
         # Total Net Liquidation Value
         portfolio.iloc[i, tot_idx] = (
-            portfolio.iloc[i, cash_idx] + portfolio.iloc[i, hold_idx] - portfolio.iloc[i, bm_idx]
+            portfolio.iloc[i, cash_idx]
+            + portfolio.iloc[i, hold_idx]
+            - portfolio.iloc[i, bm_idx]
         )
 
     # --- Benchmark Simulation ---
@@ -358,16 +365,16 @@ def calculate_performance_metrics(portfolio: pd.DataFrame) -> Dict[str, Any]:
 
     # Benchmark Max Drawdown
     benchmark_rolling_max = portfolio["benchmark"].cummax()
-    benchmark_daily_drawdown = (portfolio["benchmark"] / (benchmark_rolling_max + 1e-10)) - 1.0
+    benchmark_daily_drawdown = (
+        portfolio["benchmark"] / (benchmark_rolling_max + 1e-10)
+    ) - 1.0
     benchmark_max_drawdown = float(benchmark_daily_drawdown.min())
     metrics["buy_and_hold_max_drawdown"] = benchmark_max_drawdown
 
     # Sharpe Ratio (annualized)
     daily_std = daily_returns.std()
     sharpe_ratio = (
-        float((daily_returns.mean() / daily_std) * (252**0.5))
-        if daily_std > 0
-        else 0.0
+        float((daily_returns.mean() / daily_std) * (252**0.5)) if daily_std > 0 else 0.0
     )
     metrics["sharpe_ratio"] = sharpe_ratio
 
@@ -415,7 +422,9 @@ def run_significance_test(
     Returns:
         dict: Significance metrics including p-value and 95% confidence bounds.
     """
-    logger.info(f"Running Monte Carlo significance test with {n_simulations} simulations...")
+    logger.info(
+        f"Running Monte Carlo significance test with {n_simulations} simulations..."
+    )
     rng = np.random.default_rng(random_seed)
 
     strat_daily_returns = portfolio["total"].pct_change().fillna(0)
@@ -449,11 +458,15 @@ def run_significance_test(
 
     for _ in range(n_simulations):
         # Pick random entry points
-        random_entries = rng.choice(len(daily_price_returns) - avg_hold_days, size=n_trades, replace=False)
+        random_entries = rng.choice(
+            len(daily_price_returns) - avg_hold_days, size=n_trades, replace=False
+        )
         sim_returns = np.zeros_like(daily_price_returns)
 
         for entry in random_entries:
-            sim_returns[entry : entry + avg_hold_days] = daily_price_returns[entry : entry + avg_hold_days]
+            sim_returns[entry : entry + avg_hold_days] = daily_price_returns[
+                entry : entry + avg_hold_days
+            ]
 
         sim_std = np.std(sim_returns)
         if sim_std > 0:
@@ -478,4 +491,3 @@ def run_significance_test(
 
     logger.info(f"Significance test results: {results}")
     return results
-

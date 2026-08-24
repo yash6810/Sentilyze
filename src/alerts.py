@@ -168,9 +168,7 @@ def send_telegram_alert(
     chat = chat_id or os.getenv("TELEGRAM_CHAT_ID")
 
     if not token or not chat:
-        logger.warning(
-            "Telegram Bot Token or Chat ID missing. Alert skipped."
-        )
+        logger.warning("Telegram Bot Token or Chat ID missing. Alert skipped.")
         return False
 
     is_buy = alert_payload["signal"].upper() == "BUY"
@@ -202,14 +200,10 @@ def send_telegram_alert(
             timeout=10,
         )
         if res.status_code == 200:
-            logger.info(
-                f"Telegram alert sent for {alert_payload['ticker']}"
-            )
+            logger.info(f"Telegram alert sent for {alert_payload['ticker']}")
             return True
         else:
-            logger.error(
-                f"Telegram API failed with code {res.status_code}: {res.text}"
-            )
+            logger.error(f"Telegram API failed with code {res.status_code}: {res.text}")
             return False
     except Exception as e:
         logger.error(f"Error sending Telegram alert: {e}")

@@ -124,9 +124,7 @@ def build_unified_portfolio(
     unified_df["benchmark_daily_return"] = unified_bench_return
 
     unified_df["total"] = initial_capital * (1.0 + unified_strat_return).cumprod()
-    unified_df["benchmark"] = (
-        initial_capital * (1.0 + unified_bench_return).cumprod()
-    )
+    unified_df["benchmark"] = initial_capital * (1.0 + unified_bench_return).cumprod()
 
     # Drawdown calculations
     running_max = unified_df["total"].cummax()
@@ -139,11 +137,11 @@ def build_unified_portfolio(
 
     # Performance Metrics
     total_strat_return = (
-        (unified_df["total"].iloc[-1] - initial_capital) / initial_capital
-    )
+        unified_df["total"].iloc[-1] - initial_capital
+    ) / initial_capital
     total_bench_return = (
-        (unified_df["benchmark"].iloc[-1] - initial_capital) / initial_capital
-    )
+        unified_df["benchmark"].iloc[-1] - initial_capital
+    ) / initial_capital
     max_drawdown = float(unified_df["drawdown"].min())
     bench_max_drawdown = float(unified_df["benchmark_drawdown"].min())
 
@@ -154,12 +152,8 @@ def build_unified_portfolio(
 
     # Sortino Ratio (Downside deviation only)
     downside_returns = unified_strat_return[unified_strat_return < 0]
-    downside_std = (
-        downside_returns.std() if len(downside_returns) > 0 else std_ret
-    )
-    sortino_ratio = float(
-        (mean_ret / (downside_std + 1e-10)) * np.sqrt(252)
-    )
+    downside_std = downside_returns.std() if len(downside_returns) > 0 else std_ret
+    sortino_ratio = float((mean_ret / (downside_std + 1e-10)) * np.sqrt(252))
 
     metrics = {
         "initial_capital": initial_capital,

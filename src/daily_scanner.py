@@ -32,7 +32,9 @@ def run_daily_market_scan() -> list:
             logger.info(f"Scanning {ticker}...")
             model_path = os.path.join("models", f"{ticker}_model.json")
             if not os.path.exists(model_path):
-                logger.warning(f"Model for {ticker} not found at {model_path}. Skipping.")
+                logger.warning(
+                    f"Model for {ticker} not found at {model_path}. Skipping."
+                )
                 continue
 
             model = load_model(model_path)
@@ -49,8 +51,16 @@ def run_daily_market_scan() -> list:
             confidence = conf[0][1]
             rsi = price_hist["rsi"].iloc[-1] if "rsi" in price_hist.columns else 50.0
             curr_close = price_hist["Close"].iloc[-1]
-            atr_val = price_hist["atr"].iloc[-1] if "atr" in price_hist.columns else curr_close * 0.02
-            sma = price_hist["sma200"].iloc[-1] if "sma200" in price_hist.columns else curr_close
+            atr_val = (
+                price_hist["atr"].iloc[-1]
+                if "atr" in price_hist.columns
+                else curr_close * 0.02
+            )
+            sma = (
+                price_hist["sma200"].iloc[-1]
+                if "sma200" in price_hist.columns
+                else curr_close
+            )
             above_sma = curr_close > sma
 
             # Optimal Regime Filter
@@ -62,7 +72,9 @@ def run_daily_market_scan() -> list:
             # Calculate Take-Profit and Stop-Loss Targets
             tp_target = curr_close + (2.5 * atr_val)
             sl_target = curr_close - ((3.0 if above_sma else 1.5) * atr_val)
-            regime_str = "▲ BULLISH (Above SMA200)" if above_sma else "▼ BEARISH (Below SMA200)"
+            regime_str = (
+                "▲ BULLISH (Above SMA200)" if above_sma else "▼ BEARISH (Below SMA200)"
+            )
 
             card = format_signal_card(
                 ticker=ticker,

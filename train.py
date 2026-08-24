@@ -54,9 +54,13 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
         mlflow.log_params(metrics["best_params"])
         mlflow.log_metric("accuracy", metrics["accuracy"])
         mlflow.log_metric("roc_auc", metrics.get("roc_auc", 0.5))
-        mlflow.log_metric("baseline_logistic_accuracy", metrics.get("baseline_logistic_accuracy", 0.5))
+        mlflow.log_metric(
+            "baseline_logistic_accuracy", metrics.get("baseline_logistic_accuracy", 0.5)
+        )
 
-        logger.info(f"WFO Model accuracy: {metrics['accuracy']:.4f}, ROC-AUC: {metrics.get('roc_auc', 0.5):.4f}")
+        logger.info(
+            f"WFO Model accuracy: {metrics['accuracy']:.4f}, ROC-AUC: {metrics.get('roc_auc', 0.5):.4f}"
+        )
 
         # 4. Run Backtest
         logger.info(

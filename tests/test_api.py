@@ -35,6 +35,7 @@ def test_predict_valid_ticker(mock_explainer_cls, mock_load_model, mock_preproce
     # Mock data
     dates = pd.date_range("2025-01-01", periods=5)
     from src.config import FEATURES
+
     mock_data = {feat: [1.0] * 5 for feat in FEATURES}
     features_df = pd.DataFrame(mock_data, index=dates)
     price_hist = pd.DataFrame(

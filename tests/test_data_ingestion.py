@@ -27,11 +27,19 @@ def test_get_price_history_fetches_and_caches_data(mocker, temp_data_dir):
     # Arrange
     ticker = "TEST"
     mock_history = pd.DataFrame(
-        {"Close": [100, 101, 102], "Open": [99, 100, 101], "High": [101, 102, 103], "Low": [98, 99, 100], "Volume": [1000, 1000, 1000]},
+        {
+            "Close": [100, 101, 102],
+            "Open": [99, 100, 101],
+            "High": [101, 102, 103],
+            "Low": [98, 99, 100],
+            "Volume": [1000, 1000, 1000],
+        },
         index=pd.to_datetime(["2023-01-01", "2023-01-02", "2023-01-03"]),
     )
     mock_history.index.name = "Date"
-    mocker.patch("src.data_ingestion._fetch_direct_yahoo_chart", return_value=pd.DataFrame())
+    mocker.patch(
+        "src.data_ingestion._fetch_direct_yahoo_chart", return_value=pd.DataFrame()
+    )
     mock_ticker = MagicMock()
     mock_ticker.history.return_value = mock_history
     mocker.patch("yfinance.Ticker", return_value=mock_ticker)
@@ -96,11 +104,19 @@ def test_get_price_history_refetches_stale_cache(mocker, temp_data_dir):
     os.utime(cache_path, (one_day_ago, one_day_ago))
 
     mock_fresh_data = pd.DataFrame(
-        {"Close": [100, 101, 102], "Open": [99, 100, 101], "High": [101, 102, 103], "Low": [98, 99, 100], "Volume": [1000, 1000, 1000]},
+        {
+            "Close": [100, 101, 102],
+            "Open": [99, 100, 101],
+            "High": [101, 102, 103],
+            "Low": [98, 99, 100],
+            "Volume": [1000, 1000, 1000],
+        },
         index=pd.to_datetime(["2023-01-04", "2023-01-05", "2023-01-06"]),
     )
     mock_fresh_data.index.name = "Date"
-    mocker.patch("src.data_ingestion._fetch_direct_yahoo_chart", return_value=pd.DataFrame())
+    mocker.patch(
+        "src.data_ingestion._fetch_direct_yahoo_chart", return_value=pd.DataFrame()
+    )
     mock_ticker = MagicMock()
     mock_ticker.history.return_value = mock_fresh_data
     mocker.patch("yfinance.Ticker", return_value=mock_ticker)
