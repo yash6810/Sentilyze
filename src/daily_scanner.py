@@ -94,7 +94,7 @@ def run_daily_market_scan() -> list:
             )
 
         except Exception as e:
-            logger.error(f"Error scanning {ticker}: {e}")
+            logger.error(f"Error scanning {ticker}: {e}", exc_info=True)
 
     # Dispatch Alerts to Discord / Telegram
     discord_url = os.getenv("DISCORD_WEBHOOK_URL")

@@ -23,13 +23,23 @@ logger = get_logger(__name__)
 def _load_sentiment_analyzer() -> Any:
     """
     Loads the FinBERT sentiment analysis model and tokenizer from the local
-    './models/finbert-fine-tuned' directory and returns a Hugging Face pipeline.
+    './models/finbert-fine-tuned' directory, with automatic fallback to
+    'ProsusAI/finbert'.
     """
     logger.info("Loading FinBERT sentiment analysis model for preprocessing...")
-    tokenizer = AutoTokenizer.from_pretrained("./models/finbert-fine-tuned")
-    model = AutoModelForSequenceClassification.from_pretrained(
-        "./models/finbert-fine-tuned"
-    )
+    local_path = "./models/finbert-fine-tuned"
+    try:
+        if os.path.exists(local_path):
+            tokenizer = AutoTokenizer.from_pretrained(local_path)
+            model = AutoModelForSequenceClassification.from_pretrained(local_path)
+            return pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+    except Exception as e:
+        logger.warning(
+            f"Could not load local fine-tuned model at {local_path}: {e}. Falling back to ProsusAI/finbert..."
+        )
+
+    tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
+    model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
     return pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
 
