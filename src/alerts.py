@@ -142,9 +142,66 @@ def send_discord_alert(
             logger.error(
                 f"Discord webhook failed with status {response.status_code}: {response.text}"
             )
-            return False
     except Exception as e:
         logger.error(f"Error sending Discord alert: {e}")
+        return False
+
+
+def send_discord_digest(
+    signals_list: List[Dict[str, Any]], webhook_url: Optional[str] = None
+) -> bool:
+    """
+    Sends a consolidated master market digest card containing all universe signals.
+    """
+    url = webhook_url or os.getenv("DISCORD_WEBHOOK_URL")
+    if not url:
+        logger.warning("No Discord Webhook URL provided. Digest skipped.")
+        return False
+
+    buy_signals = [s for s in signals_list if s["signal"] == "BUY"]
+    sell_signals = [s for s in signals_list if s["signal"] == "SELL"]
+
+    lines = []
+    lines.append("```")
+    lines.append(
+        f"{'TICKER':<7} {'SIGNAL':<6} {'CONF':<7} {'PRICE':<9} {'TP ($)':<9} {'SL ($)':<9}"
+    )
+    lines.append("-" * 52)
+    for s in signals_list:
+        tp_str = f"${s['take_profit']:.2f}" if s.get("take_profit") else "N/A"
+        sl_str = f"${s['stop_loss']:.2f}" if s.get("stop_loss") else "N/A"
+        lines.append(
+            f"{s['ticker']:<7} {s['signal']:<6} {s['confidence'] * 100:.1f}%  ${s['current_price']:<8.2f} {tp_str:<9} {sl_str:<9}"
+        )
+    lines.append("```")
+
+    embed = {
+        "title": "📊 Sentilyze Master Market Briefing",
+        "description": f"**Daily Quantitative Universe Scan Complete**\n\n🟢 **BUY Signals**: `{len(buy_signals)}` | 🔴 **SELL/CASH**: `{len(sell_signals)}`\n\n"
+        + "\n".join(lines),
+        "color": 0x3B82F6,  # Institutional Blue
+        "footer": {
+            "text": f"Sentilyze Autonomous MLOps Engine • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+        },
+    }
+
+    try:
+        response = requests.post(
+            url,
+            json={"embeds": [embed]},
+            headers={"Content-Type": "application/json"},
+            timeout=15,
+        )
+        if response.status_code in [200, 204]:
+            logger.info("Master market briefing digest sent to Discord successfully.")
+            return True
+        else:
+            logger.error(
+                f"Discord digest failed with status {response.status_code}: {response.text}"
+            )
+            return False
+    except Exception as e:
+        logger.error(f"Error sending Discord digest: {e}")
         return False
 
 
