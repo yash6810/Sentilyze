@@ -88,12 +88,6 @@ def run_daily_market_scan() -> list:
             )
             signals_summary.append(card)
 
-            # Dispatch Alerts if Webhooks / Tokens exist
-            if os.getenv("DISCORD_WEBHOOK_URL"):
-                send_discord_alert(card)
-            if os.getenv("TELEGRAM_BOT_TOKEN") and os.getenv("TELEGRAM_CHAT_ID"):
-                send_telegram_alert(card)
-
             logger.info(
                 f"✓ {ticker:<6} Signal: {signal_type:<4} | Conf: {confidence:.1%} | "
                 f"Close: ${curr_close:.2f} | TP: ${tp_target:.2f} | SL: ${sl_target:.2f}"
@@ -101,6 +95,36 @@ def run_daily_market_scan() -> list:
 
         except Exception as e:
             logger.error(f"Error scanning {ticker}: {e}")
+
+    # Dispatch Alerts to Discord / Telegram
+    discord_url = os.getenv("DISCORD_WEBHOOK_URL")
+    telegram_token = os.getenv("TELEGRAM_BOT_TOKEN")
+    telegram_chat = os.getenv("TELEGRAM_CHAT_ID")
+
+    logger.info(
+        f"Notification status: Discord URL present = {bool(discord_url)}, Telegram present = {bool(telegram_token and telegram_chat)}"
+    )
+
+    if discord_url:
+        from src.alerts import send_discord_digest
+
+        logger.info("Sending Master Market Digest to Discord...")
+        send_discord_digest(signals_summary, webhook_url=discord_url)
+
+        import time
+
+        # Send individual trade setups for BUY signals
+        for card in signals_summary:
+            if card["signal"] == "BUY":
+                time.sleep(1.0)  # Respect Discord API rate limit
+                send_discord_alert(card, webhook_url=discord_url)
+
+    if telegram_token and telegram_chat:
+        for card in signals_summary:
+            if card["signal"] == "BUY":
+                send_telegram_alert(
+                    card, bot_token=telegram_token, chat_id=telegram_chat
+                )
 
     # Save summary artifact
     os.makedirs("results", exist_ok=True)
