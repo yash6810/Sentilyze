@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import time
 import json
+from unittest.mock import MagicMock
 from src.preprocessing import (
     clean_headline_data,
     preprocess_data,
@@ -128,6 +129,10 @@ def test_preprocess_data_orchestrates_correctly(mocker):
     mock_get_price_history.return_value = pd.DataFrame()
     mock_get_vix_data.return_value = pd.DataFrame()
     mock_get_sentiment.return_value = pd.DataFrame()
+    mocker.patch(
+        "src.preprocessing._load_sentiment_analyzer",
+        return_value=MagicMock(),
+    )
     mock_create_features.return_value = pd.DataFrame(
         {"feature1": [1, 2], "target": [0, 1]},
         index=pd.to_datetime(["2023-01-01", "2023-01-02"]),
@@ -142,9 +147,6 @@ def test_preprocess_data_orchestrates_correctly(mocker):
         ticker, "10y", cache_duration_hours=24
     )
     mock_get_vix_data.assert_called_once_with("10y", cache_duration_hours=24)
-    mocker.patch(
-        "src.preprocessing._load_sentiment_analyzer"
-    )  # Mock internal call to load analyzer
     mock_get_sentiment.assert_called_once()
     mock_create_technical_indicators.assert_called_once()
     mock_aggregate_sentiment_scores.assert_called_once()
@@ -155,7 +157,12 @@ def test_preprocess_data_orchestrates_correctly(mocker):
     assert not result_df.empty
 
 
-def test_load_sentiment_analyzer_caches():
+def test_load_sentiment_analyzer_caches(mocker):
+    mock_pipe = MagicMock()
+    mocker.patch("src.preprocessing.AutoTokenizer.from_pretrained")
+    mocker.patch("src.preprocessing.AutoModelForSequenceClassification.from_pretrained")
+    mocker.patch("src.preprocessing.pipeline", return_value=mock_pipe)
+
     # Call it twice to ensure caching works
     analyzer1 = _load_sentiment_analyzer()
     analyzer2 = _load_sentiment_analyzer()
