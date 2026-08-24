@@ -103,7 +103,9 @@ def test_run_backtest(sample_backtest_data: tuple[pd.DataFrame, pd.Series]) -> N
     assert heatmap_fig is not None
 
 
-def test_run_significance_test(sample_backtest_data: tuple[pd.DataFrame, pd.Series]) -> None:
+def test_run_significance_test(
+    sample_backtest_data: tuple[pd.DataFrame, pd.Series],
+) -> None:
     """Test the run_significance_test function."""
     price_history, signals = sample_backtest_data
     portfolio, _, _ = run_backtest(price_history, signals)
@@ -114,4 +116,3 @@ def test_run_significance_test(sample_backtest_data: tuple[pd.DataFrame, pd.Seri
     assert "confidence_interval_95" in sig_res
     assert isinstance(sig_res["is_statistically_significant"], bool)
     assert 0.0 <= sig_res["p_value"] <= 1.0
-

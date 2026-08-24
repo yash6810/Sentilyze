@@ -42,13 +42,10 @@ def _fetch_yfinance_news(ticker: str) -> pd.DataFrame:
             publisher = item.get("publisher") or item.get("content", {}).get(
                 "provider", {}
             ).get("displayName", "Yahoo Finance")
-            link = (
-                item.get("link")
-                or item.get("content", {}).get("canonicalUrl", {}).get("url", "")
-            )
-            summary = item.get("summary") or item.get("content", {}).get(
-                "summary", ""
-            )
+            link = item.get("link") or item.get("content", {}).get(
+                "canonicalUrl", {}
+            ).get("url", "")
+            summary = item.get("summary") or item.get("content", {}).get("summary", "")
 
             articles.append(
                 {
@@ -98,7 +95,9 @@ def get_news(
         if cache_age_seconds < cache_duration_hours * 3600:
             use_cache = True
         else:
-            logger.info(f"News cache for {ticker} is stale. Re-fetching fresh live news...")
+            logger.info(
+                f"News cache for {ticker} is stale. Re-fetching fresh live news..."
+            )
 
     if use_cache:
         logger.info(f"Loading news for {ticker} from cache...")
@@ -134,7 +133,9 @@ def get_news(
 
     # Standardize the DataFrame to have a timezone-aware DatetimeIndex
     if "publishedAt" in articles_df.columns:
-        articles_df["publishedAt"] = pd.to_datetime(articles_df["publishedAt"], utc=True)
+        articles_df["publishedAt"] = pd.to_datetime(
+            articles_df["publishedAt"], utc=True
+        )
         articles_df = articles_df.set_index("publishedAt").sort_index(ascending=False)
 
     return articles_df
@@ -219,9 +220,7 @@ def _fetch_direct_yahoo_chart(ticker: str, period: str = "10y") -> pd.DataFrame:
             import datetime
 
             dates = [
-                datetime.datetime.fromtimestamp(
-                    ts, tz=datetime.timezone.utc
-                )
+                datetime.datetime.fromtimestamp(ts, tz=datetime.timezone.utc)
                 for ts in timestamps
             ]
             dt_index = pd.DatetimeIndex(dates, name="Date").normalize()

@@ -68,21 +68,28 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
 
     # Enhanced momentum, volume, and volatility ratio features
     price_history["ma_spread"] = (
-        (price_history["ma7"] - price_history["ma21"])
-        / (price_history["ma21"] + 1e-5)
-    ).replace([float("inf"), float("-inf")], 0.0).fillna(0.0)
+        (
+            (price_history["ma7"] - price_history["ma21"])
+            / (price_history["ma21"] + 1e-5)
+        )
+        .replace([float("inf"), float("-inf")], 0.0)
+        .fillna(0.0)
+    )
 
     if "Volume" in ph_shifted.columns:
         price_history["volume_ratio"] = (
-            ph_shifted["Volume"]
-            / (ph_shifted["Volume"].rolling(20).mean() + 1e-5)
-        ).replace([float("inf"), float("-inf")], 1.0).fillna(1.0)
+            (ph_shifted["Volume"] / (ph_shifted["Volume"].rolling(20).mean() + 1e-5))
+            .replace([float("inf"), float("-inf")], 1.0)
+            .fillna(1.0)
+        )
     else:
         price_history["volume_ratio"] = 1.0
 
     price_history["atr_ratio"] = (
-        price_history["atr"] / (ph_shifted["Close"] + 1e-5)
-    ).replace([float("inf"), float("-inf")], 0.0).fillna(0.0)
+        (price_history["atr"] / (ph_shifted["Close"] + 1e-5))
+        .replace([float("inf"), float("-inf")], 0.0)
+        .fillna(0.0)
+    )
 
     return price_history
 

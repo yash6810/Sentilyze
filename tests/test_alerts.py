@@ -41,7 +41,9 @@ def test_send_discord_alert(mock_post):
         top_features=[],
     )
 
-    success = send_discord_alert(payload, webhook_url="https://discord.com/api/webhooks/mock")
+    success = send_discord_alert(
+        payload, webhook_url="https://discord.com/api/webhooks/mock"
+    )
     assert success is True
     assert mock_post.called
 

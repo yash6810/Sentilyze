@@ -14,7 +14,18 @@ def sample_portfolio_returns():
     returns_df = pd.DataFrame(
         {
             "NVDA": [0.02, -0.01, 0.03, 0.01, -0.02, 0.04, 0.01, -0.03, 0.02, 0.01],
-            "MSFT": [0.005, -0.002, 0.008, 0.003, -0.004, 0.006, 0.002, -0.005, 0.003, 0.001],
+            "MSFT": [
+                0.005,
+                -0.002,
+                0.008,
+                0.003,
+                -0.004,
+                0.006,
+                0.002,
+                -0.005,
+                0.003,
+                0.001,
+            ],
         },
         index=dates,
     )
@@ -31,13 +42,13 @@ def test_calculate_risk_parity_weights(sample_portfolio_returns):
 
 def test_build_unified_portfolio(tmp_path):
     dates = pd.date_range("2025-01-01", periods=10)
-    
+
     # Create fake portfolio CSVs in tmp_path
     for ticker in ["AAPL", "MSFT"]:
         df = pd.DataFrame(
             {
-                "total": [10000.0 * (1.01 ** i) for i in range(10)],
-                "benchmark": [10000.0 * (1.005 ** i) for i in range(10)],
+                "total": [10000.0 * (1.01**i) for i in range(10)],
+                "benchmark": [10000.0 * (1.005**i) for i in range(10)],
                 "cash": [1000.0] * 10,
                 "holdings": [9000.0] * 10,
                 "signal": [1] * 10,

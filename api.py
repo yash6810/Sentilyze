@@ -40,12 +40,22 @@ class FeatureContribution(BaseModel):
 class PredictionResponse(BaseModel):
     ticker: str = Field(..., description="Stock ticker symbol")
     signal: str = Field(..., description="Trading signal: BUY, SELL, or HOLD")
-    prediction: int = Field(..., description="Binary directional prediction: 1 (Up) or 0 (Down)")
-    confidence: float = Field(..., description="Predicted probability of positive momentum")
+    prediction: int = Field(
+        ..., description="Binary directional prediction: 1 (Up) or 0 (Down)"
+    )
+    confidence: float = Field(
+        ..., description="Predicted probability of positive momentum"
+    )
     rsi: float = Field(..., description="Current 14-period RSI indicator")
-    trend: str = Field(..., description="Macro trend relative to 200-day SMA: Bullish or Bearish")
-    top_features: List[FeatureContribution] = Field(..., description="Top contributing features by SHAP attribution magnitude")
-    metadata: Dict[str, Any] = Field(..., description="Execution metadata and pipeline information")
+    trend: str = Field(
+        ..., description="Macro trend relative to 200-day SMA: Bullish or Bearish"
+    )
+    top_features: List[FeatureContribution] = Field(
+        ..., description="Top contributing features by SHAP attribution magnitude"
+    )
+    metadata: Dict[str, Any] = Field(
+        ..., description="Execution metadata and pipeline information"
+    )
 
 
 @app.get("/", tags=["Info"])
@@ -66,7 +76,9 @@ def health_check():
 @app.get("/predict", response_model=PredictionResponse, tags=["Inference"])
 def predict(
     ticker: str = Query(..., description="Stock ticker symbol (e.g. NVDA, AAPL, MSFT)"),
-    use_cache: bool = Query(True, description="Whether to favor cached data for fast response"),
+    use_cache: bool = Query(
+        True, description="Whether to favor cached data for fast response"
+    ),
 ):
     """
     Fetches the latest market and sentiment data, computes technical indicators,
@@ -75,7 +87,9 @@ def predict(
     ticker_upper = ticker.strip().upper()
     model_path = f"models/{ticker_upper}_model.json"
 
-    if not os.path.exists(model_path) and not os.path.exists(model_path.replace(".json", ".joblib")):
+    if not os.path.exists(model_path) and not os.path.exists(
+        model_path.replace(".json", ".joblib")
+    ):
         raise HTTPException(
             status_code=404,
             detail=f"Trained model for ticker '{ticker_upper}' not found. Supported tickers: {SUPPORTED_TICKERS}",
@@ -83,9 +97,14 @@ def predict(
 
     try:
         # 1. Preprocess latest data
-        features_df, price_hist, news_df = preprocess_data(ticker_upper, use_cache=use_cache)
+        features_df, price_hist, news_df = preprocess_data(
+            ticker_upper, use_cache=use_cache
+        )
         if features_df.empty:
-            raise HTTPException(status_code=500, detail=f"Insufficient data to generate prediction for {ticker_upper}")
+            raise HTTPException(
+                status_code=500,
+                detail=f"Insufficient data to generate prediction for {ticker_upper}",
+            )
 
         # 2. Load model and run inference
         model = load_model(model_path)
@@ -135,7 +154,9 @@ def predict(
             )
 
         # Sort top 5 features by absolute SHAP impact
-        top_features = sorted(contributions, key=lambda c: abs(c.shap_value), reverse=True)[:5]
+        top_features = sorted(
+            contributions, key=lambda c: abs(c.shap_value), reverse=True
+        )[:5]
 
         return PredictionResponse(
             ticker=ticker_upper,
@@ -157,7 +178,9 @@ def predict(
         raise
     except Exception as e:
         logger.error(f"Inference error for {ticker_upper}: {e}")
-        raise HTTPException(status_code=500, detail=f"Prediction pipeline failure: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Prediction pipeline failure: {str(e)}"
+        )
 
 
 if __name__ == "__main__":
