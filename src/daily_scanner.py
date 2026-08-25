@@ -39,7 +39,7 @@ def run_daily_market_scan() -> list:
 
             model = load_model(model_path)
             features_df, price_hist, news_df = preprocess_data(
-                ticker, period="2y", use_cache=True
+                ticker, period="2y", use_cache=False
             )
 
             if features_df.empty or price_hist.empty:

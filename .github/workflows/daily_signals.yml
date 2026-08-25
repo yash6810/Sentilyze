@@ -9,7 +9,8 @@ on:
 jobs:
   scan-and-alert:
     name: Generate Signals & Dispatch Alerts
-    runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout Code
@@ -43,3 +44,11 @@ jobs:
           name: daily-signals-${{ github.run_id }}
           path: results/daily_signals_latest.json
           retention-days: 14
+
+      - name: Commit & Push Updated Live Data and Signals
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ results/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(data): sync latest market prices, news sentiment, and daily signals [skip ci]" && git push)
+
