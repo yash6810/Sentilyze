@@ -9,6 +9,7 @@ on:
 jobs:
   scan-and-alert:
     name: Generate Signals & Dispatch Alerts
+    runs-on: ubuntu-latest
     permissions:
       contents: write
 
