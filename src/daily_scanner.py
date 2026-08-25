@@ -38,7 +38,9 @@ def run_daily_market_scan() -> list:
                 continue
 
             model = load_model(model_path)
-            features_df, price_hist, news_df = preprocess_data(ticker, use_cache=False)
+            features_df, price_hist, news_df = preprocess_data(
+                ticker, period="2y", use_cache=True
+            )
 
             if features_df.empty or price_hist.empty:
                 logger.warning(f"Insufficient data for {ticker}. Skipping.")
@@ -47,21 +49,23 @@ def run_daily_market_scan() -> list:
             spec_features = features_df.iloc[-1:][FEATURES]
             pred, conf = get_prediction_on_latest_data(model, spec_features, FEATURES)
 
-            raw_pred = pred[0]
-            confidence = conf[0][1]
-            rsi = price_hist["rsi"].iloc[-1] if "rsi" in price_hist.columns else 50.0
-            curr_close = price_hist["Close"].iloc[-1]
-            atr_val = (
+            raw_pred = int(pred[0])
+            confidence = float(conf[0][1])
+            rsi = float(
+                price_hist["rsi"].iloc[-1] if "rsi" in price_hist.columns else 50.0
+            )
+            curr_close = float(price_hist["Close"].iloc[-1])
+            atr_val = float(
                 price_hist["atr"].iloc[-1]
                 if "atr" in price_hist.columns
                 else curr_close * 0.02
             )
-            sma = (
+            sma = float(
                 price_hist["sma200"].iloc[-1]
                 if "sma200" in price_hist.columns
                 else curr_close
             )
-            above_sma = curr_close > sma
+            above_sma = bool(curr_close > sma)
 
             # Optimal Regime Filter
             if confidence >= 0.52 and rsi < 75:
@@ -70,8 +74,8 @@ def run_daily_market_scan() -> list:
                 signal_type = "SELL"
 
             # Calculate Take-Profit and Stop-Loss Targets
-            tp_target = curr_close + (2.5 * atr_val)
-            sl_target = curr_close - ((3.0 if above_sma else 1.5) * atr_val)
+            tp_target = float(curr_close + (2.5 * atr_val))
+            sl_target = float(curr_close - ((3.0 if above_sma else 1.5) * atr_val))
             regime_str = (
                 "▲ BULLISH (Above SMA200)" if above_sma else "▼ BEARISH (Below SMA200)"
             )
@@ -89,7 +93,7 @@ def run_daily_market_scan() -> list:
             signals_summary.append(card)
 
             logger.info(
-                f"✓ {ticker:<6} Signal: {signal_type:<4} | Conf: {confidence:.1%} | "
+                f"+ {ticker:<6} Signal: {signal_type:<4} | Conf: {confidence:.1%} | "
                 f"Close: ${curr_close:.2f} | TP: ${tp_target:.2f} | SL: ${sl_target:.2f}"
             )
 

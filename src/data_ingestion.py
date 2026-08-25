@@ -349,17 +349,6 @@ def get_vix_data(
     Returns:
         pd.DataFrame: A DataFrame containing VIX price history.
     """
-    global last_yfinance_call_time
-    current_time = time.time()
-    elapsed_time = current_time - last_yfinance_call_time
-    if elapsed_time < YFINANCE_CALL_INTERVAL:
-        sleep_duration = YFINANCE_CALL_INTERVAL - elapsed_time
-        logger.info(
-            f"Rate limiting yfinance call for VIX. Sleeping for {sleep_duration:.2f} seconds."
-        )
-        time.sleep(sleep_duration)
-
-    last_yfinance_call_time = time.time()
     cache_path = os.path.join(DATA_DIR, "vix_history.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
 
@@ -378,34 +367,45 @@ def get_vix_data(
             history.index = history.index.tz_convert("UTC").normalize()
         return history
 
-    else:
-        logger.info("Fetching fresh live VIX data...")
-        history = _fetch_direct_yahoo_chart("^VIX", period=period)
+    global last_yfinance_call_time
+    current_time = time.time()
+    elapsed_time = current_time - last_yfinance_call_time
+    if elapsed_time < YFINANCE_CALL_INTERVAL:
+        sleep_duration = YFINANCE_CALL_INTERVAL - elapsed_time
+        logger.info(
+            f"Rate limiting yfinance call for VIX. Sleeping for {sleep_duration:.2f} seconds."
+        )
+        time.sleep(sleep_duration)
 
-        if history.empty:
-            try:
-                vix = yf.Ticker("^VIX", session=_get_browser_session())
-                history = vix.history(period=period)
-                if not history.empty:
-                    if history.index.tz is None:
-                        history.index = history.index.tz_localize("UTC").normalize()
-                    else:
-                        history.index = history.index.tz_convert("UTC").normalize()
-            except Exception as e:
-                logger.warning(f"VIX yfinance fallback failed: {e}")
+    last_yfinance_call_time = time.time()
 
-        if history.empty:
-            if os.path.exists(cache_path):
-                logger.warning("Using cached VIX data.")
-                history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
+    logger.info("Fetching fresh live VIX data...")
+    history = _fetch_direct_yahoo_chart("^VIX", period=period)
+
+    if history.empty:
+        try:
+            vix = yf.Ticker("^VIX", session=_get_browser_session())
+            history = vix.history(period=period)
+            if not history.empty:
                 if history.index.tz is None:
                     history.index = history.index.tz_localize("UTC").normalize()
                 else:
                     history.index = history.index.tz_convert("UTC").normalize()
-            else:
-                return pd.DataFrame()
-        else:
-            history.to_csv(cache_path)
-            logger.info(f"Saved fresh VIX history to {cache_path}")
+        except Exception as e:
+            logger.warning(f"VIX yfinance fallback failed: {e}")
 
-        return history
+    if history.empty:
+        if os.path.exists(cache_path):
+            logger.warning("Using cached VIX data.")
+            history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
+            if history.index.tz is None:
+                history.index = history.index.tz_localize("UTC").normalize()
+            else:
+                history.index = history.index.tz_convert("UTC").normalize()
+        else:
+            return pd.DataFrame()
+    else:
+        history.to_csv(cache_path)
+        logger.info(f"Saved fresh VIX history to {cache_path}")
+
+    return history
