@@ -9,6 +9,7 @@ on:
 jobs:
   sync-data:
     name: Sync Market Prices & News
+    runs-on: ubuntu-latest
     permissions:
       contents: write
 
