@@ -100,6 +100,22 @@ def run_daily_market_scan() -> list:
         except Exception as e:
             logger.error(f"Error scanning {ticker}: {e}", exc_info=True)
 
+    # Fallback to pre-computed signals artifact if live scan produced no items
+    summary_path = os.path.join("results", "daily_signals_latest.json")
+    if not signals_summary and os.path.exists(summary_path):
+        try:
+            logger.warning(
+                f"Live scan produced 0 signals. Loading fallback from {summary_path}..."
+            )
+            with open(summary_path, "r") as f:
+                cached_data = json.load(f)
+                signals_summary = cached_data.get("signals", [])
+                logger.info(
+                    f"Successfully loaded {len(signals_summary)} signals from fallback cache."
+                )
+        except Exception as e:
+            logger.error(f"Failed to load fallback signals from {summary_path}: {e}")
+
     # Dispatch Alerts to Discord / Telegram
     discord_url = os.getenv("DISCORD_WEBHOOK_URL")
     telegram_token = os.getenv("TELEGRAM_BOT_TOKEN")
@@ -130,20 +146,20 @@ def run_daily_market_scan() -> list:
                     card, bot_token=telegram_token, chat_id=telegram_chat
                 )
 
-    # Save summary artifact
-    os.makedirs("results", exist_ok=True)
-    summary_path = os.path.join("results", "daily_signals_latest.json")
-    with open(summary_path, "w") as f:
-        json.dump(
-            {
-                "scan_time": datetime.now(timezone.utc).isoformat(),
-                "num_assets": len(signals_summary),
-                "signals": signals_summary,
-            },
-            f,
-            indent=2,
-        )
-    logger.info(f"Daily scan complete. Saved summary to {summary_path}")
+    # Save summary artifact if we generated fresh signals
+    if signals_summary:
+        os.makedirs("results", exist_ok=True)
+        with open(summary_path, "w") as f:
+            json.dump(
+                {
+                    "scan_time": datetime.now(timezone.utc).isoformat(),
+                    "num_assets": len(signals_summary),
+                    "signals": signals_summary,
+                },
+                f,
+                indent=2,
+            )
+        logger.info(f"Daily scan complete. Saved summary to {summary_path}")
     return signals_summary
 
 
