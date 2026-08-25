@@ -9,7 +9,8 @@ on:
 jobs:
   sync-data:
     name: Sync Market Prices & News
-    runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout Code
@@ -32,4 +33,12 @@ jobs:
         env:
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
         run: |
-          python -m src.data_sync
+          python -u -m src.data_sync
+
+      - name: Commit & Push Synced Data Lake
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(data): nightly data lake sync [skip ci]" && git push)
+
