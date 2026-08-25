@@ -16,7 +16,7 @@ __pycache__/
 /logs/
 
 # Data files
-/data/
+/data/temp/
 
 # Notebooks
 *.ipynb
