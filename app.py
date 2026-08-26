@@ -38,6 +38,27 @@ from src.statistical_arbitrage import (
     scan_pairs_universe,
     backtest_pairs_strategy,
 )
+from src.options_flow import (
+    fetch_option_chain,
+    calculate_max_pain,
+    calculate_put_call_ratios,
+    estimate_gamma_exposure,
+    recommend_option_spreads,
+)
+from src.fundamental_valuation import (
+    fetch_financial_statements,
+    calculate_piotroski_f_score,
+    calculate_altman_z_score,
+    calculate_dcf_fair_value,
+    generate_spider_radar_profile,
+)
+from src.black_swan_simulator import (
+    simulate_portfolio_crises,
+    calculate_kelly_sizing,
+    estimate_market_impact_slippage,
+    HISTORICAL_CRISES,
+)
+from src.lead_lag import compute_lead_lag_matrix, rank_market_price_leaders
 
 logger = get_logger(__name__)
 
@@ -657,6 +678,371 @@ def render_statarb_workspace():
 
 
 # ==============================================================================
+# 🎯 WORKSPACE 6: OPTIONS MICROSTRUCTURE & MAX PAIN RADAR
+# ==============================================================================
+def render_options_workspace(ticker: str):
+    st.markdown('<div class="section-badge">Options Microstructure, Gamma Exposure (GEX) & Expiration Pinning</div>', unsafe_allow_html=True)
+
+    with st.spinner(f"Fetching Live Option Chain for {ticker}..."):
+        chain = fetch_option_chain(ticker)
+        max_pain, loss_df = calculate_max_pain(chain["calls_df"], chain["puts_df"])
+        pcr = calculate_put_call_ratios(chain["calls_df"], chain["puts_df"])
+        gex = estimate_gamma_exposure(chain["calls_df"], chain["puts_df"], chain["spot_price"])
+        spreads = recommend_option_spreads(ticker, "BUY", chain["spot_price"], max_pain, chain["calls_df"], chain["puts_df"])
+
+    spot = chain["spot_price"]
+    dist_to_pain = ((max_pain - spot) / spot) * 100.0
+
+    # Metric Cards
+    o1, o2, o3, o4 = st.columns(4)
+    with o1:
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Option Max Pain Strike</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: #00D4AA;">${max_pain:,.2f}</div>
+                <div style="font-size: 0.7rem; color: {'#10B981' if dist_to_pain>=0 else '#EF4444'};">
+                    {dist_to_pain:+.1f}% vs Spot (${spot:,.2f})
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with o2:
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Put / Call OI Ratio</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: {'#10B981' if pcr['pcr_open_interest']<0.75 else '#EF4444' if pcr['pcr_open_interest']>1.1 else '#F59E0B'};">{pcr['pcr_open_interest']:.3f}</div>
+                <div style="font-size: 0.7rem; color: #64748B;">Vol Ratio: {pcr['pcr_volume']:.2f}</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with o3:
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Net Market Maker Gamma</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: {'#10B981' if gex['net_gex']>0 else '#EF4444'};">${gex['net_gex']:+,.0f}</div>
+                <div style="font-size: 0.7rem; color: #64748B;">{gex['regime_verdict'][:28]}...</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with o4:
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Expiration Cycle</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: #F1F5F9;">{chain['expiration']}</div>
+                <div style="font-size: 0.7rem; color: #64748B;">{len(chain.get('all_expirations', []))} Expirations Tracked</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    # Plotly Charts
+    import plotly.graph_objects as go
+
+    col_ch1, col_ch2 = st.columns(2)
+    with col_ch1:
+        # Open Interest by Strike Chart
+        c_df = chain["calls_df"]
+        p_df = chain["puts_df"]
+        fig_oi = go.Figure()
+        if not c_df.empty and "strike" in c_df.columns:
+            fig_oi.add_trace(go.Bar(x=c_df["strike"], y=c_df["openInterest"], name="Call OI", marker_color="#10B981"))
+        if not p_df.empty and "strike" in p_df.columns:
+            fig_oi.add_trace(go.Bar(x=p_df["strike"], y=p_df["openInterest"], name="Put OI", marker_color="#EF4444"))
+
+        fig_oi.add_vline(x=max_pain, line=dict(color="#F59E0B", dash="dash", width=2), annotation_text=f"Max Pain (${max_pain:.0f})")
+        fig_oi.add_vline(x=spot, line=dict(color="#00D4AA", width=2), annotation_text=f"Spot (${spot:.0f})")
+
+        fig_oi.update_layout(
+            title=f"<b>{ticker}</b> — Open Interest Distribution by Strike",
+            barmode="group",
+            template="plotly_dark",
+            height=340,
+            margin=dict(l=20, r=20, t=35, b=20),
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(15,23,42,0.4)",
+        )
+        st.plotly_chart(fig_oi, use_container_width=True)
+
+    with col_ch2:
+        # Max Pain Loss Curve
+        fig_loss = go.Figure()
+        if not loss_df.empty:
+            fig_loss.add_trace(go.Scatter(
+                x=loss_df["strike"], y=loss_df["total_loss"] / 1e6,
+                mode="lines", name="Total Payout ($M)",
+                line=dict(color="#F59E0B", width=2.5),
+                fill="tozeroy", fillcolor="rgba(245, 158, 11, 0.1)"
+            ))
+            fig_loss.add_vline(x=max_pain, line=dict(color="#00D4AA", dash="dot", width=2), annotation_text=f"Min Loss (${max_pain:.0f})")
+
+        fig_loss.update_layout(
+            title=f"<b>{ticker}</b> — Expiration Total Option Payout Loss Curve ($ Millions)",
+            template="plotly_dark",
+            height=340,
+            margin=dict(l=20, r=20, t=35, b=20),
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(15,23,42,0.4)",
+        )
+        st.plotly_chart(fig_loss, use_container_width=True)
+
+    # Strategy Spreads
+    st.markdown("#### 🧭 AI-Aligned Multi-Leg Option Strategies")
+    sp_cols = st.columns(len(spreads))
+    for idx, sp in enumerate(spreads):
+        with sp_cols[idx]:
+            st.markdown(
+                f"""
+                <div class="glass-card" style="border-top: 3px solid #00D4AA; height: 100%;">
+                    <div style="font-weight: 800; color: #F8FAFC; font-size: 1.05rem;">{sp['name']}</div>
+                    <div style="font-size: 0.75rem; color: #94A3B8; margin: 0.2rem 0 0.5rem 0;">{sp['type']}</div>
+                    <div style="font-size: 0.85rem; color: #00D4AA; font-weight: 700; margin-bottom: 0.4rem;">{sp['structure']}</div>
+                    <div style="font-size: 0.8rem; line-height: 1.5; color: #E2E8F0;">
+                        • <b>Max Profit</b>: ${sp.get('max_profit', 0):,.2f}<br>
+                        • <b>Max Loss</b>: ${sp.get('max_loss', 0):,.2f}<br>
+                        • <b>Risk/Reward</b>: {sp.get('risk_reward', 'N/A')}<br>
+                        • <b>Breakeven</b>: {sp.get('breakeven', 'N/A')}
+                    </div>
+                    <div style="font-size: 0.75rem; color: #94A3B8; margin-top: 0.5rem; font-style: italic;">
+                        {sp['thesis']}
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+
+# ==============================================================================
+# 💎 WORKSPACE 7: FUNDAMENTALS & FORENSIC ACCOUNTING (PIOTROSKI & DCF)
+# ==============================================================================
+def render_fundamentals_workspace(ticker: str):
+    st.markdown('<div class="section-badge">Piotroski 9-Point F-Score, Altman Z-Score & DCF Fair Value Matrix</div>', unsafe_allow_html=True)
+
+    with st.spinner(f"Analyzing Balance Sheet & DCF Cash Flows for {ticker}..."):
+        fin_data = fetch_financial_statements(ticker)
+        f_res = calculate_piotroski_f_score(ticker, fin_data)
+        z_res = calculate_altman_z_score(ticker, fin_data)
+        dcf_res = calculate_dcf_fair_value(ticker, fin_data)
+        radar_metrics = generate_spider_radar_profile(ticker, 0.76, f_res, z_res, dcf_res)
+
+    # Metrics
+    f1, f2, f3, f4 = st.columns(4)
+    with f1:
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Piotroski F-Score</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: {f_res['color']};">{f_res['f_score']} / 9</div>
+                <div style="font-size: 0.7rem; color: #94A3B8;">{f_res['category'][:26]}...</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with f2:
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Altman Z-Score</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: {z_res['color']};">{z_res['z_score']:.2f}</div>
+                <div style="font-size: 0.7rem; color: #94A3B8;">{z_res['zone'][:26]}...</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with f3:
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">DCF Intrinsic Fair Value</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: {dcf_res['color']};">${dcf_res['fair_value_price']:,.2f}</div>
+                <div style="font-size: 0.7rem; color: #94A3B8;">Margin: {dcf_res['margin_of_safety_pct']:+.1f}%</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with f4:
+        info = fin_data.get("info", {})
+        pe = float(info.get("trailingPE", 25.0) or 25.0)
+        fwd_pe = float(info.get("forwardPE", 22.0) or 22.0)
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Valuation Multiples</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: #F1F5F9;">{pe:.1f}x P/E</div>
+                <div style="font-size: 0.7rem; color: #64748B;">Forward P/E: {fwd_pe:.1f}x</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    # Plotly Spider/Radar Chart & Piotroski Checklist
+    import plotly.graph_objects as go
+    r_col1, r_col2 = st.columns([1.2, 1.8])
+
+    with r_col1:
+        # Spider / Radar Chart
+        categories = list(radar_metrics.keys())
+        values = list(radar_metrics.values())
+        # Close loop
+        categories_closed = categories + [categories[0]]
+        values_closed = values + [values[0]]
+
+        fig_radar = go.Figure()
+        fig_radar.add_trace(go.Scatterpolar(
+            r=values_closed,
+            theta=categories_closed,
+            fill="toself",
+            fillcolor="rgba(0, 212, 170, 0.25)",
+            line=dict(color="#00D4AA", width=2),
+            name="Asset Profile"
+        ))
+        fig_radar.update_layout(
+            polar=dict(
+                radialaxis=dict(visible=True, range=[0, 100], color="#64748B"),
+                angularaxis=dict(color="#94A3B8")
+            ),
+            template="plotly_dark",
+            height=340,
+            margin=dict(l=30, r=30, t=30, b=30),
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(15,23,42,0.4)",
+        )
+        st.plotly_chart(fig_radar, use_container_width=True)
+
+    with r_col2:
+        st.markdown("#### 📋 Piotroski 9-Criteria Forensic Scorecard")
+        b_items = list(f_res["breakdown"].items())
+        cols_b1, cols_b2 = st.columns(2)
+        with cols_b1:
+            for name, passed in b_items[:5]:
+                badge = "🟢 PASS" if passed else "🔴 FAIL"
+                st.markdown(f"• **{name}**: `{badge}`")
+        with cols_b2:
+            for name, passed in b_items[5:]:
+                badge = "🟢 PASS" if passed else "🔴 FAIL"
+                st.markdown(f"• **{name}**: `{badge}`")
+
+        st.markdown("---")
+        st.markdown(
+            f"""
+            <div style="font-size: 0.85rem; color: #94A3B8;">
+                <b>DCF Model Specs</b>: 5-Year CAGR: <code>{dcf_res['assumptions']['growth_rate_5yr']}</code> &nbsp;|&nbsp; 
+                WACC Discount Rate: <code>{dcf_res['assumptions']['discount_rate_wacc']}</code> &nbsp;|&nbsp; 
+                Terminal Growth: <code>{dcf_res['assumptions']['terminal_growth_rate']}</code>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+
+# ==============================================================================
+# 🌪️ WORKSPACE 8: BLACK SWAN CRISIS SIMULATOR & KELLY POSITION SIZING
+# ==============================================================================
+def render_black_swan_workspace():
+    st.markdown('<div class="section-badge">Historical Black Swan Crisis Stress-Testing & Kelly Sizing</div>', unsafe_allow_html=True)
+
+    broker = PaperBroker()
+    total_eq = float(broker.state.get("total_equity", 100000.0))
+    open_pos = broker.state.get("open_positions", {})
+
+    # Default positions if cash buffer
+    positions_dict = {}
+    if open_pos:
+        for sym, p in open_pos.items():
+            positions_dict[sym] = float(p.get("shares", 0) * p.get("entry_price", 100.0))
+    else:
+        positions_dict = {"NVDA": 35000.0, "AAPL": 25000.0, "MSFT": 20000.0, "TSM": 10000.0}
+
+    crisis_results = simulate_portfolio_crises(positions_dict, total_equity=total_eq)
+    kelly_res = calculate_kelly_sizing(win_rate=0.56, win_loss_ratio=1.45)
+    slip_res = estimate_market_impact_slippage(order_size_dollars=25000.0)
+
+    # Metrics
+    k1, k2, k3, k4 = st.columns(4)
+    with k1:
+        worst_dd = max(r["portfolio_drawdown_pct"] for r in crisis_results)
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Worst Historical Shock</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: #EF4444;">-{worst_dd:.1f}%</div>
+                <div style="font-size: 0.7rem; color: #64748B;">2008 Lehman / Tech Shock</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with k2:
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Half-Kelly Allocation</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: #00D4AA;">{kelly_res['half_kelly_pct']:.1f}%</div>
+                <div style="font-size: 0.7rem; color: #64748B;">Full Kelly: {kelly_res['full_kelly_pct']:.1f}%</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with k3:
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Dynamic Leverage Cap</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: #3B82F6;">{kelly_res['recommended_leverage']:.2f}x</div>
+                <div style="font-size: 0.7rem; color: #64748B;">Max Ruin Buffer: 99.9%</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with k4:
+        st.markdown(
+            f"""
+            <div class="glass-card" style="text-align: center;">
+                <div style="font-size: 0.75rem; color: #94A3B8;">Estimated Trade Slippage</div>
+                <div style="font-size: 1.8rem; font-weight: 900; color: #10B981;">{slip_res['estimated_slippage_bps']:.1f} bps</div>
+                <div style="font-size: 0.7rem; color: #64748B;">${slip_res['estimated_slippage_dollars']:,.2f} on $25k Order</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    # Crisis Comparison Chart
+    import plotly.graph_objects as go
+    c_names = [r["crisis_name"] for r in crisis_results]
+    c_drawdowns = [r["portfolio_drawdown_pct"] for r in crisis_results]
+    c_losses = [r["projected_dollar_loss"] for r in crisis_results]
+
+    fig_cr = go.Figure()
+    fig_cr.add_trace(go.Bar(
+        x=c_names, y=c_drawdowns,
+        text=[f"-{d:.1f}% (${l:,.0f})" for d, l in zip(c_drawdowns, c_losses)],
+        textposition="auto",
+        marker_color=["#EF4444", "#F59E0B", "#EF4444", "#DC2626", "#3B82F6"]
+    ))
+    fig_cr.update_layout(
+        title="<b>Historical Crisis Replay</b> — Simulated Portfolio Drawdowns (%)",
+        template="plotly_dark",
+        height=320,
+        margin=dict(l=20, r=20, t=35, b=20),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(15,23,42,0.4)",
+    )
+    st.plotly_chart(fig_cr, use_container_width=True)
+
+    # Detailed Table
+    st.markdown("#### 📜 Crisis Catalysts & Liquidity Breakdown")
+    for r in crisis_results:
+        with st.expander(f"🔴 {r['crisis_name']} ({r['date_range']}) — Projected Loss: ${r['projected_dollar_loss']:,.2f} (-{r['portfolio_drawdown_pct']:.1f}%)"):
+            st.markdown(f"**Catalyst**: {r['catalyst']}")
+            st.markdown(f"**VIX Peak**: `{r['vix_peak']:.2f}` &nbsp;|&nbsp; **Simulated Remaining Equity**: `${r['simulated_equity_after']:,.2f}`")
+
+
+# ==============================================================================
 # 🚀 MAIN APPLICATION CONTROLLER
 # ==============================================================================
 def main():
@@ -681,7 +1067,7 @@ def main():
 
         st.markdown("---")
 
-        # 1. Navigation Mode Selector
+        # 1. Navigation Mode Selector (8 Specialized Institutional Workspaces)
         nav_mode = st.radio(
             "Navigation Workspace",
             [
@@ -689,6 +1075,9 @@ def main():
                 "💼 Portfolio & Broker",
                 "📊 Multi-Asset Fund & Risk",
                 "🕸️ Cointegration Pairs Desk",
+                "🎯 Options Flow & Max Pain",
+                "💎 Fundamentals & DCF Valuation",
+                "🌪️ Black Swan Crisis Simulator",
                 "🔬 Quantitative Research",
             ],
             index=0,
@@ -744,6 +1133,12 @@ def main():
         render_fund_and_risk()
     elif nav_mode == "🕸️ Cointegration Pairs Desk":
         render_statarb_workspace()
+    elif nav_mode == "🎯 Options Flow & Max Pain":
+        render_options_workspace(selected_ticker)
+    elif nav_mode == "💎 Fundamentals & DCF Valuation":
+        render_fundamentals_workspace(selected_ticker)
+    elif nav_mode == "🌪️ Black Swan Crisis Simulator":
+        render_black_swan_workspace()
     elif nav_mode == "🔬 Quantitative Research":
         render_research_workspace(selected_ticker)
 
