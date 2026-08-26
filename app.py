@@ -794,6 +794,8 @@ def render_portfolio_tab():
         # Equity Curve Chart
         st.markdown(
             '<div class="section-header">📈 Multi-Asset Fund Growth vs Equal Benchmark</div>',
+            unsafe_allow_html=True,
+        )
         chart_data = unified_df[["total", "benchmark"]].rename(
             columns={
                 "total": "Sentilyze Multi-Asset Fund ($)",
