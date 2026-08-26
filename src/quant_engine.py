@@ -12,6 +12,7 @@ Unifies all 8 Pillars and 40 Specialized Systems into a Synchronized Institution
 """
 
 from typing import Any, Dict
+from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 

@@ -46,6 +46,9 @@ Sentilyze_Research_Paper.md
 # Old model format (replaced by .json)
 *.joblib
 
+# Generated PDF tearsheets & factsheets
+*.pdf
+
 # Local agent memory and scratch experiments
 memory.md
 /experiments/
