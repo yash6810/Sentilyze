@@ -192,7 +192,7 @@ def render_command_center(ticker: str):
 
     col1, col2 = st.columns([1.2, 1.8])
 
-    df = pd.DataFrame()
+    features_df, price_df, news_df = pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
     quote = fetch_live_quote(ticker)
     curr_p = float(quote.get("price", 0))
     chg = float(quote.get("change_pct", 0))
@@ -220,14 +220,16 @@ def render_command_center(ticker: str):
         if os.path.exists(model_path) or os.path.exists(model_path.replace(".json", ".joblib")):
             with st.spinner(f"Running XGBoost + FinBERT for {ticker}..."):
                 try:
-                    df = preprocess_data(ticker, use_cache=True)
+                    features_df, price_df, news_df = preprocess_data(ticker, use_cache=True)
                     model = load_model(model_path)
-                    pred, conf = get_prediction_on_latest_data(model, df)
+                    pred_raw, conf_raw = get_prediction_on_latest_data(model, features_df.tail(1), FEATURES)
+                    pred = int(pred_raw[0])
+                    conf = float(conf_raw[0][1]) if len(conf_raw[0]) > 1 else float(conf_raw[0][0])
 
                     signal = "BUY" if pred == 1 and conf >= 0.50 else "HOLD"
                     sig_color = "#10B981" if signal == "BUY" else "#F59E0B"
 
-                    atr = float(df["atr"].iloc[-1]) if "atr" in df.columns else curr_p * 0.03
+                    atr = float(features_df["atr"].iloc[-1]) if "atr" in features_df.columns else curr_p * 0.03
                     tp1 = curr_p + (2.5 * atr)
                     tp2 = curr_p + (4.5 * atr)
                     sl = curr_p - (1.5 * atr)
@@ -251,8 +253,8 @@ def render_command_center(ticker: str):
 
     with col2:
         # Interactive Candlestick Chart
-        if not df.empty:
-            render_plotly_candlestick(ticker, df, curr_p, tp1, tp2, sl)
+        if not price_df.empty:
+            render_plotly_candlestick(ticker, price_df, curr_p, tp1, tp2, sl)
 
     # 5-Minute Proximity Radar
     st.markdown('<div class="section-badge">📡 5-Minute Active Position Guardian & Proximity Radar</div>', unsafe_allow_html=True)

@@ -33,16 +33,18 @@ def handle_bot_command(command_str: str) -> Dict[str, Any]:
         # Check model
         from src.modeling import load_model, get_prediction_on_latest_data
         from src.preprocessing import preprocess_data
+        from src.config import FEATURES
         m_path = f"models/{ticker}_model.json"
         signal_txt = "HOLD"
         conf_val = 0.50
         if os.path.exists(m_path):
             try:
-                df = preprocess_data(ticker, use_cache=True)
+                features_df, _, _ = preprocess_data(ticker, use_cache=True)
                 model = load_model(m_path)
-                pred, conf = get_prediction_on_latest_data(model, df)
-                signal_txt = "BUY" if pred == 1 and conf >= 0.50 else "HOLD"
-                conf_val = conf
+                pred_raw, conf_raw = get_prediction_on_latest_data(model, features_df.tail(1), FEATURES)
+                pred = int(pred_raw[0])
+                conf_val = float(conf_raw[0][1]) if len(conf_raw[0]) > 1 else float(conf_raw[0][0])
+                signal_txt = "BUY" if pred == 1 and conf_val >= 0.50 else "HOLD"
             except Exception:
                 pass
 
