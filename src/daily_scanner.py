@@ -139,12 +139,21 @@ def run_daily_market_scan() -> list:
                 time.sleep(1.0)  # Respect Discord API rate limit
                 send_discord_alert(card, webhook_url=discord_url)
 
+    # Dispatch Telegram Digest & Alerts
     if telegram_token and telegram_chat:
+        from src.dispatcher import send_telegram_digest
+        send_telegram_digest(signals_summary, bot_token=telegram_token, chat_id=telegram_chat)
         for card in signals_summary:
             if card["signal"] == "BUY":
                 send_telegram_alert(
                     card, bot_token=telegram_token, chat_id=telegram_chat
                 )
+
+    # Dispatch HTML Email Digest
+    if os.getenv("EMAIL_USER") and os.getenv("EMAIL_PASSWORD"):
+        from src.dispatcher import send_email_digest
+        logger.info("Sending Master Market HTML Digest via Email...")
+        send_email_digest(signals_summary)
 
     # Execute Virtual Paper Trading Simulation ($100k Capital)
     try:

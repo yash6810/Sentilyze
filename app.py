@@ -604,6 +604,7 @@ def render_backtest_tab(ticker: str):
             )
         )
 
+    # Row 3: Monthly Heatmap
     hpath = results["heatmap_path"]
     if os.path.exists(hpath):
         st.markdown(
@@ -611,6 +612,94 @@ def render_backtest_tab(ticker: str):
             unsafe_allow_html=True,
         )
         st.image(hpath, use_container_width=True)
+
+    # --- Dynamic Strategy Optimizer Sandbox ---
+    st.markdown(
+        '<div class="section-header">🎛️ Dynamic Strategy Optimizer & Leverage Sandbox</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        """
+        <p style="color: #94A3B8;">
+            Test custom leverage (1.0x to 2.0x), adjust minimum model confidence thresholds,
+            and tune ATR stops to observe live changes in equity growth, Sharpe, and Calmar ratios.
+        </p>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    col_sb1, col_sb2, col_sb3 = st.columns(3)
+    with col_sb1:
+        custom_lev = st.slider(
+            "Account Leverage",
+            min_value=1.0,
+            max_value=2.0,
+            value=1.25,
+            step=0.25,
+            format="%.2fx",
+        )
+    with col_sb2:
+        custom_conf = st.slider(
+            "Confidence Filter Cutoff",
+            min_value=0.45,
+            max_value=0.75,
+            value=0.52,
+            step=0.01,
+            format="%.0f%%",
+            help="Minimum model confidence required to execute trade",
+        )
+    with col_sb3:
+        custom_sl = st.slider(
+            "Trailing Stop Multiplier",
+            min_value=1.0,
+            max_value=3.0,
+            value=1.5,
+            step=0.25,
+            format="%.2fx ATR",
+        )
+
+    from src.strategy_optimizer import simulate_strategy_sandbox
+
+    sandbox_res = simulate_strategy_sandbox(
+        ticker=ticker,
+        leverage=custom_lev,
+        confidence_threshold=custom_conf,
+        sl_atr_multiplier=custom_sl,
+    )
+
+    if "error" not in sandbox_res:
+        sb_c1, sb_c2, sb_c3, sb_c4 = st.columns(4)
+        with sb_c1:
+            render_metric_card(
+                "Optimized Return",
+                f"{sandbox_res['total_return_pct']:+.1f}%",
+                (
+                    "positive"
+                    if sandbox_res["total_return_pct"]
+                    > sandbox_res["benchmark_return_pct"]
+                    else ""
+                ),
+            )
+        with sb_c2:
+            render_metric_card(
+                "Leveraged Sharpe",
+                f"{sandbox_res['sharpe_ratio']:.2f}",
+                "positive" if sandbox_res["sharpe_ratio"] > 1.0 else "",
+            )
+        with sb_c3:
+            render_metric_card(
+                "Max Drawdown",
+                f"{sandbox_res['max_drawdown_pct']:.1f}%",
+                "negative",
+            )
+        with sb_c4:
+            render_metric_card(
+                "Calmar Ratio",
+                f"{sandbox_res['calmar_ratio']:.2f}",
+                "positive" if sandbox_res["calmar_ratio"] > 1.0 else "",
+            )
+
+        st.line_chart(sandbox_res["chart_df"])
 
 
 def render_xai_tab(ticker: str):
@@ -800,6 +889,51 @@ def render_portfolio_tab():
             )
 
         st.dataframe(alloc_res["allocation_table"], use_container_width=True, hide_index=True)
+
+        # --- Cross-Asset Correlation & Risk Regime Matrix ---
+        st.markdown(
+            '<div class="section-header">🔥 17-Asset Cross-Correlation & Optimal Hedge Matrix</div>',
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            """
+            <p style="color: #94A3B8;">
+                Real-time rolling 90-day returns correlation matrix across all 17 assets. Automatically identifies
+                <b>optimal non-correlated hedge pairs</b> to minimize aggregate portfolio drawdown.
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        from src.correlation_matrix import compute_cross_asset_correlation
+
+        corr_df, hedge_analytics = compute_cross_asset_correlation()
+        if not corr_df.empty:
+            c_reg1, c_reg2 = st.columns([1, 2])
+            with c_reg1:
+                st.markdown(
+                    f"""
+                    <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; border-radius: 10px; padding: 1.2rem; margin-bottom: 1rem;">
+                        <h4 style="margin: 0; color: #00D4AA;">Macro Risk Regime</h4>
+                        <p style="font-size: 1.1rem; font-weight: bold; margin: 0.5rem 0 0 0;">{hedge_analytics.get('macro_regime', 'N/A')}</p>
+                        <p style="color: #94A3B8; font-size: 0.85rem; margin-top: 0.4rem;">Avg Market Correlation to SPY: <b>{hedge_analytics.get('avg_market_correlation', 0.5)}</b></p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+                st.markdown("**🛡️ Top Uncorrelated Hedge Pairs:**")
+                st.dataframe(
+                    hedge_analytics.get("top_hedge_pairs", pd.DataFrame()),
+                    use_container_width=True,
+                    hide_index=True,
+                )
+            with c_reg2:
+                st.dataframe(
+                    corr_df.style.background_gradient(
+                        cmap="coolwarm", vmin=-1.0, vmax=1.0
+                    ),
+                    use_container_width=True,
+                )
 
     except Exception as e:
         st.warning(f"Unable to generate unified portfolio: {e}")
@@ -1182,14 +1316,14 @@ def main():
 
         st.markdown("---")
 
-        with st.expander("🔔 Signal Alert Webhooks", expanded=False):
-            st.markdown("Send real-time trade signals to Discord:")
+        with st.expander("🔔 Multi-Channel Alert Dispatcher", expanded=False):
+            st.markdown("**1. Discord Webhook:**")
             discord_url = st.text_input(
                 "Discord Webhook URL",
                 type="password",
                 placeholder="https://discord.com/api/webhooks/...",
             )
-            if st.button("📨 Send Test Alert"):
+            if st.button("📨 Send Discord Test Alert"):
                 if discord_url:
                     test_payload = format_signal_card(
                         ticker=ticker,
@@ -1206,11 +1340,40 @@ def main():
                     )
                     success = send_discord_alert(test_payload, webhook_url=discord_url)
                     if success:
-                        st.success("Alert successfully delivered to Discord!")
+                        st.success("Delivered to Discord!")
                     else:
-                        st.error("Failed to deliver alert. Check URL.")
+                        st.error("Failed to deliver Discord alert.")
                 else:
                     st.warning("Please enter a Discord Webhook URL.")
+
+            st.markdown("---")
+            st.markdown("**2. Telegram Bot:**")
+            tg_token = st.text_input("Bot Token", type="password", placeholder="123456:ABC-DEF...")
+            tg_chat = st.text_input("Chat ID", placeholder="-100123456789")
+            if st.button("✈️ Send Telegram Test Alert"):
+                if tg_token and tg_chat:
+                    from src.dispatcher import send_telegram_digest
+                    signals = [{"ticker": ticker, "signal": "BUY", "confidence": 0.82, "current_price": 120.50, "take_profit": 132.00, "stop_loss": 115.00}]
+                    ok = send_telegram_digest(signals, bot_token=tg_token, chat_id=tg_chat)
+                    if ok:
+                        st.success("Delivered to Telegram!")
+                    else:
+                        st.error("Telegram dispatch failed. Verify Token & Chat ID.")
+                else:
+                    st.warning("Enter Bot Token and Chat ID.")
+
+            st.markdown("---")
+            st.markdown("**3. Email HTML Digest:**")
+            test_email = st.text_input("Recipient Email", value=os.getenv("EMAIL_RECIPIENT", "yashupadhyay481@gmail.com"))
+            if st.button("📧 Send Email Test Digest"):
+                if test_email:
+                    from src.dispatcher import send_email_digest
+                    signals = [{"ticker": ticker, "signal": "BUY", "confidence": 0.82, "current_price": 120.50, "take_profit": 132.00, "stop_loss": 115.00}]
+                    ok = send_email_digest(signals, recipient_email=test_email)
+                    if ok:
+                        st.success(f"Email digest sent to {test_email}!")
+                    else:
+                        st.error("Email dispatch failed. Verify EMAIL_USER & EMAIL_PASSWORD in .env.")
 
         st.markdown("---")
 
