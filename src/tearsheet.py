@@ -143,11 +143,25 @@ def generate_executive_pdf_tearsheet(
         ax_chart.legend(loc="upper left", facecolor="#1C2541", edgecolor="#3A506B")
         ax_chart.grid(True)
 
+        # Normalize open_positions input (support dict or list)
+        normalized_positions = []
+        if isinstance(open_positions, dict):
+            for k, v in open_positions.items():
+                pos_item = dict(v) if isinstance(v, dict) else {"current_price": float(v)}
+                pos_item.setdefault("ticker", str(k))
+                normalized_positions.append(pos_item)
+        elif isinstance(open_positions, list):
+            for idx, p in enumerate(open_positions):
+                if isinstance(p, dict):
+                    pos_item = dict(p)
+                    pos_item.setdefault("ticker", p.get("symbol", f"Asset {idx+1}"))
+                    normalized_positions.append(pos_item)
+
         # Asset Allocation Breakdown
         ax_alloc = fig1.add_subplot(gs[2])
-        if open_positions:
-            tickers = [p["ticker"] for p in open_positions]
-            values = [float(p.get("shares", 1)) * float(p.get("current_price", 100)) for p in open_positions]
+        if normalized_positions:
+            tickers = [p.get("ticker", f"Asset {i+1}") for i, p in enumerate(normalized_positions)]
+            values = [float(p.get("shares", 1)) * float(p.get("current_price", 100)) for p in normalized_positions]
             if portfolio_summary.get("cash", 0) > 0:
                 tickers.append("CASH")
                 values.append(float(portfolio_summary["cash"]))
@@ -178,19 +192,21 @@ def generate_executive_pdf_tearsheet(
         table_data = [
             ["TICKER", "SHARES", "ENTRY ($)", "CURRENT ($)", "TAKE-PROFIT", "STOP-LOSS", "PnL ($)"]
         ]
-        for p in open_positions:
+        for p in normalized_positions:
             shares = int(p.get("shares", 0))
             entry_p = float(p.get("entry_price", 0))
             curr_p = float(p.get("current_price", entry_p))
+            tp_p = float(p.get("tp1_target", p.get("tp_target", 0)))
+            sl_p = float(p.get("sl_target", 0))
             pnl = shares * (curr_p - entry_p)
             table_data.append(
                 [
-                    p["ticker"],
+                    p.get("ticker", "POS"),
                     str(shares),
                     f"${entry_p:.2f}",
                     f"${curr_p:.2f}",
-                    f"${float(p.get('tp_target', 0)):.2f}",
-                    f"${float(p.get('sl_target', 0)):.2f}",
+                    f"${tp_p:.2f}",
+                    f"${sl_p:.2f}",
                     f"${pnl:+,.2f}",
                 ]
             )

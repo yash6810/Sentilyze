@@ -22,7 +22,12 @@ from src.config import FEATURES
 from src.preprocessing import preprocess_data
 from src.modeling import load_model, get_prediction_on_latest_data
 from src.paper_broker import PaperBroker
-from src.realtime_tracker import fetch_live_quote, fetch_universe_live_quotes, evaluate_intraday_execution
+from src.realtime_tracker import (
+    fetch_live_quote,
+    fetch_universe_live_quotes,
+    evaluate_intraday_execution,
+    get_us_market_session_info,
+)
 from src.portfolio import build_unified_portfolio, load_all_ticker_portfolios, calculate_risk_parity_weights
 from src.alerts import format_signal_card, send_discord_alert, send_telegram_alert
 from src.rebalancer import calculate_custom_rebalance
@@ -379,7 +384,7 @@ def render_portfolio_workspace():
     with col_pdf:
         pdf_bytes = generate_executive_pdf_tearsheet(
             portfolio_summary=summary,
-            open_positions=list(broker.state.get("open_positions", {}).values()),
+            open_positions=[dict(pos, ticker=t) for t, pos in broker.state.get("open_positions", {}).items()],
             equity_history_df=broker.get_equity_curve_df(),
         )
         st.download_button(
@@ -1345,7 +1350,35 @@ def main():
                 else:
                     st.info("Audio generated in text briefing format.")
 
+        st.markdown("---")
+
+        # 4. Live US & India Market Hours Clock Widget
+        mkt = get_us_market_session_info()
+        status_badge_color = "#10B981" if mkt["is_open_for_trading"] else ("#38BDF8" if "PRE" in mkt["status"] or "AFTER" in mkt["status"] else "#F59E0B")
+        st.markdown(
+            f"""
+            <div class="glass-card" style="padding: 0.8rem; font-size: 0.8rem; border-left: 3px solid {status_badge_color};">
+                <div style="font-weight: 800; color: #F8FAFC; margin-bottom: 0.3rem;">
+                    ⏰ <b>US Market Session</b>
+                </div>
+                <div style="color: {status_badge_color}; font-weight: 700; margin-bottom: 0.4rem;">
+                    ● {mkt["status_label"]}
+                </div>
+                <div style="color: #94A3B8; font-size: 0.75rem; line-height: 1.4;">
+                    • <b>NY (ET):</b> <span style="color:#E2E8F0;">{mkt["ny_time_str"]}</span><br>
+                    • <b>IST:</b> <span style="color:#E2E8F0;">{mkt["ist_time_str"]}</span><br>
+                    • <b>Regular:</b> <span style="color:#00D4AA;">{mkt["regular_hours_ist"]}</span><br>
+                    • <b>Pre-Market:</b> <span style="color:#38BDF8;">{mkt["pre_market_ist"]}</span><br>
+                    • <b>After-Hours:</b> <span style="color:#94A3B8;">{mkt["after_hours_ist"]}</span>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
     # --- Top Luxury Header ---
+    mkt_info = get_us_market_session_info()
+    header_status_color = "#10B981" if mkt_info["is_open_for_trading"] else ("#38BDF8" if "PRE" in mkt_info["status"] or "AFTER" in mkt_info["status"] else "#F59E0B")
     st.markdown(
         f"""
         <div class="luxury-header">
@@ -1355,8 +1388,13 @@ def main():
                     Active Workspace: <b style="color: #F1F5F9;">{nav_mode}</b> &nbsp;·&nbsp; Specialist: <b style="color: #00D4AA;">{selected_ticker}</b>
                 </p>
             </div>
-            <div style="font-size: 0.85rem; color: #00D4AA; font-weight: 700; background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.3); padding: 4px 12px; border-radius: 20px;">
-                🟢 17 Specialist Models Live
+            <div style="display: flex; gap: 0.6rem; align-items: center;">
+                <div style="font-size: 0.82rem; color: {header_status_color}; font-weight: 700; background: {header_status_color}18; border: 1px solid {header_status_color}55; padding: 4px 12px; border-radius: 20px;">
+                    ● {mkt_info["status_label"]} ({mkt_info["ny_time_str"]})
+                </div>
+                <div style="font-size: 0.82rem; color: #00D4AA; font-weight: 700; background: rgba(0, 212, 170, 0.1); border: 1px solid rgba(0, 212, 170, 0.3); padding: 4px 12px; border-radius: 20px;">
+                    🟢 17 Specialist Models
+                </div>
             </div>
         </div>
         """,

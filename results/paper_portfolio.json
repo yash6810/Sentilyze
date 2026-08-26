@@ -1,13 +1,13 @@
 {
   "initial_capital": 100000.0,
-  "cash": 99825.90290466309,
-  "total_equity": 99980.9,
-  "unrealized_pnl": -19.1,
-  "realized_pnl": -174.09709533691804,
-  "win_rate": 0.0,
-  "total_trades": 6,
-  "winning_trades": 2,
-  "losing_trades": 4,
+  "cash": 99611.04481628418,
+  "total_equity": 99801.72,
+  "unrealized_pnl": -24.18,
+  "realized_pnl": -388.9551837158251,
+  "win_rate": 33.3,
+  "total_trades": 8,
+  "winning_trades": 3,
+  "losing_trades": 5,
   "open_positions": {},
   "closed_trades": [
     {
@@ -75,17 +75,39 @@
       "pnl": -49.41,
       "return_pct": -0.86,
       "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "AMD",
+      "shares": 93,
+      "entry_price": 479.1799926757813,
+      "exit_price": 481.3,
+      "entry_date": "2026-08-26",
+      "exit_date": "2026-08-26",
+      "pnl": 197.16,
+      "return_pct": 0.44,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "AVGO",
+      "shares": 126,
+      "entry_price": 356.739990234375,
+      "exit_price": 353.47,
+      "entry_date": "2026-08-26",
+      "exit_date": "2026-08-26",
+      "pnl": -412.02,
+      "return_pct": -0.92,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
     }
   ],
   "equity_history": [
     {
       "date": "2026-08-26",
       "timestamp": "2026-08-26T07:50:14.703218+00:00",
-      "total_equity": 99980.9,
-      "cash": 458.24,
-      "invested": 99522.66,
-      "daily_return": 0.0
+      "total_equity": 99801.72,
+      "cash": 10312.92,
+      "invested": 89488.8,
+      "daily_return": -0.02
     }
   ],
-  "last_updated": "2026-08-26T17:34:58.769560+00:00"
+  "last_updated": "2026-08-26T18:16:32.977729+00:00"
 }

@@ -19,6 +19,62 @@ UNIVERSE_TICKERS = [
 ]
 
 
+from zoneinfo import ZoneInfo
+
+
+def get_us_market_session_info() -> Dict[str, Any]:
+    """
+    Computes current US stock market session status (Pre-Market, Regular Hours, After-Hours, Closed),
+    taking into account US Daylight Saving Time (EDT vs EST) and India Standard Time (IST).
+    """
+    ny_tz = ZoneInfo("America/New_York")
+    ist_tz = ZoneInfo("Asia/Kolkata")
+
+    now_utc = datetime.now(timezone.utc)
+    now_ny = now_utc.astimezone(ny_tz)
+    now_ist = now_utc.astimezone(ist_tz)
+
+    is_dst = bool(now_ny.dst())
+    weekday = now_ny.weekday()  # 0 = Monday, 6 = Sunday
+    is_weekend = weekday in (5, 6)
+
+    # Minute of day in NY (0 to 1439)
+    current_minute = now_ny.hour * 60 + now_ny.minute
+
+    # Pre-market: 04:00 (240) to 09:30 (570)
+    # Regular hours: 09:30 (570) to 16:00 (960)
+    # After-hours: 16:00 (960) to 20:00 (1200)
+
+    if is_weekend:
+        status = "WEEKEND_CLOSED"
+        status_label = "Weekend (Closed)"
+    elif 570 <= current_minute < 960:
+        status = "REGULAR_TRADING"
+        status_label = "Regular Market Open (Live Trading)"
+    elif 240 <= current_minute < 570:
+        status = "PRE_MARKET"
+        status_label = "Pre-Market Session"
+    elif 960 <= current_minute < 1200:
+        status = "AFTER_HOURS"
+        status_label = "After-Hours Session"
+    else:
+        status = "OVERNIGHT_CLOSED"
+        status_label = "Overnight (Closed)"
+
+    return {
+        "status": status,
+        "status_label": status_label,
+        "is_open_for_trading": status == "REGULAR_TRADING",
+        "ny_time_str": now_ny.strftime("%I:%M %p %Z"),
+        "ist_time_str": now_ist.strftime("%I:%M %p IST"),
+        "is_dst": is_dst,
+        "tz_label": "EDT (Daylight Saving Time)" if is_dst else "EST (Standard Time)",
+        "regular_hours_ist": "7:00 PM – 1:30 AM IST" if is_dst else "8:00 PM – 2:30 AM IST",
+        "pre_market_ist": "1:30 PM – 7:00 PM IST" if is_dst else "2:30 PM – 8:00 PM IST",
+        "after_hours_ist": "1:30 AM – 5:30 AM IST" if is_dst else "2:30 AM – 6:30 AM IST",
+    }
+
+
 def _get_browser_session() -> requests.Session:
     """Creates a requests Session with modern desktop browser headers."""
     session = requests.Session()
