@@ -30,10 +30,20 @@ from src.alerts import format_signal_card, send_discord_alert, send_telegram_ale
 import yfinance as yf
 
 # --- Supported Tickers (All 17 Universe Assets) ---
-SUPPORTED_TICKERS = [
-    "NVDA", "AAPL", "MSFT", "GOOGL", "META", "TSLA", "AMZN",
-    "AVGO", "AMD", "PLTR", "LLY", "QQQ", "SPY", "JPM", "COST", "NFLX", "TSM"
-]
+def load_supported_tickers() -> List[str]:
+    stocks_file = "stocks.txt"
+    if os.path.exists(stocks_file):
+        with open(stocks_file, "r") as f:
+            tickers = [line.strip() for line in f if line.strip()]
+            if tickers:
+                return tickers
+    return [
+        "NVDA", "AAPL", "MSFT", "GOOGL", "META", "TSLA", "AMZN",
+        "AVGO", "AMD", "PLTR", "LLY", "QQQ", "SPY", "JPM", "COST", "NFLX", "TSM"
+    ]
+
+
+SUPPORTED_TICKERS = load_supported_tickers()
 
 
 def inject_custom_css():
@@ -1426,6 +1436,7 @@ def main():
             "Select Specialist Ticker",
             SUPPORTED_TICKERS,
             index=0,
+            key="specialist_ticker_selector",
             help="Choose from pre-trained specialist models",
         )
 
