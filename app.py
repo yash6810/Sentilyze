@@ -552,8 +552,11 @@ def render_statarb_workspace():
     with col_ctrl3:
         z_threshold = st.slider("Entry Z-Threshold (σ)", min_value=1.0, max_value=3.0, value=2.0, step=0.25)
 
-    pair_symbols = selected_pair_str.split(" ")[0].split("/")
-    ticker_a, ticker_b = pair_symbols[0].strip(), pair_symbols[1].strip()
+    # Robust parsing of "TICKER_A / TICKER_B (Description)"
+    pair_part = selected_pair_str.split("(")[0].strip()
+    pair_symbols = [s.strip() for s in pair_part.split("/") if s.strip()]
+    ticker_a = pair_symbols[0] if len(pair_symbols) > 0 else "NVDA"
+    ticker_b = pair_symbols[1] if len(pair_symbols) > 1 else "TSM"
 
     try:
         from src.data_ingestion import get_price_history

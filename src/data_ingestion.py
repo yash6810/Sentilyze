@@ -74,6 +74,7 @@ def get_news(
     cache_duration_hours: int = 24,
     retries: int = 3,
     backoff_factor: float = 1,
+    use_cache: bool = None,
 ) -> pd.DataFrame:
     """
     Fetch recent news for a given ticker from live sources (Yahoo Finance + NewsAPI), with caching.
@@ -82,6 +83,7 @@ def get_news(
         ticker (str): The stock ticker to fetch news for.
         api_key (str, optional): The API key for NewsAPI.
         cache_duration_hours (int, optional): Cache freshness duration. Defaults to 24.
+        use_cache (bool, optional): Force cache usage if True, or force live fetch if False.
 
     Returns:
         pd.DataFrame: A DataFrame containing recent news articles, indexed by 'publishedAt'.
@@ -89,17 +91,22 @@ def get_news(
     cache_path = os.path.join(DATA_DIR, f"{ticker}_news.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
 
-    use_cache = False
+    should_load_cache = False
     if os.path.exists(cache_path):
-        cache_age_seconds = time.time() - os.path.getmtime(cache_path)
-        if cache_age_seconds < cache_duration_hours * 3600:
-            use_cache = True
+        if use_cache is True:
+            should_load_cache = True
+        elif use_cache is False:
+            should_load_cache = False
         else:
-            logger.info(
-                f"News cache for {ticker} is stale. Re-fetching fresh live news..."
-            )
+            cache_age_seconds = time.time() - os.path.getmtime(cache_path)
+            if cache_age_seconds < cache_duration_hours * 3600:
+                should_load_cache = True
+            else:
+                logger.info(
+                    f"News cache for {ticker} is stale. Re-fetching fresh live news..."
+                )
 
-    if use_cache:
+    if should_load_cache:
         logger.info(f"Loading news for {ticker} from cache...")
         articles_df = pd.read_csv(cache_path)
     else:
@@ -480,6 +487,7 @@ def get_price_history(
     cache_duration_hours: int = 24,
     retries: int = 3,
     backoff_factor: float = 2,
+    use_cache: bool = None,
 ) -> pd.DataFrame:
     """
     Enterprise Data Router: Fetches historical price data up to today using the best available provider.
@@ -488,15 +496,20 @@ def get_price_history(
     cache_path = os.path.join(DATA_DIR, f"{ticker}_price_history.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
 
-    use_cache = False
+    should_load_cache = False
     if os.path.exists(cache_path):
-        cache_age_seconds = time.time() - os.path.getmtime(cache_path)
-        if cache_age_seconds < cache_duration_hours * 3600:
-            use_cache = True
+        if use_cache is True:
+            should_load_cache = True
+        elif use_cache is False:
+            should_load_cache = False
         else:
-            logger.info(f"Price history cache for {ticker} is stale. Re-fetching...")
+            cache_age_seconds = time.time() - os.path.getmtime(cache_path)
+            if cache_age_seconds < cache_duration_hours * 3600:
+                should_load_cache = True
+            else:
+                logger.info(f"Price history cache for {ticker} is stale. Re-fetching...")
 
-    if use_cache:
+    if should_load_cache:
         logger.info(f"Loading price history for {ticker} from cache...")
         history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
         if history.index.tz is None:
@@ -561,26 +574,20 @@ def get_price_history(
 
     return history
 
-    # Ensure 'Dividends' and 'Stock Splits' columns are present
-    if "Dividends" not in history.columns:
-        history["Dividends"] = 0
-    if "Stock Splits" not in history.columns:
-        history["Stock Splits"] = 0
-
-    return history
-
 
 def get_vix_data(
     period: str = "10y",
     cache_duration_hours: int = 24,
     retries: int = 5,
     backoff_factor: float = 10,
+    use_cache: bool = None,
 ) -> pd.DataFrame:
     """
     Fetches historical data for the CBOE Volatility Index (VIX).
 
     Args:
         period (str): The time period for the data. Defaults to "10y".
+        use_cache (bool, optional): Force cache usage if True, or force live fetch if False.
 
     Returns:
         pd.DataFrame: A DataFrame containing VIX price history.
@@ -588,13 +595,18 @@ def get_vix_data(
     cache_path = os.path.join(DATA_DIR, "vix_history.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
 
-    use_cache = False
+    should_load_cache = False
     if os.path.exists(cache_path):
-        cache_age_seconds = time.time() - os.path.getmtime(cache_path)
-        if cache_age_seconds < cache_duration_hours * 3600:
-            use_cache = True
+        if use_cache is True:
+            should_load_cache = True
+        elif use_cache is False:
+            should_load_cache = False
+        else:
+            cache_age_seconds = time.time() - os.path.getmtime(cache_path)
+            if cache_age_seconds < cache_duration_hours * 3600:
+                should_load_cache = True
 
-    if use_cache:
+    if should_load_cache:
         logger.info("Loading VIX data from cache...")
         history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
         if history.index.tz is None:
