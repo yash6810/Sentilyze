@@ -350,10 +350,25 @@ def render_research_workspace(ticker: str):
 
     with col_chart:
         st.markdown(f"### 📈 Live Strategy Sandbox Simulation ({ticker})")
-        res = simulate_strategy_sandbox(ticker=ticker, leverage=lev, conf_threshold=conf_thresh, tp_atr_mult=tp_mult)
-        if "summary" in res:
-            s = res["summary"]
-            st.metric("Total Sandbox Return", f"{s.get('total_return_pct', 0):+.2f}%", f"Sharpe: {s.get('sharpe_ratio', 0):.2f}")
+        res = simulate_strategy_sandbox(
+            ticker=ticker,
+            leverage=lev,
+            confidence_threshold=conf_thresh,
+            tp_atr_multiplier=tp_mult,
+        )
+        if "total_return_pct" in res:
+            k1, k2, k3 = st.columns(3)
+            with k1:
+                st.metric("Strategy Return", f"{res['total_return_pct']:+.2f}%", f"Benchmark: {res['benchmark_return_pct']:+.1f}%")
+            with k2:
+                st.metric("Sharpe Ratio", f"{res['sharpe_ratio']:.2f}")
+            with k3:
+                st.metric("Max Drawdown", f"{res['max_drawdown_pct']:.2f}%")
+
+            if "chart_df" in res and not res["chart_df"].empty:
+                st.line_chart(res["chart_df"], use_container_width=True)
+        else:
+            st.error(res.get("error", "Simulation error"))
 
 
 # ==============================================================================
