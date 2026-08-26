@@ -75,7 +75,7 @@ def test_paper_broker_take_profit_exit(temp_portfolio_file):
     broker.execute_daily_signals(signals)
     assert "META" in broker.state["open_positions"]
 
-    # 2. Next day price jumps past TP target ($560 >= $550)
+    # 2. Next day price jumps past TP1 target ($560 >= $550) -> 50% Scale-Out
     next_day_signals = [
         {
             "ticker": "META",
@@ -90,9 +90,23 @@ def test_paper_broker_take_profit_exit(temp_portfolio_file):
 
     assert len(actions["take_profits"]) == 1
     assert actions["take_profits"][0]["reason"] == "TAKE_PROFIT"
-    assert "META" not in broker.state["open_positions"]
+    assert broker.state["open_positions"]["META"]["scaled_out"] is True
     assert broker.state["realized_pnl"] > 0
-    assert broker.state["winning_trades"] == 1
+
+    # 3. Day 3 price reaches TP2 runner target ($600 >= $590) -> Complete Exit
+    day3_signals = [
+        {
+            "ticker": "META",
+            "signal": "HOLD",
+            "confidence": 0.50,
+            "current_price": 600.0,
+            "take_profit": 650.0,
+            "stop_loss": 550.0,
+        }
+    ]
+    actions3 = broker.execute_daily_signals(day3_signals)
+    assert "META" not in broker.state["open_positions"]
+    assert broker.state["winning_trades"] >= 1
 
 
 def test_paper_broker_stop_loss_exit(temp_portfolio_file):
