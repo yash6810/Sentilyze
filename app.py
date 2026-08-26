@@ -356,6 +356,17 @@ def render_command_center(ticker: str):
     st.markdown('<div class="section-badge">📡 5-Minute Active Position Guardian & Proximity Radar</div>', unsafe_allow_html=True)
     broker = PaperBroker()
     open_pos = broker.state.get("open_positions", {})
+    last_upd = str(broker.state.get("last_updated", "N/A"))[:19].replace("T", " ")
+
+    st.markdown(
+        f"""
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.6); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(0, 212, 170, 0.2); margin-bottom: 0.8rem;">
+            <div><span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10B981; margin-right: 6px; box-shadow: 0 0 8px #10B981;"></span><b style="color: #F8FAFC; font-size: 0.85rem;">Autonomous Intraday Guardian:</b> <span style="color: #00D4AA; font-size: 0.85rem;">ACTIVE (5-Min Cloud Cron)</span></div>
+            <div style="font-size: 0.75rem; color: #94A3B8;">Ledger Last Synced: <span style="color: #E2E8F0; font-family: monospace;">{last_upd} UTC</span></div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     if open_pos:
         radar_cols = st.columns(min(len(open_pos), 3))
