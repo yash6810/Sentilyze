@@ -1,4 +1,10 @@
 # src/config.py
+import os
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATA_DIR = os.path.join(PROJECT_ROOT, "data", "raw")
+PROCESSED_DATA_DIR = os.path.join(PROJECT_ROOT, "data", "processed")
 
 # List of features to be used for model training and prediction
 FEATURES = [
