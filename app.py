@@ -1275,6 +1275,117 @@ def render_paper_portfolio_tab():
         )
 
 
+def render_realtime_radar_tab():
+    """Tab 9: Real-Time Intraday Market Radar & Proximity Scanner."""
+    from src.realtime_tracker import fetch_universe_live_quotes, evaluate_intraday_execution
+    from src.paper_broker import PaperBroker
+
+    st.markdown(
+        '<div class="section-header">⚡ Real-Time Intraday Market Radar & Live Price Tracker</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        """
+        <p style="color: #94A3B8; margin-bottom: 1.2rem;">
+            Real-time sub-minute price polling across all 17 assets. Monitors open positions and dynamically tracks
+            proximity to <b>Take-Profit (+2.5 ATR)</b> targets and <b>Stop-Loss</b> limit boundaries.
+        </p>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    broker = PaperBroker()
+    open_positions = broker.state.get("open_positions", {})
+
+    col_act1, col_act2 = st.columns([1, 3])
+    with col_act1:
+        if st.button("🔄 Refresh Live Quotes", use_container_width=True):
+            st.rerun()
+    with col_act2:
+        if st.button("⚡ Check & Execute Intraday Exits Now", use_container_width=True):
+            with st.spinner("Checking live quotes against TP/SL triggers..."):
+                res = evaluate_intraday_execution(broker=broker)
+                trades = res.get("executed_trades", [])
+                if trades:
+                    st.success(f"Executed {len(trades)} exit trades on live market prices!")
+                else:
+                    st.info("All open positions are within target bands. No exit thresholds triggered.")
+                st.rerun()
+
+    # --- Live Radar for Open Holdings ---
+    st.markdown(
+        '<div class="section-header">🎯 Active Holdings Proximity Radar</div>',
+        unsafe_allow_html=True,
+    )
+
+    if open_positions:
+        cols = st.columns(min(len(open_positions), 3))
+        for idx, (ticker, pos) in enumerate(open_positions.items()):
+            col_target = cols[idx % len(cols)]
+            with col_target:
+                from src.realtime_tracker import fetch_live_quote
+                q = fetch_live_quote(ticker)
+                curr_p = float(q.get("price", pos.get("current_price", 100)))
+                entry_p = float(pos.get("entry_price", curr_p))
+                tp_target = float(pos.get("tp_target", entry_p * 1.06))
+                sl_target = float(pos.get("sl_target", entry_p * 0.95))
+
+                pnl_pct = ((curr_p - entry_p) / entry_p) * 100.0 if entry_p > 0 else 0.0
+                total_target_span = tp_target - entry_p
+                current_progress = (curr_p - entry_p) / max(0.01, total_target_span)
+                progress_pct = max(0.0, min(1.0, current_progress))
+
+                status_label = (
+                    "🚀 NEAR TAKE-PROFIT"
+                    if curr_p >= tp_target * 0.98
+                    else (
+                        "🟢 IN PROFIT"
+                        if pnl_pct > 1.0
+                        else ("⚠️ NEAR STOP-LOSS" if curr_p <= sl_target * 1.02 else "🟡 IN RANGE")
+                    )
+                )
+
+                st.markdown(
+                    f"""
+                    <div style="background: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 1.2rem; margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="margin: 0; color: #00D4AA;">{ticker}</h3>
+                            <span style="font-size: 0.8rem; font-weight: bold; background: #0F172A; padding: 3px 8px; border-radius: 4px;">{status_label}</span>
+                        </div>
+                        <div style="font-size: 1.4rem; font-weight: bold; margin: 0.5rem 0;">${curr_p:,.2f} <span style="font-size: 0.9rem; color: {'#10B981' if pnl_pct >= 0 else '#EF4444'};">({pnl_pct:+.2f}%)</span></div>
+                        <div style="font-size: 0.8rem; color: #94A3B8; margin-bottom: 0.3rem;">Entry: ${entry_p:.2f} | <b>TP Target: ${tp_target:.2f}</b> | SL: ${sl_target:.2f}</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+                st.progress(progress_pct, text=f"Progress to Take-Profit: {progress_pct * 100:.1f}%")
+    else:
+        st.info("No active open positions. Cash is liquid awaiting signals.")
+
+    # --- Full 17-Stock Real-Time Universe Board ---
+    st.markdown(
+        '<div class="section-header">📊 17-Stock Universe Live Ticker Board</div>',
+        unsafe_allow_html=True,
+    )
+    with st.spinner("Streaming live quotes..."):
+        all_quotes = fetch_universe_live_quotes()
+        rows = []
+        for t, q in all_quotes.items():
+            price = q.get("price", 0)
+            chg = q.get("change_pct", 0)
+            rows.append(
+                {
+                    "Ticker": t,
+                    "Live Price": f"${price:,.2f}" if price > 0 else "N/A",
+                    "Today's Change (%)": f"{chg:+.2f}%",
+                    "Day High": f"${q.get('day_high', 0):,.2f}",
+                    "Day Low": f"${q.get('day_low', 0):,.2f}",
+                    "Status": "🟢 Live" if q.get("status") == "LIVE" else "⚪ Offline",
+                }
+            )
+        st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+
+
 # --- Main App ---
 
 
@@ -1430,9 +1541,10 @@ def main():
     _ = load_sentiment_analyzer()
 
     # --- Tabs ---
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8, tab9 = st.tabs(
         [
             "⚡ Live Signal",
+            "📡 Real-Time Radar",
             "📊 Dashboard",
             "🏦 Backtest",
             "🧠 XAI",
@@ -1446,18 +1558,20 @@ def main():
     with tab1:
         render_prediction_tab(ticker, model_path)
     with tab2:
-        render_dashboard_tab(ticker)
+        render_realtime_radar_tab()
     with tab3:
-        render_backtest_tab(ticker)
+        render_dashboard_tab(ticker)
     with tab4:
-        render_xai_tab(ticker)
+        render_backtest_tab(ticker)
     with tab5:
-        render_portfolio_tab()
+        render_xai_tab(ticker)
     with tab6:
-        render_paper_portfolio_tab()
+        render_portfolio_tab()
     with tab7:
-        render_stress_test_tab()
+        render_paper_portfolio_tab()
     with tab8:
+        render_stress_test_tab()
+    with tab9:
         render_screener_tab()
 
 

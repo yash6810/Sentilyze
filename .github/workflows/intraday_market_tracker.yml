@@ -1,0 +1,53 @@
+name: Autonomous Intraday Market Tracker & Live Execution
+
+on:
+  schedule:
+    # Runs every 30 minutes during active US Trading Session (7:30 PM - 1:30 AM IST / 14:00 - 20:00 UTC, Mon-Fri)
+    - cron: '*/30 14-20 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  intraday-tracker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set Up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Intraday Live Market Price & Execution Tracker
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || secrets.TRADE_BOT }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+          EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
+        run: |
+          python -c "from src.realtime_tracker import evaluate_intraday_execution; res = evaluate_intraday_execution(); print('Intraday Execution Result:', res)"
+
+      - name: Commit Updated Paper Portfolio State
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add results/paper_portfolio.json
+          git commit -m "chore(portfolio): intraday mark-to-market and live execution [skip ci]" || echo "No trade changes to commit"
+          git pull --rebase origin main
+          git push origin main || echo "Nothing to push"
