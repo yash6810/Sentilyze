@@ -146,6 +146,20 @@ def run_daily_market_scan() -> list:
                     card, bot_token=telegram_token, chat_id=telegram_chat
                 )
 
+    # Execute Virtual Paper Trading Simulation ($100k Capital)
+    try:
+        from src.paper_broker import PaperBroker
+        broker = PaperBroker()
+        executed_actions = broker.execute_daily_signals(signals_summary)
+        summary = broker.get_portfolio_summary()
+        logger.info(
+            f"Paper Portfolio Updated: Equity: ${summary['total_equity']:,.2f} | "
+            f"Cash: ${summary['cash']:,.2f} | Open Positions: {summary['open_positions_count']} | "
+            f"Unrealized PnL: ${summary['unrealized_pnl']:+,.2f} | Realized PnL: ${summary['realized_pnl']:+,.2f}"
+        )
+    except Exception as e:
+        logger.error(f"Error updating Paper Broker: {e}", exc_info=True)
+
     # Save summary artifact if we generated fresh signals
     if signals_summary:
         os.makedirs("results", exist_ok=True)
