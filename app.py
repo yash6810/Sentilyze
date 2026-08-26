@@ -29,10 +29,11 @@ from src.portfolio import build_unified_portfolio
 from src.alerts import format_signal_card, send_discord_alert, send_telegram_alert
 import yfinance as yf
 
-logger = get_logger(__name__)
-
-# --- Supported Tickers ---
-SUPPORTED_TICKERS = ["NVDA", "AAPL", "MSFT", "GOOGL", "META", "TSLA", "AMZN"]
+# --- Supported Tickers (All 17 Universe Assets) ---
+SUPPORTED_TICKERS = [
+    "NVDA", "AAPL", "MSFT", "GOOGL", "META", "TSLA", "AMZN",
+    "AVGO", "AMD", "PLTR", "LLY", "QQQ", "SPY", "JPM", "COST", "NFLX", "TSM"
+]
 
 
 def inject_custom_css():
