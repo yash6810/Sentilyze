@@ -10,6 +10,8 @@ jobs:
   retrain-universe:
     name: Retrain Models & Update Backtests
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout Code
@@ -32,7 +34,7 @@ jobs:
         env:
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
         run: |
-          python train.py --all
+          python train.py --all --use-cache
 
       - name: Upload Retrained Models & Results Artifact
         uses: actions/upload-artifact@v4
@@ -44,3 +46,10 @@ jobs:
             results/*.csv
             results/*.png
           retention-days: 30
+
+      - name: Commit & Push Retrained Models & Updated Backtests
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add models/ results/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(models): weekly automated universe retraining & walk-forward calibration [skip ci]" && git push)
