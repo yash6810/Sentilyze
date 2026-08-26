@@ -2,6 +2,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 import streamlit as st
+
+st.set_page_config(
+    layout="wide",
+    page_title="Sentilyze | AI Trading Intelligence",
+    page_icon="📈",
+    initial_sidebar_state="expanded",
+)
+
 import pandas as pd
 import requests
 import json
@@ -1390,13 +1398,6 @@ def render_realtime_radar_tab():
 
 
 def main():
-    st.set_page_config(
-        layout="wide",
-        page_title="Sentilyze | AI Trading Intelligence",
-        page_icon="📈",
-        initial_sidebar_state="expanded",
-    )
-
     inject_custom_css()
 
     # --- Sidebar ---
