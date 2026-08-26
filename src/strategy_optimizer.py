@@ -3,9 +3,6 @@ import pandas as pd
 import numpy as np
 from typing import Dict, Any, Optional
 from src.config import DATA_DIR
-from src.modeling import load_model
-from src.features import create_features
-from src.sentiment_analysis import get_sentiment_data
 from src.data_ingestion import get_price_history
 from src.utils import get_logger
 
