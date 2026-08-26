@@ -8,7 +8,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional
+from typing import Dict, List, Any, Optional
 from src.utils import get_logger
 
 logger = get_logger(__name__)
