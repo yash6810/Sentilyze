@@ -87,6 +87,7 @@ class PaperBroker:
 
         executed_actions = {
             "buys": [],
+            "take_profits": [],
             "take_profits_tp1": [],
             "take_profits_tp2": [],
             "stop_losses": [],
@@ -94,6 +95,7 @@ class PaperBroker:
         }
 
         signals_by_ticker = {s["ticker"]: s for s in signals_list}
+        closed_today_tickers = set()
 
         # Step 1: Manage Open Positions (Multi-Stage Exits)
         open_tickers = list(self.state["open_positions"].keys())
@@ -134,11 +136,13 @@ class PaperBroker:
                     "exit_date": date_str,
                     "pnl": round(pnl, 2),
                     "return_pct": round(ret_pct, 2),
-                    "reason": "SCALE_OUT_TP1 (50% Banked)",
+                    "reason": "TAKE_PROFIT",
+                    "scale_stage": "STAGE_1_50PCT",
                     "status": "RISK_FREE_RUNNER"
                 }
                 self.state["closed_trades"].append(trade_record)
                 executed_actions["take_profits_tp1"].append(trade_record)
+                executed_actions["take_profits"].append(trade_record)
                 logger.info(f"🎯 [STAGE 1 SCALE-OUT] Banked 50% of {ticker} ({half_shares} shares @ ${curr_price:.2f}) | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%) | SL Moved to Break-Even ${pos['sl_target']:.2f}")
 
             # Check Stage 2 Runner Target (+4.5 ATR) on remaining shares
@@ -162,11 +166,14 @@ class PaperBroker:
                     "exit_date": date_str,
                     "pnl": round(pnl, 2),
                     "return_pct": round(ret_pct, 2),
-                    "reason": "FULL_TP2_RUNNER (+4.5 ATR Exit)",
+                    "reason": "TAKE_PROFIT",
+                    "scale_stage": "STAGE_2_RUNNER",
                 }
                 self.state["closed_trades"].append(trade_record)
                 del self.state["open_positions"][ticker]
+                closed_today_tickers.add(ticker)
                 executed_actions["take_profits_tp2"].append(trade_record)
+                executed_actions["take_profits"].append(trade_record)
                 logger.info(f"🏆 [STAGE 2 RUNNER EXIT] Closed remaining {ticker} ({trade_record['shares']} shares @ ${curr_price:.2f}) | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)")
 
             # Check Stop-Loss Trigger (or Break-Even stop)
@@ -198,6 +205,7 @@ class PaperBroker:
                 }
                 self.state["closed_trades"].append(trade_record)
                 del self.state["open_positions"][ticker]
+                closed_today_tickers.add(ticker)
                 executed_actions["stop_losses"].append(trade_record)
                 logger.info(f"🛑 [{reason}] Exited {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)")
 
@@ -229,11 +237,17 @@ class PaperBroker:
                 }
                 self.state["closed_trades"].append(trade_record)
                 del self.state["open_positions"][ticker]
+                closed_today_tickers.add(ticker)
                 executed_actions["sells"].append(trade_record)
                 logger.info(f"🟡 [MODEL SELL] Closed {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f}")
 
         # Step 2: Open New Positions (Top-2 Concentrated Sizing, ~$45k each)
-        buy_signals = [s for s in signals_list if s["signal"] == "BUY" and s["ticker"] not in self.state["open_positions"]]
+        buy_signals = [
+            s for s in signals_list
+            if s["signal"] == "BUY"
+            and s["ticker"] not in self.state["open_positions"]
+            and s["ticker"] not in closed_today_tickers
+        ]
         buy_signals = sorted(buy_signals, key=lambda x: x.get("confidence", 0), reverse=True)
 
         max_allowed_positions = 2  # Focus capital into Top-2 highest conviction
