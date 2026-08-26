@@ -49,6 +49,9 @@ Sentilyze_Research_Paper.md
 # Generated PDF tearsheets & factsheets
 *.pdf
 
+# Generated Audio Briefings
+*.mp3
+
 # Local agent memory and scratch experiments
 memory.md
 /experiments/
