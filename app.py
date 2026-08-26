@@ -3,7 +3,6 @@ import json
 import numpy as np
 import pandas as pd
 import streamlit as st
-import plotly.graph_objects as go
 from typing import Any, Dict, List, Optional
 from datetime import datetime, timezone
 from dotenv import load_dotenv
@@ -129,50 +128,60 @@ def inject_luxury_css():
     )
 
 
-# --- Plotly Interactive Candlestick with ATR Risk Bands ---
+# --- Interactive Candlestick / Price Chart with ATR Risk Bands ---
 def render_plotly_candlestick(ticker: str, df: pd.DataFrame, curr_p: float, tp1: float, tp2: float, sl: float):
-    """Renders high-frequency interactive Plotly Candlestick chart with ATR channels."""
+    """Renders high-frequency interactive Candlestick chart with ATR channels."""
     if df.empty or len(df) < 30:
         return
     recent_df = df.tail(60).copy()
 
-    fig = go.Figure()
+    try:
+        import plotly.graph_objects as go
 
-    # 1. Candlestick
-    fig.add_trace(
-        go.Candlestick(
-            x=recent_df.index if isinstance(recent_df.index, pd.DatetimeIndex) else pd.to_datetime(recent_df.index),
-            open=recent_df["Open"],
-            high=recent_df["High"],
-            low=recent_df["Low"],
-            close=recent_df["Close"],
-            name="Price",
-            increasing_line_color="#10B981",
-            decreasing_line_color="#EF4444",
+        fig = go.Figure()
+
+        # 1. Candlestick
+        fig.add_trace(
+            go.Candlestick(
+                x=recent_df.index if isinstance(recent_df.index, pd.DatetimeIndex) else pd.to_datetime(recent_df.index),
+                open=recent_df["Open"],
+                high=recent_df["High"],
+                low=recent_df["Low"],
+                close=recent_df["Close"],
+                name="Price",
+                increasing_line_color="#10B981",
+                decreasing_line_color="#EF4444",
+            )
         )
-    )
 
-    # 2. 21 EMA & 200 SMA
-    if "ma7" in recent_df.columns:
-        fig.add_trace(go.Scatter(x=recent_df.index, y=recent_df["ma7"], line=dict(color="#38BDF8", width=1.5), name="7 MA"))
-    if "ma21" in recent_df.columns:
-        fig.add_trace(go.Scatter(x=recent_df.index, y=recent_df["ma21"], line=dict(color="#F59E0B", width=1.5), name="21 MA"))
+        # 2. 7 MA & 21 MA
+        if "ma7" in recent_df.columns:
+            fig.add_trace(go.Scatter(x=recent_df.index, y=recent_df["ma7"], line=dict(color="#38BDF8", width=1.5), name="7 MA"))
+        if "ma21" in recent_df.columns:
+            fig.add_trace(go.Scatter(x=recent_df.index, y=recent_df["ma21"], line=dict(color="#F59E0B", width=1.5), name="21 MA"))
 
-    # 3. Take-Profit & Stop-Loss Target Lines
-    fig.add_hline(y=tp1, line_dash="dash", line_color="#00D4AA", annotation_text=f"TP1 (+2.5 ATR): ${tp1:,.2f}", annotation_position="top right")
-    fig.add_hline(y=tp2, line_dash="dot", line_color="#10B981", annotation_text=f"TP2 (+4.5 ATR): ${tp2:,.2f}", annotation_position="top right")
-    fig.add_hline(y=sl, line_dash="dash", line_color="#EF4444", annotation_text=f"Stop-Loss: ${sl:,.2f}", annotation_position="bottom right")
+        # 3. Take-Profit & Stop-Loss Target Lines
+        fig.add_hline(y=tp1, line_dash="dash", line_color="#00D4AA", annotation_text=f"TP1 (+2.5 ATR): ${tp1:,.2f}", annotation_position="top right")
+        fig.add_hline(y=tp2, line_dash="dot", line_color="#10B981", annotation_text=f"TP2 (+4.5 ATR): ${tp2:,.2f}", annotation_position="top right")
+        fig.add_hline(y=sl, line_dash="dash", line_color="#EF4444", annotation_text=f"Stop-Loss: ${sl:,.2f}", annotation_position="bottom right")
 
-    fig.update_layout(
-        template="plotly_dark",
-        height=380,
-        margin=dict(l=20, r=20, t=30, b=20),
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(15,23,42,0.4)",
-        xaxis_rangeslider_visible=False,
-        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-    )
-    st.plotly_chart(fig, use_container_width=True)
+        fig.update_layout(
+            template="plotly_dark",
+            height=380,
+            margin=dict(l=20, r=20, t=30, b=20),
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(15,23,42,0.4)",
+            xaxis_rangeslider_visible=False,
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        )
+        st.plotly_chart(fig, use_container_width=True)
+    except ImportError:
+        # Fallback to Streamlit native line chart if plotly not yet installed
+        chart_data = recent_df[["Close"]].copy()
+        if "ma21" in recent_df.columns:
+            chart_data["21 MA"] = recent_df["ma21"]
+        st.line_chart(chart_data, use_container_width=True)
+
 
 
 # ==============================================================================
