@@ -5,3 +5,13 @@ backgroundColor = "#0A0E17"
 secondaryBackgroundColor = "#111827"
 textColor = "#E5E7EB"
 font = "sans serif"
+
+[server]
+fileWatcherType = "poll"
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
