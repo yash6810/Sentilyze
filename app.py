@@ -1,4 +1,5 @@
 import os
+import time
 import json
 import numpy as np
 import pandas as pd
@@ -281,6 +282,13 @@ def render_command_center(ticker: str):
                             <div style="font-size: 0.85rem; margin-top: 0.6rem; line-height: 1.6;">
                                 • <b>TP1 (50% Scale-Out):</b> <span style="color:#00D4AA; font-family:monospace;">${tp1:,.2f}</span><br>
                                 • <b>TP2 (Runner Target):</b> <span style="color:#10B981; font-family:monospace;">${tp2:,.2f}</span><br>
+                                • <b>Stop-Loss:</b> <span style="color:#EF4444; font-family:monospace;">${sl:,.2f}</span>
+                            </div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
                     # --- 1-Click Interactive Live Order Ticket for Selected Asset ---
                     st.markdown(
                         f"""
