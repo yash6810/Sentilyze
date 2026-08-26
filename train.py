@@ -1,3 +1,4 @@
+from typing import Any
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -144,13 +145,14 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
         try:
             booster = model.get_booster() if hasattr(model, "get_booster") else model
             explainer = shap.TreeExplainer(booster)
-            shap_values = explainer.shap_values(X_test_oos)
+            raw_shap = explainer.shap_values(X_test_oos)
+            shap_values = raw_shap[1] if isinstance(raw_shap, list) and len(raw_shap) > 1 else np.asarray(raw_shap)
         except Exception as e1:
             logger.warning(f"SHAP TreeExplainer notice: {e1}. Using robust fallback explainer...")
             try:
                 explainer = shap.Explainer(model.predict_proba, X.sample(min(50, len(X)), random_state=42))
-                shap_obj = explainer(X_test_oos.head(min(100, len(X_test_oos))))
-                shap_values = shap_obj.values
+                shap_obj: Any = explainer(X_test_oos.head(min(100, len(X_test_oos))))
+                shap_values = getattr(shap_obj, "values", np.asarray(shap_obj))
             except Exception as e2:
                 logger.warning(f"SHAP fallback notice: {e2}. Initializing SHAP values matrix.")
                 shap_values = np.zeros(X_test_oos.shape)
