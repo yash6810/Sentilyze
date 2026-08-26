@@ -177,6 +177,233 @@ def _generate_dummy_news(ticker: str) -> pd.DataFrame:
     return pd.DataFrame(dummy_articles)
 
 
+def _fetch_alpaca_price_history(ticker: str, period: str = "10y") -> pd.DataFrame:
+    """Fetches official US equity daily bars from Alpaca Data API v2."""
+    api_key = os.getenv("ALPACA_API_KEY") or os.getenv("APCA_API_KEY_ID")
+    secret_key = os.getenv("ALPACA_SECRET_KEY") or os.getenv("APCA_API_SECRET_KEY")
+    if not api_key or not secret_key:
+        return pd.DataFrame()
+
+    try:
+        url = f"https://data.alpaca.markets/v2/stocks/{ticker}/bars"
+        start_year = 2015 if "10y" in period else 2022
+        params = {
+            "timeframe": "1Day",
+            "start": f"{start_year}-01-01T00:00:00Z",
+            "limit": 10000,
+            "adjustment": "all",
+            "feed": "iex",
+        }
+        headers = {
+            "APCA-API-KEY-ID": api_key,
+            "APCA-API-SECRET-KEY": secret_key,
+        }
+        res = requests.get(url, params=params, headers=headers, timeout=12)
+        if res.status_code == 200:
+            data = res.json()
+            bars = data.get("bars", [])
+            if not bars:
+                return pd.DataFrame()
+            df = pd.DataFrame(bars)
+            df.rename(
+                columns={
+                    "t": "Date",
+                    "o": "Open",
+                    "h": "High",
+                    "l": "Low",
+                    "c": "Close",
+                    "v": "Volume",
+                },
+                inplace=True,
+            )
+            df["Date"] = pd.to_datetime(df["Date"], utc=True).dt.normalize()
+            df.set_index("Date", inplace=True)
+            df["Dividends"] = 0.0
+            df["Stock Splits"] = 0.0
+            logger.info(
+                f"[Alpaca API] Successfully fetched {len(df)} bars for {ticker} up to {df.index[-1].strftime('%Y-%m-%d')}"
+            )
+            return df
+    except Exception as e:
+        logger.warning(f"Alpaca data fetch failed for {ticker}: {e}")
+    return pd.DataFrame()
+
+
+def _fetch_eodhd_price_history(ticker: str, period: str = "10y") -> pd.DataFrame:
+    """Fetches daily historical bars from EODHD (EOD Historical Data) API."""
+    api_key = os.getenv("EODHD_API_KEY")
+    if not api_key:
+        return pd.DataFrame()
+
+    try:
+        start_str = "2015-01-01" if "10y" in period else "2022-01-01"
+        url = f"https://eodhd.com/api/eod/{ticker}.US"
+        params = {
+            "api_token": api_key,
+            "from": start_str,
+            "fmt": "json",
+            "period": "d",
+        }
+        res = requests.get(url, params=params, timeout=12)
+        if res.status_code == 200:
+            data = res.json()
+            if not isinstance(data, list) or not data:
+                return pd.DataFrame()
+            df = pd.DataFrame(data)
+            df.rename(
+                columns={
+                    "date": "Date",
+                    "open": "Open",
+                    "high": "High",
+                    "low": "Low",
+                    "close": "Close",
+                    "volume": "Volume",
+                },
+                inplace=True,
+            )
+            df["Date"] = pd.to_datetime(df["Date"], utc=True).dt.normalize()
+            df.set_index("Date", inplace=True)
+            df.sort_index(inplace=True)
+            df["Dividends"] = 0.0
+            df["Stock Splits"] = 0.0
+            logger.info(
+                f"[EODHD API] Successfully fetched {len(df)} bars for {ticker} up to {df.index[-1].strftime('%Y-%m-%d')}"
+            )
+            return df
+    except Exception as e:
+        logger.warning(f"EODHD data fetch failed for {ticker}: {e}")
+    return pd.DataFrame()
+
+
+def _fetch_polygon_price_history(ticker: str, period: str = "10y") -> pd.DataFrame:
+    """Fetches daily bars from Polygon.io API."""
+    api_key = os.getenv("POLYGON_API_KEY")
+    if not api_key:
+        return pd.DataFrame()
+
+    try:
+        import datetime
+
+        today_str = datetime.date.today().strftime("%Y-%m-%d")
+        start_str = "2015-01-01" if "10y" in period else "2022-01-01"
+        url = f"https://api.polygon.io/v2/aggs/ticker/{ticker}/range/1/day/{start_str}/{today_str}"
+        params = {
+            "adjusted": "true",
+            "sort": "asc",
+            "limit": 50000,
+            "apiKey": api_key,
+        }
+        res = requests.get(url, params=params, timeout=12)
+        if res.status_code == 200:
+            data = res.json()
+            results = data.get("results", [])
+            if not results:
+                return pd.DataFrame()
+            df = pd.DataFrame(results)
+            df.rename(
+                columns={
+                    "t": "Date",
+                    "o": "Open",
+                    "h": "High",
+                    "l": "Low",
+                    "c": "Close",
+                    "v": "Volume",
+                },
+                inplace=True,
+            )
+            df["Date"] = pd.to_datetime(df["Date"], unit="ms", utc=True).dt.normalize()
+            df.set_index("Date", inplace=True)
+            df["Dividends"] = 0.0
+            df["Stock Splits"] = 0.0
+            logger.info(
+                f"[Polygon.io] Successfully fetched {len(df)} bars for {ticker} up to {df.index[-1].strftime('%Y-%m-%d')}"
+            )
+            return df
+    except Exception as e:
+        logger.warning(f"Polygon data fetch failed for {ticker}: {e}")
+    return pd.DataFrame()
+
+
+def _fetch_fmp_price_history(ticker: str, period: str = "10y") -> pd.DataFrame:
+    """Fetches daily bars from Financial Modeling Prep (FMP) API."""
+    api_key = os.getenv("FMP_API_KEY")
+    if not api_key:
+        return pd.DataFrame()
+
+    try:
+        url = f"https://financialmodelingprep.com/api/v3/historical-price-full/{ticker}"
+        params = {"apikey": api_key}
+        res = requests.get(url, params=params, timeout=12)
+        if res.status_code == 200:
+            data = res.json()
+            historical = data.get("historical", [])
+            if not historical:
+                return pd.DataFrame()
+            df = pd.DataFrame(historical)
+            df.rename(
+                columns={
+                    "date": "Date",
+                    "open": "Open",
+                    "high": "High",
+                    "low": "Low",
+                    "close": "Close",
+                    "volume": "Volume",
+                },
+                inplace=True,
+            )
+            df["Date"] = pd.to_datetime(df["Date"], utc=True).dt.normalize()
+            df.set_index("Date", inplace=True)
+            df.sort_index(inplace=True)
+            df["Dividends"] = 0.0
+            df["Stock Splits"] = 0.0
+            logger.info(
+                f"[FMP API] Successfully fetched {len(df)} bars for {ticker} up to {df.index[-1].strftime('%Y-%m-%d')}"
+            )
+            return df
+    except Exception as e:
+        logger.warning(f"FMP data fetch failed for {ticker}: {e}")
+    return pd.DataFrame()
+
+
+def _fetch_alpaca_news(ticker: str) -> pd.DataFrame:
+    """Fetches latest financial news articles from Alpaca News API."""
+    api_key = os.getenv("ALPACA_API_KEY") or os.getenv("APCA_API_KEY_ID")
+    secret_key = os.getenv("ALPACA_SECRET_KEY") or os.getenv("APCA_API_SECRET_KEY")
+    if not api_key or not secret_key:
+        return pd.DataFrame()
+
+    try:
+        url = "https://data.alpaca.markets/v1beta1/news"
+        params = {"symbols": ticker, "limit": 50, "include_content": "false"}
+        headers = {
+            "APCA-API-KEY-ID": api_key,
+            "APCA-API-SECRET-KEY": secret_key,
+        }
+        res = requests.get(url, params=params, headers=headers, timeout=12)
+        if res.status_code == 200:
+            news_items = res.json().get("news", [])
+            articles = []
+            for item in news_items:
+                articles.append(
+                    {
+                        "publishedAt": pd.to_datetime(item.get("created_at"), utc=True),
+                        "Title": item.get("headline"),
+                        "description": item.get("summary", ""),
+                        "url": item.get("url", ""),
+                        "source": {"name": item.get("source", "Alpaca")},
+                    }
+                )
+            if articles:
+                df = pd.DataFrame(articles)
+                logger.info(
+                    f"[Alpaca News] Successfully fetched {len(df)} news articles for {ticker}"
+                )
+                return df
+    except Exception as e:
+        logger.warning(f"Alpaca news fetch failed for {ticker}: {e}")
+    return pd.DataFrame()
+
+
 def _get_browser_session() -> requests.Session:
     """Creates a requests Session with modern desktop browser headers to prevent 429 scraper detection."""
     session = requests.Session()
@@ -239,7 +466,7 @@ def _fetch_direct_yahoo_chart(ticker: str, period: str = "10y") -> pd.DataFrame:
 
             df = df.ffill().dropna()
             logger.info(
-                f"Directly fetched {len(df)} price bars for {ticker} up to {df.index[-1].strftime('%Y-%m-%d')}"
+                f"[Yahoo Chart] Directly fetched {len(df)} price bars for {ticker} up to {df.index[-1].strftime('%Y-%m-%d')}"
             )
             return df
     except Exception as e:
@@ -255,15 +482,8 @@ def get_price_history(
     backoff_factor: float = 2,
 ) -> pd.DataFrame:
     """
-    Fetches historical price data up to today for a given ticker, with caching.
-
-    Args:
-        ticker (str): Stock ticker symbol.
-        period (str, optional): Time range (e.g. '10y', '1y'). Defaults to '10y'.
-        cache_duration_hours (int, optional): Cache freshness duration. Defaults to 24.
-
-    Returns:
-        pd.DataFrame: A DataFrame containing historical OHLCV data.
+    Enterprise Data Router: Fetches historical price data up to today using the best available provider.
+    Priority: Alpaca Data API v2 -> Polygon.io -> FMP -> EODHD -> Yahoo Direct Chart -> yfinance -> Cache
     """
     cache_path = os.path.join(DATA_DIR, f"{ticker}_price_history.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
@@ -284,11 +504,27 @@ def get_price_history(
         else:
             history.index = history.index.tz_convert("UTC").normalize()
     else:
-        logger.info(f"Fetching fresh live price history for {ticker}...")
-        # 1. Primary: Direct Yahoo Finance Chart API (immune to yfinance scraper rate limits)
-        history = _fetch_direct_yahoo_chart(ticker, period=period)
+        logger.info(f"Routing live price history fetch for {ticker}...")
+        # 1. Alpaca Markets Data API v2
+        history = _fetch_alpaca_price_history(ticker, period=period)
 
-        # 2. Fallback to yfinance if direct chart was empty
+        # 2. Polygon.io
+        if history.empty:
+            history = _fetch_polygon_price_history(ticker, period=period)
+
+        # 3. Financial Modeling Prep (FMP)
+        if history.empty:
+            history = _fetch_fmp_price_history(ticker, period=period)
+
+        # 4. EODHD (EOD Historical Data)
+        if history.empty:
+            history = _fetch_eodhd_price_history(ticker, period=period)
+
+        # 5. Direct Yahoo Finance Chart API (zero-key fallback)
+        if history.empty:
+            history = _fetch_direct_yahoo_chart(ticker, period=period)
+
+        # 6. yfinance library
         if history.empty:
             try:
                 session = _get_browser_session()
@@ -302,7 +538,7 @@ def get_price_history(
             except Exception as e:
                 logger.warning(f"yfinance fallback failed for {ticker}: {e}")
 
-        # 3. Fallback to existing cache if API failed
+        # 7. Fallback to existing cache if all live routes failed
         if history.empty:
             if os.path.exists(cache_path):
                 logger.warning(f"Using existing cached prices for {ticker}.")

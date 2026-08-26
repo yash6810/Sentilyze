@@ -848,6 +848,111 @@ def render_screener_tab():
                 st.error(f"Error analyzing {custom_ticker}: {e}")
 
 
+def render_paper_portfolio_tab():
+    """Tab 7: Live Virtual Paper Portfolio & Execution."""
+    from src.paper_broker import PaperBroker
+
+    broker = PaperBroker()
+    summary = broker.get_portfolio_summary()
+
+    st.markdown(
+        '<div class="section-header">📈 Virtual Paper Broker ($100,000 Portfolio)</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        """
+        <p style="color: #94A3B8; margin-bottom: 1.5rem;">
+            Real-time simulated quantitative trade execution. Positions are automatically opened on daily <b>BUY</b> signals,
+            and managed dynamically using <b>Take-Profit (+2.5 ATR)</b> and <b>ATR Stop-Loss</b> brackets.
+        </p>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # --- Top KPIs ---
+    c1, c2, c3, c4, c5 = st.columns(5)
+    with c1:
+        render_metric_card("Total Equity", f"${summary['total_equity']:,.2f}")
+    with c2:
+        render_metric_card(
+            "Total Return",
+            f"{summary['total_return_pct']:+.2f}%",
+            "positive" if summary["total_return_pct"] >= 0 else "negative",
+        )
+    with c3:
+        render_metric_card("Available Cash", f"${summary['cash']:,.2f}")
+    with c4:
+        render_metric_card(
+            "Unrealized PnL",
+            f"${summary['unrealized_pnl']:+,.2f}",
+            "positive" if summary["unrealized_pnl"] >= 0 else "negative",
+        )
+    with c5:
+        render_metric_card(
+            "Win Rate",
+            f"{summary['win_rate']:.1f}% ({summary['winning_trades']}/{summary['total_trades']})",
+            "positive" if summary["win_rate"] >= 50 else "",
+        )
+
+    # --- Manual Scan & Execution Trigger ---
+    col_btn, col_info = st.columns([1, 3])
+    with col_btn:
+        if st.button("⚡ Execute Today's Signals", use_container_width=True):
+            with st.spinner("Executing daily signals & updating portfolio..."):
+                from src.daily_scanner import run_daily_market_scan
+
+                signals = run_daily_market_scan()
+                broker = PaperBroker()
+                st.success(
+                    f"Executed scan across {len(signals)} assets! Portfolio updated."
+                )
+                st.rerun()
+    with col_info:
+        st.caption(f"Last updated: {broker.state.get('last_updated', 'N/A')}")
+
+    # --- Open Positions Table ---
+    st.markdown(
+        '<div class="section-header">💼 Active Open Holdings</div>',
+        unsafe_allow_html=True,
+    )
+    pos_df = broker.get_open_positions_df()
+    if not pos_df.empty:
+        st.dataframe(pos_df, use_container_width=True, hide_index=True)
+    else:
+        st.info(
+            "No active open positions. Cash is 100% liquid awaiting high-conviction BUY signals."
+        )
+
+    # --- Equity Curve Chart ---
+    st.markdown(
+        '<div class="section-header">📊 Simulated Equity Growth vs $100k Benchmark</div>',
+        unsafe_allow_html=True,
+    )
+    eq_df = broker.get_equity_curve_df()
+    if not eq_df.empty:
+        st.line_chart(
+            eq_df[["total_equity", "cash"]].rename(
+                columns={
+                    "total_equity": "Total Equity ($)",
+                    "cash": "Cash Balance ($)",
+                }
+            )
+        )
+
+    # --- Closed Trade History ---
+    st.markdown(
+        '<div class="section-header">📜 Closed Trade History Journal</div>',
+        unsafe_allow_html=True,
+    )
+    closed_df = broker.get_closed_trades_df()
+    if not closed_df.empty:
+        st.dataframe(closed_df, use_container_width=True, hide_index=True)
+    else:
+        st.caption(
+            "No closed trades yet. Historical trade performance will populate as Take-Profit or Stop-Loss targets trigger."
+        )
+
+
 # --- Main App ---
 
 
@@ -974,13 +1079,14 @@ def main():
     _ = load_sentiment_analyzer()
 
     # --- Tabs ---
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
         [
             "⚡ Live Signal",
             "📊 Dashboard",
             "🏦 Backtest",
             "🧠 XAI",
             "💼 Multi-Asset Fund",
+            "📈 Paper Portfolio",
             "🔍 Any-Stock Screener",
         ]
     )
@@ -996,8 +1102,11 @@ def main():
     with tab5:
         render_portfolio_tab()
     with tab6:
+        render_paper_portfolio_tab()
+    with tab7:
         render_screener_tab()
 
 
 if __name__ == "__main__":
     main()
+

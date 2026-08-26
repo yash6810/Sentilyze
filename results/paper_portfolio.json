@@ -1,0 +1,75 @@
+{
+  "initial_capital": 100000.0,
+  "cash": 6210.592987060547,
+  "total_equity": 100000.0,
+  "unrealized_pnl": 0.0,
+  "realized_pnl": 0.0,
+  "win_rate": 0.0,
+  "total_trades": 0,
+  "winning_trades": 0,
+  "losing_trades": 0,
+  "open_positions": {
+    "AMD": {
+      "shares": 39,
+      "entry_price": 480.3550109863281,
+      "current_price": 480.3550109863281,
+      "entry_date": "2026-08-26",
+      "tp_target": 534.7246431623187,
+      "sl_target": 415.11145237513955,
+      "confidence": 0.7663012146949768,
+      "regime": "\u25b2 BULLISH (Above SMA200)"
+    },
+    "AVGO": {
+      "shares": 53,
+      "entry_price": 356.64990234375,
+      "current_price": 356.64990234375,
+      "entry_date": "2026-08-26",
+      "tp_target": 390.58561815534324,
+      "sl_target": 336.2884728567941,
+      "confidence": 0.7086127996444702,
+      "regime": "\u25bc BEARISH (Below SMA200)"
+    },
+    "TSM": {
+      "shares": 45,
+      "entry_price": 417.0050048828125,
+      "current_price": 417.0050048828125,
+      "entry_date": "2026-08-26",
+      "tp_target": 445.11392865862166,
+      "sl_target": 383.2742963518415,
+      "confidence": 0.6190719604492188,
+      "regime": "\u25b2 BULLISH (Above SMA200)"
+    },
+    "QQQ": {
+      "shares": 26,
+      "entry_price": 710.0900268554688,
+      "current_price": 710.0900268554688,
+      "entry_date": "2026-08-26",
+      "tp_target": 731.8150111607143,
+      "sl_target": 684.0200456891741,
+      "confidence": 0.580918550491333,
+      "regime": "\u25b2 BULLISH (Above SMA200)"
+    },
+    "NFLX": {
+      "shares": 230,
+      "entry_price": 82.28500366210938,
+      "current_price": 82.28500366210938,
+      "entry_date": "2026-08-26",
+      "tp_target": 87.84929275512695,
+      "sl_target": 78.94643020629883,
+      "confidence": 0.5622425079345703,
+      "regime": "\u25bc BEARISH (Below SMA200)"
+    }
+  },
+  "closed_trades": [],
+  "equity_history": [
+    {
+      "date": "2026-08-26",
+      "timestamp": "2026-08-26T07:50:14.703218+00:00",
+      "total_equity": 100000.0,
+      "cash": 6210.59,
+      "invested": 93789.41,
+      "daily_return": 0.0
+    }
+  ],
+  "last_updated": "2026-08-26T07:50:14.706596+00:00"
+}
