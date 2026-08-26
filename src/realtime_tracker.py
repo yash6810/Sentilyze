@@ -196,6 +196,23 @@ def evaluate_intraday_execution(
     """
     broker = broker or PaperBroker()
     open_positions = broker.state.get("open_positions", {})
+
+    # If capital is liquid and open positions are below capacity (max 2), auto-deploy into top AI signals
+    if len(open_positions) < 2 and broker.state.get("cash", 0) > 15000.0:
+        signals_file = "results/daily_signals_latest.json"
+        if os.path.exists(signals_file):
+            try:
+                with open(signals_file, "r") as f:
+                    data = json.load(f)
+                signals_list = data.get("signals", []) if isinstance(data, dict) else data
+                if signals_list:
+                    buy_actions = broker.execute_daily_signals(signals_list)
+                    if buy_actions.get("buys"):
+                        logger.info(f"🚀 [INTRADAY LIVE ENTRY] Auto-deployed cash into {len(buy_actions['buys'])} holdings: {[b['ticker'] for b in buy_actions['buys']]}")
+                        open_positions = broker.state.get("open_positions", {})
+            except Exception as e:
+                logger.warning(f"Failed to auto-deploy liquid cash during intraday check: {e}")
+
     if not open_positions:
         logger.info("No active open positions to track during intraday session.")
         return {"status": "NO_OPEN_POSITIONS", "actions": []}
