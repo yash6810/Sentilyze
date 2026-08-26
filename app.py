@@ -258,9 +258,8 @@ def render_portfolio_workspace():
     with col_pdf:
         pdf_bytes = generate_executive_pdf_tearsheet(
             portfolio_summary=summary,
-            equity_history=broker.state.get("equity_history", []),
             open_positions=list(broker.state.get("open_positions", {}).values()),
-            closed_trades=broker.state.get("closed_trades", []),
+            equity_history_df=broker.get_equity_curve_df(),
         )
         st.download_button(
             "📄 Download 2-Page PDF Tearsheet",
