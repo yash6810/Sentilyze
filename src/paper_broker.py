@@ -472,7 +472,7 @@ class PaperBroker:
         }
 
         self._recalculate_metrics(date_str, now_str)
-        self._save_state()
+        self._save()
         logger.info(f"⚡ [MANUAL LIVE BUY] Executed {shares} shares of {ticker} @ ${price:.2f} (Total: ${cost:,.2f})")
         return {
             "success": True,
@@ -484,6 +484,10 @@ class PaperBroker:
             "tp2_target": tp2_target,
             "sl_target": sl_target,
         }
+
+    def _save_state(self):
+        """Alias for _save to ensure 100% backward compatibility."""
+        return self._save()
 
     def execute_manual_sell(
         self,
@@ -532,7 +536,7 @@ class PaperBroker:
         del self.state["open_positions"][ticker]
 
         self._recalculate_metrics(date_str, now_str)
-        self._save_state()
+        self._save()
         logger.info(f"🛑 [MANUAL LIVE EXIT] Closed {ticker} @ ${exit_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)")
         return {"success": True, "trade": trade_record}
 
@@ -585,6 +589,6 @@ class PaperBroker:
         self.state["closed_trades"].append(trade_record)
 
         self._recalculate_metrics(date_str, now_str)
-        self._save_state()
+        self._save()
         logger.info(f"🎯 [MANUAL 50% SCALE-OUT] Banked 50% of {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} | SL Moved to Break-Even")
         return {"success": True, "trade": trade_record}
