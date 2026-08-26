@@ -14,9 +14,12 @@ INITIAL_CAPITAL = 100000.00
 
 class PaperBroker:
     """
-    Autonomous Virtual Paper Trading Broker & Portfolio Tracker.
-    Simulates institutional trade execution, dynamic position sizing,
-    Take-Profit / Stop-Loss management, and real-time PnL accounting with $100,000 starting cash.
+    Institutional Multi-Stage Quantitative Execution Broker ($100k Account).
+    Features:
+    1. Concentrated Conviction Allocation (Top-2 Highest AI signals, ~$45k each).
+    2. 50/50 Scale-Out & Free Ride (50% profit take at +2.5 ATR, 50% runner at +4.5 ATR).
+    3. Dynamic Break-Even & Trailing Profit Ratchets.
+    4. Full PnL accounting, win-rate tracking, and equity curve persistence.
     """
 
     def __init__(self, portfolio_path: str = PORTFOLIO_FILE, initial_cash: float = INITIAL_CAPITAL):
@@ -46,8 +49,8 @@ class PaperBroker:
             "total_trades": 0,
             "winning_trades": 0,
             "losing_trades": 0,
-            "open_positions": {},  # {ticker: {shares, entry_price, current_price, entry_date, tp_target, sl_target, confidence, atr}}
-            "closed_trades": [],   # [{ticker, shares, entry_price, exit_price, entry_date, exit_date, pnl, return_pct, reason}]
+            "open_positions": {},
+            "closed_trades": [],
             "equity_history": [
                 {
                     "date": now_str[:10],
@@ -73,10 +76,10 @@ class PaperBroker:
 
     def execute_daily_signals(self, signals_list: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
-        Executes daily quantitative scan results:
-        1. Evaluates open positions for Take-Profit or Stop-Loss hits on latest prices.
+        Executes daily quantitative scan results using the Concentrated Top-2 + Scale-Out Model:
+        1. Evaluates open holdings for TP1 (+2.5 ATR), TP2 (+4.5 ATR), Break-Even, and Stop-Loss.
         2. Closes positions if Model Signal turned SELL.
-        3. Opens new positions for high-conviction BUY signals using risk-controlled allocation.
+        3. Concentrates new BUY entries into the Top-2 highest conviction setups (~$45k each).
         """
         now_utc = datetime.now(timezone.utc)
         now_str = now_utc.isoformat()
@@ -84,14 +87,15 @@ class PaperBroker:
 
         executed_actions = {
             "buys": [],
-            "take_profits": [],
+            "take_profits_tp1": [],
+            "take_profits_tp2": [],
             "stop_losses": [],
             "sells": []
         }
 
         signals_by_ticker = {s["ticker"]: s for s in signals_list}
 
-        # Step 1: Manage Open Positions (TP / SL / Model SELL)
+        # Step 1: Manage Open Positions (Multi-Stage Exits)
         open_tickers = list(self.state["open_positions"].keys())
         for ticker in open_tickers:
             pos = self.state["open_positions"][ticker]
@@ -101,26 +105,108 @@ class PaperBroker:
 
             shares = pos["shares"]
             entry_price = pos["entry_price"]
-            tp_target = pos["tp_target"]
+            tp1_target = pos["tp1_target"]
+            tp2_target = pos["tp2_target"]
             sl_target = pos["sl_target"]
+            scaled_out = pos.get("scaled_out", False)
 
-            exit_reason = None
+            # Check Stage 1 Scale-Out (+2.5 ATR)
+            if not scaled_out and curr_price >= tp1_target:
+                half_shares = max(1, shares // 2)
+                proceeds = float(half_shares * curr_price)
+                cost_basis = float(half_shares * entry_price)
+                pnl = float(proceeds - cost_basis)
+                ret_pct = float((curr_price - entry_price) / entry_price * 100.0)
 
-            # Check Take-Profit Trigger
-            if curr_price >= tp_target:
-                exit_reason = "TAKE_PROFIT"
-            # Check Stop-Loss Trigger
+                self.state["cash"] += proceeds
+                self.state["realized_pnl"] += pnl
+                pos["shares"] = shares - half_shares
+                pos["scaled_out"] = True
+                # Move Stop-Loss to Break-Even + small buffer (Risk-Free Trade)
+                pos["sl_target"] = round(entry_price * 1.002, 2)
+
+                trade_record = {
+                    "ticker": ticker,
+                    "shares": half_shares,
+                    "entry_price": entry_price,
+                    "exit_price": curr_price,
+                    "entry_date": pos["entry_date"],
+                    "exit_date": date_str,
+                    "pnl": round(pnl, 2),
+                    "return_pct": round(ret_pct, 2),
+                    "reason": "SCALE_OUT_TP1 (50% Banked)",
+                    "status": "RISK_FREE_RUNNER"
+                }
+                self.state["closed_trades"].append(trade_record)
+                executed_actions["take_profits_tp1"].append(trade_record)
+                logger.info(f"🎯 [STAGE 1 SCALE-OUT] Banked 50% of {ticker} ({half_shares} shares @ ${curr_price:.2f}) | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%) | SL Moved to Break-Even ${pos['sl_target']:.2f}")
+
+            # Check Stage 2 Runner Target (+4.5 ATR) on remaining shares
+            elif scaled_out and curr_price >= tp2_target:
+                proceeds = float(pos["shares"] * curr_price)
+                cost_basis = float(pos["shares"] * entry_price)
+                pnl = float(proceeds - cost_basis)
+                ret_pct = float((curr_price - entry_price) / entry_price * 100.0)
+
+                self.state["cash"] += proceeds
+                self.state["realized_pnl"] += pnl
+                self.state["total_trades"] += 1
+                self.state["winning_trades"] += 1
+
+                trade_record = {
+                    "ticker": ticker,
+                    "shares": pos["shares"],
+                    "entry_price": entry_price,
+                    "exit_price": curr_price,
+                    "entry_date": pos["entry_date"],
+                    "exit_date": date_str,
+                    "pnl": round(pnl, 2),
+                    "return_pct": round(ret_pct, 2),
+                    "reason": "FULL_TP2_RUNNER (+4.5 ATR Exit)",
+                }
+                self.state["closed_trades"].append(trade_record)
+                del self.state["open_positions"][ticker]
+                executed_actions["take_profits_tp2"].append(trade_record)
+                logger.info(f"🏆 [STAGE 2 RUNNER EXIT] Closed remaining {ticker} ({trade_record['shares']} shares @ ${curr_price:.2f}) | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)")
+
+            # Check Stop-Loss Trigger (or Break-Even stop)
             elif curr_price <= sl_target:
-                exit_reason = "STOP_LOSS"
+                proceeds = float(pos["shares"] * curr_price)
+                cost_basis = float(pos["shares"] * entry_price)
+                pnl = float(proceeds - cost_basis)
+                ret_pct = float((curr_price - entry_price) / entry_price * 100.0)
+
+                self.state["cash"] += proceeds
+                self.state["realized_pnl"] += pnl
+                self.state["total_trades"] += 1
+                if (pnl > 0) or scaled_out:
+                    self.state["winning_trades"] += 1
+                else:
+                    self.state["losing_trades"] += 1
+
+                reason = "BREAK_EVEN_EXIT" if scaled_out else "STOP_LOSS"
+                trade_record = {
+                    "ticker": ticker,
+                    "shares": pos["shares"],
+                    "entry_price": entry_price,
+                    "exit_price": curr_price,
+                    "entry_date": pos["entry_date"],
+                    "exit_date": date_str,
+                    "pnl": round(pnl, 2),
+                    "return_pct": round(ret_pct, 2),
+                    "reason": reason,
+                }
+                self.state["closed_trades"].append(trade_record)
+                del self.state["open_positions"][ticker]
+                executed_actions["stop_losses"].append(trade_record)
+                logger.info(f"🛑 [{reason}] Exited {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)")
+
             # Check Model Exit
             elif signal_data and signal_data.get("signal") == "SELL":
-                exit_reason = "MODEL_SELL"
-
-            if exit_reason:
-                proceeds = float(shares * curr_price)
-                cost_basis = float(shares * entry_price)
+                proceeds = float(pos["shares"] * curr_price)
+                cost_basis = float(pos["shares"] * entry_price)
                 pnl = float(proceeds - cost_basis)
-                return_pct = float((curr_price - entry_price) / entry_price * 100.0)
+                ret_pct = float((curr_price - entry_price) / entry_price * 100.0)
 
                 self.state["cash"] += proceeds
                 self.state["realized_pnl"] += pnl
@@ -132,38 +218,33 @@ class PaperBroker:
 
                 trade_record = {
                     "ticker": ticker,
-                    "shares": shares,
+                    "shares": pos["shares"],
                     "entry_price": entry_price,
                     "exit_price": curr_price,
                     "entry_date": pos["entry_date"],
                     "exit_date": date_str,
                     "pnl": round(pnl, 2),
-                    "return_pct": round(return_pct, 2),
-                    "reason": exit_reason
+                    "return_pct": round(ret_pct, 2),
+                    "reason": "MODEL_SELL",
                 }
                 self.state["closed_trades"].append(trade_record)
                 del self.state["open_positions"][ticker]
+                executed_actions["sells"].append(trade_record)
+                logger.info(f"🟡 [MODEL SELL] Closed {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f}")
 
-                if exit_reason == "TAKE_PROFIT":
-                    executed_actions["take_profits"].append(trade_record)
-                elif exit_reason == "STOP_LOSS":
-                    executed_actions["stop_losses"].append(trade_record)
-                else:
-                    executed_actions["sells"].append(trade_record)
-
-                logger.info(f"Closed position in {ticker} ({exit_reason}): PnL: ${pnl:+,.2f} ({return_pct:+.2f}%)")
-
-        # Step 2: Open New Positions for BUY Signals
+        # Step 2: Open New Positions (Top-2 Concentrated Sizing, ~$45k each)
         buy_signals = [s for s in signals_list if s["signal"] == "BUY" and s["ticker"] not in self.state["open_positions"]]
-        # Sort BUY signals by confidence descending
         buy_signals = sorted(buy_signals, key=lambda x: x.get("confidence", 0), reverse=True)
 
-        if buy_signals and self.state["cash"] > 2000.0:
-            # Allocate up to max 5 concurrent positions, sizing each position ~$15k-$20k or equal cash share
-            max_new_positions = max(1, 5 - len(self.state["open_positions"]))
-            target_buys = buy_signals[:max_new_positions]
+        max_allowed_positions = 2  # Focus capital into Top-2 highest conviction
+        open_count = len(self.state["open_positions"])
 
-            allocation_per_stock = min(self.state["cash"] * 0.95 / len(target_buys), 20000.0)
+        if buy_signals and open_count < max_allowed_positions and self.state["cash"] > 5000.0:
+            slots_available = max_allowed_positions - open_count
+            target_buys = buy_signals[:slots_available]
+
+            # Allocate up to $45,000 per position (or equal available cash)
+            allocation_per_stock = min(self.state["cash"] * 0.95 / len(target_buys), 45000.0)
 
             for s in target_buys:
                 ticker = s["ticker"]
@@ -180,13 +261,25 @@ class PaperBroker:
                     continue
 
                 self.state["cash"] -= cost
+                
+                # ATR calculation for targets
+                atr_val = float(s.get("take_profit", price * 1.06)) - price
+                atr_base = max(price * 0.025, atr_val / 2.5 if atr_val > 0 else price * 0.03)
+
+                tp1_target = round(price + (2.5 * atr_base), 2)
+                tp2_target = round(price + (4.5 * atr_base), 2)
+                sl_target = round(price - (1.5 * atr_base), 2)
+
                 self.state["open_positions"][ticker] = {
                     "shares": shares,
+                    "initial_shares": shares,
                     "entry_price": price,
                     "current_price": price,
                     "entry_date": date_str,
-                    "tp_target": float(s.get("take_profit", price * 1.06)),
-                    "sl_target": float(s.get("stop_loss", price * 0.95)),
+                    "tp1_target": tp1_target,
+                    "tp2_target": tp2_target,
+                    "sl_target": sl_target,
+                    "scaled_out": False,
                     "confidence": float(s.get("confidence", 0.5)),
                     "regime": s.get("regime", "BULLISH")
                 }
@@ -197,12 +290,13 @@ class PaperBroker:
                     "entry_price": price,
                     "cost": round(cost, 2),
                     "entry_date": date_str,
-                    "tp_target": round(float(s.get("take_profit", price * 1.06)), 2),
-                    "sl_target": round(float(s.get("stop_loss", price * 0.95)), 2),
+                    "tp1_target": tp1_target,
+                    "tp2_target": tp2_target,
+                    "sl_target": sl_target,
                     "confidence": round(float(s.get("confidence", 0.5)) * 100, 1)
                 }
                 executed_actions["buys"].append(buy_record)
-                logger.info(f"Opened new position in {ticker}: {shares} shares @ ${price:.2f} (Total: ${cost:,.2f})")
+                logger.info(f"🚀 [CONCENTRATED ENTRY] Bought {shares} shares of {ticker} @ ${price:.2f} (Total: ${cost:,.2f} | TP1: ${tp1_target:.2f} | TP2: ${tp2_target:.2f} | SL: ${sl_target:.2f})")
 
         # Step 3: Recalculate Portfolio Values
         self._recalculate_metrics(date_str, now_str)
@@ -263,7 +357,7 @@ class PaperBroker:
         }
 
     def get_open_positions_df(self) -> pd.DataFrame:
-        """Returns a DataFrame of current open holdings."""
+        """Returns a DataFrame of current open holdings with Scale-Out status."""
         if not self.state["open_positions"]:
             return pd.DataFrame()
         rows = []
@@ -275,6 +369,10 @@ class PaperBroker:
             curr_val = shares * curr_p
             pnl = curr_val - cost
             ret_pct = (curr_p - entry_p) / entry_p * 100.0
+            scaled_out = pos.get("scaled_out", False)
+
+            status_badge = "🛡️ RISK-FREE (50% Banked)" if scaled_out else "⚡ ACTIVE 100%"
+
             rows.append({
                 "Ticker": ticker,
                 "Shares": shares,
@@ -283,9 +381,10 @@ class PaperBroker:
                 "Position Value": f"${curr_val:,.2f}",
                 "Unrealized PnL ($)": f"${pnl:+,.2f}",
                 "Return (%)": f"{ret_pct:+.2f}%",
-                "Take-Profit Target": f"${pos['tp_target']:,.2f}",
-                "Stop-Loss Target": f"${pos['sl_target']:,.2f}",
-                "Regime": pos.get("regime", "N/A"),
+                "TP1 Target (+2.5 ATR)": f"${pos.get('tp1_target', entry_p*1.06):,.2f}",
+                "TP2 Target (+4.5 ATR)": f"${pos.get('tp2_target', entry_p*1.12):,.2f}",
+                "Stop-Loss Target": f"${pos.get('sl_target', entry_p*0.95):,.2f}",
+                "Strategy Status": status_badge,
                 "Entry Date": pos["entry_date"]
             })
         return pd.DataFrame(rows)

@@ -7,6 +7,8 @@ import requests
 from datetime import datetime, timezone
 from typing import Dict, List, Any, Optional
 from src.paper_broker import PaperBroker
+from src.sentiment_analysis import analyze_sentiment
+from src.data_ingestion import get_news
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -106,6 +108,24 @@ def fetch_universe_live_quotes(tickers: List[str] = UNIVERSE_TICKERS) -> Dict[st
     return quotes
 
 
+def check_live_news_sentiment_shock(ticker: str) -> bool:
+    """
+    Checks if breaking news in the last few hours has a severe negative sentiment shock (< -0.50).
+    """
+    try:
+        news_df = get_news(ticker, cache_duration_hours=2)
+        if not news_df.empty:
+            scored = analyze_sentiment(news_df, ticker=ticker, use_cache=False)
+            if not scored.empty and "sentiment_score" in scored.columns:
+                recent_avg = scored["sentiment_score"].tail(3).mean()
+                if recent_avg < -0.50:
+                    logger.warning(f"🚨 Severe negative news shock detected for {ticker} (Score: {recent_avg:.2f})")
+                    return True
+    except Exception as e:
+        logger.debug(f"News sentiment shock check skipped for {ticker}: {e}")
+    return False
+
+
 def evaluate_intraday_execution(
     broker: Optional[PaperBroker] = None,
     discord_url: Optional[str] = None,
@@ -113,10 +133,10 @@ def evaluate_intraday_execution(
     telegram_chat: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
-    Autonomous Intraday Live Market Execution Engine:
-    1. Fetches live real-time prices for all open positions.
-    2. Checks if any position hit its Take-Profit (+2.5 ATR) or Stop-Loss target.
-    3. Executes the exit immediately, updates paper portfolio, and sends flash alerts.
+    Autonomous 5-Minute Intraday Market Execution Engine:
+    1. Evaluates 50/50 Scale-Out (TP1 +2.5 ATR), Runner Exit (TP2 +4.5 ATR), Break-Even Ratchet, and Stop-Loss.
+    2. Runs FinBERT news catalyst check for emergency loss prevention.
+    3. Executes trades, updates paper portfolio, and dispatches instant flash alerts.
     """
     broker = broker or PaperBroker()
     open_positions = broker.state.get("open_positions", {})
@@ -126,7 +146,7 @@ def evaluate_intraday_execution(
 
     executed_trades = []
     open_tickers = list(open_positions.keys())
-    logger.info(f"Checking intraday real-time quotes for {len(open_tickers)} open holdings: {open_tickers}")
+    logger.info(f"⚡ [5-MIN GUARDIAN] Checking live quotes for {len(open_tickers)} holdings: {open_tickers}")
 
     for ticker in open_tickers:
         pos = open_positions[ticker]
@@ -138,16 +158,14 @@ def evaluate_intraday_execution(
         pos["current_price"] = curr_price
         shares = int(pos.get("shares", 0))
         entry_price = float(pos.get("entry_price", curr_price))
-        tp_target = float(pos.get("tp_target", entry_price * 1.06))
+        tp1_target = float(pos.get("tp1_target", entry_price * 1.06))
+        tp2_target = float(pos.get("tp2_target", entry_price * 1.12))
         sl_target = float(pos.get("sl_target", entry_price * 0.95))
+        scaled_out = pos.get("scaled_out", False)
 
-        exit_reason = None
-        if curr_price >= tp_target:
-            exit_reason = "TAKE_PROFIT"
-        elif curr_price <= sl_target:
-            exit_reason = "STOP_LOSS"
-
-        if exit_reason:
+        # Check Emergency News Catalyst Shock
+        news_shock = check_live_news_sentiment_shock(ticker)
+        if news_shock:
             proceeds = float(shares * curr_price)
             cost_basis = float(shares * entry_price)
             pnl = float(proceeds - cost_basis)
@@ -171,53 +189,148 @@ def evaluate_intraday_execution(
                 "exit_date": now_str[:10],
                 "pnl": round(pnl, 2),
                 "return_pct": round(ret_pct, 2),
-                "reason": exit_reason,
+                "reason": "🚨 EMERGENCY_NEWS_CATALYST_EXIT",
             }
             broker.state["closed_trades"].append(trade_record)
             del broker.state["open_positions"][ticker]
             executed_trades.append(trade_record)
+            _send_flash_notifications(trade_record, discord_url, telegram_token, telegram_chat)
+            continue
 
-            logger.info(f"⚡ [INTRADAY EXECUTION] Sold {ticker} @ ${curr_price:.2f} ({exit_reason}) | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)")
+        # Check Stage 1 Scale-Out (+2.5 ATR)
+        if not scaled_out and curr_price >= tp1_target:
+            half_shares = max(1, shares // 2)
+            proceeds = float(half_shares * curr_price)
+            cost_basis = float(half_shares * entry_price)
+            pnl = float(proceeds - cost_basis)
+            ret_pct = ((curr_price - entry_price) / entry_price) * 100.0
 
-            # Dispatch Flash Alert to Discord
-            d_url = discord_url or os.getenv("DISCORD_WEBHOOK_URL")
-            if d_url:
-                _send_intraday_discord_flash(trade_record, d_url)
+            broker.state["cash"] += proceeds
+            broker.state["realized_pnl"] += pnl
+            pos["shares"] = shares - half_shares
+            pos["scaled_out"] = True
+            pos["sl_target"] = round(entry_price * 1.002, 2)  # Move SL to Break-Even
 
-            # Dispatch Flash Alert to Telegram
-            t_token = telegram_token or os.getenv("TELEGRAM_BOT_TOKEN")
-            t_chat = telegram_chat or os.getenv("TELEGRAM_CHAT_ID")
-            if t_token and t_chat:
-                _send_intraday_telegram_flash(trade_record, t_token, t_chat)
+            now_str = datetime.now(timezone.utc).isoformat()
+            trade_record = {
+                "ticker": ticker,
+                "shares": half_shares,
+                "entry_price": entry_price,
+                "exit_price": curr_price,
+                "entry_date": pos.get("entry_date", now_str[:10]),
+                "exit_date": now_str[:10],
+                "pnl": round(pnl, 2),
+                "return_pct": round(ret_pct, 2),
+                "reason": "🎯 SCALE_OUT_TP1 (50% Banked)",
+                "status": "RISK_FREE_RUNNER",
+            }
+            broker.state["closed_trades"].append(trade_record)
+            executed_trades.append(trade_record)
+            logger.info(f"🎯 [STAGE 1 SCALE-OUT] Banked 50% {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)")
+            _send_flash_notifications(trade_record, discord_url, telegram_token, telegram_chat)
 
-    if executed_trades:
-        now_str = datetime.now(timezone.utc).isoformat()
-        broker._recalculate_metrics(now_str[:10], now_str)
-        broker._save()
-        logger.info(f"Intraday execution complete. {len(executed_trades)} trades executed.")
-    else:
-        # Just update live unrealized mark-to-market prices
-        now_str = datetime.now(timezone.utc).isoformat()
-        broker._recalculate_metrics(now_str[:10], now_str)
-        broker._save()
+        # Check Stage 2 Runner Exit (+4.5 ATR)
+        elif scaled_out and curr_price >= tp2_target:
+            proceeds = float(shares * curr_price)
+            cost_basis = float(shares * entry_price)
+            pnl = float(proceeds - cost_basis)
+            ret_pct = ((curr_price - entry_price) / entry_price) * 100.0
+
+            broker.state["cash"] += proceeds
+            broker.state["realized_pnl"] += pnl
+            broker.state["total_trades"] += 1
+            broker.state["winning_trades"] += 1
+
+            now_str = datetime.now(timezone.utc).isoformat()
+            trade_record = {
+                "ticker": ticker,
+                "shares": shares,
+                "entry_price": entry_price,
+                "exit_price": curr_price,
+                "entry_date": pos.get("entry_date", now_str[:10]),
+                "exit_date": now_str[:10],
+                "pnl": round(pnl, 2),
+                "return_pct": round(ret_pct, 2),
+                "reason": "🏆 FULL_TP2_RUNNER (+4.5 ATR Exit)",
+            }
+            broker.state["closed_trades"].append(trade_record)
+            del broker.state["open_positions"][ticker]
+            executed_trades.append(trade_record)
+            logger.info(f"🏆 [STAGE 2 RUNNER EXIT] Closed {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)")
+            _send_flash_notifications(trade_record, discord_url, telegram_token, telegram_chat)
+
+        # Check Stop-Loss / Break-Even Exit
+        elif curr_price <= sl_target:
+            proceeds = float(shares * curr_price)
+            cost_basis = float(shares * entry_price)
+            pnl = float(proceeds - cost_basis)
+            ret_pct = ((curr_price - entry_price) / entry_price) * 100.0
+
+            broker.state["cash"] += proceeds
+            broker.state["realized_pnl"] += pnl
+            broker.state["total_trades"] += 1
+            if (pnl > 0) or scaled_out:
+                broker.state["winning_trades"] += 1
+            else:
+                broker.state["losing_trades"] += 1
+
+            reason = "🛡️ BREAK_EVEN_EXIT" if scaled_out else "🛑 STOP_LOSS"
+            now_str = datetime.now(timezone.utc).isoformat()
+            trade_record = {
+                "ticker": ticker,
+                "shares": shares,
+                "entry_price": entry_price,
+                "exit_price": curr_price,
+                "entry_date": pos.get("entry_date", now_str[:10]),
+                "exit_date": now_str[:10],
+                "pnl": round(pnl, 2),
+                "return_pct": round(ret_pct, 2),
+                "reason": reason,
+            }
+            broker.state["closed_trades"].append(trade_record)
+            del broker.state["open_positions"][ticker]
+            executed_trades.append(trade_record)
+            logger.info(f"[{reason}] Exited {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f}")
+            _send_flash_notifications(trade_record, discord_url, telegram_token, telegram_chat)
+
+    now_str = datetime.now(timezone.utc).isoformat()
+    broker._recalculate_metrics(now_str[:10], now_str)
+    broker._save()
 
     return {"status": "SUCCESS", "executed_trades": executed_trades, "summary": broker.get_portfolio_summary()}
 
 
+def _send_flash_notifications(
+    trade: Dict[str, Any],
+    discord_url: Optional[str] = None,
+    telegram_token: Optional[str] = None,
+    telegram_chat: Optional[str] = None,
+):
+    """Sends instant flash notifications to Discord & Telegram."""
+    d_url = discord_url or os.getenv("DISCORD_WEBHOOK_URL")
+    if d_url:
+        _send_intraday_discord_flash(trade, d_url)
+
+    t_token = telegram_token or os.getenv("TELEGRAM_BOT_TOKEN")
+    t_chat = telegram_chat or os.getenv("TELEGRAM_CHAT_ID")
+    if t_token and t_chat:
+        _send_intraday_telegram_flash(trade, t_token, t_chat)
+
+
 def _send_intraday_discord_flash(trade: Dict[str, Any], webhook_url: str):
-    """Sends immediate Discord flash notification for Take-Profit / Stop-Loss hits."""
+    """Sends immediate Discord flash notification."""
     try:
-        is_tp = trade["reason"] == "TAKE_PROFIT"
-        color = 0x10B981 if is_tp else 0xEF4444
-        title = f"🎯 [TAKE-PROFIT EXECUTED] {trade['ticker']}" if is_tp else f"🛑 [STOP-LOSS EXECUTED] {trade['ticker']}"
+        is_win = trade["pnl"] >= 0
+        color = 0x10B981 if is_win else 0xEF4444
+        title = f"{trade['reason']} • {trade['ticker']}"
         desc = (
-            f"**Intraday Live Market Execution Triggered**\n\n"
+            f"**5-Minute Autonomous Intraday Execution**\n\n"
             f"• **Ticker:** `{trade['ticker']}`\n"
             f"• **Shares:** `{trade['shares']}`\n"
             f"• **Entry Price:** `${trade['entry_price']:.2f}`\n"
             f"• **Exit Price:** `${trade['exit_price']:.2f}`\n"
             f"• **Net Realized PnL:** **`${trade['pnl']:+,.2f}` ({trade['return_pct']:+.2f}%)**\n"
-            f"• **Execution Reason:** `{trade['reason']}`\n"
+            f"• **Trigger:** `{trade['reason']}`\n"
         )
         payload = {
             "embeds": [
@@ -225,7 +338,7 @@ def _send_intraday_discord_flash(trade: Dict[str, Any], webhook_url: str):
                     "title": title,
                     "description": desc,
                     "color": color,
-                    "footer": {"text": "Sentilyze Autonomous Intraday Trader • Live Market Action"},
+                    "footer": {"text": "Sentilyze 5-Minute Trade Guardian • Autonomous Live Execution"},
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             ]
@@ -236,19 +349,32 @@ def _send_intraday_discord_flash(trade: Dict[str, Any], webhook_url: str):
 
 
 def _send_intraday_telegram_flash(trade: Dict[str, Any], bot_token: str, chat_id: str):
-    """Sends immediate Telegram flash notification for Take-Profit / Stop-Loss hits."""
+    """Sends immediate Telegram flash notification."""
     try:
-        is_tp = trade["reason"] == "TAKE_PROFIT"
-        icon = "🎯" if is_tp else "🛑"
+        icon = "💰" if trade["pnl"] >= 0 else "🛑"
         text = (
-            f"{icon} *[INTRADAY TRADE EXECUTED]*\n\n"
+            f"{icon} *[5-MIN INTRADAY EXECUTION]*\n\n"
             f"• *Ticker:* `{trade['ticker']}`\n"
             f"• *Shares:* `{trade['shares']}`\n"
             f"• *Entry:* `${trade['entry_price']:.2f}` ➔ *Exit:* `${trade['exit_price']:.2f}`\n"
             f"• *Net PnL:* *`${trade['pnl']:+,.2f}` ({trade['return_pct']:+.2f}%)*\n"
-            f"• *Reason:* `{trade['reason']}`"
+            f"• *Trigger:* `{trade['reason']}`"
         )
         url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
         requests.post(url, json={"chat_id": chat_id, "text": text, "parse_mode": "Markdown"}, timeout=8)
     except Exception as e:
         logger.warning(f"Failed sending intraday Telegram alert: {e}")
+
+
+def run_5min_guardian_loop(duration_minutes: int = 360):
+    """
+    Continuous 5-Minute Intraday Guardian Loop during active market hours.
+    """
+    logger.info(f"Starting 5-Minute Intraday Trade Guardian Loop for {duration_minutes} minutes...")
+    start_time = time.time()
+    end_time = start_time + (duration_minutes * 60)
+
+    while time.time() < end_time:
+        res = evaluate_intraday_execution()
+        logger.info(f"5-Minute Poll Complete. Executed: {len(res.get('executed_trades', []))} trades.")
+        time.sleep(300)  # Sleep 5 minutes
