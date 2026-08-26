@@ -1,3 +1,22 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:fdf2a3e3686cedd35d63c4a50f1e48565fc6c91781281a73f111e12c15c79119
-size 260
+{
+  "pythonVersion": "3.10",
+  "venvPath": ".",
+  "venv": ".venv",
+  "extraPaths": ["."],
+  "include": [
+    "src",
+    "tests",
+    "app.py",
+    "train.py",
+    "api.py"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    ".venv",
+    "d:/__pyrefly_virtual__",
+    "**/__pyrefly_virtual__",
+    "**/inmemory/**"
+  ],
+  "reportMissingImports": false
+}
