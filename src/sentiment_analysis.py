@@ -113,3 +113,18 @@ def get_sentiment(
         articles.to_csv(cache_path, index=True)
         logger.info(f"Saved sentiment data to {cache_path}")
     return articles
+
+
+def analyze_sentiment(
+    articles: pd.DataFrame,
+    ticker: str | None = None,
+    use_cache: bool = True,
+) -> pd.DataFrame:
+    """Convenience wrapper for sentiment scoring using the cached FinBERT pipeline."""
+    if articles is None or articles.empty:
+        return pd.DataFrame()
+    from src.preprocessing import _load_sentiment_analyzer
+    analyzer = _load_sentiment_analyzer()
+    cache_dur = 24 if use_cache else 0
+    return get_sentiment(articles, sentiment_analyzer=analyzer, ticker=ticker, cache_duration_hours=cache_dur)
+
