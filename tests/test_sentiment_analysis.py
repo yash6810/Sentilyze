@@ -53,10 +53,41 @@ def test_get_sentiment_analyzes_and_enriches_data(temp_data_dir):
     # Assert
     assert "sentiment_label" in sentiment_df.columns
     assert "sentiment_score" in sentiment_df.columns
-    assert sentiment_df.loc[0, "sentiment_label"] == "Positive"
+    assert "prob_positive" in sentiment_df.columns
+    assert "prob_negative" in sentiment_df.columns
+    assert sentiment_df.loc[0, "sentiment_label"] == "positive"
     assert sentiment_df.loc[0, "sentiment_score"] == 0.9
-    assert sentiment_df.loc[1, "sentiment_label"] == "Negative"
-    assert sentiment_df.loc[1, "sentiment_score"] == 0.8
+    assert sentiment_df.loc[1, "sentiment_label"] == "negative"
+    assert sentiment_df.loc[1, "sentiment_score"] == -0.8
+
+
+def test_get_sentiment_multiclass_probabilities(temp_data_dir):
+    """
+    Test that get_sentiment correctly parses full 3-class probability distributions from FinBERT.
+    """
+    articles = pd.DataFrame(
+        [
+            {"Title": "NVIDIA revenue surges 200%", "description": "Record AI chip demand.", "Date": "2023-01-01"}
+        ]
+    )
+    articles["Date"] = pd.to_datetime(articles["Date"])
+
+    mock_analyzer = MagicMock()
+    mock_analyzer.return_value = [
+        [
+            {"label": "Positive", "score": 0.85},
+            {"label": "Negative", "score": 0.05},
+            {"label": "Neutral", "score": 0.10},
+        ]
+    ]
+
+    res_df = get_sentiment(articles, mock_analyzer, ticker="NVDA_MULTI")
+    assert res_df.loc[0, "sentiment_label"] == "positive"
+    assert res_df.loc[0, "sentiment_score"] == 0.80
+    assert res_df.loc[0, "prob_positive"] == 0.85
+    assert res_df.loc[0, "prob_negative"] == 0.05
+    assert res_df.loc[0, "prob_neutral"] == 0.10
+    assert res_df.loc[0, "sentiment_confidence"] == 0.85
 
 
 def test_get_sentiment_loads_from_cache(temp_data_dir):
