@@ -209,6 +209,8 @@ def evaluate_intraday_execution(
                     buy_actions = broker.execute_daily_signals(signals_list)
                     if buy_actions.get("buys"):
                         logger.info(f"🚀 [INTRADAY LIVE ENTRY] Auto-deployed cash into {len(buy_actions['buys'])} holdings: {[b['ticker'] for b in buy_actions['buys']]}")
+                        for b_record in buy_actions["buys"]:
+                            _send_intraday_buy_notification(b_record, discord_url, telegram_token, telegram_chat)
                         open_positions = broker.state.get("open_positions", {})
             except Exception as e:
                 logger.warning(f"Failed to auto-deploy liquid cash during intraday check: {e}")
@@ -371,6 +373,59 @@ def evaluate_intraday_execution(
     broker._save()
 
     return {"status": "SUCCESS", "executed_trades": executed_trades, "summary": broker.get_portfolio_summary()}
+
+
+def _send_intraday_buy_notification(
+    buy_record: Dict[str, Any],
+    discord_url: Optional[str] = None,
+    telegram_token: Optional[str] = None,
+    telegram_chat: Optional[str] = None,
+):
+    """Sends immediate Discord & Telegram alert when a new position is opened."""
+    d_url = discord_url or os.getenv("DISCORD_WEBHOOK_URL")
+    if d_url:
+        try:
+            payload = {
+                "embeds": [
+                    {
+                        "title": f"🚀 NEW INTRADAY POSITION OPENED • {buy_record['ticker']}",
+                        "description": (
+                            f"**Autonomous Intraday Market Entry**\n\n"
+                            f"• **Ticker:** `{buy_record['ticker']}`\n"
+                            f"• **Shares Bought:** `{buy_record['shares']}`\n"
+                            f"• **Entry Spot Price:** `${buy_record['entry_price']:.2f}`\n"
+                            f"• **Total Cost:** `${buy_record.get('cost', buy_record['shares']*buy_record['entry_price']):,.2f}`\n"
+                            f"• **TP1 (50% Scale-Out):** `${buy_record.get('tp1_target', 0):.2f}`\n"
+                            f"• **TP2 (Runner Target):** `${buy_record.get('tp2_target', 0):.2f}`\n"
+                            f"• **Stop-Loss Protection:** `${buy_record.get('sl_target', 0):.2f}`\n"
+                        ),
+                        "color": 0x00D4AA,
+                        "footer": {"text": "Sentilyze 5-Minute Trade Guardian • Autonomous Live Execution"},
+                        "timestamp": datetime.now(timezone.utc).isoformat(),
+                    }
+                ]
+            }
+            requests.post(d_url, json=payload, timeout=8)
+        except Exception as e:
+            logger.warning(f"Failed sending intraday BUY Discord alert: {e}")
+
+    t_token = telegram_token or os.getenv("TELEGRAM_BOT_TOKEN")
+    t_chat = telegram_chat or os.getenv("TELEGRAM_CHAT_ID")
+    if t_token and t_chat:
+        try:
+            text = (
+                f"🚀 *[NEW INTRADAY TRADE OPENED]*\n\n"
+                f"• *Ticker:* `{buy_record['ticker']}`\n"
+                f"• *Shares:* `{buy_record['shares']}`\n"
+                f"• *Entry Price:* `${buy_record['entry_price']:.2f}`\n"
+                f"• *TP1 Target (+2.5 ATR):* `${buy_record.get('tp1_target', 0):.2f}`\n"
+                f"• *TP2 Runner (+4.5 ATR):* `${buy_record.get('tp2_target', 0):.2f}`\n"
+                f"• *Stop-Loss Target:* `${buy_record.get('sl_target', 0):.2f}`"
+            )
+            url = f"https://api.telegram.org/bot{t_token}/sendMessage"
+            requests.post(url, json={"chat_id": t_chat, "text": text, "parse_mode": "Markdown"}, timeout=8)
+        except Exception as e:
+            logger.warning(f"Failed sending intraday BUY Telegram alert: {e}")
 
 
 def _send_flash_notifications(
