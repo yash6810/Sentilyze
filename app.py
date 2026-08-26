@@ -33,6 +33,11 @@ from src.strategy_optimizer import simulate_strategy_sandbox
 from src.alpaca_broker import AlpacaBrokerBridge
 from src.audio_briefing import synthesize_morning_audio
 from src.discord_bot import handle_bot_command, send_bot_command_reply
+from src.statistical_arbitrage import (
+    generate_pairs_trading_signals,
+    scan_pairs_universe,
+    backtest_pairs_strategy,
+)
 
 logger = get_logger(__name__)
 
@@ -480,6 +485,178 @@ def render_research_workspace(ticker: str):
 
 
 # ==============================================================================
+# 🕸️ WORKSPACE 5: STATISTICAL ARBITRAGE & COINTEGRATION PAIRS DESK
+# ==============================================================================
+def render_statarb_workspace():
+    st.markdown('<div class="section-badge">Statistical Arbitrage & Cointegration Pairs Trading Engine</div>', unsafe_allow_html=True)
+
+    st.markdown(
+        """
+        <div class="glass-card" style="margin-bottom: 1.5rem;">
+            <h4 style="margin: 0; color: #00D4AA;">Market-Neutral Pairs Trading Desk</h4>
+            <p style="margin: 0.3rem 0 0 0; color: #94A3B8; font-size: 0.85rem;">
+                Identifies mean-reverting equity pairs using <b>Engle-Granger Cointegration (ADF)</b>,
+                calculates dynamic <b>Rolling Z-Scores</b>, and executes automated statistical arbitrage whenever
+                the spread deviates past ±2.0 standard deviations.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    preset_pairs = [
+        "NVDA / AMD (Semiconductors)",
+        "MSFT / GOOGL (Cloud & Big Tech)",
+        "TSM / AVGO (Foundry & Custom Silicon)",
+        "QQQ / SPY (Tech vs Broad Market)",
+        "AAPL / MSFT (Mega-Cap Titans)",
+        "META / GOOGL (Digital Ads & Social)",
+        "AMZN / COST (E-Commerce vs Retail)",
+        "JPM / SPY (Financials vs Market)",
+    ]
+
+    col_ctrl1, col_ctrl2, col_ctrl3 = st.columns([1.5, 1, 1])
+    with col_ctrl1:
+        selected_pair_str = st.selectbox("Select Cointegrated Pair", preset_pairs, index=0)
+    with col_ctrl2:
+        lookback_window = st.slider("Z-Score Window (Days)", min_value=10, max_value=60, value=30, step=5)
+    with col_ctrl3:
+        z_threshold = st.slider("Entry Z-Threshold (σ)", min_value=1.0, max_value=3.0, value=2.0, step=0.25)
+
+    pair_symbols = selected_pair_str.split(" ")[0].split("/")
+    ticker_a, ticker_b = pair_symbols[0].strip(), pair_symbols[1].strip()
+
+    try:
+        from src.data_ingestion import get_price_history
+        hist_a = get_price_history(ticker_a, period="2y", use_cache=True)
+        hist_b = get_price_history(ticker_b, period="2y", use_cache=True)
+        series_a = hist_a["Close"]
+        series_b = hist_b["Close"]
+
+        pair_data = generate_pairs_trading_signals(
+            series_a, series_b, ticker_a, ticker_b, window=lookback_window, entry_z=z_threshold
+        )
+
+        m1, m2, m3, m4 = st.columns(4)
+        with m1:
+            st.markdown(
+                f"""
+                <div class="glass-card" style="text-align: center;">
+                    <div style="font-size: 0.75rem; color: #94A3B8;">Rolling Z-Score</div>
+                    <div style="font-size: 1.8rem; font-weight: 900; color: {'#10B981' if abs(pair_data['current_zscore'])<1 else '#EF4444' if pair_data['current_zscore']>0 else '#3B82F6'};">{pair_data['current_zscore']:+.2f}σ</div>
+                    <div style="font-size: 0.7rem; color: #64748B;">Threshold: ±{z_threshold:.1f}σ</div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        with m2:
+            st.markdown(
+                f"""
+                <div class="glass-card" style="text-align: center;">
+                    <div style="font-size: 0.75rem; color: #94A3B8;">Cointegration Confidence</div>
+                    <div style="font-size: 1.8rem; font-weight: 900; color: #00D4AA;">p = {pair_data['p_value']:.4f}</div>
+                    <div style="font-size: 0.7rem; color: #64748B;">ADF t-stat: {pair_data['adf_statistic']:.2f}</div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        with m3:
+            st.markdown(
+                f"""
+                <div class="glass-card" style="text-align: center;">
+                    <div style="font-size: 0.75rem; color: #94A3B8;">Hedge Ratio (β)</div>
+                    <div style="font-size: 1.8rem; font-weight: 900; color: #F1F5F9;">{pair_data['hedge_ratio']:.3f}</div>
+                    <div style="font-size: 0.7rem; color: #64748B;">1 {ticker_a} : {pair_data['hedge_ratio']:.2f} {ticker_b}</div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        with m4:
+            st.markdown(
+                f"""
+                <div class="glass-card" style="text-align: center;">
+                    <div style="font-size: 0.75rem; color: #94A3B8;">Mean-Reversion Half-Life</div>
+                    <div style="font-size: 1.8rem; font-weight: 900; color: #F59E0B;">{pair_data['half_life_days']:.1f}d</div>
+                    <div style="font-size: 0.7rem; color: #64748B;">Ornstein-Uhlenbeck Decay</div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+        st.markdown(
+            f"""
+            <div class="glass-card" style="border-left: 4px solid {'#10B981' if pair_data['signal_code']==1 else '#EF4444' if pair_data['signal_code']==-1 else '#64748B'}; margin: 1rem 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 0.8rem; color: #94A3B8;">PAIR TRADING VERDICT</div>
+                        <div style="font-size: 1.3rem; font-weight: 800; color: #F8FAFC;">{pair_data['action']}</div>
+                    </div>
+                    <div style="font-size: 0.85rem; font-weight: 600; color: {'#10B981' if pair_data['signal_code']!=0 else '#94A3B8'};">
+                        {pair_data['status']}
+                    </div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        # Plotly Z-Score Spread
+        import plotly.graph_objects as go
+        z_df = pd.DataFrame({"Z": pair_data["zscore_series"]}).dropna().tail(180)
+
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(
+            x=z_df.index, y=z_df["Z"],
+            mode="lines", name="Spread Z-Score",
+            line=dict(color="#00D4AA", width=2)
+        ))
+        fig.add_hline(y=z_threshold, line=dict(color="#EF4444", dash="dash", width=1.5), annotation_text=f"Overbought (+{z_threshold}σ)")
+        fig.add_hline(y=-z_threshold, line=dict(color="#10B981", dash="dash", width=1.5), annotation_text=f"Oversold (-{z_threshold}σ)")
+        fig.add_hline(y=0.0, line=dict(color="rgba(148, 163, 184, 0.4)", width=1), annotation_text="Equilibrium (0.0)")
+
+        fig.update_layout(
+            title=f"<b>{ticker_a} vs {ticker_b}</b> — Rolling Standardized Spread Z-Score",
+            template="plotly_dark",
+            height=360,
+            margin=dict(l=20, r=20, t=40, b=20),
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(15,23,42,0.4)",
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+        # Backtest Summary
+        st.markdown("#### 📈 Historical Statistical Arbitrage Backtest")
+        bt_res = backtest_pairs_strategy(series_a, series_b, window=lookback_window, entry_z=z_threshold)
+
+        bc1, bc2, bc3, bc4 = st.columns(4)
+        bc1.metric("Strategy Return", f"{bt_res['total_return']:+.2f}%")
+        bc2.metric("Sharpe Ratio", f"{bt_res['sharpe_ratio']:.2f}")
+        bc3.metric("Max Drawdown", f"{bt_res['max_drawdown']:.2f}%")
+        bc4.metric("Win Rate", f"{bt_res['win_rate']:.1f}% ({bt_res['total_trades']} Trades)")
+
+        eq_fig = go.Figure()
+        eq_fig.add_trace(go.Scatter(
+            x=bt_res["equity_curve"].index,
+            y=bt_res["equity_curve"].values,
+            mode="lines",
+            name="Pair Equity Curve ($)",
+            line=dict(color="#3B82F6", width=2)
+        ))
+        eq_fig.update_layout(
+            title=f"<b>${bt_res['final_equity']:,.2f}</b> — Cumulative Equity Growth ($100k Capital)",
+            template="plotly_dark",
+            height=280,
+            margin=dict(l=20, r=20, t=35, b=20),
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(15,23,42,0.4)",
+        )
+        st.plotly_chart(eq_fig, use_container_width=True)
+
+    except Exception as e:
+        st.error(f"Error analyzing pair {ticker_a}/{ticker_b}: {e}")
+
+
+# ==============================================================================
 # 🚀 MAIN APPLICATION CONTROLLER
 # ==============================================================================
 def main():
@@ -511,6 +688,7 @@ def main():
                 "⚡ AI Command Center",
                 "💼 Portfolio & Broker",
                 "📊 Multi-Asset Fund & Risk",
+                "🕸️ Cointegration Pairs Desk",
                 "🔬 Quantitative Research",
             ],
             index=0,
@@ -564,6 +742,8 @@ def main():
         render_portfolio_workspace()
     elif nav_mode == "📊 Multi-Asset Fund & Risk":
         render_fund_and_risk()
+    elif nav_mode == "🕸️ Cointegration Pairs Desk":
+        render_statarb_workspace()
     elif nav_mode == "🔬 Quantitative Research":
         render_research_workspace(selected_ticker)
 
