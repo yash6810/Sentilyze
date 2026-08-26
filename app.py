@@ -281,12 +281,61 @@ def render_command_center(ticker: str):
                             <div style="font-size: 0.85rem; margin-top: 0.6rem; line-height: 1.6;">
                                 • <b>TP1 (50% Scale-Out):</b> <span style="color:#00D4AA; font-family:monospace;">${tp1:,.2f}</span><br>
                                 • <b>TP2 (Runner Target):</b> <span style="color:#10B981; font-family:monospace;">${tp2:,.2f}</span><br>
-                                • <b>Stop-Loss:</b> <span style="color:#EF4444; font-family:monospace;">${sl:,.2f}</span>
+                    # --- 1-Click Interactive Live Order Ticket for Selected Asset ---
+                    st.markdown(
+                        f"""
+                        <div class="glass-card" style="margin-top: 0.8rem; padding: 0.8rem; border-left: 3px solid #00D4AA;">
+                            <div style="font-weight: 800; font-size: 0.85rem; color: #F8FAFC; margin-bottom: 0.4rem;">
+                                ⚡ <b>1-Click Live Market Order Ticket ({ticker})</b>
                             </div>
                         </div>
                         """,
                         unsafe_allow_html=True,
                     )
+
+                    tkt_col1, tkt_col2 = st.columns([1.2, 1.2])
+                    with tkt_col1:
+                        order_size_preset = st.selectbox(
+                            "Capital Allocation",
+                            ["$5,000", "$10,000", "$25,000", "$45,000 (Max Target)", "Custom Shares"],
+                            key=f"cmd_order_alloc_{ticker}",
+                        )
+                        if order_size_preset == "Custom Shares":
+                            order_shares = st.number_input(
+                                "Shares", min_value=1, max_value=5000, value=10, step=1, key=f"cmd_shares_{ticker}"
+                            )
+                        else:
+                            dollar_budget = float(order_size_preset.replace("$", "").replace(",", "").split()[0])
+                            order_shares = max(1, int(dollar_budget // curr_p)) if curr_p > 0 else 1
+
+                        est_cost = order_shares * curr_p
+                        st.caption(f"Estimated Order: **{order_shares} shares** (~${est_cost:,.2f})")
+
+                    with tkt_col2:
+                        st.write("")
+                        st.write("")
+                        b_instance = PaperBroker()
+                        has_open = ticker in b_instance.state.get("open_positions", {})
+                        if st.button(f"🟢 Execute Live BUY {ticker}", use_container_width=True, key=f"cmd_btn_buy_{ticker}"):
+                            with st.spinner(f"Executing market buy order for {ticker}..."):
+                                buy_res = b_instance.execute_manual_buy(
+                                    ticker=ticker, shares=order_shares, price=curr_p, atr=atr, confidence=conf
+                                )
+                                if buy_res.get("success"):
+                                    st.toast(f"✅ Bought {order_shares} shares of {ticker} @ ${curr_p:,.2f}!", icon="🚀")
+                                    st.success(f"Executed BUY {order_shares} {ticker} @ ${curr_p:,.2f} | TP1: ${buy_res['tp1_target']:.2f} | SL: ${buy_res['sl_target']:.2f}")
+                                    time.sleep(0.6)
+                                    st.rerun()
+                                else:
+                                    st.error(buy_res.get("error", "Failed to execute buy order."))
+
+                        if has_open:
+                            if st.button(f"🔴 Exit / Sell {ticker} Now", use_container_width=True, key=f"cmd_btn_sell_{ticker}"):
+                                with st.spinner(f"Closing position in {ticker}..."):
+                                    sell_res = b_instance.execute_manual_sell(ticker=ticker, price=curr_p)
+                                    if sell_res.get("success"):
+                                        st.toast(f"🛑 Closed {ticker} @ ${curr_p:,.2f} (PnL: ${sell_res['trade']['pnl']:+,.2f})", icon="💰")
+                                        st.rerun()
                 except Exception as e:
                     st.error(f"Inference error: {e}")
 
@@ -395,13 +444,100 @@ def render_portfolio_workspace():
             use_container_width=True,
         )
 
-    # Active Holdings Table
+    # --- Live Multi-Asset Execution Desk ---
+    st.markdown('<div class="section-badge">⚡ Live Multi-Asset Quick Order Desk</div>', unsafe_allow_html=True)
+    od_col1, od_col2, od_col3, od_col4 = st.columns([1.2, 1.2, 1, 1.2])
+
+    with od_col1:
+        trade_ticker = st.selectbox("Asset Ticker", UNIVERSE_TICKERS, key="port_trade_ticker")
+        trade_quote = fetch_live_quote(trade_ticker)
+        trade_p = float(trade_quote.get("price", 100.0))
+        st.caption(f"Live Price: **${trade_p:,.2f}** ({trade_quote.get('status', 'LIVE')})")
+
+    with od_col2:
+        trade_preset = st.selectbox(
+            "Order Size",
+            ["$10,000", "$25,000", "$45,000 (Max Conviction)", "Custom Shares"],
+            key="port_order_size",
+        )
+        if trade_preset == "Custom Shares":
+            trade_shares = st.number_input("Shares", min_value=1, max_value=5000, value=10, step=1, key="port_shares_in")
+        else:
+            trade_budget = float(trade_preset.replace("$", "").replace(",", "").split()[0])
+            trade_shares = max(1, int(trade_budget // trade_p)) if trade_p > 0 else 1
+        st.caption(f"Target: **{trade_shares} shares** (~${trade_shares * trade_p:,.2f})")
+
+    with od_col3:
+        st.write("")
+        st.write("")
+        if st.button(f"🟢 BUY {trade_ticker}", use_container_width=True, key="btn_port_buy"):
+            with st.spinner(f"Placing market buy order for {trade_ticker}..."):
+                res_b = broker.execute_manual_buy(ticker=trade_ticker, shares=trade_shares, price=trade_p)
+                if res_b.get("success"):
+                    st.toast(f"✅ Executed BUY {trade_shares} {trade_ticker} @ ${trade_p:.2f}!", icon="🚀")
+                    st.rerun()
+                else:
+                    st.error(res_b.get("error"))
+
+    with od_col4:
+        st.write("")
+        st.write("")
+        col_act1, col_act2 = st.columns(2)
+        with col_act1:
+            if st.button("🚀 Auto-Deploy", use_container_width=True, help="Auto-allocates liquid cash into top AI signals right now"):
+                with st.spinner("Scanning universe and auto-deploying cash..."):
+                    evaluate_intraday_execution(broker=broker)
+                    st.toast("⚡ Capital deployed into top AI signals!", icon="🚀")
+                    st.rerun()
+        with col_act2:
+            if st.button("🚨 Kill-Switch", use_container_width=True, help="Immediately liquidates 100% of holdings into cash"):
+                with st.spinner("Liquidating all holdings into cash..."):
+                    for t in list(broker.state.get("open_positions", {}).keys()):
+                        broker.execute_manual_sell(ticker=t, reason="STREAMLIT_MANUAL_KILL_SWITCH")
+                    st.toast("🛑 All open positions liquidated into cash!", icon="💰")
+                    st.rerun()
+
+    # Active Holdings Table with Individual Position Action Controls
     st.markdown('<div class="section-badge">📦 Active Open Holdings (50/50 Scale-Out Model)</div>', unsafe_allow_html=True)
     open_df = broker.get_open_positions_df()
     if not open_df.empty:
         st.dataframe(open_df, use_container_width=True, hide_index=True)
+
+        # Individual Position Action Cards
+        st.markdown("**Interactive Position Controls:**")
+        pos_cols = st.columns(min(len(broker.state["open_positions"]), 3))
+        for idx, (sym, pos) in enumerate(list(broker.state["open_positions"].items())):
+            with pos_cols[idx % len(pos_cols)]:
+                q_spot = fetch_live_quote(sym)
+                spot_price = float(q_spot.get("price", pos["current_price"]))
+                shrs = int(pos["shares"])
+                is_scld = pos.get("scaled_out", False)
+
+                st.markdown(
+                    f"""
+                    <div class="glass-card" style="padding: 0.7rem; margin-bottom: 0.4rem;">
+                        <b style="color: #00D4AA;">{sym}</b> &nbsp;|&nbsp; <b>{shrs} shares</b> &nbsp;|&nbsp; Spot: <b>${spot_price:,.2f}</b><br>
+                        <span style="font-size: 0.75rem; color: #94A3B8;">TP1: ${float(pos.get('tp1_target', 0)):.2f} | SL: ${float(pos.get('sl_target', 0)):.2f}</span>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+                btn_c1, btn_c2 = st.columns(2)
+                with btn_c1:
+                    if not is_scld:
+                        if st.button(f"🎯 Scale 50%", key=f"scale_{sym}", use_container_width=True):
+                            broker.execute_manual_scale_out(ticker=sym, price=spot_price)
+                            st.toast(f"🎯 Scaled out 50% of {sym} @ ${spot_price:,.2f}!", icon="💰")
+                            st.rerun()
+                    else:
+                        st.caption("🛡️ Risk-Free Runner")
+                with btn_c2:
+                    if st.button(f"🛑 Exit 100%", key=f"close_{sym}", use_container_width=True):
+                        broker.execute_manual_sell(ticker=sym, price=spot_price, reason="STREAMLIT_POSITION_EXIT")
+                        st.toast(f"🛑 Closed {sym} @ ${spot_price:,.2f} into cash!", icon="💵")
+                        st.rerun()
     else:
-        st.info("No open positions. Ready to deploy cash into morning high-conviction signals.")
+        st.info("No open positions. Use the Quick Order Desk above to execute live trades or click 'Auto-Deploy'.")
 
     # Equity Curve & Closed Trades
     col_eq, col_jrnl = st.columns([1.5, 1.5])

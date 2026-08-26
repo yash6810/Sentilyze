@@ -429,3 +429,162 @@ class PaperBroker:
         df["date"] = pd.to_datetime(df["date"])
         df.set_index("date", inplace=True)
         return df
+
+    def execute_manual_buy(
+        self,
+        ticker: str,
+        shares: int,
+        price: float,
+        atr: Optional[float] = None,
+        confidence: float = 0.85,
+    ) -> Dict[str, Any]:
+        """Executes an immediate manual live/simulated BUY order from UI."""
+        if price <= 0 or shares <= 0:
+            return {"success": False, "error": "Invalid price or shares count"}
+
+        cost = float(shares * price)
+        if cost > self.state["cash"]:
+            return {"success": False, "error": f"Insufficient cash (${self.state['cash']:,.2f} available, required ${cost:,.2f})"}
+
+        now_utc = datetime.now(timezone.utc)
+        date_str = now_utc.strftime("%Y-%m-%d")
+        now_str = now_utc.isoformat()
+
+        atr_base = atr if atr and atr > 0 else max(price * 0.025, price * 0.03)
+        tp1_target = round(price + (2.5 * atr_base), 2)
+        tp2_target = round(price + (4.5 * atr_base), 2)
+        sl_target = round(price - (1.5 * atr_base), 2)
+
+        self.state["cash"] -= cost
+        self.state["open_positions"][ticker] = {
+            "ticker": ticker,
+            "shares": shares,
+            "initial_shares": shares,
+            "entry_price": price,
+            "current_price": price,
+            "entry_date": date_str,
+            "tp1_target": tp1_target,
+            "tp2_target": tp2_target,
+            "sl_target": sl_target,
+            "scaled_out": False,
+            "confidence": confidence,
+            "regime": "MANUAL_LIVE_ORDER",
+        }
+
+        self._recalculate_metrics(date_str, now_str)
+        self._save_state()
+        logger.info(f"⚡ [MANUAL LIVE BUY] Executed {shares} shares of {ticker} @ ${price:.2f} (Total: ${cost:,.2f})")
+        return {
+            "success": True,
+            "ticker": ticker,
+            "shares": shares,
+            "price": price,
+            "cost": cost,
+            "tp1_target": tp1_target,
+            "tp2_target": tp2_target,
+            "sl_target": sl_target,
+        }
+
+    def execute_manual_sell(
+        self,
+        ticker: str,
+        price: Optional[float] = None,
+        reason: str = "MANUAL_MARKET_EXIT",
+    ) -> Dict[str, Any]:
+        """Executes an immediate manual live/simulated exit of an open position."""
+        if ticker not in self.state["open_positions"]:
+            return {"success": False, "error": f"No open position for {ticker}"}
+
+        pos = self.state["open_positions"][ticker]
+        exit_price = float(price if price and price > 0 else pos.get("current_price", pos["entry_price"]))
+        shares = int(pos["shares"])
+        entry_price = float(pos["entry_price"])
+
+        proceeds = float(shares * exit_price)
+        cost_basis = float(shares * entry_price)
+        pnl = float(proceeds - cost_basis)
+        ret_pct = float((exit_price - entry_price) / entry_price * 100.0) if entry_price > 0 else 0.0
+
+        self.state["cash"] += proceeds
+        self.state["realized_pnl"] += pnl
+        self.state["total_trades"] += 1
+        if pnl > 0:
+            self.state["winning_trades"] += 1
+        else:
+            self.state["losing_trades"] += 1
+
+        now_utc = datetime.now(timezone.utc)
+        date_str = now_utc.strftime("%Y-%m-%d")
+        now_str = now_utc.isoformat()
+
+        trade_record = {
+            "ticker": ticker,
+            "shares": shares,
+            "entry_price": entry_price,
+            "exit_price": exit_price,
+            "entry_date": pos["entry_date"],
+            "exit_date": date_str,
+            "pnl": round(pnl, 2),
+            "return_pct": round(ret_pct, 2),
+            "reason": reason,
+        }
+        self.state["closed_trades"].append(trade_record)
+        del self.state["open_positions"][ticker]
+
+        self._recalculate_metrics(date_str, now_str)
+        self._save_state()
+        logger.info(f"🛑 [MANUAL LIVE EXIT] Closed {ticker} @ ${exit_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)")
+        return {"success": True, "trade": trade_record}
+
+    def execute_manual_scale_out(
+        self,
+        ticker: str,
+        price: Optional[float] = None,
+    ) -> Dict[str, Any]:
+        """Executes a 50% scale-out on an open position and moves stop to break-even."""
+        if ticker not in self.state["open_positions"]:
+            return {"success": False, "error": f"No open position for {ticker}"}
+
+        pos = self.state["open_positions"][ticker]
+        if pos.get("scaled_out", False):
+            return {"success": False, "error": f"{ticker} has already been scaled out"}
+
+        curr_price = float(price if price and price > 0 else pos.get("current_price", pos["entry_price"]))
+        shares = int(pos["shares"])
+        entry_price = float(pos["entry_price"])
+        half_shares = max(1, shares // 2)
+
+        proceeds = float(half_shares * curr_price)
+        cost_basis = float(half_shares * entry_price)
+        pnl = float(proceeds - cost_basis)
+        ret_pct = float((curr_price - entry_price) / entry_price * 100.0) if entry_price > 0 else 0.0
+
+        self.state["cash"] += proceeds
+        self.state["realized_pnl"] += pnl
+        pos["shares"] = shares - half_shares
+        pos["scaled_out"] = True
+        pos["sl_target"] = round(entry_price * 1.002, 2)
+
+        now_utc = datetime.now(timezone.utc)
+        date_str = now_utc.strftime("%Y-%m-%d")
+        now_str = now_utc.isoformat()
+
+        trade_record = {
+            "ticker": ticker,
+            "shares": half_shares,
+            "entry_price": entry_price,
+            "exit_price": curr_price,
+            "entry_date": pos["entry_date"],
+            "exit_date": date_str,
+            "pnl": round(pnl, 2),
+            "return_pct": round(ret_pct, 2),
+            "reason": "MANUAL_50PCT_SCALE_OUT",
+            "scale_stage": "STAGE_1_50PCT",
+            "status": "RISK_FREE_RUNNER",
+        }
+        self.state["closed_trades"].append(trade_record)
+
+        self._recalculate_metrics(date_str, now_str)
+        self._save_state()
+        logger.info(f"🎯 [MANUAL 50% SCALE-OUT] Banked 50% of {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} | SL Moved to Break-Even")
+        return {"success": True, "trade": trade_record}
