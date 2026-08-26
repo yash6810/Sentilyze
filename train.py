@@ -6,6 +6,7 @@ import argparse
 import json
 import shap
 import mlflow
+import mlflow.xgboost
 import numpy as np
 from src.modeling import train_model, save_model
 from src.backtesting import run_backtest, run_significance_test
@@ -94,7 +95,11 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
         # 6. Save Model and Results
         logger.info(f"Saving model to models/{ticker}_model.json...")
         save_model(model, f"models/{ticker}_model.json")
-        mlflow.sklearn.log_model(model, "model")
+        try:
+            mlflow.xgboost.log_model(model, "model")
+        except Exception as e:
+            logger.warning(f"MLflow model log notice: {e}")
+            mlflow.log_artifact(f"models/{ticker}_model.json")
 
         # Save the heatmap
         heatmap_fig.savefig(f"results/{ticker}_monthly_returns_heatmap.png")
