@@ -1,39 +1,49 @@
-# Sentilyze — Institutional AI Momentum & Sentiment Trading Engine
+# Sentilyze — Institutional AI Momentum, Sentiment & Autonomous Trading Platform
 
 ![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
-![Tests: 35 Passed](https://img.shields.io/badge/Tests-35%2F35%20Passed-brightgreen.svg)
+![Tests: Passing](https://img.shields.io/badge/Tests-Passing-brightgreen.svg)
 ![FastAPI](https://img.shields.io/badge/API-FastAPI%20REST-009688.svg)
 ![Streamlit](https://img.shields.io/badge/Dashboard-Streamlit-FF4B4B.svg)
+![GitHub Actions](https://img.shields.io/badge/Autonomous%20CI%2FCD-Active-2088FF.svg)
 
 ---
 
-## 🔭 Project Overview
+## 🔭 Platform Overview
 
-**Sentilyze** is an end-to-end quantitative trading and research system that combines **FinBERT Natural Language Processing** with **XGBoost machine learning** and **Macro Regime Filters** to forecast next-day equity momentum and manage a multi-asset hedge fund portfolio.
+**Sentilyze** is an institutional-grade quantitative trading, research, and autonomous execution platform. It combines **FinBERT Natural Language Processing (NLP)**, **XGBoost Machine Learning with Walk-Forward Optimization (WFO)**, and **Macro Regime Filters (`^VIX` / 200 SMA)** to forecast equity momentum, execute multi-stage scale-out trades, and manage a $100,000 paper trading portfolio.
 
-The system features:
-1. **Real-Time Market & News Engine**: Direct REST chart extraction and breaking headline streaming with zero rate-limit errors.
-2. **25-Feature Technical & NLP Matrix**: Combining FinBERT polarity, moving average acceleration (`ma_spread`), volume surge ratios, normalized ATR, and `^VIX` macro indicators.
-3. **Dynamic Take-Profit (+2.5 ATR) & Regime Filtering**: Automatic profit-locking targets at cycle peaks, lifting strategy win rates to **53%+** while cutting drawdowns.
-4. **17-Asset Multi-Asset Fund (Risk Parity)**: A unified $100,000 portfolio combining tech leaders, AI semiconductor titans, broad index ETFs, and defensive compounders into an institutional-grade fund (**1.61 Sharpe Ratio, -14.65% max drawdown**).
-5. **Production Microservice & Dashboard**: Dual-interface architecture featuring a **FastAPI** REST microservice (`/predict?ticker=X`) and a rich 4-tab **Streamlit** dashboard.
+### 🌟 Key Core Capabilities:
+1. **🤖 Autonomous 5-Minute Intraday Guardian**: Continuously tracks live market prices every 5 minutes during US market hours (**7:30 PM–1:30 AM IST** / 9:30 AM–4:00 PM EST), dynamically ratchets Stop-Losses to Break-Even, and triggers **FinBERT News Catalyst Emergency Exits** if breaking sentiment collapses.
+2. **🎯 Model 4 Concentrated Sizing & 50/50 Scale-Out**: Deploys capital into the Top 1–2 highest-conviction AI signals (~$45k each), banks 50% profit at `+2.5 ATR` (`TP1`), and lets the remaining 50% "ride" to `+4.5 ATR` (`TP2`) for massive breakout gains (**+215.7% 4-year backtest return, 0.78 Sharpe**).
+3. **📈 Virtual Paper Trading Broker ($100k Account)**: Real-time simulated broker tracking open positions, cash balance, win rates, and closed trade logs in [`results/paper_portfolio.json`](results/paper_portfolio.json).
+4. **🔔 Multi-Channel Alert Dispatcher**: Master Market Briefings and live trade execution cards delivered to **Discord Webhooks**, **Telegram Bots**, and **HTML Morning Tearsheets** via Gmail SMTP.
+5. **📄 1-Click Executive PDF Factsheets**: Generates 2-page institutional vector PDF fact sheets in memory with zero external C-binary dependencies.
+6. **🎲 Monte Carlo Portfolio Stress Tester & VaR Simulator**: Simulates 1,000 forward paths using Geometric Brownian Motion (GBM), calculating 95%/99% Value-at-Risk (VaR), Expected Shortfall (CVaR), and Quantile Fans.
+7. **💼 17-Asset Cross-Correlation & Hedge Finder**: Computes rolling 90-day returns correlation matrix across all 17 assets and identifies optimal non-correlated hedging pairs.
+8. **🌐 Full 9-Tab Streamlit Dashboard & FastAPI Microservice**: Complete dark-mode glassmorphic interface across live signals, real-time radar, backtesting sandbox, SHAP XAI, fund allocations, and any-stock screener.
 
 ---
 
-## ⚙️ Architecture & Pipeline
+## ⚙️ Architecture & Autonomous Pipeline
 
 ```mermaid
-graph LR
-    A[Yahoo REST API & Breaking News] --> B[FinBERT Transformer]
-    A --> C[Technical Feature Engine]
-    B --> D[25-Feature Aggregator]
+graph TD
+    A[📡 Live Yahoo API & Breaking News Feeds] --> B[🧠 FinBERT NLP Transformer]
+    A --> C[📊 26-Feature Technical Matrix]
+    B --> D[Aggregated Feature Matrix]
     C --> D
     D --> E[Walk-Forward XGBoost Engine]
-    E --> F[Regime Filter & Take-Profit Targets]
-    F --> G[FastAPI REST Microservice]
-    F --> H[Streamlit 4-Tab Dashboard]
-    F --> I[Risk Parity 17-Asset Fund]
+    E --> F{Model 4 Conviction Sizer}
+    F --> G[🎯 Top-2 Concentrated Entries ~$45k each]
+    G --> H[⚡ 5-Minute Autonomous Intraday Guardian]
+    H --> I[Stage 1: 50% Scale-Out @ +2.5 ATR ➔ Ratchet to Break-Even]
+    H --> J[Stage 2: 50% Free Runner @ +4.5 ATR]
+    H --> K[🚨 Emergency News Shock Exit < -0.50 Sentiment]
+    I --> L[💾 Auto-Commit Ledger to GitHub & Dispatch Alerts]
+    J --> L
+    K --> L
+    L --> M[💬 Discord, Telegram & Gmail HTML Digest]
 ```
 
 ---
@@ -42,39 +52,20 @@ graph LR
 
 Sentilyze prioritizes **scientific rigor over inflated backtests**. Evaluated via strict **Walk-Forward Optimization (WFO)** without lookahead bias across 2,014+ out-of-sample trading days (~8 years) with realistic market frictions (0.10% broker fees, 0.05% slippage, 5% annual margin interest, and Reg T 25% maintenance margin liquidation safeguards).
 
-### 1. 💼 Consolidated 17-Asset Multi-Asset Fund (Tab 3)
+### 🧪 4-Year Profit-Boosting Model Experiment ($100k Starting Capital)
 
-| Metric | Buy & Hold Benchmark | 🚀 **Sentilyze 17-Asset Fund (Risk Parity)** | Performance Edge |
-| :--- | :---: | :---: | :---: |
-| **Starting Capital** | $100,000.00 | **$100,000.00** | — |
-| **Final Portfolio Value** | $475,169.70 | **$293,687.03** | 💰 **+193.7% Compound Growth** |
-| **Sharpe Ratio** | 0.95 | **1.61** | 💎 **+69.5% Higher Risk-Adjusted Return** |
-| **Sortino Ratio** | 1.30 | **2.35** | 🚀 **Super-Smooth Downside Protection** |
-| **Max Drawdown (Worst Dip)** | -25.01% | **-14.65%** | 🛡️ **41.4% Drawdown Reduction** |
-| **Universe Assets** | 17 Assets | **17 Assets** | `NVDA, AAPL, MSFT, GOOGL, META, TSLA, AMZN, AVGO, AMD, PLTR, LLY, QQQ, SPY, JPM, COST, NFLX, TSM` |
-
----
-
-### 2. 📈 Single-Stock Out-of-Sample Performance (With Take-Profit & Regime Filter)
-
-| Stock | Ticker | WFO OOS Accuracy | Out-of-Sample Return | Sharpe Ratio | Win Rate | Strategy Status |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Nvidia** | `NVDA` | **50.5%** | **+617.1%** ($71,706) | **0.81** | **53.0%** 🟢 | Active Momentum |
-| **Microsoft** | `MSFT` | **51.9%** | **+150.6%** ($25,058) | **0.45** | **53.4%** 🟢 | Active Momentum |
-| **Alphabet** | `GOOGL` | **51.9%** | **+109.5%** ($20,952) | **0.40** | **54.1%** 🟢 | Active Momentum |
-| **Apple** | `AAPL` | **48.4%** | **+3.9%** ($10,387) | **0.32** | **50.4%** 🟢 | Capital Preservation |
-| **Taiwan Semi** | `TSM` | **50.7%** | **+183.9%** ($28,388) | **0.59** | **48.8%** 🟢 | Active Momentum |
-| **Meta** | `META` | **51.2%** | **+1.2%** ($10,123) | **0.24** | **44.5%** 🟢 | Capital Preservation |
-| **Tesla** | `TSLA` | **50.0%** | **-47.9%** ($5,207) | **0.25** | **44.2%** 🟢 | High-Beta Rebalanced |
-| **Amazon** | `AMZN` | **49.4%** | **-14.3%** ($8,567) | **0.24** | **42.1%** 🟢 | Range-Bound Rebalanced |
-
-*Note: In daily financial time series, directional prediction edges hover between 50%–54%. Strategy alpha is generated through **asymmetric risk/reward payoff ratios** ($3.5\times$ profit on winning trades vs small $-1.5\%$ stop-losses) combined with **Take-Profit profit locking**.*
+| Strategy Model | Final Equity ($) | Net Profit ($) | Total Return (%) | Win Rate (%) | Sharpe Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **1. Baseline (+2.5 ATR Fixed, 5 Stocks)** | `$177,112.13` | `+$77,112.13` | `+77.1%` | 45.5% | 0.61 |
+| **2. High Target (+3.5 ATR Runner, 5 Stocks)** | `$185,054.68` | `+$85,054.68` | `+85.1%` | 38.9% | 0.71 |
+| **3. 50/50 Scale-Out & Free Ride (5 Stocks)** | `$169,784.92` | `+$69,784.92` | `+69.8%` | 45.1% | 0.72 |
+| **4. Concentrated Top-2 + Scale-Out + 1.25x Lev** 🏆 | **`$315,668.00`** | **`+$215,668.00`** | **`+215.7%`** | 39.1% | **0.78** |
 
 ---
 
 ## 🛠️ Feature Matrix & AI Explainability (SHAP)
 
-Every trade signal is driven by a 25-dimensional feature matrix and explained with **SHapley Additive exPlanations (SHAP)**:
+Every trade signal is driven by a 26-dimensional feature matrix and explained with **SHapley Additive exPlanations (SHAP)**:
 
 * **Technical Momentum**: `RSI(14)`, `MACD`, `Stochastic Oscillator`, `SMA200`, `MA7`, `MA21`, `ma_spread`, `price_to_sma200`, `rsi_slope`.
 * **Volatility & Volume**: `ATR(14)`, `atr_ratio` (`ATR / Price`), `volume_ratio` (`Volume / 20d Avg`), `Bollinger Upper/Lower`.
@@ -102,23 +93,43 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Run All Automated Tests
+### 2. Configure Environment Variables (`.env`)
 
-```powershell
-pytest tests/ -v
+Create a `.env` file in the root directory:
+
+```env
+# Multi-Channel Alert Dispatchers
+DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/..."
+TELEGRAM_BOT_TOKEN="123456:ABC-DEF..."
+TELEGRAM_CHAT_ID="-100123456789"
+EMAIL_USER="your-email@gmail.com"
+EMAIL_PASSWORD="your-gmail-app-password"
+EMAIL_RECIPIENT="recipient@gmail.com"
+
+# Optional Market Data Providers (Fallbacks)
+FINNHUB_API_KEY=""
+POLYGON_API_KEY=""
+FMP_API_KEY=""
+EODHD_API_KEY=""
+ALPACA_API_KEY=""
+ALPACA_SECRET_KEY=""
 ```
-*(Runs 35 unit and integration tests covering data ingestion, feature creation, modeling, backtesting, portfolio allocation, and API endpoints).*
 
-### 3. Launch the Streamlit Financial Dashboard
+### 3. Launch the Streamlit Dashboard
 
 ```powershell
 streamlit run app.py
 ```
-Open **`http://localhost:8501`** in your browser to access:
-* **Tab 1 (⚡ Live Signal Generation)**: Real-time signals, news headlines, and calculated Take-Profit / Stop-Loss levels.
-* **Tab 2 (📊 Results Dashboard)**: Individual stock performance, monthly heatmaps, and SHAP feature importances.
-* **Tab 3 (💼 Multi-Asset Fund)**: The consolidated 17-stock Risk Parity portfolio.
-* **Tab 4 (🔎 Any-Stock Live Screener)**: Instant momentum screening for any US ticker.
+Open **`http://localhost:8501`** in your browser to access all 9 tabs:
+* **Tab 1 (⚡ Live Signal)**: Real-time signals, news headlines, and ATR risk brackets.
+* **Tab 2 (📡 Real-Time Radar)**: Sub-minute live quotes, dynamic progress bars to Take-Profit, and intraday exit execution.
+* **Tab 3 (📊 Dashboard)**: Individual stock performance and monthly heatmaps.
+* **Tab 4 (🏦 Backtest)**: Dynamic strategy optimizer with custom leverage (1.0x–2.0x) and confidence sliders.
+* **Tab 5 (🧠 XAI)**: SHAP feature importance breakdowns.
+* **Tab 6 (💼 Multi-Asset Fund)**: Risk Parity fund allocation, capital rebalancer, and 17-asset correlation matrix.
+* **Tab 7 (📈 Paper Portfolio)**: Live $100k ledger, scale-out positions, trade journal, and 1-click PDF tearsheet download.
+* **Tab 8 (🎲 Stress Test & VaR)**: Monte Carlo 1,000-path simulator with 95%/99% VaR and quantile fan charts.
+* **Tab 9 (🔍 Any-Stock Screener)**: Instant AI momentum screening for any US ticker.
 
 ### 4. Launch the FastAPI Microservice
 
@@ -133,20 +144,16 @@ uvicorn api:app --host 0.0.0.0 --port 8000 --reload
 
 ---
 
-## 🐳 Docker Deployment
+## 🤖 GitHub Actions Automation
 
-To launch both the Streamlit Dashboard and FastAPI microservice via Docker Compose:
-
-```bash
-docker-compose up --build
-```
-* **Dashboard**: `http://localhost:8501`
-* **API Microservice**: `http://localhost:8000`
+Sentilyze runs 100% autonomously in the cloud:
+1. **Morning Market Scanner (`daily_scanner.yml`)**: Runs at **7:00 AM IST** daily, ingests news, runs FinBERT + XGBoost, selects top setups, and dispatches the Master Briefing.
+2. **5-Minute Intraday Guardian (`intraday_market_tracker.yml`)**: Runs every 5 minutes during active US market hours (**7:30 PM–1:30 AM IST**, Mon–Fri), manages 50/50 scale-outs, ratchets stops, auto-commits portfolio state, and sends flash alerts.
 
 ---
 
 ## ⚠️ Limitations & Risk Disclosures
 
-1. **Market Noise**: Directional stock forecasting is non-stationary and subject to regime shifts.
-2. **Execution Frictions**: While backtests incorporate commissions, slippage, and margin loan interest, real-world execution depends on liquidity at market Open.
-3. **Research Platform**: Sentilyze is an academic quantitative research system and MLOps demonstration, not a licensed broker or financial advisor.
+1. **Market Noise**: Directional stock forecasting is non-stationary and subject to macro regime shifts.
+2. **Simulated Paper Execution**: Backtests and paper trading incorporate commissions, slippage, and margin loan interest, but real-world execution depends on live exchange order-book liquidity.
+3. **Research Platform**: Sentilyze is an academic quantitative research system and MLOps demonstration, not a registered financial advisor or broker-dealer.
