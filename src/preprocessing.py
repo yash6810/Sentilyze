@@ -30,16 +30,16 @@ def _load_sentiment_analyzer() -> Any:
     local_path = "./models/finbert-fine-tuned"
     try:
         if os.path.exists(local_path):
-            tokenizer = AutoTokenizer.from_pretrained(local_path)
-            model = AutoModelForSequenceClassification.from_pretrained(local_path)
+            tokenizer = AutoTokenizer.from_pretrained(local_path, local_files_only=True)  # nosec B615
+            model = AutoModelForSequenceClassification.from_pretrained(local_path, local_files_only=True)  # nosec B615
             return pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
     except Exception as e:
         logger.warning(
             f"Could not load local fine-tuned model at {local_path}: {e}. Falling back to ProsusAI/finbert..."
         )
 
-    tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert")
-    model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert")
+    tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert", revision="main")  # nosec B615
+    model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert", revision="main")  # nosec B615
     return pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
 
