@@ -89,3 +89,13 @@ def compute_cross_asset_correlation(
     }
 
     return corr_matrix, analytics
+
+
+def compute_correlation_matrix(
+    tickers: List[str] = UNIVERSE_TICKERS,
+    window_days: int = 90,
+) -> Dict[str, Any]:
+    """Convenience wrapper returning correlation matrix and analytics dictionary."""
+    matrix, analysis = compute_cross_asset_correlation(tickers=tickers, window_days=window_days)
+    return {"matrix": matrix, "analysis": analysis}
+

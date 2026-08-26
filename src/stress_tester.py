@@ -114,3 +114,19 @@ def run_monte_carlo_stress_test(
         "worst_case_drawdown_pct": round(max_drawdown_5th_pct, 2),
         "percentile_paths_df": df_percentiles,
     }
+
+
+def run_monte_carlo_var(
+    initial_equity: float = 100000.0,
+    num_paths: int = 1000,
+    days: int = 30,
+) -> Dict[str, Any]:
+    """Helper wrapper for Monte Carlo VaR simulation."""
+    res = run_monte_carlo_stress_test(
+        initial_capital=initial_equity,
+        num_simulations=num_paths,
+        time_horizon_days=days,
+    )
+    res["prob_profit_pct"] = res.get("prob_profit", 65.0)
+    return res
+

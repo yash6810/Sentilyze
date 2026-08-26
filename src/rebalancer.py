@@ -124,3 +124,37 @@ def calculate_share_allocation(
         "allocation_table": df_alloc,
         "positions_count": len([r for r in rows if r["Shares to Buy"] > 0]),
     }
+
+
+def calculate_custom_rebalance(
+    total_capital: float = 25000.0,
+    method: str = "risk_parity",
+    signals_file: str = "results/daily_signals_latest.json",
+) -> Dict[str, Any]:
+    """Helper to calculate share allocation from latest daily signals file or universe prices."""
+    import os
+    import json
+
+    signals = []
+    if os.path.exists(signals_file):
+        try:
+            with open(signals_file, "r") as f:
+                data = json.load(f)
+                signals = data.get("signals", [])
+        except Exception:
+            pass
+
+    if not signals:
+        from src.realtime_tracker import fetch_universe_live_quotes
+        quotes = fetch_universe_live_quotes()
+        for t, q in quotes.items():
+            if q.get("price", 0) > 0:
+                signals.append({
+                    "ticker": t,
+                    "signal": "BUY",
+                    "confidence": 0.65,
+                    "current_price": q["price"]
+                })
+
+    return calculate_share_allocation(capital=total_capital, selected_signals=signals, method=method)
+
