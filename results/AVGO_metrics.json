@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:e61823b016d45f9303483660bd2fc75a376da4f2c252af2b4fb79291ebbe1b9a
-size 1340
+{
+    "accuracy": 0.5134194831013916,
+    "precision": 0.5441819772528433,
+    "recall": 0.575925925925926,
+    "f1": 0.5596041385515069,
+    "roc_auc": 0.5127722142743603,
+    "baseline_logistic_accuracy": 0.4955268389662028,
+    "baseline_logistic_roc_auc": 0.49180774121761245,
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.47      0.44      0.46       932\n           1       0.54      0.58      0.56      1080\n\n    accuracy                           0.51      2012\n   macro avg       0.51      0.51      0.51      2012\nweighted avg       0.51      0.51      0.51      2012\n",
+    "best_params": {
+        "n_estimators": 150,
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_alpha": 0.1,
+        "reg_lambda": 1.0,
+        "random_state": 42,
+        "eval_metric": "logloss"
+    },
+    "total_test_samples": 2012,
+    "strategy_total_return": 5.094359661807426,
+    "buy_and_hold_total_return": 16.188975388732317,
+    "strategy_max_drawdown": -0.4657587115029136,
+    "buy_and_hold_max_drawdown": -0.4878889175941603,
+    "sharpe_ratio": 0.8094340858241281,
+    "sortino_ratio": 1.0163005493750799,
+    "total_trades": 117,
+    "win_rate": 0.5897435897435898
+}

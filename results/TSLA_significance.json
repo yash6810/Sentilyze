@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:413ad91ee4c8869a0ac6362097c6735f9491446aeb5e17ac47b34e5d42b0607c
-size 239
+{
+    "strategy_sharpe": 0.3666,
+    "random_sharpe_mean": 0.5584,
+    "p_value": 0.759,
+    "confidence_interval_95": [
+        -0.0063,
+        1.0674
+    ],
+    "is_statistically_significant": false,
+    "n_simulations": 1000
+}

@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:7aadd119072f7e2a4b75b106d78c4ea4b542bdad9bf31d3bbe759e76a1f15fcd
-size 1342
+{
+    "accuracy": 0.5004970178926441,
+    "precision": 0.5340909090909091,
+    "recall": 0.564173591874423,
+    "f1": 0.5487202514593623,
+    "roc_auc": 0.4944056646062497,
+    "baseline_logistic_accuracy": 0.5213717693836978,
+    "baseline_logistic_roc_auc": 0.5221233924423545,
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.46      0.43      0.44       929\n           1       0.53      0.56      0.55      1083\n\n    accuracy                           0.50      2012\n   macro avg       0.50      0.50      0.49      2012\nweighted avg       0.50      0.50      0.50      2012\n",
+    "best_params": {
+        "n_estimators": 150,
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_alpha": 0.1,
+        "reg_lambda": 1.0,
+        "random_state": 42,
+        "eval_metric": "logloss"
+    },
+    "total_test_samples": 2012,
+    "strategy_total_return": 0.5733236296416016,
+    "buy_and_hold_total_return": 3.1883424878742295,
+    "strategy_max_drawdown": -0.522812332422626,
+    "buy_and_hold_max_drawdown": -0.31513855598075013,
+    "sharpe_ratio": 0.3232518615241779,
+    "sortino_ratio": 0.4097781855714744,
+    "total_trades": 114,
+    "win_rate": 0.5526315789473685
+}

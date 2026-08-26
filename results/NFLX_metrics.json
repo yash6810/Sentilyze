@@ -1,3 +1,30 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:839b78008f1e3d6c32f79f16f3184741d85150847e6f44e151eb9531fef5d8f2
-size 1345
+{
+    "accuracy": 0.49353876739562624,
+    "precision": 0.4994606256742179,
+    "recall": 0.4548133595284872,
+    "f1": 0.47609254498714654,
+    "roc_auc": 0.49079348388958505,
+    "baseline_logistic_accuracy": 0.48956262425447317,
+    "baseline_logistic_roc_auc": 0.48823886343601886,
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.49      0.53      0.51       994\n           1       0.50      0.45      0.48      1018\n\n    accuracy                           0.49      2012\n   macro avg       0.49      0.49      0.49      2012\nweighted avg       0.49      0.49      0.49      2012\n",
+    "best_params": {
+        "n_estimators": 150,
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_alpha": 0.1,
+        "reg_lambda": 1.0,
+        "random_state": 42,
+        "eval_metric": "logloss"
+    },
+    "total_test_samples": 2012,
+    "strategy_total_return": 0.5158106288576596,
+    "buy_and_hold_total_return": 1.387353465743931,
+    "strategy_max_drawdown": -0.7156508037069482,
+    "buy_and_hold_max_drawdown": -0.7594731825161364,
+    "sharpe_ratio": 0.33343813019185453,
+    "sortino_ratio": 0.3727025320411967,
+    "total_trades": 115,
+    "win_rate": 0.5130434782608696
+}
