@@ -705,8 +705,6 @@ def render_portfolio_tab():
         # Equity Curve Chart
         st.markdown(
             '<div class="section-header">📈 Multi-Asset Fund Growth vs Equal Benchmark</div>',
-            unsafe_allow_html=True,
-        )
         chart_data = unified_df[["total", "benchmark"]].rename(
             columns={
                 "total": "Sentilyze Multi-Asset Fund ($)",
@@ -729,12 +727,86 @@ def render_portfolio_tab():
         with col_right:
             st.bar_chart(weights_df.set_index("ticker"))
 
+        # --- Custom Capital Share Allocation Calculator ---
+        st.markdown(
+            '<div class="section-header">🎯 Custom Capital Share Allocation Calculator</div>',
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            """
+            <p style="color: #94A3B8;">
+                Enter your custom trading capital to calculate exact <b>whole-share buy orders</b>, cost basis,
+                and Take-Profit / Stop-Loss brackets based on mathematical weighting.
+            </p>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        c_cap1, c_cap2 = st.columns([1, 2])
+        with c_cap1:
+            budget = st.number_input(
+                "Your Total Dollar Budget ($)",
+                min_value=1000.0,
+                max_value=1000000.0,
+                value=25000.0,
+                step=1000.0,
+                format="%.2f",
+            )
+            alloc_strategy = st.selectbox(
+                "Allocation Model",
+                ["Risk Parity (Inverse Volatility)", "Equal Weight ($)", "Model Conviction Weighted"],
+            )
+            method_key = (
+                "risk_parity"
+                if "Risk Parity" in alloc_strategy
+                else ("equal_weight" if "Equal" in alloc_strategy else "confidence")
+            )
+
+        # Fetch latest daily scan signals for calculator
+        from src.rebalancer import calculate_share_allocation
+        import json
+
+        summary_file = os.path.join("results", "daily_signals_latest.json")
+        calc_signals = []
+        if os.path.exists(summary_file):
+            try:
+                with open(summary_file, "r") as f:
+                    sdata = json.load(f)
+                    calc_signals = [s for s in sdata.get("signals", []) if s.get("signal") == "BUY"]
+            except Exception:
+                pass
+
+        if not calc_signals:
+            # Fallback sample candidates
+            calc_signals = [
+                {"ticker": "AMD", "confidence": 0.76, "current_price": 480.35, "take_profit": 534.72, "stop_loss": 415.11},
+                {"ticker": "AVGO", "confidence": 0.71, "current_price": 356.65, "take_profit": 390.58, "stop_loss": 336.29},
+                {"ticker": "TSM", "confidence": 0.62, "current_price": 417.01, "take_profit": 445.11, "stop_loss": 383.27},
+                {"ticker": "QQQ", "confidence": 0.58, "current_price": 710.09, "take_profit": 731.82, "stop_loss": 684.02},
+            ]
+
+        with c_cap2:
+            st.caption(f"Allocating across {len(calc_signals)} active BUY candidates:")
+            alloc_res = calculate_share_allocation(budget, calc_signals, method=method_key)
+            st.markdown(
+                f"""
+                <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; border-radius: 10px; padding: 0.8rem 1.2rem; display: flex; justify-content: space-around;">
+                    <div><span style="color:#94A3B8;">Total Capital:</span> <b>${alloc_res['total_capital']:,.2f}</b></div>
+                    <div><span style="color:#00D4AA;">Total Invested:</span> <b>${alloc_res['total_invested']:,.2f} ({alloc_res['invested_pct']}%)</b></div>
+                    <div><span style="color:#F59E0B;">Cash Buffer:</span> <b>${alloc_res['cash_reserve']:,.2f}</b></div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+        st.dataframe(alloc_res["allocation_table"], use_container_width=True, hide_index=True)
+
     except Exception as e:
         st.warning(f"Unable to generate unified portfolio: {e}")
 
 
 def render_screener_tab():
-    """Tab 6: Any-Stock Instant Live Screener."""
+    """Tab 8: Any-Stock Instant Live Screener."""
     st.markdown(
         '<div class="section-header">🔍 Any-Stock Live Technical & Momentum Screener</div>',
         unsafe_allow_html=True,
@@ -758,45 +830,37 @@ def render_screener_tab():
                 hist = yf.Ticker(custom_ticker).history(period="1y")
                 if hist.empty or len(hist) < 50:
                     st.error(
-                        f"Could not retrieve sufficient price history for symbol '{custom_ticker}'."
+                        f"Insufficient data for {custom_ticker}. Verify symbol."
                     )
                     return
 
                 close_today = hist["Close"].iloc[-1]
-                sma50 = hist["Close"].rolling(50).mean().iloc[-1]
-                sma200 = hist["Close"].rolling(200).mean().iloc[-1]
+                sma_200 = (
+                    hist["Close"].rolling(200).mean().iloc[-1]
+                    if len(hist) >= 200
+                    else hist["Close"].rolling(50).mean().iloc[-1]
+                )
+                is_uptrend = close_today > sma_200
 
-                # RSI
+                # RSI 14
                 delta = hist["Close"].diff()
-                gain = (delta.where(delta > 0, 0)).rolling(14).mean().iloc[-1]
-                loss = (-delta.where(delta < 0, 0)).rolling(14).mean().iloc[-1]
-                rs = gain / (loss + 1e-10)
-                rsi = 100 - (100 / (1 + rs))
-
-                # 5-day momentum
-                return_5d = (
-                    (hist["Close"].iloc[-1] - hist["Close"].iloc[-6])
-                    / hist["Close"].iloc[-6]
-                ) * 100
-
-                # ATR
-                tr = np.maximum(
-                    hist["High"] - hist["Low"],
-                    np.maximum(
-                        abs(hist["High"] - hist["Close"].shift(1)),
-                        abs(hist["Low"] - hist["Close"].shift(1)),
-                    ),
-                )
-                atr = tr.rolling(14).mean().iloc[-1]
-
-                # Health Rating
-                is_uptrend = (
-                    close_today > sma200
-                    if not np.isnan(sma200)
-                    else close_today > sma50
-                )
-                is_oversold = rsi < 35
+                gain = (delta.where(delta > 0, 0)).rolling(14).mean()
+                loss = (-delta.where(delta < 0, 0)).rolling(14).mean()
+                rs = gain / (loss + 1e-9)
+                rsi = 100 - (100 / (1 + rs.iloc[-1]))
                 is_overbought = rsi > 70
+                is_oversold = rsi < 30
+
+                # 5-day return & ATR
+                return_5d = (
+                    (close_today - hist["Close"].iloc[-5])
+                    / hist["Close"].iloc[-5]
+                ) * 100
+                high_low = hist["High"] - hist["Low"]
+                high_cp = np.abs(hist["High"] - hist["Close"].shift())
+                low_cp = np.abs(hist["Low"] - hist["Close"].shift())
+                tr = pd.concat([high_low, high_cp, low_cp], axis=1).max(axis=1)
+                atr = tr.rolling(14).mean().iloc[-1]
 
                 if is_uptrend and return_5d > 0 and not is_overbought:
                     rating = "🟢 STRONG BULLISH MOMENTUM"
@@ -848,9 +912,115 @@ def render_screener_tab():
                 st.error(f"Error analyzing {custom_ticker}: {e}")
 
 
-def render_paper_portfolio_tab():
-    """Tab 7: Live Virtual Paper Portfolio & Execution."""
+def render_stress_test_tab():
+    """Tab 7: Monte Carlo Portfolio Stress Tester & Value-at-Risk (VaR) Simulator."""
+    from src.stress_tester import run_monte_carlo_stress_test
     from src.paper_broker import PaperBroker
+
+    broker = PaperBroker()
+    current_equity = broker.state.get("total_equity", 100000.0)
+
+    st.markdown(
+        '<div class="section-header">🎲 Monte Carlo Portfolio Stress Tester & Value-at-Risk (VaR)</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        """
+        <p style="color: #94A3B8; margin-bottom: 1.5rem;">
+            Simulate <b>1,000 forward market paths</b> to stress-test your portfolio against tail-risk volatility,
+            project expected Sharpe cones, and calculate institutional <b>95% / 99% Value at Risk (VaR)</b>.
+        </p>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    c_s1, c_s2, c_s3 = st.columns(3)
+    with c_s1:
+        sim_capital = st.number_input(
+            "Stress-Test Portfolio Capital ($)",
+            min_value=5000.0,
+            max_value=2000000.0,
+            value=float(current_equity),
+            step=5000.0,
+        )
+    with c_s2:
+        horizon_days = st.selectbox(
+            "Forward Time Horizon (Trading Days)",
+            [21, 45, 63, 90, 180],
+            index=1,
+            format_func=lambda x: f"{x} Days (~{round(x/21, 1)} months)",
+        )
+    with c_s3:
+        num_paths = st.selectbox(
+            "Simulation Iterations",
+            [500, 1000, 2000],
+            index=1,
+            format_func=lambda x: f"{x:,} Paths",
+        )
+
+    with st.spinner("Running Monte Carlo Geometric Brownian Motion forward simulation..."):
+        stress_res = run_monte_carlo_stress_test(
+            initial_capital=sim_capital,
+            num_simulations=num_paths,
+            time_horizon_days=horizon_days,
+            confidence_level=0.95,
+        )
+
+    # --- KPI Grid ---
+    k1, k2, k3, k4, k5 = st.columns(5)
+    with k1:
+        render_metric_card(
+            "95% Value at Risk (VaR)",
+            f"${stress_res['var_95_dollar']:,.2f}",
+            "negative",
+        )
+    with k2:
+        render_metric_card(
+            "95% Expected Shortfall",
+            f"${stress_res['cvar_95_dollar']:,.2f}",
+            "negative",
+        )
+    with k3:
+        render_metric_card(
+            "Probability of Profit",
+            f"{stress_res['prob_profit']:.1f}%",
+            "positive" if stress_res["prob_profit"] >= 50 else "",
+        )
+    with k4:
+        render_metric_card(
+            "Median Projected Equity",
+            f"${stress_res['median_final_equity']:,.2f}",
+            "positive" if stress_res["median_final_equity"] >= sim_capital else "",
+        )
+    with k5:
+        render_metric_card(
+            "Worst 5% Drawdown",
+            f"{stress_res['worst_case_drawdown_pct']:.1f}%",
+            "negative",
+        )
+
+    # --- Quantile Chart ---
+    st.markdown(
+        '<div class="section-header">📊 1,000-Path Monte Carlo Simulation Quantile Fan</div>',
+        unsafe_allow_html=True,
+    )
+    df_pct = stress_res["percentile_paths_df"].rename(
+        columns={
+            "5th_worst": "5th Percentile (Stress Case)",
+            "25th_pct": "25th Percentile",
+            "50th_median": "50th Percentile (Median Path)",
+            "75th_pct": "75th Percentile",
+            "95th_best": "95th Percentile (Bull Case)",
+        }
+    )
+    st.line_chart(df_pct)
+
+
+def render_paper_portfolio_tab():
+    """Tab 6: Live Virtual Paper Portfolio & Execution."""
+    from src.paper_broker import PaperBroker
+    from src.tearsheet import generate_executive_pdf_tearsheet
+    import datetime
 
     broker = PaperBroker()
     summary = broker.get_portfolio_summary()
@@ -885,7 +1055,7 @@ def render_paper_portfolio_tab():
         render_metric_card(
             "Unrealized PnL",
             f"${summary['unrealized_pnl']:+,.2f}",
-            "positive" if summary["unrealized_pnl"] >= 0 else "negative",
+            "positive" if summary['unrealized_pnl'] >= 0 else "negative",
         )
     with c5:
         render_metric_card(
@@ -894,8 +1064,8 @@ def render_paper_portfolio_tab():
             "positive" if summary["win_rate"] >= 50 else "",
         )
 
-    # --- Manual Scan & Execution Trigger ---
-    col_btn, col_info = st.columns([1, 3])
+    # --- Actions: Run Execution & 1-Click PDF Tearsheet ---
+    col_btn, col_pdf, col_info = st.columns([1, 1, 2])
     with col_btn:
         if st.button("⚡ Execute Today's Signals", use_container_width=True):
             with st.spinner("Executing daily signals & updating portfolio..."):
@@ -907,6 +1077,22 @@ def render_paper_portfolio_tab():
                     f"Executed scan across {len(signals)} assets! Portfolio updated."
                 )
                 st.rerun()
+
+    with col_pdf:
+        # Generate institutional PDF factsheet bytes in memory
+        pdf_bytes = generate_executive_pdf_tearsheet(
+            portfolio_summary=summary,
+            open_positions=[{"ticker": t, **p} for t, p in broker.state["open_positions"].items()],
+            equity_history_df=broker.get_equity_curve_df(),
+        )
+        st.download_button(
+            label="📄 Download PDF Factsheet",
+            data=pdf_bytes,
+            file_name=f"Sentilyze_Executive_Factsheet_{datetime.datetime.now().strftime('%Y%m%d')}.pdf",
+            mime="application/pdf",
+            use_container_width=True,
+        )
+
     with col_info:
         st.caption(f"Last updated: {broker.state.get('last_updated', 'N/A')}")
 
@@ -1079,7 +1265,7 @@ def main():
     _ = load_sentiment_analyzer()
 
     # --- Tabs ---
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(
+    tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs(
         [
             "⚡ Live Signal",
             "📊 Dashboard",
@@ -1087,6 +1273,7 @@ def main():
             "🧠 XAI",
             "💼 Multi-Asset Fund",
             "📈 Paper Portfolio",
+            "🎲 Stress Test & VaR",
             "🔍 Any-Stock Screener",
         ]
     )
@@ -1104,6 +1291,8 @@ def main():
     with tab6:
         render_paper_portfolio_tab()
     with tab7:
+        render_stress_test_tab()
+    with tab8:
         render_screener_tab()
 
 
