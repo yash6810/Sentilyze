@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -92,6 +92,22 @@ def get_universe_tickers() -> List[str]:
 
 
 UNIVERSE_TICKERS = get_universe_tickers()
+
+
+def format_timestamp_ist(iso_or_utc_str: str) -> str:
+    """Converts UTC ISO timestamp string to Indian Standard Time (IST)."""
+    if not iso_or_utc_str or iso_or_utc_str == "N/A":
+        return "N/A"
+    try:
+        clean_str = str(iso_or_utc_str).replace("Z", "+00:00")
+        dt_utc = datetime.fromisoformat(clean_str)
+        if dt_utc.tzinfo is None:
+            dt_utc = dt_utc.replace(tzinfo=timezone.utc)
+        ist_offset = timezone(timedelta(hours=5, minutes=30))
+        dt_ist = dt_utc.astimezone(ist_offset)
+        return dt_ist.strftime("%d %b %Y, %I:%M:%S %p IST")
+    except Exception:
+        return str(iso_or_utc_str)[:19].replace("T", " ") + " UTC"
 
 
 # --- Luxury Glassmorphic Styling ---
@@ -356,13 +372,13 @@ def render_command_center(ticker: str):
     st.markdown('<div class="section-badge">📡 5-Minute Active Position Guardian & Proximity Radar</div>', unsafe_allow_html=True)
     broker = PaperBroker()
     open_pos = broker.state.get("open_positions", {})
-    last_upd = str(broker.state.get("last_updated", "N/A"))[:19].replace("T", " ")
+    last_upd_ist = format_timestamp_ist(broker.state.get("last_updated", "N/A"))
 
     st.markdown(
         f"""
         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(15, 23, 42, 0.6); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid rgba(0, 212, 170, 0.2); margin-bottom: 0.8rem;">
             <div><span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10B981; margin-right: 6px; box-shadow: 0 0 8px #10B981;"></span><b style="color: #F8FAFC; font-size: 0.85rem;">Autonomous Intraday Guardian:</b> <span style="color: #00D4AA; font-size: 0.85rem;">ACTIVE (5-Min Cloud Cron)</span></div>
-            <div style="font-size: 0.75rem; color: #94A3B8;">Ledger Last Synced: <span style="color: #E2E8F0; font-family: monospace;">{last_upd} UTC</span></div>
+            <div style="font-size: 0.75rem; color: #94A3B8;">Ledger Last Synced: <span style="color: #00D4AA; font-weight: 600; font-family: monospace;">{last_upd_ist}</span></div>
         </div>
         """,
         unsafe_allow_html=True,
