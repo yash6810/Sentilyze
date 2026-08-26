@@ -24,15 +24,26 @@ def _load_sentiment_analyzer() -> Any:
     """
     Loads the FinBERT sentiment analysis model and tokenizer from the local
     './models/finbert-fine-tuned' directory, with automatic fallback to
-    'ProsusAI/finbert'.
+    'ProsusAI/finbert', configured for multi-class probability extraction.
     """
-    logger.info("Loading FinBERT sentiment analysis model for preprocessing...")
+    import torch
+
+    device = 0 if torch.cuda.is_available() else -1
+    logger.info(f"Loading FinBERT sentiment analysis model for preprocessing (device={device})...")
     local_path = "./models/finbert-fine-tuned"
     try:
         if os.path.exists(local_path):
             tokenizer = AutoTokenizer.from_pretrained(local_path, local_files_only=True)  # nosec B615
             model = AutoModelForSequenceClassification.from_pretrained(local_path, local_files_only=True)  # nosec B615
-            return pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+            return pipeline(
+                "sentiment-analysis",
+                model=model,
+                tokenizer=tokenizer,
+                top_k=None,
+                truncation=True,
+                max_length=512,
+                device=device,
+            )
     except Exception as e:
         logger.warning(
             f"Could not load local fine-tuned model at {local_path}: {e}. Falling back to ProsusAI/finbert..."
@@ -40,7 +51,15 @@ def _load_sentiment_analyzer() -> Any:
 
     tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert", revision="main")  # nosec B615
     model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert", revision="main")  # nosec B615
-    return pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+    return pipeline(
+        "sentiment-analysis",
+        model=model,
+        tokenizer=tokenizer,
+        top_k=None,
+        truncation=True,
+        max_length=512,
+        device=device,
+    )
 
 
 def clean_headline_data(
