@@ -21,6 +21,11 @@ from src.paper_broker import PaperBroker
 from src.agent_committee import convene_trading_committee, execute_committee_order
 from src.realtime_tracker import fetch_universe_live_quotes, fetch_live_quote
 from src.data_ingestion import get_news
+from src.alerts import (
+    send_discord_execution_alert,
+    send_discord_committee_alert,
+    send_discord_social_spike_alert,
+)
 
 logger = get_logger(__name__)
 
@@ -175,10 +180,17 @@ class AutonomousTradingEngine:
                 logger.info(
                     f"💰 [TP1 PROFIT LOCK] Sold {half_shares} shares of {ticker} @ ${spot_price:.2f} | Realized PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%) | Stop moved to ${pos['sl_target']:.2f}"
                 )
-                self.dispatch_discord_alert(
-                    f"💰 Take-Profit 1 Executed: {ticker}",
-                    f"Locked in **${pnl:+,.2f}** ({ret_pct:+.2f}%) on {half_shares} shares.\nStop-loss trailed to breakeven (${pos['sl_target']:.2f}).",
-                    color=0x10B981,
+                send_discord_execution_alert(
+                    {
+                        "action": "SELL",
+                        "stage": "TP1_PROFIT_LOCK",
+                        "ticker": ticker,
+                        "price": spot_price,
+                        "entry_price": entry_price,
+                        "shares": pos["shares"],
+                        "realized_pnl": pnl,
+                        "tp2": pos.get("tp2_target", 0.0),
+                    }
                 )
 
             # Check Stage 2 Runner Exit (+4.5 ATR)
@@ -210,10 +222,16 @@ class AutonomousTradingEngine:
                 logger.info(
                     f"🎯 [TP2 RUNNER EXIT] Closed runner for {ticker} @ ${spot_price:.2f} | Realized PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
                 )
-                self.dispatch_discord_alert(
-                    f"🎯 Take-Profit 2 Target Hit: {ticker}",
-                    f"Closed runner position for **${pnl:+,.2f}** ({ret_pct:+.2f}%).\nTarget +4.5 ATR reached.",
-                    color=0x38BDF8,
+                send_discord_execution_alert(
+                    {
+                        "action": "SELL",
+                        "stage": "TP2_RUNNER_EXIT",
+                        "ticker": ticker,
+                        "price": spot_price,
+                        "shares": trade_record["shares"],
+                        "realized_pnl": pnl,
+                        "return_pct": ret_pct,
+                    }
                 )
 
             # Check Stop-Loss / Breakeven Exit
@@ -247,7 +265,17 @@ class AutonomousTradingEngine:
                 del self.broker.state["open_positions"][ticker]
                 executed_actions["stop_losses"].append(trade_record)
                 logger.info(
-                    f"🛑 [{reason}] Exited {ticker} @ ${spot_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
+                    f"🛡️ [{reason}] Closed position for {ticker} @ ${spot_price:.2f} | Realized PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
+                )
+                send_discord_execution_alert(
+                    {
+                        "action": "SELL",
+                        "stage": reason,
+                        "ticker": ticker,
+                        "price": spot_price,
+                        "shares": trade_record["shares"],
+                        "realized_pnl": pnl,
+                    }
                 )
 
         # 3. Phase B: Scan Universe for Committee Buy Opportunities
@@ -300,13 +328,24 @@ class AutonomousTradingEngine:
                     logger.info(
                         f"🚀 [AUTONOMOUS BUY] Executed {order_res.get('shares')} shares of {t} @ ${spot_price:.2f} (Verdict: {delib['final_resolution']})"
                     )
-                    self.dispatch_discord_alert(
-                        f"🚀 Autonomous Trade Opened: {t}",
-                        f"**Shares**: {order_res.get('shares')} @ ${spot_price:.2f}\n"
-                        f"**Resolution**: {delib['final_resolution']}\n"
-                        f"**Targets**: TP1: ${delib['tp1_target']:.2f} | TP2: ${delib['tp2_target']:.2f} | SL: ${delib['stop_loss_target']:.2f}",
-                        color=0x6366F1,
+                    send_discord_execution_alert(
+                        {
+                            "action": "BUY",
+                            "stage": "ENTRY",
+                            "ticker": t,
+                            "price": spot_price,
+                            "shares": order_res.get("shares"),
+                            "kelly_pct": delib.get("cro_signoff", {}).get(
+                                "approved_kelly_pct", 8.0
+                            ),
+                            "tp1": delib.get("tp1_target", spot_price * 1.06),
+                            "tp2": delib.get("tp2_target", spot_price * 1.12),
+                            "stop_loss": delib.get(
+                                "stop_loss_target", spot_price * 0.965
+                            ),
+                        }
                     )
+                    send_discord_committee_alert(delib)
 
         # 4. Phase C: Update Portfolio Summary Ledger
         self.broker._recalculate_metrics(date_str, now_str)
