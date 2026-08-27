@@ -1,14 +1,41 @@
 {
   "initial_capital": 100000.0,
-  "cash": 101217.19068298335,
-  "total_equity": 100991.38,
-  "unrealized_pnl": 617.25,
+  "cash": 11585.439279174745,
+  "total_equity": 101852.34,
+  "unrealized_pnl": 635.15,
   "realized_pnl": 1217.1906829833576,
-  "win_rate": 53.8,
+  "win_rate": 53.3,
   "total_trades": 15,
   "winning_trades": 8,
   "losing_trades": 7,
-  "open_positions": {},
+  "open_positions": {
+    "META": {
+      "shares": 78,
+      "initial_shares": 78,
+      "entry_price": 576.1400146484375,
+      "current_price": 571.1,
+      "entry_date": "2026-08-27",
+      "tp1_target": 617.17,
+      "tp2_target": 649.99,
+      "sl_target": 551.52,
+      "scaled_out": false,
+      "confidence": 0.6999778747558594,
+      "regime": "\u25bc BEARISH (Below SMA200)"
+    },
+    "TSM": {
+      "shares": 107,
+      "initial_shares": 107,
+      "entry_price": 417.6900024414063,
+      "current_price": 427.3,
+      "entry_date": "2026-08-27",
+      "tp1_target": 445.16,
+      "tp2_target": 467.14,
+      "sl_target": 401.21,
+      "scaled_out": false,
+      "confidence": 0.6696692109107971,
+      "regime": "\u25b2 BULLISH (Above SMA200)"
+    }
+  },
   "closed_trades": [
     {
       "ticker": "AMD",
@@ -188,11 +215,11 @@
     {
       "date": "2026-08-27",
       "timestamp": "2026-08-27T15:01:10.192393+00:00",
-      "total_equity": 100991.38,
-      "cash": 10861.15,
-      "invested": 90130.23,
-      "daily_return": -0.23
+      "total_equity": 101852.34,
+      "cash": 11585.44,
+      "invested": 90266.9,
+      "daily_return": 0.63
     }
   ],
-  "last_updated": "2026-08-27T16:14:05.675644+00:00"
+  "last_updated": "2026-08-27T22:55:18.161237+00:00"
 }
