@@ -1,278 +1,278 @@
 {
-  "scan_time": "2026-08-26T09:33:21.695489+00:00",
+  "scan_time": "2026-08-27T11:17:50.931346+00:00",
   "num_assets": 17,
   "signals": [
     {
       "ticker": "NVDA",
       "signal": "BUY",
-      "confidence": 0.5488839149475098,
-      "current_price": 213.0500030517578,
-      "stop_loss": 195.38643646240232,
-      "take_profit": 227.76964187622073,
+      "confidence": 0.5295976996421814,
+      "current_price": 209.66000366210935,
+      "stop_loss": 192.86000823974604,
+      "take_profit": 223.6599998474121,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 46.02845994368568
+          "importance": 42.44798660518283
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "AAPL",
       "signal": "SELL",
-      "confidence": 0.3750241994857788,
-      "current_price": 309.8999938964844,
-      "stop_loss": 291.769289289202,
-      "take_profit": 325.008914402553,
+      "confidence": 0.3820229768753052,
+      "current_price": 313.45001220703125,
+      "stop_loss": 295.46073041643416,
+      "take_profit": 328.44108036586215,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 51.238381681264975
+          "importance": 48.53644453900206
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "MSFT",
       "signal": "SELL",
-      "confidence": 0.3196718394756317,
-      "current_price": 491.7099914550781,
-      "stop_loss": 462.54785592215404,
-      "take_profit": 516.0117710658482,
+      "confidence": 0.5073786973953247,
+      "current_price": 496.3699951171875,
+      "stop_loss": 468.1549987792969,
+      "take_profit": 519.8824920654297,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 46.17205042784993
+          "importance": 52.997601298005755
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "GOOGL",
       "signal": "SELL",
-      "confidence": 0.3676767349243164,
-      "current_price": 346.9599914550781,
-      "stop_loss": 322.92141505650113,
-      "take_profit": 366.9921384538923,
+      "confidence": 0.3528794050216675,
+      "current_price": 342.0,
+      "stop_loss": 322.9221431187221,
+      "take_profit": 357.8982140677316,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 24.44287817617483
+          "importance": 32.328048118788544
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "META",
-      "signal": "SELL",
-      "confidence": 0.46971288323402405,
-      "current_price": 570.0499877929688,
-      "stop_loss": 544.456787109375,
-      "take_profit": 612.705322265625,
+      "signal": "BUY",
+      "confidence": 0.6999778747558594,
+      "current_price": 576.1400146484375,
+      "stop_loss": 551.5218178885324,
+      "take_profit": 617.1703425816128,
       "regime": "\u25bc BEARISH (Below SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 37.38441426308285
+          "importance": 42.50118945641215
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "TSLA",
       "signal": "SELL",
-      "confidence": 0.4224102795124054,
-      "current_price": 350.25,
-      "stop_loss": 332.3228530883789,
-      "take_profit": 380.12857818603516,
+      "confidence": 0.4582858979701996,
+      "current_price": 345.82000732421875,
+      "stop_loss": 327.7878625052316,
+      "take_profit": 375.8735820225307,
       "regime": "\u25bc BEARISH (Below SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 60.97116296978186
+          "importance": 65.27573384798288
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "AMZN",
       "signal": "SELL",
-      "confidence": 0.2784949541091919,
-      "current_price": 261.0599975585937,
-      "stop_loss": 242.6507175990513,
-      "take_profit": 276.4010641915457,
+      "confidence": 0.3221944272518158,
+      "current_price": 260.2799987792969,
+      "stop_loss": 243.58499799455916,
+      "take_profit": 274.19249943324496,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 33.55472277394453
+          "importance": 36.494975721975834
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "AVGO",
-      "signal": "BUY",
-      "confidence": 0.7086127996444702,
-      "current_price": 356.739990234375,
-      "stop_loss": 336.3785607474191,
-      "take_profit": 390.67570604596824,
+      "signal": "SELL",
+      "confidence": 0.3940613865852356,
+      "current_price": 355.5899963378906,
+      "stop_loss": 335.4889232090541,
+      "take_profit": 389.0917848859515,
       "regime": "\u25bc BEARISH (Below SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 18.431141667325008
+          "importance": 17.94125736244034
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "AMD",
-      "signal": "BUY",
-      "confidence": 0.7663012146949768,
-      "current_price": 479.1799926757813,
-      "stop_loss": 413.93643406459273,
-      "take_profit": 533.5496248517718,
+      "signal": "SELL",
+      "confidence": 0.39156001806259155,
+      "current_price": 480.9299926757813,
+      "stop_loss": 419.03572082519537,
+      "take_profit": 532.5085525512695,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 32.78770638541134
+          "importance": 49.1329844271572
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "PLTR",
       "signal": "SELL",
-      "confidence": 0.3119342625141144,
-      "current_price": 172.72999572753906,
-      "stop_loss": 150.37077440534318,
-      "take_profit": 191.36268016270228,
+      "confidence": 0.2594800591468811,
+      "current_price": 177.5,
+      "stop_loss": 155.17506517682756,
+      "take_profit": 196.10411235264368,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 60.91763755872789
+          "importance": 62.01277051708636
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "LLY",
       "signal": "SELL",
-      "confidence": 0.39857253432273865,
-      "current_price": 1233.6600341796875,
-      "stop_loss": 1096.952183314732,
-      "take_profit": 1347.583243233817,
+      "confidence": 0.42328858375549316,
+      "current_price": 1189.4100341796875,
+      "stop_loss": 1066.9136003766741,
+      "take_profit": 1291.4903956821986,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 68.93340414548906
+          "importance": 60.43508504571628
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "QQQ",
-      "signal": "BUY",
-      "confidence": 0.580918550491333,
-      "current_price": 710.719970703125,
-      "stop_loss": 684.6499895368304,
-      "take_profit": 732.4449550083706,
+      "signal": "SELL",
+      "confidence": 0.46568694710731506,
+      "current_price": 711.3699951171875,
+      "stop_loss": 686.1357334681919,
+      "take_profit": 732.3985464913504,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 36.82947296903781
+          "importance": 44.891288173266304
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "SPY",
-      "signal": "BUY",
-      "confidence": 0.5377891659736633,
-      "current_price": 765.9099731445312,
-      "stop_loss": 750.6014273507254,
-      "take_profit": 778.6670946393695,
+      "signal": "SELL",
+      "confidence": 0.4211207926273346,
+      "current_price": 766.0800170898438,
+      "stop_loss": 751.5450265066964,
+      "take_profit": 778.1925092424665,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 40.49802034267464
+          "importance": 45.40936584539076
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "JPM",
       "signal": "SELL",
-      "confidence": 0.38625118136405945,
-      "current_price": 356.69000244140625,
-      "stop_loss": 340.28855895996094,
-      "take_profit": 370.35787200927734,
+      "confidence": 0.4711388349533081,
+      "current_price": 356.5,
+      "stop_loss": 340.17356436593195,
+      "take_profit": 370.10536302839006,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 48.45589970648214
+          "importance": 46.37477309065589
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "COST",
       "signal": "SELL",
-      "confidence": 0.34297946095466614,
-      "current_price": 960.010009765625,
-      "stop_loss": 906.0592912946429,
-      "take_profit": 1004.9689418247768,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 59.2592841448836
-        }
-      ],
-      "timestamp": "2026-08-26 09:32 UTC"
-    },
-    {
-      "ticker": "NFLX",
-      "signal": "BUY",
-      "confidence": 0.5622425079345703,
-      "current_price": 82.2300033569336,
-      "stop_loss": 78.89142990112305,
-      "take_profit": 87.79429244995117,
+      "confidence": 0.4787803888320923,
+      "current_price": 956.1199951171876,
+      "stop_loss": 930.2439226422993,
+      "take_profit": 999.2467825753349,
       "regime": "\u25bc BEARISH (Below SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 68.59122319908194
+          "importance": 56.7897611756918
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
+    },
+    {
+      "ticker": "NFLX",
+      "signal": "BUY",
+      "confidence": 0.5816683173179626,
+      "current_price": 81.45999908447266,
+      "stop_loss": 78.02285439627511,
+      "take_profit": 87.1885735648019,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 71.23215656223515
+        }
+      ],
+      "timestamp": "2026-08-27 11:17 UTC"
     },
     {
       "ticker": "TSM",
       "signal": "BUY",
-      "confidence": 0.6190719604492188,
-      "current_price": 417.4100036621094,
-      "stop_loss": 383.67929513113836,
-      "take_profit": 445.51892743791853,
+      "confidence": 0.6696692109107971,
+      "current_price": 417.6900024414063,
+      "stop_loss": 384.7264338902065,
+      "take_profit": 445.15964290073947,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 44.6695792092711
+          "importance": 52.42704781444056
         }
       ],
-      "timestamp": "2026-08-26 09:32 UTC"
+      "timestamp": "2026-08-27 11:17 UTC"
     }
   ]
 }

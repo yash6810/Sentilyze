@@ -1,26 +1,39 @@
 {
   "initial_capital": 100000.0,
-  "cash": 55424.890001831016,
-  "total_equity": 100012.51,
-  "unrealized_pnl": -361.62,
-  "realized_pnl": 374.1287713622698,
-  "win_rate": 53.8,
-  "total_trades": 13,
+  "cash": 10597.478136596641,
+  "total_equity": 100229.23,
+  "unrealized_pnl": 0.0,
+  "realized_pnl": 229.22954040523854,
+  "win_rate": 50.0,
+  "total_trades": 14,
   "winning_trades": 7,
-  "losing_trades": 6,
+  "losing_trades": 7,
   "open_positions": {
-    "AVGO": {
-      "shares": 126,
-      "initial_shares": 126,
-      "entry_price": 356.739990234375,
-      "current_price": 353.87,
-      "entry_date": "2026-08-26",
-      "tp1_target": 390.68,
-      "tp2_target": 417.82,
-      "sl_target": 336.38,
+    "META": {
+      "shares": 78,
+      "initial_shares": 78,
+      "entry_price": 576.1400146484375,
+      "current_price": 576.1400146484375,
+      "entry_date": "2026-08-27",
+      "tp1_target": 617.17,
+      "tp2_target": 649.99,
+      "sl_target": 551.52,
       "scaled_out": false,
-      "confidence": 0.7086127996444702,
+      "confidence": 0.6999778747558594,
       "regime": "\u25bc BEARISH (Below SMA200)"
+    },
+    "TSM": {
+      "shares": 107,
+      "initial_shares": 107,
+      "entry_price": 417.6900024414063,
+      "current_price": 417.6900024414063,
+      "entry_date": "2026-08-27",
+      "tp1_target": 445.16,
+      "tp2_target": 467.14,
+      "sl_target": 401.21,
+      "scaled_out": false,
+      "confidence": 0.6696692109107971,
+      "regime": "\u25b2 BULLISH (Above SMA200)"
     }
   },
   "closed_trades": [
@@ -166,6 +179,17 @@
       "pnl": 258.54,
       "return_pct": 0.58,
       "reason": "\ud83d\udea8 EMERGENCY_NEWS_CATALYST_EXIT"
+    },
+    {
+      "ticker": "AVGO",
+      "shares": 126,
+      "entry_price": 356.739990234375,
+      "exit_price": 355.5899963378906,
+      "entry_date": "2026-08-26",
+      "exit_date": "2026-08-27",
+      "pnl": -144.9,
+      "return_pct": -0.32,
+      "reason": "MODEL_SELL"
     }
   ],
   "equity_history": [
@@ -176,7 +200,15 @@
       "cash": 55424.89,
       "invested": 44587.62,
       "daily_return": -0.1
+    },
+    {
+      "date": "2026-08-27",
+      "timestamp": "2026-08-27T11:17:50.930325+00:00",
+      "total_equity": 100229.23,
+      "cash": 10597.48,
+      "invested": 89631.75,
+      "daily_return": 0.22
     }
   ],
-  "last_updated": "2026-08-26T18:54:16.890342+00:00"
+  "last_updated": "2026-08-27T11:17:50.930702+00:00"
 }
