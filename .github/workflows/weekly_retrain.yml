@@ -33,6 +33,10 @@ jobs:
       - name: Execute Full Universe Retraining
         env:
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          MARKETAUX_API_KEY: ${{ secrets.MARKETAUX_API_KEY }}
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
         run: |
           python train.py --all --use-cache
 

@@ -36,6 +36,9 @@ jobs:
           MARKETAUX_API_KEY: ${{ secrets.MARKETAUX_API_KEY }}
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
           POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           python -u -m src.autonomous_trader --once
