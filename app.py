@@ -77,6 +77,16 @@ from src.earnings_sentiment import analyze_earnings_call_transcript
 from src.social_sentiment import fetch_social_sentiment_tracker
 from src.insider_tracker import compute_smart_money_insider_score
 from src.patent_contract_radar import compute_government_and_patent_index
+from src.agent_committee import convene_trading_committee, COMMITTEE_FILE
+from src.ai_copilot import AICopilotEngine
+from src.options_surface import (
+    generate_volatility_surface_mesh,
+    calculate_multileg_payoff,
+)
+from src.liquidity_heatmap import (
+    compute_order_book_depth_and_clusters,
+    compute_volume_profile_and_poc,
+)
 
 logger = get_logger(__name__)
 
@@ -1948,6 +1958,362 @@ def render_alternative_data_workspace(ticker: str):
 
 
 # ==============================================================================
+# 🏛️ WORKSPACE 11: AUTONOMOUS MULTI-AGENT TRADING COMMITTEE (AI DEBATE DESK)
+# ==============================================================================
+def render_committee_workspace(ticker: str):
+    st.markdown(
+        '<div class="section-badge">🏛️ Autonomous Multi-Agent Trading Committee & Round-Table Deliberation</div>',
+        unsafe_allow_html=True,
+    )
+
+    delib = convene_trading_committee(ticker, save_resolution=True)
+    cro = delib["cro_signoff"]
+
+    # Consensus Resolution Hero Banner
+    res_color = (
+        "#10B981"
+        if "BUY" in delib["final_resolution"]
+        else ("#F59E0B" if "SCALE" in delib["final_resolution"] else "#EF4444")
+    )
+    st.markdown(
+        f"""
+        <div class="glass-card" style="border: 1px solid {res_color}66; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <span style="font-size: 0.8rem; color: #94A3B8; letter-spacing: 0.05em;">OFFICIAL COMMITTEE VERDICT ({ticker})</span>
+                    <div style="font-size: 1.8rem; font-weight: 900; color: {res_color}; margin: 0.2rem 0;">{delib['final_resolution']}</div>
+                </div>
+                <div style="text-align: right;">
+                    <span style="font-size: 0.8rem; color: #94A3B8;">Consensus Conviction</span>
+                    <div style="font-size: 1.8rem; font-weight: 900; color: #00D4AA; font-family: 'JetBrains Mono', monospace;">{delib['consensus_conviction_pct']:.1f}%</div>
+                </div>
+            </div>
+            <div style="font-size: 0.85rem; color: #CBD5E1; margin-top: 0.5rem; line-height: 1.5;">
+                • <b>Approved Leverage</b>: <code>{cro['approved_leverage']:.1f}x</code> &nbsp;|&nbsp; 
+                • <b>Kelly Capital Allocation</b>: <code>{cro['kelly_allocation_pct']:.1f}%</code> &nbsp;|&nbsp; 
+                • <b>TP1 (+2.5 ATR)</b>: <code>${delib['tp1_target']:,.2f}</code> &nbsp;|&nbsp; 
+                • <b>Stop-Loss</b>: <code>${delib['stop_loss_target']:,.2f}</code>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # 4 Specialist Agent Cards
+    st.markdown("#### 🎙️ Specialist Agent Testimonies & Voting Breakdown")
+    c1, c2, c3 = st.columns(3)
+    cols = [c1, c2, c3]
+    for idx, rep in enumerate(delib["agent_testimonies"]):
+        with cols[idx % 3]:
+            v_color = (
+                "#10B981"
+                if rep["vote"] == "BUY"
+                else ("#F59E0B" if rep["vote"] == "HOLD" else "#EF4444")
+            )
+            st.markdown(
+                f"""
+                <div class="glass-card" style="border-top: 3px solid {v_color}; min-height: 220px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                        <b style="color: #F8FAFC; font-size: 0.85rem;">{rep['agent_name']}</b>
+                        <span style="background: {v_color}22; color: {v_color}; font-size: 0.75rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">{rep['vote']}</span>
+                    </div>
+                    <div style="font-size: 0.75rem; color: #00D4AA; margin-bottom: 0.5rem;">{rep['role']} (Conviction: {rep['conviction_score']}%)</div>
+                    <div style="font-size: 0.8rem; color: #94A3B8; line-height: 1.4;">{rep['thesis']}</div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+    # Chief Risk Officer Deliberation Box
+    st.markdown("#### ⚖️ Chief Risk Officer (CRO) Arbitration & Veto Log")
+    st.markdown(
+        f"""
+        <div class="glass-card" style="border-left: 4px solid #38BDF8;">
+            <div style="font-weight: 800; color: #F8FAFC;">{cro['cro_name']} — Formal Sign-Off</div>
+            <div style="font-size: 0.85rem; color: #CBD5E1; margin-top: 0.4rem;">{cro['cro_thesis']}</div>
+            <div style="font-size: 0.75rem; color: #64748B; margin-top: 0.4rem;">VIX Volatility Gate Status: {'🚨 VETO TRIGGERED' if cro['vix_veto_triggered'] else '🟢 PASSED (VIX Normal)'}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+# ==============================================================================
+# 💬 WORKSPACE 12: AI TRADE COPILOT & CONVERSATIONAL ANALYST
+# ==============================================================================
+def render_copilot_workspace(ticker: str):
+    st.markdown(
+        '<div class="section-badge">💬 AI Trade Copilot & Conversational Financial Intelligence</div>',
+        unsafe_allow_html=True,
+    )
+
+    copilot = AICopilotEngine()
+
+    # Preset Prompt Pills
+    st.markdown("**⚡ Quick Prompt Inquiries:**")
+    p_col1, p_col2, p_col3, p_col4 = st.columns(4)
+    active_prompt = None
+    with p_col1:
+        if st.button("💼 Portfolio Health", use_container_width=True):
+            active_prompt = "Show my portfolio balance and profit"
+    with p_col2:
+        if st.button(
+            f"🏛️ Committee on {ticker}",
+            use_container_width=True,
+            key=f"btn_c_{ticker}",
+        ):
+            active_prompt = f"What does the committee debate say about {ticker}?"
+    with p_col3:
+        if st.button("🌪️ Simulate -10% Crash", use_container_width=True):
+            active_prompt = "Simulate a 10% drop crash in my portfolio"
+    with p_col4:
+        if st.button(
+            f"🎯 Targets for {ticker}",
+            use_container_width=True,
+            key=f"btn_t_{ticker}",
+        ):
+            active_prompt = f"What are the profit targets and stop loss for {ticker}?"
+
+    user_query = st.text_input(
+        "Ask the AI Copilot anything about your portfolio, technical setups, or risk models:",
+        value=active_prompt or "",
+        placeholder=f"e.g. 'Why did we take a position in {ticker}?' or 'Stress-test my portfolio against a 5% drop'",
+        key="copilot_text_input",
+    )
+
+    if user_query:
+        with st.spinner("Copilot synthesizing multi-pillar financial insights..."):
+            ans = copilot.answer_query(user_query, context_ticker=ticker)
+            st.markdown(
+                f"""
+                <div class="glass-card" style="border: 1px solid rgba(0, 212, 170, 0.3); margin-top: 1rem;">
+                    {ans['markdown_response']}
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+
+# ==============================================================================
+# 📐 WORKSPACE 13: 3D VOLATILITY SURFACE & MULTI-LEG OPTIONS DESK
+# ==============================================================================
+def render_options_surface_workspace(ticker: str):
+    st.markdown(
+        '<div class="section-badge">📐 3D Implied Volatility Surface & Multi-Leg Options Strategy Desk</div>',
+        unsafe_allow_html=True,
+    )
+
+    mesh = generate_volatility_surface_mesh(ticker)
+    spot = mesh["spot_price"]
+
+    col_s1, col_s2 = st.columns([1.6, 1.2])
+
+    with col_s1:
+        st.markdown("#### 🌐 3D Implied Volatility Smile & Term Structure")
+        try:
+            import plotly.graph_objects as go
+
+            fig3d = go.Figure(
+                data=[
+                    go.Surface(
+                        x=mesh["strikes"],
+                        y=mesh["dtes"],
+                        z=mesh["iv_matrix"],
+                        colorscale="Viridis",
+                    )
+                ]
+            )
+            fig3d.update_layout(
+                title=f"3D Volatility Surface ({ticker} @ ${spot:,.2f})",
+                scene=dict(
+                    xaxis_title="Strike Price ($)",
+                    yaxis_title="Days to Expiry (DTE)",
+                    zaxis_title="Implied Volatility (%)",
+                ),
+                template="plotly_dark",
+                height=450,
+                margin=dict(l=10, r=10, t=30, b=10),
+                paper_bgcolor="rgba(0,0,0,0)",
+            )
+            st.plotly_chart(fig3d, use_container_width=True)
+        except ImportError:
+            st.info("Plotly 3D visualizer initializing...")
+
+    with col_s2:
+        st.markdown("#### ⚡ Institutional Multi-Leg Strategy Payoff Desk")
+        strat_choice = st.selectbox(
+            "Select Multi-Leg Structure",
+            [
+                "BULL_CALL_SPREAD",
+                "BEAR_PUT_SPREAD",
+                "IRON_CONDOR",
+                "LONG_STRADDLE",
+            ],
+        )
+        payoff_data = calculate_multileg_payoff(strat_choice, spot_price=spot)
+
+        st.markdown(
+            f"""
+            <div class="glass-card" style="margin-bottom: 0.8rem;">
+                <div style="font-size: 0.85rem; color: #CBD5E1;">{payoff_data['description']}</div>
+                <div style="font-size: 0.8rem; color: #94A3B8; margin-top: 0.4rem;">
+                    • <b>Max Profit</b>: <span style="color:#10B981;">{payoff_data['max_profit']}</span><br>
+                    • <b>Max Risk / Loss</b>: <span style="color:#EF4444;">${payoff_data['max_loss']:,.2f}</span><br>
+                    • <b>Risk/Reward Ratio</b>: <code>{payoff_data['risk_reward_ratio']}x</code>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        try:
+            import plotly.graph_objects as go
+
+            fig_p = go.Figure()
+            fig_p.add_trace(
+                go.Scatter(
+                    x=payoff_data["price_range"],
+                    y=payoff_data["payoff_curve"],
+                    mode="lines",
+                    line=dict(color="#00D4AA", width=2.5),
+                    name="P&L at Expiry",
+                )
+            )
+            fig_p.add_hline(y=0, line_dash="dash", line_color="#64748B")
+            fig_p.add_vline(
+                x=spot,
+                line_dash="dot",
+                line_color="#F59E0B",
+                annotation_text=f"Spot: ${spot:,.2f}",
+            )
+            fig_p.update_layout(
+                template="plotly_dark",
+                height=260,
+                margin=dict(l=10, r=10, t=20, b=10),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(15,23,42,0.4)",
+            )
+            st.plotly_chart(fig_p, use_container_width=True)
+        except Exception:
+            pass
+
+
+# ==============================================================================
+# 🌊 WORKSPACE 14: LEVEL 2 DEPTH & LIQUIDITY HEATMAP DESK
+# ==============================================================================
+def render_liquidity_heatmap_workspace(ticker: str):
+    st.markdown(
+        '<div class="section-badge">🌊 Level 2 Order Book Depth & Institutional Dark Pool Liquidity Heatmap</div>',
+        unsafe_allow_html=True,
+    )
+
+    depth = compute_order_book_depth_and_clusters(ticker)
+    vp = compute_volume_profile_and_poc(ticker)
+    spot = depth["spot_price"]
+
+    # Depth Stats Banner
+    sent_color = (
+        "#10B981"
+        if "BULLISH" in depth["depth_sentiment"]
+        else ("#EF4444" if "BEARISH" in depth["depth_sentiment"] else "#38BDF8")
+    )
+    st.markdown(
+        f"""
+        <div class="glass-card" style="margin-bottom: 1rem; border-left: 4px solid {sent_color};">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <span style="font-size: 0.8rem; color: #94A3B8;">ORDER BOOK IMBALANCE RATIO</span>
+                    <div style="font-size: 1.6rem; font-weight: 900; color: {sent_color};">{depth['bid_ask_imbalance_ratio']}x &nbsp;<span style="font-size: 0.9rem; color: #E2E8F0;">({depth['depth_sentiment']})</span></div>
+                </div>
+                <div style="text-align: right;">
+                    <span style="font-size: 0.8rem; color: #94A3B8;">Point of Control (POC)</span>
+                    <div style="font-size: 1.6rem; font-weight: 900; color: #00D4AA; font-family: 'JetBrains Mono', monospace;">${vp['poc_price']:,.2f}</div>
+                </div>
+            </div>
+            <div style="font-size: 0.8rem; color: #94A3B8; margin-top: 0.4rem;">
+                • <b>Value Area High (VAH)</b>: <code>${vp['value_area_high']:,.2f}</code> &nbsp;|&nbsp; 
+                • <b>Value Area Low (VAL)</b>: <code>${vp['value_area_low']:,.2f}</code> &nbsp;|&nbsp; 
+                • <b>Total Bid Liquidity</b>: <code>{depth['total_bid_volume']:,} shares</code> &nbsp;|&nbsp; 
+                • <b>Total Ask Liquidity</b>: <code>{depth['total_ask_volume']:,} shares</code>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    col_l1, col_l2 = st.columns([1.2, 1.8])
+
+    with col_l1:
+        st.markdown("#### 🪜 Level 2 Liquidity Ladder")
+        bids_df = pd.DataFrame(depth["bids"])
+        asks_df = pd.DataFrame(depth["asks"])
+
+        st.caption("🟢 Top Bids (Buyers Support)")
+        st.dataframe(
+            bids_df[
+                ["price", "shares", "notional_value", "is_institutional_wall"]
+            ].head(6),
+            use_container_width=True,
+            hide_index=True,
+        )
+
+        st.caption("🔴 Top Asks (Sellers Resistance)")
+        st.dataframe(
+            asks_df[
+                ["price", "shares", "notional_value", "is_institutional_wall"]
+            ].head(6),
+            use_container_width=True,
+            hide_index=True,
+        )
+
+    with col_l2:
+        st.markdown("#### 📊 Volume Profile Visible Range (VPVR)")
+        try:
+            import plotly.graph_objects as go
+
+            fig_vp = go.Figure()
+            fig_vp.add_trace(
+                go.Bar(
+                    y=vp["price_bins"],
+                    x=vp["volumes"],
+                    orientation="h",
+                    marker_color="#38BDF8",
+                    name="Volume Profile",
+                )
+            )
+            fig_vp.add_hline(
+                y=vp["poc_price"],
+                line_dash="dash",
+                line_color="#F59E0B",
+                annotation_text=f"POC: ${vp['poc_price']:,.2f}",
+            )
+            fig_vp.add_hline(
+                y=vp["value_area_high"],
+                line_dash="dot",
+                line_color="#10B981",
+                annotation_text=f"VAH: ${vp['value_area_high']:,.2f}",
+            )
+            fig_vp.add_hline(
+                y=vp["value_area_low"],
+                line_dash="dot",
+                line_color="#EF4444",
+                annotation_text=f"VAL: ${vp['value_area_low']:,.2f}",
+            )
+            fig_vp.update_layout(
+                template="plotly_dark",
+                height=420,
+                margin=dict(l=20, r=20, t=20, b=20),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(15,23,42,0.4)",
+                xaxis_title="Accumulated Volume",
+                yaxis_title="Price Level ($)",
+            )
+            st.plotly_chart(fig_vp, use_container_width=True)
+        except Exception:
+            pass
+
+
+# ==============================================================================
 # 🔴 LIVE MARKET STREAMING TICKER TAPE
 # ==============================================================================
 @st.fragment(run_every="5s")
@@ -2028,11 +2394,15 @@ def main():
 
         st.markdown("---")
 
-        # 1. Navigation Mode Selector (10 Institutional Workspaces)
+        # 1. Navigation Mode Selector (14 Institutional Workspaces)
         nav_mode = st.radio(
             "Navigation Workspace",
             [
                 "⚡ AI Command Center",
+                "🏛️ Multi-Agent Committee",
+                "💬 AI Trade Copilot",
+                "📐 3D Volatility Surface",
+                "🌊 Order Book & Liquidity Heatmap",
                 "🧠 Advanced AI & Deep Alpha",
                 "📰 Alternative Data Radar",
                 "💼 Portfolio & Broker",
@@ -2142,6 +2512,14 @@ def main():
     # --- Workspace Routing ---
     if nav_mode == "⚡ AI Command Center":
         render_command_center(selected_ticker)
+    elif nav_mode == "🏛️ Multi-Agent Committee":
+        render_committee_workspace(selected_ticker)
+    elif nav_mode == "💬 AI Trade Copilot":
+        render_copilot_workspace(selected_ticker)
+    elif nav_mode == "📐 3D Volatility Surface":
+        render_options_surface_workspace(selected_ticker)
+    elif nav_mode == "🌊 Order Book & Liquidity Heatmap":
+        render_liquidity_heatmap_workspace(selected_ticker)
     elif nav_mode == "🧠 Advanced AI & Deep Alpha":
         render_ai_deep_alpha_workspace(selected_ticker)
     elif nav_mode == "📰 Alternative Data Radar":
