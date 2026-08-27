@@ -68,10 +68,7 @@ def _fetch_yfinance_news(ticker: str) -> pd.DataFrame:
     return pd.DataFrame()
 
 
-try:
-    import defusedxml.ElementTree as ET
-except ImportError:
-    import xml.etree.ElementTree as ET  # nosec B405
+import defusedxml.ElementTree as defused_ET
 from datetime import datetime, timezone, timedelta
 from typing import Dict, Optional, Any, List
 
@@ -86,7 +83,7 @@ def _fetch_google_news_rss(ticker: str) -> pd.DataFrame:
         session = _get_browser_session()
         res = session.get(url, timeout=6)
         if res.status_code == 200:
-            root = ET.fromstring(res.content)  # nosec B314
+            root = defused_ET.fromstring(res.content)
             articles = []
             for item in root.findall("./channel/item"):
                 title_elem = item.find("title")
