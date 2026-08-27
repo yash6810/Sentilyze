@@ -22,6 +22,7 @@ from src.utils import get_logger
 from src.config import FEATURES
 from src.preprocessing import preprocess_data
 from src.modeling import load_model, get_prediction_on_latest_data
+from src.data_ingestion import get_news
 from src.paper_broker import PaperBroker
 from src.realtime_tracker import (
     fetch_live_quote,
@@ -91,6 +92,7 @@ from src.liquidity_heatmap import (
     compute_order_book_depth_and_clusters,
     compute_volume_profile_and_poc,
 )
+from src.autonomous_trader import AutonomousTradingEngine, AUTONOMOUS_LOG_FILE
 
 logger = get_logger(__name__)
 
@@ -2381,6 +2383,120 @@ def render_liquidity_heatmap_workspace(ticker: str):
 
 
 # ==============================================================================
+# 🤖 WORKSPACE 15: AUTONOMOUS TRADING AGENT & LIVE NEWS DESK
+# ==============================================================================
+def render_autonomous_trader_workspace(selected_ticker: str):
+    st.markdown(
+        '<div class="section-badge">🤖 Autonomous Live Trading & Multi-Source News Engine</div>',
+        unsafe_allow_html=True,
+    )
+
+    auto_engine = AutonomousTradingEngine()
+    broker_instance = auto_engine.broker
+    portfolio_summary = broker_instance.get_portfolio_summary()
+
+    # Metrics Bar
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("💰 Total Equity", f"${portfolio_summary['total_equity']:,.2f}")
+    m2.metric("💵 Cash Balance", f"${portfolio_summary['cash']:,.2f}")
+    m3.metric(
+        "📈 Unrealized PnL",
+        f"${portfolio_summary['unrealized_pnl']:+,.2f}",
+        delta=f"{portfolio_summary['unrealized_pnl_pct']:+.2f}%",
+    )
+    m4.metric("🏆 Win Rate", f"{portfolio_summary['win_rate']:.1f}%")
+
+    # Controls Row
+    st.markdown("#### ⚡ Autonomous Cycle Execution")
+    ctrl_col1, ctrl_col2 = st.columns([2, 1])
+    with ctrl_col1:
+        st.markdown(
+            """
+            <div class="glass-card">
+                <b>24/7 Autonomous Agent Loop:</b> Continuously ingests <b>Google News RSS + Finnhub + Marketaux</b>, 
+                evaluates the <b>4-Agent Committee</b>, allocates capital via <b>Kelly Sizing</b>, and manages 
+                <b>2-Stage Staged Profit Exits (50% @ TP1, Trailing Breakeven Stop, 50% @ TP2)</b>.
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    with ctrl_col2:
+        if st.button("🚀 Run Autonomous Decision Cycle Now", use_container_width=True):
+            with st.spinner(
+                "Executing autonomous news scan and trade management cycle..."
+            ):
+                cycle_res = auto_engine.run_autonomous_cycle()
+                st.success(
+                    f"✅ Cycle complete in {cycle_res.get('elapsed_seconds', 0)}s! "
+                    f"Buys: {len(cycle_res.get('buys', []))}, "
+                    f"TP1 Exits: {len(cycle_res.get('take_profits_tp1', []))}, "
+                    f"TP2 Runners: {len(cycle_res.get('take_profits_tp2', []))}"
+                )
+                time.sleep(0.5)
+                st.rerun()
+
+    # Open Positions & Profit Scaling
+    st.markdown("#### 📊 Open Active Positions & Dynamic Targets")
+    open_pos = broker_instance.state.get("open_positions", {})
+    if open_pos:
+        pos_cards = []
+        for t, p in open_pos.items():
+            curr_p = p.get("current_price", p["entry_price"])
+            pnl_d = (curr_p - p["entry_price"]) * p["shares"]
+            pnl_pct = (curr_p - p["entry_price"]) / p["entry_price"] * 100.0
+            scaled_label = (
+                "✅ Scaled (Risk-Free Breakeven)"
+                if p.get("scaled_out")
+                else "⏳ Holding Full Size"
+            )
+
+            pos_cards.append(
+                {
+                    "Ticker": t,
+                    "Shares": p["shares"],
+                    "Entry Price": f"${p['entry_price']:,.2f}",
+                    "Live Price": f"${curr_p:,.2f}",
+                    "Unrealized PnL": f"${pnl_d:+,.2f} ({pnl_pct:+.2f}%)",
+                    "TP1 Target": f"${p.get('tp1_target', 0):,.2f}",
+                    "TP2 Target": f"${p.get('tp2_target', 0):,.2f}",
+                    "Stop Loss": f"${p.get('sl_target', 0):,.2f}",
+                    "Status": scaled_label,
+                }
+            )
+        st.dataframe(pd.DataFrame(pos_cards), use_container_width=True)
+    else:
+        st.info("No active open positions. Cash is 100% protected in reserve.")
+
+    # Live News Feed Stream for Selected Ticker
+    st.markdown(f"#### 📰 Real-Time Live News Stream for {selected_ticker}")
+    news_df = get_news(selected_ticker, use_cache=True)
+    if not news_df.empty:
+        for idx, row in news_df.head(6).iterrows():
+            title = row.get("Title", "No Title")
+            src_info = row.get("source", {})
+            src_name = (
+                src_info.get("name", "Google News RSS")
+                if isinstance(src_info, dict)
+                else str(src_info)
+            )
+            url = row.get("url", "")
+            pub_date = str(row.get("publishedAt", idx))[:19]
+
+            st.markdown(
+                f"""
+                <div class="glass-card" style="margin-bottom: 0.5rem; padding: 0.8rem;">
+                    <div style="font-weight: 700; color: #F8FAFC;">{title}</div>
+                    <div style="font-size: 0.75rem; color: #00D4AA; margin-top: 0.3rem;">
+                        Source: <b>{src_name}</b> | Published: {pub_date} 
+                        {f'| <a href="{url}" target="_blank" style="color:#38BDF8;">Read Source ↗</a>' if url else ''}
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+
+# ==============================================================================
 # 🔴 LIVE MARKET STREAMING TICKER TAPE
 # ==============================================================================
 @st.fragment(run_every="15s")
@@ -2462,11 +2578,12 @@ def main():
 
         st.markdown("---")
 
-        # 1. Navigation Mode Selector (14 Institutional Workspaces)
+        # 1. Navigation Mode Selector (15 Institutional Workspaces)
         nav_mode = st.radio(
             "Navigation Workspace",
             [
                 "⚡ AI Command Center",
+                "🤖 Autonomous Trader & Live News",
                 "🏛️ Multi-Agent Committee",
                 "💬 AI Trade Copilot",
                 "📐 3D Volatility Surface",
@@ -2580,6 +2697,8 @@ def main():
     # --- Workspace Routing ---
     if nav_mode == "⚡ AI Command Center":
         render_command_center(selected_ticker)
+    elif nav_mode == "🤖 Autonomous Trader & Live News":
+        render_autonomous_trader_workspace(selected_ticker)
     elif nav_mode == "🏛️ Multi-Agent Committee":
         render_committee_workspace(selected_ticker)
     elif nav_mode == "💬 AI Trade Copilot":
