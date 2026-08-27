@@ -106,16 +106,25 @@ def _get_browser_session() -> requests.Session:
     return session
 
 
+_QUOTE_CACHE: Dict[str, Dict[str, Any]] = {}
+_QUOTE_CACHE_TIME: Dict[str, float] = {}
+
+
 def fetch_live_quote(ticker: str) -> Dict[str, Any]:
     """
     Fetches sub-second real-time market quote using Yahoo Finance Direct Chart API / Finnhub / Alpaca.
+    Uses a 3-second cache to prevent redundant HTTP spam during UI re-renders.
     """
+    now = time.time()
+    if ticker in _QUOTE_CACHE and (now - _QUOTE_CACHE_TIME.get(ticker, 0)) < 3.0:
+        return _QUOTE_CACHE[ticker]
+
     # 1. Primary: Direct Yahoo Chart API
     try:
         url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
         params = {"range": "1d", "interval": "1m"}
         session = _get_browser_session()
-        res = session.get(url, params=params, timeout=6)
+        res = session.get(url, params=params, timeout=4)
         if res.status_code == 200:
             meta = res.json()["chart"]["result"][0]["meta"]
             curr_price = float(meta.get("regularMarketPrice", 0))
@@ -129,7 +138,7 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
             )
 
             if curr_price > 0:
-                return {
+                quote_data = {
                     "ticker": ticker,
                     "price": round(curr_price, 2),
                     "prev_close": round(prev_close, 2),
@@ -139,6 +148,9 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
                     "status": "LIVE",
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
+                _QUOTE_CACHE[ticker] = quote_data
+                _QUOTE_CACHE_TIME[ticker] = now
+                return quote_data
     except Exception as e:
         logger.debug(f"Direct Yahoo quote failed for {ticker}: {e}")
 
@@ -147,7 +159,7 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
     if finnhub_key:
         try:
             url = f"https://finnhub.io/api/v1/quote?symbol={ticker}&token={finnhub_key}"
-            res = requests.get(url, timeout=6)
+            res = requests.get(url, timeout=4)
             if res.status_code == 200:
                 data = res.json()
                 curr_price = float(data.get("c", 0))
@@ -158,7 +170,7 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
                         if prev_close > 0
                         else 0.0
                     )
-                    return {
+                    quote_data = {
                         "ticker": ticker,
                         "price": round(curr_price, 2),
                         "prev_close": round(prev_close, 2),
@@ -168,10 +180,13 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
                         "status": "LIVE",
                         "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
+                    _QUOTE_CACHE[ticker] = quote_data
+                    _QUOTE_CACHE_TIME[ticker] = now
+                    return quote_data
         except Exception as e:
             logger.debug(f"Real-time quote fetch error for {ticker}: {e}")
 
-    return {
+    offline_quote = {
         "ticker": ticker,
         "price": 0.0,
         "prev_close": 0.0,
@@ -181,15 +196,27 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
         "status": "OFFLINE",
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
+    return offline_quote
 
 
 def fetch_universe_live_quotes(
     tickers: List[str] = UNIVERSE_TICKERS,
 ) -> Dict[str, Dict[str, Any]]:
-    """Fetches real-time quotes across the entire universe."""
+    """Fetches real-time quotes across the entire universe concurrently in parallel."""
+    import concurrent.futures
+
     quotes = {}
-    for ticker in tickers:
-        quotes[ticker] = fetch_live_quote(ticker)
+    with concurrent.futures.ThreadPoolExecutor(
+        max_workers=min(len(tickers), 10)
+    ) as executor:
+        future_to_ticker = {executor.submit(fetch_live_quote, t): t for t in tickers}
+        for future in concurrent.futures.as_completed(future_to_ticker):
+            t = future_to_ticker[future]
+            try:
+                quotes[t] = future.result()
+            except Exception as e:
+                logger.debug(f"Error fetching quote for {t}: {e}")
+                quotes[t] = {"ticker": t, "price": 0.0, "status": "OFFLINE"}
     return quotes
 
 

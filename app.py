@@ -2316,7 +2316,7 @@ def render_liquidity_heatmap_workspace(ticker: str):
 # ==============================================================================
 # 🔴 LIVE MARKET STREAMING TICKER TAPE
 # ==============================================================================
-@st.fragment(run_every="5s")
+@st.fragment(run_every="15s")
 def render_live_ticker_ribbon():
     """Renders a real-time streaming price tape across major universe stocks with up/down tick flashers."""
     ribbon_tickers = [
@@ -2331,9 +2331,10 @@ def render_live_ticker_ribbon():
         "SPY",
     ]
 
+    quotes_map = fetch_universe_live_quotes(ribbon_tickers)
     cards_html = []
     for t in ribbon_tickers:
-        q = fetch_live_quote(t)
+        q = quotes_map.get(t, {})
         price = float(q.get("price", 0))
         chg = float(q.get("change_pct", 0))
 
