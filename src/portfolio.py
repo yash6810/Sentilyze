@@ -24,7 +24,11 @@ def load_all_ticker_portfolios(
         stocks_file = "stocks.txt"
         if os.path.exists(stocks_file):
             with open(stocks_file, "r") as f:
-                tickers = [line.strip() for line in f if line.strip()]
+                tickers = [
+                    line.strip()
+                    for line in f
+                    if line.strip() and not line.startswith("#")
+                ]
         else:
             tickers = ["NVDA", "AAPL", "MSFT", "GOOGL", "META", "TSLA", "AMZN"]
 
