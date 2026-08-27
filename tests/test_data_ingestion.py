@@ -146,7 +146,19 @@ def test_get_news_fetches_and_caches_data(mocker, temp_data_dir):
         ]
     }
 
+    mocker.patch(
+        "src.data_ingestion._fetch_google_news_rss",
+        return_value=pd.DataFrame(),
+    )
     mocker.patch("src.data_ingestion._fetch_yfinance_news", return_value=pd.DataFrame())
+    mocker.patch("src.data_ingestion._fetch_finnhub_news", return_value=pd.DataFrame())
+    mocker.patch(
+        "src.data_ingestion._fetch_marketaux_news", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_polygon_news_feed",
+        return_value=pd.DataFrame(),
+    )
     mock_newsapi_client = MagicMock()
     mock_newsapi_client.get_everything.return_value = mock_articles
     mocker.patch("src.data_ingestion.NewsApiClient", return_value=mock_newsapi_client)
@@ -215,6 +227,19 @@ def test_get_news_refetches_stale_cache(mocker, temp_data_dir):
             }
         ]
     }
+    mocker.patch(
+        "src.data_ingestion._fetch_google_news_rss",
+        return_value=pd.DataFrame(),
+    )
+    mocker.patch("src.data_ingestion._fetch_yfinance_news", return_value=pd.DataFrame())
+    mocker.patch("src.data_ingestion._fetch_finnhub_news", return_value=pd.DataFrame())
+    mocker.patch(
+        "src.data_ingestion._fetch_marketaux_news", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_polygon_news_feed",
+        return_value=pd.DataFrame(),
+    )
     mock_newsapi_client = MagicMock()
     mock_newsapi_client.get_everything.return_value = mock_fresh_articles
     mocker.patch("src.data_ingestion.NewsApiClient", return_value=mock_newsapi_client)

@@ -68,6 +68,181 @@ def _fetch_yfinance_news(ticker: str) -> pd.DataFrame:
     return pd.DataFrame()
 
 
+import xml.etree.ElementTree as ET
+from datetime import datetime, timezone, timedelta
+from typing import Dict, Optional, Any, List
+
+
+def _fetch_google_news_rss(ticker: str) -> pd.DataFrame:
+    """
+    Fetches real-time financial news headlines directly from public Google News RSS.
+    100% free, unlimited, and requires zero API keys.
+    """
+    try:
+        url = f"https://news.google.com/rss/search?q={ticker}+stock+market&hl=en-US&gl=US&ceid=US:en"
+        session = _get_browser_session()
+        res = session.get(url, timeout=6)
+        if res.status_code == 200:
+            root = ET.fromstring(res.content)  # nosec B314
+            articles = []
+            for item in root.findall("./channel/item"):
+                title_elem = item.find("title")
+                pubdate_elem = item.find("pubDate")
+                link_elem = item.find("link")
+                source_elem = item.find("source")
+
+                if title_elem is not None and title_elem.text:
+                    title = title_elem.text
+                    pub_dt = (
+                        pd.to_datetime(pubdate_elem.text, utc=True)
+                        if pubdate_elem is not None and pubdate_elem.text
+                        else pd.to_datetime("now", utc=True)
+                    )
+                    link = link_elem.text if link_elem is not None else ""
+                    src_name = (
+                        source_elem.text
+                        if source_elem is not None and source_elem.text
+                        else "Google News"
+                    )
+
+                    articles.append(
+                        {
+                            "publishedAt": pub_dt,
+                            "Title": title,
+                            "description": title,
+                            "url": link,
+                            "source": {"name": src_name},
+                        }
+                    )
+
+            if articles:
+                df = pd.DataFrame(articles)
+                logger.info(
+                    f"Successfully fetched {len(df)} live news articles for {ticker} from Google News RSS"
+                )
+                return df
+    except Exception as e:
+        logger.debug(f"Google News RSS fetch notice for {ticker}: {e}")
+    return pd.DataFrame()
+
+
+def _fetch_finnhub_news(ticker: str, api_key: Optional[str] = None) -> pd.DataFrame:
+    """Fetches real-time institutional market news from Finnhub Company News API."""
+    key = api_key or os.getenv("FINNHUB_API_KEY")
+    if not key:
+        return pd.DataFrame()
+    try:
+        today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        from_str = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%d")
+        url = f"https://finnhub.io/api/v1/company-news?symbol={ticker}&from={from_str}&to={today_str}&token={key}"
+        res = requests.get(url, timeout=6)
+        if res.status_code == 200:
+            data = res.json()
+            if isinstance(data, list) and data:
+                articles = []
+                for item in data[:30]:
+                    headline = item.get("headline")
+                    if not headline:
+                        continue
+                    pub_ts = item.get("datetime", time.time())
+                    articles.append(
+                        {
+                            "publishedAt": pd.to_datetime(pub_ts, unit="s", utc=True),
+                            "Title": headline,
+                            "description": item.get("summary", headline),
+                            "url": item.get("url", ""),
+                            "source": {"name": item.get("source", "Finnhub")},
+                        }
+                    )
+                if articles:
+                    df = pd.DataFrame(articles)
+                    logger.info(
+                        f"Successfully fetched {len(df)} live news articles for {ticker} from Finnhub"
+                    )
+                    return df
+    except Exception as e:
+        logger.debug(f"Finnhub news fetch notice for {ticker}: {e}")
+    return pd.DataFrame()
+
+
+def _fetch_marketaux_news(ticker: str, api_key: Optional[str] = None) -> pd.DataFrame:
+    """Fetches financial news from Marketaux API."""
+    key = api_key or os.getenv("MARKETAUX_API_KEY")
+    if not key:
+        return pd.DataFrame()
+    try:
+        url = f"https://api.marketaux.com/v1/news/all?symbols={ticker}&language=en&api_token={key}"
+        res = requests.get(url, timeout=6)
+        if res.status_code == 200:
+            data = res.json().get("data", [])
+            articles = []
+            for item in data:
+                title = item.get("title")
+                if not title:
+                    continue
+                articles.append(
+                    {
+                        "publishedAt": pd.to_datetime(
+                            item.get("published_at", "now"), utc=True
+                        ),
+                        "Title": title,
+                        "description": item.get("description", title),
+                        "url": item.get("url", ""),
+                        "source": {"name": item.get("source", "Marketaux")},
+                    }
+                )
+            if articles:
+                df = pd.DataFrame(articles)
+                logger.info(
+                    f"Successfully fetched {len(df)} live news articles for {ticker} from Marketaux"
+                )
+                return df
+    except Exception as e:
+        logger.debug(f"Marketaux news fetch notice for {ticker}: {e}")
+    return pd.DataFrame()
+
+
+def _fetch_polygon_news_feed(
+    ticker: str, api_key: Optional[str] = None
+) -> pd.DataFrame:
+    """Fetches reference news from Polygon.io API."""
+    key = api_key or os.getenv("POLYGON_API_KEY")
+    if not key:
+        return pd.DataFrame()
+    try:
+        url = f"https://api.polygon.io/v2/reference/news?ticker={ticker}&limit=20&apiKey={key}"
+        res = requests.get(url, timeout=6)
+        if res.status_code == 200:
+            results = res.json().get("results", [])
+            articles = []
+            for item in results:
+                title = item.get("title")
+                if not title:
+                    continue
+                articles.append(
+                    {
+                        "publishedAt": pd.to_datetime(
+                            item.get("published_utc", "now"), utc=True
+                        ),
+                        "Title": title,
+                        "description": item.get("description", title),
+                        "url": item.get("article_url", ""),
+                        "source": {
+                            "name": item.get("publisher", {}).get("name", "Polygon")
+                        },
+                    }
+                )
+            if articles:
+                df = pd.DataFrame(articles)
+                logger.info(
+                    f"Successfully fetched {len(df)} live news articles for {ticker} from Polygon"
+                )
+                return df
+    except Exception as e:
+        logger.debug(f"Polygon news fetch notice for {ticker}: {e}")
+    return pd.DataFrame()
+
+
 def get_news(
     ticker: str,
     api_key: str = None,
@@ -77,16 +252,8 @@ def get_news(
     use_cache: bool = None,
 ) -> pd.DataFrame:
     """
-    Fetch recent news for a given ticker from live sources (Yahoo Finance + NewsAPI), with caching.
-
-    Args:
-        ticker (str): The stock ticker to fetch news for.
-        api_key (str, optional): The API key for NewsAPI.
-        cache_duration_hours (int, optional): Cache freshness duration. Defaults to 24.
-        use_cache (bool, optional): Force cache usage if True, or force live fetch if False.
-
-    Returns:
-        pd.DataFrame: A DataFrame containing recent news articles, indexed by 'publishedAt'.
+    Enterprise Multi-Source News Router:
+    Cascades through Google News RSS -> Yahoo Finance -> Finnhub -> Marketaux -> Polygon -> NewsAPI -> Local Cache.
     """
     cache_path = os.path.join(DATA_DIR, f"{ticker}_news.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
@@ -110,24 +277,45 @@ def get_news(
         logger.info(f"Loading news for {ticker} from cache...")
         articles_df = pd.read_csv(cache_path)
     else:
-        logger.info(f"Fetching fresh live news for {ticker}...")
-        # 1. Primary: Try fetching up-to-the-minute live news from Yahoo Finance
-        articles_df = _fetch_yfinance_news(ticker)
+        logger.info(f"Routing live news aggregation for {ticker}...")
+        # 1. Primary: Google News RSS (Unlimited, Real-time)
+        articles_df = _fetch_google_news_rss(ticker)
 
-        # 2. Fallback / Augment with NewsAPI if available and yfinance was empty
-        if articles_df.empty and api_key and isinstance(api_key, str):
-            try:
-                newsapi = NewsApiClient(api_key=api_key)
-                all_articles = newsapi.get_everything(
-                    q=ticker, language="en", sort_by="publishedAt", page_size=100
-                )
-                if all_articles.get("articles"):
-                    articles_df = pd.DataFrame(all_articles["articles"])
-                    articles_df.rename(columns={"title": "Title"}, inplace=True)
-            except Exception as e:
-                logger.warning(f"NewsAPI query failed for {ticker}: {e}")
+        # 2. Tier 2: Yahoo Finance Live Stream
+        if articles_df.empty:
+            articles_df = _fetch_yfinance_news(ticker)
 
-        # 3. If still empty, fallback to cached data or dummy data
+        # 3. Tier 3: Finnhub Company News
+        if articles_df.empty:
+            articles_df = _fetch_finnhub_news(ticker)
+
+        # 4. Tier 4: Marketaux Financial News
+        if articles_df.empty:
+            articles_df = _fetch_marketaux_news(ticker)
+
+        # 5. Tier 5: Polygon.io Reference News
+        if articles_df.empty:
+            articles_df = _fetch_polygon_news_feed(ticker)
+
+        # 6. Tier 6: NewsAPI.org
+        if articles_df.empty:
+            key = api_key or os.getenv("NEWS_API_KEY")
+            if key and isinstance(key, str):
+                try:
+                    newsapi = NewsApiClient(api_key=key)
+                    all_articles = newsapi.get_everything(
+                        q=ticker,
+                        language="en",
+                        sort_by="publishedAt",
+                        page_size=100,
+                    )
+                    if all_articles.get("articles"):
+                        articles_df = pd.DataFrame(all_articles["articles"])
+                        articles_df.rename(columns={"title": "Title"}, inplace=True)
+                except Exception as e:
+                    logger.debug(f"NewsAPI query notice for {ticker}: {e}")
+
+        # 7. Fallback: Existing Cache or Synthetic Generation
         if articles_df.empty:
             if os.path.exists(cache_path):
                 logger.warning(f"Using existing cached news for {ticker} as fallback.")
@@ -136,7 +324,7 @@ def get_news(
                 articles_df = _generate_dummy_news(ticker)
 
         articles_df.to_csv(cache_path, index=False)
-        logger.info(f"Saved fresh news to {cache_path}")
+        logger.info(f"Saved fresh news ({len(articles_df)} articles) to {cache_path}")
 
     # Standardize the DataFrame to have a timezone-aware DatetimeIndex
     if "publishedAt" in articles_df.columns:
