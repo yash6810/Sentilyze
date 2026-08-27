@@ -450,3 +450,90 @@ def audit_full_universe_committee(
         json.dump(summary_payload, f, indent=2)
 
     return summary_payload
+
+
+def execute_committee_order(
+    ticker: str,
+    deliberation: Optional[Dict[str, Any]] = None,
+    broker: Optional[Any] = None,
+) -> Dict[str, Any]:
+    """
+    Executes the autonomous Buying or Selling action sanctioned by the Multi-Agent Trading Committee.
+    - If action_code is EXECUTE_BUY / SCALE_IN: calculates Kelly shares and buys the asset.
+    - If action_code is VETO / AVOID and asset is currently held: immediately closes the position.
+    """
+    from src.paper_broker import PaperBroker
+
+    broker = broker or PaperBroker()
+    if deliberation is None:
+        deliberation = convene_trading_committee(ticker, save_resolution=True)
+
+    action_code = deliberation.get("action_code", "HOLD")
+    spot_price = float(deliberation.get("spot_price", 100.0))
+    cro = deliberation.get("cro_signoff", {})
+    kelly_pct = float(cro.get("kelly_allocation_pct", 8.0))
+    leverage = float(cro.get("approved_leverage", 1.0))
+    conviction = float(deliberation.get("consensus_conviction_pct", 70.0)) / 100.0
+
+    summary = broker.get_portfolio_summary()
+    equity = float(summary.get("total_equity", 100000.0))
+    cash = float(summary.get("cash", equity))
+
+    if action_code in ["EXECUTE_BUY", "SCALE_IN"]:
+        target_budget = equity * (kelly_pct / 100.0) * leverage
+        usable_capital = min(target_budget, cash * 0.95)
+        shares_to_buy = int(usable_capital / spot_price)
+
+        if shares_to_buy > 0:
+            atr_est = spot_price * 0.03
+            buy_res = broker.execute_manual_buy(
+                ticker=ticker,
+                shares=shares_to_buy,
+                price=spot_price,
+                atr=atr_est,
+                confidence=conviction,
+            )
+            return {
+                "success": buy_res.get("success", False),
+                "action": "BUY_EXECUTED",
+                "ticker": ticker,
+                "shares": shares_to_buy,
+                "price": spot_price,
+                "tp1_target": deliberation.get("tp1_target"),
+                "tp2_target": deliberation.get("tp2_target"),
+                "stop_loss_target": deliberation.get("stop_loss_target"),
+                "resolution": deliberation.get("final_resolution"),
+            }
+        else:
+            return {
+                "success": False,
+                "action": "INSUFFICIENT_CASH",
+                "ticker": ticker,
+                "message": f"Insufficient available cash (${cash:,.2f}) for Kelly sizing (${target_budget:,.2f}).",
+            }
+
+    elif action_code in ["VETO", "AVOID"]:
+        if ticker in broker.state.get("open_positions", {}):
+            sell_res = broker.execute_manual_sell(ticker=ticker, price=spot_price)
+            return {
+                "success": sell_res.get("success", False),
+                "action": "SELL_VETO_EXECUTED",
+                "ticker": ticker,
+                "price": spot_price,
+                "trade": sell_res.get("trade"),
+                "resolution": deliberation.get("final_resolution"),
+            }
+        else:
+            return {
+                "success": True,
+                "action": "NO_POSITION_TO_VETO",
+                "ticker": ticker,
+                "message": "Asset not currently held in portfolio.",
+            }
+
+    return {
+        "success": True,
+        "action": "HOLD_NO_ACTION",
+        "ticker": ticker,
+        "message": "Committee verdict is HOLD; standing in cash reserve.",
+    }
