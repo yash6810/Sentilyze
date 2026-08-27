@@ -2,6 +2,7 @@ from typing import Any
 from dotenv import load_dotenv
 
 load_dotenv()
+import os
 import pandas as pd
 import argparse
 import json
