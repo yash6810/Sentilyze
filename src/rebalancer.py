@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from typing import Dict, List, Any, Optional
 from src.utils import get_logger
 
@@ -33,7 +32,9 @@ def calculate_share_allocation(
             "positions_count": 0,
         }
 
-    valid_signals = [s for s in selected_signals if float(s.get("current_price", 0)) > 0]
+    valid_signals = [
+        s for s in selected_signals if float(s.get("current_price", 0)) > 0
+    ]
     if not valid_signals:
         return {
             "total_capital": capital,
@@ -104,7 +105,9 @@ def calculate_share_allocation(
                 "Target Weight": f"{weight * 100:.1f}%",
                 "Shares to Buy": shares,
                 "Total Cost ($)": f"${cost:,.2f}",
-                "Actual Weight": f"{(cost / capital * 100):.1f}%" if capital > 0 else "0%",
+                "Actual Weight": (
+                    f"{(cost / capital * 100):.1f}%" if capital > 0 else "0%"
+                ),
                 "Take-Profit Target": f"${tp:,.2f}",
                 "Stop-Loss Target": f"${sl:,.2f}",
                 "Potential Profit ($)": f"${potential_profit:+,.2f}",
@@ -120,7 +123,9 @@ def calculate_share_allocation(
         "total_capital": round(capital, 2),
         "total_invested": round(total_cost, 2),
         "cash_reserve": round(cash_remaining, 2),
-        "invested_pct": round((total_cost / capital) * 100.0, 1) if capital > 0 else 0.0,
+        "invested_pct": (
+            round((total_cost / capital) * 100.0, 1) if capital > 0 else 0.0
+        ),
         "allocation_table": df_alloc,
         "positions_count": len([r for r in rows if r["Shares to Buy"] > 0]),
     }
@@ -141,20 +146,24 @@ def calculate_custom_rebalance(
             with open(signals_file, "r") as f:
                 data = json.load(f)
                 signals = data.get("signals", [])
-        except Exception:
-            pass
+        except Exception as e:
+            logger.debug(f"Could not load signals file {signals_file}: {e}")
 
     if not signals:
         from src.realtime_tracker import fetch_universe_live_quotes
+
         quotes = fetch_universe_live_quotes()
         for t, q in quotes.items():
             if q.get("price", 0) > 0:
-                signals.append({
-                    "ticker": t,
-                    "signal": "BUY",
-                    "confidence": 0.65,
-                    "current_price": q["price"]
-                })
+                signals.append(
+                    {
+                        "ticker": t,
+                        "signal": "BUY",
+                        "confidence": 0.65,
+                        "current_price": q["price"],
+                    }
+                )
 
-    return calculate_share_allocation(capital=total_capital, selected_signals=signals, method=method)
-
+    return calculate_share_allocation(
+        capital=total_capital, selected_signals=signals, method=method
+    )

@@ -7,7 +7,7 @@ Pillar 1 Advanced AI Module:
 - Extracts temporal attention heatmaps for full model interpretability.
 """
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Tuple
 import numpy as np
 import pandas as pd
 from src.utils import get_logger
@@ -60,7 +60,9 @@ class TemporalFusionEngine:
         self.w_v = np.random.randn(self.d_model, self.d_model) * 0.1
 
         # Multi-Horizon Heads (1d, 5d, 10d, 21d)
-        self.w_1d = np.random.randn(self.d_model, 3) * 0.05   # [10th, 50th, 90th percentile]
+        self.w_1d = (
+            np.random.randn(self.d_model, 3) * 0.05
+        )  # [10th, 50th, 90th percentile]
         self.w_5d = np.random.randn(self.d_model, 3) * 0.05
         self.w_10d = np.random.randn(self.d_model, 3) * 0.05
         self.w_21d = np.random.randn(self.d_model, 3) * 0.05
@@ -104,7 +106,11 @@ class TemporalFusionEngine:
             p10 = current_price * (1.0 + q_ret[0] - scale * 0.02)
             p50 = current_price * (1.0 + q_ret[1] + scale * 0.01)
             p90 = current_price * (1.0 + q_ret[2] + scale * 0.04)
-            return {"q10_bear": round(p10, 2), "q50_median": round(p50, 2), "q90_bull": round(p90, 2)}
+            return {
+                "q10_bear": round(p10, 2),
+                "q50_median": round(p50, 2),
+                "q90_bull": round(p90, 2),
+            }
 
         # Temporal attention curve over the lookback window (most recent days)
         recent_attn = attn_weights[-1, :]
@@ -123,7 +129,9 @@ class TemporalFusionEngine:
                 "21_days": _to_price_quantiles(q_21d, 4.5),
             },
             "temporal_attention_weights": [round(float(w), 4) for w in recent_attn],
-            "feature_importance_weights": [round(float(w), 4) for w in feature_importance],
+            "feature_importance_weights": [
+                round(float(w), 4) for w in feature_importance
+            ],
         }
 
 

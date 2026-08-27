@@ -2,7 +2,6 @@ import pytest
 from unittest.mock import MagicMock
 import pandas as pd
 import os
-import time
 from src.sentiment_analysis import get_sentiment, PROCESSED_DATA_DIR
 
 
@@ -67,7 +66,11 @@ def test_get_sentiment_multiclass_probabilities(temp_data_dir):
     """
     articles = pd.DataFrame(
         [
-            {"Title": "NVIDIA revenue surges 200%", "description": "Record AI chip demand.", "Date": "2023-01-01"}
+            {
+                "Title": "NVIDIA revenue surges 200%",
+                "description": "Record AI chip demand.",
+                "Date": "2023-01-01",
+            }
         ]
     )
     articles["Date"] = pd.to_datetime(articles["Date"])

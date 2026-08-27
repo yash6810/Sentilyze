@@ -1,8 +1,6 @@
 import os
 import time
 import json
-import pandas as pd
-import numpy as np
 import requests
 from datetime import datetime, timezone
 from typing import Dict, List, Any, Optional
@@ -14,8 +12,23 @@ from src.utils import get_logger
 logger = get_logger(__name__)
 
 UNIVERSE_TICKERS = [
-    "NVDA", "AAPL", "MSFT", "GOOGL", "META", "TSLA", "AMZN",
-    "AVGO", "AMD", "PLTR", "LLY", "QQQ", "SPY", "JPM", "COST", "NFLX", "TSM"
+    "NVDA",
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "META",
+    "TSLA",
+    "AMZN",
+    "AVGO",
+    "AMD",
+    "PLTR",
+    "LLY",
+    "QQQ",
+    "SPY",
+    "JPM",
+    "COST",
+    "NFLX",
+    "TSM",
 ]
 
 
@@ -69,9 +82,15 @@ def get_us_market_session_info() -> Dict[str, Any]:
         "ist_time_str": now_ist.strftime("%I:%M %p IST"),
         "is_dst": is_dst,
         "tz_label": "EDT (Daylight Saving Time)" if is_dst else "EST (Standard Time)",
-        "regular_hours_ist": "7:00 PM – 1:30 AM IST" if is_dst else "8:00 PM – 2:30 AM IST",
-        "pre_market_ist": "1:30 PM – 7:00 PM IST" if is_dst else "2:30 PM – 8:00 PM IST",
-        "after_hours_ist": "1:30 AM – 5:30 AM IST" if is_dst else "2:30 AM – 6:30 AM IST",
+        "regular_hours_ist": (
+            "7:00 PM – 1:30 AM IST" if is_dst else "8:00 PM – 2:30 AM IST"
+        ),
+        "pre_market_ist": (
+            "1:30 PM – 7:00 PM IST" if is_dst else "2:30 PM – 8:00 PM IST"
+        ),
+        "after_hours_ist": (
+            "1:30 AM – 5:30 AM IST" if is_dst else "2:30 AM – 6:30 AM IST"
+        ),
     }
 
 
@@ -103,7 +122,11 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
             prev_close = float(meta.get("chartPreviousClose", curr_price))
             day_high = float(meta.get("regularMarketDayHigh", curr_price))
             day_low = float(meta.get("regularMarketDayLow", curr_price))
-            change_pct = ((curr_price - prev_close) / prev_close) * 100.0 if prev_close > 0 else 0.0
+            change_pct = (
+                ((curr_price - prev_close) / prev_close) * 100.0
+                if prev_close > 0
+                else 0.0
+            )
 
             if curr_price > 0:
                 return {
@@ -130,7 +153,11 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
                 curr_price = float(data.get("c", 0))
                 if curr_price > 0:
                     prev_close = float(data.get("pc", curr_price))
-                    change_pct = ((curr_price - prev_close) / prev_close) * 100.0 if prev_close > 0 else 0.0
+                    change_pct = (
+                        ((curr_price - prev_close) / prev_close) * 100.0
+                        if prev_close > 0
+                        else 0.0
+                    )
                     return {
                         "ticker": ticker,
                         "price": round(curr_price, 2),
@@ -141,8 +168,8 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
                         "status": "LIVE",
                         "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
-        except Exception:
-            pass
+        except Exception as e:
+            logger.debug(f"Real-time quote fetch error for {ticker}: {e}")
 
     return {
         "ticker": ticker,
@@ -156,7 +183,9 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
     }
 
 
-def fetch_universe_live_quotes(tickers: List[str] = UNIVERSE_TICKERS) -> Dict[str, Dict[str, Any]]:
+def fetch_universe_live_quotes(
+    tickers: List[str] = UNIVERSE_TICKERS,
+) -> Dict[str, Dict[str, Any]]:
     """Fetches real-time quotes across the entire universe."""
     quotes = {}
     for ticker in tickers:
@@ -175,7 +204,9 @@ def check_live_news_sentiment_shock(ticker: str) -> bool:
             if not scored.empty and "sentiment_score" in scored.columns:
                 recent_avg = scored["sentiment_score"].tail(3).mean()
                 if recent_avg < -0.50:
-                    logger.warning(f"🚨 Severe negative news shock detected for {ticker} (Score: {recent_avg:.2f})")
+                    logger.warning(
+                        f"🚨 Severe negative news shock detected for {ticker} (Score: {recent_avg:.2f})"
+                    )
                     return True
     except Exception as e:
         logger.debug(f"News sentiment shock check skipped for {ticker}: {e}")
@@ -204,16 +235,24 @@ def evaluate_intraday_execution(
             try:
                 with open(signals_file, "r") as f:
                     data = json.load(f)
-                signals_list = data.get("signals", []) if isinstance(data, dict) else data
+                signals_list = (
+                    data.get("signals", []) if isinstance(data, dict) else data
+                )
                 if signals_list:
                     buy_actions = broker.execute_daily_signals(signals_list)
                     if buy_actions.get("buys"):
-                        logger.info(f"🚀 [INTRADAY LIVE ENTRY] Auto-deployed cash into {len(buy_actions['buys'])} holdings: {[b['ticker'] for b in buy_actions['buys']]}")
+                        logger.info(
+                            f"🚀 [INTRADAY LIVE ENTRY] Auto-deployed cash into {len(buy_actions['buys'])} holdings: {[b['ticker'] for b in buy_actions['buys']]}"
+                        )
                         for b_record in buy_actions["buys"]:
-                            _send_intraday_buy_notification(b_record, discord_url, telegram_token, telegram_chat)
+                            _send_intraday_buy_notification(
+                                b_record, discord_url, telegram_token, telegram_chat
+                            )
                         open_positions = broker.state.get("open_positions", {})
             except Exception as e:
-                logger.warning(f"Failed to auto-deploy liquid cash during intraday check: {e}")
+                logger.warning(
+                    f"Failed to auto-deploy liquid cash during intraday check: {e}"
+                )
 
     if not open_positions:
         logger.info("No active open positions to track during intraday session.")
@@ -221,7 +260,9 @@ def evaluate_intraday_execution(
 
     executed_trades = []
     open_tickers = list(open_positions.keys())
-    logger.info(f"⚡ [5-MIN GUARDIAN] Checking live quotes for {len(open_tickers)} holdings: {open_tickers}")
+    logger.info(
+        f"⚡ [5-MIN GUARDIAN] Checking live quotes for {len(open_tickers)} holdings: {open_tickers}"
+    )
 
     for ticker in open_tickers:
         pos = open_positions[ticker]
@@ -269,7 +310,9 @@ def evaluate_intraday_execution(
             broker.state["closed_trades"].append(trade_record)
             del broker.state["open_positions"][ticker]
             executed_trades.append(trade_record)
-            _send_flash_notifications(trade_record, discord_url, telegram_token, telegram_chat)
+            _send_flash_notifications(
+                trade_record, discord_url, telegram_token, telegram_chat
+            )
             continue
 
         # Check Stage 1 Scale-Out (+2.5 ATR)
@@ -301,8 +344,12 @@ def evaluate_intraday_execution(
             }
             broker.state["closed_trades"].append(trade_record)
             executed_trades.append(trade_record)
-            logger.info(f"🎯 [STAGE 1 SCALE-OUT] Banked 50% {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)")
-            _send_flash_notifications(trade_record, discord_url, telegram_token, telegram_chat)
+            logger.info(
+                f"🎯 [STAGE 1 SCALE-OUT] Banked 50% {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
+            )
+            _send_flash_notifications(
+                trade_record, discord_url, telegram_token, telegram_chat
+            )
 
         # Check Stage 2 Runner Exit (+4.5 ATR)
         elif scaled_out and curr_price >= tp2_target:
@@ -331,8 +378,12 @@ def evaluate_intraday_execution(
             broker.state["closed_trades"].append(trade_record)
             del broker.state["open_positions"][ticker]
             executed_trades.append(trade_record)
-            logger.info(f"🏆 [STAGE 2 RUNNER EXIT] Closed {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)")
-            _send_flash_notifications(trade_record, discord_url, telegram_token, telegram_chat)
+            logger.info(
+                f"🏆 [STAGE 2 RUNNER EXIT] Closed {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
+            )
+            _send_flash_notifications(
+                trade_record, discord_url, telegram_token, telegram_chat
+            )
 
         # Check Stop-Loss / Break-Even Exit
         elif curr_price <= sl_target:
@@ -365,14 +416,22 @@ def evaluate_intraday_execution(
             broker.state["closed_trades"].append(trade_record)
             del broker.state["open_positions"][ticker]
             executed_trades.append(trade_record)
-            logger.info(f"[{reason}] Exited {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f}")
-            _send_flash_notifications(trade_record, discord_url, telegram_token, telegram_chat)
+            logger.info(
+                f"[{reason}] Exited {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f}"
+            )
+            _send_flash_notifications(
+                trade_record, discord_url, telegram_token, telegram_chat
+            )
 
     now_str = datetime.now(timezone.utc).isoformat()
     broker._recalculate_metrics(now_str[:10], now_str)
     broker._save()
 
-    return {"status": "SUCCESS", "executed_trades": executed_trades, "summary": broker.get_portfolio_summary()}
+    return {
+        "status": "SUCCESS",
+        "executed_trades": executed_trades,
+        "summary": broker.get_portfolio_summary(),
+    }
 
 
 def _send_intraday_buy_notification(
@@ -400,7 +459,9 @@ def _send_intraday_buy_notification(
                             f"• **Stop-Loss Protection:** `${buy_record.get('sl_target', 0):.2f}`\n"
                         ),
                         "color": 0x00D4AA,
-                        "footer": {"text": "Sentilyze 5-Minute Trade Guardian • Autonomous Live Execution"},
+                        "footer": {
+                            "text": "Sentilyze 5-Minute Trade Guardian • Autonomous Live Execution"
+                        },
                         "timestamp": datetime.now(timezone.utc).isoformat(),
                     }
                 ]
@@ -423,7 +484,11 @@ def _send_intraday_buy_notification(
                 f"• *Stop-Loss Target:* `${buy_record.get('sl_target', 0):.2f}`"
             )
             url = f"https://api.telegram.org/bot{t_token}/sendMessage"
-            requests.post(url, json={"chat_id": t_chat, "text": text, "parse_mode": "Markdown"}, timeout=8)
+            requests.post(
+                url,
+                json={"chat_id": t_chat, "text": text, "parse_mode": "Markdown"},
+                timeout=8,
+            )
         except Exception as e:
             logger.warning(f"Failed sending intraday BUY Telegram alert: {e}")
 
@@ -466,7 +531,9 @@ def _send_intraday_discord_flash(trade: Dict[str, Any], webhook_url: str):
                     "title": title,
                     "description": desc,
                     "color": color,
-                    "footer": {"text": "Sentilyze 5-Minute Trade Guardian • Autonomous Live Execution"},
+                    "footer": {
+                        "text": "Sentilyze 5-Minute Trade Guardian • Autonomous Live Execution"
+                    },
                     "timestamp": datetime.now(timezone.utc).isoformat(),
                 }
             ]
@@ -489,7 +556,11 @@ def _send_intraday_telegram_flash(trade: Dict[str, Any], bot_token: str, chat_id
             f"• *Trigger:* `{trade['reason']}`"
         )
         url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-        requests.post(url, json={"chat_id": chat_id, "text": text, "parse_mode": "Markdown"}, timeout=8)
+        requests.post(
+            url,
+            json={"chat_id": chat_id, "text": text, "parse_mode": "Markdown"},
+            timeout=8,
+        )
     except Exception as e:
         logger.warning(f"Failed sending intraday Telegram alert: {e}")
 
@@ -498,11 +569,15 @@ def run_5min_guardian_loop(duration_minutes: int = 360):
     """
     Continuous 5-Minute Intraday Guardian Loop during active market hours.
     """
-    logger.info(f"Starting 5-Minute Intraday Trade Guardian Loop for {duration_minutes} minutes...")
+    logger.info(
+        f"Starting 5-Minute Intraday Trade Guardian Loop for {duration_minutes} minutes..."
+    )
     start_time = time.time()
     end_time = start_time + (duration_minutes * 60)
 
     while time.time() < end_time:
         res = evaluate_intraday_execution()
-        logger.info(f"5-Minute Poll Complete. Executed: {len(res.get('executed_trades', []))} trades.")
+        logger.info(
+            f"5-Minute Poll Complete. Executed: {len(res.get('executed_trades', []))} trades."
+        )
         time.sleep(300)  # Sleep 5 minutes

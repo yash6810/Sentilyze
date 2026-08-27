@@ -29,7 +29,9 @@ def send_email_digest(
 
     try:
         msg = MIMEMultipart("alternative")
-        msg["Subject"] = f"📊 Sentilyze Morning Market Digest • {datetime.now(timezone.utc).strftime('%b %d, %Y')}"
+        msg["Subject"] = (
+            f"📊 Sentilyze Morning Market Digest • {datetime.now(timezone.utc).strftime('%b %d, %Y')}"
+        )
         msg["From"] = f"Sentilyze AI <{user}>"
         msg["To"] = recipient
 

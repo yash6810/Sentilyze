@@ -6,9 +6,8 @@ Pillar 1 Advanced AI Module:
 - Dynamically optimizes capital leverage (0.0x to 2.0x) and cash buffer to maximize Sharpe reward while penalizing drawdowns.
 """
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 import numpy as np
-import pandas as pd
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -19,7 +18,12 @@ class TradingEnvironment:
     Simulated Quantitative MDP (Markov Decision Process) Environment for RL Portfolio Optimization.
     """
 
-    def __init__(self, price_returns: np.ndarray, volatilities: np.ndarray, sentiments: np.ndarray):
+    def __init__(
+        self,
+        price_returns: np.ndarray,
+        volatilities: np.ndarray,
+        sentiments: np.ndarray,
+    ):
         self.returns = price_returns
         self.volatilities = volatilities
         self.sentiments = sentiments
@@ -39,15 +43,20 @@ class TradingEnvironment:
         # 5-Dimensional State Observation Vector:
         # [Recent Return, Volatility, Sentiment, Current Leverage, Current Drawdown]
         dd = (self.capital - self.peak_capital) / (self.peak_capital + 1e-9)
-        return np.array([
-            float(self.returns[idx]),
-            float(self.volatilities[idx]),
-            float(self.sentiments[idx]),
-            float(self.current_leverage),
-            float(dd),
-        ], dtype=float)
+        return np.array(
+            [
+                float(self.returns[idx]),
+                float(self.volatilities[idx]),
+                float(self.sentiments[idx]),
+                float(self.current_leverage),
+                float(dd),
+            ],
+            dtype=float,
+        )
 
-    def step(self, action_leverage: float) -> Tuple[np.ndarray, float, bool, Dict[str, Any]]:
+    def step(
+        self, action_leverage: float
+    ) -> Tuple[np.ndarray, float, bool, Dict[str, Any]]:
         """
         Executes one step in the environment:
         - action_leverage: Desired portfolio leverage (0.0x to 2.0x)
@@ -58,7 +67,7 @@ class TradingEnvironment:
         market_return = self.returns[idx]
         step_return = market_return * self.current_leverage
 
-        self.capital *= (1.0 + step_return)
+        self.capital *= 1.0 + step_return
         if self.capital > self.peak_capital:
             self.peak_capital = self.capital
 
@@ -73,7 +82,12 @@ class TradingEnvironment:
         done = self.current_step >= (self.n_steps - 1)
         next_state = self._get_state()
 
-        return next_state, float(reward), done, {"capital": self.capital, "drawdown": dd}
+        return (
+            next_state,
+            float(reward),
+            done,
+            {"capital": self.capital, "drawdown": dd},
+        )
 
 
 class PPOPolicyAgent:
@@ -122,8 +136,14 @@ class PPOPolicyAgent:
                 advantage = td_target - val
 
                 # Policy Gradient / Value Function update
-                grad_actor = np.outer(state, np.tanh(next_state @ self.w_actor_1)) * advantage * 0.001
-                self.w_actor_1 += np.clip(grad_actor[:self.state_dim, :16], -0.05, 0.05)
+                grad_actor = (
+                    np.outer(state, np.tanh(next_state @ self.w_actor_1))
+                    * advantage
+                    * 0.001
+                )
+                self.w_actor_1 += np.clip(
+                    grad_actor[: self.state_dim, :16], -0.05, 0.05
+                )
 
                 state = next_state
 
@@ -148,7 +168,11 @@ def optimize_rl_position_allocation(
     Returns:
         Dict with recommended leverage, cash buffer %, regime verdict, and expected Sharpe alpha.
     """
-    returns_arr = np.array(recent_returns if len(recent_returns) >= 10 else [0.01, -0.005, 0.012, 0.008, -0.003, 0.015, 0.002, 0.009, -0.004, 0.011])
+    returns_arr = np.array(
+        recent_returns
+        if len(recent_returns) >= 10
+        else [0.01, -0.005, 0.012, 0.008, -0.003, 0.015, 0.002, 0.009, -0.004, 0.011]
+    )
     vol_arr = np.full(len(returns_arr), volatility)
     sent_arr = np.full(len(returns_arr), sentiment_score)
 
@@ -163,10 +187,14 @@ def optimize_rl_position_allocation(
 
     rec_leverage = agent.forward_actor(state)
     # Blend with supervised model confidence
-    blended_leverage = float(np.clip(rec_leverage * 0.5 + (ai_confidence * 2.0) * 0.5, 0.2, 2.0))
+    blended_leverage = float(
+        np.clip(rec_leverage * 0.5 + (ai_confidence * 2.0) * 0.5, 0.2, 2.0)
+    )
 
     if blended_leverage >= 1.4:
-        action_verdict = f"🚀 HIGH CONVICTION ALLOCATION ({blended_leverage:.2f}x Leverage)"
+        action_verdict = (
+            f"🚀 HIGH CONVICTION ALLOCATION ({blended_leverage:.2f}x Leverage)"
+        )
         cash_buffer = 0.0
     elif blended_leverage >= 0.9:
         action_verdict = f"🟢 STANDARD POSITION ({blended_leverage:.2f}x Exposure)"

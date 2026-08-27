@@ -34,6 +34,7 @@ def handle_bot_command(command_str: str) -> Dict[str, Any]:
         from src.modeling import load_model, get_prediction_on_latest_data
         from src.preprocessing import preprocess_data
         from src.config import FEATURES
+
         m_path = f"models/{ticker}_model.json"
         signal_txt = "HOLD"
         conf_val = 0.50
@@ -41,12 +42,18 @@ def handle_bot_command(command_str: str) -> Dict[str, Any]:
             try:
                 features_df, _, _ = preprocess_data(ticker, use_cache=True)
                 model = load_model(m_path)
-                pred_raw, conf_raw = get_prediction_on_latest_data(model, features_df.tail(1), FEATURES)
+                pred_raw, conf_raw = get_prediction_on_latest_data(
+                    model, features_df.tail(1), FEATURES
+                )
                 pred = int(pred_raw[0])
-                conf_val = float(conf_raw[0][1]) if len(conf_raw[0]) > 1 else float(conf_raw[0][0])
+                conf_val = (
+                    float(conf_raw[0][1])
+                    if len(conf_raw[0]) > 1
+                    else float(conf_raw[0][0])
+                )
                 signal_txt = "BUY" if pred == 1 and conf_val >= 0.50 else "HOLD"
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug(f"Signal inference error in discord_bot for {ticker}: {e}")
 
         atr_est = curr_p * 0.03
         tp1 = curr_p + 2.5 * atr_est
@@ -69,7 +76,12 @@ def handle_bot_command(command_str: str) -> Dict[str, Any]:
         broker = PaperBroker()
         summary = broker.get_portfolio_summary()
         open_pos = broker.state.get("open_positions", {})
-        pos_txt = "\n".join([f"• `{t}`: {p['shares']} shs @ ${p['entry_price']:.2f} (TP1: ${p.get('tp1_target', 0):.2f})" for t, p in open_pos.items()])
+        pos_txt = "\n".join(
+            [
+                f"• `{t}`: {p['shares']} shs @ ${p['entry_price']:.2f} (TP1: ${p.get('tp1_target', 0):.2f})"
+                for t, p in open_pos.items()
+            ]
+        )
         if not pos_txt:
             pos_txt = "No active open positions. Cash is 100% liquid."
 
@@ -89,7 +101,12 @@ def handle_bot_command(command_str: str) -> Dict[str, Any]:
         res = evaluate_intraday_execution()
         trades = res.get("executed_trades", [])
         if trades:
-            trade_lines = "\n".join([f"• Sold `{t['ticker']}` @ ${t['exit_price']:.2f} | PnL: **${t['pnl']:+,.2f}** ({t['reason']})" for t in trades])
+            trade_lines = "\n".join(
+                [
+                    f"• Sold `{t['ticker']}` @ ${t['exit_price']:.2f} | PnL: **${t['pnl']:+,.2f}** ({t['reason']})"
+                    for t in trades
+                ]
+            )
             desc = f"**Executed {len(trades)} live exits:**\n{trade_lines}"
         else:
             desc = "All open positions are within target bands. No exit thresholds triggered."

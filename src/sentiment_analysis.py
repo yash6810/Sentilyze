@@ -179,8 +179,16 @@ def get_sentiment(
     articles_for_sentiment = articles[text_columns].dropna(subset=text_columns).copy()
 
     # Apply specialized financial text cleaning
-    clean_titles = articles_for_sentiment["Title"].apply(clean_financial_text) if "Title" in text_columns else None
-    clean_descs = articles_for_sentiment["description"].apply(clean_financial_text) if "description" in text_columns else None
+    clean_titles = (
+        articles_for_sentiment["Title"].apply(clean_financial_text)
+        if "Title" in text_columns
+        else None
+    )
+    clean_descs = (
+        articles_for_sentiment["description"].apply(clean_financial_text)
+        if "description" in text_columns
+        else None
+    )
 
     if clean_titles is not None and clean_descs is not None:
         articles_for_sentiment["text"] = clean_titles + ". " + clean_descs
@@ -191,7 +199,9 @@ def get_sentiment(
 
     # Filter out empty texts
     articles_for_sentiment["text"] = articles_for_sentiment["text"].str.strip()
-    articles_for_sentiment = articles_for_sentiment[articles_for_sentiment["text"] != ""]
+    articles_for_sentiment = articles_for_sentiment[
+        articles_for_sentiment["text"] != ""
+    ]
 
     if articles_for_sentiment.empty:
         return articles
@@ -200,7 +210,9 @@ def get_sentiment(
     text_list = articles_for_sentiment["text"].tolist()
     chunk_size = 32
 
-    for i in tqdm(range(0, len(text_list), chunk_size), desc="Analyzing sentiment (FinBERT)"):
+    for i in tqdm(
+        range(0, len(text_list), chunk_size), desc="Analyzing sentiment (FinBERT)"
+    ):
         chunk = text_list[i : i + chunk_size]
         raw_res = sentiment_analyzer(chunk)
         results.extend(raw_res)
@@ -223,12 +235,18 @@ def get_sentiment(
 
     enriched_articles = articles.join(parsed_df[cols_to_join])
 
-    enriched_articles["sentiment_label"] = enriched_articles["sentiment_label"].fillna("neutral")
-    enriched_articles["sentiment_score"] = enriched_articles["sentiment_score"].fillna(0.0)
+    enriched_articles["sentiment_label"] = enriched_articles["sentiment_label"].fillna(
+        "neutral"
+    )
+    enriched_articles["sentiment_score"] = enriched_articles["sentiment_score"].fillna(
+        0.0
+    )
     enriched_articles["prob_positive"] = enriched_articles["prob_positive"].fillna(0.0)
     enriched_articles["prob_negative"] = enriched_articles["prob_negative"].fillna(0.0)
     enriched_articles["prob_neutral"] = enriched_articles["prob_neutral"].fillna(1.0)
-    enriched_articles["sentiment_confidence"] = enriched_articles["sentiment_confidence"].fillna(0.5)
+    enriched_articles["sentiment_confidence"] = enriched_articles[
+        "sentiment_confidence"
+    ].fillna(0.5)
 
     if ticker:
         enriched_articles.to_csv(cache_path, index=True)
@@ -246,7 +264,12 @@ def analyze_sentiment(
     if articles is None or articles.empty:
         return pd.DataFrame()
     from src.preprocessing import _load_sentiment_analyzer
+
     analyzer = _load_sentiment_analyzer()
     cache_dur = 24 if use_cache else 0
-    return get_sentiment(articles, sentiment_analyzer=analyzer, ticker=ticker, cache_duration_hours=cache_dur)
-
+    return get_sentiment(
+        articles,
+        sentiment_analyzer=analyzer,
+        ticker=ticker,
+        cache_duration_hours=cache_dur,
+    )

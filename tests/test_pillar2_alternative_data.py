@@ -1,7 +1,4 @@
-from src.sec_filing_diff import (
-    compute_text_similarity_and_diff,
-    analyze_sec_filing_diff,
-)
+from src.sec_filing_diff import analyze_sec_filing_diff
 from src.earnings_sentiment import analyze_earnings_call_transcript
 from src.social_sentiment import (
     calculate_social_buzz_metrics,
@@ -38,7 +35,11 @@ def test_earnings_call_sentiment():
 
 def test_social_sentiment_velocity():
     metrics = calculate_social_buzz_metrics(
-        "NVDA", mention_volume_today=2500, avg_7d_mentions=1000, bullish_posts=1800, bearish_posts=700
+        "NVDA",
+        mention_volume_today=2500,
+        avg_7d_mentions=1000,
+        bullish_posts=1800,
+        bearish_posts=700,
     )
     assert metrics["mention_velocity_ratio"] == 2.5
     assert metrics["bullish_sentiment_pct"] > 70.0

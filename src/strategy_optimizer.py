@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from src.config import DATA_DIR
 from src.data_ingestion import get_price_history
 from src.utils import get_logger
@@ -48,7 +48,9 @@ def simulate_strategy_sandbox(
     rsi = 100 - (100 / (1 + rs))
 
     # Signal generation
-    is_bullish = (df["Close"] > sma_200) & (df["return"].rolling(5).mean() > 0) & (rsi < 70)
+    is_bullish = (
+        (df["Close"] > sma_200) & (df["return"].rolling(5).mean() > 0) & (rsi < 70)
+    )
     # Synthetic confidence based on trend strength
     trend_strength = (df["Close"] - sma_200) / sma_200
     sim_confidence = np.clip(0.50 + trend_strength * 0.5, 0.40, 0.90)
@@ -99,7 +101,11 @@ def simulate_strategy_sandbox(
         "benchmark_return_pct": round(float(total_bench_return), 2),
         "sharpe_ratio": round(float(sharpe), 2),
         "max_drawdown_pct": round(float(max_drawdown), 2),
-        "calmar_ratio": round(abs(total_strat_return / max_drawdown), 2) if max_drawdown != 0 else 0.0,
+        "calmar_ratio": (
+            round(abs(total_strat_return / max_drawdown), 2)
+            if max_drawdown != 0
+            else 0.0
+        ),
         "total_trades": trades_count,
         "chart_df": chart_df,
     }

@@ -25,7 +25,10 @@ class AlpacaBrokerBridge:
     ):
         self.api_key = api_key or os.getenv("ALPACA_API_KEY", "")
         self.secret_key = secret_key or os.getenv("ALPACA_SECRET_KEY", "")
-        raw_url = base_url or os.getenv("ALPACA_BASE_URL", (ALPACA_PAPER_BASE_URL if is_paper else ALPACA_LIVE_BASE_URL))
+        raw_url = base_url or os.getenv(
+            "ALPACA_BASE_URL",
+            (ALPACA_PAPER_BASE_URL if is_paper else ALPACA_LIVE_BASE_URL),
+        )
         # Normalize URL by removing trailing slash and /v2 if present
         self.base_url = raw_url.rstrip("/").removesuffix("/v2")
         self.is_paper = is_paper
@@ -40,7 +43,9 @@ class AlpacaBrokerBridge:
         if not self.api_key or not self.secret_key:
             return False
         try:
-            res = requests.get(f"{self.base_url}/v2/account", headers=self.headers, timeout=6)
+            res = requests.get(
+                f"{self.base_url}/v2/account", headers=self.headers, timeout=6
+            )
             return res.status_code == 200
         except Exception:
             return False
@@ -57,7 +62,9 @@ class AlpacaBrokerBridge:
                 "mode": "PAPER (Simulated)",
             }
         try:
-            res = requests.get(f"{self.base_url}/v2/account", headers=self.headers, timeout=6)
+            res = requests.get(
+                f"{self.base_url}/v2/account", headers=self.headers, timeout=6
+            )
             if res.status_code == 200:
                 data = res.json()
                 return {
@@ -89,7 +96,9 @@ class AlpacaBrokerBridge:
         - Exit 2: Stop order @ Stop-Loss
         """
         if not self.is_connected():
-            logger.info(f"[ALPACA SIMULATED] Bracket order for {qty} {ticker} @ TP ${take_profit_price:.2f} / SL ${stop_loss_price:.2f}")
+            logger.info(
+                f"[ALPACA SIMULATED] Bracket order for {qty} {ticker} @ TP ${take_profit_price:.2f} / SL ${stop_loss_price:.2f}"
+            )
             return {
                 "status": "SIMULATED_SUCCESS",
                 "ticker": ticker,
@@ -110,10 +119,17 @@ class AlpacaBrokerBridge:
         }
 
         try:
-            res = requests.post(f"{self.base_url}/v2/orders", headers=self.headers, json=payload, timeout=8)
+            res = requests.post(
+                f"{self.base_url}/v2/orders",
+                headers=self.headers,
+                json=payload,
+                timeout=8,
+            )
             if res.status_code in [200, 201]:
                 order_data = res.json()
-                logger.info(f"✅ [ALPACA LIVE] Bracket order submitted: {ticker} (Order ID: {order_data.get('id')})")
+                logger.info(
+                    f"✅ [ALPACA LIVE] Bracket order submitted: {ticker} (Order ID: {order_data.get('id')})"
+                )
                 return {"status": "SUBMITTED", "order": order_data}
             else:
                 logger.warning(f"Alpaca order rejected: {res.text}")
@@ -127,7 +143,9 @@ class AlpacaBrokerBridge:
         if not self.is_connected():
             return []
         try:
-            res = requests.get(f"{self.base_url}/v2/positions", headers=self.headers, timeout=6)
+            res = requests.get(
+                f"{self.base_url}/v2/positions", headers=self.headers, timeout=6
+            )
             if res.status_code == 200:
                 return res.json()
         except Exception as e:

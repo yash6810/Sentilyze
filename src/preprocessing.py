@@ -13,7 +13,6 @@ from src.feature_engineering import (
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 from functools import lru_cache
 from typing import Any
-import concurrent.futures
 
 logger = get_logger(__name__)
 
@@ -29,12 +28,18 @@ def _load_sentiment_analyzer() -> Any:
     import torch
 
     device = 0 if torch.cuda.is_available() else -1
-    logger.info(f"Loading FinBERT sentiment analysis model for preprocessing (device={device})...")
+    logger.info(
+        f"Loading FinBERT sentiment analysis model for preprocessing (device={device})..."
+    )
     local_path = "./models/finbert-fine-tuned"
     try:
         if os.path.exists(local_path):
-            tokenizer = AutoTokenizer.from_pretrained(local_path, local_files_only=True)  # nosec B615
-            model = AutoModelForSequenceClassification.from_pretrained(local_path, local_files_only=True)  # nosec B615
+            tokenizer = AutoTokenizer.from_pretrained(
+                local_path, local_files_only=True
+            )  # nosec B615
+            model = AutoModelForSequenceClassification.from_pretrained(
+                local_path, local_files_only=True
+            )  # nosec B615
             return pipeline(
                 "sentiment-analysis",
                 model=model,
@@ -49,8 +54,12 @@ def _load_sentiment_analyzer() -> Any:
             f"Could not load local fine-tuned model at {local_path}: {e}. Falling back to ProsusAI/finbert..."
         )
 
-    tokenizer = AutoTokenizer.from_pretrained("ProsusAI/finbert", revision="main")  # nosec B615
-    model = AutoModelForSequenceClassification.from_pretrained("ProsusAI/finbert", revision="main")  # nosec B615
+    tokenizer = AutoTokenizer.from_pretrained(
+        "ProsusAI/finbert", revision="main"
+    )  # nosec B615
+    model = AutoModelForSequenceClassification.from_pretrained(
+        "ProsusAI/finbert", revision="main"
+    )  # nosec B615
     return pipeline(
         "sentiment-analysis",
         model=model,
@@ -154,10 +163,10 @@ def _get_api_key() -> str | None:
         try:
             if "NEWS_API_KEY" in st.secrets:
                 return st.secrets["NEWS_API_KEY"]
-        except Exception:
-            pass
+        except Exception as e:
+            logger.debug(f"Could not read NEWS_API_KEY from st.secrets: {e}")
     except ImportError:
-        pass
+        logger.debug("Streamlit not installed or not in active session")
     return os.environ.get("NEWS_API_KEY")
 
 

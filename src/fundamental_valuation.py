@@ -35,8 +35,16 @@ def fetch_financial_statements(ticker: str) -> Dict[str, Any]:
         info = getattr(t, "info", {}) or {}
         fast_info = getattr(t, "fast_info", None)
 
-        spot_price = float(fast_info.last_price) if fast_info and hasattr(fast_info, "last_price") else float(info.get("currentPrice", 100.0))
-        mcap = float(fast_info.market_cap) if fast_info and hasattr(fast_info, "market_cap") else float(info.get("marketCap", 1e10))
+        spot_price = (
+            float(fast_info.last_price)
+            if fast_info and hasattr(fast_info, "last_price")
+            else float(info.get("currentPrice", 100.0))
+        )
+        mcap = (
+            float(fast_info.market_cap)
+            if fast_info and hasattr(fast_info, "market_cap")
+            else float(info.get("marketCap", 1e10))
+        )
 
         return {
             "ticker": ticker,
@@ -49,7 +57,9 @@ def fetch_financial_statements(ticker: str) -> Dict[str, Any]:
             "is_real_data": not bs.empty,
         }
     except Exception as e:
-        logger.warning(f"Financial statement fetch notice for {ticker}: {e}. Generating calibrated fundamentals.")
+        logger.warning(
+            f"Financial statement fetch notice for {ticker}: {e}. Generating calibrated fundamentals."
+        )
         return _generate_calibrated_financials(ticker)
 
 
@@ -138,9 +148,7 @@ def calculate_piotroski_f_score(
     }
 
 
-def calculate_altman_z_score(
-    ticker: str, fin_data: Dict[str, Any]
-) -> Dict[str, Any]:
+def calculate_altman_z_score(ticker: str, fin_data: Dict[str, Any]) -> Dict[str, Any]:
     """
     Calculates the Altman Z-Score for public corporations:
     Z = 1.2*X1 + 1.4*X2 + 3.3*X3 + 0.6*X4 + 0.999*X5
@@ -233,7 +241,7 @@ def calculate_dcf_fair_value(
     projected_fcf = []
     curr_fcf = fcf
     for year in range(1, 6):
-        curr_fcf *= (1.0 + growth_rate)
+        curr_fcf *= 1.0 + growth_rate
         discounted = curr_fcf / ((1.0 + discount_rate) ** year)
         projected_fcf.append(discounted)
 
@@ -241,11 +249,15 @@ def calculate_dcf_fair_value(
 
     # Terminal Value (Gordon Growth Model at Year 5)
     fcf_year_5 = curr_fcf
-    terminal_val = (fcf_year_5 * (1.0 + terminal_rate)) / (discount_rate - terminal_rate + 1e-5)
+    terminal_val = (fcf_year_5 * (1.0 + terminal_rate)) / (
+        discount_rate - terminal_rate + 1e-5
+    )
     pv_terminal = terminal_val / ((1.0 + discount_rate) ** 5)
 
     # Enterprise to Equity Value
-    net_cash = float(info.get("totalCash", 0.0) or 0.0) - float(info.get("totalDebt", 0.0) or 0.0)
+    net_cash = float(info.get("totalCash", 0.0) or 0.0) - float(
+        info.get("totalDebt", 0.0) or 0.0
+    )
     intrinsic_mcap = pv_fcf + pv_terminal + net_cash
 
     # Estimated Shares Outstanding
@@ -309,13 +321,17 @@ def generate_spider_radar_profile(
         Dict of {metric_name: score_0_to_100}
     """
     tech_score = float(np.clip(ai_confidence * 100.0, 10.0, 95.0))
-    solvency_score = float(np.clip((z_score_data["z_score"] / 8.0) * 100.0, 15.0, 100.0))
+    solvency_score = float(
+        np.clip((z_score_data["z_score"] / 8.0) * 100.0, 15.0, 100.0)
+    )
     quality_score = float((f_score_data["f_score"] / 9.0) * 100.0)
-    
+
     # Valuation: 50 is fair value, 100 is deep discount
     mos = dcf_data["margin_of_safety_pct"]
     valuation_score = float(np.clip(50.0 + mos * 1.2, 10.0, 95.0))
-    profitability_score = float(np.clip(quality_score * 0.6 + solvency_score * 0.4, 20.0, 95.0))
+    profitability_score = float(
+        np.clip(quality_score * 0.6 + solvency_score * 0.4, 20.0, 95.0)
+    )
 
     return {
         "AI Technical Momentum": round(tech_score, 1),

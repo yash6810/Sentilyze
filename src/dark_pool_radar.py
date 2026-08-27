@@ -104,7 +104,9 @@ def compute_dark_pool_sentiment(ticker: str) -> Dict[str, Any]:
     net_block_flow = buy_dollars - sell_dollars
     dark_pool_buy_pct = (buy_dollars / max(1.0, total_block_dollars)) * 100.0
 
-    unusual_bullish_calls = [o for o in opts if o["vol_to_oi_ratio"] >= 3.0 and o["option_type"] == "CALL"]
+    unusual_bullish_calls = [
+        o for o in opts if o["vol_to_oi_ratio"] >= 3.0 and o["option_type"] == "CALL"
+    ]
 
     if dark_pool_buy_pct >= 65.0 and len(unusual_bullish_calls) >= 2:
         regime = "🟢 HEAVY INSTITUTIONAL ACCUMULATION (Dark Pool Inflows + Call Sweeps)"

@@ -6,9 +6,7 @@ Pillar 2 Alternative Data Module:
 - Flags new corporate risk additions, removed guidance clauses, and semantic shift scores.
 """
 
-from typing import Any, Dict, List, Optional
-import numpy as np
-import pandas as pd
+from typing import Any, Dict
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -39,7 +37,18 @@ def compute_text_similarity_and_diff(
     removed = list(words_prior - words_curr)
 
     # Key institutional risk buzzwords
-    risk_keywords = {"tariff", "antitrust", "investigation", "subpoena", "restructuring", "sanctions", "margin", "decline", "litigation", "breach"}
+    risk_keywords = {
+        "tariff",
+        "antitrust",
+        "investigation",
+        "subpoena",
+        "restructuring",
+        "sanctions",
+        "margin",
+        "decline",
+        "litigation",
+        "breach",
+    }
     material_risks_added = [w for w in added if w in risk_keywords]
 
     return {
@@ -52,9 +61,7 @@ def compute_text_similarity_and_diff(
     }
 
 
-def analyze_sec_filing_diff(
-    ticker: str, filing_type: str = "10-K"
-) -> Dict[str, Any]:
+def analyze_sec_filing_diff(ticker: str, filing_type: str = "10-K") -> Dict[str, Any]:
     """
     Retrieves and compares the most recent and prior SEC filings for a company.
 
@@ -79,7 +86,9 @@ def analyze_sec_filing_diff(
         "We expect revenue growth to moderate in select international jurisdictions."
     )
 
-    diff_metrics = compute_text_similarity_and_diff(current_filing_sample, prior_filing_sample)
+    diff_metrics = compute_text_similarity_and_diff(
+        current_filing_sample, prior_filing_sample
+    )
 
     if diff_metrics["material_change_flag"]:
         status = "⚠️ CAUTION: Material New Risk Disclosures Detected"

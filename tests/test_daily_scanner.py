@@ -1,5 +1,4 @@
-import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock
 import pandas as pd
 import numpy as np
 from src.daily_scanner import run_daily_market_scan

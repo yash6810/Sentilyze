@@ -52,7 +52,13 @@ def answer_financial_query(
         category = "Options Flow"
 
     # Route 3: Fundamental Valuation / Piotroski / DCF query
-    elif "f-score" in q or "piotroski" in q or "dcf" in q or "valuation" in q or "fundamental" in q:
+    elif (
+        "f-score" in q
+        or "piotroski" in q
+        or "dcf" in q
+        or "valuation" in q
+        or "fundamental" in q
+    ):
         answer = (
             "💎 **Fundamental Valuation Resolution**:\n"
             "• **Piotroski F-Score**: Top performer is **NVDA (8/9)** and **COST (8/9)** reflecting pristine operating efficiency and cash conversion.\n"
@@ -64,7 +70,7 @@ def answer_financial_query(
     else:
         answer = (
             f"🧠 **Sentilyze Quant Copilot Resolution**:\n"
-            f"Query: *\"{query_text}\"*\n"
+            f'Query: *"{query_text}"*\n'
             f"System State: 17 Walk-Forward Models live, 10 Institutional Workspaces active, "
             f"portfolio equity at **${current_portfolio_equity:,.2f}** with active stop-loss monitoring."
         )

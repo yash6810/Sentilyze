@@ -1,5 +1,3 @@
-import pytest
-from unittest.mock import MagicMock
 import pandas as pd
 from src.data_sync import sync_all_market_data
 

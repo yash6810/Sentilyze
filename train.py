@@ -14,7 +14,6 @@ from src.backtesting import run_backtest, run_significance_test
 from src.config import FEATURES
 from src.utils import get_logger
 from src.preprocessing import preprocess_data
-from sklearn.metrics import classification_report
 
 logger = get_logger(__name__)
 
@@ -146,15 +145,25 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
             booster = model.get_booster() if hasattr(model, "get_booster") else model
             explainer = shap.TreeExplainer(booster)
             raw_shap = explainer.shap_values(X_test_oos)
-            shap_values = raw_shap[1] if isinstance(raw_shap, list) and len(raw_shap) > 1 else np.asarray(raw_shap)
+            shap_values = (
+                raw_shap[1]
+                if isinstance(raw_shap, list) and len(raw_shap) > 1
+                else np.asarray(raw_shap)
+            )
         except Exception as e1:
-            logger.warning(f"SHAP TreeExplainer notice: {e1}. Using robust fallback explainer...")
+            logger.warning(
+                f"SHAP TreeExplainer notice: {e1}. Using robust fallback explainer..."
+            )
             try:
-                explainer = shap.Explainer(model.predict_proba, X.sample(min(50, len(X)), random_state=42))
+                explainer = shap.Explainer(
+                    model.predict_proba, X.sample(min(50, len(X)), random_state=42)
+                )
                 shap_obj: Any = explainer(X_test_oos.head(min(100, len(X_test_oos))))
                 shap_values = getattr(shap_obj, "values", np.asarray(shap_obj))
             except Exception as e2:
-                logger.warning(f"SHAP fallback notice: {e2}. Initializing SHAP values matrix.")
+                logger.warning(
+                    f"SHAP fallback notice: {e2}. Initializing SHAP values matrix."
+                )
                 shap_values = np.zeros(X_test_oos.shape)
 
         np.save(f"results/{ticker}_shap_values.npy", shap_values)

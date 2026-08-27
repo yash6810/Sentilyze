@@ -4,6 +4,7 @@ import json
 import pandas as pd
 import numpy as np
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
@@ -42,16 +43,21 @@ def generate_executive_pdf_tearsheet(
                     portfolio_summary = portfolio_summary or {
                         "total_equity": pdata.get("total_equity", 100000.0),
                         "cash": pdata.get("cash", 10000.0),
-                        "invested": pdata.get("total_equity", 100000.0) - pdata.get("cash", 10000.0),
+                        "invested": pdata.get("total_equity", 100000.0)
+                        - pdata.get("cash", 10000.0),
                         "unrealized_pnl": pdata.get("unrealized_pnl", 0.0),
                         "realized_pnl": pdata.get("realized_pnl", 0.0),
-                        "total_return_pct": ((pdata.get("total_equity", 100000.0) - 100000.0) / 100000.0) * 100.0,
+                        "total_return_pct": (
+                            (pdata.get("total_equity", 100000.0) - 100000.0) / 100000.0
+                        )
+                        * 100.0,
                         "win_rate": pdata.get("win_rate", 0.0),
                         "total_trades": pdata.get("total_trades", 0),
                     }
                     if not open_positions:
                         open_positions = [
-                            {"ticker": t, **pos} for t, pos in pdata.get("open_positions", {}).items()
+                            {"ticker": t, **pos}
+                            for t, pos in pdata.get("open_positions", {}).items()
                         ]
             except Exception as e:
                 logger.warning(f"Failed loading paper portfolio for tearsheet ({e})")
@@ -98,16 +104,26 @@ def generate_executive_pdf_tearsheet(
         ax_head = fig1.add_subplot(gs[0])
         ax_head.axis("off")
         ax_head.text(
-            0.0, 0.90, "SENTILYZE QUANTITATIVE ALPHA FUND",
-            fontsize=18, fontweight="bold", color="#00D4AA"
+            0.0,
+            0.90,
+            "SENTILYZE QUANTITATIVE ALPHA FUND",
+            fontsize=18,
+            fontweight="bold",
+            color="#00D4AA",
         )
         ax_head.text(
-            0.0, 0.75, "Institutional Multi-Asset Portfolio & Algorithmic Momentum Factsheet",
-            fontsize=11, color="#94A3B8"
+            0.0,
+            0.75,
+            "Institutional Multi-Asset Portfolio & Algorithmic Momentum Factsheet",
+            fontsize=11,
+            color="#94A3B8",
         )
         ax_head.text(
-            0.0, 0.60, f"Generated: {datetime.now(timezone.utc).strftime('%B %d, %Y - %H:%M UTC')}",
-            fontsize=9, color="#64748B"
+            0.0,
+            0.60,
+            f"Generated: {datetime.now(timezone.utc).strftime('%B %d, %Y - %H:%M UTC')}",
+            fontsize=9,
+            color="#64748B",
         )
 
         # KPI Metric Grid
@@ -120,8 +136,17 @@ def generate_executive_pdf_tearsheet(
             f"Win Rate:             {portfolio_summary.get('win_rate', 0.0):.1f}% ({portfolio_summary.get('total_trades', 0)} closed trades)"
         )
         ax_head.text(
-            0.0, 0.05, kpi_text, fontsize=10, fontfamily="monospace",
-            bbox=dict(boxstyle="round,pad=0.6", facecolor="#1C2541", edgecolor="#00D4AA", alpha=0.9)
+            0.0,
+            0.05,
+            kpi_text,
+            fontsize=10,
+            fontfamily="monospace",
+            bbox=dict(
+                boxstyle="round,pad=0.6",
+                facecolor="#1C2541",
+                edgecolor="#00D4AA",
+                alpha=0.9,
+            ),
         )
 
         # Simulated Equity Growth Chart
@@ -129,16 +154,39 @@ def generate_executive_pdf_tearsheet(
         if equity_history_df is not None and not equity_history_df.empty:
             eq_vals = equity_history_df["total_equity"].values
             dates = equity_history_df.index
-            ax_chart.plot(dates, eq_vals, label="Sentilyze Portfolio", color="#00D4AA", linewidth=2.2)
-            ax_chart.axhline(100000, color="#94A3B8", linestyle=":", label="Initial Benchmark ($100k)")
+            ax_chart.plot(
+                dates,
+                eq_vals,
+                label="Sentilyze Portfolio",
+                color="#00D4AA",
+                linewidth=2.2,
+            )
+            ax_chart.axhline(
+                100000,
+                color="#94A3B8",
+                linestyle=":",
+                label="Initial Benchmark ($100k)",
+            )
         else:
             # Synthetic placeholder curve for clean rendering
             x = np.linspace(0, 30, 30)
             y = 100000 + np.cumsum(np.random.normal(120, 200, 30))
-            ax_chart.plot(x, y, label="Sentilyze Portfolio", color="#00D4AA", linewidth=2.2)
-            ax_chart.axhline(100000, color="#94A3B8", linestyle=":", label="Initial Benchmark ($100k)")
+            ax_chart.plot(
+                x, y, label="Sentilyze Portfolio", color="#00D4AA", linewidth=2.2
+            )
+            ax_chart.axhline(
+                100000,
+                color="#94A3B8",
+                linestyle=":",
+                label="Initial Benchmark ($100k)",
+            )
 
-        ax_chart.set_title("Portfolio Equity Growth Over Time", fontsize=12, fontweight="bold", color="#FFFFFF")
+        ax_chart.set_title(
+            "Portfolio Equity Growth Over Time",
+            fontsize=12,
+            fontweight="bold",
+            color="#FFFFFF",
+        )
         ax_chart.set_ylabel("Account Value ($)")
         ax_chart.legend(loc="upper left", facecolor="#1C2541", edgecolor="#3A506B")
         ax_chart.grid(True)
@@ -147,7 +195,9 @@ def generate_executive_pdf_tearsheet(
         normalized_positions = []
         if isinstance(open_positions, dict):
             for k, v in open_positions.items():
-                pos_item = dict(v) if isinstance(v, dict) else {"current_price": float(v)}
+                pos_item = (
+                    dict(v) if isinstance(v, dict) else {"current_price": float(v)}
+                )
                 pos_item.setdefault("ticker", str(k))
                 normalized_positions.append(pos_item)
         elif isinstance(open_positions, list):
@@ -160,20 +210,47 @@ def generate_executive_pdf_tearsheet(
         # Asset Allocation Breakdown
         ax_alloc = fig1.add_subplot(gs[2])
         if normalized_positions:
-            tickers = [p.get("ticker", f"Asset {i+1}") for i, p in enumerate(normalized_positions)]
-            values = [float(p.get("shares", 1)) * float(p.get("current_price", 100)) for p in normalized_positions]
+            tickers = [
+                p.get("ticker", f"Asset {i+1}")
+                for i, p in enumerate(normalized_positions)
+            ]
+            values = [
+                float(p.get("shares", 1)) * float(p.get("current_price", 100))
+                for p in normalized_positions
+            ]
             if portfolio_summary.get("cash", 0) > 0:
                 tickers.append("CASH")
                 values.append(float(portfolio_summary["cash"]))
 
-            colors = ["#00D4AA", "#7C3AED", "#3B82F6", "#F59E0B", "#EF4444", "#10B981", "#64748B"]
+            colors = [
+                "#00D4AA",
+                "#7C3AED",
+                "#3B82F6",
+                "#F59E0B",
+                "#EF4444",
+                "#10B981",
+                "#64748B",
+            ]
             ax_alloc.pie(
-                values, labels=tickers, autopct="%1.1f%%", startangle=140,
-                colors=colors[:len(values)], textprops={"color": "#FFFFFF", "fontsize": 9}
+                values,
+                labels=tickers,
+                autopct="%1.1f%%",
+                startangle=140,
+                colors=colors[: len(values)],
+                textprops={"color": "#FFFFFF", "fontsize": 9},
             )
-            ax_alloc.set_title("Capital Allocation Distribution", fontsize=12, fontweight="bold")
+            ax_alloc.set_title(
+                "Capital Allocation Distribution", fontsize=12, fontweight="bold"
+            )
         else:
-            ax_alloc.text(0.5, 0.5, "100% Liquid Cash Reserve ($100,000)", ha="center", va="center", color="#94A3B8")
+            ax_alloc.text(
+                0.5,
+                0.5,
+                "100% Liquid Cash Reserve ($100,000)",
+                ha="center",
+                va="center",
+                color="#94A3B8",
+            )
             ax_alloc.axis("off")
 
         pdf.savefig(fig1, bbox_inches="tight")
@@ -186,11 +263,32 @@ def generate_executive_pdf_tearsheet(
         ax_p2 = fig2.add_subplot(111)
         ax_p2.axis("off")
 
-        ax_p2.text(0.0, 0.95, "ACTIVE HOLDINGS & RISK BRACKETING", fontsize=16, fontweight="bold", color="#00D4AA")
-        ax_p2.text(0.0, 0.91, "Quantitative Trade Brackets, Take-Profit Targets (+2.5 ATR), and Stop-Loss Levels", fontsize=10, color="#94A3B8")
+        ax_p2.text(
+            0.0,
+            0.95,
+            "ACTIVE HOLDINGS & RISK BRACKETING",
+            fontsize=16,
+            fontweight="bold",
+            color="#00D4AA",
+        )
+        ax_p2.text(
+            0.0,
+            0.91,
+            "Quantitative Trade Brackets, Take-Profit Targets (+2.5 ATR), and Stop-Loss Levels",
+            fontsize=10,
+            color="#94A3B8",
+        )
 
         table_data = [
-            ["TICKER", "SHARES", "ENTRY ($)", "CURRENT ($)", "TAKE-PROFIT", "STOP-LOSS", "PnL ($)"]
+            [
+                "TICKER",
+                "SHARES",
+                "ENTRY ($)",
+                "CURRENT ($)",
+                "TAKE-PROFIT",
+                "STOP-LOSS",
+                "PnL ($)",
+            ]
         ]
         for p in normalized_positions:
             shares = int(p.get("shares", 0))
@@ -233,16 +331,22 @@ def generate_executive_pdf_tearsheet(
 
         # Disclaimers & Notes
         ax_p2.text(
-            0.0, 0.20,
+            0.0,
+            0.20,
             "RISK & METHODOLOGY DISCLOSURES:\n"
             "• Sentilyze employs an XGBoost Machine Learning classifier trained on 25 multi-timeframe technical & NLP features.\n"
             "• All positions utilize dynamic ATR trailing stop-loss protection and +2.5 ATR Take-Profit limits.\n"
             "• Performance calculations simulate frictionless paper trading and do not guarantee future market returns.",
-            fontsize=8, color="#64748B", style="italic"
+            fontsize=8,
+            color="#64748B",
+            style="italic",
         )
         ax_p2.text(
-            0.0, 0.05, "Sentilyze Autonomous MLOps Engine • Confidential Quantitative Report",
-            fontsize=8, color="#3A506B"
+            0.0,
+            0.05,
+            "Sentilyze Autonomous MLOps Engine • Confidential Quantitative Report",
+            fontsize=8,
+            color="#3A506B",
         )
 
         pdf.savefig(fig2, bbox_inches="tight")

@@ -81,17 +81,19 @@ def track_congressional_stock_disclosures(ticker: str) -> List[Dict[str, Any]]:
     return disclosures
 
 
-def compute_smart_money_insider_score(
-    ticker: str
-) -> Dict[str, Any]:
+def compute_smart_money_insider_score(ticker: str) -> Dict[str, Any]:
     """
     Synthesizes SEC Form 4 and Congressional activity into an overall Smart Money conviction score.
     """
     insiders = track_corporate_insider_filings(ticker)
     congress = track_congressional_stock_disclosures(ticker)
 
-    total_buy_val = sum(x["total_value"] for x in insiders if "PURCHASE" in x["transaction_type"])
-    total_sell_val = sum(x["total_value"] for x in insiders if "SALE" in x["transaction_type"])
+    total_buy_val = sum(
+        x["total_value"] for x in insiders if "PURCHASE" in x["transaction_type"]
+    )
+    total_sell_val = sum(
+        x["total_value"] for x in insiders if "SALE" in x["transaction_type"]
+    )
 
     net_flow = total_buy_val - total_sell_val
     congress_buys = sum(1 for c in congress if c["transaction"] == "BUY")

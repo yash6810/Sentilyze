@@ -5,9 +5,7 @@ Pillar 7 Mobile & Omnichannel Module:
 - Formats circular, modular, and rectangular glance widgets with live portfolio P&L and top AI signals.
 """
 
-from typing import Any, Dict, List, Optional
-import numpy as np
-import pandas as pd
+from typing import Any, Dict
 from src.utils import get_logger
 
 logger = get_logger(__name__)

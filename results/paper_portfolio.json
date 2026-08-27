@@ -1,32 +1,19 @@
 {
   "initial_capital": 100000.0,
-  "cash": 10098.066727905265,
-  "total_equity": 99628.9,
-  "unrealized_pnl": 17.85,
-  "realized_pnl": -388.9551837158251,
-  "win_rate": 37.5,
-  "total_trades": 8,
-  "winning_trades": 3,
-  "losing_trades": 5,
+  "cash": 55424.890001831016,
+  "total_equity": 100012.51,
+  "unrealized_pnl": -361.62,
+  "realized_pnl": 374.1287713622698,
+  "win_rate": 53.8,
+  "total_trades": 13,
+  "winning_trades": 7,
+  "losing_trades": 6,
   "open_positions": {
-    "AMD": {
-      "shares": 93,
-      "initial_shares": 93,
-      "entry_price": 479.1799926757813,
-      "current_price": 480.93,
-      "entry_date": "2026-08-26",
-      "tp1_target": 533.55,
-      "tp2_target": 577.05,
-      "sl_target": 446.56,
-      "scaled_out": false,
-      "confidence": 0.7663012146949768,
-      "regime": "\u25b2 BULLISH (Above SMA200)"
-    },
     "AVGO": {
       "shares": 126,
       "initial_shares": 126,
       "entry_price": 356.739990234375,
-      "current_price": 355.59,
+      "current_price": 353.87,
       "entry_date": "2026-08-26",
       "tp1_target": 390.68,
       "tp2_target": 417.82,
@@ -124,17 +111,72 @@
       "pnl": -412.02,
       "return_pct": -0.92,
       "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "AMD",
+      "shares": 93,
+      "entry_price": 479.1799926757813,
+      "exit_price": 481.9,
+      "entry_date": "2026-08-26",
+      "exit_date": "2026-08-26",
+      "pnl": 252.96,
+      "return_pct": 0.57,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "AVGO",
+      "shares": 126,
+      "entry_price": 356.739990234375,
+      "exit_price": 354.19,
+      "entry_date": "2026-08-26",
+      "exit_date": "2026-08-26",
+      "pnl": -321.3,
+      "return_pct": -0.71,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "AMD",
+      "shares": 93,
+      "entry_price": 479.1799926757813,
+      "exit_price": 482.71,
+      "entry_date": "2026-08-26",
+      "exit_date": "2026-08-26",
+      "pnl": 328.29,
+      "return_pct": 0.74,
+      "reason": "\ud83d\udea8 EMERGENCY_NEWS_CATALYST_EXIT"
+    },
+    {
+      "ticker": "AMD",
+      "shares": 93,
+      "entry_price": 479.1799926757813,
+      "exit_price": 481.81,
+      "entry_date": "2026-08-26",
+      "exit_date": "2026-08-26",
+      "pnl": 244.59,
+      "return_pct": 0.55,
+      "reason": "\ud83d\udea8 EMERGENCY_NEWS_CATALYST_EXIT"
+    },
+    {
+      "ticker": "AMD",
+      "shares": 93,
+      "entry_price": 479.1799926757813,
+      "exit_price": 481.96,
+      "entry_date": "2026-08-26",
+      "exit_date": "2026-08-26",
+      "pnl": 258.54,
+      "return_pct": 0.58,
+      "reason": "\ud83d\udea8 EMERGENCY_NEWS_CATALYST_EXIT"
     }
   ],
   "equity_history": [
     {
       "date": "2026-08-26",
       "timestamp": "2026-08-26T07:50:14.703218+00:00",
-      "total_equity": 99628.9,
-      "cash": 10098.07,
-      "invested": 89530.83,
-      "daily_return": 0.0
+      "total_equity": 100012.51,
+      "cash": 55424.89,
+      "invested": 44587.62,
+      "daily_return": -0.1
     }
   ],
-  "last_updated": "2026-08-26T23:47:57.131450+00:00"
+  "last_updated": "2026-08-26T18:54:16.890342+00:00"
 }

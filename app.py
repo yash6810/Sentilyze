@@ -29,7 +29,11 @@ from src.realtime_tracker import (
     evaluate_intraday_execution,
     get_us_market_session_info,
 )
-from src.portfolio import build_unified_portfolio, load_all_ticker_portfolios, calculate_risk_parity_weights
+from src.portfolio import (
+    build_unified_portfolio,
+    load_all_ticker_portfolios,
+    calculate_risk_parity_weights,
+)
 from src.alerts import format_signal_card, send_discord_alert, send_telegram_alert
 from src.rebalancer import calculate_custom_rebalance
 from src.tearsheet import generate_executive_pdf_tearsheet
@@ -86,8 +90,23 @@ def get_universe_tickers() -> List[str]:
             if tickers:
                 return tickers
     return [
-        "NVDA", "AAPL", "MSFT", "GOOGL", "META", "TSLA", "AMZN",
-        "AVGO", "AMD", "PLTR", "LLY", "QQQ", "SPY", "JPM", "COST", "NFLX", "TSM"
+        "NVDA",
+        "AAPL",
+        "MSFT",
+        "GOOGL",
+        "META",
+        "TSLA",
+        "AMZN",
+        "AVGO",
+        "AMD",
+        "PLTR",
+        "LLY",
+        "QQQ",
+        "SPY",
+        "JPM",
+        "COST",
+        "NFLX",
+        "TSM",
     ]
 
 
@@ -185,7 +204,9 @@ def inject_luxury_css():
 
 
 # --- Interactive Candlestick / Price Chart with ATR Risk Bands ---
-def render_plotly_candlestick(ticker: str, df: pd.DataFrame, curr_p: float, tp1: float, tp2: float, sl: float):
+def render_plotly_candlestick(
+    ticker: str, df: pd.DataFrame, curr_p: float, tp1: float, tp2: float, sl: float
+):
     """Renders high-frequency interactive Candlestick chart with ATR channels."""
     if df.empty or len(df) < 30:
         return
@@ -199,7 +220,11 @@ def render_plotly_candlestick(ticker: str, df: pd.DataFrame, curr_p: float, tp1:
         # 1. Candlestick
         fig.add_trace(
             go.Candlestick(
-                x=recent_df.index if isinstance(recent_df.index, pd.DatetimeIndex) else pd.to_datetime(recent_df.index),
+                x=(
+                    recent_df.index
+                    if isinstance(recent_df.index, pd.DatetimeIndex)
+                    else pd.to_datetime(recent_df.index)
+                ),
                 open=recent_df["Open"],
                 high=recent_df["High"],
                 low=recent_df["Low"],
@@ -212,14 +237,46 @@ def render_plotly_candlestick(ticker: str, df: pd.DataFrame, curr_p: float, tp1:
 
         # 2. 7 MA & 21 MA
         if "ma7" in recent_df.columns:
-            fig.add_trace(go.Scatter(x=recent_df.index, y=recent_df["ma7"], line=dict(color="#38BDF8", width=1.5), name="7 MA"))
+            fig.add_trace(
+                go.Scatter(
+                    x=recent_df.index,
+                    y=recent_df["ma7"],
+                    line=dict(color="#38BDF8", width=1.5),
+                    name="7 MA",
+                )
+            )
         if "ma21" in recent_df.columns:
-            fig.add_trace(go.Scatter(x=recent_df.index, y=recent_df["ma21"], line=dict(color="#F59E0B", width=1.5), name="21 MA"))
+            fig.add_trace(
+                go.Scatter(
+                    x=recent_df.index,
+                    y=recent_df["ma21"],
+                    line=dict(color="#F59E0B", width=1.5),
+                    name="21 MA",
+                )
+            )
 
         # 3. Take-Profit & Stop-Loss Target Lines
-        fig.add_hline(y=tp1, line_dash="dash", line_color="#00D4AA", annotation_text=f"TP1 (+2.5 ATR): ${tp1:,.2f}", annotation_position="top right")
-        fig.add_hline(y=tp2, line_dash="dot", line_color="#10B981", annotation_text=f"TP2 (+4.5 ATR): ${tp2:,.2f}", annotation_position="top right")
-        fig.add_hline(y=sl, line_dash="dash", line_color="#EF4444", annotation_text=f"Stop-Loss: ${sl:,.2f}", annotation_position="bottom right")
+        fig.add_hline(
+            y=tp1,
+            line_dash="dash",
+            line_color="#00D4AA",
+            annotation_text=f"TP1 (+2.5 ATR): ${tp1:,.2f}",
+            annotation_position="top right",
+        )
+        fig.add_hline(
+            y=tp2,
+            line_dash="dot",
+            line_color="#10B981",
+            annotation_text=f"TP2 (+4.5 ATR): ${tp2:,.2f}",
+            annotation_position="top right",
+        )
+        fig.add_hline(
+            y=sl,
+            line_dash="dash",
+            line_color="#EF4444",
+            annotation_text=f"Stop-Loss: ${sl:,.2f}",
+            annotation_position="bottom right",
+        )
 
         fig.update_layout(
             template="plotly_dark",
@@ -228,7 +285,9 @@ def render_plotly_candlestick(ticker: str, df: pd.DataFrame, curr_p: float, tp1:
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(15,23,42,0.4)",
             xaxis_rangeslider_visible=False,
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+            legend=dict(
+                orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1
+            ),
         )
         st.plotly_chart(fig, use_container_width=True)
     except ImportError:
@@ -239,12 +298,14 @@ def render_plotly_candlestick(ticker: str, df: pd.DataFrame, curr_p: float, tp1:
         st.line_chart(chart_data, use_container_width=True)
 
 
-
 # ==============================================================================
 # 🎯 WORKSPACE 1: AI TRADING COMMAND CENTER
 # ==============================================================================
 def render_command_center(ticker: str):
-    st.markdown('<div class="section-badge">AI Momentum Inference & Intraday Market Radar</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">AI Momentum Inference & Intraday Market Radar</div>',
+        unsafe_allow_html=True,
+    )
 
     col1, col2 = st.columns([1.2, 1.8])
 
@@ -273,19 +334,33 @@ def render_command_center(ticker: str):
 
         # AI Model Inference
         model_path = f"models/{ticker}_model.json"
-        if os.path.exists(model_path) or os.path.exists(model_path.replace(".json", ".joblib")):
+        if os.path.exists(model_path) or os.path.exists(
+            model_path.replace(".json", ".joblib")
+        ):
             with st.spinner(f"Running XGBoost + FinBERT for {ticker}..."):
                 try:
-                    features_df, price_df, news_df = preprocess_data(ticker, use_cache=True)
+                    features_df, price_df, news_df = preprocess_data(
+                        ticker, use_cache=True
+                    )
                     model = load_model(model_path)
-                    pred_raw, conf_raw = get_prediction_on_latest_data(model, features_df.tail(1), FEATURES)
+                    pred_raw, conf_raw = get_prediction_on_latest_data(
+                        model, features_df.tail(1), FEATURES
+                    )
                     pred = int(pred_raw[0])
-                    conf = float(conf_raw[0][1]) if len(conf_raw[0]) > 1 else float(conf_raw[0][0])
+                    conf = (
+                        float(conf_raw[0][1])
+                        if len(conf_raw[0]) > 1
+                        else float(conf_raw[0][0])
+                    )
 
                     signal = "BUY" if pred == 1 and conf >= 0.50 else "HOLD"
                     sig_color = "#10B981" if signal == "BUY" else "#F59E0B"
 
-                    atr = float(features_df["atr"].iloc[-1]) if "atr" in features_df.columns else curr_p * 0.03
+                    atr = (
+                        float(features_df["atr"].iloc[-1])
+                        if "atr" in features_df.columns
+                        else curr_p * 0.03
+                    )
                     tp1 = curr_p + (2.5 * atr)
                     tp2 = curr_p + (4.5 * atr)
                     sl = curr_p - (1.5 * atr)
@@ -321,44 +396,93 @@ def render_command_center(ticker: str):
                     with tkt_col1:
                         order_size_preset = st.selectbox(
                             "Capital Allocation",
-                            ["$5,000", "$10,000", "$25,000", "$45,000 (Max Target)", "Custom Shares"],
+                            [
+                                "$5,000",
+                                "$10,000",
+                                "$25,000",
+                                "$45,000 (Max Target)",
+                                "Custom Shares",
+                            ],
                             key=f"cmd_order_alloc_{ticker}",
                         )
                         if order_size_preset == "Custom Shares":
                             order_shares = st.number_input(
-                                "Shares", min_value=1, max_value=5000, value=10, step=1, key=f"cmd_shares_{ticker}"
+                                "Shares",
+                                min_value=1,
+                                max_value=5000,
+                                value=10,
+                                step=1,
+                                key=f"cmd_shares_{ticker}",
                             )
                         else:
-                            dollar_budget = float(order_size_preset.replace("$", "").replace(",", "").split()[0])
-                            order_shares = max(1, int(dollar_budget // curr_p)) if curr_p > 0 else 1
+                            dollar_budget = float(
+                                order_size_preset.replace("$", "")
+                                .replace(",", "")
+                                .split()[0]
+                            )
+                            order_shares = (
+                                max(1, int(dollar_budget // curr_p))
+                                if curr_p > 0
+                                else 1
+                            )
 
                         est_cost = order_shares * curr_p
-                        st.caption(f"Estimated Order: **{order_shares} shares** (~${est_cost:,.2f})")
+                        st.caption(
+                            f"Estimated Order: **{order_shares} shares** (~${est_cost:,.2f})"
+                        )
 
                     with tkt_col2:
                         st.write("")
                         st.write("")
                         b_instance = PaperBroker()
                         has_open = ticker in b_instance.state.get("open_positions", {})
-                        if st.button(f"🟢 Execute Live BUY {ticker}", use_container_width=True, key=f"cmd_btn_buy_{ticker}"):
-                            with st.spinner(f"Executing market buy order for {ticker}..."):
+                        if st.button(
+                            f"🟢 Execute Live BUY {ticker}",
+                            use_container_width=True,
+                            key=f"cmd_btn_buy_{ticker}",
+                        ):
+                            with st.spinner(
+                                f"Executing market buy order for {ticker}..."
+                            ):
                                 buy_res = b_instance.execute_manual_buy(
-                                    ticker=ticker, shares=order_shares, price=curr_p, atr=atr, confidence=conf
+                                    ticker=ticker,
+                                    shares=order_shares,
+                                    price=curr_p,
+                                    atr=atr,
+                                    confidence=conf,
                                 )
                                 if buy_res.get("success"):
-                                    st.toast(f"✅ Bought {order_shares} shares of {ticker} @ ${curr_p:,.2f}!", icon="🚀")
-                                    st.success(f"Executed BUY {order_shares} {ticker} @ ${curr_p:,.2f} | TP1: ${buy_res['tp1_target']:.2f} | SL: ${buy_res['sl_target']:.2f}")
+                                    st.toast(
+                                        f"✅ Bought {order_shares} shares of {ticker} @ ${curr_p:,.2f}!",
+                                        icon="🚀",
+                                    )
+                                    st.success(
+                                        f"Executed BUY {order_shares} {ticker} @ ${curr_p:,.2f} | TP1: ${buy_res['tp1_target']:.2f} | SL: ${buy_res['sl_target']:.2f}"
+                                    )
                                     time.sleep(0.6)
                                     st.rerun()
                                 else:
-                                    st.error(buy_res.get("error", "Failed to execute buy order."))
+                                    st.error(
+                                        buy_res.get(
+                                            "error", "Failed to execute buy order."
+                                        )
+                                    )
 
                         if has_open:
-                            if st.button(f"🔴 Exit / Sell {ticker} Now", use_container_width=True, key=f"cmd_btn_sell_{ticker}"):
+                            if st.button(
+                                f"🔴 Exit / Sell {ticker} Now",
+                                use_container_width=True,
+                                key=f"cmd_btn_sell_{ticker}",
+                            ):
                                 with st.spinner(f"Closing position in {ticker}..."):
-                                    sell_res = b_instance.execute_manual_sell(ticker=ticker, price=curr_p)
+                                    sell_res = b_instance.execute_manual_sell(
+                                        ticker=ticker, price=curr_p
+                                    )
                                     if sell_res.get("success"):
-                                        st.toast(f"🛑 Closed {ticker} @ ${curr_p:,.2f} (PnL: ${sell_res['trade']['pnl']:+,.2f})", icon="💰")
+                                        st.toast(
+                                            f"🛑 Closed {ticker} @ ${curr_p:,.2f} (PnL: ${sell_res['trade']['pnl']:+,.2f})",
+                                            icon="💰",
+                                        )
                                         st.rerun()
                 except Exception as e:
                     st.error(f"Inference error: {e}")
@@ -369,7 +493,10 @@ def render_command_center(ticker: str):
             render_plotly_candlestick(ticker, price_df, curr_p, tp1, tp2, sl)
 
     # 5-Minute Proximity Radar
-    st.markdown('<div class="section-badge">📡 5-Minute Active Position Guardian & Proximity Radar</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">📡 5-Minute Active Position Guardian & Proximity Radar</div>',
+        unsafe_allow_html=True,
+    )
     broker = PaperBroker()
     open_pos = broker.state.get("open_positions", {})
     last_upd_ist = format_timestamp_ist(broker.state.get("last_updated", "N/A"))
@@ -422,7 +549,9 @@ def render_command_center(ticker: str):
                 res = evaluate_intraday_execution(broker=broker)
                 trades = res.get("executed_trades", [])
                 if trades:
-                    st.success(f"Executed {len(trades)} exit trades on live market prices!")
+                    st.success(
+                        f"Executed {len(trades)} exit trades on live market prices!"
+                    )
                 else:
                     st.info("All open positions are within target bands.")
                 st.rerun()
@@ -432,7 +561,10 @@ def render_command_center(ticker: str):
 # 💼 WORKSPACE 2: PORTFOLIO & BROKER ($100k ACCOUNT)
 # ==============================================================================
 def render_portfolio_workspace():
-    st.markdown('<div class="section-badge">Virtual Paper Trading Broker ($100,000 Portfolio)</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">Virtual Paper Trading Broker ($100,000 Portfolio)</div>',
+        unsafe_allow_html=True,
+    )
 
     broker = PaperBroker()
     summary = broker.get_portfolio_summary()
@@ -440,20 +572,31 @@ def render_portfolio_workspace():
     # Top KPI Bar
     kpi1, kpi2, kpi3, kpi4 = st.columns(4)
     with kpi1:
-        st.metric("Total Equity", f"${summary['total_equity']:,.2f}", f"{summary['total_return_pct']:+.2f}%")
+        st.metric(
+            "Total Equity",
+            f"${summary['total_equity']:,.2f}",
+            f"{summary['total_return_pct']:+.2f}%",
+        )
     with kpi2:
         st.metric("Available Cash", f"${summary['cash']:,.2f}")
     with kpi3:
         st.metric("Unrealized PnL", f"${summary['unrealized_pnl']:+,.2f}")
     with kpi4:
-        st.metric("Win Rate", f"{summary['win_rate']:.1f}% ({summary['winning_trades']}/{summary['total_trades']})")
+        st.metric(
+            "Win Rate",
+            f"{summary['win_rate']:.1f}% ({summary['winning_trades']}/{summary['total_trades']})",
+        )
 
     # Alpaca Connection Card & PDF Tearsheet
     col_alpaca, col_pdf = st.columns([1.5, 1.5])
     with col_alpaca:
         alpaca = AlpacaBrokerBridge()
         alp_acc = alpaca.get_account_summary()
-        alp_status = "🟢 Connected (Alpaca Paper)" if alpaca.is_connected() else "⚪ Simulated Local Mode"
+        alp_status = (
+            "🟢 Connected (Alpaca Paper)"
+            if alpaca.is_connected()
+            else "⚪ Simulated Local Mode"
+        )
         st.markdown(
             f"""
             <div class="glass-card" style="padding: 0.8rem 1.2rem;">
@@ -468,7 +611,10 @@ def render_portfolio_workspace():
     with col_pdf:
         pdf_bytes = generate_executive_pdf_tearsheet(
             portfolio_summary=summary,
-            open_positions=[dict(pos, ticker=t) for t, pos in broker.state.get("open_positions", {}).items()],
+            open_positions=[
+                dict(pos, ticker=t)
+                for t, pos in broker.state.get("open_positions", {}).items()
+            ],
             equity_history_df=broker.get_equity_curve_df(),
         )
         st.download_button(
@@ -480,14 +626,21 @@ def render_portfolio_workspace():
         )
 
     # --- Live Multi-Asset Execution Desk ---
-    st.markdown('<div class="section-badge">⚡ Live Multi-Asset Quick Order Desk</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">⚡ Live Multi-Asset Quick Order Desk</div>',
+        unsafe_allow_html=True,
+    )
     od_col1, od_col2, od_col3, od_col4 = st.columns([1.2, 1.2, 1, 1.2])
 
     with od_col1:
-        trade_ticker = st.selectbox("Asset Ticker", UNIVERSE_TICKERS, key="port_trade_ticker")
+        trade_ticker = st.selectbox(
+            "Asset Ticker", UNIVERSE_TICKERS, key="port_trade_ticker"
+        )
         trade_quote = fetch_live_quote(trade_ticker)
         trade_p = float(trade_quote.get("price", 100.0))
-        st.caption(f"Live Price: **${trade_p:,.2f}** ({trade_quote.get('status', 'LIVE')})")
+        st.caption(
+            f"Live Price: **${trade_p:,.2f}** ({trade_quote.get('status', 'LIVE')})"
+        )
 
     with od_col2:
         trade_preset = st.selectbox(
@@ -496,20 +649,38 @@ def render_portfolio_workspace():
             key="port_order_size",
         )
         if trade_preset == "Custom Shares":
-            trade_shares = st.number_input("Shares", min_value=1, max_value=5000, value=10, step=1, key="port_shares_in")
+            trade_shares = st.number_input(
+                "Shares",
+                min_value=1,
+                max_value=5000,
+                value=10,
+                step=1,
+                key="port_shares_in",
+            )
         else:
-            trade_budget = float(trade_preset.replace("$", "").replace(",", "").split()[0])
+            trade_budget = float(
+                trade_preset.replace("$", "").replace(",", "").split()[0]
+            )
             trade_shares = max(1, int(trade_budget // trade_p)) if trade_p > 0 else 1
-        st.caption(f"Target: **{trade_shares} shares** (~${trade_shares * trade_p:,.2f})")
+        st.caption(
+            f"Target: **{trade_shares} shares** (~${trade_shares * trade_p:,.2f})"
+        )
 
     with od_col3:
         st.write("")
         st.write("")
-        if st.button(f"🟢 BUY {trade_ticker}", use_container_width=True, key="btn_port_buy"):
+        if st.button(
+            f"🟢 BUY {trade_ticker}", use_container_width=True, key="btn_port_buy"
+        ):
             with st.spinner(f"Placing market buy order for {trade_ticker}..."):
-                res_b = broker.execute_manual_buy(ticker=trade_ticker, shares=trade_shares, price=trade_p)
+                res_b = broker.execute_manual_buy(
+                    ticker=trade_ticker, shares=trade_shares, price=trade_p
+                )
                 if res_b.get("success"):
-                    st.toast(f"✅ Executed BUY {trade_shares} {trade_ticker} @ ${trade_p:.2f}!", icon="🚀")
+                    st.toast(
+                        f"✅ Executed BUY {trade_shares} {trade_ticker} @ ${trade_p:.2f}!",
+                        icon="🚀",
+                    )
                     st.rerun()
                 else:
                     st.error(res_b.get("error"))
@@ -519,21 +690,34 @@ def render_portfolio_workspace():
         st.write("")
         col_act1, col_act2 = st.columns(2)
         with col_act1:
-            if st.button("🚀 Auto-Deploy", use_container_width=True, help="Auto-allocates liquid cash into top AI signals right now"):
+            if st.button(
+                "🚀 Auto-Deploy",
+                use_container_width=True,
+                help="Auto-allocates liquid cash into top AI signals right now",
+            ):
                 with st.spinner("Scanning universe and auto-deploying cash..."):
                     evaluate_intraday_execution(broker=broker)
                     st.toast("⚡ Capital deployed into top AI signals!", icon="🚀")
                     st.rerun()
         with col_act2:
-            if st.button("🚨 Kill-Switch", use_container_width=True, help="Immediately liquidates 100% of holdings into cash"):
+            if st.button(
+                "🚨 Kill-Switch",
+                use_container_width=True,
+                help="Immediately liquidates 100% of holdings into cash",
+            ):
                 with st.spinner("Liquidating all holdings into cash..."):
                     for t in list(broker.state.get("open_positions", {}).keys()):
-                        broker.execute_manual_sell(ticker=t, reason="STREAMLIT_MANUAL_KILL_SWITCH")
+                        broker.execute_manual_sell(
+                            ticker=t, reason="STREAMLIT_MANUAL_KILL_SWITCH"
+                        )
                     st.toast("🛑 All open positions liquidated into cash!", icon="💰")
                     st.rerun()
 
     # Active Holdings Table with Individual Position Action Controls
-    st.markdown('<div class="section-badge">📦 Active Open Holdings (50/50 Scale-Out Model)</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">📦 Active Open Holdings (50/50 Scale-Out Model)</div>',
+        unsafe_allow_html=True,
+    )
     open_df = broker.get_open_positions_df()
     if not open_df.empty:
         st.dataframe(open_df, use_container_width=True, hide_index=True)
@@ -560,30 +744,56 @@ def render_portfolio_workspace():
                 btn_c1, btn_c2 = st.columns(2)
                 with btn_c1:
                     if not is_scld:
-                        if st.button(f"🎯 Scale 50%", key=f"scale_{sym}", use_container_width=True):
-                            broker.execute_manual_scale_out(ticker=sym, price=spot_price)
-                            st.toast(f"🎯 Scaled out 50% of {sym} @ ${spot_price:,.2f}!", icon="💰")
+                        if st.button(
+                            f"🎯 Scale 50%",
+                            key=f"scale_{sym}",
+                            use_container_width=True,
+                        ):
+                            broker.execute_manual_scale_out(
+                                ticker=sym, price=spot_price
+                            )
+                            st.toast(
+                                f"🎯 Scaled out 50% of {sym} @ ${spot_price:,.2f}!",
+                                icon="💰",
+                            )
                             st.rerun()
                     else:
                         st.caption("🛡️ Risk-Free Runner")
                 with btn_c2:
-                    if st.button(f"🛑 Exit 100%", key=f"close_{sym}", use_container_width=True):
-                        broker.execute_manual_sell(ticker=sym, price=spot_price, reason="STREAMLIT_POSITION_EXIT")
-                        st.toast(f"🛑 Closed {sym} @ ${spot_price:,.2f} into cash!", icon="💵")
+                    if st.button(
+                        f"🛑 Exit 100%", key=f"close_{sym}", use_container_width=True
+                    ):
+                        broker.execute_manual_sell(
+                            ticker=sym,
+                            price=spot_price,
+                            reason="STREAMLIT_POSITION_EXIT",
+                        )
+                        st.toast(
+                            f"🛑 Closed {sym} @ ${spot_price:,.2f} into cash!",
+                            icon="💵",
+                        )
                         st.rerun()
     else:
-        st.info("No open positions. Use the Quick Order Desk above to execute live trades or click 'Auto-Deploy'.")
+        st.info(
+            "No open positions. Use the Quick Order Desk above to execute live trades or click 'Auto-Deploy'."
+        )
 
     # Equity Curve & Closed Trades
     col_eq, col_jrnl = st.columns([1.5, 1.5])
     with col_eq:
-        st.markdown('<div class="section-badge">📈 Equity Growth Curve</div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="section-badge">📈 Equity Growth Curve</div>',
+            unsafe_allow_html=True,
+        )
         eq_df = broker.get_equity_curve_df()
         if not eq_df.empty and "total_equity" in eq_df.columns:
             st.line_chart(eq_df["total_equity"], use_container_width=True)
 
     with col_jrnl:
-        st.markdown('<div class="section-badge">📜 Closed Trade History Journal</div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="section-badge">📜 Closed Trade History Journal</div>',
+            unsafe_allow_html=True,
+        )
         closed_df = broker.get_closed_trades_df()
         if not closed_df.empty:
             st.dataframe(closed_df, use_container_width=True, hide_index=True)
@@ -593,33 +803,63 @@ def render_portfolio_workspace():
 # 📊 WORKSPACE 3: MULTI-ASSET FUND & RISK ANALYTICS
 # ==============================================================================
 def render_fund_and_risk():
-    st.markdown('<div class="section-badge">17-Asset Fund Allocation, Rebalancer & Stress Testing</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">17-Asset Fund Allocation, Rebalancer & Stress Testing</div>',
+        unsafe_allow_html=True,
+    )
 
     tab_fund, tab_var, tab_corr = st.tabs(
-        ["💼 Fund Allocation & Rebalancer", "🎲 Monte Carlo Stress Test & VaR", "🔗 17-Asset Correlation Matrix"]
+        [
+            "💼 Fund Allocation & Rebalancer",
+            "🎲 Monte Carlo Stress Test & VaR",
+            "🔗 17-Asset Correlation Matrix",
+        ]
     )
 
     with tab_fund:
         col_reb1, col_reb2 = st.columns([1, 2])
         with col_reb1:
             st.markdown("### 🧮 Custom Capital Share Calculator")
-            budget = st.number_input("Total Investment Budget ($)", min_value=1000.0, max_value=1000000.0, value=25000.0, step=1000.0)
-            model_type = st.selectbox("Allocation Model", ["Risk Parity (Inverse Vol)", "Equal Weight", "Conviction Weight"])
-            model_key = "risk_parity" if "Risk Parity" in model_type else ("equal_weight" if "Equal Weight" in model_type else "conviction")
+            budget = st.number_input(
+                "Total Investment Budget ($)",
+                min_value=1000.0,
+                max_value=1000000.0,
+                value=25000.0,
+                step=1000.0,
+            )
+            model_type = st.selectbox(
+                "Allocation Model",
+                ["Risk Parity (Inverse Vol)", "Equal Weight", "Conviction Weight"],
+            )
+            model_key = (
+                "risk_parity"
+                if "Risk Parity" in model_type
+                else ("equal_weight" if "Equal Weight" in model_type else "conviction")
+            )
             reb_res = calculate_custom_rebalance(total_capital=budget, method=model_key)
 
         with col_reb2:
             st.markdown(f"### 📋 Exact Whole-Share Buy Orders (${budget:,.2f})")
             if "allocation_table" in reb_res:
-                st.dataframe(pd.DataFrame(reb_res["allocation_table"]), use_container_width=True, hide_index=True)
+                st.dataframe(
+                    pd.DataFrame(reb_res["allocation_table"]),
+                    use_container_width=True,
+                    hide_index=True,
+                )
 
     with tab_var:
         st.markdown("### 🎲 Monte Carlo Forward Simulation & VaR")
-        st.caption("Simulates 1,000 future forward market paths to compute Value-at-Risk (VaR) and Expected Shortfall.")
+        st.caption(
+            "Simulates 1,000 future forward market paths to compute Value-at-Risk (VaR) and Expected Shortfall."
+        )
         if st.button("🚀 Run Monte Carlo Simulation", use_container_width=True):
             with st.spinner("Simulating 1,000 Geometric Brownian Motion paths..."):
-                sim_res = run_monte_carlo_var(initial_equity=100000.0, num_paths=1000, days=45)
-                st.success(f"95% Value-at-Risk: ${sim_res['var_95_dollar']:,.2f} ({sim_res['var_95_pct']:.2f}%) | Probability of Profit: {sim_res['prob_profit_pct']:.1f}%")
+                sim_res = run_monte_carlo_var(
+                    initial_equity=100000.0, num_paths=1000, days=45
+                )
+                st.success(
+                    f"95% Value-at-Risk: ${sim_res['var_95_dollar']:,.2f} ({sim_res['var_95_pct']:.2f}%) | Probability of Profit: {sim_res['prob_profit_pct']:.1f}%"
+                )
 
     with tab_corr:
         st.markdown("### 🔗 17-Asset Cross-Correlation Heatmap")
@@ -632,17 +872,39 @@ def render_fund_and_risk():
 # 🔬 WORKSPACE 4: QUANTITATIVE RESEARCH & DISCORD BOT
 # ==============================================================================
 def render_research_workspace(ticker: str):
-    st.markdown('<div class="section-badge">Quantitative Sandbox & Interactive Bot Console</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">Quantitative Sandbox & Interactive Bot Console</div>',
+        unsafe_allow_html=True,
+    )
 
-    tab_sand, tab_bot = st.tabs(["⚙️ Strategy Optimizer & Sandbox", "🤖 Interactive Discord AI Bot Console"])
+    tab_sand, tab_bot = st.tabs(
+        ["⚙️ Strategy Optimizer & Sandbox", "🤖 Interactive Discord AI Bot Console"]
+    )
 
     with tab_sand:
         col_ctrl, col_chart = st.columns([1, 2])
         with col_ctrl:
             st.markdown("### ⚙️ Strategy Sandbox Controls")
-            lev = st.slider("Account Leverage", min_value=1.0, max_value=2.0, value=1.0, step=0.1)
-            conf_thresh = st.slider("Confidence Filter (%)", min_value=50, max_value=75, value=55, step=5) / 100.0
-            tp_mult = st.slider("Take-Profit ATR Multiplier", min_value=1.5, max_value=4.5, value=2.5, step=0.5)
+            lev = st.slider(
+                "Account Leverage", min_value=1.0, max_value=2.0, value=1.0, step=0.1
+            )
+            conf_thresh = (
+                st.slider(
+                    "Confidence Filter (%)",
+                    min_value=50,
+                    max_value=75,
+                    value=55,
+                    step=5,
+                )
+                / 100.0
+            )
+            tp_mult = st.slider(
+                "Take-Profit ATR Multiplier",
+                min_value=1.5,
+                max_value=4.5,
+                value=2.5,
+                step=0.5,
+            )
 
         with col_chart:
             st.markdown(f"### 📈 Live Strategy Sandbox Simulation ({ticker})")
@@ -655,7 +917,11 @@ def render_research_workspace(ticker: str):
             if "total_return_pct" in res:
                 k1, k2, k3 = st.columns(3)
                 with k1:
-                    st.metric("Strategy Return", f"{res['total_return_pct']:+.2f}%", f"Benchmark: {res['benchmark_return_pct']:+.1f}%")
+                    st.metric(
+                        "Strategy Return",
+                        f"{res['total_return_pct']:+.2f}%",
+                        f"Benchmark: {res['benchmark_return_pct']:+.1f}%",
+                    )
                 with k2:
                     st.metric("Sharpe Ratio", f"{res['sharpe_ratio']:.2f}")
                 with k3:
@@ -666,11 +932,17 @@ def render_research_workspace(ticker: str):
 
     with tab_bot:
         st.markdown("### 🤖 Interactive Discord AI Bot Console")
-        st.caption("Test slash commands live from your browser before or alongside mobile Discord execution.")
+        st.caption(
+            "Test slash commands live from your browser before or alongside mobile Discord execution."
+        )
 
         col_cmd, col_exec = st.columns([2, 1])
         with col_cmd:
-            user_cmd = st.text_input("Discord Command", value=f"/signal {ticker}", placeholder="/signal AMD, /portfolio, /execute, /var")
+            user_cmd = st.text_input(
+                "Discord Command",
+                value=f"/signal {ticker}",
+                placeholder="/signal AMD, /portfolio, /execute, /var",
+            )
         with col_exec:
             st.write("")
             st.write("")
@@ -693,7 +965,10 @@ def render_research_workspace(ticker: str):
 # 🕸️ WORKSPACE 5: STATISTICAL ARBITRAGE & COINTEGRATION PAIRS DESK
 # ==============================================================================
 def render_statarb_workspace():
-    st.markdown('<div class="section-badge">Statistical Arbitrage & Cointegration Pairs Trading Engine</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">Statistical Arbitrage & Cointegration Pairs Trading Engine</div>',
+        unsafe_allow_html=True,
+    )
 
     st.markdown(
         """
@@ -722,11 +997,17 @@ def render_statarb_workspace():
 
     col_ctrl1, col_ctrl2, col_ctrl3 = st.columns([1.5, 1, 1])
     with col_ctrl1:
-        selected_pair_str = st.selectbox("Select Cointegrated Pair", preset_pairs, index=0)
+        selected_pair_str = st.selectbox(
+            "Select Cointegrated Pair", preset_pairs, index=0
+        )
     with col_ctrl2:
-        lookback_window = st.slider("Z-Score Window (Days)", min_value=10, max_value=60, value=30, step=5)
+        lookback_window = st.slider(
+            "Z-Score Window (Days)", min_value=10, max_value=60, value=30, step=5
+        )
     with col_ctrl3:
-        z_threshold = st.slider("Entry Z-Threshold (σ)", min_value=1.0, max_value=3.0, value=2.0, step=0.25)
+        z_threshold = st.slider(
+            "Entry Z-Threshold (σ)", min_value=1.0, max_value=3.0, value=2.0, step=0.25
+        )
 
     # Robust parsing of "TICKER_A / TICKER_B (Description)"
     pair_part = selected_pair_str.split("(")[0].strip()
@@ -736,13 +1017,19 @@ def render_statarb_workspace():
 
     try:
         from src.data_ingestion import get_price_history
+
         hist_a = get_price_history(ticker_a, period="2y", use_cache=True)
         hist_b = get_price_history(ticker_b, period="2y", use_cache=True)
         series_a = hist_a["Close"]
         series_b = hist_b["Close"]
 
         pair_data = generate_pairs_trading_signals(
-            series_a, series_b, ticker_a, ticker_b, window=lookback_window, entry_z=z_threshold
+            series_a,
+            series_b,
+            ticker_a,
+            ticker_b,
+            window=lookback_window,
+            entry_z=z_threshold,
         )
 
         m1, m2, m3, m4 = st.columns(4)
@@ -810,17 +1097,34 @@ def render_statarb_workspace():
 
         # Plotly Z-Score Spread
         import plotly.graph_objects as go
+
         z_df = pd.DataFrame({"Z": pair_data["zscore_series"]}).dropna().tail(180)
 
         fig = go.Figure()
-        fig.add_trace(go.Scatter(
-            x=z_df.index, y=z_df["Z"],
-            mode="lines", name="Spread Z-Score",
-            line=dict(color="#00D4AA", width=2)
-        ))
-        fig.add_hline(y=z_threshold, line=dict(color="#EF4444", dash="dash", width=1.5), annotation_text=f"Overbought (+{z_threshold}σ)")
-        fig.add_hline(y=-z_threshold, line=dict(color="#10B981", dash="dash", width=1.5), annotation_text=f"Oversold (-{z_threshold}σ)")
-        fig.add_hline(y=0.0, line=dict(color="rgba(148, 163, 184, 0.4)", width=1), annotation_text="Equilibrium (0.0)")
+        fig.add_trace(
+            go.Scatter(
+                x=z_df.index,
+                y=z_df["Z"],
+                mode="lines",
+                name="Spread Z-Score",
+                line=dict(color="#00D4AA", width=2),
+            )
+        )
+        fig.add_hline(
+            y=z_threshold,
+            line=dict(color="#EF4444", dash="dash", width=1.5),
+            annotation_text=f"Overbought (+{z_threshold}σ)",
+        )
+        fig.add_hline(
+            y=-z_threshold,
+            line=dict(color="#10B981", dash="dash", width=1.5),
+            annotation_text=f"Oversold (-{z_threshold}σ)",
+        )
+        fig.add_hline(
+            y=0.0,
+            line=dict(color="rgba(148, 163, 184, 0.4)", width=1),
+            annotation_text="Equilibrium (0.0)",
+        )
 
         fig.update_layout(
             title=f"<b>{ticker_a} vs {ticker_b}</b> — Rolling Standardized Spread Z-Score",
@@ -834,22 +1138,28 @@ def render_statarb_workspace():
 
         # Backtest Summary
         st.markdown("#### 📈 Historical Statistical Arbitrage Backtest")
-        bt_res = backtest_pairs_strategy(series_a, series_b, window=lookback_window, entry_z=z_threshold)
+        bt_res = backtest_pairs_strategy(
+            series_a, series_b, window=lookback_window, entry_z=z_threshold
+        )
 
         bc1, bc2, bc3, bc4 = st.columns(4)
         bc1.metric("Strategy Return", f"{bt_res['total_return']:+.2f}%")
         bc2.metric("Sharpe Ratio", f"{bt_res['sharpe_ratio']:.2f}")
         bc3.metric("Max Drawdown", f"{bt_res['max_drawdown']:.2f}%")
-        bc4.metric("Win Rate", f"{bt_res['win_rate']:.1f}% ({bt_res['total_trades']} Trades)")
+        bc4.metric(
+            "Win Rate", f"{bt_res['win_rate']:.1f}% ({bt_res['total_trades']} Trades)"
+        )
 
         eq_fig = go.Figure()
-        eq_fig.add_trace(go.Scatter(
-            x=bt_res["equity_curve"].index,
-            y=bt_res["equity_curve"].values,
-            mode="lines",
-            name="Pair Equity Curve ($)",
-            line=dict(color="#3B82F6", width=2)
-        ))
+        eq_fig.add_trace(
+            go.Scatter(
+                x=bt_res["equity_curve"].index,
+                y=bt_res["equity_curve"].values,
+                mode="lines",
+                name="Pair Equity Curve ($)",
+                line=dict(color="#3B82F6", width=2),
+            )
+        )
         eq_fig.update_layout(
             title=f"<b>${bt_res['final_equity']:,.2f}</b> — Cumulative Equity Growth ($100k Capital)",
             template="plotly_dark",
@@ -868,14 +1178,26 @@ def render_statarb_workspace():
 # 🎯 WORKSPACE 6: OPTIONS MICROSTRUCTURE & MAX PAIN RADAR
 # ==============================================================================
 def render_options_workspace(ticker: str):
-    st.markdown('<div class="section-badge">Options Microstructure, Gamma Exposure (GEX) & Expiration Pinning</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">Options Microstructure, Gamma Exposure (GEX) & Expiration Pinning</div>',
+        unsafe_allow_html=True,
+    )
 
     with st.spinner(f"Fetching Live Option Chain for {ticker}..."):
         chain = fetch_option_chain(ticker)
         max_pain, loss_df = calculate_max_pain(chain["calls_df"], chain["puts_df"])
         pcr = calculate_put_call_ratios(chain["calls_df"], chain["puts_df"])
-        gex = estimate_gamma_exposure(chain["calls_df"], chain["puts_df"], chain["spot_price"])
-        spreads = recommend_option_spreads(ticker, "BUY", chain["spot_price"], max_pain, chain["calls_df"], chain["puts_df"])
+        gex = estimate_gamma_exposure(
+            chain["calls_df"], chain["puts_df"], chain["spot_price"]
+        )
+        spreads = recommend_option_spreads(
+            ticker,
+            "BUY",
+            chain["spot_price"],
+            max_pain,
+            chain["calls_df"],
+            chain["puts_df"],
+        )
 
     spot = chain["spot_price"]
     dist_to_pain = ((max_pain - spot) / spot) * 100.0
@@ -939,12 +1261,34 @@ def render_options_workspace(ticker: str):
         p_df = chain["puts_df"]
         fig_oi = go.Figure()
         if not c_df.empty and "strike" in c_df.columns:
-            fig_oi.add_trace(go.Bar(x=c_df["strike"], y=c_df["openInterest"], name="Call OI", marker_color="#10B981"))
+            fig_oi.add_trace(
+                go.Bar(
+                    x=c_df["strike"],
+                    y=c_df["openInterest"],
+                    name="Call OI",
+                    marker_color="#10B981",
+                )
+            )
         if not p_df.empty and "strike" in p_df.columns:
-            fig_oi.add_trace(go.Bar(x=p_df["strike"], y=p_df["openInterest"], name="Put OI", marker_color="#EF4444"))
+            fig_oi.add_trace(
+                go.Bar(
+                    x=p_df["strike"],
+                    y=p_df["openInterest"],
+                    name="Put OI",
+                    marker_color="#EF4444",
+                )
+            )
 
-        fig_oi.add_vline(x=max_pain, line=dict(color="#F59E0B", dash="dash", width=2), annotation_text=f"Max Pain (${max_pain:.0f})")
-        fig_oi.add_vline(x=spot, line=dict(color="#00D4AA", width=2), annotation_text=f"Spot (${spot:.0f})")
+        fig_oi.add_vline(
+            x=max_pain,
+            line=dict(color="#F59E0B", dash="dash", width=2),
+            annotation_text=f"Max Pain (${max_pain:.0f})",
+        )
+        fig_oi.add_vline(
+            x=spot,
+            line=dict(color="#00D4AA", width=2),
+            annotation_text=f"Spot (${spot:.0f})",
+        )
 
         fig_oi.update_layout(
             title=f"<b>{ticker}</b> — Open Interest Distribution by Strike",
@@ -961,13 +1305,22 @@ def render_options_workspace(ticker: str):
         # Max Pain Loss Curve
         fig_loss = go.Figure()
         if not loss_df.empty:
-            fig_loss.add_trace(go.Scatter(
-                x=loss_df["strike"], y=loss_df["total_loss"] / 1e6,
-                mode="lines", name="Total Payout ($M)",
-                line=dict(color="#F59E0B", width=2.5),
-                fill="tozeroy", fillcolor="rgba(245, 158, 11, 0.1)"
-            ))
-            fig_loss.add_vline(x=max_pain, line=dict(color="#00D4AA", dash="dot", width=2), annotation_text=f"Min Loss (${max_pain:.0f})")
+            fig_loss.add_trace(
+                go.Scatter(
+                    x=loss_df["strike"],
+                    y=loss_df["total_loss"] / 1e6,
+                    mode="lines",
+                    name="Total Payout ($M)",
+                    line=dict(color="#F59E0B", width=2.5),
+                    fill="tozeroy",
+                    fillcolor="rgba(245, 158, 11, 0.1)",
+                )
+            )
+            fig_loss.add_vline(
+                x=max_pain,
+                line=dict(color="#00D4AA", dash="dot", width=2),
+                annotation_text=f"Min Loss (${max_pain:.0f})",
+            )
 
         fig_loss.update_layout(
             title=f"<b>{ticker}</b> — Expiration Total Option Payout Loss Curve ($ Millions)",
@@ -1009,14 +1362,19 @@ def render_options_workspace(ticker: str):
 # 💎 WORKSPACE 7: FUNDAMENTALS & FORENSIC ACCOUNTING (PIOTROSKI & DCF)
 # ==============================================================================
 def render_fundamentals_workspace(ticker: str):
-    st.markdown('<div class="section-badge">Piotroski 9-Point F-Score, Altman Z-Score & DCF Fair Value Matrix</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">Piotroski 9-Point F-Score, Altman Z-Score & DCF Fair Value Matrix</div>',
+        unsafe_allow_html=True,
+    )
 
     with st.spinner(f"Analyzing Balance Sheet & DCF Cash Flows for {ticker}..."):
         fin_data = fetch_financial_statements(ticker)
         f_res = calculate_piotroski_f_score(ticker, fin_data)
         z_res = calculate_altman_z_score(ticker, fin_data)
         dcf_res = calculate_dcf_fair_value(ticker, fin_data)
-        radar_metrics = generate_spider_radar_profile(ticker, 0.76, f_res, z_res, dcf_res)
+        radar_metrics = generate_spider_radar_profile(
+            ticker, 0.76, f_res, z_res, dcf_res
+        )
 
     # Metrics
     f1, f2, f3, f4 = st.columns(4)
@@ -1070,6 +1428,7 @@ def render_fundamentals_workspace(ticker: str):
 
     # Plotly Spider/Radar Chart & Piotroski Checklist
     import plotly.graph_objects as go
+
     r_col1, r_col2 = st.columns([1.2, 1.8])
 
     with r_col1:
@@ -1081,18 +1440,20 @@ def render_fundamentals_workspace(ticker: str):
         values_closed = values + [values[0]]
 
         fig_radar = go.Figure()
-        fig_radar.add_trace(go.Scatterpolar(
-            r=values_closed,
-            theta=categories_closed,
-            fill="toself",
-            fillcolor="rgba(0, 212, 170, 0.25)",
-            line=dict(color="#00D4AA", width=2),
-            name="Asset Profile"
-        ))
+        fig_radar.add_trace(
+            go.Scatterpolar(
+                r=values_closed,
+                theta=categories_closed,
+                fill="toself",
+                fillcolor="rgba(0, 212, 170, 0.25)",
+                line=dict(color="#00D4AA", width=2),
+                name="Asset Profile",
+            )
+        )
         fig_radar.update_layout(
             polar=dict(
                 radialaxis=dict(visible=True, range=[0, 100], color="#64748B"),
-                angularaxis=dict(color="#94A3B8")
+                angularaxis=dict(color="#94A3B8"),
             ),
             template="plotly_dark",
             height=340,
@@ -1132,7 +1493,10 @@ def render_fundamentals_workspace(ticker: str):
 # 🌪️ WORKSPACE 8: BLACK SWAN CRISIS SIMULATOR & KELLY POSITION SIZING
 # ==============================================================================
 def render_black_swan_workspace():
-    st.markdown('<div class="section-badge">Historical Black Swan Crisis Stress-Testing & Kelly Sizing</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">Historical Black Swan Crisis Stress-Testing & Kelly Sizing</div>',
+        unsafe_allow_html=True,
+    )
 
     broker = PaperBroker()
     total_eq = float(broker.state.get("total_equity", 100000.0))
@@ -1142,9 +1506,16 @@ def render_black_swan_workspace():
     positions_dict = {}
     if open_pos:
         for sym, p in open_pos.items():
-            positions_dict[sym] = float(p.get("shares", 0) * p.get("entry_price", 100.0))
+            positions_dict[sym] = float(
+                p.get("shares", 0) * p.get("entry_price", 100.0)
+            )
     else:
-        positions_dict = {"NVDA": 35000.0, "AAPL": 25000.0, "MSFT": 20000.0, "TSM": 10000.0}
+        positions_dict = {
+            "NVDA": 35000.0,
+            "AAPL": 25000.0,
+            "MSFT": 20000.0,
+            "TSM": 10000.0,
+        }
 
     crisis_results = simulate_portfolio_crises(positions_dict, total_equity=total_eq)
     kelly_res = calculate_kelly_sizing(win_rate=0.56, win_loss_ratio=1.45)
@@ -1200,17 +1571,21 @@ def render_black_swan_workspace():
 
     # Crisis Comparison Chart
     import plotly.graph_objects as go
+
     c_names = [r["crisis_name"] for r in crisis_results]
     c_drawdowns = [r["portfolio_drawdown_pct"] for r in crisis_results]
     c_losses = [r["projected_dollar_loss"] for r in crisis_results]
 
     fig_cr = go.Figure()
-    fig_cr.add_trace(go.Bar(
-        x=c_names, y=c_drawdowns,
-        text=[f"-{d:.1f}% (${l:,.0f})" for d, l in zip(c_drawdowns, c_losses)],
-        textposition="auto",
-        marker_color=["#EF4444", "#F59E0B", "#EF4444", "#DC2626", "#3B82F6"]
-    ))
+    fig_cr.add_trace(
+        go.Bar(
+            x=c_names,
+            y=c_drawdowns,
+            text=[f"-{d:.1f}% (${l:,.0f})" for d, l in zip(c_drawdowns, c_losses)],
+            textposition="auto",
+            marker_color=["#EF4444", "#F59E0B", "#EF4444", "#DC2626", "#3B82F6"],
+        )
+    )
     fig_cr.update_layout(
         title="<b>Historical Crisis Replay</b> — Simulated Portfolio Drawdowns (%)",
         template="plotly_dark",
@@ -1224,16 +1599,23 @@ def render_black_swan_workspace():
     # Detailed Table
     st.markdown("#### 📜 Crisis Catalysts & Liquidity Breakdown")
     for r in crisis_results:
-        with st.expander(f"🔴 {r['crisis_name']} ({r['date_range']}) — Projected Loss: ${r['projected_dollar_loss']:,.2f} (-{r['portfolio_drawdown_pct']:.1f}%)"):
+        with st.expander(
+            f"🔴 {r['crisis_name']} ({r['date_range']}) — Projected Loss: ${r['projected_dollar_loss']:,.2f} (-{r['portfolio_drawdown_pct']:.1f}%)"
+        ):
             st.markdown(f"**Catalyst**: {r['catalyst']}")
-            st.markdown(f"**VIX Peak**: `{r['vix_peak']:.2f}` &nbsp;|&nbsp; **Simulated Remaining Equity**: `${r['simulated_equity_after']:,.2f}`")
+            st.markdown(
+                f"**VIX Peak**: `{r['vix_peak']:.2f}` &nbsp;|&nbsp; **Simulated Remaining Equity**: `${r['simulated_equity_after']:,.2f}`"
+            )
 
 
 # ==============================================================================
 # 🧠 WORKSPACE 9: ADVANCED AI, GNN & DEEP ALPHA LAB (PILLAR 1)
 # ==============================================================================
 def render_ai_deep_alpha_workspace(ticker: str):
-    st.markdown('<div class="section-badge">Pillar 1: Temporal Fusion Transformer, GNN Supply Chains & PPO Allocation</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">Pillar 1: Temporal Fusion Transformer, GNN Supply Chains & PPO Allocation</div>',
+        unsafe_allow_html=True,
+    )
 
     col_a1, col_a2 = st.columns([1.5, 1])
 
@@ -1243,12 +1625,19 @@ def render_ai_deep_alpha_workspace(ticker: str):
         curr_p = float(quote.get("price", 150.0))
 
         with st.spinner("Running Multi-Head Self-Attention & Variable Selection..."):
-            dummy_df = pd.DataFrame(np.random.randn(30, 6), columns=[f"feat_{i}" for i in range(6)])
+            dummy_df = pd.DataFrame(
+                np.random.randn(30, 6), columns=[f"feat_{i}" for i in range(6)]
+            )
             tft_forecast = run_temporal_fusion_forecast(ticker, dummy_df, curr_p)
 
         # Multi-Horizon Cards
         h_cols = st.columns(4)
-        h_names = [("1_day", "1-Day Ahead"), ("5_days", "5-Days Ahead"), ("10_days", "10-Days Ahead"), ("21_days", "21-Days Ahead")]
+        h_names = [
+            ("1_day", "1-Day Ahead"),
+            ("5_days", "5-Days Ahead"),
+            ("10_days", "10-Days Ahead"),
+            ("21_days", "21-Days Ahead"),
+        ]
         for idx, (k_h, label) in enumerate(h_names):
             data_h = tft_forecast["horizons"][k_h]
             with h_cols[idx]:
@@ -1267,15 +1656,20 @@ def render_ai_deep_alpha_workspace(ticker: str):
 
         # Plotly Temporal Attention Curve
         import plotly.graph_objects as go
+
         attn_w = tft_forecast["temporal_attention_weights"]
         fig_attn = go.Figure()
-        fig_attn.add_trace(go.Scatter(
-            x=list(range(len(attn_w))), y=attn_w,
-            mode="lines+markers",
-            name="Attention Weight",
-            line=dict(color="#7C3AED", width=2.5),
-            fill="tozeroy", fillcolor="rgba(124, 58, 237, 0.15)"
-        ))
+        fig_attn.add_trace(
+            go.Scatter(
+                x=list(range(len(attn_w))),
+                y=attn_w,
+                mode="lines+markers",
+                name="Attention Weight",
+                line=dict(color="#7C3AED", width=2.5),
+                fill="tozeroy",
+                fillcolor="rgba(124, 58, 237, 0.15)",
+            )
+        )
         fig_attn.update_layout(
             title=f"<b>{ticker}</b> — Multi-Head Temporal Self-Attention Distribution (30-Day Lookback)",
             template="plotly_dark",
@@ -1288,7 +1682,11 @@ def render_ai_deep_alpha_workspace(ticker: str):
 
     with col_a2:
         st.markdown("#### 🤖 Deep Reinforcement Learning (PPO) Allocation")
-        rl_res = optimize_rl_position_allocation(ticker, recent_returns=[0.015, -0.008, 0.022, 0.011, 0.005], ai_confidence=0.78)
+        rl_res = optimize_rl_position_allocation(
+            ticker,
+            recent_returns=[0.015, -0.008, 0.022, 0.011, 0.005],
+            ai_confidence=0.78,
+        )
 
         st.markdown(
             f"""
@@ -1335,10 +1733,20 @@ def render_ai_deep_alpha_workspace(ticker: str):
     st.markdown("---")
     st.markdown("#### 🕸️ Graph Neural Network (GCN) Supply Chain Shock Propagation")
 
-    src_node = st.selectbox("Select Upstream Shock Origin", ["TSM", "NVDA", "AVGO", "AAPL", "MSFT"], index=0)
-    shock_amt = st.slider("Supply Disruption Magnitude (%)", min_value=-15.0, max_value=-1.0, value=-5.0, step=1.0)
+    src_node = st.selectbox(
+        "Select Upstream Shock Origin", ["TSM", "NVDA", "AVGO", "AAPL", "MSFT"], index=0
+    )
+    shock_amt = st.slider(
+        "Supply Disruption Magnitude (%)",
+        min_value=-15.0,
+        max_value=-1.0,
+        value=-5.0,
+        step=1.0,
+    )
 
-    gnn_res = analyze_supply_chain_spillover(origin_ticker=src_node, shock_pct=shock_amt)
+    gnn_res = analyze_supply_chain_spillover(
+        origin_ticker=src_node, shock_pct=shock_amt
+    )
     downstream = gnn_res["downstream_impacts"]
 
     gnn_cols = st.columns(min(4, max(1, len(downstream))))
@@ -1361,7 +1769,10 @@ def render_ai_deep_alpha_workspace(ticker: str):
 # 📰 WORKSPACE 10: ALTERNATIVE DATA & INTELLIGENCE RADAR (PILLAR 2)
 # ==============================================================================
 def render_alternative_data_workspace(ticker: str):
-    st.markdown('<div class="section-badge">Pillar 2: SEC 10-K Diffs, Earnings Calls, Social Buzz, Insiders & Patents</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="section-badge">Pillar 2: SEC 10-K Diffs, Earnings Calls, Social Buzz, Insiders & Patents</div>',
+        unsafe_allow_html=True,
+    )
 
     sec_res = analyze_sec_filing_diff(ticker)
     earn_res = analyze_earnings_call_transcript(ticker)
@@ -1434,7 +1845,9 @@ def render_alternative_data_workspace(ticker: str):
             unsafe_allow_html=True,
         )
         for ins in smart_res["recent_insider_filings"][:2]:
-            st.markdown(f"• **{ins['insider_name']}** ({ins['title']}): `{ins['transaction_type']}` {ins['shares']:,} shares @ ${ins['price']:.2f}")
+            st.markdown(
+                f"• **{ins['insider_name']}** ({ins['title']}): `{ins['transaction_type']}` {ins['shares']:,} shares @ ${ins['price']:.2f}"
+            )
 
     with col_d2:
         st.markdown("#### 🛡️ Federal Contracts & USPTO AI Patent Pipeline")
@@ -1452,7 +1865,9 @@ def render_alternative_data_workspace(ticker: str):
             unsafe_allow_html=True,
         )
         for ct in gov_res["recent_contracts"][:2]:
-            st.markdown(f"• **{ct['agency']}**: `{ct['program']}` — **${ct['award_value']:,.0f}**")
+            st.markdown(
+                f"• **{ct['agency']}**: `{ct['program']}` — **${ct['award_value']:,.0f}**"
+            )
 
 
 # ==============================================================================
@@ -1525,7 +1940,15 @@ def main():
 
         # 4. Live US & India Market Hours Clock Widget
         mkt = get_us_market_session_info()
-        status_badge_color = "#10B981" if mkt["is_open_for_trading"] else ("#38BDF8" if "PRE" in mkt["status"] or "AFTER" in mkt["status"] else "#F59E0B")
+        status_badge_color = (
+            "#10B981"
+            if mkt["is_open_for_trading"]
+            else (
+                "#38BDF8"
+                if "PRE" in mkt["status"] or "AFTER" in mkt["status"]
+                else "#F59E0B"
+            )
+        )
         st.markdown(
             f"""
             <div class="glass-card" style="padding: 0.8rem; font-size: 0.8rem; border-left: 3px solid {status_badge_color};">
@@ -1549,7 +1972,15 @@ def main():
 
     # --- Top Luxury Header ---
     mkt_info = get_us_market_session_info()
-    header_status_color = "#10B981" if mkt_info["is_open_for_trading"] else ("#38BDF8" if "PRE" in mkt_info["status"] or "AFTER" in mkt_info["status"] else "#F59E0B")
+    header_status_color = (
+        "#10B981"
+        if mkt_info["is_open_for_trading"]
+        else (
+            "#38BDF8"
+            if "PRE" in mkt_info["status"] or "AFTER" in mkt_info["status"]
+            else "#F59E0B"
+        )
+    )
     st.markdown(
         f"""
         <div class="luxury-header">
