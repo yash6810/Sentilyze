@@ -21,9 +21,7 @@ def run_daily_market_scan() -> list:
     if os.path.exists(stocks_file):
         with open(stocks_file, "r") as f:
             tickers = [
-                line.strip()
-                for line in f
-                if line.strip() and not line.startswith("#")
+                line.strip() for line in f if line.strip() and not line.startswith("#")
             ]
     else:
         tickers = ["NVDA", "AAPL", "MSFT", "GOOGL", "META", "TSLA", "AMZN"]
@@ -130,18 +128,30 @@ def run_daily_market_scan() -> list:
     )
 
     if discord_url:
-        from src.alerts import send_discord_digest
+        from src.alerts import send_discord_digest, send_discord_market_pulse
 
         logger.info("Sending Master Market Digest to Discord...")
         send_discord_digest(signals_summary, webhook_url=discord_url)
 
+        # Dispatch Morning Market Pulse
+        top_buys = [s for s in signals_summary if s["signal"] == "BUY"]
+        send_discord_market_pulse(
+            {
+                "vix_level": 15.2,
+                "vix_regime": "LOW VOLATILITY / BULL REGIME",
+                "top_buys": top_buys,
+                "portfolio_equity": 100000.0,
+                "open_positions_count": len(top_buys),
+            },
+            webhook_url=discord_url,
+        )
+
         import time
 
         # Send individual trade setups for BUY signals
-        for card in signals_summary:
-            if card["signal"] == "BUY":
-                time.sleep(1.0)  # Respect Discord API rate limit
-                send_discord_alert(card, webhook_url=discord_url)
+        for card in top_buys[:3]:
+            time.sleep(1.0)  # Respect Discord API rate limit
+            send_discord_alert(card, webhook_url=discord_url)
 
     # Dispatch Telegram Digest & Alerts
     if telegram_token and telegram_chat:

@@ -52,13 +52,6 @@ def send_discord_alert(
 ) -> bool:
     """
     Sends a rich formatted trade alert card to a Discord channel via Webhook.
-
-    Args:
-        alert_payload (Dict[str, Any]): Trade alert data.
-        webhook_url (str, optional): Discord Webhook URL. If None, reads DISCORD_WEBHOOK_URL from env.
-
-    Returns:
-        bool: True if message sent successfully, False otherwise.
     """
     url = webhook_url or os.getenv("DISCORD_WEBHOOK_URL")
     if not url:
@@ -71,25 +64,25 @@ def send_discord_alert(
 
     feature_lines = "\n".join(
         [
-            f"• **{f.get('feature', 'Feature')}**: {f.get('importance', 0):+.3f} contribution"
+            f"• **{f.get('feature', 'Feature')}**: `{f.get('importance', 0):+.3f}` contribution"
             for f in alert_payload.get("top_features", [])[:3]
         ]
     )
 
     fields = [
         {
-            "name": "Confidence",
-            "value": f"**{alert_payload['confidence'] * 100:.1f}%**",
+            "name": "🎯 Signal & Confidence",
+            "value": f"**{alert_payload['signal']}** ({alert_payload['confidence'] * 100:.1f}%)",
             "inline": True,
         },
         {
-            "name": "Current Price",
-            "value": f"${alert_payload['current_price']:.2f}",
+            "name": "💵 Market Price",
+            "value": f"**${alert_payload['current_price']:.2f}**",
             "inline": True,
         },
         {
-            "name": "ATR Stop-Loss",
-            "value": f"${alert_payload['stop_loss']:.2f}",
+            "name": "🛡️ Stop-Loss (Risk Floor)",
+            "value": f"`${alert_payload['stop_loss']:.2f}`",
             "inline": True,
         },
     ]
@@ -106,24 +99,26 @@ def send_discord_alert(
     fields.extend(
         [
             {
-                "name": "Macro Regime",
-                "value": alert_payload["regime"],
+                "name": "📊 Macro Regime",
+                "value": f"`{alert_payload['regime']}`",
                 "inline": False,
             },
             {
-                "name": "Key SHAP AI Drivers",
-                "value": feature_lines or "N/A",
+                "name": "🧠 Key AI Feature Drivers (SHAP)",
+                "value": feature_lines or "Standard Walk-Forward Features",
                 "inline": False,
             },
         ]
     )
 
     embed = {
-        "title": f"{emoji} {alert_payload['ticker']} Algorithmic Signal",
-        "description": f"**Sentilyze AI Signal Engine** has detected a high-conviction trade setup.",
+        "title": f"{emoji} {alert_payload['ticker']} Algorithmic Conviction Signal",
+        "description": f"**Sentilyze AI Quantitative Engine** has detected an institutional alpha setup for **{alert_payload['ticker']}**.",
         "color": color,
         "fields": fields,
-        "footer": {"text": f"Sentilyze MLOps • {alert_payload['timestamp']}"},
+        "footer": {
+            "text": f"Sentilyze Institutional MLOps Wire • {alert_payload.get('timestamp', datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC'))}"
+        },
     }
 
     try:
@@ -144,6 +139,327 @@ def send_discord_alert(
             )
     except Exception as e:
         logger.error(f"Error sending Discord alert: {e}")
+        return False
+
+
+def send_discord_execution_alert(
+    trade_data: Dict[str, Any], webhook_url: Optional[str] = None
+) -> bool:
+    """
+    Dispatches a high-impact Discord card for live autonomous trade lifecycle events:
+    - BUY Entry with Kelly sizing
+    - TP1 Hit (+2.5 ATR): 50% Profit Locked & Stop trailed to Breakeven
+    - TP2 Hit (+4.5 ATR): Full Profit Realized
+    - Stop-Loss / Emergency Exit
+    """
+    url = webhook_url or os.getenv("DISCORD_WEBHOOK_URL")
+    if not url:
+        return False
+
+    action = trade_data.get("action", "BUY").upper()
+    ticker = trade_data.get("ticker", "ASSET")
+    price = trade_data.get("price", 0.0)
+    shares = trade_data.get("shares", 0)
+    stage = trade_data.get("stage", "ENTRY")
+
+    if action == "BUY":
+        color = 0x10B981  # Emerald Green
+        title = f"🤖 [AUTONOMOUS BUY EXECUTION] {ticker} Filled @ ${price:.2f}"
+        desc = (
+            f"**Autonomous Buying Agent** has entered **{shares:,} shares** of **{ticker}** "
+            f"via Kelly Criterion Allocation (`{trade_data.get('kelly_pct', 8.0):.1f}%` of portfolio)."
+        )
+        fields = [
+            {
+                "name": "💵 Entry Price",
+                "value": f"**${price:.2f}**",
+                "inline": True,
+            },
+            {
+                "name": "📦 Order Size",
+                "value": f"**{shares:,} shares** (${price * shares:,.2f})",
+                "inline": True,
+            },
+            {
+                "name": "🎯 Take-Profit 1 (+2.5 ATR)",
+                "value": f"`${trade_data.get('tp1', price * 1.06):.2f}` *(50% Profit Lock)*",
+                "inline": False,
+            },
+            {
+                "name": "🚀 Take-Profit 2 (+4.5 ATR)",
+                "value": f"`${trade_data.get('tp2', price * 1.12):.2f}` *(Remaining Runner)*",
+                "inline": True,
+            },
+            {
+                "name": "🛡️ Protective Stop-Loss",
+                "value": f"`${trade_data.get('stop_loss', price * 0.965):.2f}`",
+                "inline": True,
+            },
+        ]
+    elif "TP1" in stage:
+        color = 0xF59E0B  # Amber Gold
+        title = f"🎯 [TAKE-PROFIT 1 HIT] {ticker} +50% Profit Banked!"
+        desc = (
+            f"**Autonomous Selling Agent** has locked in **+50% of the position** at **${price:.2f}**.\n"
+            f"🛡️ **Risk-Free Update**: Stop-Loss automatically trailed to **Breakeven (${trade_data.get('entry_price', price):.2f})**! Trade is now completely risk-free."
+        )
+        fields = [
+            {
+                "name": "💰 Realized Cash Profit",
+                "value": f"**+${trade_data.get('realized_pnl', 0.0):,.2f}**",
+                "inline": True,
+            },
+            {
+                "name": "📈 Exit Price",
+                "value": f"${price:.2f}",
+                "inline": True,
+            },
+            {
+                "name": "🏃 Remaining Runner",
+                "value": f"**{shares:,} shares** targeting TP2 (`${trade_data.get('tp2', 0.0):.2f}`)",
+                "inline": False,
+            },
+        ]
+    elif "TP2" in stage:
+        color = 0x8B5CF6  # Royal Purple
+        title = f"🚀 [TAKE-PROFIT 2 MAX RUNNER] {ticker} Full Profit Realized!"
+        desc = f"**Autonomous Selling Agent** closed the remaining runner at peak market extension (**${price:.2f}**)."
+        fields = [
+            {
+                "name": "🏆 Total Trade PnL",
+                "value": f"**+${trade_data.get('realized_pnl', 0.0):,.2f}**",
+                "inline": True,
+            },
+            {
+                "name": "📊 Return on Trade",
+                "value": f"**+{trade_data.get('return_pct', 12.0):.2f}%**",
+                "inline": True,
+            },
+        ]
+    else:
+        color = 0xEF4444  # Crimson Red
+        title = f"🛡️ [STOP-LOSS / EXIT EXECUTED] {ticker} Liquidated @ ${price:.2f}"
+        desc = f"Position liquidated according to risk-first capital preservation protocols."
+        fields = [
+            {
+                "name": "Exit Price",
+                "value": f"${price:.2f}",
+                "inline": True,
+            },
+            {
+                "name": "Shares Closed",
+                "value": f"{shares:,}",
+                "inline": True,
+            },
+        ]
+
+    embed = {
+        "title": title,
+        "description": desc,
+        "color": color,
+        "fields": fields,
+        "footer": {
+            "text": f"Sentilyze 24/7 Autonomous Trader • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+        },
+    }
+
+    try:
+        res = requests.post(
+            url,
+            json={"embeds": [embed]},
+            headers={"Content-Type": "application/json"},
+            timeout=10,
+        )
+        return res.status_code in [200, 204]
+    except Exception as e:
+        logger.error(f"Error sending Discord execution alert: {e}")
+        return False
+
+
+def send_discord_committee_alert(
+    deliberation: Dict[str, Any], webhook_url: Optional[str] = None
+) -> bool:
+    """
+    Dispatches a structured 4-Agent Committee Round-Table debate summary to Discord.
+    """
+    url = webhook_url or os.getenv("DISCORD_WEBHOOK_URL")
+    if not url:
+        return False
+
+    ticker = deliberation.get("ticker", "ASSET")
+    verdict = deliberation.get("final_verdict", "HOLD")
+    cro = deliberation.get("cro_signoff", {})
+    votes = deliberation.get("committee_votes", {})
+
+    is_buy = "BUY" in verdict.upper()
+    color = 0x3B82F6 if is_buy else 0x64748B
+
+    tech_v = votes.get("Technical Specialist", {})
+    sent_v = votes.get("Sentiment & Alternative Data Specialist", {})
+    fund_v = votes.get("Forensic Accounting & Valuation Specialist", {})
+
+    fields = [
+        {
+            "name": "📈 1. Technical Specialist",
+            "value": f"Vote: **{tech_v.get('vote', 'HOLD')}** | RSI: `{tech_v.get('rsi_14', 50.0):.1f}` | 200 SMA: `{tech_v.get('trend_200sma', 'NEUTRAL')}`",
+            "inline": False,
+        },
+        {
+            "name": "🧠 2. NLP Sentiment Specialist",
+            "value": f"Vote: **{sent_v.get('vote', 'HOLD')}** | Optimism: `{sent_v.get('sentiment_score', 60.0):.1f}/100` | Smart Money: `{sent_v.get('smart_money_score', 50.0):.1f}`",
+            "inline": False,
+        },
+        {
+            "name": "🏛️ 3. Forensic DCF Specialist",
+            "value": f"Vote: **{fund_v.get('vote', 'HOLD')}** | Fair Value: `${fund_v.get('dcf_fair_value', 0.0):.2f}` | Margin of Safety: `{fund_v.get('margin_of_safety_pct', 0.0):+.1f}%`",
+            "inline": False,
+        },
+        {
+            "name": "🛡️ 4. Chief Risk Officer (CRO) Clearance",
+            "value": f"Status: **{cro.get('status', 'APPROVED')}** | VIX Gate: `{cro.get('macro_vix_level', 15.0):.1f}` | Kelly Sizing: `+{cro.get('approved_kelly_pct', 8.0):.1f}%`",
+            "inline": False,
+        },
+    ]
+
+    embed = {
+        "title": f"🏛️ [4-AGENT COMMITTEE DEBATE] {ticker} Verdict: {verdict}",
+        "description": f"The Sentilyze AI Multi-Agent Committee convened to deliberate on **{ticker}**.",
+        "color": color,
+        "fields": fields,
+        "footer": {
+            "text": f"Sentilyze Multi-Agent Committee • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+        },
+    }
+
+    try:
+        res = requests.post(
+            url,
+            json={"embeds": [embed]},
+            headers={"Content-Type": "application/json"},
+            timeout=10,
+        )
+        return res.status_code in [200, 204]
+    except Exception as e:
+        logger.error(f"Error sending Discord committee alert: {e}")
+        return False
+
+
+def send_discord_social_spike_alert(
+    social_data: Dict[str, Any], webhook_url: Optional[str] = None
+) -> bool:
+    """
+    Dispatches real-time Reddit r/wallstreetbets & Stocktwits hype spike alerts.
+    """
+    url = webhook_url or os.getenv("DISCORD_WEBHOOK_URL")
+    if not url:
+        return False
+
+    ticker = social_data.get("ticker", "ASSET")
+    vel = social_data.get("mention_velocity_ratio", 1.0)
+    bull_pct = social_data.get("bullish_sentiment_pct", 50.0)
+    regime = social_data.get("regime", "SURGE")
+
+    embed = {
+        "title": f"🔥 [RETAIL SOCIAL BUZZ SURGE] {ticker} @ {vel:.1f}x Normal Velocity!",
+        "description": f"**Pillar 2 Alternative Social Tracker** detected viral retail volume acceleration across Reddit (r/wallstreetbets) and Stocktwits.",
+        "color": 0xFF6B00,  # Neon Orange
+        "fields": [
+            {
+                "name": "⚡ 24h Velocity Ratio",
+                "value": f"**{vel:.2f}x** vs 7-Day Baseline",
+                "inline": True,
+            },
+            {
+                "name": "🐂 Bullish Sentiment",
+                "value": f"**{bull_pct:.1f}%** Bullish Posts",
+                "inline": True,
+            },
+            {
+                "name": "🏷️ Retail Regime",
+                "value": f"`{regime}`",
+                "inline": False,
+            },
+        ],
+        "footer": {
+            "text": f"Sentilyze Social Alternative Data Wire • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+        },
+    }
+
+    try:
+        res = requests.post(
+            url,
+            json={"embeds": [embed]},
+            headers={"Content-Type": "application/json"},
+            timeout=10,
+        )
+        return res.status_code in [200, 204]
+    except Exception as e:
+        logger.error(f"Error sending Discord social spike alert: {e}")
+        return False
+
+
+def send_discord_market_pulse(
+    pulse_data: Dict[str, Any], webhook_url: Optional[str] = None
+) -> bool:
+    """
+    Sends a consolidated morning macro regime and portfolio health pulse to Discord.
+    """
+    url = webhook_url or os.getenv("DISCORD_WEBHOOK_URL")
+    if not url:
+        return False
+
+    vix = pulse_data.get("vix_level", 15.4)
+    vix_regime = pulse_data.get("vix_regime", "LOW VOLATILITY / NORMAL")
+    top_buys = pulse_data.get("top_buys", [])
+    equity = pulse_data.get("portfolio_equity", 100000.0)
+    open_pos = pulse_data.get("open_positions_count", 0)
+
+    buys_str = (
+        "\n".join(
+            [
+                f"• **{b['ticker']}**: Conf `{b.get('confidence', 0.6)*100:.1f}%` (${b.get('price', 0):.2f})"
+                for b in top_buys[:4]
+            ]
+        )
+        or "No strong BUY setups today."
+    )
+
+    embed = {
+        "title": "🌅 [SENTILYZE MORNING MARKET RADAR] Institutional Briefing",
+        "description": f"**Pre-Market Quantitative Pulse & Macro Risk Status**",
+        "color": 0x38BDF8,  # Sky Blue
+        "fields": [
+            {
+                "name": "🌪️ Macro VIX Regime",
+                "value": f"VIX: **{vix:.2f}** (`{vix_regime}`)",
+                "inline": True,
+            },
+            {
+                "name": "💼 Autonomous Portfolio",
+                "value": f"Equity: **${equity:,.2f}** | Positions: `{open_pos}`",
+                "inline": True,
+            },
+            {
+                "name": "🚀 Top Institutional AI Setups",
+                "value": buys_str,
+                "inline": False,
+            },
+        ],
+        "footer": {
+            "text": f"Sentilyze Pre-Market Intelligence • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+        },
+    }
+
+    try:
+        res = requests.post(
+            url,
+            json={"embeds": [embed]},
+            headers={"Content-Type": "application/json"},
+            timeout=10,
+        )
+        return res.status_code in [200, 204]
+    except Exception as e:
+        logger.error(f"Error sending Discord market pulse: {e}")
         return False
 
 
@@ -192,14 +508,7 @@ def send_discord_digest(
             headers={"Content-Type": "application/json"},
             timeout=15,
         )
-        if response.status_code in [200, 204]:
-            logger.info("Master market briefing digest sent to Discord successfully.")
-            return True
-        else:
-            logger.error(
-                f"Discord digest failed with status {response.status_code}: {response.text}"
-            )
-            return False
+        return response.status_code in [200, 204]
     except Exception as e:
         logger.error(f"Error sending Discord digest: {e}")
         return False
@@ -212,14 +521,6 @@ def send_telegram_alert(
 ) -> bool:
     """
     Sends a formatted Markdown alert to a Telegram chat or channel.
-
-    Args:
-        alert_payload (Dict[str, Any]): Trade alert data.
-        bot_token (str, optional): Telegram Bot API Token.
-        chat_id (str, optional): Telegram Chat ID.
-
-    Returns:
-        bool: True if sent successfully, False otherwise.
     """
     token = bot_token or os.getenv("TELEGRAM_BOT_TOKEN")
     chat = chat_id or os.getenv("TELEGRAM_CHAT_ID")
