@@ -207,10 +207,61 @@ def inject_luxury_css():
 def render_plotly_candlestick(
     ticker: str, df: pd.DataFrame, curr_p: float, tp1: float, tp2: float, sl: float
 ):
-    """Renders high-frequency interactive Candlestick chart with ATR channels."""
-    if df.empty or len(df) < 30:
+    """Renders high-frequency interactive Candlestick chart with ATR channels and live intraday bar."""
+    if df.empty or len(df) < 5:
         return
     recent_df = df.tail(60).copy()
+
+    # Ensure DatetimeIndex with UTC normalization
+    if not isinstance(recent_df.index, pd.DatetimeIndex):
+        recent_df.index = pd.to_datetime(recent_df.index)
+    if recent_df.index.tz is None:
+        recent_df.index = recent_df.index.tz_localize("UTC").normalize()
+    else:
+        recent_df.index = recent_df.index.tz_convert("UTC").normalize()
+
+    # Append or update today's live intraday price bar in real-time
+    today_dt = pd.Timestamp.now(tz="UTC").normalize()
+    if curr_p > 0:
+        if recent_df.index[-1] < today_dt:
+            q = fetch_live_quote(ticker)
+            day_h = (
+                float(q.get("day_high", curr_p))
+                if float(q.get("day_high", 0)) > 0
+                else curr_p
+            )
+            day_l = (
+                float(q.get("day_low", curr_p))
+                if float(q.get("day_low", 0)) > 0
+                else curr_p
+            )
+            day_o = float(q.get("prev_close", curr_p))
+
+            ma7_val = float((recent_df["Close"].tail(6).sum() + curr_p) / 7.0)
+            ma21_val = float((recent_df["Close"].tail(20).sum() + curr_p) / 21.0)
+
+            live_bar = pd.DataFrame(
+                [
+                    {
+                        "Open": day_o,
+                        "High": max(day_h, curr_p),
+                        "Low": min(day_l, curr_p),
+                        "Close": curr_p,
+                        "ma7": ma7_val,
+                        "ma21": ma21_val,
+                    }
+                ],
+                index=[today_dt],
+            )
+            recent_df = pd.concat([recent_df, live_bar])
+        elif recent_df.index[-1] == today_dt:
+            recent_df.loc[today_dt, "Close"] = curr_p
+            recent_df.loc[today_dt, "High"] = max(
+                float(recent_df.loc[today_dt, "High"]), curr_p
+            )
+            recent_df.loc[today_dt, "Low"] = min(
+                float(recent_df.loc[today_dt, "Low"]), curr_p
+            )
 
     try:
         import plotly.graph_objects as go
@@ -220,16 +271,12 @@ def render_plotly_candlestick(
         # 1. Candlestick
         fig.add_trace(
             go.Candlestick(
-                x=(
-                    recent_df.index
-                    if isinstance(recent_df.index, pd.DatetimeIndex)
-                    else pd.to_datetime(recent_df.index)
-                ),
+                x=recent_df.index,
                 open=recent_df["Open"],
                 high=recent_df["High"],
                 low=recent_df["Low"],
                 close=recent_df["Close"],
-                name="Price",
+                name="Price (Live)",
                 increasing_line_color="#10B981",
                 decreasing_line_color="#EF4444",
             )
@@ -315,7 +362,23 @@ def render_command_center(ticker: str):
     chg = float(quote.get("change_pct", 0))
     tp1 = curr_p * 1.06
     tp2 = curr_p * 1.12
-    sl = curr_p * 0.95
+    last_p = st.session_state.get(f"cmd_prev_p_{ticker}", curr_p)
+    tick_dir = "SAME"
+    if curr_p > last_p:
+        tick_dir = "UP"
+    elif curr_p < last_p:
+        tick_dir = "DOWN"
+    st.session_state[f"cmd_prev_p_{ticker}"] = curr_p
+
+    tick_badge = (
+        '<span style="font-size: 0.75rem; font-weight: 700; color: #10B981; background: rgba(16,185,129,0.2); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(16,185,129,0.4);">▲ Up Tick</span>'
+        if tick_dir == "UP"
+        else (
+            '<span style="font-size: 0.75rem; font-weight: 700; color: #EF4444; background: rgba(239,68,68,0.2); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(239,68,68,0.4);">▼ Down Tick</span>'
+            if tick_dir == "DOWN"
+            else '<span style="font-size: 0.75rem; color: #94A3B8;">● Live Pulse</span>'
+        )
+    )
 
     with col1:
         st.markdown(
@@ -323,10 +386,13 @@ def render_command_center(ticker: str):
             <div class="glass-card">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-size: 1.8rem; font-weight: 900; color: #00D4AA;">{ticker}</span>
-                    <span style="font-size: 0.9rem; font-weight: bold; background: {'rgba(16, 185, 129, 0.2)' if chg>=0 else 'rgba(239, 68, 68, 0.2)'}; color: {'#10B981' if chg>=0 else '#EF4444'}; padding: 4px 10px; border-radius: 6px;">{chg:+.2f}%</span>
+                    <div style="display: flex; gap: 6px; align-items: center;">
+                        {tick_badge}
+                        <span style="font-size: 0.9rem; font-weight: bold; background: {'rgba(16, 185, 129, 0.2)' if chg>=0 else 'rgba(239, 68, 68, 0.2)'}; color: {'#10B981' if chg>=0 else '#EF4444'}; padding: 4px 10px; border-radius: 6px;">{chg:+.2f}%</span>
+                    </div>
                 </div>
                 <div style="font-size: 2.2rem; font-weight: 900; margin: 0.3rem 0; font-family: 'JetBrains Mono', monospace;">${curr_p:,.2f}</div>
-                <div style="font-size: 0.8rem; color: #94A3B8;">High: ${quote.get('day_high', 0):,.2f} &nbsp;|&nbsp; Low: ${quote.get('day_low', 0):,.2f}</div>
+                <div style="font-size: 0.8rem; color: #94A3B8;">High: ${quote.get('day_high', 0):,.2f} &nbsp;|&nbsp; Low: ${quote.get('day_low', 0):,.2f} &nbsp;|&nbsp; <span style="color:#00D4AA;">Real-Time Feed</span></div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -489,6 +555,17 @@ def render_command_center(ticker: str):
 
     with col2:
         # Interactive Candlestick Chart
+        st.markdown(
+            f"""
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; padding: 0 4px;">
+                <span style="font-size: 0.85rem; font-weight: 700; color: #F8FAFC;">📈 Live Market Candlestick & ATR Targets</span>
+                <span style="font-size: 0.75rem; color: #10B981; font-weight: 600; background: rgba(16, 185, 129, 0.15); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                    🟢 Live Bar: ${curr_p:,.2f}
+                </span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
         if not price_df.empty:
             render_plotly_candlestick(ticker, price_df, curr_p, tp1, tp2, sl)
 
@@ -1871,6 +1948,62 @@ def render_alternative_data_workspace(ticker: str):
 
 
 # ==============================================================================
+# 🔴 LIVE MARKET STREAMING TICKER TAPE
+# ==============================================================================
+@st.fragment(run_every="5s")
+def render_live_ticker_ribbon():
+    """Renders a real-time streaming price tape across major universe stocks with up/down tick flashers."""
+    ribbon_tickers = [
+        "NVDA",
+        "AVGO",
+        "AMD",
+        "AAPL",
+        "MSFT",
+        "TSLA",
+        "META",
+        "QQQ",
+        "SPY",
+    ]
+
+    cards_html = []
+    for t in ribbon_tickers:
+        q = fetch_live_quote(t)
+        price = float(q.get("price", 0))
+        chg = float(q.get("change_pct", 0))
+
+        last_p = st.session_state.get(f"ribbon_last_{t}", price)
+        tick_dir = "SAME"
+        if price > last_p:
+            tick_dir = "UP"
+        elif price < last_p:
+            tick_dir = "DOWN"
+        st.session_state[f"ribbon_last_{t}"] = price
+
+        tick_icon = "▲" if tick_dir == "UP" else ("▼" if tick_dir == "DOWN" else "●")
+        chg_color = "#10B981" if chg >= 0 else "#EF4444"
+        tick_badge = (
+            f'<span style="font-size:0.65rem; color:{chg_color};">{tick_icon}</span>'
+        )
+
+        cards_html.append(
+            f'<div style="background: rgba(15,23,42,0.75); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 4px 10px; display: inline-flex; align-items: center; gap: 8px; margin-right: 8px;">'
+            f'<b style="color: #F8FAFC; font-size: 0.8rem;">{t}</b>'
+            f'<span style="color: #00D4AA; font-family: monospace; font-size: 0.8rem; font-weight: 700;">${price:,.2f}</span>'
+            f'<span style="color: {chg_color}; font-size: 0.72rem; font-weight: 600;">{chg:+.2f}% {tick_badge}</span>'
+            f"</div>"
+        )
+
+    st.markdown(
+        f"""
+        <div style="display: flex; overflow-x: auto; white-space: nowrap; padding-bottom: 6px; margin-bottom: 12px; scrollbar-width: none;">
+            {''.join(cards_html)}
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+# ==============================================================================
 # 🚀 MAIN APPLICATION CONTROLLER
 # ==============================================================================
 def main():
@@ -2002,6 +2135,9 @@ def main():
         """,
         unsafe_allow_html=True,
     )
+
+    # --- Live Real-Time Ticker Ribbon (Streaming 5s fragment) ---
+    render_live_ticker_ribbon()
 
     # --- Workspace Routing ---
     if nav_mode == "⚡ AI Command Center":
