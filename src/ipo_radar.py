@@ -9,10 +9,7 @@ Pillar 9 Alternative Asset Discovery:
 from typing import Any, Dict, List, Optional
 import os
 import requests
-try:
-    import defusedxml.ElementTree as ET
-except ImportError:
-    import xml.etree.ElementTree as ET  # nosec B405
+import defusedxml.ElementTree as defused_ET
 from datetime import datetime, timezone
 from src.utils import get_logger
 
@@ -117,7 +114,7 @@ def fetch_sec_edgar_ipo_filings() -> List[Dict[str, Any]]:
     try:
         res = requests.get(url, headers=headers, timeout=6)
         if res.status_code == 200:
-            root = ET.fromstring(res.content)  # nosec B314
+            root = defused_ET.fromstring(res.content)
             entries = root.findall("{http://www.w3.org/2005/Atom}entry")
             if not entries:
                 entries = root.findall("entry")

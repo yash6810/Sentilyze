@@ -54,13 +54,11 @@ def send_whatsapp_notification(
     api_token = os.getenv("WHATSAPP_API_TOKEN")
     phone = phone_number or os.getenv("WHATSAPP_RECIPIENT_PHONE", "+1234567890")
 
-    masked_phone = (
-        phone[:3] + "****" + phone[-2:] if len(phone) >= 5 else "***"
-    )
+    masked_phone = phone[:3] + "****" + phone[-2:] if len(phone) >= 5 else "***"
 
     if api_token:
         # Live endpoint
-        logger.info(f"Dispatching live WhatsApp alert to recipient {masked_phone}")
+        logger.info("Dispatching live WhatsApp notification via Cloud API.")
         return {
             "status": "DELIVERED",
             "recipient": masked_phone,
