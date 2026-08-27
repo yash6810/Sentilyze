@@ -77,7 +77,11 @@ from src.earnings_sentiment import analyze_earnings_call_transcript
 from src.social_sentiment import fetch_social_sentiment_tracker
 from src.insider_tracker import compute_smart_money_insider_score
 from src.patent_contract_radar import compute_government_and_patent_index
-from src.agent_committee import convene_trading_committee, COMMITTEE_FILE
+from src.agent_committee import (
+    convene_trading_committee,
+    execute_committee_order,
+    COMMITTEE_FILE,
+)
 from src.ai_copilot import AICopilotEngine
 from src.options_surface import (
     generate_volatility_surface_mesh,
@@ -2036,6 +2040,69 @@ def render_committee_workspace(ticker: str):
         """,
         unsafe_allow_html=True,
     )
+
+    # 1-Click Execution Desk
+    st.markdown("#### ⚡ Real-Time Autonomous Trade Execution")
+    broker_instance = PaperBroker()
+    is_holding = ticker in broker_instance.state.get("open_positions", {})
+    action_code = delib.get("action_code", "HOLD")
+
+    ex_col1, ex_col2 = st.columns([1.5, 1.0])
+    with ex_col1:
+        if action_code in ["EXECUTE_BUY", "SCALE_IN"]:
+            summary = broker_instance.get_portfolio_summary()
+            target_budget = (
+                summary["total_equity"]
+                * (cro["kelly_allocation_pct"] / 100.0)
+                * cro["approved_leverage"]
+            )
+            shares = int(
+                min(target_budget, summary["cash"] * 0.95) / delib["spot_price"]
+            )
+
+            st.info(
+                f"💡 Committee recommends buying **{shares} shares** of {ticker} (${target_budget:,.2f} budget @ {cro['approved_leverage']}x leverage)."
+            )
+            if st.button(
+                f"🟢 Execute Sanctioned BUY {shares} {ticker} @ ${delib['spot_price']:,.2f}",
+                use_container_width=True,
+                key=f"comm_buy_{ticker}",
+            ):
+                with st.spinner(f"Executing committee order for {ticker}..."):
+                    order_res = execute_committee_order(
+                        ticker, deliberation=delib, broker=broker_instance
+                    )
+                    if order_res.get("success"):
+                        st.success(
+                            f"🚀 Bought {shares} {ticker} @ ${delib['spot_price']:,.2f}! TP1: ${delib['tp1_target']:.2f} | SL: ${delib['stop_loss_target']:.2f}"
+                        )
+                        time.sleep(0.6)
+                        st.rerun()
+                    else:
+                        st.error(
+                            f"Execution notice: {order_res.get('message', 'Failed to execute order.')}"
+                        )
+        elif is_holding:
+            st.warning(
+                f"⚠️ You currently hold {ticker}, but the Committee resolution is {delib['final_resolution']}."
+            )
+            if st.button(
+                f"🔴 Execute Committee Exit / Close {ticker} Now",
+                use_container_width=True,
+                key=f"comm_sell_{ticker}",
+            ):
+                with st.spinner(f"Closing position in {ticker}..."):
+                    order_res = execute_committee_order(
+                        ticker, deliberation=delib, broker=broker_instance
+                    )
+                    if order_res.get("success"):
+                        st.success(f"🛑 Closed {ticker} @ ${delib['spot_price']:,.2f}!")
+                        time.sleep(0.6)
+                        st.rerun()
+        else:
+            st.markdown(
+                f"*Standing in cash buffer. No action recommended for {ticker} by the Committee.*"
+            )
 
 
 # ==============================================================================
