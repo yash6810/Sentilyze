@@ -3,7 +3,7 @@ import re
 import html
 import pandas as pd
 from typing import Any, Dict, List
-from src.utils import get_logger
+from src.utils import get_logger, sanitize_filename, safe_path_join
 
 os.environ["TRANSFORMERS_BACKEND"] = "pytorch"
 logger = get_logger(__name__)
@@ -125,7 +125,8 @@ def get_sentiment(
     and optional file-based caching.
     """
     if ticker:
-        cache_path = os.path.join(PROCESSED_DATA_DIR, f"{ticker}_sentiment.csv")
+        clean_ticker = sanitize_filename(ticker)
+        cache_path = safe_path_join(PROCESSED_DATA_DIR, f"{clean_ticker}_sentiment.csv")
         os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
 
         if os.path.exists(cache_path):

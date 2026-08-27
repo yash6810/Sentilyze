@@ -6,7 +6,7 @@ from typing import Dict, Any, Optional
 from src.paper_broker import PaperBroker
 from src.realtime_tracker import fetch_live_quote, evaluate_intraday_execution
 from src.stress_tester import run_monte_carlo_var
-from src.utils import get_logger
+from src.utils import get_logger, sanitize_filename, safe_path_join
 
 logger = get_logger(__name__)
 
@@ -35,7 +35,8 @@ def handle_bot_command(command_str: str) -> Dict[str, Any]:
         from src.preprocessing import preprocess_data
         from src.config import FEATURES
 
-        m_path = f"models/{ticker}_model.json"
+        clean_ticker = sanitize_filename(ticker)
+        m_path = safe_path_join("models", f"{clean_ticker}_model.json")
         signal_txt = "HOLD"
         conf_val = 0.50
         if os.path.exists(m_path):

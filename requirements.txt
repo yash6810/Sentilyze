@@ -23,4 +23,5 @@ requests>=2.32.3
 pytest-cov>=5.0.0
 plotly>=5.22.0
 gtts>=2.5.1
+defusedxml>=0.7.1
 

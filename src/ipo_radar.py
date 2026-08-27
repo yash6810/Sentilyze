@@ -9,7 +9,10 @@ Pillar 9 Alternative Asset Discovery:
 from typing import Any, Dict, List, Optional
 import os
 import requests
-import xml.etree.ElementTree as ET  # nosec B405
+try:
+    import defusedxml.ElementTree as ET
+except ImportError:
+    import xml.etree.ElementTree as ET  # nosec B405
 from datetime import datetime, timezone
 from src.utils import get_logger
 
