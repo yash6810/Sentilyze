@@ -54,6 +54,12 @@ jobs:
       - name: Commit & Push Retrained Models & Updated Backtests
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add models/ results/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(models): weekly automated universe retraining & walk-forward calibration [skip ci]" && git push)
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(models): weekly automated universe retraining & walk-forward calibration [skip ci]"
+            git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
+            git push origin main || echo "No changes or push skipped"
+          else
+            echo "No retrained model changes to commit."
+          fi
