@@ -1,17 +1,131 @@
-NVDA
+# ==============================================================================
+#                      SENTILYZE S&P 100 INSTITUTIONAL UNIVERSE
+# ==============================================================================
+
+# 1. Information Technology & AI Semiconductors
 AAPL
 MSFT
+NVDA
+AVGO
+ORCL
+CRM
+AMD
+ADBE
+QCOM
+TXN
+INTC
+IBM
+AMAT
+NOW
+LRCX
+MU
+PANW
+ADI
+KLAC
+SNPS
+CDNS
+CRWD
+PLTR
+TSM
+ASML
+
+# 2. Communication Services & Digital Media
 GOOGL
 META
-TSLA
-AMZN
-AVGO
-AMD
-PLTR
-LLY
-QQQ
-SPY
-JPM
-COST
 NFLX
-TSM
+DIS
+CMCSA
+
+# 3. Consumer Discretionary & E-Commerce
+AMZN
+TSLA
+HD
+MCD
+NKE
+LOW
+BKNG
+SBUX
+TJX
+TGT
+F
+
+# 4. Consumer Staples & Retail Anchors
+COST
+WMT
+PG
+KO
+PEP
+PM
+MDLZ
+MO
+CL
+KMB
+
+# 5. Financials, Banking & Payment Networks
+JPM
+V
+MA
+BAC
+WFC
+MS
+GS
+BLK
+SPGI
+AXP
+C
+SCHW
+PGR
+CB
+
+# 6. Healthcare, Biotech & Medical Devices
+LLY
+UNH
+JNJ
+ABBV
+MRK
+TMO
+ABT
+PFE
+DHR
+AMGN
+ISRG
+BMY
+GILD
+VRTX
+MDT
+
+# 7. Industrials, Defense & Aerospace
+CAT
+GE
+UNP
+HON
+RTX
+BA
+DE
+LMT
+UPS
+FDX
+
+# 8. Energy & Natural Resources
+XOM
+CVX
+COP
+SLB
+EOG
+
+# 9. Basic Materials & Specialty Chemicals
+LIN
+SHW
+FCX
+
+# 10. Utilities & Infrastructure
+NEE
+SO
+
+# 11. Real Estate & Digital Tower Infrastructure
+PLD
+AMT
+
+# 12. Market Benchmarks & Macro Regime Proxies
+SPY
+QQQ

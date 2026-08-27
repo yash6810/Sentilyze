@@ -195,18 +195,48 @@ if __name__ == "__main__":
         action="store_true",
         help="Aggressively use cached data to avoid API rate limits",
     )
+    parser.add_argument(
+        "--parallel",
+        action="store_true",
+        help="Train models in parallel across CPU cores using ProcessPoolExecutor",
+    )
     args = parser.parse_args()
 
     if args.all:
         try:
             with open("stocks.txt", "r") as f:
-                tickers = [line.strip() for line in f if line.strip()]
+                tickers = [
+                    line.strip()
+                    for line in f
+                    if line.strip() and not line.startswith("#")
+                ]
 
             logger.info(
                 f"Training models for {len(tickers)} tickers found in stocks.txt..."
             )
-            for ticker in tickers:
-                main(ticker, leverage=args.leverage, use_cache=args.use_cache)
+            if args.parallel:
+                import concurrent.futures
+
+                max_workers = min(os.cpu_count() or 4, 8)
+                logger.info(
+                    f"🚀 Launching parallel training across {max_workers} worker processes..."
+                )
+                with concurrent.futures.ProcessPoolExecutor(
+                    max_workers=max_workers
+                ) as executor:
+                    futures = {
+                        executor.submit(main, t, args.leverage, args.use_cache): t
+                        for t in tickers
+                    }
+                    for future in concurrent.futures.as_completed(futures):
+                        t = futures[future]
+                        try:
+                            future.result()
+                        except Exception as e:
+                            logger.error(f"Error training {t}: {e}")
+            else:
+                for ticker in tickers:
+                    main(ticker, leverage=args.leverage, use_cache=args.use_cache)
 
             logger.info("Finished processing all tickers.")
         except FileNotFoundError:
