@@ -10,6 +10,8 @@ Institutional Round-Table Debate Desk:
 from typing import Any, Dict, List, Optional
 import os
 import json
+import numpy as np
+import pandas as pd
 from datetime import datetime, timezone
 from src.utils import get_logger
 from src.realtime_tracker import fetch_live_quote
@@ -30,21 +32,82 @@ logger = get_logger(__name__)
 COMMITTEE_FILE = os.path.join("results", "committee_resolutions.json")
 
 
+from src.data_ingestion import get_price_history
+
+
 class TechnicalAlphaAgent:
     """Agent 1: Evaluates Technical Price Action, Momentum, RSI, and Multi-Horizon Forecasts."""
 
     def evaluate(self, ticker: str, spot_price: float) -> Dict[str, Any]:
-        rsi_est = 54.2
-        trend_status = "BULLISH_ABOVE_21MA"
-        tft_expected_return_5d = +3.4
+        try:
+            df = get_price_history(ticker, period="1y", use_cache=True)
+        except Exception:
+            df = pd.DataFrame()
 
-        vote = "BUY" if rsi_est < 65 and tft_expected_return_5d > 1.0 else "NEUTRAL"
-        conviction = 78.0 if vote == "BUY" else 50.0
+        if not df.empty and len(df) >= 30:
+            closes = df["Close"]
+            delta = closes.diff()
+            gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
+            loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+            rs = gain / (loss + 1e-10)
+            rsi_series = 100 - (100 / (1 + rs))
+            rsi_val = (
+                float(rsi_series.iloc[-1])
+                if not np.isnan(rsi_series.iloc[-1])
+                else 50.0
+            )
 
-        thesis = (
-            f"Asset is consolidating with healthy RSI ({rsi_est:.1f}) in {trend_status}. "
-            f"TFT Attention model forecasts +{tft_expected_return_5d:.1f}% expected 5-day drift."
-        )
+            ma21 = (
+                float(closes.rolling(21).mean().iloc[-1])
+                if len(closes) >= 21
+                else spot_price
+            )
+            sma200 = (
+                float(closes.rolling(200).mean().iloc[-1])
+                if len(closes) >= 200
+                else float(closes.mean())
+            )
+            ret_5d = (
+                float(closes.pct_change(5).iloc[-1] * 100.0)
+                if len(closes) >= 5
+                else 0.0
+            )
+
+            is_above_200 = spot_price >= sma200
+            is_above_21 = spot_price >= ma21
+
+            if rsi_val > 70.0:
+                vote = "HOLD"
+                conviction = 42.0
+                trend_status = "OVERBOUGHT_EXTENDED"
+                thesis = f"Asset RSI is severely overbought ({rsi_val:.1f} > 70), indicating high probability of mean-reversion pullback."
+            elif not is_above_200:
+                vote = "HOLD"
+                conviction = 38.0
+                trend_status = "BEARISH_BELOW_SMA200"
+                thesis = f"Asset is trading below its 200-day SMA (${sma200:,.2f}), trapped in a macro downtrend regime."
+            elif is_above_200 and 40.0 <= rsi_val <= 62.0:
+                vote = "BUY"
+                conviction = 82.0
+                trend_status = "BULLISH_MOMENTUM_EXPANSION"
+                thesis = f"Asset is in strong structural uptrend above 200 SMA (${sma200:,.2f}) with optimal pullback RSI ({rsi_val:.1f})."
+            elif rsi_val < 35.0:
+                vote = "BUY"
+                conviction = 70.0
+                trend_status = "OVERSOLD_MEAN_REVERSION"
+                thesis = f"Asset is deeply oversold (RSI: {rsi_val:.1f} < 35), presenting high-probability rebound setup."
+            else:
+                vote = "NEUTRAL"
+                conviction = 50.0
+                trend_status = "CONSOLIDATION_RANGE"
+                thesis = f"Asset is range-bound around 21 MA (${ma21:,.2f}) with neutral RSI ({rsi_val:.1f})."
+        else:
+            rsi_val = 52.0
+            ret_5d = 1.5
+            trend_status = "NEUTRAL_BASE"
+            vote = "NEUTRAL"
+            conviction = 50.0
+            thesis = "Insufficient historical bar depth; standing neutral."
 
         return {
             "agent_name": "Technical Momentum Specialist",
@@ -52,9 +115,9 @@ class TechnicalAlphaAgent:
             "vote": vote,
             "conviction_score": conviction,
             "key_metrics": {
-                "estimated_rsi": rsi_est,
+                "estimated_rsi": round(rsi_val, 1),
                 "trend": trend_status,
-                "tft_5d_forecast_pct": tft_expected_return_5d,
+                "tft_5d_forecast_pct": round(ret_5d, 1),
             },
             "thesis": thesis,
         }
@@ -69,23 +132,37 @@ class SentimentCatalystAgent:
         insider_res = compute_smart_money_insider_score(ticker)
         gov_res = compute_government_and_patent_index(ticker)
 
+        # Check FinBERT news sentiment from processed CSV if present
+        sent_path = os.path.join("data", "processed", f"{ticker}_sentiment.csv")
+        finbert_score = 0.0
+        if os.path.exists(sent_path):
+            try:
+                sdf = pd.read_csv(sent_path)
+                if "sentiment_score" in sdf.columns and not sdf.empty:
+                    finbert_score = float(sdf["sentiment_score"].tail(10).mean())
+            except Exception:
+                pass
+
         compound_score = (
-            earn_res.get("executive_optimism_score", 70.0) * 0.4
-            + insider_res.get("smart_money_score", 65.0) * 0.3
-            + gov_res.get("composite_innovation_score", 60.0) * 0.3
+            earn_res.get("executive_optimism_score", 60.0) * 0.35
+            + insider_res.get("smart_money_score", 50.0) * 0.25
+            + gov_res.get("composite_innovation_score", 50.0) * 0.20
+            + (max(min(finbert_score * 50.0 + 50.0, 100.0), 0.0)) * 0.20
         )
 
-        vote = (
-            "BUY"
-            if compound_score >= 60.0
-            else ("HOLD" if compound_score >= 45.0 else "SELL")
-        )
+        if compound_score >= 68.0:
+            vote = "BUY"
+        elif compound_score >= 50.0:
+            vote = "HOLD"
+        else:
+            vote = "SELL"
         conviction = round(compound_score, 1)
 
         thesis = (
-            f"Earnings transcript tone is {earn_res.get('verdict', 'OPTIMISTIC')}. "
-            f"Social velocity ratio at {soc_res.get('mention_velocity_ratio', 1.2):.1f}x. "
-            f"Insider smart money score: {insider_res.get('smart_money_score', 65.0):.0f}/100."
+            f"Earnings tone is {earn_res.get('verdict', 'NEUTRAL')}. "
+            f"Social velocity is {soc_res.get('mention_velocity_ratio', 1.0):.1f}x. "
+            f"Insider smart money score: {insider_res.get('smart_money_score', 50.0):.0f}/100. "
+            f"FinBERT NLP Score: {finbert_score:+.2f}."
         )
 
         return {
@@ -113,26 +190,32 @@ class ForensicFundamentalAgent:
         beneish = calculate_beneish_m_score(ticker)
         dcf = calculate_dcf_fair_value(ticker, fin_data)
 
+        f_score = piotroski.get("f_score", 0)
+        z_score = altman.get("z_score", 0.0)
+        m_score = beneish.get("beneish_m_score", -2.5)
+        dcf_mos = dcf.get("margin_of_safety_pct", 0.0)
+
+        # High valuation or weak fundamentals lower the score
         is_financially_healthy = (
-            piotroski.get("f_score", 0) >= 5
-            and altman.get("z_score", 0) >= 1.81
-            and beneish.get("beneish_m_score", 0) < -1.78
+            f_score >= 5 and z_score >= 1.81 and m_score < -1.78 and dcf_mos >= -15.0
         )
 
-        vote = "BUY" if is_financially_healthy else "HOLD"
-        conviction = round(
-            (piotroski.get("f_score", 0) / 9.0 * 50.0)
-            + (50.0 if altman.get("z_score", 0) >= 1.81 else 20.0),
-            1,
-        )
-
-        thesis = (
-            f"Piotroski F-Score: {piotroski.get('f_score', 0)}/9 ({piotroski.get('verdict', 'HEALTHY')}). "
-            f"Altman Z-Score: {altman.get('z_score', 0):.2f} (Insolvency Risk: {altman.get('zone', 'SAFE')}). "
-            f"Beneish M-Score: {beneish.get('beneish_m_score', -2.5):.2f} ({beneish.get('verdict', 'PRISTINE')}). "
-            f"DCF Intrinsic Fair Value: ${dcf.get('fair_value_price', spot_price):,.2f} "
-            f"(Margin of Safety: {dcf.get('margin_of_safety_pct', 0.0):+.1f}%)."
-        )
+        if is_financially_healthy:
+            vote = "BUY"
+            conviction = round(
+                min(50.0 + (f_score * 4.0) + max(dcf_mos * 0.5, 0.0), 92.0), 1
+            )
+            thesis = (
+                f"Robust fundamentals: Piotroski F-Score {f_score}/9, Altman Z-Score {z_score:.2f} ({altman.get('zone', 'SAFE')}), "
+                f"and DCF Fair Value ${dcf.get('fair_value_price', spot_price):,.2f} ({dcf_mos:+.1f}% margin of safety)."
+            )
+        else:
+            vote = "HOLD"
+            conviction = round(max(30.0 + (f_score * 3.0) + (dcf_mos * 0.3), 20.0), 1)
+            thesis = (
+                f"Valuation/Quality caution: Piotroski F-Score {f_score}/9, "
+                f"DCF Fair Value ${dcf.get('fair_value_price', spot_price):,.2f} (Margin of Safety: {dcf_mos:+.1f}%)."
+            )
 
         return {
             "agent_name": "Forensic & Valuation Auditor",
@@ -140,11 +223,11 @@ class ForensicFundamentalAgent:
             "vote": vote,
             "conviction_score": conviction,
             "key_metrics": {
-                "piotroski_f_score": piotroski.get("f_score", 0),
-                "altman_z_score": altman.get("z_score", 0),
-                "beneish_m_score": beneish.get("beneish_m_score", 0),
+                "piotroski_f_score": f_score,
+                "altman_z_score": z_score,
+                "beneish_m_score": m_score,
                 "dcf_fair_value": dcf.get("fair_value_price", spot_price),
-                "dcf_margin_of_safety_pct": dcf.get("margin_of_safety_pct", 0.0),
+                "dcf_margin_of_safety_pct": dcf_mos,
             },
             "thesis": thesis,
         }
@@ -191,19 +274,24 @@ class ChiefRiskOfficerAgent:
             action_code = "VETO"
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
-        elif buy_votes >= 2 and avg_conviction >= 65.0:
+        elif buy_votes == 3 and avg_conviction >= 72.0:
             final_resolution = "🚀 CONVICTION INSTITUTIONAL BUY"
             action_code = "EXECUTE_BUY"
-            approved_leverage = 1.5 if avg_conviction >= 75.0 else 1.0
-            kelly_allocation_pct = 12.5 if avg_conviction >= 75.0 else 8.0
-        elif buy_votes == 1 or avg_conviction >= 52.0:
-            final_resolution = "🟡 CAUTIOUS SCALE-IN (Small Allocation)"
+            approved_leverage = 1.5
+            kelly_allocation_pct = 12.5
+        elif buy_votes >= 2 and avg_conviction >= 58.0:
+            final_resolution = "🟡 CAUTIOUS SCALE-IN (Moderate Conviction)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
-            kelly_allocation_pct = 4.0
-        else:
+            kelly_allocation_pct = 6.0
+        elif buy_votes == 1 or avg_conviction >= 45.0:
             final_resolution = "⏸️ NEUTRAL HOLD / NO ACTION"
             action_code = "HOLD"
+            approved_leverage = 0.0
+            kelly_allocation_pct = 0.0
+        else:
+            final_resolution = "🔴 BEARISH SKEW / AVOID ASSET"
+            action_code = "AVOID"
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
 
