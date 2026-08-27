@@ -1,0 +1,46 @@
+name: Weekly Portfolio Stress & Black Swan Audit
+
+on:
+  schedule:
+    # Runs Sunday at 05:00 UTC (10:30 AM IST / Weekend Risk & Black Swan Audit)
+    - cron: '0 5 * * 0'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  stress-test:
+    name: Run Black Swan & Monte Carlo Risk Stress Audit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+
+      - name: Run Black Swan Crisis Simulation Audit
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.TRADE_BOT || secrets.DISCORD_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python -u -c "from src.stress_tester import run_full_crisis_simulation_suite; print('Stress audit complete:', run_full_crisis_simulation_suite())"
+
+      - name: Commit & Push Updated Risk Audit Metrics
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add results/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(risk): update weekly Black Swan & Monte Carlo stress test metrics [skip ci]" && git push)

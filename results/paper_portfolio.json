@@ -1,41 +1,14 @@
 {
   "initial_capital": 100000.0,
-  "cash": 10597.478136596641,
-  "total_equity": 100229.23,
-  "unrealized_pnl": 0.0,
-  "realized_pnl": 229.22954040523854,
-  "win_rate": 50.0,
-  "total_trades": 14,
-  "winning_trades": 7,
+  "cash": 101217.19068298335,
+  "total_equity": 100991.38,
+  "unrealized_pnl": 617.25,
+  "realized_pnl": 1217.1906829833576,
+  "win_rate": 53.8,
+  "total_trades": 15,
+  "winning_trades": 8,
   "losing_trades": 7,
-  "open_positions": {
-    "META": {
-      "shares": 78,
-      "initial_shares": 78,
-      "entry_price": 576.1400146484375,
-      "current_price": 576.1400146484375,
-      "entry_date": "2026-08-27",
-      "tp1_target": 617.17,
-      "tp2_target": 649.99,
-      "sl_target": 551.52,
-      "scaled_out": false,
-      "confidence": 0.6999778747558594,
-      "regime": "\u25bc BEARISH (Below SMA200)"
-    },
-    "TSM": {
-      "shares": 107,
-      "initial_shares": 107,
-      "entry_price": 417.6900024414063,
-      "current_price": 417.6900024414063,
-      "entry_date": "2026-08-27",
-      "tp1_target": 445.16,
-      "tp2_target": 467.14,
-      "sl_target": 401.21,
-      "scaled_out": false,
-      "confidence": 0.6696692109107971,
-      "regime": "\u25b2 BULLISH (Above SMA200)"
-    }
-  },
+  "open_positions": {},
   "closed_trades": [
     {
       "ticker": "AMD",
@@ -184,12 +157,23 @@
       "ticker": "AVGO",
       "shares": 126,
       "entry_price": 356.739990234375,
-      "exit_price": 355.5899963378906,
+      "exit_price": 368.14,
       "entry_date": "2026-08-26",
       "exit_date": "2026-08-27",
-      "pnl": -144.9,
-      "return_pct": -0.32,
-      "reason": "MODEL_SELL"
+      "pnl": 1436.4,
+      "return_pct": 3.2,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "AMD",
+      "shares": 93,
+      "entry_price": 479.1799926757813,
+      "exit_price": 472.8,
+      "entry_date": "2026-08-27",
+      "exit_date": "2026-08-27",
+      "pnl": -593.34,
+      "return_pct": -1.33,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
     }
   ],
   "equity_history": [
@@ -203,12 +187,12 @@
     },
     {
       "date": "2026-08-27",
-      "timestamp": "2026-08-27T11:17:50.930325+00:00",
-      "total_equity": 100229.23,
-      "cash": 10597.48,
-      "invested": 89631.75,
-      "daily_return": 0.22
+      "timestamp": "2026-08-27T15:01:10.192393+00:00",
+      "total_equity": 100991.38,
+      "cash": 10861.15,
+      "invested": 90130.23,
+      "daily_return": -0.23
     }
   ],
-  "last_updated": "2026-08-27T11:17:50.930702+00:00"
+  "last_updated": "2026-08-27T16:14:05.675644+00:00"
 }
