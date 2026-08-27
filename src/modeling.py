@@ -13,7 +13,7 @@ from sklearn.metrics import (
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
-from src.utils import get_logger
+from src.utils import get_logger, sanitize_filename, safe_path_join
 from src.config import XGB_MODEL_PARAMS
 from typing import Tuple, Dict, Any, List
 
@@ -161,13 +161,16 @@ def save_model(model: xgb.XGBClassifier, filepath: str) -> None:
         model (xgb.XGBClassifier): The trained model to save.
         filepath (str): The path to save the model to.
     """
-    # Change extension to .json if not already provided
-    if not filepath.endswith(".json"):
-        filepath = filepath.replace(".joblib", ".json")
+    dir_name = os.path.dirname(filepath) or "models"
+    base_name = os.path.basename(filepath)
+    if not base_name.endswith(".json"):
+        base_name = base_name.replace(".joblib", ".json")
+    clean_base = sanitize_filename(base_name)
+    safe_fp = safe_path_join(dir_name, clean_base)
 
-    logger.info(f"Saving model in native format to {filepath}...")
-    os.makedirs(os.path.dirname(filepath), exist_ok=True)
-    model.save_model(filepath)
+    logger.info(f"Saving model in native format to {safe_fp}...")
+    os.makedirs(os.path.dirname(safe_fp), exist_ok=True)
+    model.save_model(safe_fp)
 
 
 def load_model(filepath: str) -> xgb.XGBClassifier:
@@ -180,17 +183,20 @@ def load_model(filepath: str) -> xgb.XGBClassifier:
     Returns:
         xgb.XGBClassifier: The loaded model.
     """
-    # If the file doesn't exist but a .json version might, try adjusting
-    if not os.path.exists(filepath):
-        json_path = filepath.replace(".joblib", ".json")
+    dir_name = os.path.dirname(filepath) or "models"
+    base_name = os.path.basename(filepath)
+    clean_base = sanitize_filename(base_name)
+    safe_fp = safe_path_join(dir_name, clean_base)
+
+    if not os.path.exists(safe_fp):
+        json_base = clean_base.replace(".joblib", ".json")
+        json_path = safe_path_join(dir_name, json_base)
         if os.path.exists(json_path):
-            filepath = json_path
+            safe_fp = json_path
 
-    logger.info(f"Loading model in safe native format from {filepath}...")
-
-    # Initialize a new model instance with default params
+    logger.info(f"Loading model in safe native format from {safe_fp}...")
     model = xgb.XGBClassifier()
-    model.load_model(filepath)
+    model.load_model(safe_fp)
     return model
 
 

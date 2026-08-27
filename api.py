@@ -10,7 +10,7 @@ from typing import List, Dict, Any, Optional
 from src.preprocessing import preprocess_data
 from src.modeling import load_model, get_prediction_on_latest_data
 from src.config import FEATURES
-from src.utils import get_logger
+from src.utils import get_logger, sanitize_filename, safe_path_join
 
 logger = get_logger(__name__)
 
@@ -84,8 +84,8 @@ def predict(
     Fetches the latest market and sentiment data, computes technical indicators,
     runs the XGBoost specialist model, and computes SHAP feature attributions.
     """
-    ticker_upper = ticker.strip().upper()
-    model_path = f"models/{ticker_upper}_model.json"
+    ticker_upper = sanitize_filename(ticker.strip().upper())
+    model_path = safe_path_join("models", f"{ticker_upper}_model.json")
 
     if not os.path.exists(model_path) and not os.path.exists(
         model_path.replace(".json", ".joblib")

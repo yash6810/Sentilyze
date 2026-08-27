@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from newsapi import NewsApiClient
 import yfinance as yf
-from src.utils import get_logger
+from src.utils import get_logger, sanitize_filename, safe_path_join
 import time
 from typing import Dict
 
@@ -68,7 +68,10 @@ def _fetch_yfinance_news(ticker: str) -> pd.DataFrame:
     return pd.DataFrame()
 
 
-import xml.etree.ElementTree as ET
+try:
+    import defusedxml.ElementTree as ET
+except ImportError:
+    import xml.etree.ElementTree as ET  # nosec B405
 from datetime import datetime, timezone, timedelta
 from typing import Dict, Optional, Any, List
 
@@ -255,7 +258,8 @@ def get_news(
     Enterprise Multi-Source News Router:
     Cascades through Google News RSS -> Yahoo Finance -> Finnhub -> Marketaux -> Polygon -> NewsAPI -> Local Cache.
     """
-    cache_path = os.path.join(DATA_DIR, f"{ticker}_news.csv")
+    clean_ticker = sanitize_filename(ticker)
+    cache_path = safe_path_join(DATA_DIR, f"{clean_ticker}_news.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
 
     should_load_cache = False
@@ -356,13 +360,13 @@ def _generate_dummy_news(ticker: str) -> pd.DataFrame:
     ]
 
     for i in range(15):
-        days_ago = random.randint(0, 14)  # Spread over last 14 days
+        days_ago = random.randint(0, 14)  # nosec B311
         pub_date = today - datetime.timedelta(days=days_ago)
 
         dummy_articles.append(
             {
                 "publishedAt": pub_date.isoformat(),
-                "Title": random.choice(titles),
+                "Title": random.choice(titles),  # nosec B311
                 "description": f"This is a generated dummy description for {ticker} to demonstrate pipeline capabilities without an active API connection.",
                 "url": "https://example.com/dummy-news",
                 "source": {"name": "Portfolio Fallback Generator"},
@@ -681,7 +685,8 @@ def get_price_history(
     Enterprise Data Router: Fetches historical price data up to today using the best available provider.
     Priority: Alpaca Data API v2 -> Polygon.io -> FMP -> EODHD -> Yahoo Direct Chart -> yfinance -> Cache
     """
-    cache_path = os.path.join(DATA_DIR, f"{ticker}_price_history.csv")
+    clean_ticker = sanitize_filename(ticker)
+    cache_path = safe_path_join(DATA_DIR, f"{clean_ticker}_price_history.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
 
     should_load_cache = False

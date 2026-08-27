@@ -42,3 +42,35 @@ def get_logger(name: str) -> Logger:
         logger.addHandler(file_handler)
 
     return logger
+
+
+def sanitize_filename(name: str) -> str:
+    """
+    Sanitizes user/external inputs to prevent path injection / path traversal (CWE-22 / CWE-73).
+    Only allows alphanumeric characters, dashes, underscores, and dots.
+    """
+    if not name:
+        return "default"
+    import re
+
+    cleaned = re.sub(r"[^A-Za-z0-9_.\-]", "", str(name)).strip()
+    cleaned = re.sub(r"^\.+", "", cleaned)
+    return cleaned or "default"
+
+
+def safe_path_join(base_dir: str, *paths: str) -> str:
+    """
+    Safely joins paths, ensuring the resolved target path remains strictly within base_dir.
+    """
+    sanitized_parts = [sanitize_filename(p) for p in paths]
+    target_path = os.path.abspath(os.path.join(base_dir, *sanitized_parts))
+    base_abs = os.path.abspath(base_dir)
+    if not (
+        target_path == base_abs
+        or target_path.startswith(base_abs + os.sep)
+        or target_path.startswith(base_abs + "/")
+    ):
+        raise ValueError(
+            f"Path traversal detected: {target_path} is outside {base_abs}"
+        )
+    return target_path
