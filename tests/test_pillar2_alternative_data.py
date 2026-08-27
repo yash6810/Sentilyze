@@ -48,6 +48,8 @@ def test_social_sentiment_velocity():
     tracker = fetch_social_sentiment_tracker("TSLA")
     assert tracker["ticker"] == "TSLA"
     assert tracker["mention_volume_24h"] > 0
+    assert "reddit_stream" in tracker
+    assert "stocktwits_stream" in tracker
 
 
 def test_insider_and_congressional_tracker():

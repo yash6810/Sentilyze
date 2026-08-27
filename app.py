@@ -78,6 +78,7 @@ from src.earnings_sentiment import analyze_earnings_call_transcript
 from src.social_sentiment import fetch_social_sentiment_tracker
 from src.insider_tracker import compute_smart_money_insider_score
 from src.patent_contract_radar import compute_government_and_patent_index
+from src.ipo_radar import fetch_pre_ipo_radar_summary
 from src.agent_committee import (
     convene_trading_committee,
     execute_committee_order,
@@ -103,9 +104,7 @@ def get_universe_tickers() -> List[str]:
     if os.path.exists(stocks_file):
         with open(stocks_file, "r") as f:
             tickers = [
-                line.strip()
-                for line in f
-                if line.strip() and not line.startswith("#")
+                line.strip() for line in f if line.strip() and not line.startswith("#")
             ]
             if tickers:
                 return tickers
@@ -1965,6 +1964,100 @@ def render_alternative_data_workspace(ticker: str):
             st.markdown(
                 f"• **{ct['agency']}**: `{ct['program']}` — **${ct['award_value']:,.0f}**"
             )
+
+    # 3. Real-Time Multi-Platform Social Stream (Reddit + Stocktwits)
+    st.markdown("---")
+    st.markdown("#### 🌐 Multi-Platform Live Social Scraper (Reddit & Stocktwits)")
+    sc_col1, sc_col2 = st.columns(2)
+    with sc_col1:
+        st.markdown(
+            f"**Reddit (r/wallstreetbets & r/stocks) mentions for `{ticker}`:**"
+        )
+        reddit_posts = soc_res.get("reddit_stream", [])
+        if reddit_posts:
+            for p in reddit_posts[:4]:
+                st.markdown(
+                    f"""
+                    <div class="glass-card" style="margin-bottom: 0.5rem; padding: 0.75rem;">
+                        <div style="font-weight: 700; color: #F1F5F9; font-size: 0.85rem;">{p['title']}</div>
+                        <div style="font-size: 0.75rem; color: #94A3B8; margin-top: 0.25rem;">
+                            Score: <code>▲ {p['score']}</code> | Comments: <code>💬 {p['comments']}</code> | <a href="{p['url']}" target="_blank" style="color: #38BDF8;">View Post</a>
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+        else:
+            st.info(f"No recent Reddit mentions found for {ticker}.")
+
+    with sc_col2:
+        st.markdown(f"**Stocktwits Real-Time Retail Stream for `{ticker}`:**")
+        st_msgs = soc_res.get("stocktwits_stream", [])
+        if st_msgs:
+            for m in st_msgs[:4]:
+                tag_color = (
+                    "#10B981"
+                    if m["sentiment"] == "BULLISH"
+                    else ("#EF4444" if m["sentiment"] == "BEARISH" else "#94A3B8")
+                )
+                st.markdown(
+                    f"""
+                    <div class="glass-card" style="margin-bottom: 0.5rem; padding: 0.75rem; border-left: 3px solid {tag_color};">
+                        <div style="font-size: 0.82rem; color: #E2E8F0;">{m['body'][:160]}...</div>
+                        <div style="font-size: 0.72rem; color: {tag_color}; font-weight: 700; margin-top: 0.25rem;">
+                            Tag: {m['sentiment']}
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+        else:
+            st.info(f"No recent Stocktwits stream data for {ticker}.")
+
+    # 4. Pre-IPO & SEC S-1 Registration Radar
+    st.markdown("---")
+    st.markdown("#### 🚀 Pre-IPO Private Valuations & SEC Form S-1 Registration Radar")
+    ipo_summary = fetch_pre_ipo_radar_summary()
+    ipo_col1, ipo_col2 = st.columns([1.5, 1])
+
+    with ipo_col1:
+        st.markdown("**🔥 Top Pre-IPO Private Tech Targets (Projected Listings):**")
+        for target in ipo_summary["pre_ipo_targets"]:
+            st.markdown(
+                f"""
+                <div class="glass-card" style="margin-bottom: 0.6rem; padding: 0.85rem; border-left: 4px solid #38BDF8;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight: 800; font-size: 1.05rem; color: #F8FAFC;">{target['name']} <code style="color: #38BDF8;">${target['projected_ticker']}</code></span>
+                        <span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75rem;">{target['status']}</span>
+                    </div>
+                    <div style="font-size: 0.85rem; color: #94A3B8; margin-top: 0.4rem;">
+                        • <b>Est. Valuation</b>: <span style="color: #34D399; font-weight: 700;">{target['est_valuation_usd']}</span> | <b>Readiness Score</b>: <code>{target['ipo_readiness_score']}/100</code><br>
+                        • <b>Key Backers</b>: {', '.join(target['lead_backers'][:3])}<br>
+                        • <b>Catalysts</b>: {target['key_catalysts']}
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+    with ipo_col2:
+        st.markdown("**📋 Live SEC Form S-1 Registrations (EDGAR):**")
+        s1_filings = ipo_summary["recent_s1_filings"]
+        if s1_filings:
+            for s1 in s1_filings[:4]:
+                st.markdown(
+                    f"""
+                    <div class="glass-card" style="margin-bottom: 0.5rem; padding: 0.7rem;">
+                        <div style="font-weight: 700; font-size: 0.82rem; color: #F1F5F9;">{s1['title'][:70]}...</div>
+                        <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 0.25rem;">
+                            Date: {s1['updated_at']} | <a href="{s1['filing_url']}" target="_blank" style="color: #38BDF8;">EDGAR Filing</a>
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+        else:
+            st.info("SEC EDGAR S-1 filing stream ready. Auto-polling active.")
 
 
 # ==============================================================================
