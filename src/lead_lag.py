@@ -16,9 +16,7 @@ from src.utils import get_logger
 logger = get_logger(__name__)
 
 
-def _granger_f_test(
-    y: np.ndarray, x: np.ndarray, lag: int = 2
-) -> float:
+def _granger_f_test(y: np.ndarray, x: np.ndarray, lag: int = 2) -> float:
     """
     Computes pure vector OLS Granger causality F-test p-value (testing if x Granger-causes y).
     """
@@ -32,13 +30,13 @@ def _granger_f_test(
     # Restricted design matrix (lags of Y only)
     X_restr = [np.ones(n - lag)]
     for i in range(1, lag + 1):
-        X_restr.append(y[lag - i: n - i])
+        X_restr.append(y[lag - i : n - i])
     X_restr = np.column_stack(X_restr)
 
     # Unrestricted design matrix (lags of Y and lags of X)
     X_unrestr = list(X_restr.T)
     for j in range(1, lag + 1):
-        X_unrestr.append(x[lag - j: n - j])
+        X_unrestr.append(x[lag - j : n - j])
     X_unrestr = np.column_stack(X_unrestr)
 
     # Solve OLS via least squares
@@ -125,17 +123,35 @@ def rank_market_price_leaders(
     for leader in lead_lag_matrix.index:
         row = lead_lag_matrix.loc[leader]
         significant_followers = [
-            f for f in lead_lag_matrix.columns
+            f
+            for f in lead_lag_matrix.columns
             if f != leader and float(row[f]) < alpha_threshold
         ]
 
-        ranks.append({
-            "ticker": leader,
-            "leads_count": len(significant_followers),
-            "followers": significant_followers,
-            "influence_score": round((len(significant_followers) / max(1, len(lead_lag_matrix.columns) - 1)) * 100, 1),
-            "status": "👑 PRIMARY PRICE DISCOVERY LEADER" if len(significant_followers) >= 3 else "⚡ PEER DRIVER" if len(significant_followers) >= 1 else "⚪ LAGGER / FOLLOWER",
-        })
+        ranks.append(
+            {
+                "ticker": leader,
+                "leads_count": len(significant_followers),
+                "followers": significant_followers,
+                "influence_score": round(
+                    (
+                        len(significant_followers)
+                        / max(1, len(lead_lag_matrix.columns) - 1)
+                    )
+                    * 100,
+                    1,
+                ),
+                "status": (
+                    "👑 PRIMARY PRICE DISCOVERY LEADER"
+                    if len(significant_followers) >= 3
+                    else (
+                        "⚡ PEER DRIVER"
+                        if len(significant_followers) >= 1
+                        else "⚪ LAGGER / FOLLOWER"
+                    )
+                ),
+            }
+        )
 
     ranks.sort(key=lambda x: x["leads_count"], reverse=True)
     return ranks

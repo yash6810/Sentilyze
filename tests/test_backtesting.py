@@ -2,12 +2,10 @@ import matplotlib
 
 matplotlib.use("Agg")
 import pandas as pd
-import numpy as np
 import pytest
 from src.backtesting import (
     run_backtest,
     _calculate_trade_outcomes,
-    calculate_performance_metrics,
     run_significance_test,
 )
 

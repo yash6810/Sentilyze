@@ -8,7 +8,7 @@ Pillar 3 Derivatives Engine:
 - Recommends AI-aligned Multi-Leg Option Spreads (Bull Call Spreads, Cash-Secured Puts, Iron Condors).
 """
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Tuple
 import numpy as np
 import pandas as pd
 import yfinance as yf
@@ -17,9 +17,7 @@ from src.utils import get_logger
 logger = get_logger(__name__)
 
 
-def fetch_option_chain(
-    ticker: str, expiration_idx: int = 0
-) -> Dict[str, Any]:
+def fetch_option_chain(ticker: str, expiration_idx: int = 0) -> Dict[str, Any]:
     """
     Fetches real-time calls and puts option chain data for a given ticker.
 
@@ -41,7 +39,11 @@ def fetch_option_chain(
 
         # Get spot price
         fast_info = getattr(t, "fast_info", None)
-        spot_price = float(fast_info.last_price) if fast_info and hasattr(fast_info, "last_price") else 100.0
+        spot_price = (
+            float(fast_info.last_price)
+            if fast_info and hasattr(fast_info, "last_price")
+            else 100.0
+        )
 
         calls = chain.calls.copy()
         puts = chain.puts.copy()
@@ -56,7 +58,9 @@ def fetch_option_chain(
             "is_real_data": True,
         }
     except Exception as e:
-        logger.warning(f"Option chain fetch failed for {ticker}: {e}. Generating calibrated options model.")
+        logger.warning(
+            f"Option chain fetch failed for {ticker}: {e}. Generating calibrated options model."
+        )
         return _generate_mock_option_chain(ticker)
 
 
@@ -77,20 +81,24 @@ def _generate_mock_option_chain(ticker: str) -> Dict[str, Any]:
         c_oi = int(np.random.normal(5000, 1500) * np.exp(-abs(moneyness) * 2))
         p_oi = int(np.random.normal(4500, 1200) * np.exp(-abs(moneyness) * 2))
 
-        calls_data.append({
-            "strike": round(k, 1),
-            "lastPrice": round(c_price, 2),
-            "openInterest": max(100, c_oi),
-            "volume": int(max(50, c_oi * 0.2)),
-            "impliedVolatility": round(0.35 + abs(moneyness) * 0.2, 4),
-        })
-        puts_data.append({
-            "strike": round(k, 1),
-            "lastPrice": round(p_price, 2),
-            "openInterest": max(100, p_oi),
-            "volume": int(max(50, p_oi * 0.2)),
-            "impliedVolatility": round(0.35 + abs(moneyness) * 0.2, 4),
-        })
+        calls_data.append(
+            {
+                "strike": round(k, 1),
+                "lastPrice": round(c_price, 2),
+                "openInterest": max(100, c_oi),
+                "volume": int(max(50, c_oi * 0.2)),
+                "impliedVolatility": round(0.35 + abs(moneyness) * 0.2, 4),
+            }
+        )
+        puts_data.append(
+            {
+                "strike": round(k, 1),
+                "lastPrice": round(p_price, 2),
+                "openInterest": max(100, p_oi),
+                "volume": int(max(50, p_oi * 0.2)),
+                "impliedVolatility": round(0.35 + abs(moneyness) * 0.2, 4),
+            }
+        )
 
     return {
         "ticker": ticker,
@@ -123,22 +131,30 @@ def calculate_max_pain(
     c_df = calls_df[["strike", "openInterest"]].copy().dropna()
     p_df = puts_df[["strike", "openInterest"]].copy().dropna()
 
-    all_strikes = np.sort(np.unique(np.concatenate([c_df["strike"].values, p_df["strike"].values])))
+    all_strikes = np.sort(
+        np.unique(np.concatenate([c_df["strike"].values, p_df["strike"].values]))
+    )
     loss_results = []
 
     for price in all_strikes:
         # Call intrinsic value payout: sum(max(0, price - call_strike) * call_OI * 100)
-        call_loss = np.sum(np.maximum(0, price - c_df["strike"]) * c_df["openInterest"] * 100)
+        call_loss = np.sum(
+            np.maximum(0, price - c_df["strike"]) * c_df["openInterest"] * 100
+        )
         # Put intrinsic value payout: sum(max(0, put_strike - price) * put_OI * 100)
-        put_loss = np.sum(np.maximum(0, p_df["strike"] - price) * p_df["openInterest"] * 100)
+        put_loss = np.sum(
+            np.maximum(0, p_df["strike"] - price) * p_df["openInterest"] * 100
+        )
         total_payout = call_loss + put_loss
 
-        loss_results.append({
-            "strike": float(price),
-            "call_loss": float(call_loss),
-            "put_loss": float(put_loss),
-            "total_loss": float(total_payout),
-        })
+        loss_results.append(
+            {
+                "strike": float(price),
+                "call_loss": float(call_loss),
+                "put_loss": float(put_loss),
+                "total_loss": float(total_payout),
+            }
+        )
 
     loss_df = pd.DataFrame(loss_results)
     if loss_df.empty:
@@ -163,8 +179,12 @@ def calculate_put_call_ratios(
     Returns:
         Dict with pcr_oi, pcr_volume, total_call_oi, total_put_oi, sentiment_verdict.
     """
-    total_call_oi = float(calls_df["openInterest"].sum()) if "openInterest" in calls_df else 1.0
-    total_put_oi = float(puts_df["openInterest"].sum()) if "openInterest" in puts_df else 1.0
+    total_call_oi = (
+        float(calls_df["openInterest"].sum()) if "openInterest" in calls_df else 1.0
+    )
+    total_put_oi = (
+        float(puts_df["openInterest"].sum()) if "openInterest" in puts_df else 1.0
+    )
     total_call_vol = float(calls_df["volume"].sum()) if "volume" in calls_df else 1.0
     total_put_vol = float(puts_df["volume"].sum()) if "volume" in puts_df else 1.0
 
@@ -210,7 +230,11 @@ def estimate_gamma_exposure(
         Dict with net_gex, call_gex, put_gex, gex_by_strike_df, and regime_verdict.
     """
     if calls_df.empty or puts_df.empty:
-        return {"net_gex": 0.0, "regime_verdict": "Neutral Gamma", "gex_by_strike": pd.DataFrame()}
+        return {
+            "net_gex": 0.0,
+            "regime_verdict": "Neutral Gamma",
+            "gex_by_strike": pd.DataFrame(),
+        }
 
     c = calls_df[["strike", "openInterest", "impliedVolatility"]].copy().dropna()
     p = puts_df[["strike", "openInterest", "impliedVolatility"]].copy().dropna()
@@ -227,17 +251,21 @@ def estimate_gamma_exposure(
 
         # Simplified normal PDF weighting near spot
         dist = abs(spot_price - k) / (spot_price * 0.2 + 1e-9)
-        weight = np.exp(-0.5 * (dist ** 2))
+        weight = np.exp(-0.5 * (dist**2))
 
         c_gex = c_oi * 100 * spot_price * 0.01 * weight
-        p_gex = -p_oi * 100 * spot_price * 0.01 * weight  # Puts are negative gamma for dealers
+        p_gex = (
+            -p_oi * 100 * spot_price * 0.01 * weight
+        )  # Puts are negative gamma for dealers
 
-        gex_list.append({
-            "strike": float(k),
-            "call_gex": round(c_gex, 2),
-            "put_gex": round(p_gex, 2),
-            "net_gex": round(c_gex + p_gex, 2),
-        })
+        gex_list.append(
+            {
+                "strike": float(k),
+                "call_gex": round(c_gex, 2),
+                "put_gex": round(p_gex, 2),
+                "net_gex": round(c_gex + p_gex, 2),
+            }
+        )
 
     gex_df = pd.DataFrame(gex_list)
     total_net_gex = float(gex_df["net_gex"].sum()) if not gex_df.empty else 0.0
@@ -249,8 +277,12 @@ def estimate_gamma_exposure(
 
     return {
         "net_gex": round(total_net_gex, 2),
-        "total_call_gex": round(float(gex_df["call_gex"].sum()), 2) if not gex_df.empty else 0.0,
-        "total_put_gex": round(float(gex_df["put_gex"].sum()), 2) if not gex_df.empty else 0.0,
+        "total_call_gex": (
+            round(float(gex_df["call_gex"].sum()), 2) if not gex_df.empty else 0.0
+        ),
+        "total_put_gex": (
+            round(float(gex_df["put_gex"].sum()), 2) if not gex_df.empty else 0.0
+        ),
         "gex_by_strike": gex_df,
         "regime_verdict": regime,
     }
@@ -280,7 +312,6 @@ def recommend_option_spreads(
         List of recommended spread structures with exact legs, net cost, max profit, and max loss.
     """
     spreads = []
-    round_spot = round(spot_price, 0)
 
     if ai_signal == "BUY":
         # 1. Bull Call Spread (Debit Spread)
@@ -290,34 +321,38 @@ def recommend_option_spreads(
         spread_width = short_strike - long_strike
         max_profit = max(0.5, spread_width - est_cost)
 
-        spreads.append({
-            "name": "🐂 Bull Call Vertical Spread",
-            "bias": "BULLISH",
-            "type": "Debit Spread (Defined Risk)",
-            "structure": f"Buy +1 Call ${long_strike} / Sell -1 Call ${short_strike}",
-            "net_debit": round(est_cost * 100, 2),
-            "max_profit": round(max_profit * 100, 2),
-            "max_loss": round(est_cost * 100, 2),
-            "breakeven": round(long_strike + est_cost, 2),
-            "risk_reward": f"1 : {max_profit / (est_cost + 1e-9):.2f}",
-            "thesis": f"AI model is bullish on {ticker}. Spread captures upside to ${short_strike} while capping downside risk.",
-        })
+        spreads.append(
+            {
+                "name": "🐂 Bull Call Vertical Spread",
+                "bias": "BULLISH",
+                "type": "Debit Spread (Defined Risk)",
+                "structure": f"Buy +1 Call ${long_strike} / Sell -1 Call ${short_strike}",
+                "net_debit": round(est_cost * 100, 2),
+                "max_profit": round(max_profit * 100, 2),
+                "max_loss": round(est_cost * 100, 2),
+                "breakeven": round(long_strike + est_cost, 2),
+                "risk_reward": f"1 : {max_profit / (est_cost + 1e-9):.2f}",
+                "thesis": f"AI model is bullish on {ticker}. Spread captures upside to ${short_strike} while capping downside risk.",
+            }
+        )
 
         # 2. Cash-Secured Put (Income / Discount Entry)
         put_strike = round(spot_price * 0.94, 1)
         est_credit = max(1.0, spot_price * 0.015)
-        spreads.append({
-            "name": "🛡️ Cash-Secured Put (Buffer Entry)",
-            "bias": "MILDLY BULLISH / INCOME",
-            "type": "Credit Strategy",
-            "structure": f"Sell -1 Put ${put_strike} (Cash-Secured)",
-            "net_credit": round(est_credit * 100, 2),
-            "max_profit": round(est_credit * 100, 2),
-            "max_loss": round((put_strike - est_credit) * 100, 2),
-            "breakeven": round(put_strike - est_credit, 2),
-            "risk_reward": "High Probability (>75%)",
-            "thesis": f"Earn ${est_credit * 100:.0f} income or acquire {ticker} at a 6% discount (${put_strike}).",
-        })
+        spreads.append(
+            {
+                "name": "🛡️ Cash-Secured Put (Buffer Entry)",
+                "bias": "MILDLY BULLISH / INCOME",
+                "type": "Credit Strategy",
+                "structure": f"Sell -1 Put ${put_strike} (Cash-Secured)",
+                "net_credit": round(est_credit * 100, 2),
+                "max_profit": round(est_credit * 100, 2),
+                "max_loss": round((put_strike - est_credit) * 100, 2),
+                "breakeven": round(put_strike - est_credit, 2),
+                "risk_reward": "High Probability (>75%)",
+                "thesis": f"Earn ${est_credit * 100:.0f} income or acquire {ticker} at a 6% discount (${put_strike}).",
+            }
+        )
     else:
         # Bearish / Neutral: Bear Put Spread or Iron Condor
         long_put = round(spot_price * 1.00, 1)
@@ -326,34 +361,38 @@ def recommend_option_spreads(
         spread_width = long_put - short_put
         max_profit = max(0.5, spread_width - est_cost)
 
-        spreads.append({
-            "name": "🐻 Bear Put Vertical Spread",
-            "bias": "BEARISH",
-            "type": "Debit Spread (Defined Risk)",
-            "structure": f"Buy +1 Put ${long_put} / Sell -1 Put ${short_put}",
-            "net_debit": round(est_cost * 100, 2),
-            "max_profit": round(max_profit * 100, 2),
-            "max_loss": round(est_cost * 100, 2),
-            "breakeven": round(long_put - est_cost, 2),
-            "risk_reward": f"1 : {max_profit / (est_cost + 1e-9):.2f}",
-            "thesis": f"AI model is cautious/defensive on {ticker}. Hedges downside to ${short_put}.",
-        })
+        spreads.append(
+            {
+                "name": "🐻 Bear Put Vertical Spread",
+                "bias": "BEARISH",
+                "type": "Debit Spread (Defined Risk)",
+                "structure": f"Buy +1 Put ${long_put} / Sell -1 Put ${short_put}",
+                "net_debit": round(est_cost * 100, 2),
+                "max_profit": round(max_profit * 100, 2),
+                "max_loss": round(est_cost * 100, 2),
+                "breakeven": round(long_put - est_cost, 2),
+                "risk_reward": f"1 : {max_profit / (est_cost + 1e-9):.2f}",
+                "thesis": f"AI model is cautious/defensive on {ticker}. Hedges downside to ${short_put}.",
+            }
+        )
 
         # Iron Condor (Range-bound)
         call_wing = round(spot_price * 1.06, 1)
         put_wing = round(spot_price * 0.94, 1)
         credit = max(1.2, spot_price * 0.018)
-        spreads.append({
-            "name": "🦅 Range-Bound Iron Condor",
-            "bias": "NEUTRAL",
-            "type": "Credit Spread",
-            "structure": f"Sell ${put_wing}P/${call_wing}C Wings (Pinning near ${max_pain:.0f})",
-            "net_credit": round(credit * 100, 2),
-            "max_profit": round(credit * 100, 2),
-            "max_loss": round((spot_price * 0.05 - credit) * 100, 2),
-            "breakeven": f"${put_wing - credit:.1f} - ${call_wing + credit:.1f}",
-            "risk_reward": "Range Trade",
-            "thesis": f"Capitalizes on volatility crush and price pinning around Max Pain (${max_pain:.0f}).",
-        })
+        spreads.append(
+            {
+                "name": "🦅 Range-Bound Iron Condor",
+                "bias": "NEUTRAL",
+                "type": "Credit Spread",
+                "structure": f"Sell ${put_wing}P/${call_wing}C Wings (Pinning near ${max_pain:.0f})",
+                "net_credit": round(credit * 100, 2),
+                "max_profit": round(credit * 100, 2),
+                "max_loss": round((spot_price * 0.05 - credit) * 100, 2),
+                "breakeven": f"${put_wing - credit:.1f} - ${call_wing + credit:.1f}",
+                "risk_reward": "Range Trade",
+                "thesis": f"Capitalizes on volatility crush and price pinning around Max Pain (${max_pain:.0f}).",
+            }
+        )
 
     return spreads

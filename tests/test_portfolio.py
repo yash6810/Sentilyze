@@ -1,8 +1,6 @@
 import pytest
 import pandas as pd
-import numpy as np
 from src.portfolio import (
-    load_all_ticker_portfolios,
     calculate_risk_parity_weights,
     build_unified_portfolio,
 )

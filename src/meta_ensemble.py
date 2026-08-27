@@ -6,7 +6,7 @@ Pillar 1 Core Engine:
 - Provides granular sub-model transparency and ensemble voting consensus.
 """
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
@@ -40,7 +40,11 @@ class MetaEnsembleClassifier:
             random_state=42,
         )
         # Default ensemble voting weights (XGBoost 50%, Random Forest 30%, Logistic 20%)
-        self.weights = weights or {"xgboost": 0.50, "random_forest": 0.30, "logistic": 0.20}
+        self.weights = weights or {
+            "xgboost": 0.50,
+            "random_forest": 0.30,
+            "logistic": 0.20,
+        }
         self.is_fitted = False
 
     def fit(self, X: pd.DataFrame, y: pd.Series):
@@ -68,9 +72,21 @@ class MetaEnsembleClassifier:
         """
         X_clean = X.fillna(0.0)
 
-        p_xgb = self.xgb_model.predict_proba(X_clean)[:, 1] if self.is_fitted else np.array([0.5])
-        p_rf = self.rf_model.predict_proba(X_clean)[:, 1] if self.is_fitted else np.array([0.5])
-        p_lr = self.lr_model.predict_proba(X_clean)[:, 1] if self.is_fitted else np.array([0.5])
+        p_xgb = (
+            self.xgb_model.predict_proba(X_clean)[:, 1]
+            if self.is_fitted
+            else np.array([0.5])
+        )
+        p_rf = (
+            self.rf_model.predict_proba(X_clean)[:, 1]
+            if self.is_fitted
+            else np.array([0.5])
+        )
+        p_lr = (
+            self.lr_model.predict_proba(X_clean)[:, 1]
+            if self.is_fitted
+            else np.array([0.5])
+        )
 
         w_xgb = self.weights.get("xgboost", 0.50)
         w_rf = self.weights.get("random_forest", 0.30)

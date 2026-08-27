@@ -6,9 +6,7 @@ Pillar 3 Options & Market Microstructure Module:
 - Computes optimal 0DTE strike selection, premium entry price, +60% Take-Profit 1, and -25% Hard Stop-Loss.
 """
 
-from typing import Any, Dict, List, Optional
-import numpy as np
-import pandas as pd
+from typing import Any, Dict
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -64,7 +62,7 @@ def generate_0dte_scalp_signal(
     # Targets & Greeks
     tp1_price = round(est_premium * 1.50, 2)  # +50% target
     tp2_price = round(est_premium * 2.00, 2)  # +100% runner target
-    sl_price = round(est_premium * 0.75, 2)   # -25% max loss stop
+    sl_price = round(est_premium * 0.75, 2)  # -25% max loss stop
 
     return {
         "ticker": index_ticker,

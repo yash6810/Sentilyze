@@ -7,16 +7,22 @@ Pillar 6 Cloud Architecture & Execution Module:
 - Calculates projected market impact reduction vs aggressive market orders.
 """
 
-from typing import Any, Dict, List, Optional
-import numpy as np
-import pandas as pd
+from typing import Any, Dict
 from src.utils import get_logger
 
 logger = get_logger(__name__)
 
 # Typical U-shaped Intraday Volume Distribution across 7 trading hours (9:30 - 16:00 EST)
 INTRADAY_VWAP_WEIGHTS = [0.22, 0.14, 0.09, 0.08, 0.10, 0.15, 0.22]
-TIME_BUCKETS = ["09:30-10:30", "10:30-11:30", "11:30-12:30", "12:30-13:30", "13:30-14:30", "14:30-15:30", "15:30-16:00"]
+TIME_BUCKETS = [
+    "09:30-10:30",
+    "10:30-11:30",
+    "11:30-12:30",
+    "12:30-13:30",
+    "13:30-14:30",
+    "14:30-15:30",
+    "15:30-16:00",
+]
 
 
 def generate_vwap_order_schedule(
@@ -31,18 +37,22 @@ def generate_vwap_order_schedule(
     for bucket, weight in zip(TIME_BUCKETS, INTRADAY_VWAP_WEIGHTS):
         slice_shares = int(round(total_shares * weight))
         accumulated_shares += slice_shares
-        slices.append({
-            "time_window": bucket,
-            "allocated_shares": slice_shares,
-            "target_volume_pct": round(weight * 100, 1),
-            "est_notional": round(slice_shares * current_price, 2),
-            "order_type": "Passive Limit / Post-Only",
-        })
+        slices.append(
+            {
+                "time_window": bucket,
+                "allocated_shares": slice_shares,
+                "target_volume_pct": round(weight * 100, 1),
+                "est_notional": round(slice_shares * current_price, 2),
+                "order_type": "Passive Limit / Post-Only",
+            }
+        )
 
     # Slippage savings calculation
     est_market_impact_unrouted = 0.0085  # 85 bps
-    est_vwap_slippage = 0.0018         # 18 bps
-    dollar_savings = (est_market_impact_unrouted - est_vwap_slippage) * (total_shares * current_price)
+    est_vwap_slippage = 0.0018  # 18 bps
+    dollar_savings = (est_market_impact_unrouted - est_vwap_slippage) * (
+        total_shares * current_price
+    )
 
     return {
         "ticker": ticker,
@@ -57,7 +67,10 @@ def generate_vwap_order_schedule(
 
 
 def generate_twap_order_schedule(
-    ticker: str, total_shares: int = 10000, current_price: float = 130.0, num_slices: int = 6
+    ticker: str,
+    total_shares: int = 10000,
+    current_price: float = 130.0,
+    num_slices: int = 6,
 ) -> Dict[str, Any]:
     """
     Generates a TWAP linear child-order execution schedule.
@@ -66,13 +79,15 @@ def generate_twap_order_schedule(
     slices = []
 
     for i in range(num_slices):
-        slices.append({
-            "slice_index": i + 1,
-            "interval_mins": 60,
-            "allocated_shares": shares_per_slice,
-            "est_notional": round(shares_per_slice * current_price, 2),
-            "order_type": "TWAP Sliced Limit",
-        })
+        slices.append(
+            {
+                "slice_index": i + 1,
+                "interval_mins": 60,
+                "allocated_shares": shares_per_slice,
+                "est_notional": round(shares_per_slice * current_price, 2),
+                "order_type": "TWAP Sliced Limit",
+            }
+        )
 
     return {
         "ticker": ticker,

@@ -8,14 +8,23 @@ Pillar 7 Omnichannel Module:
 
 import os
 import requests
-import numpy as np
+from typing import Any, Dict, Optional
 import pandas as pd
-from typing import Any, Dict, List, Optional
 from src.utils import get_logger
 from src.paper_broker import PaperBroker
 from src.realtime_tracker import fetch_live_quote
-from src.options_flow import fetch_option_chain, calculate_max_pain, calculate_put_call_ratios, recommend_option_spreads
-from src.fundamental_valuation import fetch_financial_statements, calculate_piotroski_f_score, calculate_altman_z_score, calculate_dcf_fair_value
+from src.options_flow import (
+    fetch_option_chain,
+    calculate_max_pain,
+    calculate_put_call_ratios,
+    recommend_option_spreads,
+)
+from src.fundamental_valuation import (
+    fetch_financial_statements,
+    calculate_piotroski_f_score,
+    calculate_altman_z_score,
+    calculate_dcf_fair_value,
+)
 from src.statistical_arbitrage import generate_pairs_trading_signals
 
 logger = get_logger(__name__)
@@ -68,13 +77,17 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
         sig_msg = (
             f"🎯 *AI Signal Analysis: {ticker}*\n\n"
             f"• *Spot Price*: `${price:,.2f}` ({chg:+.2f}%)\n"
-            f"• *AI Model Signal*: `{'🟢 ' + signal if signal=='BUY' else '🟡 ' + signal}`\n"
+            f"• *AI Model Signal*: `{'🟢 ' + signal if signal == 'BUY' else '🟡 ' + signal}`\n"
             f"• *Model Confidence*: `{conf * 100:.1f}%`\n"
             f"• *Take-Profit 1 (50% scale-out)*: `${tp1:,.2f}` (+6.0%)\n"
             f"• *Take-Profit 2 (Runner target)*: `${tp2:,.2f}` (+12.0%)\n"
             f"• *Stop-Loss (Hard floor)*: `${sl:,.2f}` (-5.0%)"
         )
-        return {"status": "success", "title": f"Signal: {ticker}", "markdown_text": sig_msg}
+        return {
+            "status": "success",
+            "title": f"Signal: {ticker}",
+            "markdown_text": sig_msg,
+        }
 
     elif cmd == "/portfolio":
         broker = PaperBroker()
@@ -96,15 +109,26 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             f"• *Invested Allocation*: `${total_eq - cash:,.2f}`\n\n"
             f"{pos_str}"
         )
-        return {"status": "success", "title": "Portfolio Ledger", "markdown_text": port_msg}
+        return {
+            "status": "success",
+            "title": "Portfolio Ledger",
+            "markdown_text": port_msg,
+        }
 
     elif cmd == "/statarb":
         try:
             from src.data_ingestion import get_price_history
+
             hist_a = get_price_history("NVDA")
             hist_b = get_price_history("AMD")
-            s_a = hist_a["Close"] if "Close" in hist_a else pd.Series([100.0, 105.0, 110.0])
-            s_b = hist_b["Close"] if "Close" in hist_b else pd.Series([80.0, 84.0, 88.0])
+            s_a = (
+                hist_a["Close"]
+                if "Close" in hist_a
+                else pd.Series([100.0, 105.0, 110.0])
+            )
+            s_b = (
+                hist_b["Close"] if "Close" in hist_b else pd.Series([80.0, 84.0, 88.0])
+            )
             pair = generate_pairs_trading_signals(s_a, s_b, "NVDA", "AMD")
 
             arb_msg = (
@@ -116,7 +140,8 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
                 f"• *Recommended Action*: `{pair['action']}`"
             )
         except Exception as e:
-            arb_msg = f"🕸️ *Statistical Arbitrage Desk*: NVDA/AMD spread at equilibrium (Z-score: +0.42σ)."
+            logger.debug(f"StatArb error in telegram bot: {e}")
+            arb_msg = "🕸️ *Statistical Arbitrage Desk*: NVDA/AMD spread at equilibrium (Z-score: +0.42σ)."
         return {"status": "success", "title": "StatArb Desk", "markdown_text": arb_msg}
 
     elif cmd == "/options":
@@ -124,7 +149,14 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
         chain = fetch_option_chain(ticker)
         max_pain, _ = calculate_max_pain(chain["calls_df"], chain["puts_df"])
         pcr = calculate_put_call_ratios(chain["calls_df"], chain["puts_df"])
-        spreads = recommend_option_spreads(ticker, "BUY", chain["spot_price"], max_pain, chain["calls_df"], chain["puts_df"])
+        spreads = recommend_option_spreads(
+            ticker,
+            "BUY",
+            chain["spot_price"],
+            max_pain,
+            chain["calls_df"],
+            chain["puts_df"],
+        )
 
         top_spread = spreads[0] if spreads else {}
         opt_msg = (
@@ -136,7 +168,11 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             f"• *Structure*: `{top_spread.get('structure', '')}`\n"
             f"• *Risk / Reward*: `{top_spread.get('risk_reward', '1 : 2.0')}`"
         )
-        return {"status": "success", "title": f"Options Flow: {ticker}", "markdown_text": opt_msg}
+        return {
+            "status": "success",
+            "title": f"Options Flow: {ticker}",
+            "markdown_text": opt_msg,
+        }
 
     elif cmd == "/dcf":
         ticker = arg
@@ -153,7 +189,11 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             f"• *DCF Intrinsic Fair Value*: `${dcf_res['fair_value_price']:,.2f}`\n"
             f"• *Margin of Safety*: `{dcf_res['margin_of_safety_pct']:+.1f}%` ({dcf_res['verdict']})"
         )
-        return {"status": "success", "title": f"DCF: {ticker}", "markdown_text": dcf_msg}
+        return {
+            "status": "success",
+            "title": f"DCF: {ticker}",
+            "markdown_text": dcf_msg,
+        }
 
     elif cmd == "/killswitch":
         broker = PaperBroker()
@@ -177,17 +217,21 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             else:
                 broker.state["losing_trades"] += 1
 
-            broker.state["closed_trades"].append({
-                "ticker": ticker,
-                "shares": shares,
-                "entry_price": entry_p,
-                "exit_price": exit_p,
-                "entry_date": p.get("entry_date", str(pd.Timestamp.now(tz="UTC"))[:10]),
-                "exit_date": str(pd.Timestamp.now(tz="UTC"))[:10],
-                "pnl": round(pnl, 2),
-                "return_pct": round(ret_pct, 2),
-                "reason": "🚨 REMOTE TELEGRAM KILL-SWITCH TRIGGERED",
-            })
+            broker.state["closed_trades"].append(
+                {
+                    "ticker": ticker,
+                    "shares": shares,
+                    "entry_price": entry_p,
+                    "exit_price": exit_p,
+                    "entry_date": p.get(
+                        "entry_date", str(pd.Timestamp.now(tz="UTC"))[:10]
+                    ),
+                    "exit_date": str(pd.Timestamp.now(tz="UTC"))[:10],
+                    "pnl": round(pnl, 2),
+                    "return_pct": round(ret_pct, 2),
+                    "reason": "🚨 REMOTE TELEGRAM KILL-SWITCH TRIGGERED",
+                }
+            )
 
         broker.state["open_positions"] = {}
         if hasattr(broker, "_save"):
@@ -236,7 +280,9 @@ def send_telegram_bot_message(
     chat = chat_id or os.environ.get("TELEGRAM_CHAT_ID", "")
 
     if not token or not chat or token.startswith("your_"):
-        logger.info("Telegram Bot token or chat ID not set. Command executed locally in simulated sandbox.")
+        logger.info(
+            "Telegram Bot token or chat ID not set. Command executed locally in simulated sandbox."
+        )
         return False
 
     url = f"https://api.telegram.org/bot{token}/sendMessage"

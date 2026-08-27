@@ -42,7 +42,10 @@ from src.forensic_accounting import (
     calculate_beneish_m_score,
     analyze_debt_maturity_wall,
 )
-from src.black_swan_simulator import calculate_kelly_sizing, estimate_market_impact_slippage
+from src.black_swan_simulator import (
+    calculate_kelly_sizing,
+    estimate_market_impact_slippage,
+)
 from src.rl_allocator import optimize_rl_position_allocation
 from src.order_routing import generate_vwap_order_schedule
 from src.smartwatch_api import generate_smartwatch_glance_payload
@@ -54,6 +57,7 @@ logger = get_logger(__name__)
 @dataclass
 class MasterQuantPipelineResult:
     """Strongly-typed container for end-to-end unified institutional analysis."""
+
     ticker: str
     spot_price: float
     master_composite_score: float
@@ -93,9 +97,14 @@ def run_unified_institutional_pipeline(
     spot_price = float(quote.get("price", 150.0))
 
     # Step 2: Pillar 1 — Advanced AI Alpha & TFT
-    feat_df = pd.DataFrame(np.random.randn(synthetic_lookback_bars, 6), columns=[f"feat_{i}" for i in range(6)])
+    feat_df = pd.DataFrame(
+        np.random.randn(synthetic_lookback_bars, 6),
+        columns=[f"feat_{i}" for i in range(6)],
+    )
     tft_res = run_temporal_fusion_forecast(ticker, feat_df, spot_price)
-    rl_res = optimize_rl_position_allocation(ticker, recent_returns=[0.015, -0.005, 0.02, 0.01], ai_confidence=0.78)
+    rl_res = optimize_rl_position_allocation(
+        ticker, recent_returns=[0.015, -0.005, 0.02, 0.01], ai_confidence=0.78
+    )
 
     # Step 3: Pillar 2 — Alternative Data & Forensics
     sec_res = analyze_sec_filing_diff(ticker)
@@ -106,12 +115,13 @@ def run_unified_institutional_pipeline(
 
     # Step 4: Pillar 3 — Options Microstructure & Dark Pool Flow
     from src.options_flow import fetch_option_chain
+
     chain_data = fetch_option_chain(ticker)
     calls_df = chain_data["calls_df"]
     puts_df = chain_data["puts_df"]
 
     max_pain_strike, _ = calculate_max_pain(calls_df, puts_df)
-    _pcr_res = calculate_put_call_ratios(calls_df, puts_df)
+    pcr_res = calculate_put_call_ratios(calls_df, puts_df)
     gex_res = estimate_gamma_exposure(calls_df, puts_df, spot_price)
     dark_pool_res = compute_dark_pool_sentiment(ticker)
     spread_recs = recommend_option_spreads(
@@ -133,17 +143,25 @@ def run_unified_institutional_pipeline(
     altman_res = calculate_altman_z_score(ticker, fin_data)
     beneish_res = calculate_beneish_m_score(ticker)
     dcf_res = calculate_dcf_fair_value(ticker, fin_data)
-    _debt_wall = analyze_debt_maturity_wall(ticker)
+    debt_wall = analyze_debt_maturity_wall(ticker)
 
     # Step 7: Pillar 5 — Institutional Risk Management & Kelly Sizing
     kelly_res = calculate_kelly_sizing(win_rate=0.62, win_loss_ratio=2.2)
-    half_kelly_dollars = round(account_equity * (kelly_res["half_kelly_pct"] / 100.0), 2)
-    slippage_res = estimate_market_impact_slippage(order_size_dollars=half_kelly_dollars)
+    half_kelly_dollars = round(
+        account_equity * (kelly_res["half_kelly_pct"] / 100.0), 2
+    )
+    slippage_res = estimate_market_impact_slippage(
+        order_size_dollars=half_kelly_dollars
+    )
 
     # Step 8: Pillar 6 & 7 — Smart Order Execution & Omnichannel Alerts
     vwap_shares = max(1, int(half_kelly_dollars // spot_price))
-    vwap_schedule = generate_vwap_order_schedule(ticker, total_shares=vwap_shares, current_price=spot_price)
-    _smartwatch_payload = generate_smartwatch_glance_payload(total_equity=account_equity, daily_pnl_pct=2.4, top_active_ticker=ticker)
+    vwap_schedule = generate_vwap_order_schedule(
+        ticker, total_shares=vwap_shares, current_price=spot_price
+    )
+    smartwatch_payload = generate_smartwatch_glance_payload(
+        total_equity=account_equity, daily_pnl_pct=2.4, top_active_ticker=ticker
+    )
     whatsapp_text = format_whatsapp_trade_alert(
         ticker=ticker,
         action="MASTER_ALPHA_EXECUTE",
@@ -163,10 +181,18 @@ def run_unified_institutional_pipeline(
     # 5. RL Allocation & Sizing Safety: 15%
 
     ai_subscore = 75.0
-    alt_subscore = (earn_res["executive_optimism_score"] * 0.4 + insider_res["smart_money_score"] * 0.3 + gov_res["composite_innovation_score"] * 0.3)
+    alt_subscore = (
+        earn_res["executive_optimism_score"] * 0.4
+        + insider_res["smart_money_score"] * 0.3
+        + gov_res["composite_innovation_score"] * 0.3
+    )
     options_subscore = dark_pool_res["dark_pool_activity_score"]
-    fund_subscore = (piotroski_res["f_score"] / 9.0 * 50.0) + (50.0 if altman_res["z_score"] >= 1.81 else 20.0)
-    safety_subscore = (100.0 - beneish_res.get("manipulation_penalty", 0.0)) * 0.5 + (kelly_res["half_kelly_pct"] * 2.0)
+    fund_subscore = (piotroski_res["f_score"] / 9.0 * 50.0) + (
+        50.0 if altman_res["z_score"] >= 1.81 else 20.0
+    )
+    safety_subscore = (100.0 - beneish_res.get("manipulation_penalty", 0.0)) * 0.5 + (
+        kelly_res["half_kelly_pct"] * 2.0
+    )
 
     composite_score = round(
         (ai_subscore * 0.25)
@@ -178,7 +204,11 @@ def run_unified_institutional_pipeline(
     )
 
     # Master Verdict
-    if composite_score >= 75.0 and altman_res["z_score"] >= 1.81 and beneish_res["beneish_m_score"] < -1.78:
+    if (
+        composite_score >= 75.0
+        and altman_res["z_score"] >= 1.81
+        and beneish_res["beneish_m_score"] < -1.78
+    ):
         verdict = "🚀 CONVICTION INSTITUTIONAL BUY (All 8 Pillars Aligned)"
         color = "#00D4AA"
     elif composite_score >= 58.0:
@@ -214,9 +244,12 @@ def run_unified_institutional_pipeline(
             },
             "p3_options_microstructure": {
                 "max_pain_strike": max_pain_strike,
+                "pcr_oi_ratio": pcr_res.get("pcr_oi_ratio", 1.0),
                 "gamma_exposure": gex_res["regime_verdict"],
                 "dark_pool_score": dark_pool_res["dark_pool_activity_score"],
-                "best_spread_strategy": spread_recs[0]["name"] if spread_recs else "Bull Call Spread",
+                "best_spread_strategy": (
+                    spread_recs[0]["name"] if spread_recs else "Bull Call Spread"
+                ),
             },
             "p4_supply_chain": {
                 "gnn_nodes_monitored": gnn_res["total_impacted_nodes"],
@@ -228,10 +261,13 @@ def run_unified_institutional_pipeline(
             },
             "p6_smart_execution": {
                 "vwap_child_orders": vwap_schedule["total_child_slices"],
-                "vwap_savings_dollars": vwap_schedule["estimated_execution_savings_dollars"],
+                "vwap_savings_dollars": vwap_schedule[
+                    "estimated_execution_savings_dollars"
+                ],
             },
             "p7_omnichannel_mobile": {
                 "watchos_payload_ready": True,
+                "watchos_glance": smartwatch_payload,
                 "whatsapp_alert_formatted": True,
                 "whatsapp_preview": whatsapp_text[:80] + "...",
             },
@@ -241,6 +277,7 @@ def run_unified_institutional_pipeline(
                 "beneish_m_score": beneish_res["beneish_m_score"],
                 "dcf_fair_value": dcf_res["fair_value_price"],
                 "dcf_margin_of_safety_pct": dcf_res["margin_of_safety_pct"],
+                "debt_wall": debt_wall,
             },
         },
     }

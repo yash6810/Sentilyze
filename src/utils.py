@@ -17,7 +17,8 @@ def get_logger(name: str) -> Logger:
     if hasattr(sys.stdout, "reconfigure"):
         try:
             sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-        except Exception:
+        except Exception as e:  # nosec B110
+            # stdout reconfigure may fail in non-standard interactive streams or wrapped stdout
             pass
 
     logger = logging.getLogger(name)
@@ -34,7 +35,9 @@ def get_logger(name: str) -> Logger:
         # Log to file
         log_dir = "logs"
         os.makedirs(log_dir, exist_ok=True)
-        file_handler = logging.FileHandler(os.path.join(log_dir, "app.log"), encoding="utf-8")
+        file_handler = logging.FileHandler(
+            os.path.join(log_dir, "app.log"), encoding="utf-8"
+        )
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
 

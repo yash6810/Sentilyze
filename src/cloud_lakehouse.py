@@ -61,7 +61,9 @@ class CloudDataLake:
             "cloud_provider": "Supabase / PostgreSQL",
         }
 
-    def sync_trades_to_lakehouse(self, trades_list: List[Dict[str, Any]]) -> Dict[str, Any]:
+    def sync_trades_to_lakehouse(
+        self, trades_list: List[Dict[str, Any]]
+    ) -> Dict[str, Any]:
         """
         Syncs local trade executions to the cloud database.
         """

@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from src.meta_ensemble import MetaEnsembleClassifier, train_meta_ensemble
+from src.meta_ensemble import train_meta_ensemble
 
 
 def _generate_synthetic_training_data():

@@ -8,7 +8,12 @@ from src.financial_qa_agent import answer_financial_query
 
 def test_whatsapp_alerts():
     msg = format_whatsapp_trade_alert(
-        ticker="NVDA", action="BUY", price=128.50, shares=100, stage="TP1 Scale-Out (50%)", pnl_dollars=450.0
+        ticker="NVDA",
+        action="BUY",
+        price=128.50,
+        shares=100,
+        stage="TP1 Scale-Out (50%)",
+        pnl_dollars=450.0,
     )
     assert "NVDA" in msg
     assert "TP1" in msg

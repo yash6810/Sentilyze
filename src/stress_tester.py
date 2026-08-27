@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from typing import Dict, List, Any, Optional
+from typing import Dict, Any, Optional
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -47,7 +47,7 @@ def run_monte_carlo_stress_test(
     # Geometric Brownian Motion simulation
     # S_t = S_0 * exp(cumsum((mu - 0.5 * sigma^2) * dt + sigma * sqrt(dt) * Z))
     dt = 1.0
-    drift = (mu - 0.5 * (sigma ** 2)) * dt
+    drift = (mu - 0.5 * (sigma**2)) * dt
     vol_step = sigma * np.sqrt(dt)
 
     # Random shocks: shape (num_simulations, time_horizon_days)
@@ -67,7 +67,6 @@ def run_monte_carlo_stress_test(
 
     # Value at Risk (VaR) & Conditional VaR (Expected Shortfall)
     # VaR_95 is the loss at the (1 - confidence_level) percentile
-    alpha_percentile = (1.0 - confidence_level) * 100.0
     var_dollar = float(np.percentile(-net_pnls, confidence_level * 100.0))
     var_pct = float(np.percentile(-returns_pct, confidence_level * 100.0))
 
@@ -129,4 +128,3 @@ def run_monte_carlo_var(
     )
     res["prob_profit_pct"] = res.get("prob_profit", 65.0)
     return res
-

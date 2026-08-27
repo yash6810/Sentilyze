@@ -1,6 +1,4 @@
 import os
-import pytest
-import pandas as pd
 from src.rebalancer import calculate_share_allocation
 from src.tearsheet import generate_executive_pdf_tearsheet
 from src.stress_tester import run_monte_carlo_stress_test
@@ -8,12 +6,32 @@ from src.stress_tester import run_monte_carlo_stress_test
 
 def test_calculate_share_allocation():
     signals = [
-        {"ticker": "AMD", "confidence": 0.76, "current_price": 400.0, "take_profit": 440.0, "stop_loss": 370.0},
-        {"ticker": "TSLA", "confidence": 0.65, "current_price": 200.0, "take_profit": 220.0, "stop_loss": 185.0},
-        {"ticker": "META", "confidence": 0.58, "current_price": 500.0, "take_profit": 540.0, "stop_loss": 470.0},
+        {
+            "ticker": "AMD",
+            "confidence": 0.76,
+            "current_price": 400.0,
+            "take_profit": 440.0,
+            "stop_loss": 370.0,
+        },
+        {
+            "ticker": "TSLA",
+            "confidence": 0.65,
+            "current_price": 200.0,
+            "take_profit": 220.0,
+            "stop_loss": 185.0,
+        },
+        {
+            "ticker": "META",
+            "confidence": 0.58,
+            "current_price": 500.0,
+            "take_profit": 540.0,
+            "stop_loss": 470.0,
+        },
     ]
 
-    result = calculate_share_allocation(capital=25000.0, selected_signals=signals, method="risk_parity")
+    result = calculate_share_allocation(
+        capital=25000.0, selected_signals=signals, method="risk_parity"
+    )
 
     assert result["total_capital"] == 25000.0
     assert result["total_invested"] <= 25000.0

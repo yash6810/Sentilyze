@@ -1,7 +1,4 @@
-import os
-import json
 import pytest
-import pandas as pd
 from src.paper_broker import PaperBroker
 
 
@@ -105,6 +102,7 @@ def test_paper_broker_take_profit_exit(temp_portfolio_file):
         }
     ]
     actions3 = broker.execute_daily_signals(day3_signals)
+    assert len(actions3) > 0
     assert "META" not in broker.state["open_positions"]
     assert broker.state["winning_trades"] >= 1
 

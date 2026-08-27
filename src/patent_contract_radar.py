@@ -6,9 +6,7 @@ Pillar 2 Alternative Data Module:
 - Calculates 90-Day Structural Innovation & Government Procurement Alpha Index.
 """
 
-from typing import Any, Dict, List, Optional
-import numpy as np
-import pandas as pd
+from typing import Any, Dict, List
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -56,15 +54,18 @@ def track_federal_contract_awards(ticker: str) -> List[Dict[str, Any]]:
         ],
     }
 
-    return contracts.get(ticker, [
-        {
-            "agency": "General Services Administration (GSA)",
-            "program": "Commercial IT Schedule 70 Enterprise Delivery",
-            "award_value": 45_000_000.0,
-            "award_date": "2026-06-01",
-            "contract_type": "Multiple Award Schedule",
-        }
-    ])
+    return contracts.get(
+        ticker,
+        [
+            {
+                "agency": "General Services Administration (GSA)",
+                "program": "Commercial IT Schedule 70 Enterprise Delivery",
+                "award_value": 45_000_000.0,
+                "award_date": "2026-06-01",
+                "contract_type": "Multiple Award Schedule",
+            }
+        ],
+    )
 
 
 def track_uspto_patent_momentum(ticker: str) -> Dict[str, Any]:
@@ -72,14 +73,38 @@ def track_uspto_patent_momentum(ticker: str) -> Dict[str, Any]:
     Tracks recent USPTO patent grants in AI/ML, Semiconductor Design, and Cloud Systems.
     """
     patent_data = {
-        "NVDA": {"granted_patents_90d": 184, "ai_patents_pct": 74.0, "top_category": "CoWoS Liquid Cooling & Transformer Engine Quantization"},
-        "AAPL": {"granted_patents_90d": 310, "ai_patents_pct": 52.0, "top_category": "On-Device Neural Engine Architecture & Haptic Feedback"},
-        "MSFT": {"granted_patents_90d": 245, "ai_patents_pct": 68.0, "top_category": "Decentralized Retrieval-Augmented Generation (RAG)"},
-        "GOOGL": {"granted_patents_90d": 290, "ai_patents_pct": 78.0, "top_category": "Optical Tensor Processing Units & Multi-Modal Routing"},
-        "PLTR": {"granted_patents_90d": 42, "ai_patents_pct": 86.0, "top_category": "Dynamic Ontology Knowledge Graph Mapping & LLM Guardrails"},
+        "NVDA": {
+            "granted_patents_90d": 184,
+            "ai_patents_pct": 74.0,
+            "top_category": "CoWoS Liquid Cooling & Transformer Engine Quantization",
+        },
+        "AAPL": {
+            "granted_patents_90d": 310,
+            "ai_patents_pct": 52.0,
+            "top_category": "On-Device Neural Engine Architecture & Haptic Feedback",
+        },
+        "MSFT": {
+            "granted_patents_90d": 245,
+            "ai_patents_pct": 68.0,
+            "top_category": "Decentralized Retrieval-Augmented Generation (RAG)",
+        },
+        "GOOGL": {
+            "granted_patents_90d": 290,
+            "ai_patents_pct": 78.0,
+            "top_category": "Optical Tensor Processing Units & Multi-Modal Routing",
+        },
+        "PLTR": {
+            "granted_patents_90d": 42,
+            "ai_patents_pct": 86.0,
+            "top_category": "Dynamic Ontology Knowledge Graph Mapping & LLM Guardrails",
+        },
     }
 
-    default_data = {"granted_patents_90d": 85, "ai_patents_pct": 45.0, "top_category": "Advanced Cloud Computing Architecture"}
+    default_data = {
+        "granted_patents_90d": 85,
+        "ai_patents_pct": 45.0,
+        "top_category": "Advanced Cloud Computing Architecture",
+    }
     return patent_data.get(ticker, default_data)
 
 
@@ -96,7 +121,9 @@ def compute_government_and_patent_index(ticker: str) -> Dict[str, Any]:
 
     # Normalize score (0 to 100)
     contract_score = min(50.0, (total_gov_contract_dollars / 500_000_000.0) * 50.0)
-    patent_score = min(50.0, (patent_velocity / 300.0) * 30.0 + (ai_intensity / 100.0) * 20.0)
+    patent_score = min(
+        50.0, (patent_velocity / 300.0) * 30.0 + (ai_intensity / 100.0) * 20.0
+    )
     composite_score = round(contract_score + patent_score, 1)
 
     if composite_score >= 70.0:

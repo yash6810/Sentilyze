@@ -142,7 +142,10 @@ def run_daily_market_scan() -> list:
     # Dispatch Telegram Digest & Alerts
     if telegram_token and telegram_chat:
         from src.dispatcher import send_telegram_digest
-        send_telegram_digest(signals_summary, bot_token=telegram_token, chat_id=telegram_chat)
+
+        send_telegram_digest(
+            signals_summary, bot_token=telegram_token, chat_id=telegram_chat
+        )
         for card in signals_summary:
             if card["signal"] == "BUY":
                 send_telegram_alert(
@@ -152,12 +155,14 @@ def run_daily_market_scan() -> list:
     # Dispatch HTML Email Digest
     if os.getenv("EMAIL_USER") and os.getenv("EMAIL_PASSWORD"):
         from src.dispatcher import send_email_digest
+
         logger.info("Sending Master Market HTML Digest via Email...")
         send_email_digest(signals_summary)
 
     # Execute Virtual Paper Trading Simulation ($100k Capital)
     try:
         from src.paper_broker import PaperBroker
+
         broker = PaperBroker()
         executed_actions = broker.execute_daily_signals(signals_summary)
         summary = broker.get_portfolio_summary()

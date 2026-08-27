@@ -5,9 +5,8 @@ Pillar 7 Mobile & Omnichannel Module:
 - Delivers real-time execution receipts on Model 4 Take-Profit (TP1/TP2) scale-outs and Stop-Loss triggers.
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Optional
 import os
-import requests
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -25,7 +24,9 @@ def format_whatsapp_trade_alert(
     Constructs a formatted WhatsApp messaging receipt.
     """
     if pnl_dollars is not None:
-        pnl_text = f"💵 Realized P&L: *{'+' if pnl_dollars >= 0 else ''}${pnl_dollars:,.2f}*"
+        pnl_text = (
+            f"💵 Realized P&L: *{'+' if pnl_dollars >= 0 else ''}${pnl_dollars:,.2f}*"
+        )
     else:
         pnl_text = "🎯 Target: +2.5 ATR (TP1) / +4.5 ATR (TP2)"
 
@@ -56,7 +57,15 @@ def send_whatsapp_notification(
     if api_token:
         # Live endpoint
         logger.info(f"Dispatching live WhatsApp alert to {phone}")
-        return {"status": "DELIVERED", "recipient": phone, "channel": "WhatsApp Cloud API"}
+        return {
+            "status": "DELIVERED",
+            "recipient": phone,
+            "channel": "WhatsApp Cloud API",
+        }
     else:
         logger.info(f"Simulated WhatsApp message: {message_text[:40]}...")
-        return {"status": "SIMULATED_SUCCESS", "recipient": phone, "channel": "WhatsApp Simulated"}
+        return {
+            "status": "SIMULATED_SUCCESS",
+            "recipient": phone,
+            "channel": "WhatsApp Simulated",
+        }

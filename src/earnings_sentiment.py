@@ -14,13 +14,34 @@ from src.utils import get_logger
 logger = get_logger(__name__)
 
 OPTIMISTIC_TERMS = {
-    "accelerating", "unprecedented", "record", "robust", "momentum", "tailwinds",
-    "outperforming", "expansion", "confident", "disciplined", "breakthrough", "synergies"
+    "accelerating",
+    "unprecedented",
+    "record",
+    "robust",
+    "momentum",
+    "tailwinds",
+    "outperforming",
+    "expansion",
+    "confident",
+    "disciplined",
+    "breakthrough",
+    "synergies",
 }
 
 SKEPTICAL_TERMS = {
-    "headwinds", "deceleration", "challenging", "uncertainty", "cautious", "compression",
-    "delayed", "inventory", "attrition", "pressure", "volatility", "softness", "lumpy"
+    "headwinds",
+    "deceleration",
+    "challenging",
+    "uncertainty",
+    "cautious",
+    "compression",
+    "delayed",
+    "inventory",
+    "attrition",
+    "pressure",
+    "volatility",
+    "softness",
+    "lumpy",
 }
 
 
@@ -54,18 +75,26 @@ def analyze_earnings_call_transcript(
     words_prep = prepared_remarks.lower().split()
     words_qa = qa_session.lower().split()
 
-    opt_count = sum(1 for w in words_prep + words_qa if w.strip(".,;:!?") in OPTIMISTIC_TERMS)
-    skep_count = sum(1 for w in words_prep + words_qa if w.strip(".,;:!?") in SKEPTICAL_TERMS)
+    opt_count = sum(
+        1 for w in words_prep + words_qa if w.strip(".,;:!?") in OPTIMISTIC_TERMS
+    )
+    skep_count = sum(
+        1 for w in words_prep + words_qa if w.strip(".,;:!?") in SKEPTICAL_TERMS
+    )
 
     total_buzz = max(1, opt_count + skep_count)
     net_tone = (opt_count - skep_count) / total_buzz
 
     # Executive Optimism (0 to 100)
-    exec_optimism = float(np.clip(50.0 + net_tone * 40.0 + (opt_count * 5.0), 10.0, 98.0))
+    exec_optimism = float(
+        np.clip(50.0 + net_tone * 40.0 + (opt_count * 5.0), 10.0, 98.0)
+    )
     analyst_skepticism = float(np.clip((skep_count / total_buzz) * 100.0, 5.0, 85.0))
 
     if exec_optimism >= 75.0 and analyst_skepticism <= 30.0:
-        verdict = "🟢 ULTRA-BULLISH GUIDANCE (High Management Conviction / Low Skepticism)"
+        verdict = (
+            "🟢 ULTRA-BULLISH GUIDANCE (High Management Conviction / Low Skepticism)"
+        )
         color = "#10B981"
     elif analyst_skepticism >= 50.0:
         verdict = "🔴 HIGH ANALYST SKEPTICISM (Margin & Growth Headwind Inquiries)"

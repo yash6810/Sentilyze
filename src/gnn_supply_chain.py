@@ -15,19 +15,74 @@ logger = get_logger(__name__)
 
 # Standard Supply Chain Revenue Dependency Graph (Directed edges: Supplier -> Customer)
 SUPPLY_CHAIN_EDGES = [
-    ("TSM", "NVDA", 0.85, "Foundry: Advanced 3nm/4nm CoWoS packaging for Blackwell/Hopper GPUs"),
-    ("TSM", "AAPL", 0.90, "Foundry: Sole manufacturer of A-series and M-series silicon"),
-    ("TSM", "AMD", 0.80, "Foundry: Sole manufacturer of EPYC and Instinct MI300 accelerators"),
-    ("TSM", "AVGO", 0.75, "Foundry: Custom ASIC networking and TPU manufacturing partner"),
-    ("NVDA", "MSFT", 0.75, "Hardware: Primary AI accelerator supplier for Azure Cloud data centers"),
-    ("NVDA", "META", 0.80, "Hardware: Largest GPU customer for Llama 3 training clusters"),
-    ("NVDA", "AMZN", 0.70, "Hardware: Major GPU provider for AWS Bedrock & EC2 instances"),
+    (
+        "TSM",
+        "NVDA",
+        0.85,
+        "Foundry: Advanced 3nm/4nm CoWoS packaging for Blackwell/Hopper GPUs",
+    ),
+    (
+        "TSM",
+        "AAPL",
+        0.90,
+        "Foundry: Sole manufacturer of A-series and M-series silicon",
+    ),
+    (
+        "TSM",
+        "AMD",
+        0.80,
+        "Foundry: Sole manufacturer of EPYC and Instinct MI300 accelerators",
+    ),
+    (
+        "TSM",
+        "AVGO",
+        0.75,
+        "Foundry: Custom ASIC networking and TPU manufacturing partner",
+    ),
+    (
+        "NVDA",
+        "MSFT",
+        0.75,
+        "Hardware: Primary AI accelerator supplier for Azure Cloud data centers",
+    ),
+    (
+        "NVDA",
+        "META",
+        0.80,
+        "Hardware: Largest GPU customer for Llama 3 training clusters",
+    ),
+    (
+        "NVDA",
+        "AMZN",
+        0.70,
+        "Hardware: Major GPU provider for AWS Bedrock & EC2 instances",
+    ),
     ("NVDA", "GOOGL", 0.65, "Hardware: GPU supplier alongside Google internal TPUs"),
     ("AVGO", "GOOGL", 0.70, "Silicon Design: Co-developer of Google custom TPU chips"),
-    ("AVGO", "AAPL", 0.60, "RF Components: 5G front-end modules and custom wireless chips"),
-    ("MSFT", "PLTR", 0.55, "Cloud Infrastructure: Strategic Azure government cloud integration"),
-    ("AMZN", "NFLX", 0.65, "Cloud Provider: AWS hosts Netflix global streaming infrastructure"),
-    ("AAPL", "COST", 0.40, "Retail Distribution: Mega-volume consumer hardware retail channel"),
+    (
+        "AVGO",
+        "AAPL",
+        0.60,
+        "RF Components: 5G front-end modules and custom wireless chips",
+    ),
+    (
+        "MSFT",
+        "PLTR",
+        0.55,
+        "Cloud Infrastructure: Strategic Azure government cloud integration",
+    ),
+    (
+        "AMZN",
+        "NFLX",
+        0.65,
+        "Cloud Provider: AWS hosts Netflix global streaming infrastructure",
+    ),
+    (
+        "AAPL",
+        "COST",
+        0.40,
+        "Retail Distribution: Mega-volume consumer hardware retail channel",
+    ),
 ]
 
 
@@ -39,8 +94,23 @@ class SupplyChainGraphNetwork:
 
     def __init__(self, tickers: Optional[List[str]] = None):
         self.tickers = tickers or [
-            "TSM", "NVDA", "AMD", "AVGO", "AAPL", "MSFT", "GOOGL", "META",
-            "AMZN", "TSLA", "PLTR", "NFLX", "COST", "LLY", "JPM", "QQQ", "SPY"
+            "TSM",
+            "NVDA",
+            "AMD",
+            "AVGO",
+            "AAPL",
+            "MSFT",
+            "GOOGL",
+            "META",
+            "AMZN",
+            "TSLA",
+            "PLTR",
+            "NFLX",
+            "COST",
+            "LLY",
+            "JPM",
+            "QQQ",
+            "SPY",
         ]
         self.n_nodes = len(self.tickers)
         self.ticker_to_idx = {t: i for i, t in enumerate(self.tickers)}
@@ -133,16 +203,26 @@ class SupplyChainGraphNetwork:
             # Determine dependency context
             edge_desc = self.edge_descriptions.get(
                 (source_ticker, target_ticker),
-                f"2-Hop indirect supply spillover via tech ecosystem"
+                f"2-Hop indirect supply spillover via tech ecosystem",
             )
 
-            results.append({
-                "origin": source_ticker,
-                "target": target_ticker,
-                "predicted_spillover_pct": round(impact_pct, 2),
-                "relationship": edge_desc,
-                "sensitivity": "🔴 HIGH EXPOSURE (> 3.0%)" if abs(impact_pct) >= 3.0 else "🟡 MODERATE (1.0%–3.0%)" if abs(impact_pct) >= 1.0 else "🟢 LOW (< 1.0%)",
-            })
+            results.append(
+                {
+                    "origin": source_ticker,
+                    "target": target_ticker,
+                    "predicted_spillover_pct": round(impact_pct, 2),
+                    "relationship": edge_desc,
+                    "sensitivity": (
+                        "🔴 HIGH EXPOSURE (> 3.0%)"
+                        if abs(impact_pct) >= 3.0
+                        else (
+                            "🟡 MODERATE (1.0%–3.0%)"
+                            if abs(impact_pct) >= 1.0
+                            else "🟢 LOW (< 1.0%)"
+                        )
+                    ),
+                }
+            )
 
         results.sort(key=lambda x: abs(x["predicted_spillover_pct"]), reverse=True)
         return results
@@ -155,7 +235,9 @@ def analyze_supply_chain_spillover(
     High-level entry point to run GNN supply chain shock propagation.
     """
     gnn = SupplyChainGraphNetwork()
-    spillovers = gnn.simulate_upstream_shock(origin_ticker, shock_magnitude_pct=shock_pct)
+    spillovers = gnn.simulate_upstream_shock(
+        origin_ticker, shock_magnitude_pct=shock_pct
+    )
 
     return {
         "origin_ticker": origin_ticker,

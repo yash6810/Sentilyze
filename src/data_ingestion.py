@@ -507,7 +507,9 @@ def get_price_history(
             if cache_age_seconds < cache_duration_hours * 3600:
                 should_load_cache = True
             else:
-                logger.info(f"Price history cache for {ticker} is stale. Re-fetching...")
+                logger.info(
+                    f"Price history cache for {ticker} is stale. Re-fetching..."
+                )
 
     if should_load_cache:
         logger.info(f"Loading price history for {ticker} from cache...")

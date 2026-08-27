@@ -10,20 +10,24 @@ from src.options_flow import (
 
 def _generate_test_chain():
     strikes = [90.0, 95.0, 100.0, 105.0, 110.0]
-    calls = pd.DataFrame({
-        "strike": strikes,
-        "lastPrice": [12.0, 7.5, 4.0, 1.8, 0.6],
-        "openInterest": [1000, 2500, 5000, 3000, 1200],
-        "volume": [200, 600, 1500, 800, 300],
-        "impliedVolatility": [0.40, 0.38, 0.35, 0.36, 0.39],
-    })
-    puts = pd.DataFrame({
-        "strike": strikes,
-        "lastPrice": [0.8, 1.9, 4.2, 7.8, 12.5],
-        "openInterest": [1500, 3500, 4500, 2000, 800],
-        "volume": [300, 900, 1200, 500, 150],
-        "impliedVolatility": [0.42, 0.39, 0.35, 0.37, 0.40],
-    })
+    calls = pd.DataFrame(
+        {
+            "strike": strikes,
+            "lastPrice": [12.0, 7.5, 4.0, 1.8, 0.6],
+            "openInterest": [1000, 2500, 5000, 3000, 1200],
+            "volume": [200, 600, 1500, 800, 300],
+            "impliedVolatility": [0.40, 0.38, 0.35, 0.36, 0.39],
+        }
+    )
+    puts = pd.DataFrame(
+        {
+            "strike": strikes,
+            "lastPrice": [0.8, 1.9, 4.2, 7.8, 12.5],
+            "openInterest": [1500, 3500, 4500, 2000, 800],
+            "volume": [300, 900, 1200, 500, 150],
+            "impliedVolatility": [0.42, 0.39, 0.35, 0.37, 0.40],
+        }
+    )
     return calls, puts
 
 
@@ -70,16 +74,12 @@ def test_estimate_gamma_exposure():
 
 def test_recommend_option_spreads():
     calls, puts = _generate_test_chain()
-    spreads_buy = recommend_option_spreads(
-        "NVDA", "BUY", 100.0, 100.0, calls, puts
-    )
+    spreads_buy = recommend_option_spreads("NVDA", "BUY", 100.0, 100.0, calls, puts)
     assert len(spreads_buy) >= 2
     assert "Bull Call" in spreads_buy[0]["name"]
     assert "max_profit" in spreads_buy[0]
     assert "max_loss" in spreads_buy[0]
 
-    spreads_hold = recommend_option_spreads(
-        "NVDA", "HOLD", 100.0, 100.0, calls, puts
-    )
+    spreads_hold = recommend_option_spreads("NVDA", "HOLD", 100.0, 100.0, calls, puts)
     assert len(spreads_hold) >= 2
     assert "Bear Put" in spreads_hold[0]["name"]

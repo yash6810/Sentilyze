@@ -11,7 +11,10 @@ def _generate_synthetic_price_series():
     series_a = pd.Series(100.0 + np.cumsum(noise_a), index=dates)
 
     # Asset B lags Asset A by 1 day
-    series_b = pd.Series(100.0 + np.cumsum(np.roll(noise_a, 1) + np.random.normal(0, 0.2, 100)), index=dates)
+    series_b = pd.Series(
+        100.0 + np.cumsum(np.roll(noise_a, 1) + np.random.normal(0, 0.2, 100)),
+        index=dates,
+    )
 
     # Asset C is independent
     series_c = pd.Series(100.0 + np.cumsum(np.random.normal(0, 1, 100)), index=dates)

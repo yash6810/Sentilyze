@@ -1,7 +1,5 @@
-import os
-import pytest
 from src.paper_broker import PaperBroker
-from src.realtime_tracker import fetch_live_quote, evaluate_intraday_execution
+from src.realtime_tracker import fetch_live_quote
 
 
 def test_fetch_live_quote():
@@ -50,7 +48,7 @@ def test_evaluate_intraday_scale_out_and_tp2(tmp_path):
     open_pos["shares"] -= half
     open_pos["scaled_out"] = True
     open_pos["sl_target"] = 401.0  # Break-Even
-    broker.state["cash"] += (half * 435.0)
+    broker.state["cash"] += half * 435.0
     broker._save()
 
     assert broker.state["open_positions"]["AMD"]["scaled_out"] is True

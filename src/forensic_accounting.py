@@ -47,7 +47,9 @@ def calculate_beneish_m_score(
     )
 
     if m_score < -1.78:
-        verdict = "🟢 PRISTINE ACCOUNTING (High Financial Reporting Quality / No Red Flags)"
+        verdict = (
+            "🟢 PRISTINE ACCOUNTING (High Financial Reporting Quality / No Red Flags)"
+        )
         manipulation_risk = "LOW (< 5% Probability)"
         color = "#10B981"
     else:

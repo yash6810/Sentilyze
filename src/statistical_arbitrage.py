@@ -173,7 +173,11 @@ def generate_pairs_trading_signals(
     half_life = calculate_half_life(spread)
     zscore, roll_mean, roll_std = calculate_rolling_zscore(spread, window=window)
 
-    curr_z = float(zscore.iloc[-1]) if not zscore.empty and not pd.isna(zscore.iloc[-1]) else 0.0
+    curr_z = (
+        float(zscore.iloc[-1])
+        if not zscore.empty and not pd.isna(zscore.iloc[-1])
+        else 0.0
+    )
     curr_price_a = float(series_a.iloc[-1]) if not series_a.empty else 0.0
     curr_price_b = float(series_b.iloc[-1]) if not series_b.empty else 0.0
 
@@ -235,7 +239,6 @@ def scan_pairs_universe(
     """
     if candidate_pairs is None:
         # Default institutional sector pairs
-        tickers = list(prices_dict.keys())
         candidate_pairs = [
             ("NVDA", "AMD"),
             ("MSFT", "GOOGL"),
@@ -254,9 +257,7 @@ def scan_pairs_universe(
     results = []
     for a, b in candidate_pairs:
         try:
-            res = generate_pairs_trading_signals(
-                prices_dict[a], prices_dict[b], a, b
-            )
+            res = generate_pairs_trading_signals(prices_dict[a], prices_dict[b], a, b)
             results.append(res)
         except Exception as e:
             logger.warning(f"Failed analyzing pair {a}/{b}: {e}")
@@ -321,10 +322,10 @@ def backtest_pairs_strategy(
         # Calculate daily pair return based on current position
         if position == 1:
             daily_ret = ra - hedge_ratio * rb
-            capital *= (1.0 + daily_ret * 0.5)  # 50% capital allocation
+            capital *= 1.0 + daily_ret * 0.5  # 50% capital allocation
         elif position == -1:
             daily_ret = -ra + hedge_ratio * rb
-            capital *= (1.0 + daily_ret * 0.5)
+            capital *= 1.0 + daily_ret * 0.5
 
         equity_history.append(capital)
 
@@ -334,7 +335,7 @@ def backtest_pairs_strategy(
                 position = -1  # Short A, Long B
                 entry_val = capital
             elif z <= -entry_z:
-                position = 1   # Long A, Short B
+                position = 1  # Long A, Short B
                 entry_val = capital
         elif position == 1:
             if z >= -exit_z or z <= -stop_loss_z:
@@ -353,17 +354,19 @@ def backtest_pairs_strategy(
     daily_rets = equity_series.pct_change().dropna()
     total_ret = (capital - initial_capital) / initial_capital
 
-    sharpe = float(
-        np.sqrt(252) * (daily_rets.mean() / (daily_rets.std() + 1e-9))
-    ) if not daily_rets.empty else 0.0
+    sharpe = (
+        float(np.sqrt(252) * (daily_rets.mean() / (daily_rets.std() + 1e-9)))
+        if not daily_rets.empty
+        else 0.0
+    )
 
     peak = equity_series.cummax()
     drawdown = (equity_series - peak) / peak
     max_dd = float(drawdown.min())
 
-    win_rate = float(
-        np.sum(np.array(trades) > 0) / len(trades)
-    ) if len(trades) > 0 else 0.0
+    win_rate = (
+        float(np.sum(np.array(trades) > 0) / len(trades)) if len(trades) > 0 else 0.0
+    )
 
     return {
         "total_return": round(total_ret * 100, 2),

@@ -9,8 +9,23 @@ from src.utils import get_logger
 logger = get_logger(__name__)
 
 UNIVERSE_TICKERS = [
-    "NVDA", "AAPL", "MSFT", "GOOGL", "META", "TSLA", "AMZN",
-    "AVGO", "AMD", "PLTR", "LLY", "QQQ", "SPY", "JPM", "COST", "NFLX", "TSM"
+    "NVDA",
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "META",
+    "TSLA",
+    "AMZN",
+    "AVGO",
+    "AMD",
+    "PLTR",
+    "LLY",
+    "QQQ",
+    "SPY",
+    "JPM",
+    "COST",
+    "NFLX",
+    "TSM",
 ]
 
 
@@ -67,18 +82,40 @@ def compute_cross_asset_correlation(
                 if pair_key not in seen_pairs:
                     seen_pairs.add(pair_key)
                     c_val = float(corr_matrix.loc[t1, t2])
-                    hedge_pairs.append({
-                        "Asset A": t1,
-                        "Asset B": t2,
-                        "Correlation": c_val,
-                        "Hedge Quality": "🟢 Excellent Hedge" if c_val < 0.2 else ("🟡 Moderate Hedge" if c_val < 0.5 else "🔴 High Correlation (No Hedge)")
-                    })
+                    hedge_pairs.append(
+                        {
+                            "Asset A": t1,
+                            "Asset B": t2,
+                            "Correlation": c_val,
+                            "Hedge Quality": (
+                                "🟢 Excellent Hedge"
+                                if c_val < 0.2
+                                else (
+                                    "🟡 Moderate Hedge"
+                                    if c_val < 0.5
+                                    else "🔴 High Correlation (No Hedge)"
+                                )
+                            ),
+                        }
+                    )
 
     hedge_pairs = sorted(hedge_pairs, key=lambda x: x["Correlation"])
 
     # Macro Regime Analysis
-    spy_corr = corr_matrix["SPY"].drop("SPY", errors="ignore").mean() if "SPY" in corr_matrix.columns else 0.5
-    regime = "🔥 RISK-ON / HIGH BETA CLUSTER" if spy_corr > 0.65 else ("🛡️ DIVERSIFIED / SECTOR ROTATION" if spy_corr > 0.40 else "⚠️ DE-CORRELATED / REGIME SHIFT")
+    spy_corr = (
+        corr_matrix["SPY"].drop("SPY", errors="ignore").mean()
+        if "SPY" in corr_matrix.columns
+        else 0.5
+    )
+    regime = (
+        "🔥 RISK-ON / HIGH BETA CLUSTER"
+        if spy_corr > 0.65
+        else (
+            "🛡️ DIVERSIFIED / SECTOR ROTATION"
+            if spy_corr > 0.40
+            else "⚠️ DE-CORRELATED / REGIME SHIFT"
+        )
+    )
 
     analytics = {
         "lookback_days": window_days,
@@ -96,6 +133,7 @@ def compute_correlation_matrix(
     window_days: int = 90,
 ) -> Dict[str, Any]:
     """Convenience wrapper returning correlation matrix and analytics dictionary."""
-    matrix, analysis = compute_cross_asset_correlation(tickers=tickers, window_days=window_days)
+    matrix, analysis = compute_cross_asset_correlation(
+        tickers=tickers, window_days=window_days
+    )
     return {"matrix": matrix, "analysis": analysis}
-

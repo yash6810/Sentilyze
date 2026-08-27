@@ -114,17 +114,19 @@ def simulate_portfolio_crises(
         sim_equity_after = max(0.0, total_equity - total_sim_loss)
         portfolio_dd_pct = (total_sim_loss / (total_equity + 1e-9)) * 100.0
 
-        results.append({
-            "crisis_name": crisis["name"],
-            "date_range": crisis["date_range"],
-            "vix_peak": crisis["vix_peak"],
-            "catalyst": crisis["catalyst"],
-            "portfolio_drawdown_pct": round(portfolio_dd_pct, 1),
-            "projected_dollar_loss": round(total_sim_loss, 2),
-            "simulated_equity_after": round(sim_equity_after, 2),
-            "cash_buffer_retained": round(cash, 2),
-            "position_breakdown": position_breakdown,
-        })
+        results.append(
+            {
+                "crisis_name": crisis["name"],
+                "date_range": crisis["date_range"],
+                "vix_peak": crisis["vix_peak"],
+                "catalyst": crisis["catalyst"],
+                "portfolio_drawdown_pct": round(portfolio_dd_pct, 1),
+                "projected_dollar_loss": round(total_sim_loss, 2),
+                "simulated_equity_after": round(sim_equity_after, 2),
+                "cash_buffer_retained": round(cash, 2),
+                "position_breakdown": position_breakdown,
+            }
+        )
 
     return results
 
