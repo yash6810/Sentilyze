@@ -95,20 +95,33 @@ def inject_custom_theme(theme_name: str = "🌌 Obsidian Terminal"):
         background: {t['card_bg']} !important;
         border: 1px solid {t['border_color']} !important;
         border-radius: 12px !important;
-        padding: 16px !important;
+        padding: 14px 16px !important;
         box-shadow: {t['glow']} !important;
+        overflow: visible !important;
+    }}
+    div[data-testid="stMetricLabel"] {{
+        overflow: visible !important;
+        white-space: normal !important;
     }}
     div[data-testid="stMetricLabel"] p {{
-        font-size: 0.82rem !important;
+        font-size: 0.78rem !important;
         text-transform: uppercase !important;
-        letter-spacing: 0.06em !important;
+        letter-spacing: 0.05em !important;
         color: {t['text_muted']} !important;
         font-weight: 600 !important;
+        overflow: visible !important;
+        white-space: normal !important;
     }}
     div[data-testid="stMetricValue"] {{
         font-family: 'JetBrains Mono', monospace !important;
         font-weight: 700 !important;
         color: {t['text_primary']} !important;
+        overflow: visible !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+        text-overflow: unset !important;
+        font-size: 1.25rem !important;
+        line-height: 1.3 !important;
     }}
 
     /* Buttons */
