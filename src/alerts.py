@@ -62,12 +62,13 @@ def send_discord_alert(
     color = 0x00FF88 if is_buy else 0xFF3366  # Green or Red
     emoji = "🚀 [STRONG BUY]" if is_buy else "⚠️ [SELL / EXIT]"
 
-    feature_lines = "\n".join(
-        [
-            f"• **{f.get('feature', 'Feature')}**: `{f.get('importance', 0):+.3f}` contribution"
-            for f in alert_payload.get("top_features", [])[:3]
-        ]
-    )
+    feat_list = []
+    for f in alert_payload.get("top_features", [])[:3]:
+        fname = f.get("feature", "Feature")
+        imp = f.get("importance", 0)
+        imp_str = f"`{imp:+.3f}`" if isinstance(imp, (int, float)) else f"`{imp}`"
+        feat_list.append(f"• **{fname}**: {imp_str}")
+    feature_lines = "\n".join(feat_list)
 
     fields = [
         {
@@ -542,7 +543,10 @@ def send_telegram_alert(
     )
 
     for f in alert_payload.get("top_features", [])[:3]:
-        message += f"• `{f.get('feature')}`: {f.get('importance', 0):+.3f}\n"
+        fname = f.get("feature", "Feature")
+        imp = f.get("importance", 0)
+        imp_str = f"`{imp:+.3f}`" if isinstance(imp, (int, float)) else f"`{imp}`"
+        message += f"• `{fname}`: {imp_str}\n"
 
     message += f"\n⏰ _{alert_payload['timestamp']}_"
 
