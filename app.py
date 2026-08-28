@@ -28,6 +28,7 @@ from src.ui.ws_backtesting import render_backtesting_workspace
 from src.ui.ws_xai_shap import render_xai_workspace
 from src.ui.ws_options_surface import render_options_surface_workspace
 from src.ui.ws_deep_quant import render_deep_quant_workspace
+from src.config import COMPANY_NAMES
 
 STOCKS_FILE = "stocks.txt"
 
@@ -75,6 +76,7 @@ def main():
         "🎯 Select Asset Ticker",
         tickers,
         index=0 if "NVDA" in tickers else 0,
+        format_func=lambda t: f"{t} — {COMPANY_NAMES.get(t, t)}",
     )
 
     st.sidebar.markdown("---")
@@ -104,12 +106,14 @@ def main():
     ws_key = workspaces[selected_ws_label]
 
     # Quick Status in Sidebar
+    comp_name = COMPANY_NAMES.get(selected_ticker, selected_ticker)
     st.sidebar.markdown("---")
     st.sidebar.markdown(
         f"""
         <div style="font-size: 0.75rem; color: #64748B; font-family: 'JetBrains Mono', monospace;">
             ● Model Universe: {len(tickers)} S&P Assets<br>
-            ● Active Asset: {selected_ticker}<br>
+            ● Active Asset: <b>{selected_ticker}</b><br>
+            ● Company: {comp_name}<br>
             ● Status: 🟢 All Systems Operational
         </div>
         """,

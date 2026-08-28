@@ -2,10 +2,10 @@
 Workspace 5: Institutional Multi-Asset Portfolio & Systematic Universe Allocator.
 Engineered for 100+ S&P Assets:
 - Multi-Asset Risk Parity Allocation (Inverse Volatility 1/σ)
-- Macro Sector Allocation Donut & Top 15 Alpha Holdings Bar Chart
+- Macro Sector Allocation Donut & Top 15 Alpha Holdings Bar Chart (with Company Names)
 - Institutional Treemap (Sector -> Asset -> Weight -> Sharpe Color Gradient)
 - Unified Master Fund Cumulative Equity Curve vs S&P 500 Benchmark
-- Systematic Multi-Asset Universe Screener with interactive column configurations & progress bars
+- Systematic Multi-Asset Universe Screener with Company Names & Progress Bar Columns
 """
 
 import os
@@ -18,6 +18,7 @@ import plotly.graph_objects as go
 from typing import Dict, Any
 
 from src.ui.components import render_workspace_header
+from src.config import COMPANY_NAMES
 from src.portfolio import (
     build_unified_portfolio,
     calculate_risk_parity_weights,
@@ -74,7 +75,7 @@ def render_portfolio_workspace(selected_ticker: str):
         unified_df, fund_metrics, _ = build_unified_portfolio(
             results_dir="results", allocation_method="risk_parity"
         )
-    except Exception as e:
+    except Exception:
         unified_df = pd.DataFrame()
         fund_metrics = {}
 
@@ -148,12 +149,13 @@ def render_portfolio_workspace(selected_ticker: str):
         st.plotly_chart(fig_equity, use_container_width=True)
 
     # =========================================================================
-    # 3. BUILD SYSTEMATIC METRICS DATAFRAME FOR ALL 104 ASSETS
+    # 3. BUILD SYSTEMATIC METRICS DATAFRAME FOR ALL 104 ASSETS (WITH COMPANY NAMES)
     # =========================================================================
     records = []
     for ticker, df in portfolios.items():
         weight_pct = float(weights_dict.get(ticker, 0.0)) * 100.0
         sec = sector_map.get(ticker, "General S&P 100")
+        comp_name = COMPANY_NAMES.get(ticker, ticker)
 
         # Load metrics if available
         metrics_path = os.path.join("results", f"{ticker}_metrics.json")
@@ -186,6 +188,7 @@ def render_portfolio_workspace(selected_ticker: str):
         records.append(
             {
                 "Ticker": ticker,
+                "Company Name": comp_name,
                 "Sector": sec,
                 "Weight (%)": weight_pct,
                 "Sharpe Ratio": sharpe,
@@ -230,11 +233,17 @@ def render_portfolio_workspace(selected_ticker: str):
 
     with col_top:
         st.markdown("#### 🏆 Top 15 Alpha Allocation Weights")
-        df_top15 = df_master.head(15).sort_values(by="Weight (%)", ascending=True)
+        df_top15 = (
+            df_master.head(15).sort_values(by="Weight (%)", ascending=True).copy()
+        )
+        df_top15["Display Label"] = (
+            df_top15["Ticker"] + " — " + df_top15["Company Name"]
+        )
+
         fig_bar = px.bar(
             df_top15,
             x="Weight (%)",
-            y="Ticker",
+            y="Display Label",
             orientation="h",
             color="Sharpe Ratio",
             color_continuous_scale="Viridis",
@@ -248,11 +257,12 @@ def render_portfolio_workspace(selected_ticker: str):
             height=360,
             margin=dict(l=10, r=20, t=20, b=10),
             coloraxis_showscale=False,
+            yaxis_title="",
         )
         st.plotly_chart(fig_bar, use_container_width=True)
 
     # =========================================================================
-    # 5. INSTITUTIONAL UNIVERSE TREEMAP
+    # 5. INSTITUTIONAL UNIVERSE TREEMAP (WITH COMPANY NAMES)
     # =========================================================================
     st.markdown("### 🗺️ Institutional S&P 100 Capital Allocation Treemap")
     st.caption(
@@ -266,12 +276,17 @@ def render_portfolio_workspace(selected_ticker: str):
         color="Sharpe Ratio",
         color_continuous_scale="Turbo",
         template="plotly_dark",
-        hover_data={
-            "Weight (%)": ":.2f%",
-            "Sharpe Ratio": ":.2f",
-            "10Y Strategy Return (%)": ":+.2f%",
-            "Max Drawdown (%)": ":.2f%",
-        },
+        custom_data=[
+            "Company Name",
+            "Sector",
+            "10Y Strategy Return (%)",
+            "Max Drawdown (%)",
+            "Sharpe Ratio",
+            "Weight (%)",
+        ],
+    )
+    fig_tree.update_traces(
+        hovertemplate="<b>%{label}</b><br>Company: %{customdata[0]}<br>Sector: %{customdata[1]}<br>Weight: %{customdata[5]:.2f}%<br>Sharpe: %{customdata[4]:.2f}<br>10Y Return: %{customdata[2]:+.2f}%<br>Max DD: %{customdata[3]:.2f}%<extra></extra>"
     )
     fig_tree.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
@@ -281,7 +296,7 @@ def render_portfolio_workspace(selected_ticker: str):
     st.plotly_chart(fig_tree, use_container_width=True)
 
     # =========================================================================
-    # 6. SYSTEMATIC MULTI-ASSET UNIVERSE SCREENER TABLE
+    # 6. SYSTEMATIC MULTI-ASSET UNIVERSE SCREENER TABLE (WITH COMPANY NAMES)
     # =========================================================================
     st.markdown("---")
     st.markdown("### 📋 Systematic S&P 100 Multi-Asset Screener & Allocation Matrix")
@@ -294,14 +309,10 @@ def render_portfolio_workspace(selected_ticker: str):
             "Filter by Sector:", options=all_sectors, index=0
         )
     with f_col2:
-        search_query = (
-            st.text_input(
-                "🔍 Quick Search Ticker symbol:",
-                placeholder="e.g. NVDA, AAPL, LLY, MSFT...",
-            )
-            .strip()
-            .upper()
-        )
+        search_query = st.text_input(
+            "🔍 Quick Search Ticker or Company Name:",
+            placeholder="e.g. NVDA, Apple, Microsoft, Eli Lilly...",
+        ).strip()
 
     df_filtered = df_master.copy()
     if selected_sector_filter != "All 11 Sectors":
@@ -310,6 +321,9 @@ def render_portfolio_workspace(selected_ticker: str):
     if search_query:
         df_filtered = df_filtered[
             df_filtered["Ticker"].str.contains(search_query, case=False, na=False)
+            | df_filtered["Company Name"].str.contains(
+                search_query, case=False, na=False
+            )
         ]
 
     max_w = float(df_master["Weight (%)"].max()) if not df_master.empty else 5.0
@@ -320,6 +334,7 @@ def render_portfolio_workspace(selected_ticker: str):
         hide_index=True,
         column_config={
             "Ticker": st.column_config.TextColumn("Ticker", width="small"),
+            "Company Name": st.column_config.TextColumn("Company Name", width="large"),
             "Sector": st.column_config.TextColumn("Sector", width="medium"),
             "Weight (%)": st.column_config.ProgressColumn(
                 "Risk Parity Weight",

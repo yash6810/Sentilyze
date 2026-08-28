@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 from src.ui.components import render_workspace_header, render_conviction_gauge
-from src.config import FEATURES
+from src.config import FEATURES, COMPANY_NAMES
 from src.preprocessing import preprocess_data
 from src.modeling import load_model, get_prediction_on_latest_data
 from src.realtime_tracker import fetch_live_quote
@@ -16,8 +16,9 @@ from src.realtime_tracker import fetch_live_quote
 
 def render_live_prediction_workspace(ticker: str):
     """Renders the high-speed live inference and directional prediction workspace."""
+    comp_name = COMPANY_NAMES.get(ticker, ticker)
     render_workspace_header(
-        title=f"🔮 {ticker} Live Algorithmic Signal & Inference",
+        title=f"🔮 {ticker} — {comp_name} Live Algorithmic Signal",
         subtitle="Walk-Forward Optimized XGBoost Momentum Classifier & Real-Time FinBERT News Sentiment",
         badge_text="SUB-SECOND INFERENCE",
         badge_color="#10B981",
