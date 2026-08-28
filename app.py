@@ -28,6 +28,7 @@ from src.ui.ws_backtesting import render_backtesting_workspace
 from src.ui.ws_xai_shap import render_xai_workspace
 from src.ui.ws_options_surface import render_options_surface_workspace
 from src.ui.ws_deep_quant import render_deep_quant_workspace
+from src.ui.components import get_market_status
 from src.config import COMPANY_NAMES
 
 STOCKS_FILE = "stocks.txt"
@@ -51,9 +52,29 @@ def main():
     # --- Sidebar Controls ---
     st.sidebar.markdown(
         """
-        <div style="text-align: center; padding-bottom: 12px;">
+        <div style="text-align: center; padding-bottom: 8px;">
             <h2 style="margin: 0; font-weight: 800; letter-spacing: -0.02em;">📈 SENTILYZE</h2>
             <p style="margin: 2px 0 0 0; color: #94A3B8; font-size: 0.8rem; font-family: 'JetBrains Mono', monospace;">INSTITUTIONAL QUANT OS</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Live Market Clock & Status Widget
+    mkt = get_market_status()
+    st.sidebar.markdown(
+        f"""
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px; margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; font-weight: 700; color: #94A3B8; text-transform: uppercase;">NYSE / NASDAQ</span>
+                <span style="font-size: 0.72rem; font-weight: 800; color: {mkt['badge_color']}; font-family: 'JetBrains Mono', monospace;">{mkt['icon']} {mkt['status']}</span>
+            </div>
+            <div style="font-size: 0.85rem; font-weight: 600; color: #F8FAFC; margin-top: 4px; font-family: 'JetBrains Mono', monospace;">
+                🕒 {mkt['time_str']}
+            </div>
+            <div style="font-size: 0.7rem; color: #64748B; margin-top: 2px;">
+                {mkt['description']}
+            </div>
         </div>
         """,
         unsafe_allow_html=True,
