@@ -1,13 +1,16 @@
 """
 Workspace 3: 24/7 Autonomous Broker, Kelly Sizing & Staged Profit Scaler.
+Includes Native Streamlit Live Position Tracking Chart (Zero Plotly Overhead).
 """
 
 import os
 import json
 import streamlit as st
 import pandas as pd
+import numpy as np
 from src.ui.components import render_workspace_header
 from src.autonomous_trader import AutonomousTradingEngine
+from src.data_ingestion import get_price_history
 
 
 def render_autonomous_trader_workspace(selected_ticker: str):
@@ -26,7 +29,8 @@ def render_autonomous_trader_workspace(selected_ticker: str):
     # Metrics Bar
     m1, m2, m3, m4 = st.columns(4)
     m1.metric(
-        "💰 Total Equity", f"${portfolio_summary.get('total_equity', 100000.0):,.2f}"
+        "💰 Total Equity",
+        f"${portfolio_summary.get('total_equity', 100000.0):,.2f}",
     )
     m2.metric("💵 Cash Balance", f"${portfolio_summary.get('cash', 100000.0):,.2f}")
     m3.metric(
@@ -72,7 +76,93 @@ def render_autonomous_trader_workspace(selected_ticker: str):
             "No active open positions. The Autonomous Agent is waiting for high-conviction committee clearances."
         )
 
+    # =========================================================================
+    # LIVE POSITION TRACKER CHART (Native Streamlit, Zero Plotly)
+    # =========================================================================
+    st.markdown("---")
+    st.markdown("### 📊 Live Holdings Chart & Staged Execution Levels (Native Engine)")
+
+    open_positions = broker_instance.state.get("open_positions", {})
+    available_tickers = (
+        list(open_positions.keys()) if open_positions else [selected_ticker]
+    )
+
+    chart_ticker = st.selectbox(
+        "Select Active Position to Track Live:",
+        options=available_tickers,
+        index=0,
+    )
+
+    try:
+        # 1. Fetch recent price history (3-month window for clean high-res view)
+        df_hist = get_price_history(chart_ticker, period="3mo", use_cache=True)
+
+        if not df_hist.empty and "Close" in df_hist.columns:
+            chart_data = pd.DataFrame(index=df_hist.index)
+            chart_data["Market Price ($)"] = df_hist["Close"].values
+
+            # If the stock is an active holding bought by the agent
+            if chart_ticker in open_positions:
+                pos = open_positions[chart_ticker]
+                entry_p = float(pos.get("entry_price", df_hist["Close"].iloc[-1]))
+                tp1_p = float(pos.get("tp1_target", entry_p * 1.06))
+                tp2_p = float(pos.get("tp2_target", entry_p * 1.12))
+                sl_p = float(pos.get("sl_target", entry_p * 0.95))
+                shares = int(pos.get("shares", 100))
+                scaled = pos.get("scaled_out", False)
+
+                chart_data["Agent Entry Price ($)"] = entry_p
+                chart_data["Target 1 (+2.5 ATR Take Profit)"] = tp1_p
+                chart_data["Target 2 (+4.5 ATR Runner)"] = tp2_p
+                chart_data["Stop-Loss Floor ($)"] = sl_p
+
+                # Status banner
+                stat_col1, stat_col2, stat_col3, stat_col4 = st.columns(4)
+                curr_p = float(df_hist["Close"].iloc[-1])
+                pos_pnl = (curr_p - entry_p) * shares
+                pos_ret = ((curr_p - entry_p) / entry_p) * 100.0
+
+                stat_col1.metric("Bought Shares", f"{shares:,} Shares")
+                stat_col2.metric("Bot Entry Basis", f"${entry_p:,.2f}")
+                stat_col3.metric(
+                    "Position PnL",
+                    f"${pos_pnl:+,.2f}",
+                    delta=f"{pos_ret:+.2f}%",
+                )
+                stat_col4.metric(
+                    "Strategy State",
+                    "🛡️ RISK-FREE (Banked 50%)" if scaled else "⚡ 100% ACTIVE",
+                )
+            else:
+                # Stock not currently held: display calibrated reference ATR brackets
+                last_p = float(df_hist["Close"].iloc[-1])
+                chart_data["Reference Entry ($)"] = last_p
+                chart_data["Target 1 (+2.5 ATR)"] = last_p * 1.05
+                chart_data["Stop-Loss Floor"] = last_p * 0.96
+                st.caption(
+                    f"Showing live market price structure and ATR reference brackets for {chart_ticker}."
+                )
+
+            # Native Streamlit line chart (Ultra-fast, responsive, NO Plotly)
+            st.line_chart(
+                chart_data,
+                height=450,
+                use_container_width=True,
+                color=[
+                    "#38BDF8",  # Market Price (Sky Blue)
+                    "#F59E0B",  # Entry Price (Gold Amber)
+                    "#10B981",  # Target 1 (Emerald Green)
+                    "#818CF8",  # Target 2 (Indigo)
+                    "#EF4444",  # Stop Loss (Crimson Red)
+                ][: len(chart_data.columns)],
+            )
+        else:
+            st.warning(f"Could not load price history for {chart_ticker}.")
+    except Exception as e:
+        st.error(f"Error rendering live chart: {e}")
+
     # Execution Logs Tab
+    st.markdown("---")
     st.markdown("#### 📜 Live Execution Audit Log")
     log_file = os.path.join("results", "autonomous_execution_log.json")
     if os.path.exists(log_file):
