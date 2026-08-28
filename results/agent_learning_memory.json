@@ -1,0 +1,13 @@
+{
+  "total_learning_cycles": 5,
+  "last_updated": "2026-08-28T14:12:27.600872+00:00",
+  "agent_voting_weights": {
+    "technicals_weight": 0.3,
+    "sentiment_weight": 0.35,
+    "valuation_weight": 0.15,
+    "cro_weight": 0.2
+  },
+  "adaptive_kelly_multiplier": 1.0,
+  "recent_trade_autopsies": [],
+  "retrained_models": []
+}

@@ -1,13 +1,24 @@
 {
-  "timestamp": "2026-08-28T11:36:01.535315+00:00",
+  "timestamp": "2026-08-28T14:12:07.011664+00:00",
   "buys": [],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
   "stop_losses": [],
   "veto_exits": [],
   "committee_resolutions": {},
-  "portfolio_equity": 101852.34,
+  "portfolio_equity": 102308.0,
   "cash_balance": 768.7892791747454,
-  "unrealized_pnl": 635.15,
-  "elapsed_seconds": 77.84
+  "unrealized_pnl": 1090.81,
+  "self_improvement": {
+    "total_cycles": 5,
+    "agent_weights": {
+      "technicals_weight": 0.3,
+      "sentiment_weight": 0.35,
+      "valuation_weight": 0.15,
+      "cro_weight": 0.2
+    },
+    "kelly_multiplier": 1.0,
+    "new_autopsies_count": 0
+  },
+  "elapsed_seconds": 20.59
 }
