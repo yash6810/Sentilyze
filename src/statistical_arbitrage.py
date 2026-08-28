@@ -223,7 +223,7 @@ def generate_pairs_trading_signals(
 
 
 def scan_pairs_universe(
-    prices_dict: Dict[str, pd.Series],
+    prices_dict: Optional[Dict[str, pd.Series]] = None,
     candidate_pairs: Optional[List[Tuple[str, str]]] = None,
 ) -> List[Dict[str, Any]]:
     """
@@ -237,25 +237,35 @@ def scan_pairs_universe(
     Returns:
         List of pair analyses sorted by ADF significance.
     """
+    if prices_dict is None:
+        from src.data_ingestion import get_price_history
+
+        prices_dict = {}
+        default_tickers = ["NVDA", "AMD", "MSFT", "GOOGL", "AAPL", "META", "AMZN"]
+        for t in default_tickers:
+            try:
+                df = get_price_history(t, period="2y", use_cache=True)
+                if not df.empty and "Close" in df.columns:
+                    prices_dict[t] = df["Close"]
+            except Exception as e:
+                logger.debug(f"Could not load price for {t}: {e}")
+
     if candidate_pairs is None:
         # Default institutional sector pairs
         candidate_pairs = [
             ("NVDA", "AMD"),
             ("MSFT", "GOOGL"),
-            ("TSM", "AVGO"),
-            ("QQQ", "SPY"),
             ("AAPL", "MSFT"),
             ("META", "GOOGL"),
-            ("AMZN", "COST"),
-            ("JPM", "SPY"),
-        ]
-        # Filter to available tickers
-        candidate_pairs = [
-            (a, b) for a, b in candidate_pairs if a in prices_dict and b in prices_dict
         ]
 
+    # Filter to available tickers in prices_dict
+    valid_pairs = [
+        (a, b) for a, b in candidate_pairs if a in prices_dict and b in prices_dict
+    ]
+
     results = []
-    for a, b in candidate_pairs:
+    for a, b in valid_pairs:
         try:
             res = generate_pairs_trading_signals(prices_dict[a], prices_dict[b], a, b)
             results.append(res)
@@ -263,7 +273,7 @@ def scan_pairs_universe(
             logger.warning(f"Failed analyzing pair {a}/{b}: {e}")
 
     # Sort by cointegration p-value (lowest/best first)
-    results.sort(key=lambda x: x["p_value"])
+    results.sort(key=lambda x: x.get("p_value", 1.0))
     return results
 
 
