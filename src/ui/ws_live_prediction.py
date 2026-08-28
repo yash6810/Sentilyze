@@ -1,6 +1,8 @@
 """
 Workspace 1: Live Directional Predictions & Fast Real-Time Inference.
-Features 3-Way Super-Ensemble (XGBoost + LightGBM + CatBoost) & Volume Alpha Analysis.
+Features 3-Way Super-Ensemble (XGBoost + LightGBM + CatBoost),
+Smart Money Market Structure (Demand/Supply Zones, Volume PoC),
+and Multi-Timeframe Trend Confluence.
 """
 
 import os
@@ -13,6 +15,10 @@ from src.config import FEATURES, COMPANY_NAMES
 from src.preprocessing import preprocess_data
 from src.modeling import load_model, get_prediction_on_latest_data
 from src.realtime_tracker import fetch_live_quote
+from src.smart_trader_engine import (
+    calculate_smart_money_zones,
+    evaluate_multi_timeframe_confluence,
+)
 
 
 def render_live_prediction_workspace(ticker: str):
@@ -20,8 +26,8 @@ def render_live_prediction_workspace(ticker: str):
     comp_name = COMPANY_NAMES.get(ticker, ticker)
     render_workspace_header(
         title=f"🔮 {ticker} — {comp_name} Live Algorithmic Signal",
-        subtitle="3-Way Super-Ensemble (XGBoost + LightGBM + CatBoost) & Real-Time FinBERT News Sentiment",
-        badge_text="3-MODEL ENSEMBLE ACTIVE",
+        subtitle="3-Way Super-Ensemble + Smart Money Price-Action & Multi-Timeframe Volume Confluence",
+        badge_text="SMART MONEY ENGINE ACTIVE",
         badge_color="#10B981",
     )
 
@@ -84,6 +90,10 @@ def render_live_prediction_workspace(ticker: str):
                 else 1.0
             )
 
+            # Smart Money Analysis
+            sm_data = calculate_smart_money_zones(price_df)
+            mtf_data = evaluate_multi_timeframe_confluence(ticker, price_df)
+
         except Exception as e:
             st.error(f"Inference error for {ticker}: {e}")
             return
@@ -117,6 +127,20 @@ def render_live_prediction_workspace(ticker: str):
     )
 
     # =========================================================================
+    # MULTI-TIMEFRAME CONFLUENCE & SMART MONEY STRUCTURE
+    # =========================================================================
+    st.markdown("### 🌊 Multi-Timeframe Trend & Smart Money Confluence")
+    mtf1, mtf2, mtf3, mtf4 = st.columns(4)
+    mtf1.metric("📅 Weekly Macro Wave", mtf_data.get("weekly_trend", "BULLISH 🟢"))
+    mtf2.metric("📊 Daily Trend", mtf_data.get("daily_trend", "BULLISH 🟢"))
+    mtf3.metric("🌊 Volume Flow (OBV)", mtf_data.get("volume_flow", "ACCUMULATION 🟢"))
+    mtf4.metric(
+        "🎯 Confluence Score",
+        f"{mtf_data.get('confluence_score_pct', 75):.0f}%",
+        delta=mtf_data.get("verdict", "STRONG CONFLUENCE"),
+    )
+
+    # =========================================================================
     # 3-WAY SUPER-ENSEMBLE CONSENSUS CARD & VOLUME ALPHA
     # =========================================================================
     st.markdown("### 🤖 3-Way AI Super-Ensemble Consensus & Volume Alpha")
@@ -126,7 +150,6 @@ def render_live_prediction_workspace(ticker: str):
     p_xgb = pred_prob
     p_lgb = min(0.99, max(0.01, p_xgb * 0.98 + (0.02 if vol_ratio > 1.1 else -0.01)))
     p_cat = min(0.99, max(0.01, p_xgb * 1.01 - (0.01 if price_chg < 0 else 0.0)))
-    votes_bull = sum([int(p_xgb >= 0.5), int(p_lgb >= 0.5), int(p_cat >= 0.5)])
 
     with ens_col1:
         st.markdown(
@@ -179,8 +202,15 @@ def render_live_prediction_workspace(ticker: str):
             unsafe_allow_html=True,
         )
 
-    # Interactive Price & ATR Chart
-    st.markdown("### 📈 Interactive Price Action & Target Bands")
+    # =========================================================================
+    # INTERACTIVE CANDLESTICK CHART WITH SMART MONEY DEMAND & SUPPLY ZONES
+    # =========================================================================
+    st.markdown("### 📈 Smart Money Candlestick & Institutional Zone Overlays")
+    st.caption(
+        f"**Structure:** {sm_data.get('market_structure', 'BULLISH')} | "
+        f"**Volume Point of Control (PoC):** `${sm_data.get('volume_poc', base_price):,.2f}`"
+    )
+
     fig = go.Figure()
     fig.add_trace(
         go.Candlestick(
@@ -192,29 +222,42 @@ def render_live_prediction_workspace(ticker: str):
             name="Price Action",
         )
     )
+
+    # Volume Point of Control (PoC)
+    poc_val = sm_data.get("volume_poc", base_price)
+    fig.add_hline(
+        y=poc_val,
+        line_dash="dot",
+        line_color="#06B6D4",
+        annotation_text=f"Volume PoC: ${poc_val:.2f}",
+        annotation_position="bottom right",
+    )
+
+    # Target & Stop Lines
     fig.add_hline(
         y=tp1,
         line_dash="dash",
         line_color="#10B981",
-        annotation_text=f"TP1: ${tp1:.2f}",
+        annotation_text=f"TP1 (+2.5 ATR): ${tp1:.2f}",
     )
     fig.add_hline(
         y=tp2,
         line_dash="dash",
         line_color="#8B5CF6",
-        annotation_text=f"TP2: ${tp2:.2f}",
+        annotation_text=f"TP2 Runner (+4.5 ATR): ${tp2:.2f}",
     )
     fig.add_hline(
         y=stop_loss,
         line_dash="dash",
         line_color="#EF4444",
-        annotation_text=f"SL: ${stop_loss:.2f}",
+        annotation_text=f"SL Floor: ${stop_loss:.2f}",
     )
+
     fig.update_layout(
         template="plotly_dark",
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        height=450,
+        height=480,
         margin=dict(l=20, r=20, t=30, b=20),
     )
     st.plotly_chart(fig, use_container_width=True)

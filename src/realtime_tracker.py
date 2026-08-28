@@ -636,6 +636,27 @@ def update_live_holdings_prices_and_alert_discord(
         sl_target = float(pos.get("sl_target", entry_price * 0.95))
         scaled_out = pos.get("scaled_out", False)
 
+        # Smart Money Trailing Stop Ratchet (Protects Accumulated Profit)
+        try:
+            from src.smart_trader_engine import calculate_structural_trailing_stop
+            from src.data_ingestion import get_price_history
+
+            df_hist = get_price_history(ticker, period="1mo", use_cache=True)
+            ratcheted_sl, trail_action = calculate_structural_trailing_stop(
+                current_price=spot_price,
+                entry_price=entry_price,
+                df_history=df_hist,
+                current_sl=sl_target,
+            )
+            if ratcheted_sl > sl_target:
+                pos["sl_target"] = ratcheted_sl
+                sl_target = ratcheted_sl
+                logger.info(
+                    f"🛡️ [{ticker} TRAILING RATCHET] {trail_action} -> New Stop Floor: ${ratcheted_sl:,.2f}"
+                )
+        except Exception:
+            pass
+
         # 1. Check TP1 (+2.5 ATR): Scale out 50% & Breakeven Stop
         if spot_price >= tp1_target and not scaled_out:
             shares_to_sell = max(1, pos["shares"] // 2)
