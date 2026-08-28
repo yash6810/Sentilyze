@@ -210,6 +210,50 @@ def render_autonomous_trader_workspace(selected_ticker: str):
     else:
         st.info("No closed trades yet. Open holdings are actively running.")
 
+    # =========================================================================
+    # SELF-IMPROVING AGENT LEARNING MEMORY & AUTOPSY PANEL
+    # =========================================================================
+    st.markdown("---")
+    st.markdown("### 🧠 Autonomous Agent Self-Improvement & Learning Memory")
+    memory_file = os.path.join("results", "agent_learning_memory.json")
+    if os.path.exists(memory_file):
+        try:
+            with open(memory_file, "r") as mf:
+                mem_data = json.load(mf)
+
+            # Top weights bar
+            weights = mem_data.get("agent_voting_weights", {})
+            w1, w2, w3, w4 = st.columns(4)
+            w1.metric(
+                "📈 Technicals Weight",
+                f"{weights.get('technicals_weight', 0.30)*100:.1f}%",
+            )
+            w2.metric(
+                "📰 NLP Sentiment Weight",
+                f"{weights.get('sentiment_weight', 0.35)*100:.1f}%",
+            )
+            w3.metric(
+                "🏛️ Valuation Weight",
+                f"{weights.get('valuation_weight', 0.15)*100:.1f}%",
+            )
+            w4.metric(
+                "🛡️ CRO Risk Weight",
+                f"{weights.get('cro_weight', 0.20)*100:.1f}%",
+            )
+
+            # Trade autopsies list
+            autopsies = mem_data.get("recent_trade_autopsies", [])
+            if autopsies:
+                st.markdown("#### 🔬 Recent Trade Autopsy Lessons")
+                for a in reversed(autopsies[-5:]):
+                    st.info(
+                        f"**{a.get('verdict', 'TRADE AUTOPSY')} ({a.get('ticker')})**: {a.get('lesson')} (PnL: `${a.get('pnl', 0):+,.2f}` | `{a.get('return_pct', 0):+.2f}%`)"
+                    )
+        except Exception as me:
+            st.caption(f"Learning memory status: {me}")
+    else:
+        st.info("Agent learning memory will initialize on the next closed trade cycle.")
+
     # Execution Logs Tab
     st.markdown("---")
     st.markdown("#### 🔍 Live Execution Audit Log (Raw JSON)")

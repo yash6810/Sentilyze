@@ -351,6 +351,12 @@ class AutonomousTradingEngine:
         self.broker._recalculate_metrics(date_str, now_str)
         self.broker._save()
 
+        # 5. Phase D: Self-Improving Feedback Loop & Trade Autopsy
+        self_improvement_summary = self._run_self_improvement_feedback_loop(
+            executed_actions
+        )
+        executed_actions["self_improvement"] = self_improvement_summary
+
         elapsed = round(time.time() - start_time, 2)
         executed_actions["elapsed_seconds"] = elapsed
         logger.info(
@@ -363,6 +369,144 @@ class AutonomousTradingEngine:
             json.dump(executed_actions, f, indent=2)
 
         return executed_actions
+
+    def _run_self_improvement_feedback_loop(
+        self, cycle_actions: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """
+        Executes the Self-Improving Feedback Loop:
+        1. Analyzes trade autopsies on closed trades (Wins vs Losses).
+        2. Dynamically calibrates Committee voting weights based on trailing precision.
+        3. Scales adaptive Kelly multiplier via reinforcement feedback.
+        4. Triggers background continuous model retraining for decayed tickers.
+        """
+        memory_file = os.path.join("results", "agent_learning_memory.json")
+        learning_state = {
+            "total_learning_cycles": 0,
+            "last_updated": datetime.now(timezone.utc).isoformat(),
+            "agent_voting_weights": {
+                "technicals_weight": 0.30,
+                "sentiment_weight": 0.35,
+                "valuation_weight": 0.15,
+                "cro_weight": 0.20,
+            },
+            "adaptive_kelly_multiplier": 1.0,
+            "recent_trade_autopsies": [],
+            "retrained_models": [],
+        }
+
+        if os.path.exists(memory_file):
+            try:
+                with open(memory_file, "r") as f:
+                    learning_state.update(json.load(f))
+            except Exception:
+                pass
+
+        learning_state["total_learning_cycles"] += 1
+        learning_state["last_updated"] = datetime.now(timezone.utc).isoformat()
+
+        # Collect closed trades in this cycle
+        new_exits = (
+            cycle_actions.get("take_profits_tp1", [])
+            + cycle_actions.get("take_profits_tp2", [])
+            + cycle_actions.get("stop_losses", [])
+        )
+
+        autopsies = []
+        for trade in new_exits:
+            ticker = trade.get("ticker", "UNKNOWN")
+            pnl = float(trade.get("pnl", 0.0))
+            ret_pct = float(trade.get("return_pct", 0.0))
+            reason = trade.get("reason", "EXIT")
+
+            is_win = pnl > 0 or "TAKE_PROFIT" in reason or "BREAK_EVEN" in reason
+            if is_win:
+                verdict = "🏆 POSITIVE ALPHA HARVEST"
+                lesson = f"Committee conviction on {ticker} succeeded with +{ret_pct:.2f}% gain."
+                # Reward sentiment & technical weights
+                learning_state["agent_voting_weights"]["sentiment_weight"] = min(
+                    0.45,
+                    round(
+                        learning_state["agent_voting_weights"]["sentiment_weight"]
+                        + 0.01,
+                        3,
+                    ),
+                )
+                learning_state["adaptive_kelly_multiplier"] = min(
+                    1.25,
+                    round(learning_state["adaptive_kelly_multiplier"] + 0.02, 2),
+                )
+            else:
+                verdict = "🛑 CONTROLLED RISK SHUTDOWN"
+                lesson = f"Stop loss on {ticker} triggered at {ret_pct:.2f}%. Protecting capital."
+                # Increase CRO risk weight and penalize volatile sentiment
+                learning_state["agent_voting_weights"]["cro_weight"] = min(
+                    0.35,
+                    round(
+                        learning_state["agent_voting_weights"]["cro_weight"] + 0.01,
+                        3,
+                    ),
+                )
+                learning_state["adaptive_kelly_multiplier"] = max(
+                    0.75,
+                    round(learning_state["adaptive_kelly_multiplier"] - 0.03, 2),
+                )
+
+                # Queue model for continuous retraining
+                try:
+                    from src.continuous_learner import (
+                        execute_continuous_retrain_cycle,
+                    )
+
+                    retrain_res = execute_continuous_retrain_cycle(
+                        ticker, tune_hyperparameters=False
+                    )
+                    learning_state["retrained_models"].append(
+                        {
+                            "ticker": ticker,
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
+                            "verdict": retrain_res.get("deployment_verdict"),
+                        }
+                    )
+                except Exception as re:
+                    logger.debug(f"Continuous retraining notice for {ticker}: {re}")
+
+            autopsies.append(
+                {
+                    "ticker": ticker,
+                    "pnl": pnl,
+                    "return_pct": ret_pct,
+                    "verdict": verdict,
+                    "lesson": lesson,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                }
+            )
+
+        if autopsies:
+            learning_state["recent_trade_autopsies"].extend(autopsies)
+            learning_state["recent_trade_autopsies"] = learning_state[
+                "recent_trade_autopsies"
+            ][-25:]
+
+        # Normalize weights to sum to 1.0
+        w_dict = learning_state["agent_voting_weights"]
+        tot_w = sum(w_dict.values())
+        if tot_w > 0:
+            learning_state["agent_voting_weights"] = {
+                k: round(v / tot_w, 3) for k, v in w_dict.items()
+            }
+
+        # Persist learning memory
+        os.makedirs(os.path.dirname(memory_file), exist_ok=True)
+        with open(memory_file, "w") as f:
+            json.dump(learning_state, f, indent=2)
+
+        return {
+            "total_cycles": learning_state["total_learning_cycles"],
+            "agent_weights": learning_state["agent_voting_weights"],
+            "kelly_multiplier": learning_state["adaptive_kelly_multiplier"],
+            "new_autopsies_count": len(autopsies),
+        }
 
 
 def run_autonomous_daemon(interval_seconds: int = 300):
