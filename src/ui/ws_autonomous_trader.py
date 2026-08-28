@@ -67,22 +67,41 @@ def render_autonomous_trader_workspace(selected_ticker: str):
         )
     with ctrl_col3:
         st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
-        if st.button(
-            "🚀 Scan Universe & Deploy Capital",
-            use_container_width=True,
-            type="primary",
-        ):
-            with st.spinner(
-                f"Scanning 104 universe assets and executing top Kelly setups (Max: {max_slots} slots)..."
+        btn_col_a, btn_col_b = st.columns([1, 1])
+        with btn_col_a:
+            if st.button(
+                "🚀 Scan & Deploy",
+                use_container_width=True,
+                type="primary",
+                help="Scans 104 tickers and deploys Kelly capital into top setups.",
             ):
-                cycle_res = auto_engine.run_autonomous_cycle(
-                    max_concurrent_positions=max_slots
-                )
-                st.success(
-                    f"✅ Scanned 104 assets in {cycle_res.get('elapsed_seconds', 0)}s! "
-                    f"New Buys: {len(cycle_res.get('buys', []))}, TP1s: {len(cycle_res.get('take_profits_tp1', []))}, TP2s: {len(cycle_res.get('take_profits_tp2', []))}"
-                )
-                st.rerun()
+                with st.spinner(
+                    f"Scanning 104 universe assets and executing top Kelly setups (Max: {max_slots} slots)..."
+                ):
+                    cycle_res = auto_engine.run_autonomous_cycle(
+                        max_concurrent_positions=max_slots
+                    )
+                    st.success(
+                        f"✅ Scanned 104 assets in {cycle_res.get('elapsed_seconds', 0)}s! "
+                        f"New Buys: {len(cycle_res.get('buys', []))}, TP1s: {len(cycle_res.get('take_profits_tp1', []))}, TP2s: {len(cycle_res.get('take_profits_tp2', []))}"
+                    )
+                    st.rerun()
+        with btn_col_b:
+            if st.button(
+                "🔄 5-Min Price Check",
+                use_container_width=True,
+                help="Polls live NYSE/NASDAQ quotes for open holdings and checks TP1/TP2 targets.",
+            ):
+                with st.spinner(
+                    "Executing 5-minute intraday market price & scale-out guardian..."
+                ):
+                    from src.realtime_tracker import (
+                        evaluate_intraday_execution,
+                    )
+
+                    guard_res = evaluate_intraday_execution()
+                    st.success("✅ Live prices updated & targets evaluated!")
+                    st.rerun()
 
     # Open Positions Table
     st.markdown("#### 📦 Active Open Positions & Scale-Out Status")
