@@ -53,15 +53,27 @@ def render_live_prediction_workspace(ticker: str):
             pred_class = int(prediction[0])
             pred_prob = float(confidence[0][1])
 
-            # ATR Take-Profit & Stop-Loss Levels
+            # Sizing & ATR Stops
+            if (
+                current_price <= 0
+                and not price_df.empty
+                and "Close" in price_df.columns
+            ):
+                current_price = float(price_df["Close"].iloc[-1])
+
+            base_price = max(0.01, current_price)
+
             atr_val = (
-                float(latest_row.get("atr_14", current_price * 0.025).iloc[0])
+                float(latest_row.get("atr_14", base_price * 0.025).iloc[0])
                 if "atr_14" in latest_row
-                else current_price * 0.025
+                else base_price * 0.025
             )
-            tp1 = current_price + (2.5 * atr_val)
-            tp2 = current_price + (4.5 * atr_val)
-            stop_loss = current_price - (1.5 * atr_val)
+            tp1 = base_price + (2.5 * atr_val)
+            tp2 = base_price + (4.5 * atr_val)
+            stop_loss = max(0.01, base_price - (1.5 * atr_val))
+
+            tp1_delta = ((tp1 - base_price) / base_price) * 100.0
+            sl_delta = ((stop_loss - base_price) / base_price) * 100.0
 
         except Exception as e:
             st.error(f"Inference error for {ticker}: {e}")
@@ -70,7 +82,7 @@ def render_live_prediction_workspace(ticker: str):
     # Top KPI Metrics Bar
     col1, col2, col3, col4 = st.columns(4)
     col1.metric(
-        "💵 Spot Market Price", f"${current_price:.2f}", delta=f"{price_chg:+.2f}%"
+        "💵 Spot Market Price", f"${base_price:.2f}", delta=f"{price_chg:+.2f}%"
     )
     col2.metric(
         "🎯 Directional Signal",
@@ -80,12 +92,12 @@ def render_live_prediction_workspace(ticker: str):
     col3.metric(
         "🎯 Target 1 (+2.5 ATR)",
         f"${tp1:.2f}",
-        delta=f"+{((tp1-current_price)/current_price)*100:.1f}%",
+        delta=f"+{tp1_delta:.1f}%",
     )
     col4.metric(
         "🛡️ ATR Stop Floor",
         f"${stop_loss:.2f}",
-        delta=f"{((stop_loss-current_price)/current_price)*100:.1f}%",
+        delta=f"{sl_delta:+.1f}%",
     )
 
     st.markdown("<br>", unsafe_allow_html=True)
