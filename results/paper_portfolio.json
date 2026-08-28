@@ -1,6 +1,6 @@
 {
   "initial_capital": 100000.0,
-  "cash": 11585.439279174745,
+  "cash": 768.7892791747454,
   "total_equity": 101852.34,
   "unrealized_pnl": 635.15,
   "realized_pnl": 1217.1906829833576,
@@ -34,6 +34,20 @@
       "scaled_out": false,
       "confidence": 0.6696692109107971,
       "regime": "\u25b2 BULLISH (Above SMA200)"
+    },
+    "QQQ": {
+      "ticker": "QQQ",
+      "shares": 15,
+      "initial_shares": 15,
+      "entry_price": 721.11,
+      "current_price": 721.11,
+      "entry_date": "2026-08-28",
+      "tp1_target": 775.19,
+      "tp2_target": 818.46,
+      "sl_target": 688.66,
+      "scaled_out": false,
+      "confidence": 0.81,
+      "regime": "MANUAL_LIVE_ORDER"
     }
   },
   "closed_trades": [
@@ -219,7 +233,15 @@
       "cash": 11585.44,
       "invested": 90266.9,
       "daily_return": 0.63
+    },
+    {
+      "date": "2026-08-28",
+      "timestamp": "2026-08-28T01:50:51.055853+00:00",
+      "total_equity": 101852.34,
+      "cash": 768.79,
+      "invested": 101083.55,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-08-27T22:55:18.161237+00:00"
+  "last_updated": "2026-08-28T01:50:51.056539+00:00"
 }
