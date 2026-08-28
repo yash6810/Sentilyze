@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 768.7892791747454,
-  "total_equity": 102247.19,
-  "unrealized_pnl": 1030.0,
+  "total_equity": 101275.44,
+  "unrealized_pnl": 58.25,
   "realized_pnl": 1217.1906829833576,
   "win_rate": 53.3,
   "total_trades": 15,
@@ -13,11 +13,11 @@
       "shares": 78,
       "initial_shares": 78,
       "entry_price": 576.1400146484375,
-      "current_price": 579.46,
+      "current_price": 578.02,
       "entry_date": "2026-08-27",
       "tp1_target": 617.17,
       "tp2_target": 649.99,
-      "sl_target": 551.52,
+      "sl_target": 574.18,
       "scaled_out": false,
       "confidence": 0.6999778747558594,
       "regime": "\u25bc BEARISH (Below SMA200)"
@@ -26,11 +26,11 @@
       "shares": 107,
       "initial_shares": 107,
       "entry_price": 417.6900024414063,
-      "current_price": 425.21,
+      "current_price": 417.52,
       "entry_date": "2026-08-27",
       "tp1_target": 445.16,
       "tp2_target": 467.14,
-      "sl_target": 401.21,
+      "sl_target": 405.95,
       "scaled_out": false,
       "confidence": 0.6696692109107971,
       "regime": "\u25b2 BULLISH (Above SMA200)"
@@ -40,11 +40,11 @@
       "shares": 15,
       "initial_shares": 15,
       "entry_price": 721.11,
-      "current_price": 718.87,
+      "current_price": 716.43,
       "entry_date": "2026-08-28",
       "tp1_target": 775.19,
       "tp2_target": 818.46,
-      "sl_target": 688.66,
+      "sl_target": 711.92,
       "scaled_out": false,
       "confidence": 0.81,
       "regime": "MANUAL_LIVE_ORDER"
@@ -237,11 +237,11 @@
     {
       "date": "2026-08-28",
       "timestamp": "2026-08-28T01:50:51.055853+00:00",
-      "total_equity": 102247.19,
+      "total_equity": 101275.44,
       "cash": 768.79,
-      "invested": 101478.4,
-      "daily_return": 0.03
+      "invested": 100506.65,
+      "daily_return": -0.95
     }
   ],
-  "last_updated": "2026-08-28T14:17:50.767132+00:00"
+  "last_updated": "2026-08-28T22:59:41.272275+00:00"
 }
