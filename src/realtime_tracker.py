@@ -592,6 +592,198 @@ def _send_intraday_telegram_flash(trade: Dict[str, Any], bot_token: str, chat_id
         logger.warning(f"Failed sending intraday Telegram alert: {e}")
 
 
+def update_live_holdings_prices_and_alert_discord(
+    notify_discord: bool = True,
+) -> Dict[str, Any]:
+    """
+    Sub-second live spot price poller for active holdings.
+    Updates current price, unrealized PnL, checks ATR exit triggers,
+    and dispatches an institutional live price card to Discord.
+    """
+    from src.alerts import (
+        send_discord_holdings_heartbeat,
+        send_discord_execution_alert,
+    )
+
+    broker = PaperBroker()
+    open_pos = broker.state.get("open_positions", {})
+    if not open_pos:
+        logger.info("No active open positions to poll.")
+        return {"status": "NO_OPEN_POSITIONS", "updated_count": 0}
+
+    logger.info(
+        f"⚡ Fast Polling live prices for {len(open_pos)} active holdings: {list(open_pos.keys())}"
+    )
+    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    now_str = datetime.now(timezone.utc).isoformat()
+    executed_trades = []
+
+    for ticker in list(open_pos.keys()):
+        if ticker not in broker.state["open_positions"]:
+            continue
+        pos = broker.state["open_positions"][ticker]
+        quote = fetch_live_quote(ticker)
+        spot_price = float(
+            quote.get("price", pos.get("current_price", pos.get("entry_price", 100.0)))
+        )
+        if spot_price <= 0:
+            continue
+
+        pos["current_price"] = spot_price
+        entry_price = float(pos["entry_price"])
+        tp1_target = float(pos.get("tp1_target", entry_price * 1.06))
+        tp2_target = float(pos.get("tp2_target", entry_price * 1.12))
+        sl_target = float(pos.get("sl_target", entry_price * 0.95))
+        scaled_out = pos.get("scaled_out", False)
+
+        # 1. Check TP1 (+2.5 ATR): Scale out 50% & Breakeven Stop
+        if spot_price >= tp1_target and not scaled_out:
+            shares_to_sell = max(1, pos["shares"] // 2)
+            proceeds = float(shares_to_sell * spot_price)
+            cost_basis = float(shares_to_sell * entry_price)
+            pnl = float(proceeds - cost_basis)
+            ret_pct = float((spot_price - entry_price) / entry_price * 100.0)
+
+            broker.state["cash"] += proceeds
+            broker.state["realized_pnl"] += pnl
+            broker.state["total_trades"] += 1
+            broker.state["winning_trades"] += 1
+
+            pos["shares"] -= shares_to_sell
+            pos["scaled_out"] = True
+            pos["sl_target"] = entry_price  # Move Stop to Breakeven
+
+            trade_record = {
+                "ticker": ticker,
+                "shares": shares_to_sell,
+                "entry_price": entry_price,
+                "exit_price": spot_price,
+                "entry_date": pos["entry_date"],
+                "exit_date": date_str,
+                "pnl": round(pnl, 2),
+                "return_pct": round(ret_pct, 2),
+                "reason": "TP1_SCALE_OUT_50%",
+            }
+            broker.state["closed_trades"].append(trade_record)
+            executed_trades.append(trade_record)
+            logger.info(
+                f"🏆 [TP1 50% SCALE-OUT] {ticker} hit ${spot_price:.2f}! Banked ${pnl:+,.2f} profit."
+            )
+            send_discord_execution_alert(
+                {
+                    "action": "SELL",
+                    "stage": "TP1_SCALE_OUT_50%",
+                    "ticker": ticker,
+                    "price": spot_price,
+                    "shares": shares_to_sell,
+                    "realized_pnl": pnl,
+                    "tp2": pos.get("tp2_target", 0.0),
+                }
+            )
+
+        # 2. Check TP2 (+4.5 ATR): Close Runner
+        elif spot_price >= tp2_target:
+            proceeds = float(pos["shares"] * spot_price)
+            cost_basis = float(pos["shares"] * entry_price)
+            pnl = float(proceeds - cost_basis)
+            ret_pct = float((spot_price - entry_price) / entry_price * 100.0)
+
+            broker.state["cash"] += proceeds
+            broker.state["realized_pnl"] += pnl
+            broker.state["total_trades"] += 1
+            broker.state["winning_trades"] += 1
+
+            trade_record = {
+                "ticker": ticker,
+                "shares": pos["shares"],
+                "entry_price": entry_price,
+                "exit_price": spot_price,
+                "entry_date": pos["entry_date"],
+                "exit_date": date_str,
+                "pnl": round(pnl, 2),
+                "return_pct": round(ret_pct, 2),
+                "reason": "TP2_RUNNER_EXIT",
+            }
+            broker.state["closed_trades"].append(trade_record)
+            del broker.state["open_positions"][ticker]
+            executed_trades.append(trade_record)
+            logger.info(
+                f"🎯 [TP2 RUNNER EXIT] {ticker} runner closed @ ${spot_price:.2f} | PnL: ${pnl:+,.2f}"
+            )
+            send_discord_execution_alert(
+                {
+                    "action": "SELL",
+                    "stage": "TP2_RUNNER_EXIT",
+                    "ticker": ticker,
+                    "price": spot_price,
+                    "shares": trade_record["shares"],
+                    "realized_pnl": pnl,
+                    "return_pct": ret_pct,
+                }
+            )
+
+        # 3. Check Stop-Loss / Breakeven Floor
+        elif spot_price <= sl_target:
+            proceeds = float(pos["shares"] * spot_price)
+            cost_basis = float(pos["shares"] * entry_price)
+            pnl = float(proceeds - cost_basis)
+            ret_pct = float((spot_price - entry_price) / entry_price * 100.0)
+
+            broker.state["cash"] += proceeds
+            broker.state["realized_pnl"] += pnl
+            broker.state["total_trades"] += 1
+            if pnl > 0 or scaled_out:
+                broker.state["winning_trades"] += 1
+            else:
+                broker.state["losing_trades"] += 1
+
+            reason = "BREAK_EVEN_TRAIL" if scaled_out else "STOP_LOSS"
+            trade_record = {
+                "ticker": ticker,
+                "shares": pos["shares"],
+                "entry_price": entry_price,
+                "exit_price": spot_price,
+                "entry_date": pos["entry_date"],
+                "exit_date": date_str,
+                "pnl": round(pnl, 2),
+                "return_pct": round(ret_pct, 2),
+                "reason": reason,
+            }
+            broker.state["closed_trades"].append(trade_record)
+            del broker.state["open_positions"][ticker]
+            executed_trades.append(trade_record)
+            logger.info(
+                f"🛡️ [{reason}] {ticker} closed @ ${spot_price:.2f} | PnL: ${pnl:+,.2f}"
+            )
+            send_discord_execution_alert(
+                {
+                    "action": "SELL",
+                    "stage": reason,
+                    "ticker": ticker,
+                    "price": spot_price,
+                    "shares": trade_record["shares"],
+                    "realized_pnl": pnl,
+                }
+            )
+
+    broker._recalculate_metrics(date_str, now_str)
+    broker._save()
+
+    # Dispatch Discord Live Holdings Heartbeat
+    discord_dispatched = False
+    if notify_discord:
+        discord_dispatched = send_discord_holdings_heartbeat(broker.state)
+
+    return {
+        "status": "SUCCESS",
+        "updated_positions": len(broker.state.get("open_positions", {})),
+        "executed_trades": executed_trades,
+        "total_equity": broker.state.get("total_equity", 100000.0),
+        "unrealized_pnl": broker.state.get("unrealized_pnl", 0.0),
+        "discord_alert_dispatched": discord_dispatched,
+    }
+
+
 def run_5min_guardian_loop(duration_minutes: int = 360):
     """
     Continuous 5-Minute Intraday Guardian Loop during active market hours.
@@ -603,8 +795,8 @@ def run_5min_guardian_loop(duration_minutes: int = 360):
     end_time = start_time + (duration_minutes * 60)
 
     while time.time() < end_time:
-        res = evaluate_intraday_execution()
+        res = update_live_holdings_prices_and_alert_discord(notify_discord=True)
         logger.info(
-            f"5-Minute Poll Complete. Executed: {len(res.get('executed_trades', []))} trades."
+            f"5-Minute Poll Complete. Positions: {res.get('updated_positions', 0)}, Equity: ${res.get('total_equity', 0):,.2f}"
         )
         time.sleep(300)  # Sleep 5 minutes

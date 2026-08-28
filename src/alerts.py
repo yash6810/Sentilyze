@@ -566,3 +566,81 @@ def send_telegram_alert(
     except Exception as e:
         logger.error(f"Error sending Telegram alert: {e}")
         return False
+
+
+def send_discord_holdings_heartbeat(
+    portfolio_state: Dict[str, Any],
+    webhook_url: Optional[str] = None,
+) -> bool:
+    """
+    Sends a sleek, institutional Discord embed with live prices, PnL, and distance to targets for all active holdings.
+    """
+    url = webhook_url or os.getenv("DISCORD_WEBHOOK_URL")
+    if not url:
+        return False
+
+    open_pos = portfolio_state.get("open_positions", {})
+    if not open_pos:
+        return False
+
+    total_eq = float(portfolio_state.get("total_equity", 100000.0))
+    unrealized_pnl = float(portfolio_state.get("unrealized_pnl", 0.0))
+    cash = float(portfolio_state.get("cash", 0.0))
+    pnl_pct = (unrealized_pnl / total_eq) * 100.0 if total_eq > 0 else 0.0
+
+    color = 0x10B981 if unrealized_pnl >= 0 else 0xEF4444
+
+    fields = []
+    for ticker, pos in open_pos.items():
+        curr_p = float(pos.get("current_price", 0.0))
+        entry_p = float(pos.get("entry_price", curr_p))
+        shares = int(pos.get("shares", 0))
+        tp1 = float(pos.get("tp1_target", curr_p * 1.06))
+        sl = float(pos.get("sl_target", curr_p * 0.95))
+        pos_pnl = (curr_p - entry_p) * shares
+        pos_ret = ((curr_p - entry_p) / entry_p) * 100.0 if entry_p > 0 else 0.0
+
+        dist_tp1 = ((tp1 - curr_p) / curr_p) * 100.0 if curr_p > 0 else 0.0
+        dist_sl = ((curr_p - sl) / curr_p) * 100.0 if curr_p > 0 else 0.0
+
+        status_tag = (
+            "🛡️ 50% Banked (Risk-Free)" if pos.get("scaled_out") else "⚡ 100% Active"
+        )
+        emoji = "🟢" if pos_pnl >= 0 else "🔴"
+
+        fields.append(
+            {
+                "name": f"{emoji} {ticker} • ${curr_p:.2f} ({pos_ret:+.2f}%)",
+                "value": (
+                    f"• **Shares:** `{shares:,}` | **Entry Basis:** `${entry_p:.2f}`\n"
+                    f"• **Unrealized PnL:** **`${pos_pnl:+,.2f}`**\n"
+                    f"• **Target 1 (+2.5 ATR):** `${tp1:.2f}` (`{dist_tp1:+.1f}%` away)\n"
+                    f"• **Stop Loss Floor:** `${sl:.2f}` (`{dist_sl:.1f}%` buffer)\n"
+                    f"• **State:** `{status_tag}`"
+                ),
+                "inline": False,
+            }
+        )
+
+    embed = {
+        "title": "📈 Sentilyze Intraday Live Holdings Price Update",
+        "description": (
+            f"**Portfolio Equity:** `${total_eq:,.2f}`\n"
+            f"**Unrealized PnL:** **`${unrealized_pnl:+,.2f}` (`{pnl_pct:+.2f}%`)**\n"
+            f"**Cash Balance:** `${cash:,.2f}`\n"
+            f"**Active Positions:** `{len(open_pos)} Assets`"
+        ),
+        "color": color,
+        "fields": fields,
+        "footer": {
+            "text": f"Sentilyze Sub-Second Price Guardian • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+        },
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
+
+    try:
+        res = requests.post(url, json={"embeds": [embed]}, timeout=10)
+        return res.status_code in [200, 204]
+    except Exception as e:
+        logger.error(f"Error sending Discord holdings heartbeat: {e}")
+        return False

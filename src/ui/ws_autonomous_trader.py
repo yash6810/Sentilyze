@@ -88,19 +88,23 @@ def render_autonomous_trader_workspace(selected_ticker: str):
                     st.rerun()
         with btn_col_b:
             if st.button(
-                "🔄 5-Min Price Check",
+                "⚡ Fast Price Sync & Discord",
                 use_container_width=True,
-                help="Polls live NYSE/NASDAQ quotes for open holdings and checks TP1/TP2 targets.",
+                help="Sub-second spot price poll for active holdings, checks ATR scale-outs, and dispatches live card to Discord.",
             ):
                 with st.spinner(
-                    "Executing 5-minute intraday market price & scale-out guardian..."
+                    "Fast-polling live quotes for active holdings & notifying Discord..."
                 ):
                     from src.realtime_tracker import (
-                        evaluate_intraday_execution,
+                        update_live_holdings_prices_and_alert_discord,
                     )
 
-                    guard_res = evaluate_intraday_execution()
-                    st.success("✅ Live prices updated & targets evaluated!")
+                    guard_res = update_live_holdings_prices_and_alert_discord(
+                        notify_discord=True
+                    )
+                    st.success(
+                        f"✅ Updated {guard_res.get('updated_positions', 0)} holdings! (Discord alert sent: {guard_res.get('discord_alert_dispatched', False)})"
+                    )
                     st.rerun()
 
     # Open Positions Table
