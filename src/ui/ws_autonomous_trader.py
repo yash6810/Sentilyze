@@ -110,8 +110,51 @@ def render_autonomous_trader_workspace(selected_ticker: str):
     # Open Positions Table
     st.markdown("#### 📦 Active Open Positions & Scale-Out Status")
     open_df = broker_instance.get_open_positions_df()
+    open_positions = broker_instance.state.get("open_positions", {})
     if not open_df.empty:
         st.dataframe(open_df, use_container_width=True)
+
+        # Tactical Position Action Controls
+        st.markdown("##### 🎯 Quick Profit Banking & Position Management")
+        action_cols = st.columns(len(open_positions))
+        for idx, (t, pos) in enumerate(open_positions.items()):
+            with action_cols[idx]:
+                scaled = pos.get("scaled_out", False)
+                entry_p = float(pos.get("entry_price", 0))
+                curr_p = float(pos.get("current_price", entry_p))
+                pos_pnl = (curr_p - entry_p) * int(pos.get("shares", 0))
+                color = "#10B981" if pos_pnl >= 0 else "#EF4444"
+
+                st.markdown(
+                    f"<div style='font-size: 0.85rem; font-weight: 700; color: {color};'>● {t} (PnL: ${pos_pnl:+,.2f})</div>",
+                    unsafe_allow_html=True,
+                )
+                col_btn1, col_btn2 = st.columns(2)
+                with col_btn1:
+                    if not scaled:
+                        if st.button(
+                            f"🔒 Bank 50%",
+                            key=f"bank_{t}",
+                            help=f"Slices 50% shares to lock in cash and moves Stop-Loss to Breakeven (${entry_p:,.2f}).",
+                        ):
+                            res = broker_instance.execute_manual_scale_out(t)
+                            if res.get("success"):
+                                st.success(f"Locked 50% profit on {t}!")
+                                st.rerun()
+                    else:
+                        st.caption("🛡️ Risk-Free (Banked)")
+                with col_btn2:
+                    if st.button(
+                        f"🛑 Close All",
+                        key=f"close_{t}",
+                        help=f"Liquidates 100% of {t} position at spot price (${curr_p:,.2f}).",
+                    ):
+                        res = broker_instance.execute_manual_sell(
+                            t, reason="MANUAL_UI_EXIT"
+                        )
+                        if res.get("success"):
+                            st.warning(f"Closed {t}!")
+                            st.rerun()
     else:
         st.info(
             "No active open positions. The Autonomous Agent is waiting for high-conviction committee clearances."
