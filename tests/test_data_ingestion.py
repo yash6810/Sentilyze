@@ -113,9 +113,20 @@ def test_get_price_history_refetches_stale_cache(mocker, temp_data_dir):
         },
         index=pd.to_datetime(["2023-01-04", "2023-01-05", "2023-01-06"]),
     )
-    mock_fresh_data.index.name = "Date"
     mocker.patch(
         "src.data_ingestion._fetch_direct_yahoo_chart", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_alpaca_price_history", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_polygon_price_history", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_fmp_price_history", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_eodhd_price_history", return_value=pd.DataFrame()
     )
     mock_ticker = MagicMock()
     mock_ticker.history.return_value = mock_fresh_data

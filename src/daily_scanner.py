@@ -82,6 +82,21 @@ def run_daily_market_scan() -> list:
                 "▲ BULLISH (Above SMA200)" if above_sma else "▼ BEARISH (Below SMA200)"
             )
 
+            # Smart Money Structure & Confluence
+            try:
+                from src.smart_trader_engine import (
+                    calculate_smart_money_zones,
+                    evaluate_multi_timeframe_confluence,
+                )
+
+                sm_zones = calculate_smart_money_zones(price_hist)
+                mtf = evaluate_multi_timeframe_confluence(ticker, price_hist)
+                poc_val = sm_zones.get("volume_poc", curr_close)
+                conf_verdict = mtf.get("verdict", "CONFLUENCE_OK")
+            except Exception:
+                poc_val = curr_close
+                conf_verdict = "OK"
+
             card = format_signal_card(
                 ticker=ticker,
                 signal=signal_type,
@@ -89,14 +104,18 @@ def run_daily_market_scan() -> list:
                 current_price=curr_close,
                 stop_loss=sl_target,
                 regime=regime_str,
-                top_features=[{"feature": "RSI", "importance": rsi}],
+                top_features=[
+                    {"feature": "RSI", "importance": rsi},
+                    {"feature": "Volume PoC", "importance": poc_val},
+                    {"feature": "Confluence", "importance": conf_verdict},
+                ],
                 take_profit=tp_target,
             )
             signals_summary.append(card)
 
             logger.info(
                 f"+ {ticker:<6} Signal: {signal_type:<4} | Conf: {confidence:.1%} | "
-                f"Close: ${curr_close:.2f} | TP: ${tp_target:.2f} | SL: ${sl_target:.2f}"
+                f"Close: ${curr_close:.2f} | TP: ${tp_target:.2f} | SL: ${sl_target:.2f} | PoC: ${poc_val:.2f}"
             )
 
         except Exception as e:
