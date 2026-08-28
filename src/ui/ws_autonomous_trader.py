@@ -41,31 +41,46 @@ def render_autonomous_trader_workspace(selected_ticker: str):
     m4.metric("🏆 Win Rate", f"{portfolio_summary.get('win_rate', 0.0):.1f}%")
 
     # Controls Row
-    st.markdown("#### ⚡ Autonomous Cycle Execution & Trade Timing")
-    ctrl_col1, ctrl_col2 = st.columns([2, 1])
+    st.markdown("#### ⚡ 104-Universe Multi-Asset Capital Allocator")
+    ctrl_col1, ctrl_col2, ctrl_col3 = st.columns([2, 1, 1])
     with ctrl_col1:
         st.markdown(
             """
             <div class="glass-card">
-                <b>Execution Mechanics:</b>
+                <b>104-Universe Capital Engine:</b>
                 <ul>
-                    <li><b>News Timing:</b> Continuously evaluates <b>4-Station Reddit News (1-Day-Prior) + NewsAPI/Finnhub</b> before and during market sessions.</li>
-                    <li><b>Trade Execution:</b> When the 4-Agent Committee reaches quorum (>60% confidence), orders execute at <b>Spot Market Price</b> (during market hours 09:30-16:00 EST) or previous close.</li>
-                    <li><b>Risk Asymmetry:</b> Stops capped at <b>-1.5 ATR</b>; Take-Profits staged at <b>+2.5 ATR (50% Banked & Breakeven Stop)</b> and <b>+4.5 ATR (Runner)</b>.</li>
+                    <li><b>Alpha Discovery:</b> Scans all 104 S&P stocks, ranking by 4-Agent Committee Quorum (>60%).</li>
+                    <li><b>Kelly Distribution:</b> Allocates available capital proportionally to probability & reward/risk.</li>
+                    <li><b>2-Stage Profit Scaling:</b> Takes +50% profit at +2.5 ATR, locks stop at Breakeven, and lets runners target +4.5 ATR.</li>
                 </ul>
             </div>
             """,
             unsafe_allow_html=True,
         )
     with ctrl_col2:
-        if st.button("🚀 Run Autonomous Decision Cycle Now", use_container_width=True):
+        max_slots = st.slider(
+            "🎯 Max Active Positions",
+            min_value=3,
+            max_value=15,
+            value=8,
+            help="Number of concurrent multi-asset positions to hold.",
+        )
+    with ctrl_col3:
+        st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+        if st.button(
+            "🚀 Scan Universe & Deploy Capital",
+            use_container_width=True,
+            type="primary",
+        ):
             with st.spinner(
-                "Executing autonomous news scan and trade management cycle..."
+                f"Scanning 104 universe assets and executing top Kelly setups (Max: {max_slots} slots)..."
             ):
-                cycle_res = auto_engine.run_autonomous_cycle()
+                cycle_res = auto_engine.run_autonomous_cycle(
+                    max_concurrent_positions=max_slots
+                )
                 st.success(
-                    f"✅ Cycle complete in {cycle_res.get('elapsed_seconds', 0)}s! "
-                    f"Buys: {len(cycle_res.get('buys', []))}, TP1s: {len(cycle_res.get('take_profits_tp1', []))}, TP2s: {len(cycle_res.get('take_profits_tp2', []))}"
+                    f"✅ Scanned 104 assets in {cycle_res.get('elapsed_seconds', 0)}s! "
+                    f"New Buys: {len(cycle_res.get('buys', []))}, TP1s: {len(cycle_res.get('take_profits_tp1', []))}, TP2s: {len(cycle_res.get('take_profits_tp2', []))}"
                 )
                 st.rerun()
 
