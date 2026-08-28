@@ -1,14 +1,26 @@
 """
-Workspaces 9-15: Deep Quantitative Modeling, GNN Supply Chain, Stress Tests & Forensic Valuation.
+Workspaces 9-13: Deep Quantitative Modeling, GNN Supply Chain, Stress Tests & Forensic Valuation.
 """
 
 import streamlit as st
+import pandas as pd
 from src.ui.components import render_workspace_header
-from src.statistical_arbitrage import run_pair_trading_scan
-from src.gnn_supply_chain import run_gnn_contagion_analysis
-from src.stress_tester import run_full_crisis_simulation_suite
-from src.forensic_accounting import evaluate_forensic_accounting
-from src.fundamental_valuation import run_fundamental_valuation
+from src.statistical_arbitrage import (
+    scan_pairs_universe,
+    generate_pairs_trading_signals,
+)
+from src.gnn_supply_chain import analyze_supply_chain_spillover
+from src.stress_tester import run_monte_carlo_stress_test, run_monte_carlo_var
+from src.forensic_accounting import (
+    calculate_beneish_m_score,
+    analyze_debt_maturity_wall,
+)
+from src.fundamental_valuation import (
+    fetch_financial_statements,
+    calculate_piotroski_f_score,
+    calculate_altman_z_score,
+    calculate_dcf_fair_value,
+)
 
 
 def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
@@ -20,8 +32,12 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
             badge_text="STATARB ALPHA",
             badge_color="#6366F1",
         )
-        pairs_data = run_pair_trading_scan()
-        st.dataframe(pairs_data, use_container_width=True)
+        with st.spinner("Scanning universe pairs for cointegration..."):
+            pairs_df = scan_pairs_universe()
+        if not pairs_df.empty:
+            st.dataframe(pairs_df, use_container_width=True)
+        else:
+            st.info("No active cointegrated pairs exceeding threshold.")
 
     elif mode == "gnn":
         render_workspace_header(
@@ -30,35 +46,52 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
             badge_text="GRAPH AI",
             badge_color="#10B981",
         )
-        gnn_res = run_gnn_contagion_analysis(selected_ticker)
+        with st.spinner(
+            f"Simulating supply chain shock propagation for {selected_ticker}..."
+        ):
+            gnn_res = analyze_supply_chain_spillover(
+                selected_ticker, shock_magnitude_pct=-0.25
+            )
         st.json(gnn_res)
 
     elif mode == "stress":
         render_workspace_header(
             title="🌪️ Black Swan Crisis Simulator & Monte Carlo Audit",
-            subtitle="2008 GFC, 2020 Covid Shock, 2022 Fed Rate Hikes & 50,000 Monte Carlo Paths",
+            subtitle="2008 GFC, 2020 Covid Shock, 2022 Fed Rate Hikes & Monte Carlo VaR",
             badge_text="RISK STRESS TEST",
             badge_color="#EF4444",
         )
-        stress_res = run_full_crisis_simulation_suite()
+        with st.spinner("Running Monte Carlo Value-at-Risk simulations..."):
+            stress_res = run_monte_carlo_var(selected_ticker)
         st.json(stress_res)
 
     elif mode == "forensic":
         render_workspace_header(
             title=f"🕵️ Forensic Accounting & Beneish M-Score ({selected_ticker})",
-            subtitle="Beneish M-Score Manipulation Check + Altman Z-Score Bankruptcy Distance",
+            subtitle="Beneish M-Score Earnings Manipulation Check + Debt Maturity Wall Analysis",
             badge_text="FORENSIC AUDIT",
             badge_color="#F59E0B",
         )
-        forensic = evaluate_forensic_accounting(selected_ticker)
-        st.json(forensic)
+        fin = fetch_financial_statements(selected_ticker)
+        m_score = calculate_beneish_m_score(fin)
+        debt = analyze_debt_maturity_wall(selected_ticker)
+        st.json({"beneish_m_score": m_score, "debt_wall": debt})
 
-    else:
+    elif mode == "dcf":
         render_workspace_header(
             title=f"🏛️ DCF Intrinsic Valuation & Margin of Safety ({selected_ticker})",
-            subtitle="Discounted Cash Flow Model + Monte Carlo Terminal Growth Sensitivity",
+            subtitle="Discounted Cash Flow Model + Piotroski F-Score + Altman Z-Score",
             badge_text="FUNDAMENTAL DCF",
             badge_color="#38BDF8",
         )
-        val = run_fundamental_valuation(selected_ticker)
-        st.json(val)
+        fin = fetch_financial_statements(selected_ticker)
+        f_score = calculate_piotroski_f_score(selected_ticker, fin)
+        z_score = calculate_altman_z_score(selected_ticker, fin)
+        dcf = calculate_dcf_fair_value(selected_ticker, fin)
+        st.json(
+            {
+                "dcf_valuation": dcf,
+                "piotroski_f_score": f_score,
+                "altman_z_score": z_score,
+            }
+        )
