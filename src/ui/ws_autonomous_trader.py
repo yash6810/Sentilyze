@@ -148,8 +148,13 @@ def render_autonomous_trader_workspace(selected_ticker: str):
                     delta=f"{pos_ret:+.2f}%",
                 )
                 stat_col4.metric(
-                    "Strategy State",
-                    "🛡️ RISK-FREE (Banked 50%)" if scaled else "⚡ 100% ACTIVE",
+                    "Execution State",
+                    (
+                        "🛡️ 50% Banked (Risk-Free)"
+                        if scaled
+                        else "⚡ 100% Active (Phase 1)"
+                    ),
+                    help="Phase 1 (100% Active): Full position aiming for Target 1 (+2.5 ATR profit). Phase 2 (50% Banked): Sliced half profit, stop moved to Breakeven (0 loss risk), remainder runner aiming for Target 2 (+4.5 ATR).",
                 )
             else:
                 # Stock not currently held: display calibrated reference ATR brackets
