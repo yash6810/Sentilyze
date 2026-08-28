@@ -9,6 +9,7 @@ Pillar 9 Alternative Asset Discovery:
 from typing import Any, Dict, List, Optional
 import os
 import requests
+import pandas as pd
 import defusedxml.ElementTree as defused_ET
 from datetime import datetime, timezone
 from src.utils import get_logger
