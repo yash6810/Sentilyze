@@ -522,8 +522,8 @@ def send_telegram_alert(
     """
     Sends a formatted Markdown alert to a Telegram chat or channel.
     """
-    token = bot_token or os.getenv("TELEGRAM_BOT_TOKEN")
-    chat = chat_id or os.getenv("TELEGRAM_CHAT_ID")
+    token = (bot_token or os.getenv("TELEGRAM_BOT_TOKEN", "")).strip()
+    chat = (chat_id or os.getenv("TELEGRAM_CHAT_ID", "")).strip()
 
     if not token or not chat:
         logger.warning("Telegram Bot Token or Chat ID missing. Alert skipped.")
