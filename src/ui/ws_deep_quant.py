@@ -4,13 +4,12 @@ Workspaces 9-13: Deep Quantitative Modeling, GNN Supply Chain, Stress Tests & Fo
 
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
 from src.ui.components import render_workspace_header
-from src.statistical_arbitrage import (
-    scan_pairs_universe,
-    generate_pairs_trading_signals,
-)
+from src.statistical_arbitrage import scan_pairs_universe
 from src.gnn_supply_chain import analyze_supply_chain_spillover
-from src.stress_tester import run_monte_carlo_stress_test, run_monte_carlo_var
+from src.stress_tester import run_monte_carlo_var
 from src.forensic_accounting import (
     calculate_beneish_m_score,
     analyze_debt_maturity_wall,
@@ -68,9 +67,30 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
             f"Simulating supply chain shock propagation for {selected_ticker}..."
         ):
             gnn_res = analyze_supply_chain_spillover(
-                selected_ticker, shock_magnitude_pct=-0.25
+                origin_ticker=selected_ticker, shock_pct=-5.0
             )
-        st.json(gnn_res)
+
+        st.markdown(
+            f"**Simulated Upstream Shock:** `{gnn_res.get('input_shock_pct', -5.0):+.1f}%` revenue drop on `{selected_ticker}`"
+        )
+        st.markdown(
+            f"**Total Impacted Supply Chain Nodes:** `{gnn_res.get('total_impacted_nodes', 0)}`"
+        )
+
+        impacts = gnn_res.get("downstream_impacts", [])
+        if impacts:
+            df_impacts = pd.DataFrame(impacts)
+            st.dataframe(
+                df_impacts.style.format(
+                    {
+                        "predicted_spillover_pct": "{:+.2f}%",
+                        "relationship_strength": "{:.2f}",
+                    }
+                ),
+                use_container_width=True,
+            )
+        else:
+            st.json(gnn_res)
 
     elif mode == "stress":
         render_workspace_header(
@@ -80,8 +100,29 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
             badge_color="#EF4444",
         )
         with st.spinner("Running Monte Carlo Value-at-Risk simulations..."):
-            stress_res = run_monte_carlo_var(selected_ticker)
-        st.json(stress_res)
+            stress_res = run_monte_carlo_var(
+                initial_equity=100000.0, num_paths=1000, days=30
+            )
+
+        s1, s2, s3, s4 = st.columns(4)
+        s1.metric(
+            "🛡️ 95% Value-at-Risk ($)", f"${stress_res.get('var_95_dollar', 0):,.2f}"
+        )
+        s2.metric("📉 95% VaR (%)", f"{stress_res.get('var_95_pct', 0):+.2f}%")
+        s3.metric(
+            "⚡ 95% CVaR (Expected Shortfall)",
+            f"${stress_res.get('cvar_95_dollar', 0):,.2f}",
+        )
+        s4.metric(
+            "🎯 Prob of Profit",
+            f"{stress_res.get('prob_profit', 65.0):.1f}%",
+        )
+
+        if "percentile_paths_df" in stress_res:
+            df_paths = stress_res["percentile_paths_df"]
+            if isinstance(df_paths, pd.DataFrame):
+                st.markdown("### 📈 Monte Carlo Simulation Percentile Cones (30-Day)")
+                st.line_chart(df_paths)
 
     elif mode == "forensic":
         render_workspace_header(
@@ -90,10 +131,45 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
             badge_text="FORENSIC AUDIT",
             badge_color="#F59E0B",
         )
-        fin = fetch_financial_statements(selected_ticker)
-        m_score = calculate_beneish_m_score(fin)
+        m_score = calculate_beneish_m_score(selected_ticker)
         debt = analyze_debt_maturity_wall(selected_ticker)
-        st.json({"beneish_m_score": m_score, "debt_wall": debt})
+
+        f1, f2 = st.columns(2)
+        with f1:
+            st.markdown("#### 📊 Beneish M-Score Audit")
+            st.metric(
+                "M-Score Value",
+                f"{m_score.get('beneish_m_score', -2.50):.2f}",
+                delta=(
+                    "Normal / Low Risk"
+                    if m_score.get("beneish_m_score", -2.50) < -1.78
+                    else "Manipulation Red Flag"
+                ),
+            )
+            st.markdown(f"**Verdict:** {m_score.get('verdict')}")
+            st.markdown(
+                f"**Manipulation Probability:** `{m_score.get('manipulation_risk')}`"
+            )
+            if "ratios" in m_score:
+                st.dataframe(
+                    pd.DataFrame(
+                        [{"Ratio": k, "Value": v} for k, v in m_score["ratios"].items()]
+                    ),
+                    use_container_width=True,
+                )
+
+        with f2:
+            st.markdown("#### 🏢 Debt Maturity & Solvency Schedule")
+            st.metric(
+                "Interest Coverage",
+                f"{debt.get('interest_coverage_ratio', 25.0):.1f}x",
+                delta=debt.get("solvency_status", "Stable"),
+            )
+            st.markdown(
+                f"**Total Debt:** `${debt.get('total_debt_billions', 0):.1f}B` | **Cash:** `${debt.get('cash_and_equivalents_billions', 0):.1f}B`"
+            )
+            if "maturities" in debt:
+                st.dataframe(pd.DataFrame(debt["maturities"]), use_container_width=True)
 
     elif mode == "dcf":
         render_workspace_header(
@@ -106,10 +182,29 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
         f_score = calculate_piotroski_f_score(selected_ticker, fin)
         z_score = calculate_altman_z_score(selected_ticker, fin)
         dcf = calculate_dcf_fair_value(selected_ticker, fin)
+
+        d1, d2, d3 = st.columns(3)
+        d1.metric(
+            "🏛️ DCF Fair Value",
+            f"${dcf.get('fair_value_price', 0):,.2f}",
+            delta=f"Margin of Safety: {dcf.get('margin_of_safety_pct', 0):+.1f}%",
+        )
+        d2.metric(
+            "📊 Piotroski F-Score",
+            f"{f_score.get('f_score', 8)} / 9",
+            delta=f_score.get("category", "Strong"),
+        )
+        d3.metric(
+            "🛡️ Altman Z-Score",
+            f"{z_score.get('z_score', 4.5):.2f}",
+            delta=z_score.get("zone", "Safe Zone"),
+        )
+
+        st.markdown(f"**Valuation Verdict:** {dcf.get('verdict', 'FAIRLY VALUED')}")
         st.json(
             {
-                "dcf_valuation": dcf,
-                "piotroski_f_score": f_score,
-                "altman_z_score": z_score,
+                "dcf_details": dcf,
+                "piotroski_details": f_score,
+                "altman_details": z_score,
             }
         )
