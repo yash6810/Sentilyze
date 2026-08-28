@@ -140,8 +140,8 @@ class SentimentCatalystAgent:
                 sdf = pd.read_csv(sent_path)
                 if "sentiment_score" in sdf.columns and not sdf.empty:
                     finbert_score = float(sdf["sentiment_score"].tail(10).mean())
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug(f"FinBERT sentiment cache notice for {ticker}: {e}")
 
         compound_score = (
             earn_res.get("executive_optimism_score", 60.0) * 0.35
