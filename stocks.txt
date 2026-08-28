@@ -129,3 +129,6 @@ AMT
 # 12. Market Benchmarks & Macro Regime Proxies
 SPY
 QQQ
+
+# Day-1 IPO Ingestion: OpenAI, Inc.
+OPENAI
