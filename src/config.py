@@ -1,6 +1,7 @@
 # src/config.py
 import os
 from pathlib import Path
+from typing import Dict
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = os.path.join(PROJECT_ROOT, "data", "raw")
@@ -46,4 +47,125 @@ XGB_MODEL_PARAMS = {
     "reg_lambda": 1.0,
     "random_state": 42,
     "eval_metric": "logloss",
+}
+
+# S&P 100 Corporate Company Names Mapping
+COMPANY_NAMES: Dict[str, str] = {
+    # 1. Information Technology & AI Semiconductors
+    "AAPL": "Apple Inc.",
+    "MSFT": "Microsoft Corporation",
+    "NVDA": "NVIDIA Corporation",
+    "AVGO": "Broadcom Inc.",
+    "ORCL": "Oracle Corporation",
+    "CRM": "Salesforce, Inc.",
+    "AMD": "Advanced Micro Devices, Inc.",
+    "ADBE": "Adobe Inc.",
+    "QCOM": "QUALCOMM Incorporated",
+    "TXN": "Texas Instruments Incorporated",
+    "INTC": "Intel Corporation",
+    "IBM": "International Business Machines Corp.",
+    "AMAT": "Applied Materials, Inc.",
+    "NOW": "ServiceNow, Inc.",
+    "LRCX": "Lam Research Corporation",
+    "MU": "Micron Technology, Inc.",
+    "PANW": "Palo Alto Networks, Inc.",
+    "ADI": "Analog Devices, Inc.",
+    "KLAC": "KLA Corporation",
+    "SNPS": "Synopsys, Inc.",
+    "CDNS": "Cadence Design Systems, Inc.",
+    "CRWD": "CrowdStrike Holdings, Inc.",
+    "PLTR": "Palantir Technologies Inc.",
+    "TSM": "Taiwan Semiconductor Mfg. Co.",
+    "ASML": "ASML Holding N.V.",
+    # 2. Communication Services & Digital Media
+    "GOOGL": "Alphabet Inc.",
+    "META": "Meta Platforms, Inc.",
+    "NFLX": "Netflix, Inc.",
+    "DIS": "The Walt Disney Company",
+    "CMCSA": "Comcast Corporation",
+    # 3. Consumer Discretionary & E-Commerce
+    "AMZN": "Amazon.com, Inc.",
+    "TSLA": "Tesla, Inc.",
+    "HD": "The Home Depot, Inc.",
+    "MCD": "McDonald's Corporation",
+    "NKE": "NIKE, Inc.",
+    "LOW": "Lowe's Companies, Inc.",
+    "BKNG": "Booking Holdings Inc.",
+    "SBUX": "Starbucks Corporation",
+    "TJX": "The TJX Companies, Inc.",
+    "TGT": "Target Corporation",
+    "F": "Ford Motor Company",
+    # 4. Consumer Staples & Retail Anchors
+    "COST": "Costco Wholesale Corporation",
+    "WMT": "Walmart Inc.",
+    "PG": "The Procter & Gamble Company",
+    "KO": "The Coca-Cola Company",
+    "PEP": "PepsiCo, Inc.",
+    "PM": "Philip Morris International Inc.",
+    "MDLZ": "Mondelez International, Inc.",
+    "MO": "Altria Group, Inc.",
+    "CL": "Colgate-Palmolive Company",
+    "KMB": "Kimberly-Clark Corporation",
+    # 5. Financials, Banking & Payment Networks
+    "JPM": "JPMorgan Chase & Co.",
+    "V": "Visa Inc.",
+    "MA": "Mastercard Incorporated",
+    "BAC": "Bank of America Corporation",
+    "WFC": "Wells Fargo & Company",
+    "MS": "Morgan Stanley",
+    "GS": "The Goldman Sachs Group, Inc.",
+    "BLK": "BlackRock, Inc.",
+    "SPGI": "S&P Global Inc.",
+    "AXP": "American Express Company",
+    "C": "Citigroup Inc.",
+    "SCHW": "The Charles Schwab Corporation",
+    "PGR": "The Progressive Corporation",
+    "CB": "Chubb Limited",
+    # 6. Healthcare, Biotech & Medical Devices
+    "LLY": "Eli Lilly and Company",
+    "UNH": "UnitedHealth Group Incorporated",
+    "JNJ": "Johnson & Johnson",
+    "ABBV": "AbbVie Inc.",
+    "MRK": "Merck & Co., Inc.",
+    "TMO": "Thermo Fisher Scientific Inc.",
+    "ABT": "Abbott Laboratories",
+    "PFE": "Pfizer Inc.",
+    "DHR": "Danaher Corporation",
+    "AMGN": "Amgen Inc.",
+    "ISRG": "Intuitive Surgical, Inc.",
+    "BMY": "Bristol-Myers Squibb Company",
+    "GILD": "Gilead Sciences, Inc.",
+    "VRTX": "Vertex Pharmaceuticals Incorporated",
+    "MDT": "Medtronic plc",
+    # 7. Industrials, Defense & Aerospace
+    "CAT": "Caterpillar Inc.",
+    "GE": "General Electric Company",
+    "UNP": "Union Pacific Corporation",
+    "HON": "Honeywell International Inc.",
+    "RTX": "RTX Corporation",
+    "BA": "The Boeing Company",
+    "DE": "Deere & Company",
+    "LMT": "Lockheed Martin Corporation",
+    "UPS": "United Parcel Service, Inc.",
+    "FDX": "FedEx Corporation",
+    # 8. Energy & Natural Resources
+    "XOM": "Exxon Mobil Corporation",
+    "CVX": "Chevron Corporation",
+    "COP": "ConocoPhillips",
+    "SLB": "SLB (Schlumberger Limited)",
+    "EOG": "EOG Resources, Inc.",
+    # 9. Basic Materials & Specialty Chemicals
+    "LIN": "Linde plc",
+    "SHW": "The Sherwin-Williams Company",
+    "FCX": "Freeport-McMoRan Inc.",
+    # 10. Utilities & Infrastructure
+    "NEE": "NextEra Energy, Inc.",
+    "SO": "The Southern Company",
+    # 11. Real Estate & Digital Tower Infrastructure
+    "PLD": "Prologis, Inc.",
+    "AMT": "American Tower Corporation",
+    # 12. Market Benchmarks & Macro Regime Proxies
+    "SPY": "SPDR S&P 500 ETF Trust",
+    "QQQ": "Invesco QQQ Trust Series 1",
+    "OPENAI": "OpenAI, Inc. (Pre-IPO Pipeline)",
 }
