@@ -1,6 +1,6 @@
 """
 Workspace 3: 24/7 Autonomous Broker, Kelly Sizing & Staged Profit Scaler.
-Includes Native Streamlit Live Position Tracking Chart (Zero Plotly Overhead).
+Includes Native Streamlit Live Position Tracking Chart & Detailed Trade History Timing Logs.
 """
 
 import os
@@ -41,15 +41,18 @@ def render_autonomous_trader_workspace(selected_ticker: str):
     m4.metric("🏆 Win Rate", f"{portfolio_summary.get('win_rate', 0.0):.1f}%")
 
     # Controls Row
-    st.markdown("#### ⚡ Autonomous Cycle Execution")
+    st.markdown("#### ⚡ Autonomous Cycle Execution & Trade Timing")
     ctrl_col1, ctrl_col2 = st.columns([2, 1])
     with ctrl_col1:
         st.markdown(
             """
             <div class="glass-card">
-                <b>24/7 Autonomous Agent Loop:</b> Continuously ingests <b>Google News RSS + Finnhub + Marketaux</b>, 
-                evaluates the <b>4-Agent Committee</b>, allocates capital via <b>Kelly Sizing</b>, and manages 
-                <b>2-Stage Staged Profit Exits (50% @ TP1, Trailing Breakeven Stop, 50% @ TP2)</b>.
+                <b>Execution Mechanics:</b>
+                <ul>
+                    <li><b>News Timing:</b> Continuously evaluates <b>4-Station Reddit News (1-Day-Prior) + NewsAPI/Finnhub</b> before and during market sessions.</li>
+                    <li><b>Trade Execution:</b> When the 4-Agent Committee reaches quorum (>60% confidence), orders execute at <b>Spot Market Price</b> (during market hours 09:30-16:00 EST) or previous close.</li>
+                    <li><b>Risk Asymmetry:</b> Stops capped at <b>-1.5 ATR</b>; Take-Profits staged at <b>+2.5 ATR (50% Banked & Breakeven Stop)</b> and <b>+4.5 ATR (Runner)</b>.</li>
+                </ul>
             </div>
             """,
             unsafe_allow_html=True,
@@ -161,9 +164,55 @@ def render_autonomous_trader_workspace(selected_ticker: str):
     except Exception as e:
         st.error(f"Error rendering live chart: {e}")
 
+    # =========================================================================
+    # CLOSED TRADE HISTORY & TIMING AUDIT
+    # =========================================================================
+    st.markdown("---")
+    st.markdown("#### 📜 Executed Trade History & Fill Timing Log")
+    closed_df = broker_instance.get_closed_trades_df()
+    if not closed_df.empty:
+        st.dataframe(
+            closed_df,
+            use_container_width=True,
+            hide_index=True,
+            column_config={
+                "Ticker": st.column_config.TextColumn("Ticker", width="small"),
+                "Shares": st.column_config.NumberColumn(
+                    "Shares", format="%d", width="small"
+                ),
+                "Entry Price ($)": st.column_config.NumberColumn(
+                    "Entry Price", format="$%.2f", width="medium"
+                ),
+                "Exit Price ($)": st.column_config.NumberColumn(
+                    "Exit Price", format="$%.2f", width="medium"
+                ),
+                "Entry Date": st.column_config.TextColumn(
+                    "Bought Date / Time",
+                    help="When the agent bought the shares",
+                    width="medium",
+                ),
+                "Exit Date": st.column_config.TextColumn(
+                    "Closed Date / Time",
+                    help="When the agent sold/exited the position",
+                    width="medium",
+                ),
+                "Net PnL ($)": st.column_config.NumberColumn(
+                    "Net PnL ($)", format="$%+.2f", width="medium"
+                ),
+                "Return (%)": st.column_config.NumberColumn(
+                    "Return (%)", format="%+.2f%%", width="small"
+                ),
+                "Exit Reason": st.column_config.TextColumn(
+                    "Exit Trigger Reason", width="large"
+                ),
+            },
+        )
+    else:
+        st.info("No closed trades yet. Open holdings are actively running.")
+
     # Execution Logs Tab
     st.markdown("---")
-    st.markdown("#### 📜 Live Execution Audit Log")
+    st.markdown("#### 🔍 Live Execution Audit Log (Raw JSON)")
     log_file = os.path.join("results", "autonomous_execution_log.json")
     if os.path.exists(log_file):
         try:
