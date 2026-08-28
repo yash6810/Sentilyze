@@ -46,18 +46,44 @@ def load_all_ticker_portfolios(
 
 
 def calculate_risk_parity_weights(
-    returns_df: pd.DataFrame,
+    returns_data: Any,
 ) -> pd.Series:
     """
     Calculate Inverse-Volatility (Naive Risk Parity) weights for each asset.
     Assets with lower daily volatility receive higher capital weights.
 
     Args:
-        returns_df (pd.DataFrame): DataFrame of daily returns for each ticker.
+        returns_data (Union[pd.DataFrame, Dict[str, pd.DataFrame]]):
+            Either a DataFrame of daily returns or a dictionary of portfolio DataFrames.
 
     Returns:
         pd.Series: Normalized portfolio weights summing to 1.0.
     """
+    if isinstance(returns_data, dict):
+        if not returns_data:
+            return pd.Series(dtype=float)
+        extracted = {}
+        for ticker, df in returns_data.items():
+            if isinstance(df, pd.DataFrame):
+                if "total" in df.columns:
+                    extracted[ticker] = df["total"].pct_change().dropna()
+                elif "Strategy_Cumulative" in df.columns:
+                    extracted[ticker] = df["Strategy_Cumulative"].pct_change().dropna()
+                elif "Close" in df.columns:
+                    extracted[ticker] = df["Close"].pct_change().dropna()
+        if extracted:
+            returns_df = pd.DataFrame(extracted).dropna()
+        else:
+            n = len(returns_data)
+            return pd.Series(1.0 / n, index=list(returns_data.keys()))
+    elif isinstance(returns_data, pd.DataFrame):
+        returns_df = returns_data
+    else:
+        return pd.Series(dtype=float)
+
+    if returns_df.empty:
+        return pd.Series(dtype=float)
+
     volatilities = returns_df.std()
     # Handle zero or NaN volatility
     volatilities = volatilities.replace(0, np.nan).fillna(volatilities.mean())
