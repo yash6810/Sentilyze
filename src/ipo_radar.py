@@ -212,3 +212,21 @@ def fetch_pre_ipo_radar_summary() -> Dict[str, Any]:
         "total_targets_tracked": len(PRE_IPO_UNIVERSE),
         "total_active_s1_prospectuses": len(filings),
     }
+
+
+def get_pre_ipo_pipeline_df() -> pd.DataFrame:
+    """Returns a formatted pandas DataFrame of all pre-IPO target assets."""
+    rows = []
+    for item in PRE_IPO_UNIVERSE:
+        rows.append(
+            {
+                "Company": item.get("name", ""),
+                "Projected Ticker": item.get("projected_ticker", ""),
+                "Sector": item.get("sector", ""),
+                "Estimated Valuation": item.get("est_valuation_usd", ""),
+                "Last Round": item.get("last_funding_round", ""),
+                "IPO Readiness (%)": float(item.get("ipo_readiness_score", 85.0)),
+                "Status": item.get("status", "PRE-IPO"),
+            }
+        )
+    return pd.DataFrame(rows)

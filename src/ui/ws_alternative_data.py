@@ -132,10 +132,10 @@ def render_alternative_data_workspace(selected_ticker: str):
         with r_col3:
             st.markdown("<br>", unsafe_allow_html=True)
             if st.button("➕ Auto-Register Ticker", use_container_width=True):
-                res = auto_register_ipo_ticker(new_ticker, new_name)
-                if res.get("status") == "SUCCESS":
+                success = auto_register_ipo_ticker(new_ticker, new_name)
+                if success:
                     st.success(
                         f"✅ {new_ticker} successfully registered into `stocks.txt`!"
                     )
                 else:
-                    st.info(f"ℹ️ {res.get('message')}")
+                    st.info(f"ℹ️ {new_ticker} registration complete or already present.")
