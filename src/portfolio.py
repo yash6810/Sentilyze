@@ -128,14 +128,16 @@ def build_unified_portfolio(
 
     common_dates = common_dates.sort_values()
 
-    # Extract daily strategy returns and benchmark returns per ticker
-    strat_returns = pd.DataFrame(index=common_dates)
-    bench_returns = pd.DataFrame(index=common_dates)
-
+    # Extract daily strategy returns and benchmark returns per ticker in one vectorized step
+    strat_dict = {}
+    bench_dict = {}
     for ticker, df in portfolios.items():
         aligned_df = df.loc[common_dates]
-        strat_returns[ticker] = aligned_df["total"].pct_change().fillna(0)
-        bench_returns[ticker] = aligned_df["benchmark"].pct_change().fillna(0)
+        strat_dict[ticker] = aligned_df["total"].pct_change().fillna(0)
+        bench_dict[ticker] = aligned_df["benchmark"].pct_change().fillna(0)
+
+    strat_returns = pd.DataFrame(strat_dict, index=common_dates)
+    bench_returns = pd.DataFrame(bench_dict, index=common_dates)
 
     # Determine allocation weights
     if allocation_method == "risk_parity":
