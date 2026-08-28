@@ -42,7 +42,7 @@ jobs:
           EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
         run: |
-          python -c "from src.realtime_tracker import evaluate_intraday_execution; res = evaluate_intraday_execution(); print('5-Min Intraday Execution Result:', res)"
+          python -c "from src.realtime_tracker import update_live_holdings_prices_and_alert_discord; res = update_live_holdings_prices_and_alert_discord(notify_discord=True); print('Fast Intraday Holdings Price & Discord Heartbeat:', res)"
 
       - name: Commit Updated Paper Portfolio State
         run: |
