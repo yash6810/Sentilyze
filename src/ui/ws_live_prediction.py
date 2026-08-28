@@ -8,9 +8,10 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 from src.ui.components import render_workspace_header, render_conviction_gauge
-from src.data_ingestion import get_stock_data, get_news
-from src.feature_engineering import generate_features
-from src.modeling import load_model, make_prediction
+from src.config import FEATURES
+from src.preprocessing import preprocess_data
+from src.modeling import load_model, get_prediction_on_latest_data
+from src.realtime_tracker import fetch_live_quote
 
 
 def render_live_prediction_workspace(ticker: str):
@@ -24,28 +25,21 @@ def render_live_prediction_workspace(ticker: str):
 
     with st.spinner(f"Running high-speed feature inference for {ticker}..."):
         try:
-            # 1. Fetch live market price data & news
-            df_price = get_stock_data(ticker, period="1y", use_cache=True)
-            df_news = get_news(ticker, use_cache=True)
+            # 1. Fetch live market spot quote
+            quote = fetch_live_quote(ticker)
+            current_price = float(quote.get("price", 100.0))
+            price_chg = float(quote.get("change_pct", 0.0))
 
-            if df_price.empty:
-                st.warning(f"No price data available for {ticker}.")
-                return
+            # 2. Preprocess features and price history
+            features_df, price_df, news_df = preprocess_data(
+                ticker, period="1y", use_cache=True
+            )
 
-            # 2. Build feature vector
-            feat_df = generate_features(df_price, df_news, ticker=ticker)
-            if feat_df.empty:
+            if features_df.empty:
                 st.warning(f"Insufficient feature history for {ticker}.")
                 return
 
-            latest_row = feat_df.tail(1)
-            current_price = float(df_price["Close"].iloc[-1])
-            prev_price = (
-                float(df_price["Close"].iloc[-2])
-                if len(df_price) > 1
-                else current_price
-            )
-            price_chg = ((current_price - prev_price) / prev_price) * 100.0
+            latest_row = features_df.tail(1)
 
             # 3. Load Walk-Forward Model & Predict
             model_path = os.path.join("models", f"{ticker}_model.json")
@@ -53,9 +47,13 @@ def render_live_prediction_workspace(ticker: str):
                 model_path = os.path.join("models", "NVDA_model.json")
 
             model = load_model(model_path)
-            pred_class, pred_prob = make_prediction(model, latest_row)
+            prediction, confidence = get_prediction_on_latest_data(
+                model, latest_row, FEATURES
+            )
+            pred_class = int(prediction[0])
+            pred_prob = float(confidence[0][1])
 
-            # Sizing & ATR Stops
+            # ATR Take-Profit & Stop-Loss Levels
             atr_val = (
                 float(latest_row.get("atr_14", current_price * 0.025).iloc[0])
                 if "atr_14" in latest_row
@@ -100,11 +98,11 @@ def render_live_prediction_workspace(ticker: str):
     fig = go.Figure()
     fig.add_trace(
         go.Candlestick(
-            x=df_price.index[-90:],
-            open=df_price["Open"].iloc[-90:],
-            high=df_price["High"].iloc[-90:],
-            low=df_price["Low"].iloc[-90:],
-            close=df_price["Close"].iloc[-90:],
+            x=price_df.index[-90:],
+            open=price_df["Open"].iloc[-90:],
+            high=price_df["High"].iloc[-90:],
+            low=price_df["Low"].iloc[-90:],
+            close=price_df["Close"].iloc[-90:],
             name="Price Action",
         )
     )
@@ -136,11 +134,13 @@ def render_live_prediction_workspace(ticker: str):
     st.plotly_chart(fig, use_container_width=True)
 
     # Live News Feed
-    if not df_news.empty:
+    if not news_df.empty:
         st.markdown("### 📰 Ingested Real-Time News Stream")
-        for _, n in df_news.head(4).iterrows():
-            title = n.get("title", "")
+        for _, n in news_df.head(4).iterrows():
+            title = n.get("title", "") or n.get("Title", "")
             src = n.get("source", "Financial Wire")
+            if isinstance(src, dict):
+                src = src.get("name", "Financial Wire")
             url = n.get("url", "#")
             st.markdown(
                 f"""
