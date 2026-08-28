@@ -66,20 +66,7 @@ def render_autonomous_trader_workspace(selected_ticker: str):
     st.markdown("#### 📦 Active Open Positions & Scale-Out Status")
     open_df = broker_instance.get_open_positions_df()
     if not open_df.empty:
-        st.dataframe(
-            open_df.style.format(
-                {
-                    "Entry Price": "${:,.2f}",
-                    "Current Price": "${:,.2f}",
-                    "Unrealized PnL": "${:+,.2f}",
-                    "Return (%)": "{:+.2f}%",
-                    "TP1 Target": "${:,.2f}",
-                    "TP2 Target": "${:,.2f}",
-                    "Stop-Loss": "${:,.2f}",
-                }
-            ),
-            use_container_width=True,
-        )
+        st.dataframe(open_df, use_container_width=True)
     else:
         st.info(
             "No active open positions. The Autonomous Agent is waiting for high-conviction committee clearances."
