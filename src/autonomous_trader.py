@@ -112,6 +112,14 @@ class AutonomousTradingEngine:
         now_str = datetime.now(timezone.utc).isoformat()
         date_str = now_str[:10]
 
+        from src.market_session import get_us_market_session
+
+        market_session = get_us_market_session()
+        logger.info(
+            f"🏛️ [US MARKET STATUS] {market_session['status']} | EDT: {market_session['time_edt']} | "
+            f"Live Open: {market_session['is_open']} | UTC: {market_session['utc_time']}"
+        )
+
         logger.info(
             f"🤖 [AUTONOMOUS TRADER] Starting execution cycle across {len(tickers_to_scan)} universe assets..."
         )

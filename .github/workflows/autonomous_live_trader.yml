@@ -31,6 +31,10 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           pip install -r requirements.txt
 
+      - name: Verify US Market Trading Session (NYSE / NASDAQ Eastern Time)
+        run: |
+          python -c "from src.market_session import get_us_market_session; s = get_us_market_session(); print('🏛️ US Market Session Check:', s)"
+
       - name: Execute Autonomous Trading & Self-Improvement Loop
         env:
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
