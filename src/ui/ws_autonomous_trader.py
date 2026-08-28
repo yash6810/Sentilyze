@@ -40,6 +40,42 @@ def render_autonomous_trader_workspace(selected_ticker: str):
     )
     m4.metric("🏆 Win Rate", f"{portfolio_summary.get('win_rate', 0.0):.1f}%")
 
+    # =========================================================================
+    # TARGET +100% ACCOUNT DOUBLING RADAR ($200,000 MILESTONE TRACKER)
+    # =========================================================================
+    from src.compound_engine import calculate_doubling_progress
+
+    curr_eq = float(portfolio_summary.get("total_equity", 100000.0))
+    init_cap = float(broker_instance.initial_cash)
+    progress_data = calculate_doubling_progress(
+        initial_capital=init_cap, current_equity=curr_eq
+    )
+
+    st.markdown("#### 🎯 Target +100% Account Doubling Radar ($200,000 Goal)")
+    t_col1, t_col2, t_col3, t_col4 = st.columns(4)
+    t_col1.metric("🏁 Initial Base", f"${init_cap:,.2f}")
+    t_col2.metric(
+        "📈 Net Compounded Gain",
+        f"${progress_data['net_gain_dollars']:+,.2f}",
+        delta=f"{((curr_eq - init_cap) / init_cap) * 100.0:+.2f}% Growth",
+    )
+    t_col3.metric(
+        "⏳ Distance to $200k",
+        f"${progress_data['goal_dollars_remaining']:,.2f}",
+        delta=f"{progress_data['progress_pct']:.1f}% Completed",
+    )
+    t_col4.metric(
+        "🔄 Compound Cycles Left",
+        f"~{progress_data['cycles_remaining']} Cycles",
+        delta="At avg +4.5% net/cycle",
+    )
+
+    # Visual Progress Bar towards $200,000
+    st.progress(
+        min(1.0, progress_data["progress_pct"] / 100.0),
+        text=f"🚀 Doubling Trajectory: {progress_data['progress_pct']:.2f}% of $100k Profit Target Achieved",
+    )
+
     # Controls Row
     st.markdown("#### ⚡ 104-Universe Multi-Asset Capital Allocator")
     ctrl_col1, ctrl_col2, ctrl_col3 = st.columns([2, 1, 1])
