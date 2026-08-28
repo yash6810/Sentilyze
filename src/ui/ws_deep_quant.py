@@ -33,9 +33,27 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
             badge_color="#6366F1",
         )
         with st.spinner("Scanning universe pairs for cointegration..."):
-            pairs_df = scan_pairs_universe()
-        if not pairs_df.empty:
-            st.dataframe(pairs_df, use_container_width=True)
+            pairs_list = scan_pairs_universe()
+        if pairs_list:
+            rows = []
+            for p in pairs_list:
+                rows.append(
+                    {
+                        "Asset Pair": f"{p.get('ticker_a', '')} / {p.get('ticker_b', '')}",
+                        "Cointegration (ADF p-value)": f"{p.get('p_value', 1.0):.4f}",
+                        "Status": (
+                            "🟢 COINTEGRATED (p < 0.05)"
+                            if p.get("is_cointegrated")
+                            else "🟡 WEAK COINTEGRATION"
+                        ),
+                        "Current Z-Score": f"{p.get('current_zscore', 0.0):+.2f}σ",
+                        "Half-Life": f"{p.get('half_life_days', 0.0):.1f} Days",
+                        "Hedge Ratio (β)": f"{p.get('hedge_ratio', 1.0):.3f}",
+                        "Action Signal": p.get("action", "MONITOR"),
+                    }
+                )
+            df_display = pd.DataFrame(rows)
+            st.dataframe(df_display, use_container_width=True)
         else:
             st.info("No active cointegrated pairs exceeding threshold.")
 
