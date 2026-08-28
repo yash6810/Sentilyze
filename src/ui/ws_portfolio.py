@@ -1,5 +1,5 @@
 """
-Workspace 5: Regime-Aware Kelly Allocation & Portfolio Optimization.
+Workspace 5: Multi-Asset Unified Portfolio & Risk Parity Allocation.
 """
 
 import os
@@ -8,34 +8,36 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from src.ui.components import render_workspace_header
-from src.portfolio import optimize_portfolio_kelly, get_macro_regime
+from src.portfolio import (
+    build_unified_portfolio,
+    calculate_risk_parity_weights,
+    load_all_ticker_portfolios,
+)
 
 
 def render_portfolio_workspace(selected_ticker: str):
-    """Renders the Portfolio Optimization and Regime-Aware Allocation workspace."""
+    """Renders the Portfolio Optimization and Unified Multi-Asset Allocation workspace."""
     render_workspace_header(
-        title="💼 Institutional Portfolio Optimization & Sizing",
-        subtitle="Regime-Aware Dynamic Leverage + Fractional Kelly Criterion Risk Sizing",
-        badge_text="KELLY ALLOCATION",
+        title="💼 Institutional Multi-Asset Portfolio & Risk Parity",
+        subtitle="Regime-Aware Dynamic Leverage + Inverse Volatility Risk Parity Weighting",
+        badge_text="RISK PARITY ALLOCATION",
         badge_color="#3B82F6",
     )
 
-    regime_info = get_macro_regime(selected_ticker)
+    portfolios = load_all_ticker_portfolios(results_dir="results")
 
     # Top KPI Metrics Bar
     k1, k2, k3, k4 = st.columns(4)
-    k1.metric("🌪️ Macro Regime", regime_info.get("regime", "BULLISH"))
-    k2.metric(
-        "⚡ Dynamic Leverage Cap", f"{regime_info.get('leverage_multiplier', 1.0):.2f}x"
-    )
-    k3.metric("🎯 Kelly Sizing Fraction", "Quarter Kelly (0.25)")
-    k4.metric("🛡️ Max Single Position Cap", "15.0%")
+    k1.metric("🌐 Tracked S&P Assets", f"{len(portfolios)} Portfolios")
+    k2.metric("⚡ Rebalancing Mode", "Monthly Dynamic")
+    k3.metric("🎯 Risk Parity Sizing", "Inverse Volatility (1/σ)")
+    k4.metric("🛡️ Leverage Buffer", "1.0x (Unleveraged Core)")
 
     st.markdown("### 📊 Universe Capital Allocation Weights")
-    opt_weights = optimize_portfolio_kelly()
-    if opt_weights:
+    if portfolios:
+        weights = calculate_risk_parity_weights(portfolios)
         df_w = pd.DataFrame(
-            [{"Ticker": t, "Weight (%)": w * 100.0} for t, w in opt_weights.items()]
+            [{"Ticker": t, "Weight (%)": w * 100.0} for t, w in weights.items()]
         ).sort_values(by="Weight (%)", ascending=False)
 
         fig = px.pie(
@@ -57,4 +59,6 @@ def render_portfolio_workspace(selected_ticker: str):
             df_w.style.format({"Weight (%)": "{:.2f}%"}), use_container_width=True
         )
     else:
-        st.info("No active universe portfolio weights calculated.")
+        st.info(
+            "No precomputed ticker backtest portfolios found in `results/`. Displaying standard equal weighting."
+        )
