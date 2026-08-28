@@ -406,11 +406,18 @@ class PaperBroker:
 
     def get_portfolio_summary(self) -> Dict[str, Any]:
         """Returns high-level KPI metrics for the portfolio dashboard."""
+        invested = max(0.0, self.state["total_equity"] - self.state["cash"])
+        unrealized_pnl_pct = (
+            round((self.state["unrealized_pnl"] / invested) * 100.0, 2)
+            if invested > 0
+            else 0.0
+        )
         return {
             "total_equity": self.state["total_equity"],
             "cash": self.state["cash"],
-            "invested": self.state["total_equity"] - self.state["cash"],
+            "invested": invested,
             "unrealized_pnl": self.state["unrealized_pnl"],
+            "unrealized_pnl_pct": unrealized_pnl_pct,
             "realized_pnl": self.state["realized_pnl"],
             "total_pnl": round(self.state["total_equity"] - self.initial_cash, 2),
             "total_return_pct": round(

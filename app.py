@@ -2494,14 +2494,16 @@ def render_autonomous_trader_workspace(selected_ticker: str):
 
     # Metrics Bar
     m1, m2, m3, m4 = st.columns(4)
-    m1.metric("💰 Total Equity", f"${portfolio_summary['total_equity']:,.2f}")
-    m2.metric("💵 Cash Balance", f"${portfolio_summary['cash']:,.2f}")
+    m1.metric(
+        "💰 Total Equity", f"${portfolio_summary.get('total_equity', 100000.0):,.2f}"
+    )
+    m2.metric("💵 Cash Balance", f"${portfolio_summary.get('cash', 100000.0):,.2f}")
     m3.metric(
         "📈 Unrealized PnL",
-        f"${portfolio_summary['unrealized_pnl']:+,.2f}",
-        delta=f"{portfolio_summary['unrealized_pnl_pct']:+.2f}%",
+        f"${portfolio_summary.get('unrealized_pnl', 0.0):+,.2f}",
+        delta=f"{portfolio_summary.get('unrealized_pnl_pct', 0.0):+.2f}%",
     )
-    m4.metric("🏆 Win Rate", f"{portfolio_summary['win_rate']:.1f}%")
+    m4.metric("🏆 Win Rate", f"{portfolio_summary.get('win_rate', 0.0):.1f}%")
 
     # Controls Row
     st.markdown("#### ⚡ Autonomous Cycle Execution")
