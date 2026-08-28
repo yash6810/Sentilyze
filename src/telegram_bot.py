@@ -1,16 +1,17 @@
 """
 2-Way Interactive Telegram Bot Controller & Remote Execution Bridge for Sentilyze.
-Pillar 7 Omnichannel Module:
-- Handles incoming Telegram commands (/signal, /portfolio, /status, /committee, /radar, /statarb, /options, /dcf, /killswitch).
-- Returns rich formatted markdown cards directly to mobile chats.
-- Dispatches emergency remote kill-switch execution orders to protect capital.
+Supports Telegram Bot API 10.3:
+- Interactive Slash Commands & Inline Keyboard Markup Buttons
+- Real-Time AI Momentum Signals & 4-Agent Committee Deliberations
+- 4-Station 1-Day-Prior Reddit Buzz & SEC S-1 Radar
+- Emergency Remote Kill-Switch Execution
 """
 
 import os
 import sys
 import time
 import requests
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, List
 import pandas as pd
 from dotenv import load_dotenv
 
@@ -33,14 +34,45 @@ from src.fundamental_valuation import (
     calculate_altman_z_score,
     calculate_dcf_fair_value,
 )
-from src.statistical_arbitrage import generate_pairs_trading_signals
 
 logger = get_logger(__name__)
 
 
+def build_interactive_inline_keyboard(ticker: str = "NVDA") -> Dict[str, Any]:
+    """Builds interactive inline quick-action buttons for mobile Telegram."""
+    return {
+        "inline_keyboard": [
+            [
+                {
+                    "text": f"🏛️ {ticker} Committee",
+                    "callback_data": f"/committee {ticker}",
+                },
+                {
+                    "text": f"📡 {ticker} Reddit Radar",
+                    "callback_data": f"/radar {ticker}",
+                },
+            ],
+            [
+                {
+                    "text": f"📊 {ticker} DCF Valuation",
+                    "callback_data": f"/dcf {ticker}",
+                },
+                {
+                    "text": f"⚡ {ticker} Options Flow",
+                    "callback_data": f"/options {ticker}",
+                },
+            ],
+            [
+                {"text": "💼 Portfolio Status", "callback_data": "/status"},
+                {"text": "🚨 Kill-Switch", "callback_data": "/killswitch"},
+            ],
+        ]
+    }
+
+
 def handle_telegram_command(command_text: str) -> Dict[str, Any]:
     """
-    Parses and executes Telegram slash commands.
+    Parses and executes Telegram slash commands and callback buttons.
     """
     parts = command_text.strip().split()
     if not parts:
@@ -62,7 +94,12 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             "• `/statarb` — Cointegration pairs trading & rolling Z-score\n"
             "• `/killswitch` — 🚨 Emergency kill-switch (flatten all active positions)"
         )
-        return {"status": "success", "title": "Help Menu", "markdown_text": help_msg}
+        return {
+            "status": "success",
+            "title": "Help Menu",
+            "markdown_text": help_msg,
+            "reply_markup": build_interactive_inline_keyboard("NVDA"),
+        }
 
     elif cmd in ["/signal", "/signals"]:
         ticker = arg
@@ -90,6 +127,7 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             "status": "success",
             "title": f"Signal: {ticker}",
             "markdown_text": sig_msg,
+            "reply_markup": build_interactive_inline_keyboard(ticker),
         }
 
     elif cmd in ["/status", "/portfolio"]:
@@ -102,7 +140,7 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             pos_str = "• *Active Positions*: `0 (100% Cash Buffer)`\n"
         else:
             for t_sym, p in open_pos.items():
-                pos_str += f"• `{t_sym}`: {p.get('shares', 0)} shares @ ${p.get('entry_price', 0):,.2f} (TP1: ${p.get('tp1', 0):,.2f})\n"
+                pos_str += f"• `{t_sym}`: {p.get('shares', 0)} shares @ ${p.get('entry_price', 0):,.2f}\n"
 
         port_msg = (
             f"💼 *Sentilyze Live Portfolio Status*\n\n"
@@ -116,6 +154,7 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             "status": "success",
             "title": "Portfolio Ledger",
             "markdown_text": port_msg,
+            "reply_markup": build_interactive_inline_keyboard("NVDA"),
         }
 
     elif cmd in ["/committee"]:
@@ -144,6 +183,7 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             "status": "success",
             "title": f"Committee: {ticker}",
             "markdown_text": com_msg,
+            "reply_markup": build_interactive_inline_keyboard(ticker),
         }
 
     elif cmd in ["/radar"]:
@@ -168,6 +208,7 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             "status": "success",
             "title": f"Radar: {ticker}",
             "markdown_text": rad_msg,
+            "reply_markup": build_interactive_inline_keyboard(ticker),
         }
 
     elif cmd == "/killswitch":
@@ -211,7 +252,12 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             f"• *Action*: All open positions flattened to 100% Cash\n"
             f"• *Status*: Portfolio secured against market volatility."
         )
-        return {"status": "warning", "title": "Kill Switch", "markdown_text": kill_msg}
+        return {
+            "status": "warning",
+            "title": "Kill Switch",
+            "markdown_text": kill_msg,
+            "reply_markup": build_interactive_inline_keyboard("NVDA"),
+        }
 
     elif cmd == "/options":
         ticker = arg
@@ -228,6 +274,7 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             "status": "success",
             "title": f"Options Flow: {ticker}",
             "markdown_text": opt_msg,
+            "reply_markup": build_interactive_inline_keyboard(ticker),
         }
 
     elif cmd == "/dcf":
@@ -248,6 +295,7 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             "status": "success",
             "title": f"DCF: {ticker}",
             "markdown_text": dcf_msg,
+            "reply_markup": build_interactive_inline_keyboard(ticker),
         }
 
     elif cmd == "/statarb":
@@ -257,13 +305,19 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
             "• *Cointegration p-value*: `0.0214` (Statistically Significant)\n"
             "• *Action*: `EQUILIBRIUM / MONITOR SPREAD`"
         )
-        return {"status": "success", "title": "StatArb Desk", "markdown_text": arb_msg}
+        return {
+            "status": "success",
+            "title": "StatArb Desk",
+            "markdown_text": arb_msg,
+            "reply_markup": build_interactive_inline_keyboard("NVDA"),
+        }
 
     else:
         return {
             "status": "error",
             "title": "Unknown Command",
             "markdown_text": f"Unrecognized command: `{cmd}`. Type `/help` for command menu.",
+            "reply_markup": build_interactive_inline_keyboard("NVDA"),
         }
 
 
@@ -271,8 +325,9 @@ def send_telegram_bot_message(
     bot_token: Optional[str] = None,
     chat_id: Optional[str] = None,
     text: str = "",
+    reply_markup: Optional[Dict[str, Any]] = None,
 ) -> bool:
-    """Sends a formatted markdown message to a Telegram chat."""
+    """Sends a formatted markdown message with inline buttons to a Telegram chat."""
     token = (bot_token or os.environ.get("TELEGRAM_BOT_TOKEN", "")).strip()
     chat = (chat_id or os.environ.get("TELEGRAM_CHAT_ID", "")).strip()
 
@@ -280,59 +335,13 @@ def send_telegram_bot_message(
         return False
 
     url = f"https://api.telegram.org/bot{token}/sendMessage"
+    payload = {"chat_id": chat, "text": text, "parse_mode": "Markdown"}
+    if reply_markup:
+        payload["reply_markup"] = reply_markup
+
     try:
-        resp = requests.post(
-            url,
-            json={"chat_id": chat, "text": text, "parse_mode": "Markdown"},
-            timeout=10,
-        )
+        resp = requests.post(url, json=payload, timeout=10)
         return resp.status_code == 200
     except Exception as e:
         logger.warning(f"Telegram message dispatch failed: {e}")
         return False
-
-
-def start_telegram_polling():
-    """Continuously listens for Telegram slash commands and replies in real time."""
-    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
-    if not token:
-        print("❌ Error: TELEGRAM_BOT_TOKEN not found in environment.")
-        return
-
-    print("🤖 Sentilyze Alpha 2-Way Interactive Bot Daemon Started...")
-    print(
-        "Listening for slash commands: /signals, /status, /committee, /radar, /options, /dcf, /killswitch"
-    )
-
-    last_update_id = 0
-    while True:
-        try:
-            url = f"https://api.telegram.org/bot{token}/getUpdates"
-            params = {"offset": last_update_id + 1, "timeout": 25}
-            r = requests.get(url, params=params, timeout=30)
-            if r.status_code == 200:
-                data = r.json()
-                for item in data.get("result", []):
-                    last_update_id = item["update_id"]
-                    msg = item.get("message", {})
-                    text = msg.get("text", "")
-                    chat_id = msg.get("chat", {}).get("id")
-
-                    if text.startswith("/") and chat_id:
-                        print(f"📩 Received command: '{text}' from Chat ID: {chat_id}")
-                        res = handle_telegram_command(text)
-                        send_telegram_bot_message(
-                            token, str(chat_id), res["markdown_text"]
-                        )
-                        print(f"✅ Replied with: {res['title']}")
-        except Exception as e:
-            logger.debug(f"Polling loop notice: {e}")
-            time.sleep(3)
-
-
-if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "--poll":
-        start_telegram_polling()
-    else:
-        sample_res = handle_telegram_command("/signal NVDA")
-        print(sample_res["markdown_text"])
