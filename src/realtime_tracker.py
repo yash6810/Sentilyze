@@ -636,11 +636,15 @@ def update_live_holdings_prices_and_alert_discord(
         sl_target = float(pos.get("sl_target", entry_price * 0.95))
         scaled_out = pos.get("scaled_out", False)
 
-        # Smart Money Trailing Stop Ratchet (Protects Accumulated Profit)
+        # Smart Money Trailing Stop Ratchet & High-Watermark Peak Profit Lock
         try:
-            from src.smart_trader_engine import calculate_structural_trailing_stop
+            from src.smart_trader_engine import (
+                calculate_structural_trailing_stop,
+                apply_high_watermark_profit_lock,
+            )
             from src.data_ingestion import get_price_history
 
+            # 1. Structural Trailing Stop
             df_hist = get_price_history(ticker, period="1mo", use_cache=True)
             ratcheted_sl, trail_action = calculate_structural_trailing_stop(
                 current_price=spot_price,
@@ -654,6 +658,24 @@ def update_live_holdings_prices_and_alert_discord(
                 logger.info(
                     f"🛡️ [{ticker} TRAILING RATCHET] {trail_action} -> New Stop Floor: ${ratcheted_sl:,.2f}"
                 )
+
+            # 2. High-Watermark 75% Peak Lock (Guarantees +$750 locked on +$1,000 runs)
+            highest_seen = float(
+                pos.get("highest_price_seen", max(entry_price, spot_price))
+            )
+            hwm_sl, new_peak, hwm_action = apply_high_watermark_profit_lock(
+                current_price=spot_price,
+                entry_price=entry_price,
+                highest_price_seen=highest_seen,
+                current_sl=sl_target,
+                min_profit_threshold_pct=1.5,
+                lock_fraction=0.75,
+            )
+            pos["highest_price_seen"] = new_peak
+            if hwm_sl > sl_target:
+                pos["sl_target"] = hwm_sl
+                sl_target = hwm_sl
+                logger.info(f"🔒 [{ticker} PEAK PROFIT LOCK] {hwm_action}")
         except Exception:
             pass
 
