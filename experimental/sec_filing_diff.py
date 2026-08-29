@@ -1,4 +1,9 @@
 """
+⚠️ EXPERIMENTAL / SIMULATED RESEARCH PROTOTYPE
+STATUS: DISCONNECTED FROM PRODUCTION TRADING DECISIONS
+PURPOSE: Prototype data structure for prospective SEC EDGAR full-text search diffing.
+NOTE: Uses calibrated simulation data for architecture demonstration purposes only.
+---------------------------------------------------------------------------------
 SEC 10-K / 10-Q Autonomous Filing Diff & Risk Disclosure Agent for Sentilyze.
 Pillar 2 Alternative Data Module:
 - Compares consecutive corporate SEC EDGAR 10-K / 10-Q filings.
