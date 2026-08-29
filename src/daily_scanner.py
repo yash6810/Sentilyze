@@ -6,7 +6,7 @@ from src.utils import get_logger
 from src.config import FEATURES
 from src.modeling import load_model, get_prediction_on_latest_data
 from src.preprocessing import preprocess_data
-from src.alerts import format_signal_card, send_discord_alert, send_telegram_alert
+from src.alerts import format_signal_card, send_discord_alert
 
 logger = get_logger(__name__)
 
@@ -15,7 +15,7 @@ def run_daily_market_scan() -> list:
     """
     Scans the entire stock universe defined in stocks.txt, generates
     tomorrow's momentum signals, Take-Profit targets, and Stop-Loss brackets,
-    and dispatches live alerts to Discord and Telegram.
+    and dispatches live alerts to Discord.
     """
     stocks_file = "stocks.txt"
     if os.path.exists(stocks_file):
@@ -137,14 +137,9 @@ def run_daily_market_scan() -> list:
         except Exception as e:
             logger.error(f"Failed to load fallback signals from {summary_path}: {e}")
 
-    # Dispatch Alerts to Discord / Telegram
+    # Dispatch Alerts to Discord (Primary Institutional Notification Hub)
     discord_url = os.getenv("DISCORD_WEBHOOK_URL")
-    telegram_token = os.getenv("TELEGRAM_BOT_TOKEN")
-    telegram_chat = os.getenv("TELEGRAM_CHAT_ID")
-
-    logger.info(
-        f"Notification status: Discord URL present = {bool(discord_url)}, Telegram present = {bool(telegram_token and telegram_chat)}"
-    )
+    logger.info(f"Discord Notification Status: URL Configured = {bool(discord_url)}")
 
     if discord_url:
         from src.alerts import send_discord_digest, send_discord_market_pulse
@@ -186,23 +181,10 @@ def run_daily_market_scan() -> list:
 
         import time
 
-        # Send individual trade setups for BUY signals
+        # Send individual trade setups for top BUY signals
         for card in top_buys[:3]:
             time.sleep(1.0)  # Respect Discord API rate limit
             send_discord_alert(card, webhook_url=discord_url)
-
-    # Dispatch Telegram Digest & Alerts
-    if telegram_token and telegram_chat:
-        from src.dispatcher import send_telegram_digest
-
-        send_telegram_digest(
-            signals_summary, bot_token=telegram_token, chat_id=telegram_chat
-        )
-        for card in signals_summary:
-            if card["signal"] == "BUY":
-                send_telegram_alert(
-                    card, bot_token=telegram_token, chat_id=telegram_chat
-                )
 
     # Dispatch HTML Email Digest
     if os.getenv("EMAIL_USER") and os.getenv("EMAIL_PASSWORD"):

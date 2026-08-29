@@ -243,14 +243,12 @@ def check_live_news_sentiment_shock(ticker: str) -> bool:
 def evaluate_intraday_execution(
     broker: Optional[PaperBroker] = None,
     discord_url: Optional[str] = None,
-    telegram_token: Optional[str] = None,
-    telegram_chat: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Autonomous 5-Minute Intraday Market Execution Engine:
     1. Evaluates 50/50 Scale-Out (TP1 +2.5 ATR), Runner Exit (TP2 +4.5 ATR), Break-Even Ratchet, and Stop-Loss.
     2. Runs FinBERT news catalyst check for emergency loss prevention.
-    3. Executes trades, updates paper portfolio, and dispatches instant flash alerts.
+    3. Executes trades, updates paper portfolio, and dispatches instant flash alerts to Discord.
     """
     broker = broker or PaperBroker()
     open_positions = broker.state.get("open_positions", {})
@@ -272,9 +270,7 @@ def evaluate_intraday_execution(
                             f"🚀 [INTRADAY LIVE ENTRY] Auto-deployed cash into {len(buy_actions['buys'])} holdings: {[b['ticker'] for b in buy_actions['buys']]}"
                         )
                         for b_record in buy_actions["buys"]:
-                            _send_intraday_buy_notification(
-                                b_record, discord_url, telegram_token, telegram_chat
-                            )
+                            _send_intraday_buy_notification(b_record, discord_url)
                         open_positions = broker.state.get("open_positions", {})
             except Exception as e:
                 logger.warning(
@@ -337,9 +333,7 @@ def evaluate_intraday_execution(
             broker.state["closed_trades"].append(trade_record)
             del broker.state["open_positions"][ticker]
             executed_trades.append(trade_record)
-            _send_flash_notifications(
-                trade_record, discord_url, telegram_token, telegram_chat
-            )
+            _send_flash_notifications(trade_record, discord_url)
             continue
 
         # Check Stage 1 Scale-Out (+2.5 ATR)
@@ -374,9 +368,7 @@ def evaluate_intraday_execution(
             logger.info(
                 f"🎯 [STAGE 1 SCALE-OUT] Banked 50% {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
             )
-            _send_flash_notifications(
-                trade_record, discord_url, telegram_token, telegram_chat
-            )
+            _send_flash_notifications(trade_record, discord_url)
 
         # Check Stage 2 Runner Exit (+4.5 ATR)
         elif scaled_out and curr_price >= tp2_target:
@@ -408,9 +400,7 @@ def evaluate_intraday_execution(
             logger.info(
                 f"🏆 [STAGE 2 RUNNER EXIT] Closed {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
             )
-            _send_flash_notifications(
-                trade_record, discord_url, telegram_token, telegram_chat
-            )
+            _send_flash_notifications(trade_record, discord_url)
 
         # Check Stop-Loss / Break-Even Exit
         elif curr_price <= sl_target:
@@ -446,9 +436,7 @@ def evaluate_intraday_execution(
             logger.info(
                 f"[{reason}] Exited {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f}"
             )
-            _send_flash_notifications(
-                trade_record, discord_url, telegram_token, telegram_chat
-            )
+            _send_flash_notifications(trade_record, discord_url)
 
     now_str = datetime.now(timezone.utc).isoformat()
     broker._recalculate_metrics(now_str[:10], now_str)
@@ -464,10 +452,8 @@ def evaluate_intraday_execution(
 def _send_intraday_buy_notification(
     buy_record: Dict[str, Any],
     discord_url: Optional[str] = None,
-    telegram_token: Optional[str] = None,
-    telegram_chat: Optional[str] = None,
 ):
-    """Sends immediate Discord & Telegram alert when a new position is opened."""
+    """Sends immediate Discord alert when a new position is opened."""
     d_url = discord_url or os.getenv("DISCORD_WEBHOOK_URL")
     if d_url:
         try:
@@ -497,44 +483,15 @@ def _send_intraday_buy_notification(
         except Exception as e:
             logger.warning(f"Failed sending intraday BUY Discord alert: {e}")
 
-    t_token = telegram_token or os.getenv("TELEGRAM_BOT_TOKEN")
-    t_chat = telegram_chat or os.getenv("TELEGRAM_CHAT_ID")
-    if t_token and t_chat:
-        try:
-            text = (
-                f"🚀 *[NEW INTRADAY TRADE OPENED]*\n\n"
-                f"• *Ticker:* `{buy_record['ticker']}`\n"
-                f"• *Shares:* `{buy_record['shares']}`\n"
-                f"• *Entry Price:* `${buy_record['entry_price']:.2f}`\n"
-                f"• *TP1 Target (+2.5 ATR):* `${buy_record.get('tp1_target', 0):.2f}`\n"
-                f"• *TP2 Runner (+4.5 ATR):* `${buy_record.get('tp2_target', 0):.2f}`\n"
-                f"• *Stop-Loss Target:* `${buy_record.get('sl_target', 0):.2f}`"
-            )
-            url = f"https://api.telegram.org/bot{t_token}/sendMessage"
-            requests.post(
-                url,
-                json={"chat_id": t_chat, "text": text, "parse_mode": "Markdown"},
-                timeout=8,
-            )
-        except Exception as e:
-            logger.warning(f"Failed sending intraday BUY Telegram alert: {e}")
-
 
 def _send_flash_notifications(
     trade: Dict[str, Any],
     discord_url: Optional[str] = None,
-    telegram_token: Optional[str] = None,
-    telegram_chat: Optional[str] = None,
 ):
-    """Sends instant flash notifications to Discord & Telegram."""
+    """Sends instant flash notifications to Discord."""
     d_url = discord_url or os.getenv("DISCORD_WEBHOOK_URL")
     if d_url:
         _send_intraday_discord_flash(trade, d_url)
-
-    t_token = telegram_token or os.getenv("TELEGRAM_BOT_TOKEN")
-    t_chat = telegram_chat or os.getenv("TELEGRAM_CHAT_ID")
-    if t_token and t_chat:
-        _send_intraday_telegram_flash(trade, t_token, t_chat)
 
 
 def _send_intraday_discord_flash(trade: Dict[str, Any], webhook_url: str):
@@ -568,28 +525,6 @@ def _send_intraday_discord_flash(trade: Dict[str, Any], webhook_url: str):
         requests.post(webhook_url, json=payload, timeout=8)
     except Exception as e:
         logger.warning(f"Failed sending intraday Discord alert: {e}")
-
-
-def _send_intraday_telegram_flash(trade: Dict[str, Any], bot_token: str, chat_id: str):
-    """Sends immediate Telegram flash notification."""
-    try:
-        icon = "💰" if trade["pnl"] >= 0 else "🛑"
-        text = (
-            f"{icon} *[5-MIN INTRADAY EXECUTION]*\n\n"
-            f"• *Ticker:* `{trade['ticker']}`\n"
-            f"• *Shares:* `{trade['shares']}`\n"
-            f"• *Entry:* `${trade['entry_price']:.2f}` ➔ *Exit:* `${trade['exit_price']:.2f}`\n"
-            f"• *Net PnL:* *`${trade['pnl']:+,.2f}` ({trade['return_pct']:+.2f}%)*\n"
-            f"• *Trigger:* `{trade['reason']}`"
-        )
-        url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-        requests.post(
-            url,
-            json={"chat_id": chat_id, "text": text, "parse_mode": "Markdown"},
-            timeout=8,
-        )
-    except Exception as e:
-        logger.warning(f"Failed sending intraday Telegram alert: {e}")
 
 
 def update_live_holdings_prices_and_alert_discord(
