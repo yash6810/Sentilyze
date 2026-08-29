@@ -10,7 +10,7 @@
 [![Autonomous CI/CD](https://img.shields.io/badge/Automation-GitHub%20Actions-2088FF.svg)](.github/workflows/)
 
 <p align="center">
-  <b>A research and algorithmic trading platform combining Transformer NLP (FinBERT), Walk-Forward Machine Learning (XGBoost), and Asymmetric Risk Management across US equity markets.</b>
+  <b>An open-source quantitative research platform combining Transformer NLP (FinBERT), Walk-Forward Machine Learning (XGBoost), and Asymmetric Risk Management across US equities.</b>
 </p>
 
 </div>
@@ -19,59 +19,121 @@
 
 ## 🔬 Project Overview & Core Thesis
 
-**Sentilyze** is an open-source quantitative trading research system and end-to-end MLOps showcase. The project investigates whether combining **deep NLP financial sentiment** with **multi-timeframe technical momentum** can generate positive risk-adjusted expectancy when paired with **strict asymmetric trade management**.
+**Sentilyze** is an open-source quantitative trading research system and reproducible MLOps showcase. The project investigates whether combining **deep NLP financial sentiment** with **multi-timeframe technical momentum** can generate positive risk-adjusted expectancy when paired with **strict asymmetric trade management**.
 
-### 💡 The Core Finding & Attribution
-Financial direction forecasting on daily equity returns is notoriously non-stationary (out-of-sample directional accuracy hovers between **50% to 53%**). Sentilyze's empirical backtests show that **the primary driver of positive expectancy is not raw predictive accuracy, but asymmetric risk/reward architecture**:
-* **Asymmetric Payoff Structure**: Taking 50% profit at `+2.5 ATR` (`TP1`) and letting runners target `+4.5 ATR` (`TP2`), while strictly limiting downside risk to `-1.5 ATR` (`SL`).
-* **Breakeven Ratchets & Peak Profit Floors**: Moving stop-losses to breakeven (`+0.2%`) once TP1 is reached and locking in $\ge 75\%$ of maximum unrealized gains once peak profits exceed $+1.5\%$.
-* **Walk-Forward Validation**: Validated over 2,014+ out-of-sample trading days (~8 years) with zero look-ahead bias, benchmarked against logistic regression baselines and Monte Carlo permutation significance tests.
+### 💡 The Core Finding & Empirical Alpha Attribution
+In daily financial time series, directional return prediction is notoriously non-stationary (out-of-sample directional accuracy is $\sim 50\%\text{--}53\%$). Sentilyze includes an automated **Alpha Attribution Engine** ([`src/attribution_analysis.py`](src/attribution_analysis.py)) that decomposes strategy performance against zero-alpha baselines under identical market friction ($0.10\%$ fees, $0.05\%$ slippage, $5\%$ margin rate):
+
+#### **Attribution Decomposition Matrix (NVDA 2018–2026, 2,514 Trading Days)**
+| Strategy Configuration | Total Return (%) | Win Rate (%) | Sharpe Ratio | Max Drawdown (%) | Trade Count | Primary Role |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| 🎲 **Random Signal Baseline + Asymmetric ATR Rules** | **+4,185.16%** | 54.41% | 1.85 | -83.18% | 350 | **Positive Expectancy Baseline** |
+| 📈 **Always-Long Baseline + Asymmetric ATR Rules** | **+13,029.48%** | 54.03% | 3.06 | -86.07% | 422 | **Market Beta Expansion** |
+| 🧠 **Full ML Strategy (FinBERT + XGBoost Filter)** | **+3,178.95%** | **57.14%** | 1.17 | **-42.19%** | **266** | **Volatility & Drawdown Shield** |
+| 🏛️ **Buy & Hold Benchmark** | +14,610.76% | N/A | ~1.10 | -66.36% | 1 | Passive Reference |
+
+#### **Key Attribution Takeaways:**
+1. **Trade Management Drives Baseline Expectancy**: Even purely random entries produce a positive Sharpe of $1.85$ under the $+2.5\text{ ATR}$ Take-Profit / $-1.5\text{ ATR}$ Stop-Loss / Breakeven Ratchet framework. The baseline positive edge is mathematical payoff geometry.
+2. **The ML Model Acts as a Drawdown Shield**: The FinBERT + XGBoost classifier filters out 156 high-risk false breakouts, **halving Maximum Drawdown from $-86.07\%$ down to $-42.19\%$** and lifting the win rate to $57.14\%$.
 
 ---
 
-## ⚙️ System Architecture
+## 📁 Clean Repository Structure
+
+The repository maintains a strict separation between **100% Real Production Engine** code, **Persisted Out-of-Sample Results**, and **Isolated Research Sandboxes**:
+
+```
+Sentilyze/
+├── app.py                          # Streamlit Live Trading Dashboard (Layout: Wide)
+├── api.py                          # FastAPI REST Microservice with SHAP Explainability
+│
+├── src/                            # 🟢 PRODUCTION QUANT ENGINE (100% Real Data)
+│   ├── agent_committee.py          # 4-Agent Grounded Decision Council & Quarter-Kelly
+│   ├── autonomous_trader.py        # 24-Worker Parallel Live Scanner & Auto-Execution
+│   ├── backtesting.py              # Walk-Forward Optimization & Monte Carlo Significance
+│   ├── attribution_analysis.py     # Signal vs Trade-Management Decomposition Engine
+│   ├── forensic_accounting.py      # Real 8-Variable 2-Year Comparative Beneish M-Score
+│   ├── fundamental_valuation.py    # Piotroski F-Score, Altman Z-Score & DCF Fair Value
+│   ├── opening_range_engine.py     # 15-Minute Opening Volatility Shield (09:30-09:45 EST)
+│   ├── sentiment_analysis.py       # HuggingFace FinBERT Transformer Pipeline
+│   ├── statistical_arbitrage.py    # Engle-Granger Cointegration & OU Mean-Reversion
+│   ├── paper_broker.py             # Realistic Virtual Execution Broker (Slippage & Margin)
+│   └── ...
+│
+├── experimental/                   # 🧪 ISOLATED RESEARCH PROTOTYPES (Sandbox / Non-Trading)
+│   ├── README.md                   # Prototype inventory & prospective API documentation
+│   ├── dark_pool_radar.py          # Prototype ATS block print data structure
+│   ├── insider_tracker.py          # Prototype SEC Form 4 cluster data structure
+│   ├── patent_contract_radar.py    # Prototype USPTO patent momentum data structure
+│   ├── quant_engine.py             # Standalone 8-pillar orchestration prototype
+│   ├── rl_allocator.py             # Standalone MDP environment & policy gradient prototype
+│   └── sec_filing_diff.py          # Prototype 10-K risk factor diffing
+│
+├── results/                        # 📊 BENCHMARK SOURCE OF TRUTH (Out-of-Sample Metrics)
+│   ├── attribution_analysis.json   # Persisted 4-way Alpha Attribution results
+│   ├── *_metrics.json              # Out-of-Sample WFO performance metrics per ticker
+│   ├── *_portfolio.csv             # Historical daily equity curves and drawdowns
+│   └── *_shap_summary.png          # SHAP global feature impact visualizations
+│
+├── tests/                          # 🧪 AUTOMATED PYTEST SUITE (100% Passing)
+└── models/                         # 🧠 TRAINED PRODUCTION MODELS (Native XGBoost JSON)
+```
+
+---
+
+## 👥 The Grounded 4-Agent Deliberation Council
+
+All automated trade entries in [`src/agent_committee.py`](src/agent_committee.py) are deliberated by 4 specialized agents operating exclusively on real market data:
 
 ```
                                   ┌────────────────────────────────────────────────────────┐
-                                  │               SENTILYZE QUANTITATIVE PIPELINE          │
+                                  │            4-AGENT GROUNDED DECISION COUNCIL           │
                                   └────────────────────────────────────────────────────────┘
                                                               │
              ┌────────────────────────────────────────────────┼────────────────────────────────────────────────┐
              │                                                │                                                │
 ┌────────────▼────────────┐                      ┌────────────▼────────────┐                      ┌────────────▼────────────┐
-│   DATA & NLP INGESTION  │                      │ 4-AGENT COMMITTEE FLOOR │                      │ EXECUTION & RISK ENGINE │
+│ 1. 📈 TECHNICAL ALPHA   │                      │ 2. 📰 FINBERT SENTIMENT │                      │ 3. 🏛️ SEC FORENSICS     │
 ├─────────────────────────┤                      ├─────────────────────────┤                      ├─────────────────────────┤
-│ • NewsAPI & RSS Feeds   │                      │ 1. 📈 Technical Alpha   │                      │ • 15-Min Opening Shield │
-│ • HuggingFace FinBERT   │ ───────────────────> │ 2. 📰 Sentiment Catalyst│ ───────────────────> │ • Mathematical Kelly    │
-│ • Daily Price Tensors   │                      │ 3. 🏛️ Forensic DCF      │                      │ • 3-Stage Scale-Out     │
-│ • VIX Macro Indicator   │                      │ 4. 🛡️ Chief Risk Officer│                      │ • Virtual Paper Broker  │
-└─────────────────────────┘                      └─────────────────────────┘                      └─────────────────────────┘
+│ • Real Price Action     │                      │ • HuggingFace FinBERT   │                      │ • Piotroski F-Score     │
+│ • RSI(14) & SMA(200)    │                      │ • Live News Ingestion   │                      │ • Altman Z-Score & DCF  │
+│ • Trend Momentum Regimes│                      │ • Semantic Confidence   │                      │ • 2-Yr Beneish M-Score  │
+└────────────┬────────────┘                      └────────────┬────────────┘                      └────────────┬────────────┘
+             │                                                │                                                │
+             └────────────────────────────────────────────────┼────────────────────────────────────────────────┘
+                                                              │
+                                                 ┌────────────▼────────────┐
+                                                 │ 4. 🛡️ CHIEF RISK OFFICER│
+                                                 ├─────────────────────────┤
+                                                 │ • Formulaic Kelly Sizing│
+                                                 │ • Macro VIX Vol Gate    │
+                                                 │ • Final Veto Authority  │
+                                                 └────────────┬────────────┘
+                                                              │
+                                                 ┌────────────▼────────────┐
+                                                 │ EXECUTED ORDER WITH ATR │
+                                                 │ TP0 / TP1 / TP2 / SL    │
+                                                 └─────────────────────────┘
 ```
 
----
-
-## 👥 The 4-Agent Deliberation Council
-
-All potential trades are evaluated through a structured multi-factor committee grounded strictly in real verifiable data:
-
-| Agent Specialist | Analytical Domain | Data Sources & Methodology |
+| Agent Specialist | Analytical Domain | Methodology & Verification |
 | :--- | :--- | :--- |
-| **1. 📈 Technical Alpha Specialist** | Market structure, moving average regimes, and momentum oscillators. | Real historical price series, `RSI(14)`, `SMA(200)`, `EMA(21)`, and 5-day momentum. |
-| **2. 📰 Sentiment Catalyst Specialist** | Breaking news semantic polarity and media tone. | Real live headlines scored via HuggingFace `ProsusAI/finbert` Transformer pipeline. |
-| **3. 🏛️ Forensic & Valuation Auditor** | Balance sheet health, operational momentum, and intrinsic valuation. | Live balance sheet filings from yfinance, calculating **Piotroski F-Score (0–9)**, **Altman Z-Score**, and **2-Stage DCF Margin of Safety**. |
-| **4. 🛡️ Chief Risk Officer (CRO)** | Risk budgeting, position sizing, and volatility governance. | **Mathematical Fractional Kelly Criterion** ($f^* = \frac{p \cdot b - q}{b}$), **Macro VIX Volatility Gate** ($VIX > 26.0$), and dynamic ATR risk brackets. |
+| **1. 📈 Technical Alpha Specialist** | Trend structure & momentum regimes. | Real historical OHLCV series, `RSI(14)`, `SMA(200)`, `EMA(21)`, and 5-day momentum. |
+| **2. 📰 Sentiment Catalyst Specialist** | Breaking news semantic polarity. | Real live headlines scored via HuggingFace `ProsusAI/finbert` Transformer pipeline. |
+| **3. 🏛️ Forensic & Valuation Auditor** | Audited financial reporting health & valuation. | Live balance sheets from `yfinance`: **Piotroski F-Score (0–9)**, **Altman Z-Score**, **2-Year Comparative Beneish M-Score**, and **DCF Margin of Safety**. (Abstains if filings are missing). |
+| **4. 🛡️ Chief Risk Officer (CRO)** | Risk budgeting & volatility gate. | **Mathematical Quarter-Kelly sizing**, **VIX Volatility Filter** ($VIX > 26.0$), and strict consensus validation. |
 
 ---
 
 ## 📐 Mathematical Fractional Kelly Sizing
 
-Position sizing is dynamically calculated from measured strategy win rate ($p$) and win/loss payoff ratio ($b = \frac{\text{avg win}}{\text{avg loss}}$) using a conservative **Quarter-Kelly** fraction:
+Position allocation is calculated directly from empirical WFO strategy win rates ($p \approx 0.533$) and win/loss payoff ratios ($b \approx 1.75$):
 
 $$f^* = \frac{p \cdot b - (1 - p)}{b}$$
 
-$$\text{Position Allocation \%} = \min\left(15.0\%, \max\left(0, 0.25 \times f^* \times 100\right)\right)$$
+$$\text{Position Allocation \%} = \min\left(15.0\%, \max\left(0.0\%, 0.25 \times f^* \times 100\right)\right)$$
 
-*If expected edge is negative or consensus fails, allocation dynamically drops to **0.0%**.*
+*If the calculated edge is non-positive ($p \cdot b \le 1 - p$) or the CRO exercises a veto, allocation dynamically drops to **0.0%**.*
 
 ---
 
@@ -94,7 +156,7 @@ $$\text{Position Allocation \%} = \min\left(15.0\%, \max\left(0, 0.25 \times f^*
 ```
 
 1. **15-Minute Opening Volatility Shield (`09:30 - 09:45 EDT`)**: Pauses market orders during opening bell whiplash, waiting for the initial 15-minute range to establish before seeking pullbacks.
-2. **High-Watermark Peak Profit Ratchet (75% Floor)**: Once unrealized position profit exceeds $+1.5\%$, a trailing floor is locked at $75\%$ of peak profit, preventing winners from turning into losses.
+2. **High-Watermark Peak Profit Ratchet (75% Floor)**: Once unrealized position profit exceeds $+1.5\%$, a trailing floor is locked at $75\%$ of peak profit, preventing winning trades from turning into losses.
 
 ---
 
@@ -149,27 +211,14 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. Environment Configuration (`.env`)
-
-```env
-# Telemetry & Dispatchers (Optional)
-DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/..."
-TELEGRAM_BOT_TOKEN="123456:ABC-DEF..."
-TELEGRAM_CHAT_ID="-100123456789"
-
-# Market Data API Keys
-NEWS_API_KEY="your_newsapi_key"
-FINNHUB_API_KEY="your_finnhub_key"
-```
-
-### 3. Running the Streamlit Dashboard
+### 2. Running the Streamlit Dashboard
 
 ```bash
 streamlit run app.py --server.fileWatcherType none
 ```
 Open **`http://localhost:8501`** in your browser.
 
-### 4. Running the FastAPI REST Microservice
+### 3. Running the FastAPI REST Microservice
 
 ```bash
 uvicorn api:app --host 0.0.0.0 --port 8000 --reload
@@ -179,6 +228,16 @@ uvicorn api:app --host 0.0.0.0 --port 8000 --reload
   ```bash
   curl -X GET "http://localhost:8000/predict?ticker=NVDA"
   ```
+
+### 4. Running the Test Suite & Attribution Engine
+
+```bash
+# Run full unit tests
+pytest
+
+# Run Alpha Attribution Decomposition
+python -c "from src.attribution_analysis import run_attribution_decomposition; print(run_attribution_decomposition('NVDA', n_random_trials=30))"
+```
 
 ---
 
