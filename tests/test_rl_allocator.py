@@ -1,5 +1,5 @@
 import numpy as np
-from src.rl_allocator import (
+from experimental.rl_allocator import (
     TradingEnvironment,
     PPOPolicyAgent,
     optimize_rl_position_allocation,
