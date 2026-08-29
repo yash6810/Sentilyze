@@ -1,5 +1,11 @@
 """
-Federal Contract Awards & USPTO Patent Grant Momentum Index for Sentilyze.
+⚠️ EXPERIMENTAL / SIMULATED RESEARCH PROTOTYPE
+STATUS: DISCONNECTED FROM PRODUCTION TRADING DECISIONS
+PURPOSE: Prototype data structure for prospective USPTO / USASpending API integration.
+NOTE: Uses calibrated simulation data for architecture demonstration purposes only.
+---------------------------------------------------------------------------------
+Federal Defense Contracts & USPTO AI Patent Pipeline Radar for Sentilyze.
+
 Pillar 2 Alternative Data Module:
 - Tracks U.S. Federal Government (DoD, NASA, Intelligence Community, DoE) prime contract awards.
 - Monitors USPTO Artificial Intelligence, Semiconductor, and Quantum patent grants.

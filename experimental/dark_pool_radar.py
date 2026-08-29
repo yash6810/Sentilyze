@@ -1,4 +1,9 @@
 """
+⚠️ EXPERIMENTAL / SIMULATED RESEARCH PROTOTYPE
+STATUS: DISCONNECTED FROM PRODUCTION TRADING DECISIONS
+PURPOSE: Prototype data structure for prospective FINRA/ATS dark pool API integration.
+NOTE: Uses calibrated simulation data for architecture demonstration purposes only.
+---------------------------------------------------------------------------------
 Institutional Dark Pool & Whale Block Trade Radar for Sentilyze.
 Pillar 3 Options & Market Microstructure Module:
 - Detects off-exchange Alternative Trading System (ATS) dark pool prints and block crosses.

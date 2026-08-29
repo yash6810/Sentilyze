@@ -1,4 +1,9 @@
 """
+⚠️ EXPERIMENTAL / SIMULATED RESEARCH PROTOTYPE
+STATUS: DISCONNECTED FROM PRODUCTION TRADING DECISIONS
+PURPOSE: Prototype data structure for prospective SEC EDGAR Form 4 API integration.
+NOTE: Uses calibrated simulation data for architecture demonstration purposes only.
+---------------------------------------------------------------------------------
 Congressional & Corporate Insider Trading Tracker for Sentilyze.
 Pillar 2 Alternative Data Module:
 - Scrapes and parses SEC Form 4 insider transactions (CEO, CFO, Director open-market buys & sales).
