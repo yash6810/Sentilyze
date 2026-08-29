@@ -2,10 +2,30 @@ from src.agent_committee import (
     TechnicalAlphaAgent,
     SentimentCatalystAgent,
     ForensicFundamentalAgent,
+    InstitutionalFlowAgent,
+    MacroSectorRegimeAgent,
+    CatalystMoatAgent,
     ChiefRiskOfficerAgent,
     convene_trading_committee,
     audit_full_universe_committee,
 )
+
+
+def test_new_specialist_agents():
+    flow = InstitutionalFlowAgent()
+    rep_f = flow.evaluate("NVDA", spot_price=220.0)
+    assert rep_f["agent_name"] == "Institutional Flow & Dark Pool Tracker"
+    assert "insider_score" in rep_f["key_metrics"]
+
+    macro = MacroSectorRegimeAgent()
+    rep_m = macro.evaluate("NVDA", spot_price=220.0, vix_level=16.5)
+    assert rep_m["agent_name"] == "Macro Regime & Sector Strategist"
+    assert rep_m["vote"] in ["BUY", "HOLD"]
+
+    moat = CatalystMoatAgent()
+    rep_moat = moat.evaluate("NVDA", spot_price=220.0)
+    assert rep_moat["agent_name"] == "Catalyst & Competitive Moat Specialist"
+    assert "patent_index" in rep_moat["key_metrics"]
 
 
 def test_technical_alpha_agent():
@@ -77,7 +97,7 @@ def test_convene_trading_committee(tmp_path, mocker):
     res = convene_trading_committee("NVDA", vix_level=16.0)
     assert res["ticker"] == "NVDA"
     assert "final_resolution" in res
-    assert len(res["agent_testimonies"]) == 3
+    assert len(res["agent_testimonies"]) == 6
     assert "cro_signoff" in res
 
 
