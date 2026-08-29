@@ -1,43 +1,14 @@
 {
   "initial_capital": 100000.0,
-  "cash": 95715.28927917476,
+  "cash": 101523.31927917476,
   "total_equity": 101523.32,
-  "unrealized_pnl": 0.0,
+  "unrealized_pnl": 0,
   "realized_pnl": 1523.3192791747613,
-  "win_rate": 37.9,
-  "total_trades": 29,
+  "win_rate": 35.5,
+  "total_trades": 31,
   "winning_trades": 11,
-  "losing_trades": 18,
-  "open_positions": {
-    "AAPL": {
-      "ticker": "AAPL",
-      "shares": 9,
-      "initial_shares": 9,
-      "entry_price": 319.7,
-      "current_price": 319.7,
-      "entry_date": "2026-08-29",
-      "tp1_target": 343.68,
-      "tp2_target": 362.86,
-      "sl_target": 305.31,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
-    },
-    "AMZN": {
-      "ticker": "AMZN",
-      "shares": 11,
-      "initial_shares": 11,
-      "entry_price": 266.43,
-      "current_price": 266.43,
-      "entry_date": "2026-08-29",
-      "tp1_target": 286.41,
-      "tp2_target": 302.4,
-      "sl_target": 254.44,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
-    }
-  },
+  "losing_trades": 20,
+  "open_positions": {},
   "closed_trades": [
     {
       "ticker": "AMD",
@@ -328,6 +299,28 @@
       "exit_price": 716.43,
       "pnl": 0.0,
       "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "AAPL",
+      "shares": 9,
+      "entry_price": 319.7,
+      "exit_price": 319.7,
+      "entry_date": "2026-08-29",
+      "exit_date": "2026-08-29",
+      "pnl": 0.0,
+      "return_pct": 0.0,
+      "reason": "MANUAL_CLOSE_ALL"
+    },
+    {
+      "ticker": "AMZN",
+      "shares": 11,
+      "entry_price": 266.43,
+      "exit_price": 266.43,
+      "entry_date": "2026-08-29",
+      "exit_date": "2026-08-29",
+      "pnl": 0.0,
+      "return_pct": 0.0,
+      "reason": "MANUAL_CLOSE_ALL"
     }
   ],
   "equity_history": [
@@ -359,10 +352,10 @@
       "date": "2026-08-29",
       "timestamp": "2026-08-29T14:26:12.396541+00:00",
       "total_equity": 101523.32,
-      "cash": 95715.29,
-      "invested": 5808.03,
+      "cash": 101523.32,
+      "invested": 0,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-08-29T22:03:00.201169+00:00"
+  "last_updated": "2026-08-29T22:05:00.130186+00:00"
 }
