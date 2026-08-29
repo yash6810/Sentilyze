@@ -59,6 +59,7 @@ def run_committee_ablation_backtest(
         raise ValueError(f"Insufficient price history for {ticker}")
 
     df_price = df_price.iloc[-lookback_days:].sort_index()
+    df_price.index = pd.to_datetime(df_price.index).tz_localize(None)
 
     # Pre-calculate multi-factor indicators for simulation
     closes = df_price["Close"]
@@ -74,9 +75,8 @@ def run_committee_ablation_backtest(
     ml_preds_file = os.path.join("results", f"{ticker}_predictions.csv")
     if os.path.exists(ml_preds_file):
         try:
-            preds_df = pd.read_csv(ml_preds_file, index_col=0, parse_dates=True)
+            preds_df = pd.read_csv(ml_preds_file, index_col=0)
             preds_df.index = pd.to_datetime(preds_df.index).tz_localize(None)
-            df_price.index = pd.to_datetime(df_price.index).tz_localize(None)
             sentiment_probs = (
                 preds_df["Prob_Up"].reindex(df_price.index, method="ffill").fillna(0.50)
             )
@@ -86,35 +86,77 @@ def run_committee_ablation_backtest(
         sentiment_probs = pd.Series(0.52, index=df_price.index)
 
     # -------------------------------------------------------------------------
-    # Generate Probabilities / Decisions across 5 Committee Configurations
+    # Generate Dynamic Probabilities / Decisions across 5 Committee Configurations
     # -------------------------------------------------------------------------
 
     # 1. Technical Alpha Signal: Long when Close > MA21 and RSI between 45 and 70
     tech_bullish = (closes > ma21_series) & (rsi_series >= 45.0) & (rsi_series <= 70.0)
-    tech_probs = pd.Series(np.where(tech_bullish, 0.65, 0.40), index=df_price.index)
+    tech_probs = pd.Series(np.where(tech_bullish, 0.65, 0.38), index=df_price.index)
 
-    # 2. Forensic Health Filter (Static / Quarterly Balance Sheet Quality: e.g. Piotroski >= 5, Altman >= 1.81)
-    # Assumes financially viable asset for S&P 500 / Nasdaq universe
-    forensic_factor = 0.55  # Favorable fundamental backdrop
+    # 2. Dynamic Forensic & Fundamental Valuation Factor
+    try:
+        from src.fundamental_valuation import (
+            fetch_financial_statements,
+            calculate_piotroski_f_score,
+            calculate_dcf_fair_value,
+        )
 
-    # 3. CRO Filter (VIX Volatility and Position Sizing Modifier)
-    # In backtesting harness: probabilities >= 0.52 trigger entries with ATR risk rules
+        fin_data = fetch_financial_statements(ticker)
+        f_score_res = calculate_piotroski_f_score(
+            fin_data.get("balance_sheet", pd.DataFrame()),
+            fin_data.get("income_statement", pd.DataFrame()),
+            fin_data.get("cash_flow", pd.DataFrame()),
+        )
+        f_score = float(f_score_res.get("f_score", 6))
+        dcf_res = calculate_dcf_fair_value(
+            ticker=ticker,
+            fcf=float(fin_data.get("info", {}).get("freeCashflow", 5e9) or 5e9),
+            shares_out=float(
+                fin_data.get("info", {}).get("sharesOutstanding", 1e9) or 1e9
+            ),
+            spot_price=float(closes.iloc[-1]),
+        )
+        fair_value = float(dcf_res.get("fair_value_price", closes.mean()))
+    except Exception:
+        f_score = 6.0
+        fair_value = float(closes.mean())
 
-    # Config 1: Full Committee (Tech 40% + Sentiment 35% + Forensic 25%)
-    full_committee_probs = (
-        (tech_probs * 0.40) + (sentiment_probs * 0.35) + (forensic_factor * 0.25)
+    # Time-varying valuation margin of safety relative to DCF fair value
+    valuation_discount = (fair_value - closes) / (fair_value + 1e-10)
+    forensic_factor = 0.45 + (f_score / 18.0) + (0.15 * np.tanh(valuation_discount))
+    forensic_probs = pd.Series(
+        np.clip(forensic_factor, 0.35, 0.75), index=df_price.index
     )
 
-    # Config 2: Committee Minus Forensic (Tech 55% + Sentiment 45%)
-    minus_forensic_probs = (tech_probs * 0.55) + (sentiment_probs * 0.45)
+    # 3. Chief Risk Officer (CRO) Volatility & Tail-Risk Veto Gate
+    # When rolling ATR volatility is abnormally high (> 3.8% of spot) or RSI > 74, CRO suppresses new entries
+    highs = df_price["High"] if "High" in df_price.columns else closes
+    lows = df_price["Low"] if "Low" in df_price.columns else closes
+    atr = (highs - lows).rolling(14).mean().fillna(closes * 0.02)
+    vol_ratio = atr / closes
+    cro_veto_mask = (vol_ratio > 0.038) | (rsi_series > 74.0)
 
-    # Config 3: Committee Minus Sentiment (Tech 60% + Forensic 40%)
-    minus_sentiment_probs = (tech_probs * 0.60) + (forensic_factor * 0.40)
+    # Config 1: Full Committee (Tech 40% + Sentiment 35% + Forensic 25% + CRO Veto)
+    full_probs_raw = (
+        (tech_probs * 0.40) + (sentiment_probs * 0.35) + (forensic_probs * 0.25)
+    )
+    full_committee_probs = full_probs_raw.copy()
+    full_committee_probs[cro_veto_mask] = 0.35
 
-    # Config 4: Committee Minus CRO (Full consensus without dynamic ATR risk filtering / flat rules)
-    minus_cro_probs = full_committee_probs.copy()
+    # Config 2: Committee Minus Forensic (Tech 55% + Sentiment 45% + CRO Veto)
+    minus_forensic_raw = (tech_probs * 0.55) + (sentiment_probs * 0.45)
+    minus_forensic_probs = minus_forensic_raw.copy()
+    minus_forensic_probs[cro_veto_mask] = 0.35
 
-    # Config 5: Technical Only Baseline
+    # Config 3: Committee Minus Sentiment (Tech 60% + Forensic 40% + CRO Veto)
+    minus_sentiment_raw = (tech_probs * 0.60) + (forensic_probs * 0.40)
+    minus_sentiment_probs = minus_sentiment_raw.copy()
+    minus_sentiment_probs[cro_veto_mask] = 0.35
+
+    # Config 4: Committee Minus CRO (Full raw signals without CRO Volatility Veto and static exit)
+    minus_cro_probs = full_probs_raw.copy()
+
+    # Config 5: Technical Only Baseline (Raw Tech signals alone, no Forensics, no Sentiment, no CRO)
     tech_only_probs = tech_probs.copy()
 
     # -------------------------------------------------------------------------
@@ -225,3 +267,20 @@ def _persist_ablation_results(ticker: str, result: Dict[str, Any]) -> None:
             json.dump(data, f, indent=2)
     except Exception as e:
         logger.warning(f"Could not persist ablation results: {e}")
+
+
+def run_multi_ticker_ablation_study(
+    tickers: Optional[List[str]] = None, lookback_days: int = 500
+) -> Dict[str, Any]:
+    """Runs committee ablation study across multiple assets and returns aggregated report."""
+    target_tickers = tickers or ["NVDA", "AAPL", "MSFT", "GOOGL", "AMZN"]
+    aggregated = {}
+    for sym in target_tickers:
+        try:
+            res = run_committee_ablation_backtest(
+                ticker=sym, lookback_days=lookback_days
+            )
+            aggregated[sym] = res
+        except Exception as e:
+            logger.warning(f"Ablation study failed for {sym}: {e}")
+    return aggregated

@@ -5,12 +5,6 @@
     "ast_hash": "fb2ac9a154553d42c8a4a2afdb9d9447",
     "semantic_hash": "fb2ac9a154553d42c8a4a2afdb9d9447"
   },
-  ".gemini/settings.json": {
-    "mtime": 1787924647.5282352,
-    "seen": 1787924687.8455281,
-    "ast_hash": "0948a569cf98046881143fa4c359ff35",
-    "semantic_hash": "0948a569cf98046881143fa4c359ff35"
-  },
   "api.py": {
     "mtime": 1787866596.0010817,
     "seen": 1787924687.8455327,
@@ -1926,9 +1920,9 @@
     "semantic_hash": "e5a7d4f5e7b410be615a921d27c73a01"
   },
   "results/autonomous_execution_log.json": {
-    "mtime": 1788036134.8607862,
-    "seen": 1788036236.9563391,
-    "ast_hash": "c11c8cd8b156bfcacba641777a3428fa",
+    "mtime": 1788037369.947005,
+    "seen": 1788037613.3588212,
+    "ast_hash": "837c9aa04f6435c653d8a933d8b1aaa4",
     "semantic_hash": ""
   },
   "results/committee_resolutions.json": {
@@ -2585,12 +2579,6 @@
     "ast_hash": "895390e680a76ded2127e7be777fcc6f",
     "semantic_hash": "895390e680a76ded2127e7be777fcc6f"
   },
-  "catboost_info/catboost_training.json": {
-    "mtime": 1788029846.8472667,
-    "seen": 1788036236.7618582,
-    "ast_hash": "b0c385be6f761618e4aaf4cd256ef679",
-    "semantic_hash": ""
-  },
   "experimental/dark_pool_radar.py": {
     "mtime": 1788017964.3858795,
     "seen": 1788019684.2551577,
@@ -2628,9 +2616,9 @@
     "semantic_hash": ""
   },
   "results/agent_learning_memory.json": {
-    "mtime": 1788036134.8587842,
-    "seen": 1788036236.9558616,
-    "ast_hash": "9be48c7b715d4d687d9934324c45f5a3",
+    "mtime": 1788037369.9453473,
+    "seen": 1788037613.3581898,
+    "ast_hash": "a825217357ead63e35a876a658a1b515",
     "semantic_hash": ""
   },
   "results/attribution_analysis.json": {
@@ -2747,18 +2735,6 @@
     "ast_hash": "6b52d49f5978efb6e5b0055b19003a44",
     "semantic_hash": ""
   },
-  ".agents/rules/graphify.md": {
-    "mtime": 1787924647.0219474,
-    "seen": 1788019684.4390829,
-    "ast_hash": "a0e4d192b9e2e17256124dbfc8e24e6a",
-    "semantic_hash": ""
-  },
-  ".agents/workflows/graphify.md": {
-    "mtime": 1787924647.023945,
-    "seen": 1788019684.4390867,
-    "ast_hash": "a831cf3669f1e6ab85d8a80ebe655f99",
-    "semantic_hash": ""
-  },
   ".github/workflows/agent_committee_audit.yml": {
     "mtime": 1787867214.0378602,
     "seen": 1788019684.4390893,
@@ -2832,9 +2808,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1788029309.3179462,
-    "seen": 1788029845.9257562,
-    "ast_hash": "6d5591b456d0a94b9743c22b99f3a171",
+    "mtime": 1788037166.1183636,
+    "seen": 1788037613.4335606,
+    "ast_hash": "eec0933522a9613a88a8563740a5a163",
     "semantic_hash": ""
   },
   "docker-compose.yml": {
@@ -4152,15 +4128,15 @@
     "semantic_hash": ""
   },
   "results/committee_ablation_study.json": {
-    "mtime": 1788036164.7103887,
-    "seen": 1788036236.9563553,
-    "ast_hash": "98518f749a7854b2fb95c670749cbc71",
+    "mtime": 1788037460.8903942,
+    "seen": 1788037613.3588383,
+    "ast_hash": "c21c77b061a82337deaa91ef84dcc5c7",
     "semantic_hash": ""
   },
   "src/ablation_study.py": {
-    "mtime": 1788029525.647044,
-    "seen": 1788029845.8735354,
-    "ast_hash": "5d42b25bc52e0b2c73990a52d723187d",
+    "mtime": 1788036830.5396454,
+    "seen": 1788037613.3621297,
+    "ast_hash": "fa6cff3bcb0f9439c504498cc5f070f1",
     "semantic_hash": ""
   },
   "tests/test_ablation_study.py": {

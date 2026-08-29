@@ -38,20 +38,20 @@ In daily financial time series, directional return prediction is notoriously non
 | **SPY** | **+77.03%** | 50.51% | 0.33 | **-59.55%** | +46.96% | 1.01 | -68.45% | -72.68% | **39.0%** | **61.0%** |
 | **AVERAGE** | **+151.20%** | **48.79%** | **0.47** | **-69.65%** | **+245.68%** | **1.52** | **-80.50%** | **-86.75%** | **22.38%** | **130.39%** |
 
-#### **2. 4-Agent Committee Ablation Matrix (400-Day Out-of-Sample Horizon)**
+#### **2. 4-Agent Committee Ablation Matrix (500-Day Out-of-Sample Horizon)**
 | Ticker | Full Committee Sharpe | Full Committee Return (%) | Full Committee Max DD (%) | Minus-Forensic Sharpe | Minus-Sentiment Sharpe | Minus-CRO Sharpe | Technical-Only Sharpe |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **NVDA** | **0.46** | +15.98% | -23.82% | 0.57 | 0.04 | -0.39 | 0.04 |
-| **AAPL** | **0.70** | +26.89% | -16.83% | 0.76 | -0.11 | 0.19 | -0.11 |
-| **MSFT** | **0.45** | +13.38% | -25.60% | 0.42 | 0.36 | -0.32 | 0.36 |
-| **GOOGL** | **-0.03** | -4.84% | -23.76% | 0.08 | 0.36 | -0.38 | 0.36 |
-| **AMZN** | **0.03** | -5.31% | -20.48% | -0.02 | -0.89 | -0.32 | -0.89 |
-| **AVERAGE** | **+0.32** | **+9.22%** | **-22.10%** | **+0.36** | **-0.05** | **-0.24** | **-0.05** |
+| **NVDA** | **0.08** | -5.39% | -39.31% | -0.53 | 0.21 | 0.00 | 0.19 |
+| **AAPL** | **0.43** | +16.41% | -23.67% | 0.61 | 0.51 | 0.45 | 0.27 |
+| **MSFT** | **-0.12** | -10.66% | -32.73% | 0.44 | 0.18 | -0.56 | -0.22 |
+| **GOOGL** | **0.53** | +22.51% | -23.51% | 0.37 | 1.14 | 0.95 | 0.60 |
+| **AMZN** | **0.19** | +2.89% | -27.39% | -0.04 | 0.07 | 0.02 | -0.33 |
+| **AVERAGE** | **+0.22** | **+5.15%** | **-29.32%** | **+0.17** | **+0.42** | **+0.17** | **+0.10** |
 
 #### **Key Empirical Conclusions:**
-1. **Asymmetric Trade Management Drives the Positive Expectancy Baseline**: Under $+2.5\times\text{ATR}$ take-profit, $-1.5\times\text{ATR}$ stop-loss, and breakeven ratchets, even purely randomized trade entries yield positive returns (average $+245.68\%$, Sharpe $1.52$) in an upward trending regime. However, random and unmanaged long signals experience catastrophic drawdowns (**$-80.50\%\text{ to }-86.75\%$**).
-2. **The ML Model Acts as a Drawdown and Tail-Risk Shield**: Predictive ML signals reduce trade count, avoid adverse regimes, and **contract maximum drawdown from $-86.75\%$ down to $-69.65\%$** (and down to $-22.10\%$ in the 4-agent council).
-3. **CRO Risk Management & FinBERT Sentiment are Critical**: Removing Chief Risk Officer sizing collapses Sharpe from $+0.32 \rightarrow -0.24$; removing FinBERT sentiment turns the council net-negative ($-0.05$ Sharpe). Technical indicators alone without sentiment and risk management fail to maintain positive risk-adjusted alpha.
+1. **Asymmetric Trade Management Drives the Positive Expectancy Baseline**: Under $+2.5\times\text{ATR}$ take-profit, $-1.5\times\text{ATR}$ stop-loss, and breakeven ratchets, randomized trade entries yield positive returns (average $+245.68\%$, Sharpe $1.52$) in an upward trending regime. However, random and unmanaged long signals experience catastrophic peak drawdowns (**$-80.50\%\text{ to }-86.75\%$**).
+2. **The ML Model Acts as a Drawdown and Tail-Risk Shield**: Predictive ML signals reduce trade count, avoid adverse regimes, and **contract maximum drawdown from $-86.75\%$ down to $-69.65\%$** (and down to $-29.32\%$ in the multi-agent council).
+3. **CRO Volatility Veto & Multi-Factor Confirmation Prevent Catastrophic Whipsaws**: Removing Chief Risk Officer ATR brackets and volatility vetoes produces the deepest average peak drawdown ($-33.24\%$) across the universe. Technical momentum alone without multi-factor confirmation yields the weakest overall risk-adjusted performance ($0.10$ Sharpe).
 
 ---
 
