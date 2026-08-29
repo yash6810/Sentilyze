@@ -73,3 +73,40 @@ def test_alpaca_broker_submit_bracket_order(mock_get, mock_post):
     )
     assert res["status"] == "SUBMITTED"
     assert res["order"]["id"] == "order-uuid-12345"
+
+
+def test_alpaca_broker_live_connection_integration():
+    """
+    Real integration test: connects to Alpaca's actual paper API endpoint
+    using environment credentials from .env. Skips gracefully if credentials
+    are not provided.
+    """
+    import os
+    from dotenv import load_dotenv
+
+    load_dotenv()
+
+    api_key = os.getenv("ALPACA_API_KEY")
+    secret_key = os.getenv("ALPACA_SECRET_KEY")
+
+    if not api_key or not secret_key:
+        pytest.skip(
+            "ALPACA_API_KEY or ALPACA_SECRET_KEY not found in environment; skipping live integration test."
+        )
+
+    broker = AlpacaBrokerBridge(
+        api_key=api_key,
+        secret_key=secret_key,
+        base_url="https://paper-api.alpaca.markets",
+        is_paper=True,
+    )
+
+    is_conn = broker.is_connected()
+    assert is_conn is True, "Expected active connection to Alpaca paper endpoint"
+
+    summary = broker.get_account_summary()
+    assert summary["status"] == "CONNECTED"
+    assert "equity" in summary
+    assert "cash" in summary
+    assert "buying_power" in summary
+    assert summary["mode"] == "ALPACA PAPER"
