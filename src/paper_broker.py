@@ -74,12 +74,38 @@ class PaperBroker:
         return initial_state
 
     def _save(self, state: Optional[Dict[str, Any]] = None):
-        """Persists portfolio ledger to disk."""
+        """Persists portfolio ledger to disk and exports executed_trades.csv."""
         save_data = state or self.state
         save_data["last_updated"] = datetime.now(timezone.utc).isoformat()
         os.makedirs(os.path.dirname(self.portfolio_path), exist_ok=True)
         with open(self.portfolio_path, "w") as f:
             json.dump(save_data, f, indent=2)
+
+        # Sync executed_trades.csv
+        try:
+            closed = save_data.get("closed_trades", [])
+            if closed:
+                df_trades = pd.DataFrame(closed)
+            else:
+                df_trades = pd.DataFrame(
+                    columns=[
+                        "ticker",
+                        "shares",
+                        "entry_price",
+                        "exit_price",
+                        "entry_date",
+                        "exit_date",
+                        "pnl",
+                        "return_pct",
+                        "reason",
+                    ]
+                )
+            trades_csv_path = os.path.join(
+                os.path.dirname(self.portfolio_path), "executed_trades.csv"
+            )
+            df_trades.to_csv(trades_csv_path, index=False)
+        except Exception as e:
+            logger.debug(f"Notice exporting executed_trades.csv: {e}")
 
     def execute_daily_signals(
         self, signals_list: List[Dict[str, Any]]
@@ -544,15 +570,22 @@ class PaperBroker:
         df.set_index("date", inplace=True)
         return df
 
-    def execute_manual_buy(
+    def execute_buy(
         self,
         ticker: str,
         shares: int,
         price: float,
+        strategy_name: str = "Quantitative_Alpha",
+        tp1_target: Optional[float] = None,
+        tp2_target: Optional[float] = None,
+        stop_loss: Optional[float] = None,
         atr: Optional[float] = None,
         confidence: float = 0.85,
     ) -> Dict[str, Any]:
-        """Executes an immediate manual live/simulated BUY order from UI."""
+        """
+        Executes an institutional BUY order into the virtual paper broker ledger.
+        Supports automated TP1, TP2, and Stop-Loss parameterization.
+        """
         if price <= 0 or shares <= 0:
             return {"success": False, "error": "Invalid price or shares count"}
 
@@ -568,9 +601,13 @@ class PaperBroker:
         now_str = now_utc.isoformat()
 
         atr_base = atr if atr and atr > 0 else max(price * 0.025, price * 0.03)
-        tp1_target = round(price + (2.5 * atr_base), 2)
-        tp2_target = round(price + (4.5 * atr_base), 2)
-        sl_target = round(price - (1.5 * atr_base), 2)
+        tp1 = (
+            tp1_target if tp1_target is not None else round(price + (2.5 * atr_base), 2)
+        )
+        tp2 = (
+            tp2_target if tp2_target is not None else round(price + (4.5 * atr_base), 2)
+        )
+        sl = stop_loss if stop_loss is not None else round(price - (1.5 * atr_base), 2)
 
         self.state["cash"] -= cost
         self.state["open_positions"][ticker] = {
@@ -580,18 +617,18 @@ class PaperBroker:
             "entry_price": price,
             "current_price": price,
             "entry_date": date_str,
-            "tp1_target": tp1_target,
-            "tp2_target": tp2_target,
-            "sl_target": sl_target,
+            "tp1_target": tp1,
+            "tp2_target": tp2,
+            "sl_target": sl,
             "scaled_out": False,
             "confidence": confidence,
-            "regime": "MANUAL_LIVE_ORDER",
+            "regime": strategy_name,
         }
 
         self._recalculate_metrics(date_str, now_str)
         self._save()
         logger.info(
-            f"⚡ [MANUAL LIVE BUY] Executed {shares} shares of {ticker} @ ${price:.2f} (Total: ${cost:,.2f})"
+            f"🚀 [PAPER BUY] Executed {shares} shares of {ticker} @ ${price:.2f} (Total: ${cost:,.2f}) | Strategy: {strategy_name}"
         )
         return {
             "success": True,
@@ -599,10 +636,29 @@ class PaperBroker:
             "shares": shares,
             "price": price,
             "cost": cost,
-            "tp1_target": tp1_target,
-            "tp2_target": tp2_target,
-            "sl_target": sl_target,
+            "tp1_target": tp1,
+            "tp2_target": tp2,
+            "sl_target": sl,
+            "strategy": strategy_name,
         }
+
+    def execute_manual_buy(
+        self,
+        ticker: str,
+        shares: int,
+        price: float,
+        atr: Optional[float] = None,
+        confidence: float = 0.85,
+    ) -> Dict[str, Any]:
+        """Executes an immediate manual live/simulated BUY order from UI."""
+        return self.execute_buy(
+            ticker=ticker,
+            shares=shares,
+            price=price,
+            strategy_name="MANUAL_LIVE_ORDER",
+            atr=atr,
+            confidence=confidence,
+        )
 
     def _save_state(self):
         """Alias for _save to ensure 100% backward compatibility."""

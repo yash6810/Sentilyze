@@ -1,14 +1,43 @@
 {
   "initial_capital": 100000.0,
-  "cash": 101523.31927917476,
+  "cash": 95715.28927917476,
   "total_equity": 101523.32,
   "unrealized_pnl": 0.0,
   "realized_pnl": 1523.3192791747613,
-  "win_rate": 52.4,
+  "win_rate": 37.9,
   "total_trades": 29,
   "winning_trades": 11,
   "losing_trades": 18,
-  "open_positions": {},
+  "open_positions": {
+    "AAPL": {
+      "ticker": "AAPL",
+      "shares": 9,
+      "initial_shares": 9,
+      "entry_price": 319.7,
+      "current_price": 319.7,
+      "entry_date": "2026-08-29",
+      "tp1_target": 343.68,
+      "tp2_target": 362.86,
+      "sl_target": 305.31,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly"
+    },
+    "AMZN": {
+      "ticker": "AMZN",
+      "shares": 11,
+      "initial_shares": 11,
+      "entry_price": 266.43,
+      "current_price": 266.43,
+      "entry_date": "2026-08-29",
+      "tp1_target": 286.41,
+      "tp2_target": 302.4,
+      "sl_target": 254.44,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly"
+    }
+  },
   "closed_trades": [
     {
       "ticker": "AMD",
@@ -330,10 +359,10 @@
       "date": "2026-08-29",
       "timestamp": "2026-08-29T14:26:12.396541+00:00",
       "total_equity": 101523.32,
-      "cash": 28787.66,
-      "invested": 72735.66,
+      "cash": 95715.29,
+      "invested": 5808.03,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-08-29T18:59:18.326665+00:00"
+  "last_updated": "2026-08-29T22:03:00.201169+00:00"
 }

@@ -1,19 +1,48 @@
 {
-  "timestamp": "2026-08-29T20:42:14.826089+00:00",
-  "buys": [],
+  "timestamp": "2026-08-29T21:54:30.148819+00:00",
+  "buys": [
+    {
+      "success": true,
+      "ticker": "AAPL",
+      "shares": 9,
+      "price": 319.7,
+      "cost": 2877.2999999999997,
+      "tp1_target": 343.68,
+      "tp2_target": 362.86,
+      "sl_target": 305.31,
+      "strategy": "Committee_MultiAgent_Kelly"
+    },
+    {
+      "success": true,
+      "ticker": "AMZN",
+      "shares": 11,
+      "price": 266.43,
+      "cost": 2930.73,
+      "tp1_target": 286.41,
+      "tp2_target": 302.4,
+      "sl_target": 254.44,
+      "strategy": "Committee_MultiAgent_Kelly"
+    }
+  ],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
   "stop_losses": [],
   "veto_exits": [],
   "committee_resolutions": {
-    "NVDA": "\ud83d\ude80 CONVICTION INSTITUTIONAL BUY"
+    "NVDA": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "AAPL": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "MSFT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "GOOGL": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "AMZN": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "META": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "TSLA": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION"
   },
-  "portfolio_equity": 100000.0,
-  "cash_balance": 100000.0,
-  "unrealized_pnl": 0.0,
+  "portfolio_equity": 101523.32,
+  "cash_balance": 101523.31927917476,
+  "unrealized_pnl": 0,
   "kill_switch_active": false,
   "self_improvement": {
-    "total_cycles": 12,
+    "total_cycles": 18,
     "agent_weights": {
       "technicals_weight": 0.3,
       "sentiment_weight": 0.35,
@@ -23,5 +52,5 @@
     "kelly_multiplier": 1.0,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 0.03
+  "elapsed_seconds": 42.02
 }
