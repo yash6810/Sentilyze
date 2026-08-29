@@ -453,6 +453,13 @@ class PaperBroker:
                 "🛡️ RISK-FREE (50% Banked)" if scaled_out else "⚡ ACTIVE 100%"
             )
 
+            tp1_val = float(pos.get("tp1_target", entry_p * 1.06))
+            tp0_val = float(
+                pos.get("tp0_target", entry_p + (tp1_val - entry_p) * 0.40)
+            )  # +1.0 ATR early bank target
+            tp2_val = float(pos.get("tp2_target", entry_p * 1.12))
+            sl_val = float(pos.get("sl_target", entry_p * 0.95))
+
             rows.append(
                 {
                     "Ticker": ticker,
@@ -463,9 +470,10 @@ class PaperBroker:
                     "Position Value": f"${curr_val:,.2f}",
                     "Unrealized PnL ($)": f"${pnl:+,.2f}",
                     "Return (%)": f"{ret_pct:+.2f}%",
-                    "TP1 Target (+2.5 ATR)": f"${pos.get('tp1_target', entry_p*1.06):,.2f}",
-                    "TP2 Target (+4.5 ATR)": f"${pos.get('tp2_target', entry_p*1.12):,.2f}",
-                    "Stop-Loss Target": f"${pos.get('sl_target', entry_p*0.95):,.2f}",
+                    "TP0 Early Bank (+1.0 ATR)": f"${tp0_val:,.2f}",
+                    "TP1 Target (+2.5 ATR)": f"${tp1_val:,.2f}",
+                    "TP2 Target (+4.5 ATR)": f"${tp2_val:,.2f}",
+                    "Stop-Loss Target": f"${sl_val:,.2f}",
                     "Strategy Status": status_badge,
                     "Entry Date": pos["entry_date"],
                 }
