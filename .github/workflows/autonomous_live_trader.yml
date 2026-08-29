@@ -54,7 +54,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add results/paper_portfolio.json results/autonomous_execution_log.json results/committee_resolutions.json results/agent_learning_memory.json results/*_retrain_audit.json models/*.json data/ || true
+          git add results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json results/agent_learning_memory.json results/*_retrain_audit.json models/*.json data/ || true
           if ! git diff --staged --quiet; then
             git commit -m "chore(auto-trader): log live execution cycle & self-learning memory [skip ci]"
             git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
