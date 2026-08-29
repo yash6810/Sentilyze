@@ -55,12 +55,26 @@ def check_daily_loss_circuit_breaker(
 ) -> bool:
     """
     Task 8: Independent Max-Daily-Loss Circuit Breaker.
-    Returns True if current daily unrealized losses breach the safety threshold.
+    Compares current total equity against start-of-day equity baseline.
+    Returns True if intraday drawdown / loss exceeds max_daily_loss_pct (default: 3.0%).
     """
-    unrealized_pnl = float(portfolio_summary.get("unrealized_pnl", 0.0))
-    initial_capital = 10000.0
-    threshold_dollars = -(initial_capital * (max_daily_loss_pct / 100.0))
-    return unrealized_pnl < threshold_dollars
+    daily_return_pct = float(portfolio_summary.get("daily_return_pct", 0.0))
+    if daily_return_pct <= -abs(max_daily_loss_pct):
+        return True
+
+    # Robust fallback based on start-of-day equity vs total equity:
+    start_equity = float(
+        portfolio_summary.get(
+            "start_of_day_equity",
+            portfolio_summary.get("total_equity", 100000.0),
+        )
+    )
+    current_equity = float(portfolio_summary.get("total_equity", start_equity))
+    if start_equity > 0:
+        intraday_return_pct = ((current_equity - start_equity) / start_equity) * 100.0
+        return intraday_return_pct <= -abs(max_daily_loss_pct)
+
+    return False
 
 
 def load_universe_tickers() -> List[str]:
@@ -572,8 +586,10 @@ class AutonomousTradingEngine:
             try:
                 with open(memory_file, "r") as f:
                     learning_state.update(json.load(f))
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning(
+                    f"Notice loading agent learning memory from {memory_file} ({e}). Initializing default learning state."
+                )
 
         learning_state["total_learning_cycles"] += 1
         learning_state["last_updated"] = datetime.now(timezone.utc).isoformat()

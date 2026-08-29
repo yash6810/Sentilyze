@@ -101,21 +101,38 @@ def test_master_kill_switch_blocks_buys(monkeypatch):
 
 
 def test_daily_loss_circuit_breaker():
-    """Task 8: Verify circuit breaker triggers when unrealized loss exceeds 3%."""
+    """Task 8: Verify circuit breaker triggers when true daily drawdown exceeds threshold."""
     from src.autonomous_trader import check_daily_loss_circuit_breaker
 
-    # 1. Normal state (+$500 unrealized PnL)
-    normal_summary = {"unrealized_pnl": 500.0, "total_equity": 10500.0}
+    # 1. Normal state (+$1,500 daily gain on $100k portfolio = +1.5%)
+    normal_summary = {
+        "daily_return_pct": 1.5,
+        "start_of_day_equity": 100000.0,
+        "total_equity": 101500.0,
+    }
     assert (
         check_daily_loss_circuit_breaker(normal_summary, max_daily_loss_pct=3.0)
         is False
     )
 
-    # 2. Breached state (-$400 loss on $10k initial capital = -4%)
-    breached_summary = {"unrealized_pnl": -400.0, "total_equity": 9600.0}
+    # 2. Breached state (-$4,000 daily loss on $100k portfolio = -4.0%)
+    breached_summary = {
+        "daily_return_pct": -4.0,
+        "start_of_day_equity": 100000.0,
+        "total_equity": 96000.0,
+    }
     assert (
         check_daily_loss_circuit_breaker(breached_summary, max_daily_loss_pct=3.0)
         is True
+    )
+
+    # 3. Scaled large account ($500k starting equity, -$18k intraday loss = -3.6%)
+    scaled_summary = {
+        "start_of_day_equity": 500000.0,
+        "total_equity": 482000.0,
+    }
+    assert (
+        check_daily_loss_circuit_breaker(scaled_summary, max_daily_loss_pct=3.0) is True
     )
 
 

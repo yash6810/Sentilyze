@@ -144,9 +144,14 @@ def run_temporal_fusion_forecast(
     """
     High-level entry point for Temporal Fusion Transformer multi-horizon forecasting.
     """
-    if feature_df.empty or len(feature_df) < 10:
-        # Fallback synthetic sequence
-        mat = np.random.randn(lookback, 6)
+    is_insufficient_history = feature_df.empty or len(feature_df) < 10
+    if is_insufficient_history:
+        logger.warning(
+            f"Temporal Fusion notice for {ticker}: insufficient history (got {len(feature_df)} rows, minimum required 10). "
+            "Generating calibrated baseline forecast with is_synthetic=True."
+        )
+        # Use deterministic grounded zero-mean sequence rather than silent unseeded white noise
+        mat = np.zeros((lookback, 6))
     else:
         num_df = feature_df.select_dtypes(include=[np.number]).tail(lookback)
         mat = num_df.values
@@ -162,5 +167,10 @@ def run_temporal_fusion_forecast(
     tft = TemporalFusionEngine(lookback_window=lookback, feature_dim=6)
     forecast = tft.forecast_multihorizon(mat, current_price)
     forecast["ticker"] = ticker
+    forecast["data_source"] = (
+        "CALIBRATED_FALLBACK" if is_insufficient_history else "LIVE_HISTORICAL"
+    )
+    forecast["is_synthetic"] = is_insufficient_history
+    forecast["is_insufficient_history"] = is_insufficient_history
 
     return forecast

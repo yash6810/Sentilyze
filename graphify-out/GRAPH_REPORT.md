@@ -1,16 +1,16 @@
 # Graph Report - Sentilyze  (2026-08-30)
 
 ## Corpus Check
-- 463 files · ~725,134 words
+- 463 files · ~725,348 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1130 nodes · 2401 edges · 48 communities (47 shown, 1 thin omitted)
+- 1130 nodes · 2401 edges · 57 communities (56 shown, 1 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.91)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a8b06a4b`
+- Built from commit: `397a9ae3`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -37,7 +37,7 @@
 - ws_live_prediction.py
 - realtime_tracker.py
 - compute_dark_pool_sentiment
-- get_logger
+- test_omnichannel_mobile.py
 - utils.py
 - handle_bot_command
 - compute_lead_lag_matrix
@@ -46,7 +46,7 @@
 - AlpacaBrokerBridge
 - telegram_bot.py
 - PaperBroker
-- autonomous_trader.py
+- datetime
 - options_surface.py
 - AICopilotEngine
 - liquidity_heatmap.py
@@ -54,13 +54,22 @@
 - SuperEnsembleClassifier
 - TickerSentinelSwarm
 - Sentilyze — Systematic Sentiment & Momentum Trading Research Platform
+- test_autonomous_trader.py
 - components.py
+- test_rebalancer_and_tearsheet.py
+- AutonomousTradingEngine
 - reddit_premarket_station.py
 - ui/__init__.py
 - Contributor Covenant Code of Conduct
+- calculate_15min_opening_range
 - calculate_doubling_progress
+- fetch_universe_live_quotes
+- get_logger
+- autonomous_trader.py
 - How Can I Contribute?
+- audio_briefing.py
 - 🧪 Experimental & Simulated Research Prototypes
+- generate_smartwatch_glance_payload
 
 ## God Nodes (most connected - your core abstractions)
 1. `get_logger()` - 69 edges
@@ -75,6 +84,8 @@
 10. `render_workspace_header()` - 22 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `test_autonomous_cycle_execution()` --uses--> `AutonomousTradingEngine`  [INFERRED]
+  tests/test_autonomous_trader.py → src/autonomous_trader.py
 - `test_autonomous_cycle_execution()` --uses--> `PaperBroker`  [INFERRED]
   tests/test_autonomous_trader.py → src/paper_broker.py
 - `test_idempotency_lock_prevents_overlap()` --uses--> `PaperBroker`  [INFERRED]
@@ -83,13 +94,11 @@
   api.py → src/preprocessing.py
 - `main()` --calls--> `render_alternative_data_workspace()`  [EXTRACTED]
   app.py → src/ui/ws_alternative_data.py
-- `main()` --calls--> `render_deep_quant_workspace()`  [EXTRACTED]
-  app.py → src/ui/ws_deep_quant.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (48 total, 1 thin omitted)
+## Communities (57 total, 1 thin omitted)
 
 ### Community 0 - "fetch_financial_statements"
 Cohesion: 0.18
@@ -179,9 +188,9 @@ Nodes (26): AI Trade Copilot & Conversational Analyst for Sentilyze. Provides na
 Cohesion: 0.21
 Nodes (14): compute_dark_pool_sentiment(), Any, ⚠️ EXPERIMENTAL / SIMULATED RESEARCH PROTOTYPE STATUS: DISCONNECTED FROM…, Retrieves recent institutional off-exchange block trades and dark pool prints., Scans option chain contracts where daily volume significantly exceeds open…, Synthesizes dark pool prints and unusual options flow into a unified…, scan_abnormal_options_vol_oi(), scan_dark_pool_blocks() (+6 more)
 
-### Community 22 - "get_logger"
-Cohesion: 0.05
-Nodes (47): Logger, generate_audio_script(), Any, Generates an institutional Wall Street morning audio briefing script., Synthesizes the morning briefing audio MP3 file. Uses gTTS if available, or…, synthesize_morning_audio(), answer_financial_query(), Any (+39 more)
+### Community 22 - "test_omnichannel_mobile.py"
+Cohesion: 0.19
+Nodes (12): answer_financial_query(), Any, Natural Language Financial Q&A Agent for Sentilyze. Pillar 7 Mobile &…, Parses natural language questions and routes them to quantitative engines.…, format_whatsapp_trade_alert(), Any, WhatsApp Push Notifications & Execution Receipts for Sentilyze. Pillar 7 Mobile…, Constructs a formatted WhatsApp messaging receipt. (+4 more)
 
 ### Community 23 - "utils.py"
 Cohesion: 0.07
@@ -215,9 +224,9 @@ Nodes (16): build_interactive_inline_keyboard(), handle_telegram_command(), Any,
 Cohesion: 0.16
 Nodes (14): PaperBroker, DataFrame, Institutional Multi-Stage Quantitative Execution Broker ($100k Account).…, Returns a DataFrame of current open holdings with Scale-Out status., Returns a DataFrame of trade history with full company names., Returns equity history as a DatetimeIndex DataFrame., fixture, temp_portfolio_file() (+6 more)
 
-### Community 31 - "autonomous_trader.py"
-Cohesion: 0.05
-Nodes (53): datetime, execute_committee_order(), Executes a committee-approved buy order into the virtual paper broker ledger., AutonomousTradingEngine, check_daily_loss_circuit_breaker(), is_kill_switch_active(), load_universe_tickers(), Any (+45 more)
+### Community 31 - "datetime"
+Cohesion: 0.20
+Nodes (13): datetime, check_market_hours_preflight(), get_current_ny_time(), get_us_market_session(), Any, Unified US Stock Market (NYSE / NASDAQ) Session & Calendar Engine for…, Pre-flight sanity check for automated workflows. Returns True if execution…, Returns the current precise timestamp in America/New_York (Eastern Time). (+5 more)
 
 ### Community 32 - "options_surface.py"
 Cohesion: 0.27
@@ -247,9 +256,21 @@ Nodes (15): detect_peak_crest_exhaustion(), Any, Dedicated Ticker Sentinel & Pea
 Cohesion: 0.10
 Nodes (19): 1. Installation, **1. Multi-Ticker Empirical Attribution Decomposition (50 Monte Carlo Trials per Asset)**, **2. 4-Agent Committee Ablation Matrix (500-Day Out-of-Sample Horizon)**, 2. Running the Streamlit Dashboard, 3. Running the FastAPI REST Microservice, 4. Running the Test Suite & Attribution Engine, 🧪 4-Year Sizing & Management Benchmark ($100,000 Capital), ⚡ Asymmetric Trade Execution Mechanics (+11 more)
 
+### Community 39 - "test_autonomous_trader.py"
+Cohesion: 0.13
+Nodes (15): is_kill_switch_active(), load_universe_tickers(), Task 7: Master Kill Switch Check. Returns True if SENTILYZE_KILL_SWITCH…, Loads universe of tickers from stocks.txt., patch, Task 8: Verify circuit breaker triggers when true daily drawdown exceeds…, Task 9: Verify unhandled exception in cycle is caught and handled safely., Task 6: Verify active lock file prevents overlapping concurrent cycles. (+7 more)
+
 ### Community 40 - "components.py"
 Cohesion: 0.24
 Nodes (6): Shared Institutional UI Components & Widgets for Sentilyze. Includes Live US…, Wraps HTML content inside an institutional frosted glass container., Renders a progress meter with dynamic color coding., render_conviction_gauge(), render_glass_card(), Workspace 2: 4-Agent Trading Committee Round-Table Deliberations.
+
+### Community 41 - "test_rebalancer_and_tearsheet.py"
+Cohesion: 0.19
+Nodes (12): Any, DataFrame, Helper wrapper for Monte Carlo VaR simulation., Runs an institutional Monte Carlo forward stress test and Value-at-Risk (VaR)…, run_monte_carlo_stress_test(), run_monte_carlo_var(), generate_executive_pdf_tearsheet(), Any (+4 more)
+
+### Community 42 - "AutonomousTradingEngine"
+Cohesion: 0.23
+Nodes (9): AutonomousTradingEngine, check_daily_loss_circuit_breaker(), Any, Autonomous Execution Engine that integrates Live News Ingestion, 4-Agent…, Dispatches an institutional execution alert to Discord Webhook if configured., Executes one full autonomous decision and execution cycle with: - Task 6:…, Core cycle execution body., Task 8: Independent Max-Daily-Loss Circuit Breaker. Compares current total… (+1 more)
 
 ### Community 43 - "reddit_premarket_station.py"
 Cohesion: 0.25
@@ -259,17 +280,41 @@ Nodes (12): fetch_4station_premarket_intelligence(), _fetch_subreddit_rss_entrie
 Cohesion: 0.15
 Nodes (12): 1. Correction, 2. Warning, 3. Temporary Ban, 4. Permanent Ban, Attribution, Contributor Covenant Code of Conduct, Enforcement, Enforcement Guidelines (+4 more)
 
+### Community 48 - "calculate_15min_opening_range"
+Cohesion: 0.26
+Nodes (11): calculate_15min_opening_range(), find_low_of_day_pullback_entry(), is_opening_15min_whipsaw_period(), Any, DataFrame, Checks if current Eastern Time is within the hectic 09:30 - 09:45 EDT opening…, Calculates the 15-minute Opening Range (High, Low, Midpoint) established…, Evaluates whether a stock is in the optimal 'Low-of-Day Pullback & Volume… (+3 more)
+
 ### Community 49 - "calculate_doubling_progress"
 Cohesion: 0.27
 Nodes (9): calculate_doubling_progress(), compute_compound_position_size(), Any, Max Compound Acceleration & +100% Target Doubling Engine for Sentilyze.…, Computes dynamic equity-scaled position sizing so trade sizes grow…, Computes exact mathematical progress, run-rate, and remaining cycles to reach…, Unit tests for Max Compound Acceleration Engine., test_calculate_doubling_progress() (+1 more)
+
+### Community 50 - "fetch_universe_live_quotes"
+Cohesion: 0.31
+Nodes (8): fetch_universe_live_quotes(), Fetches real-time quotes across the entire universe concurrently in parallel., calculate_custom_rebalance(), calculate_share_allocation(), Any, Helper to calculate share allocation from latest daily signals file or universe…, Computes exact whole-share buy allocations for a given capital budget across…, test_calculate_share_allocation()
+
+### Community 51 - "get_logger"
+Cohesion: 0.40
+Nodes (5): Logger, get_logger(), Configures and returns a logger with a standard format and utf-8 safe…, Tests that the get_logger function returns a configured logger., test_get_logger()
+
+### Community 52 - "autonomous_trader.py"
+Cohesion: 0.33
+Nodes (5): execute_committee_order(), Executes a committee-approved buy order into the virtual paper broker ledger., Autonomous Live Trading & News Intelligence Engine for Sentilyze. Institutional…, Runs the Autonomous Trading Engine continuously on an interval., run_autonomous_daemon()
 
 ### Community 53 - "How Can I Contribute?"
 Cohesion: 0.33
 Nodes (5): Contributing to Sentilyze, How Can I Contribute?, Pull Requests, Reporting Bugs, Suggesting Enhancements
 
+### Community 54 - "audio_briefing.py"
+Cohesion: 0.47
+Nodes (5): generate_audio_script(), Any, Generates an institutional Wall Street morning audio briefing script., Synthesizes the morning briefing audio MP3 file. Uses gTTS if available, or…, synthesize_morning_audio()
+
 ### Community 55 - "🧪 Experimental & Simulated Research Prototypes"
 Cohesion: 0.50
 Nodes (3): 🧪 Experimental & Simulated Research Prototypes, 🔒 Production Isolation Guarantee, 📁 Prototype Inventory
+
+### Community 56 - "generate_smartwatch_glance_payload"
+Cohesion: 0.33
+Nodes (5): generate_smartwatch_glance_payload(), Any, Apple Watch & Wear OS Glance Complications API for Sentilyze. Pillar 7 Mobile &…, Generates structured complication JSON for Apple Watch (watchOS) and Wear OS., test_smartwatch_api()
 
 ## Knowledge Gaps
 - **29 isolated node(s):** `Our Pledge`, `Our Standards`, `Enforcement Responsibilities`, `Scope`, `Enforcement` (+24 more)
@@ -279,9 +324,9 @@ Nodes (3): 🧪 Experimental & Simulated Research Prototypes, 🔒 Production Is
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `get_logger()` connect `get_logger` to `fetch_financial_statements`, `get_price_history`, `options_flow.py`, `daily_scanner.py`, `run_backtest`, `smart_trader_engine.py`, `test_statistical_arbitrage.py`, `agent_committee.py`, `TradingEnvironment`, `preprocess_data`, `CloudDataLake`, `ws_alternative_data.py`, `SupplyChainGraphNetwork`, `ws_portfolio.py`, `run_temporal_fusion_forecast`, `quant_engine.py`, `train_meta_ensemble`, `ws_live_prediction.py`, `realtime_tracker.py`, `compute_dark_pool_sentiment`, `utils.py`, `compute_lead_lag_matrix`, `black_swan_simulator.py`, `test_pillar2_alternative_data.py`, `AlpacaBrokerBridge`, `telegram_bot.py`, `autonomous_trader.py`, `options_surface.py`, `liquidity_heatmap.py`, `SuperEnsembleClassifier`, `TickerSentinelSwarm`, `reddit_premarket_station.py`, `calculate_doubling_progress`?**
+- **Why does `get_logger()` connect `get_logger` to `fetch_financial_statements`, `get_price_history`, `options_flow.py`, `daily_scanner.py`, `run_backtest`, `smart_trader_engine.py`, `test_statistical_arbitrage.py`, `agent_committee.py`, `TradingEnvironment`, `preprocess_data`, `CloudDataLake`, `ws_alternative_data.py`, `SupplyChainGraphNetwork`, `ws_portfolio.py`, `run_temporal_fusion_forecast`, `quant_engine.py`, `train_meta_ensemble`, `ws_live_prediction.py`, `realtime_tracker.py`, `compute_dark_pool_sentiment`, `test_omnichannel_mobile.py`, `utils.py`, `compute_lead_lag_matrix`, `black_swan_simulator.py`, `test_pillar2_alternative_data.py`, `AlpacaBrokerBridge`, `telegram_bot.py`, `datetime`, `options_surface.py`, `liquidity_heatmap.py`, `SuperEnsembleClassifier`, `TickerSentinelSwarm`, `test_rebalancer_and_tearsheet.py`, `reddit_premarket_station.py`, `calculate_doubling_progress`, `fetch_universe_live_quotes`, `autonomous_trader.py`, `audio_briefing.py`, `generate_smartwatch_glance_payload`?**
   _High betweenness centrality (0.270) - this node is a cross-community bridge._
-- **Why does `PaperBroker` connect `PaperBroker` to `AICopilotEngine`, `daily_scanner.py`, `._save`, `realtime_tracker.py`, `handle_bot_command`, `telegram_bot.py`, `autonomous_trader.py`?**
+- **Why does `PaperBroker` connect `PaperBroker` to `AICopilotEngine`, `daily_scanner.py`, `test_autonomous_trader.py`, `AutonomousTradingEngine`, `._save`, `realtime_tracker.py`, `autonomous_trader.py`, `handle_bot_command`, `telegram_bot.py`?**
   _High betweenness centrality (0.056) - this node is a cross-community bridge._
 - **Are the 4 inferred relationships involving `PaperBroker` (e.g. with `AICopilotEngine` and `AutonomousTradingEngine`) actually correct?**
   _`PaperBroker` has 4 INFERRED edges - model-reasoned connections that need verification._

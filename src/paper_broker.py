@@ -412,10 +412,35 @@ class PaperBroker:
             if invested > 0
             else 0.0
         )
+
+        now_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        eq_history = self.state.get("equity_history", [])
+        start_of_day_equity = float(self.initial_cash)
+        if eq_history:
+            prior_snapshots = [h for h in eq_history if h.get("date", "") < now_date]
+            if prior_snapshots:
+                start_of_day_equity = float(
+                    prior_snapshots[-1].get("total_equity", self.initial_cash)
+                )
+            else:
+                start_of_day_equity = float(
+                    eq_history[0].get("total_equity", self.initial_cash)
+                )
+
+        daily_pnl = round(float(self.state["total_equity"]) - start_of_day_equity, 2)
+        daily_return_pct = (
+            round((daily_pnl / start_of_day_equity) * 100.0, 2)
+            if start_of_day_equity > 0
+            else 0.0
+        )
+
         return {
             "total_equity": self.state["total_equity"],
             "cash": self.state["cash"],
             "invested": invested,
+            "start_of_day_equity": start_of_day_equity,
+            "daily_pnl": daily_pnl,
+            "daily_return_pct": daily_return_pct,
             "unrealized_pnl": self.state["unrealized_pnl"],
             "unrealized_pnl_pct": unrealized_pnl_pct,
             "realized_pnl": self.state["realized_pnl"],
