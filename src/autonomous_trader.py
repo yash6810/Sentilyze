@@ -313,18 +313,32 @@ class AutonomousTradingEngine:
                 if t not in self.broker.state.get("open_positions", {})
             ]
 
-            deliberations = []
-            for t in unheld_tickers:
+            import concurrent.futures
+
+            def _deliberate_single(ticker_sym: str):
                 try:
-                    # Ingest fresh live news silently
-                    get_news(t, use_cache=True)
-                    delib = convene_trading_committee(t, save_resolution=True)
-                    deliberations.append((t, delib))
-                    executed_actions["committee_resolutions"][t] = delib[
-                        "final_resolution"
-                    ]
+                    q_data = quotes_map.get(ticker_sym, {})
+                    cached_price = float(q_data.get("price", 0.0))
+                    get_news(ticker_sym, use_cache=True)
+                    delib_res = convene_trading_committee(
+                        ticker_sym,
+                        save_resolution=False,
+                        spot_price=cached_price,
+                    )
+                    return ticker_sym, delib_res
                 except Exception as e:
-                    logger.debug(f"Committee scan error for {t}: {e}")
+                    logger.debug(f"Committee scan error for {ticker_sym}: {e}")
+                    return ticker_sym, None
+
+            deliberations = []
+            with concurrent.futures.ThreadPoolExecutor(max_workers=24) as executor:
+                results = executor.map(_deliberate_single, unheld_tickers)
+                for t, delib in results:
+                    if delib:
+                        deliberations.append((t, delib))
+                        executed_actions["committee_resolutions"][t] = delib.get(
+                            "final_resolution"
+                        )
 
             # Sort candidate opportunities by CRO consensus conviction
             buy_candidates = [

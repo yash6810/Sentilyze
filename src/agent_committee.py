@@ -337,6 +337,7 @@ def convene_trading_committee(
     vix_level: float = 16.5,
     vix_change_pct: float = -1.2,
     save_resolution: bool = True,
+    spot_price: Optional[float] = None,
 ) -> Dict[str, Any]:
     """
     Orchestrates a full round-table deliberation of the 4-Agent Trading Committee for a given asset.
@@ -345,10 +346,11 @@ def convene_trading_committee(
     """
     logger.info(f"🏛️ Convening Multi-Agent Trading Committee for {ticker}...")
 
-    quote = fetch_live_quote(ticker)
-    spot_price = float(quote.get("price", 100.0))
-    if spot_price <= 0.0:
-        spot_price = 100.0
+    if not spot_price or spot_price <= 0:
+        quote = fetch_live_quote(ticker)
+        spot_price = float(quote.get("price", 100.0))
+        if spot_price <= 0.0:
+            spot_price = 100.0
 
     tech_agent = TechnicalAlphaAgent()
     sent_agent = SentimentCatalystAgent()
