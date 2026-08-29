@@ -48,7 +48,7 @@ from src.black_swan_simulator import (
     calculate_kelly_sizing,
     estimate_market_impact_slippage,
 )
-from src.rl_allocator import optimize_rl_position_allocation
+from experimental.rl_allocator import optimize_rl_position_allocation
 from src.order_routing import generate_vwap_order_schedule
 from src.smartwatch_api import generate_smartwatch_glance_payload
 from src.whatsapp_alerts import format_whatsapp_trade_alert
