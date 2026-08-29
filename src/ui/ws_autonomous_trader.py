@@ -143,10 +143,54 @@ def render_autonomous_trader_workspace(selected_ticker: str):
                     )
                     st.rerun()
 
+    # =========================================================================
+    # DEDICATED TICKER SENTINEL SWARM GUARDIANS (1 BOT PER STOCK)
+    # =========================================================================
+    from src.ticker_sentinel import TickerSentinelSwarm
+
+    open_positions = broker_instance.state.get("open_positions", {})
+    if open_positions:
+        st.markdown("#### 🛡️ Dedicated Ticker Sentinel Guardians (1 Bot Per Stock)")
+        st.caption(
+            "Each active position is guarded by a dedicated sub-agent monitoring 15-min volume exhaustion, peak crest tops, and sub-second scale-outs."
+        )
+
+        swarm = TickerSentinelSwarm()
+        swarm.sync_open_positions(open_positions)
+        quotes_map = {
+            t: {"price": float(p.get("current_price", p["entry_price"]))}
+            for t, p in open_positions.items()
+        }
+        reports = swarm.audit_all_sentinels(quotes_map)
+
+        num_cols = min(4, len(reports))
+        for i in range(0, len(reports), num_cols):
+            chunk = reports[i : i + num_cols]
+            cols = st.columns(len(chunk))
+            for idx, rep in enumerate(chunk):
+                t = rep["ticker"]
+                p_curr = rep["current_price"]
+                pnl = rep["unrealized_pnl"]
+                ret = rep["return_pct"]
+                crest = rep["crest_analysis"]
+                with cols[idx]:
+                    st.markdown(
+                        f"""
+                        <div class="glass-card" style="padding: 12px; margin-bottom: 8px; border-top: 3px solid {'#10B981' if pnl >= 0 else '#EF4444'};">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <b style="font-size: 1.05rem; color: #F3F4F6;">🤖 {t} Sentinel</b>
+                                <span style="font-size: 0.75rem; color: #10B981; font-weight: 700;">{rep['status']}</span>
+                            </div>
+                            <div style="font-size: 0.8rem; color: #94A3B8; margin: 4px 0;">Spot: <b>${p_curr:,.2f}</b> | PnL: <b style="color: {'#10B981' if pnl >= 0 else '#EF4444'};">${pnl:+,.2f} ({ret:+.2f}%)</b></div>
+                            <div style="font-size: 0.75rem; color: #64748B;">Peak Seen: <b>${rep['highest_price_seen']:,.2f}</b> | Action: <b style="color: #38BDF8;">{crest['action']}</b></div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
     # Open Positions Table
     st.markdown("#### 📦 Active Open Positions & Scale-Out Status")
     open_df = broker_instance.get_open_positions_df()
-    open_positions = broker_instance.state.get("open_positions", {})
     if not open_df.empty:
         st.dataframe(open_df, use_container_width=True)
 

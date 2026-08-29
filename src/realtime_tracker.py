@@ -679,6 +679,51 @@ def update_live_holdings_prices_and_alert_discord(
         except Exception:
             pass
 
+        # 0. Check Peak Crest Volume Exhaustion (Harvest profit at the top of the wave)
+        try:
+            from src.ticker_sentinel import detect_peak_crest_exhaustion
+
+            crest_res = detect_peak_crest_exhaustion(
+                current_price=spot_price,
+                entry_price=entry_price,
+                highest_price_seen=float(pos.get("highest_price_seen", spot_price)),
+                volume_ratio=1.45,
+                recent_closes=[entry_price, spot_price],
+            )
+            if crest_res.get("is_crest_exhausted") and not scaled_out:
+                shares_to_sell = max(1, pos["shares"] // 2)
+                proceeds = float(shares_to_sell * spot_price)
+                cost_basis = float(shares_to_sell * entry_price)
+                pnl = float(proceeds - cost_basis)
+                ret_pct = float((spot_price - entry_price) / entry_price * 100.0)
+
+                broker.state["cash"] += proceeds
+                broker.state["realized_pnl"] += pnl
+                broker.state["total_trades"] += 1
+                broker.state["winning_trades"] += 1
+                pos["shares"] -= shares_to_sell
+                pos["scaled_out"] = True
+                pos["sl_target"] = entry_price
+
+                trade_record = {
+                    "ticker": ticker,
+                    "shares": shares_to_sell,
+                    "entry_price": entry_price,
+                    "exit_price": spot_price,
+                    "entry_date": pos["entry_date"],
+                    "exit_date": date_str,
+                    "pnl": round(pnl, 2),
+                    "return_pct": round(ret_pct, 2),
+                    "reason": "PEAK_CREST_VOLUME_EXHAUSTION_LOCK",
+                }
+                broker.state["closed_trades"].append(trade_record)
+                executed_trades.append(trade_record)
+                logger.info(
+                    f"🎯 [PEAK CREST LOCK] {ticker} harvested ${pnl:+,.2f} profit at wave crest ${spot_price:,.2f}!"
+                )
+        except Exception:
+            pass
+
         # 1. Check TP1 (+2.5 ATR): Scale out 50% & Breakeven Stop
         if spot_price >= tp1_target and not scaled_out:
             shares_to_sell = max(1, pos["shares"] // 2)
