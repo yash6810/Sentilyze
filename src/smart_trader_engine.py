@@ -219,6 +219,37 @@ def calculate_structural_trailing_stop(
     return new_sl, action
 
 
+def apply_high_watermark_profit_lock(
+    current_price: float,
+    entry_price: float,
+    highest_price_seen: float,
+    current_sl: float,
+    min_profit_threshold_pct: float = 1.5,
+    lock_fraction: float = 0.75,
+) -> Tuple[float, float, str]:
+    """
+    Guarantees that once a trade reaches peak profit, the bot NEVER gives back > 25% of gains.
+    Locks in at least 75% of peak gains into a hard stop floor.
+    """
+    if current_price <= 0 or entry_price <= 0:
+        return current_sl, highest_price_seen, "MAINTAIN_INITIAL_STOP"
+
+    peak_price = max(highest_price_seen, current_price)
+    peak_gain_pct = (peak_price - entry_price) / entry_price * 100.0
+
+    new_sl = current_sl
+    action = "MAINTAIN_STOP"
+
+    if peak_gain_pct >= min_profit_threshold_pct:
+        locked_profit_per_share = (peak_price - entry_price) * lock_fraction
+        candidate_sl = round(entry_price + locked_profit_per_share, 2)
+        if candidate_sl > new_sl:
+            new_sl = candidate_sl
+            action = f"HIGH_WATERMARK_75PCT_LOCK (Peak: ${peak_price:.2f} | Protected SL Floor: ${new_sl:.2f})"
+
+    return new_sl, peak_price, action
+
+
 def evaluate_multi_timeframe_confluence(
     ticker: str,
     daily_df: pd.DataFrame,

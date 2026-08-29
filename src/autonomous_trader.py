@@ -287,8 +287,23 @@ class AutonomousTradingEngine:
                 )
 
         # 3. Phase B: Scan Universe for Committee Buy Opportunities
+        from src.opening_range_engine import (
+            is_opening_15min_whipsaw_period,
+            find_low_of_day_pullback_entry,
+        )
+
+        if is_opening_15min_whipsaw_period():
+            logger.info(
+                "🛡️ [OPENING 15-MIN SHIELD] Pausing aggressive buy orders (09:30 - 09:45 EDT) to let morning whiplash & retail gap traps settle."
+            )
+            available_slots = 0  # Suppress new buy fills during opening 15 mins
+
         curr_open_count = len(self.broker.state.get("open_positions", {}))
-        available_slots = max(0, max_concurrent_positions - curr_open_count)
+        available_slots = (
+            max(0, max_concurrent_positions - curr_open_count)
+            if not is_opening_15min_whipsaw_period()
+            else 0
+        )
         cash_available = self.broker.state.get("cash", 0.0)
 
         if available_slots > 0 and cash_available > 5000.0:

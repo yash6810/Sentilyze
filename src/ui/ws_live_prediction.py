@@ -269,6 +269,29 @@ def render_live_prediction_workspace(ticker: str):
         annotation_position="bottom right",
     )
 
+    # 15-Minute Opening Range High & Low Overlays
+    try:
+        from src.opening_range_engine import calculate_15min_opening_range
+
+        or_res = calculate_15min_opening_range(ticker, price_df)
+        if or_res.get("has_opening_range"):
+            fig.add_hline(
+                y=or_res["or_low"],
+                line_dash="dot",
+                line_color="#F59E0B",
+                annotation_text=f"15-Min Low (Dip Floor): ${or_res['or_low']:.2f}",
+                annotation_position="bottom left",
+            )
+            fig.add_hline(
+                y=or_res["or_high"],
+                line_dash="dot",
+                line_color="#38BDF8",
+                annotation_text=f"15-Min High: ${or_res['or_high']:.2f}",
+                annotation_position="top left",
+            )
+    except Exception:
+        pass
+
     # Target & Stop Lines
     fig.add_hline(
         y=tp1,
