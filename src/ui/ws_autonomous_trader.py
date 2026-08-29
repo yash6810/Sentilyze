@@ -299,6 +299,9 @@ def render_autonomous_trader_workspace(selected_ticker: str):
             hide_index=True,
             column_config={
                 "Ticker": st.column_config.TextColumn("Ticker", width="small"),
+                "Company Name": st.column_config.TextColumn(
+                    "Company Name", width="medium"
+                ),
                 "Shares": st.column_config.NumberColumn(
                     "Shares", format="%d", width="small"
                 ),

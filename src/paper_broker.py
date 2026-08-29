@@ -437,6 +437,8 @@ class PaperBroker:
         if not self.state["open_positions"]:
             return pd.DataFrame()
         rows = []
+        from src.config import COMPANY_NAMES
+
         for ticker, pos in self.state["open_positions"].items():
             entry_p = pos["entry_price"]
             curr_p = pos["current_price"]
@@ -454,6 +456,7 @@ class PaperBroker:
             rows.append(
                 {
                     "Ticker": ticker,
+                    "Company Name": COMPANY_NAMES.get(ticker, ticker),
                     "Shares": shares,
                     "Entry Price": f"${entry_p:,.2f}",
                     "Current Price": f"${curr_p:,.2f}",
@@ -470,13 +473,19 @@ class PaperBroker:
         return pd.DataFrame(rows)
 
     def get_closed_trades_df(self) -> pd.DataFrame:
-        """Returns a DataFrame of trade history."""
+        """Returns a DataFrame of trade history with full company names."""
         if not self.state["closed_trades"]:
             return pd.DataFrame()
+        from src.config import COMPANY_NAMES
+
         df = pd.DataFrame(self.state["closed_trades"])
+        if "ticker" in df.columns:
+            df["company_name"] = df["ticker"].map(lambda t: COMPANY_NAMES.get(t, t))
+
         df.rename(
             columns={
                 "ticker": "Ticker",
+                "company_name": "Company Name",
                 "shares": "Shares",
                 "entry_price": "Entry Price ($)",
                 "exit_price": "Exit Price ($)",
@@ -488,7 +497,10 @@ class PaperBroker:
             },
             inplace=True,
         )
-        return df
+        cols = ["Ticker", "Company Name"] + [
+            c for c in df.columns if c not in ["Ticker", "Company Name"]
+        ]
+        return df[[c for c in cols if c in df.columns]]
 
     def get_equity_curve_df(self) -> pd.DataFrame:
         """Returns equity history as a DatetimeIndex DataFrame."""

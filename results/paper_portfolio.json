@@ -1,14 +1,127 @@
 {
   "initial_capital": 100000.0,
-  "cash": 101523.31927917476,
-  "total_equity": 101407.77,
-  "unrealized_pnl": -29.9,
+  "cash": 28787.65927917477,
+  "total_equity": 101523.32,
+  "unrealized_pnl": 0.0,
   "realized_pnl": 1523.3192791747613,
-  "win_rate": 53.3,
+  "win_rate": 52.4,
   "total_trades": 21,
   "winning_trades": 11,
   "losing_trades": 10,
-  "open_positions": {},
+  "open_positions": {
+    "TSM": {
+      "ticker": "TSM",
+      "shares": 45,
+      "initial_shares": 45,
+      "entry_price": 417.52,
+      "current_price": 417.52,
+      "entry_date": "2026-08-29",
+      "tp1_target": 448.83,
+      "tp2_target": 473.89,
+      "sl_target": 398.73,
+      "scaled_out": false,
+      "confidence": 0.8270000000000001,
+      "regime": "MANUAL_LIVE_ORDER"
+    },
+    "SPY": {
+      "ticker": "SPY",
+      "shares": 24,
+      "initial_shares": 24,
+      "entry_price": 769.35,
+      "current_price": 769.35,
+      "entry_date": "2026-08-29",
+      "tp1_target": 827.05,
+      "tp2_target": 873.21,
+      "sl_target": 734.73,
+      "scaled_out": false,
+      "confidence": 0.807,
+      "regime": "MANUAL_LIVE_ORDER"
+    },
+    "EOG": {
+      "ticker": "EOG",
+      "shares": 42,
+      "initial_shares": 42,
+      "entry_price": 143.35,
+      "current_price": 143.35,
+      "entry_date": "2026-08-29",
+      "tp1_target": 154.1,
+      "tp2_target": 162.7,
+      "sl_target": 136.9,
+      "scaled_out": false,
+      "confidence": 0.7959999999999999,
+      "regime": "MANUAL_LIVE_ORDER"
+    },
+    "ADBE": {
+      "ticker": "ADBE",
+      "shares": 20,
+      "initial_shares": 20,
+      "entry_price": 291.52,
+      "current_price": 291.52,
+      "entry_date": "2026-08-29",
+      "tp1_target": 313.38,
+      "tp2_target": 330.88,
+      "sl_target": 278.4,
+      "scaled_out": false,
+      "confidence": 0.792,
+      "regime": "MANUAL_LIVE_ORDER"
+    },
+    "PGR": {
+      "ticker": "PGR",
+      "shares": 27,
+      "initial_shares": 27,
+      "entry_price": 218.64,
+      "current_price": 218.64,
+      "entry_date": "2026-08-29",
+      "tp1_target": 235.04,
+      "tp2_target": 248.16,
+      "sl_target": 208.8,
+      "scaled_out": false,
+      "confidence": 0.7909999999999999,
+      "regime": "MANUAL_LIVE_ORDER"
+    },
+    "FDX": {
+      "ticker": "FDX",
+      "shares": 18,
+      "initial_shares": 18,
+      "entry_price": 330.88,
+      "current_price": 330.88,
+      "entry_date": "2026-08-29",
+      "tp1_target": 355.7,
+      "tp2_target": 375.55,
+      "sl_target": 315.99,
+      "scaled_out": false,
+      "confidence": 0.7909999999999999,
+      "regime": "MANUAL_LIVE_ORDER"
+    },
+    "MO": {
+      "ticker": "MO",
+      "shares": 88,
+      "initial_shares": 88,
+      "entry_price": 68.65,
+      "current_price": 68.65,
+      "entry_date": "2026-08-29",
+      "tp1_target": 73.8,
+      "tp2_target": 77.92,
+      "sl_target": 65.56,
+      "scaled_out": false,
+      "confidence": 0.7829999999999999,
+      "regime": "MANUAL_LIVE_ORDER"
+    },
+    "QQQ": {
+      "ticker": "QQQ",
+      "shares": 8,
+      "initial_shares": 8,
+      "entry_price": 716.43,
+      "current_price": 716.43,
+      "entry_date": "2026-08-29",
+      "tp1_target": 770.16,
+      "tp2_target": 813.15,
+      "sl_target": 684.19,
+      "scaled_out": false,
+      "confidence": 0.778,
+      "regime": "MANUAL_LIVE_ORDER"
+    }
+  },
   "closed_trades": [
     {
       "ticker": "AMD",
@@ -261,7 +374,15 @@
       "cash": 255.42,
       "invested": 101152.35,
       "daily_return": -0.22
+    },
+    {
+      "date": "2026-08-29",
+      "timestamp": "2026-08-29T14:26:12.396541+00:00",
+      "total_equity": 101523.32,
+      "cash": 28787.66,
+      "invested": 72735.66,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-08-28T16:35:03.646192+00:00"
+  "last_updated": "2026-08-29T14:26:29.419694+00:00"
 }
