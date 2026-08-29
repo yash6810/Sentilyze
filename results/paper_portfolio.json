@@ -18,10 +18,11 @@
       "entry_date": "2026-08-29",
       "tp1_target": 448.83,
       "tp2_target": 473.89,
-      "sl_target": 398.73,
+      "sl_target": 405.95,
       "scaled_out": false,
       "confidence": 0.8270000000000001,
-      "regime": "MANUAL_LIVE_ORDER"
+      "regime": "MANUAL_LIVE_ORDER",
+      "highest_price_seen": 417.52
     },
     "SPY": {
       "ticker": "SPY",
@@ -32,10 +33,11 @@
       "entry_date": "2026-08-29",
       "tp1_target": 827.05,
       "tp2_target": 873.21,
-      "sl_target": 734.73,
+      "sl_target": 765.35,
       "scaled_out": false,
       "confidence": 0.807,
-      "regime": "MANUAL_LIVE_ORDER"
+      "regime": "MANUAL_LIVE_ORDER",
+      "highest_price_seen": 769.35
     },
     "EOG": {
       "ticker": "EOG",
@@ -46,10 +48,11 @@
       "entry_date": "2026-08-29",
       "tp1_target": 154.1,
       "tp2_target": 162.7,
-      "sl_target": 136.9,
+      "sl_target": 139.78,
       "scaled_out": false,
       "confidence": 0.7959999999999999,
-      "regime": "MANUAL_LIVE_ORDER"
+      "regime": "MANUAL_LIVE_ORDER",
+      "highest_price_seen": 143.35
     },
     "ADBE": {
       "ticker": "ADBE",
@@ -60,10 +63,11 @@
       "entry_date": "2026-08-29",
       "tp1_target": 313.38,
       "tp2_target": 330.88,
-      "sl_target": 278.4,
+      "sl_target": 288.26,
       "scaled_out": false,
       "confidence": 0.792,
-      "regime": "MANUAL_LIVE_ORDER"
+      "regime": "MANUAL_LIVE_ORDER",
+      "highest_price_seen": 291.52
     },
     "PGR": {
       "ticker": "PGR",
@@ -74,10 +78,11 @@
       "entry_date": "2026-08-29",
       "tp1_target": 235.04,
       "tp2_target": 248.16,
-      "sl_target": 208.8,
+      "sl_target": 216.92,
       "scaled_out": false,
       "confidence": 0.7909999999999999,
-      "regime": "MANUAL_LIVE_ORDER"
+      "regime": "MANUAL_LIVE_ORDER",
+      "highest_price_seen": 218.64
     },
     "FDX": {
       "ticker": "FDX",
@@ -88,10 +93,11 @@
       "entry_date": "2026-08-29",
       "tp1_target": 355.7,
       "tp2_target": 375.55,
-      "sl_target": 315.99,
+      "sl_target": 322.68,
       "scaled_out": false,
       "confidence": 0.7909999999999999,
-      "regime": "MANUAL_LIVE_ORDER"
+      "regime": "MANUAL_LIVE_ORDER",
+      "highest_price_seen": 330.88
     },
     "MO": {
       "ticker": "MO",
@@ -102,10 +108,11 @@
       "entry_date": "2026-08-29",
       "tp1_target": 73.8,
       "tp2_target": 77.92,
-      "sl_target": 65.56,
+      "sl_target": 67.9,
       "scaled_out": false,
       "confidence": 0.7829999999999999,
-      "regime": "MANUAL_LIVE_ORDER"
+      "regime": "MANUAL_LIVE_ORDER",
+      "highest_price_seen": 68.65
     },
     "QQQ": {
       "ticker": "QQQ",
@@ -116,10 +123,11 @@
       "entry_date": "2026-08-29",
       "tp1_target": 770.16,
       "tp2_target": 813.15,
-      "sl_target": 684.19,
+      "sl_target": 711.92,
       "scaled_out": false,
       "confidence": 0.778,
-      "regime": "MANUAL_LIVE_ORDER"
+      "regime": "MANUAL_LIVE_ORDER",
+      "highest_price_seen": 716.43
     }
   },
   "closed_trades": [
@@ -384,5 +392,5 @@
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-08-29T14:26:29.419694+00:00"
+  "last_updated": "2026-08-29T14:51:41.496327+00:00"
 }

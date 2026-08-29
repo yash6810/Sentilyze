@@ -1,9 +1,10 @@
 """
-Deep Reinforcement Learning (PPO / Policy Gradient) Dynamic Position Allocator for Sentilyze.
-Pillar 1 Advanced AI Module:
-- Simulates an interactive quantitative Trading Environment with state observation vectors.
-- Trains an Actor-Critic Proximal Policy Optimization (PPO) agent.
-- Dynamically optimizes capital leverage (0.0x to 2.0x) and cash buffer to maximize Sharpe reward while penalizing drawdowns.
+⚠️ EXPERIMENTAL / RESEARCH PROTOTYPE
+STATUS: DISCONNECTED FROM PRODUCTION TRADING DECISIONS
+PURPOSE: Experimental MDP environment and single-layer policy gradient prototype.
+NOTE: This is a standalone research prototype; not calibrated or persisted for live execution.
+---------------------------------------------------------------------------------
+Deep Reinforcement Learning Dynamic Position Allocator Prototype for Sentilyze.
 """
 
 from typing import Any, Dict, List, Tuple

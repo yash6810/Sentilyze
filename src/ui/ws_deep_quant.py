@@ -137,25 +137,37 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
         f1, f2 = st.columns(2)
         with f1:
             st.markdown("#### 📊 Beneish M-Score Audit")
-            st.metric(
-                "M-Score Value",
-                f"{m_score.get('beneish_m_score', -2.50):.2f}",
-                delta=(
-                    "Normal / Low Risk"
-                    if m_score.get("beneish_m_score", -2.50) < -1.78
-                    else "Manipulation Red Flag"
-                ),
-            )
-            st.markdown(f"**Verdict:** {m_score.get('verdict')}")
-            st.markdown(
-                f"**Manipulation Probability:** `{m_score.get('manipulation_risk')}`"
-            )
-            if "ratios" in m_score:
-                st.dataframe(
-                    pd.DataFrame(
-                        [{"Ratio": k, "Value": v} for k, v in m_score["ratios"].items()]
+            if m_score.get("beneish_m_score") is not None:
+                score_val = float(m_score["beneish_m_score"])
+                st.metric(
+                    "M-Score Value",
+                    f"{score_val:.2f}",
+                    delta=(
+                        "Normal / Low Risk"
+                        if score_val < -1.78
+                        else "Manipulation Red Flag"
                     ),
-                    use_container_width=True,
+                )
+                st.markdown(f"**Verdict:** {m_score.get('verdict')}")
+                st.markdown(
+                    f"**Manipulation Probability:** `{m_score.get('manipulation_risk')}`"
+                )
+                if "ratios" in m_score and m_score["ratios"]:
+                    st.dataframe(
+                        pd.DataFrame(
+                            [
+                                {"Ratio": k, "Value": v}
+                                for k, v in m_score["ratios"].items()
+                            ]
+                        ),
+                        use_container_width=True,
+                    )
+            else:
+                st.warning(
+                    f"⚠️ {m_score.get('verdict', 'Comparative filing data unavailable.')}"
+                )
+                st.info(
+                    "Note: The Beneish M-Score requires consecutive 2-year audited balance sheet and income statement filings to compute 8 comparative financial ratios."
                 )
 
         with f2:
