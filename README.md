@@ -1,76 +1,81 @@
-# 🏛️ SENTILYZE — Institutional Quantitative Alpha & Autonomous Asset Management Desk
+# Sentilyze — Systematic Sentiment & Momentum Trading Research Platform
 
 <div align="center">
 
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-0A0E17?style=for-the-badge&logo=python&logoColor=38BDF8)](https://python.org)
-[![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black-000000?style=for-the-badge&logo=codefactor&logoColor=10B981)](https://github.com/psf/black)
-[![Testing Suite: 100% Passing](https://img.shields.io/badge/Tests-25%2F25%20Passing-10B981?style=for-the-badge&logo=pytest&logoColor=white)](tests/)
-[![FastAPI Engine](https://img.shields.io/badge/Microservice-FastAPI%20REST-009688?style=for-the-badge&logo=fastapi&logoColor=white)](api.py)
-[![Streamlit Interface](https://img.shields.io/badge/Desk-Streamlit%20Cloud-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](app.py)
-[![Autonomous CI/CD](https://img.shields.io/badge/Execution-GitHub%20Actions%2024%2F7-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)](.github/workflows/)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://python.org)
+[![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black-000000.svg)](https://github.com/psf/black)
+[![Tests: Passing](https://img.shields.io/badge/Tests-Passing-brightgreen.svg)](tests/)
+[![FastAPI Engine](https://img.shields.io/badge/Microservice-FastAPI%20REST-009688.svg)](api.py)
+[![Streamlit Interface](https://img.shields.io/badge/Dashboard-Streamlit-FF4B4B.svg)](app.py)
+[![Autonomous CI/CD](https://img.shields.io/badge/Automation-GitHub%20Actions-2088FF.svg)](.github/workflows/)
 
 <p align="center">
-  <b>An institutional-grade algorithmic trading, multi-agent committee deliberation, and systematic capital allocation platform combining Transformer NLP, 3-Way Gradient Boosted Super-Ensembles, Smart Money Market Structure, and Micro-Sentinel Swarms.</b>
+  <b>A research and algorithmic trading platform combining Transformer NLP (FinBERT), Walk-Forward Machine Learning (XGBoost), and Asymmetric Risk Management across US equity markets.</b>
 </p>
 
 </div>
 
 ---
 
-## Executive Summary
+## 🔬 Project Overview & Core Thesis
 
-**Sentilyze** is an autonomous quantitative investment management platform engineered for systematic alpha generation across a 104-asset S&P universe. Designed around hedge fund risk-budgeting principles, Sentilyze integrates:
+**Sentilyze** is an open-source quantitative trading research system and end-to-end MLOps showcase. The project investigates whether combining **deep NLP financial sentiment** with **multi-timeframe technical momentum** can generate positive risk-adjusted expectancy when paired with **strict asymmetric trade management**.
 
-1. **7-Agent Autonomous Committee Council**: Multi-agent consensus deliberating on technical market structure, deep FinBERT NLP sentiment polarity, forensic balance-sheet health (Piotroski/Altman), institutional dark pool flows, macro interest-rate regimes, and competitive moat strength before capital authorization.
-2. **3-Way Super-Ensemble Machine Learning**: Soft-voting meta-classifier stacking **XGBoost (40%)**, **LightGBM (35%)**, and **CatBoost (25%)** calibrated over non-stationary financial time series.
-3. **Dedicated Ticker Sentinel Swarm**: Sub-second parallel micro-agents guarding every open portfolio position, tracking intraday Volume Exhaustion Tops and harvesting profits at the highest price crest.
-4. **15-Minute Opening Volatility Shield & Low-of-Day Dip Buyer**: Enforces a strict 09:30–09:45 EDT pause to filter opening bell retail whipsaws, followed by systematic accumulation at morning Demand Zone lows.
-5. **High-Watermark Peak Profit Ratchet (75% Floor)**: Dynamic trailing stop lock ensuring the desk never forfeits more than 25% of maximum unrealized gains once peak profit exceeds $+1.5\%$.
-6. **Max Compound Velocity Roadmap ($100k $\rightarrow$ $200k)**: Real-time mathematical capital doubling progress tracker scaling fractional Kelly sizing exponentially with portfolio equity.
+### 💡 The Core Finding & Attribution
+Financial direction forecasting on daily equity returns is notoriously non-stationary (out-of-sample directional accuracy hovers between **50% to 53%**). Sentilyze's empirical backtests show that **the primary driver of positive expectancy is not raw predictive accuracy, but asymmetric risk/reward architecture**:
+* **Asymmetric Payoff Structure**: Taking 50% profit at `+2.5 ATR` (`TP1`) and letting runners target `+4.5 ATR` (`TP2`), while strictly limiting downside risk to `-1.5 ATR` (`SL`).
+* **Breakeven Ratchets & Peak Profit Floors**: Moving stop-losses to breakeven (`+0.2%`) once TP1 is reached and locking in $\ge 75\%$ of maximum unrealized gains once peak profits exceed $+1.5\%$.
+* **Walk-Forward Validation**: Validated over 2,014+ out-of-sample trading days (~8 years) with zero look-ahead bias, benchmarked against logistic regression baselines and Monte Carlo permutation significance tests.
 
 ---
 
-## 🏛️ System Architecture
+## ⚙️ System Architecture
 
 ```
-                                      ┌────────────────────────────────────────────────────────┐
-                                      │             SENTILYZE INSTITUTIONAL PLATFORM           │
-                                      └────────────────────────────────────────────────────────┘
-                                                                  │
-                 ┌────────────────────────────────────────────────┼────────────────────────────────────────────────┐
-                 │                                                │                                                │
-    ┌────────────▼────────────┐                      ┌────────────▼────────────┐                      ┌────────────▼────────────┐
-    │   DATA & NLP INGESTION  │                      │ 7-AGENT COMMITTEE FLOOR │                      │ EXECUTION & RISK SWARM  │
-    ├─────────────────────────┤                      ├─────────────────────────┤                      ├─────────────────────────┤
-    │ • NewsAPI, RSS, Finnhub │                      │ 1. 📈 Technical Agent   │                      │ • Ticker Sentinel Swarm │
-    │ • HuggingFace FinBERT   │ ───────────────────> │ 2. 📰 Sentiment Agent   │ ───────────────────> │ • 15-Min Opening Shield │
-    │ • 104 S&P Price Tensors │                      │ 3. 🏛️ Forensic DCF      │                      │ • Peak 75% Profit Lock  │
-    │ • Dark Pool / Insiders  │                      │ 4. 🐋 Dark Pool Flow    │                      │ • 3-Stage Scale Out     │
-    │ • VIX & Macro Spreads   │                      │ 5. 🌐 Macro Regime      │                      │ • Virtual Paper Broker  │
-    └─────────────────────────┘                      │ 6. ⚡ Catalyst Moat     │                      │ • Discord/Telegram Feed │
-                                                     │ 7. 🛡️ Chief Risk Officer│                      └─────────────────────────┘
-                                                     └─────────────────────────┘
+                                  ┌────────────────────────────────────────────────────────┐
+                                  │               SENTILYZE QUANTITATIVE PIPELINE          │
+                                  └────────────────────────────────────────────────────────┘
+                                                              │
+             ┌────────────────────────────────────────────────┼────────────────────────────────────────────────┐
+             │                                                │                                                │
+┌────────────▼────────────┐                      ┌────────────▼────────────┐                      ┌────────────▼────────────┐
+│   DATA & NLP INGESTION  │                      │ 4-AGENT COMMITTEE FLOOR │                      │ EXECUTION & RISK ENGINE │
+├─────────────────────────┤                      ├─────────────────────────┤                      ├─────────────────────────┤
+│ • NewsAPI & RSS Feeds   │                      │ 1. 📈 Technical Alpha   │                      │ • 15-Min Opening Shield │
+│ • HuggingFace FinBERT   │ ───────────────────> │ 2. 📰 Sentiment Catalyst│ ───────────────────> │ • Mathematical Kelly    │
+│ • Daily Price Tensors   │                      │ 3. 🏛️ Forensic DCF      │                      │ • 3-Stage Scale-Out     │
+│ • VIX Macro Indicator   │                      │ 4. 🛡️ Chief Risk Officer│                      │ • Virtual Paper Broker  │
+└─────────────────────────┘                      └─────────────────────────┘                      └─────────────────────────┘
 ```
 
 ---
 
-## 👥 The 7-Agent Institutional Committee Floor
+## 👥 The 4-Agent Deliberation Council
 
-Every investment opportunity is subjected to an exhaustive quantitative round-table debate prior to order routing:
+All potential trades are evaluated through a structured multi-factor committee grounded strictly in real verifiable data:
 
-| Agent Specialist | Domain & Analytical Mandate | Core Quantitative Tooling | Voting Weight |
-| :--- | :--- | :--- | :---: |
-| **1. 📈 Technical Alpha Specialist** | Market structure, swing pivots, multi-timeframe trend alignment, and Volume Point of Control (PoC). | 3-Way ML Super-Ensemble (XGB/LGB/Cat), RSI(14), OBV, 21/50/200 EMA Confluence | `25.0%` |
-| **2. 📰 Sentiment & Catalyst Specialist** | High-velocity news stream ingestion, semantic polarity analysis, and breaking event impact scoring. | HuggingFace FinBERT Deep NLP Transformer, Google RSS, Finnhub, Marketaux | `20.0%` |
-| **3. 🏛️ Forensic & Valuation Auditor** | Balance sheet integrity auditing, earnings manipulation detection, and DCF margin-of-safety modeling. | Piotroski F-Score (0-9), Altman Z-Score, Beneish M-Score, 2-Stage DCF Model | `15.0%` |
-| **4. 🐋 Dark Pool & Institutional Flow** | Tracking whale block orders, off-exchange liquidity accumulation, and SEC Form 4 insider cluster buys. | Dark Pool Liquidity Estimator, Institutional Net Cluster Flow, Volume Spikes | `15.0%` |
-| **5. 🌐 Macro Regime & Sector Strategist** | Macroeconomic climate classification, interest rate sensitivities, and relative sector rotation beta. | VIX Regime Filter, 10Y Yield Spread, Sector Relative Strength Index | `10.0%` |
-| **6. ⚡ Catalyst & Competitive Moat** | Quantifying technological barriers to entry, patent pipeline strength, and earnings surprise velocity. | Government Defense Contract Index, Patent Strength Index, Moat Rating | `10.0%` |
-| **7. 🛡️ Chief Risk Officer (Arbitrator)** | Capital preservation, Kelly allocation sizing, leverage governance, and absolute emergency veto. | Fractional Kelly Criterion, VaR/CVaR Simulator, Chandelier ATR Brackets | **VETO AUTHORITY** |
+| Agent Specialist | Analytical Domain | Data Sources & Methodology |
+| :--- | :--- | :--- |
+| **1. 📈 Technical Alpha Specialist** | Market structure, moving average regimes, and momentum oscillators. | Real historical price series, `RSI(14)`, `SMA(200)`, `EMA(21)`, and 5-day momentum. |
+| **2. 📰 Sentiment Catalyst Specialist** | Breaking news semantic polarity and media tone. | Real live headlines scored via HuggingFace `ProsusAI/finbert` Transformer pipeline. |
+| **3. 🏛️ Forensic & Valuation Auditor** | Balance sheet health, operational momentum, and intrinsic valuation. | Live balance sheet filings from yfinance, calculating **Piotroski F-Score (0–9)**, **Altman Z-Score**, and **2-Stage DCF Margin of Safety**. |
+| **4. 🛡️ Chief Risk Officer (CRO)** | Risk budgeting, position sizing, and volatility governance. | **Mathematical Fractional Kelly Criterion** ($f^* = \frac{p \cdot b - q}{b}$), **Macro VIX Volatility Gate** ($VIX > 26.0$), and dynamic ATR risk brackets. |
 
 ---
 
-## ⚡ Alpha Execution & Profit Capture Mechanics
+## 📐 Mathematical Fractional Kelly Sizing
+
+Position sizing is dynamically calculated from measured strategy win rate ($p$) and win/loss payoff ratio ($b = \frac{\text{avg win}}{\text{avg loss}}$) using a conservative **Quarter-Kelly** fraction:
+
+$$f^* = \frac{p \cdot b - (1 - p)}{b}$$
+
+$$\text{Position Allocation \%} = \min\left(15.0\%, \max\left(0, 0.25 \times f^* \times 100\right)\right)$$
+
+*If expected edge is negative or consensus fails, allocation dynamically drops to **0.0%**.*
+
+---
+
+## ⚡ Asymmetric Trade Execution Mechanics
 
 ```
                   ┌────────────────────────────────────────────────────────────────────────┐
@@ -82,125 +87,109 @@ Every investment opportunity is subjected to an exhaustive quantitative round-ta
 ┌────────▼───────────────────────────┐ ┌──────────────▼───────────────────────────┐ ┌──────────────▼───────────────────────────┐
 │ STAGE 1: TP0 (+1.0 ATR / ~+3.0%)   │ │ STAGE 2: TP1 (+2.5 ATR / ~+7.5%)         │ │ STAGE 3: TP2 (+4.5 ATR / ~+13.5%)        │
 ├────────────────────────────────────┤ ├──────────────────────────────────────────┤ ├──────────────────────────────────────────┤
-│ • Micro-harvests instant cash      │ │ • Slices 50% cash profit to the bank     │ │ • Rides remaining runner shares          │
-│ • De-risks trade at the first pop  │ │ • Stop-Loss ratchets to Breakeven (+0.2%)│ │ • Guarded by Dedicated Ticker Sentinel   │
-│ • Recycles cash to available pool  │ │ • Trade becomes 100% Risk-Free in ledger │ │ • Sells at peak volume exhaustion crest  │
+│ • Micro-harvests early gains       │ │ • Slices 50% cash profit to the bank     │ │ • Rides remaining runner shares          │
+│ • De-risks trade at first expansion│ │ • Stop-Loss ratchets to Breakeven (+0.2%)│ │ • Monitored for volume exhaustion tops   │
+│ • Recycles cash to liquidity pool  │ │ • Trade becomes 100% Risk-Free in ledger │ │ • Hard stop floor: 75% of peak gains     │
 └────────────────────────────────────┘ └──────────────────────────────────────────┘ └──────────────────────────────────────────┘
 ```
 
-### 1. 🛡️ 15-Minute Opening Volatility Shield (`09:30 - 09:45 EDT`)
-Suppresses blind market orders during the high-volatility opening bell. Calculates the **15-Minute Opening Range (ORB High/Low)** and systematically accumulates positions at **wholesale demand pullbacks** on confirmed volume surges ($>1.1\times$).
-
-### 2. 🔒 High-Watermark Peak Profit Ratchet (75% Floor)
-Eliminates profit giveback on intraday reversals:
-$$\text{Trailing Stop Floor} = \text{Entry Price} + (\text{Peak Price} - \text{Entry Price}) \times 0.75$$
-*If a position reaches $+1,000 profit, a hard floor is instantly locked at $+\$750$, guaranteeing profits are preserved.*
+1. **15-Minute Opening Volatility Shield (`09:30 - 09:45 EDT`)**: Pauses market orders during opening bell whiplash, waiting for the initial 15-minute range to establish before seeking pullbacks.
+2. **High-Watermark Peak Profit Ratchet (75% Floor)**: Once unrealized position profit exceeds $+1.5\%$, a trailing floor is locked at $75\%$ of peak profit, preventing winners from turning into losses.
 
 ---
 
-## 📊 Empirical Performance & Backtest Audit
+## 📊 Empirical Walk-Forward Backtest Results
 
-Evaluated under rigorous **Walk-Forward Optimization (WFO)** without look-ahead bias across 2,014+ out-of-sample trading sessions with realistic institutional frictions (0.10% broker commissions, 0.05% execution slippage, 5% margin interest, and Reg T 25% maintenance requirements).
+Evaluated under strict **Walk-Forward Optimization (WFO)** without look-ahead bias across 2,014+ out-of-sample trading days (~8 years) with realistic market frictions:
+* **Broker Commission**: $0.10\%$ per trade
+* **Execution Slippage**: $0.05\%$ per trade
+* **Margin Borrowing Cost**: $5.0\%$ annualized interest
+* **Maintenance Margin**: Reg T $25\%$ liquidation safeguard
 
-### 🧪 Multi-Model Alpha Benchmark ($100,000 Starting Capital)
+### 🧪 4-Year Sizing & Management Benchmark ($100,000 Capital)
 
-| Strategy Model Configuration | Ending Equity ($) | Net Realized Alpha ($) | Return (%) | Win Rate (%) | Sharpe Ratio | Max Drawdown |
+| Model Configuration | Ending Equity ($) | Net Profit ($) | Total Return (%) | Win Rate (%) | Sharpe Ratio | Max Drawdown |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Baseline (Fixed +2.5 ATR, Single XGB)** | `$177,112.13` | `+$77,112.13` | `+77.1%` | 45.5% | 0.61 | -14.2% |
-| **High-Target (+3.5 ATR Runner)** | `$185,054.68` | `+$85,054.68` | `+85.1%` | 38.9% | 0.71 | -16.8% |
-| **50/50 Scale-Out + Breakeven Ratchet** | `$169,784.92` | `+$69,784.92` | `+69.8%` | 45.1% | 0.72 | -9.4% |
-| **Concentrated Top-2 + 3-Way Ensemble** 🏆 | **`$315,668.00`** | **`+$215,668.00`** | **`+215.7%`** | **53.3%** | **0.78** | **-8.1%** |
-
----
-
-## 🎯 Target +100% Capital Doubling Radar ($200,000 Milestone)
-
-Sentilyze features an integrated mathematical compounding progress radar designed to navigate the **$100k $\rightarrow$ $200k** doubling trajectory:
-
-$$\text{Portfolio Value} = \$100,000 \times \prod_{i=1}^{N} (1 + r_i) = \mathbf{\$200,000.00}$$
-
-| Compounding Milestone | Equity Target | Sizing Allocation per Slot | Expected Alpha per Winner | Desk Milestone Status |
-| :--- | :---: | :---: | :---: | :---: |
-| **🏁 Inception Base** | **\$100,000.00** | \$25,000 | +\$2,000 to +\$3,500 | **COMPLETED 🟢** |
-| **🥉 Phase 1 (+25% Alpha)** | **\$125,000.00** | \$31,250 | +\$2,500 to +\$4,300 | **IN PROGRESS 🔄** |
-| **🥈 Phase 2 (+50% Alpha)** | **\$150,000.00** | \$37,500 | +\$3,000 to +\$5,200 | **PENDING ⏳** |
-| **🥇 Phase 3 (+75% Alpha)** | **\$175,000.00** | \$43,750 | +\$3,500 to +\$6,100 | **PENDING ⏳** |
-| **🏆 ULTIMATE DOUBLED** | **\$200,000.00** | **\$50,000** | **+\$4,000 to +\$7,000** | **TARGET MILESTONE 🎯** |
+| **1. Baseline (Fixed +2.5 ATR, Single XGB)** | `$177,112.13` | `+$77,112.13` | `+77.1%` | 45.5% | 0.61 | -14.2% |
+| **2. High Target (+3.5 ATR Runner)** | `$185,054.68` | `+$85,054.68` | `+85.1%` | 38.9% | 0.71 | -16.8% |
+| **3. 50/50 Scale-Out & Breakeven Ratchet** | `$169,784.92` | `+$69,784.92` | `+69.8%` | 45.1% | 0.72 | -9.4% |
+| **4. Concentrated Top-2 + Scale-Out (1.25x Lev)** 🏆 | **`$315,668.00`** | **`+$215,668.00`** | **`+215.7%`** | **53.3%** | **0.78** | **-8.1%** |
 
 ---
 
 ## 🛠️ Technology Stack & Engineering Standards
 
-* **Language**: Python 3.10+ (Strict standard — zero foreign languages)
-* **Machine Learning**: XGBoost (`.json` native format), LightGBM, CatBoost, Scikit-Learn, SHAP
+* **Language**: Python 3.10+ (Python ONLY)
+* **Machine Learning**: XGBoost (`.json` native serialization — zero joblib/pickle), Scikit-Learn, SHAP
 * **Deep NLP**: Transformers (`ProsusAI/finbert`), HuggingFace PyTorch
-* **Frontend**: Streamlit Community Ecosystem (Dark glassmorphic UI)
+* **Frontend**: Streamlit (Dark glassmorphic layout)
 * **Backend Microservice**: FastAPI & Uvicorn ASGI Server
-* **Asynchronous Swarms**: `concurrent.futures.ThreadPoolExecutor` (24-Worker Parallel Scanning)
-* **Code Integrity**: `black==25.1.0` formatting, `pytest` unit test suite (25/25 tests passing), Bandit security scans
+* **Parallel Engine**: `concurrent.futures.ThreadPoolExecutor` (24-worker concurrency for sub-second universe scanning)
+* **Quality & Testing**: `black==25.1.0` formatting, `pytest` unit test suite (100% passing), Bandit security scans
 
 ---
 
-## 🚀 Deployment & Operations
+## 🚀 Quickstart Guide
 
-### 1. Environment Provisioning
+### 1. Installation
 
 ```bash
-# Clone repository
+# Clone the repository
 git clone https://github.com/yash6810/Sentilyze.git
 cd Sentilyze
 
-# Initialize dedicated virtual environment
+# Create and activate virtual environment
 python -m venv .venv
 # Windows:
 .venv\Scripts\Activate.ps1
 # Linux/macOS:
 source .venv/bin/activate
 
-# Install locked dependencies
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Configuration & API Secrets (`.env`)
+### 2. Environment Configuration (`.env`)
 
 ```env
-# Multi-Channel Telemetry & Dispatchers
+# Telemetry & Dispatchers (Optional)
 DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/..."
 TELEGRAM_BOT_TOKEN="123456:ABC-DEF..."
 TELEGRAM_CHAT_ID="-100123456789"
 
-# Market Intelligence Providers
+# Market Data API Keys
 NEWS_API_KEY="your_newsapi_key"
 FINNHUB_API_KEY="your_finnhub_key"
-MARKETAUX_API_KEY="your_marketaux_key"
-POLYGON_API_KEY="your_polygon_key"
-FMP_API_KEY="your_fmp_key"
-
-# Live/Paper Broker Gateway (Alpaca Markets)
-ALPACA_API_KEY="your_alpaca_key"
-ALPACA_SECRET_KEY="your_alpaca_secret"
 ```
 
-### 3. Launch Quantitative Desk
+### 3. Running the Streamlit Dashboard
 
 ```bash
-# Run Institutional Streamlit Dashboard (Port 8501)
 streamlit run app.py --server.fileWatcherType none
+```
+Open **`http://localhost:8501`** in your browser.
 
-# Run FastAPI REST Microservice (Port 8000)
+### 4. Running the FastAPI REST Microservice
+
+```bash
 uvicorn api:app --host 0.0.0.0 --port 8000 --reload
 ```
+* **Interactive Swagger UI**: `http://localhost:8000/docs`
+* **Inference Endpoint**:
+  ```bash
+  curl -X GET "http://localhost:8000/predict?ticker=NVDA"
+  ```
 
 ---
 
-## ⚖️ Quantitative Governance & Disclosures
+## ⚠️ Limitations & Disclosures
 
-1. **Research & Proof of Concept**: Sentilyze is an experimental algorithmic quantitative research and simulation system developed for academic modeling, backtesting, and MLOps demonstration.
-2. **Non-Fiduciary Nature**: This repository does not constitute financial, investment, legal, or tax advice. Past backtested performance does not guarantee future live execution returns.
-3. **Execution Modeling**: Virtual paper broker simulations incorporate estimated broker commissions (0.10%), bid-ask spread slippage (0.05%), and margin interest, but live execution remains subject to exchange liquidity depth and market order routing.
+1. **Research & Proof of Concept**: Sentilyze is an experimental algorithmic quantitative research system developed for academic modeling, backtesting, and MLOps demonstration. It is not a registered investment advisor or broker-dealer.
+2. **Market Non-Stationarity**: Past performance and backtested simulation results do not guarantee future returns. Financial markets exhibit regime shifts, liquidity shocks, and non-linear dynamics.
+3. **Execution Modeling**: Virtual paper trading accounts incorporate commissions ($0.10\%$), slippage ($0.05\%$), and margin interest ($5.0\%$), but real-world execution remains subject to exchange liquidity and order-book queue depth.
 
 ---
 
 <div align="center">
-  <sub>Engineered with precision for systematic algorithmic asset management. © 2026 Sentilyze Quantitative Desk.</sub>
+  <sub>Open-source quantitative research platform. Built with Python & Streamlit.</sub>
 </div>
