@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Sentilyze Institutional Quantitative Trading Platform",
+    "output": "sentilyze-architecture.html",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "committee-flow",
+        "label": "7-Agent Committee Council",
+        "focus": ["finbert_nlp", "super_ensemble", "committee_floor", "cro_arbitrator", "sentinel_swarm"],
+        "note": "Multi-agent consensus deliberating on technicals, NLP sentiment, valuation, and institutional flow before CRO capital authorization."
+      },
+      {
+        "id": "sentinel-execution",
+        "label": "Dedicated Ticker Sentinel Swarm",
+        "focus": ["cro_arbitrator", "sentinel_swarm", "virtual_broker", "streamlit_desk"],
+        "note": "Sub-second micro-agent guardians monitoring 15-min volume exhaustion tops and executing 3-stage scale-outs."
+      },
+      {
+        "id": "full-stack",
+        "label": "Full Quantitative Architecture",
+        "focus": ["news_feeds", "finbert_nlp", "tech_matrix", "super_ensemble", "committee_floor", "sentinel_swarm", "virtual_broker", "streamlit_desk", "fastapi_engine"],
+        "note": "End-to-end data ingestion, 3-way machine learning stacking, risk governance, and trading desk presentation."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "news_feeds",
+      "type": "external",
+      "label": "News & Market Wire",
+      "sublabel": "NewsAPI / Finnhub / RSS",
+      "pos": [40, 180],
+      "size": [130, 60]
+    },
+    {
+      "id": "finbert_nlp",
+      "type": "backend",
+      "label": "FinBERT NLP Engine",
+      "sublabel": "Transformer Polarity",
+      "pos": [240, 180],
+      "size": [140, 60]
+    },
+    {
+      "id": "tech_matrix",
+      "type": "backend",
+      "label": "Technical Matrix",
+      "sublabel": "26 Quantitative Features",
+      "pos": [240, 360],
+      "size": [150, 60]
+    },
+    {
+      "id": "super_ensemble",
+      "type": "backend",
+      "label": "3-Way Super-Ensemble",
+      "sublabel": "XGBoost + LGBM + CatBoost",
+      "pos": [480, 270],
+      "size": [150, 60]
+    },
+    {
+      "id": "committee_floor",
+      "type": "backend",
+      "label": "7-Agent Committee Floor",
+      "sublabel": "Technicals / NLP / DCF / Flow",
+      "pos": [730, 270],
+      "size": [160, 60]
+    },
+    {
+      "id": "cro_arbitrator",
+      "type": "security",
+      "label": "Chief Risk Officer",
+      "sublabel": "Kelly Sizing & VIX Gate",
+      "pos": [730, 100],
+      "size": [160, 60],
+      "tag": "Veto Authority"
+    },
+    {
+      "id": "sentinel_swarm",
+      "type": "cloud",
+      "label": "Ticker Sentinel Swarm",
+      "sublabel": "1 Micro-Agent Per Asset",
+      "pos": [980, 270],
+      "size": [150, 60]
+    },
+    {
+      "id": "virtual_broker",
+      "type": "database",
+      "label": "Virtual Paper Broker",
+      "sublabel": "Ledger & Scale-Out State",
+      "pos": [980, 440],
+      "size": [150, 60]
+    },
+    {
+      "id": "fastapi_engine",
+      "type": "backend",
+      "label": "FastAPI REST Server",
+      "sublabel": "Inference Microservice :8000",
+      "pos": [480, 440],
+      "size": [150, 60]
+    },
+    {
+      "id": "streamlit_desk",
+      "type": "frontend",
+      "label": "Streamlit Trading Desk",
+      "sublabel": "Dark Glassmorphic UI :8501",
+      "pos": [730, 440],
+      "size": [160, 60]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Sentilyze Quantitative Platform",
+      "wraps": [
+        "finbert_nlp",
+        "tech_matrix",
+        "super_ensemble",
+        "committee_floor",
+        "cro_arbitrator",
+        "sentinel_swarm",
+        "virtual_broker",
+        "fastapi_engine",
+        "streamlit_desk"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "Autonomous Execution & Governance Core",
+      "wraps": ["committee_floor", "cro_arbitrator", "sentinel_swarm"]
+    }
+  ],
+  "connections": [
+    {
+      "id": "news-to-nlp",
+      "from": "news_feeds",
+      "to": "finbert_nlp",
+      "label": "Headlines",
+      "variant": "emphasis"
+    },
+    {
+      "id": "nlp-to-ensemble",
+      "from": "finbert_nlp",
+      "to": "super_ensemble"
+    },
+    {
+      "id": "tech-to-ensemble",
+      "from": "tech_matrix",
+      "to": "super_ensemble"
+    },
+    {
+      "id": "ensemble-to-committee",
+      "from": "super_ensemble",
+      "to": "committee_floor",
+      "label": "ML Signals"
+    },
+    {
+      "id": "committee-to-cro",
+      "from": "committee_floor",
+      "to": "cro_arbitrator",
+      "label": "Votes",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "cro-to-sentinel",
+      "from": "cro_arbitrator",
+      "to": "sentinel_swarm",
+      "label": "Kelly Orders",
+      "variant": "security"
+    },
+    {
+      "id": "committee-to-sentinel",
+      "from": "committee_floor",
+      "to": "sentinel_swarm"
+    },
+    {
+      "id": "sentinel-to-broker",
+      "from": "sentinel_swarm",
+      "to": "virtual_broker",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "broker-to-ui",
+      "from": "virtual_broker",
+      "to": "streamlit_desk"
+    },
+    {
+      "id": "ensemble-to-api",
+      "from": "super_ensemble",
+      "to": "fastapi_engine",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Machine Intelligence Core",
+      "items": [
+        "HuggingFace FinBERT transformer extracting semantic financial polarity",
+        "3-Way Super-Ensemble combining XGBoost (40%), LightGBM (35%), and CatBoost (25%)",
+        "Walk-Forward Optimization across 2,014+ out-of-sample trading days"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Autonomous Execution & Governance",
+      "items": [
+        "7-Agent Committee Council deliberating before trade authorization",
+        "CRO fractional Kelly allocation with VIX volatility gatekeeper",
+        "Dedicated Ticker Sentinel Swarms guarding each asset for peak wave crest exits"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Capital Defense & Compounding",
+      "items": [
+        "15-Minute Opening Volatility Shield (09:30-09:45 EDT) filtering morning noise",
+        "High-Watermark 75% Peak Profit Ratchet locking accumulated gains",
+        "Target +100% Capital Doubling roadmap tracking $100k -> $200k progress"
+      ]
+    }
+  ]
+}
