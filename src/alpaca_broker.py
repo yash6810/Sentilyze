@@ -2,8 +2,10 @@ import os
 import requests
 import json
 from typing import Dict, List, Any, Optional
+from dotenv import load_dotenv
 from src.utils import get_logger
 
+load_dotenv()
 logger = get_logger(__name__)
 
 ALPACA_PAPER_BASE_URL = "https://paper-api.alpaca.markets"
