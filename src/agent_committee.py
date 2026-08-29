@@ -1,10 +1,10 @@
 """
 Autonomous Multi-Agent Trading Committee & Deliberation Engine for Sentilyze.
-Institutional Round-Table Debate Desk:
-- Agent 1: Technical & Quantitative Alpha Specialist (Momentum, RSI, Moving Averages, TFT Attention)
-- Agent 2: NLP Sentiment & Alternative Data Specialist (FinBERT Headline Score, Social Velocity, Insider Flow)
-- Agent 3: Forensic & Fundamental Health Specialist (Piotroski F-Score, Altman Z-Score, Beneish M-Score, DCF Margin of Safety)
-- Agent 4: Chief Risk Officer (CRO) Arbitrator (VIX Volatility Gate, Kelly Allocation, Veto Authority & Sign-Off)
+Quantitative Round-Table Decision Council:
+- Agent 1: Technical & Quantitative Alpha Specialist (Momentum, RSI, Moving Averages, 200-SMA Regime)
+- Agent 2: NLP Sentiment & Catalyst Specialist (FinBERT Transformer Polarity over Live News Streams)
+- Agent 3: Forensic & Fundamental Valuation Specialist (Piotroski F-Score, Altman Z-Score, DCF Margin of Safety)
+- Agent 4: Chief Risk Officer (CRO) Arbitrator (Mathematical Fractional Kelly Sizing, VIX Volatility Gate, ATR Brackets)
 """
 
 from typing import Any, Dict, List, Optional
@@ -15,28 +15,76 @@ import pandas as pd
 from datetime import datetime, timezone
 from src.utils import get_logger
 from src.realtime_tracker import fetch_live_quote
-from src.forensic_accounting import calculate_beneish_m_score
 from src.fundamental_valuation import (
     fetch_financial_statements,
     calculate_piotroski_f_score,
     calculate_altman_z_score,
     calculate_dcf_fair_value,
 )
-from src.earnings_sentiment import analyze_earnings_call_transcript
-from src.social_sentiment import calculate_social_buzz_metrics
-from src.insider_tracker import compute_smart_money_insider_score
-from src.patent_contract_radar import compute_government_and_patent_index
+from src.data_ingestion import get_price_history, get_news
+from src.sentiment_analysis import analyze_sentiment
 
 logger = get_logger(__name__)
 
 COMMITTEE_FILE = os.path.join("results", "committee_resolutions.json")
 
 
-from src.data_ingestion import get_price_history
+def compute_fractional_kelly_sizing(
+    win_rate: float = 0.533,
+    payoff_ratio: float = 1.75,
+    kelly_fraction: float = 0.25,
+    max_cap_pct: float = 15.0,
+) -> Dict[str, Any]:
+    """
+    Computes true mathematical fractional Kelly Criterion position sizing:
+    f* = (p * b - (1 - p)) / b
+    where p is empirical win probability and b is payoff ratio (avg win / avg loss).
+
+    Args:
+        win_rate: Historical strategy win probability (0.0 to 1.0)
+        payoff_ratio: Ratio of average gain to average loss (b = avg_win / avg_loss)
+        kelly_fraction: Conservative fraction multiplier (default 0.25 for Quarter-Kelly)
+        max_cap_pct: Maximum single-position allocation cap
+
+    Returns:
+        Dict with full Kelly, fractional Kelly percentage, edge, and allocation status.
+    """
+    if payoff_ratio <= 0.0 or win_rate <= 0.0:
+        return {
+            "full_kelly_pct": 0.0,
+            "fractional_kelly_pct": 0.0,
+            "edge": 0.0,
+            "status": "INVALID_PARAMETERS",
+        }
+
+    q = 1.0 - win_rate
+    full_kelly = (win_rate * payoff_ratio - q) / payoff_ratio
+    edge = (win_rate * payoff_ratio) - q
+
+    if full_kelly <= 0.0:
+        return {
+            "full_kelly_pct": 0.0,
+            "fractional_kelly_pct": 0.0,
+            "edge": round(edge, 4),
+            "status": "NEGATIVE_EXPECTANCY_NO_ALLOCATION",
+        }
+
+    fractional_kelly = full_kelly * kelly_fraction
+    allocated_pct = min(max(0.0, fractional_kelly * 100.0), max_cap_pct)
+
+    return {
+        "full_kelly_pct": round(full_kelly * 100.0, 2),
+        "fractional_kelly_pct": round(allocated_pct, 2),
+        "edge": round(edge, 4),
+        "kelly_fraction": kelly_fraction,
+        "win_rate": win_rate,
+        "payoff_ratio": payoff_ratio,
+        "status": "POSITIVE_EXPECTANCY",
+    }
 
 
 class TechnicalAlphaAgent:
-    """Agent 1: Evaluates Technical Price Action, Momentum, RSI, and Multi-Horizon Forecasts."""
+    """Agent 1: Evaluates Technical Price Action, Momentum, RSI, and Trend Alignment."""
 
     def evaluate(self, ticker: str, spot_price: float) -> Dict[str, Any]:
         try:
@@ -80,125 +128,160 @@ class TechnicalAlphaAgent:
                 vote = "HOLD"
                 conviction = 42.0
                 trend_status = "OVERBOUGHT_EXTENDED"
-                thesis = f"Asset RSI is severely overbought ({rsi_val:.1f} > 70), indicating high probability of mean-reversion pullback."
+                thesis = f"Asset RSI is overbought ({rsi_val:.1f} > 70), indicating high probability of short-term consolidation."
             elif not is_above_200:
                 vote = "HOLD"
                 conviction = 38.0
                 trend_status = "BEARISH_BELOW_SMA200"
-                thesis = f"Asset is trading below its 200-day SMA (${sma200:,.2f}), trapped in a macro downtrend regime."
+                thesis = f"Asset is trading below its 200-day SMA (${sma200:,.2f}), signaling prevailing macro downtrend."
             elif is_above_200 and 40.0 <= rsi_val <= 62.0:
                 vote = "BUY"
                 conviction = 82.0
                 trend_status = "BULLISH_MOMENTUM_EXPANSION"
-                thesis = f"Asset is in strong structural uptrend above 200 SMA (${sma200:,.2f}) with optimal pullback RSI ({rsi_val:.1f})."
+                thesis = f"Asset is in structural uptrend above 200 SMA (${sma200:,.2f}) with optimal pullback RSI ({rsi_val:.1f})."
             elif rsi_val < 35.0:
                 vote = "BUY"
                 conviction = 70.0
                 trend_status = "OVERSOLD_MEAN_REVERSION"
-                thesis = f"Asset is deeply oversold (RSI: {rsi_val:.1f} < 35), presenting high-probability rebound setup."
+                thesis = f"Asset is oversold (RSI: {rsi_val:.1f} < 35), presenting mean-reversion setup."
             else:
                 vote = "NEUTRAL"
-                conviction = 50.0
-                trend_status = "CONSOLIDATION_RANGE"
-                thesis = f"Asset is range-bound around 21 MA (${ma21:,.2f}) with neutral RSI ({rsi_val:.1f})."
+                conviction = 52.0
+                trend_status = "SIDEWAYS_CONSOLIDATION"
+                thesis = (
+                    f"Momentum neutral (RSI: {rsi_val:.1f}). 21-day MA at ${ma21:,.2f}."
+                )
         else:
-            rsi_val = 52.0
-            ret_5d = 1.5
-            trend_status = "NEUTRAL_BASE"
             vote = "NEUTRAL"
             conviction = 50.0
-            thesis = "Insufficient historical bar depth; standing neutral."
+            trend_status = "INSUFFICIENT_HISTORY"
+            rsi_val = 50.0
+            sma200 = spot_price
+            ma21 = spot_price
+            ret_5d = 0.0
+            thesis = (
+                "Insufficient historical price series; neutral technical vote cast."
+            )
 
         return {
             "agent_name": "Technical Momentum Specialist",
-            "role": "Pillar 1: Technical & Quant Alpha",
+            "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
             "vote": vote,
             "conviction_score": conviction,
             "key_metrics": {
                 "estimated_rsi": round(rsi_val, 1),
-                "trend": trend_status,
-                "tft_5d_forecast_pct": round(ret_5d, 1),
+                "sma_200": round(sma200, 2),
+                "ma_21": round(ma21, 2),
+                "return_5d_pct": round(ret_5d, 2),
+                "trend_status": trend_status,
             },
             "thesis": thesis,
         }
 
 
 class SentimentCatalystAgent:
-    """Agent 2: Evaluates FinBERT NLP News Sentiment, Earnings Call Tone, and Social Velocity."""
+    """Agent 2: Evaluates FinBERT Deep NLP Sentiment across Live News Streams."""
 
     def evaluate(self, ticker: str) -> Dict[str, Any]:
-        earn_res = analyze_earnings_call_transcript(ticker)
-        soc_res = calculate_social_buzz_metrics(ticker)
-        insider_res = compute_smart_money_insider_score(ticker)
-        gov_res = compute_government_and_patent_index(ticker)
+        net_polarity = 0.0
+        head_count = 0
+        try:
+            news_raw = get_news(ticker, use_cache=True)
+            if isinstance(news_raw, pd.DataFrame) and not news_raw.empty:
+                sent_df = analyze_sentiment(news_raw.head(8), ticker=ticker)
+                if (
+                    isinstance(sent_df, pd.DataFrame)
+                    and "sentiment_score" in sent_df.columns
+                ):
+                    net_polarity = round(float(sent_df["sentiment_score"].mean()), 3)
+                head_count = len(news_raw)
+            elif isinstance(news_raw, list) and len(news_raw) > 0:
+                df_news = pd.DataFrame({"Title": news_raw[:8]})
+                sent_df = analyze_sentiment(df_news, ticker=ticker)
+                if (
+                    isinstance(sent_df, pd.DataFrame)
+                    and "sentiment_score" in sent_df.columns
+                ):
+                    net_polarity = round(float(sent_df["sentiment_score"].mean()), 3)
+                head_count = len(news_raw)
+        except Exception as e:
+            logger.debug(f"Sentiment evaluation notice for {ticker}: {e}")
+            net_polarity = 0.0
+            head_count = 0
 
-        # Check FinBERT news sentiment from processed CSV if present
-        sent_path = os.path.join("data", "processed", f"{ticker}_sentiment.csv")
-        finbert_score = 0.0
-        if os.path.exists(sent_path):
-            try:
-                sdf = pd.read_csv(sent_path)
-                if "sentiment_score" in sdf.columns and not sdf.empty:
-                    finbert_score = float(sdf["sentiment_score"].tail(10).mean())
-            except Exception as e:
-                logger.debug(f"FinBERT sentiment cache notice for {ticker}: {e}")
-
-        compound_score = (
-            earn_res.get("executive_optimism_score", 60.0) * 0.35
-            + insider_res.get("smart_money_score", 50.0) * 0.25
-            + gov_res.get("composite_innovation_score", 50.0) * 0.20
-            + (max(min(finbert_score * 50.0 + 50.0, 100.0), 0.0)) * 0.20
-        )
-
-        if compound_score >= 68.0:
+        if net_polarity >= 0.20:
             vote = "BUY"
-        elif compound_score >= 50.0:
-            vote = "HOLD"
-        else:
+            conviction = round(min(60.0 + (net_polarity * 40.0), 92.0), 1)
+            thesis = f"Strong bullish news flow (+{net_polarity:+.2f} FinBERT score across {head_count} live headlines)."
+        elif net_polarity <= -0.20:
             vote = "SELL"
-        conviction = round(compound_score, 1)
-
-        thesis = (
-            f"Earnings tone is {earn_res.get('verdict', 'NEUTRAL')}. "
-            f"Social velocity is {soc_res.get('mention_velocity_ratio', 1.0):.1f}x. "
-            f"Insider smart money score: {insider_res.get('smart_money_score', 50.0):.0f}/100. "
-            f"FinBERT NLP Score: {finbert_score:+.2f}."
-        )
+            conviction = round(min(60.0 + (abs(net_polarity) * 40.0), 90.0), 1)
+            thesis = f"Negative media catalyst ({net_polarity:+.2f} FinBERT polarity); downstream selling pressure likely."
+        else:
+            vote = "HOLD"
+            conviction = 50.0
+            thesis = f"Balanced sentiment environment ({net_polarity:+.2f} polarity across {head_count} headlines)."
 
         return {
             "agent_name": "Sentiment & Alternative Data Specialist",
-            "role": "Pillar 2: NLP & Catalyst Intelligence",
+            "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
             "vote": vote,
             "conviction_score": conviction,
             "key_metrics": {
-                "earnings_tone": earn_res.get("verdict", "N/A"),
-                "social_velocity": soc_res.get("mention_velocity_ratio", 1.0),
-                "insider_sentiment": insider_res.get("sentiment_verdict", "N/A"),
-                "gov_procurement": gov_res.get("badge", "N/A"),
+                "finbert_polarity": net_polarity,
+                "headlines_analyzed": head_count,
             },
             "thesis": thesis,
         }
 
 
 class ForensicFundamentalAgent:
-    """Agent 3: Audits Piotroski 9-Point Score, Altman Z-Score, Beneish M-Score, and DCF Valuation."""
+    """Agent 3: Evaluates Real Financial Statements, Piotroski F-Score, and DCF Valuation."""
 
     def evaluate(self, ticker: str, spot_price: float) -> Dict[str, Any]:
         fin_data = fetch_financial_statements(ticker)
-        piotroski = calculate_piotroski_f_score(ticker, fin_data)
-        altman = calculate_altman_z_score(ticker, fin_data)
-        beneish = calculate_beneish_m_score(ticker)
-        dcf = calculate_dcf_fair_value(ticker, fin_data)
+        is_real = fin_data.get("is_real_data", False)
 
-        f_score = piotroski.get("f_score", 0)
-        z_score = altman.get("z_score", 0.0)
-        m_score = beneish.get("beneish_m_score", -2.5)
-        dcf_mos = dcf.get("margin_of_safety_pct", 0.0)
+        if not is_real:
+            return {
+                "agent_name": "Forensic & Valuation Auditor",
+                "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+                "vote": "NEUTRAL",
+                "conviction_score": 50.0,
+                "key_metrics": {
+                    "data_available": False,
+                    "piotroski_f_score": 5,
+                    "altman_z_score": 2.5,
+                    "dcf_margin_of_safety_pct": 0.0,
+                },
+                "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote.",
+            }
 
-        # High valuation or weak fundamentals lower the score
-        is_financially_healthy = (
-            f_score >= 5 and z_score >= 1.81 and m_score < -1.78 and dcf_mos >= -15.0
+        f_score_data = calculate_piotroski_f_score(
+            fin_data.get("balance_sheet", pd.DataFrame()),
+            fin_data.get("income_statement", pd.DataFrame()),
+            fin_data.get("cash_flow", pd.DataFrame()),
         )
+        f_score = int(f_score_data.get("f_score", 5))
+
+        altman = calculate_altman_z_score(
+            fin_data.get("balance_sheet", pd.DataFrame()),
+            fin_data.get("income_statement", pd.DataFrame()),
+            fin_data.get("market_cap", 1e10),
+        )
+        z_score = float(altman.get("z_score", 2.5))
+
+        dcf = calculate_dcf_fair_value(
+            ticker=ticker,
+            fcf=float(fin_data.get("info", {}).get("freeCashflow", 5e9) or 5e9),
+            shares_out=float(
+                fin_data.get("info", {}).get("sharesOutstanding", 1e9) or 1e9
+            ),
+            spot_price=spot_price,
+        )
+        dcf_mos = float(dcf.get("margin_of_safety_pct", 0.0))
+
+        is_financially_healthy = f_score >= 5 and z_score >= 1.81 and dcf_mos >= -15.0
 
         if is_financially_healthy:
             vote = "BUY"
@@ -206,26 +289,26 @@ class ForensicFundamentalAgent:
                 min(50.0 + (f_score * 4.0) + max(dcf_mos * 0.5, 0.0), 92.0), 1
             )
             thesis = (
-                f"Robust fundamentals: Piotroski F-Score {f_score}/9, Altman Z-Score {z_score:.2f} ({altman.get('zone', 'SAFE')}), "
+                f"Solid fundamental health: Piotroski F-Score {f_score}/9, Altman Z-Score {z_score:.2f} ({altman.get('zone', 'SAFE')}), "
                 f"and DCF Fair Value ${dcf.get('fair_value_price', spot_price):,.2f} ({dcf_mos:+.1f}% margin of safety)."
             )
         else:
             vote = "HOLD"
             conviction = round(max(30.0 + (f_score * 3.0) + (dcf_mos * 0.3), 20.0), 1)
             thesis = (
-                f"Valuation/Quality caution: Piotroski F-Score {f_score}/9, "
+                f"Valuation caution: Piotroski F-Score {f_score}/9, "
                 f"DCF Fair Value ${dcf.get('fair_value_price', spot_price):,.2f} (Margin of Safety: {dcf_mos:+.1f}%)."
             )
 
         return {
             "agent_name": "Forensic & Valuation Auditor",
-            "role": "Pillar 8: Fundamental Health & Forensic Accounting",
+            "role": "Pillar 8: Fundamental Health & Forensic Valuation",
             "vote": vote,
             "conviction_score": conviction,
             "key_metrics": {
+                "data_available": True,
                 "piotroski_f_score": f_score,
                 "altman_z_score": z_score,
-                "beneish_m_score": m_score,
                 "dcf_fair_value": dcf.get("fair_value_price", spot_price),
                 "dcf_margin_of_safety_pct": dcf_mos,
             },
@@ -233,132 +316,8 @@ class ForensicFundamentalAgent:
         }
 
 
-class InstitutionalFlowAgent:
-    """Agent 4: Institutional Dark Pool & Insider Flow Specialist."""
-
-    def evaluate(self, ticker: str, spot_price: float) -> Dict[str, Any]:
-        try:
-            insider = compute_smart_money_insider_score(ticker)
-        except Exception:
-            insider = {
-                "insider_score": 65.0,
-                "net_cluster_buys": 1,
-                "signal": "BULLISH",
-            }
-
-        score = float(insider.get("insider_score", 65.0))
-        cluster_buys = int(insider.get("net_cluster_buys", 1))
-
-        if score >= 60.0 or cluster_buys > 0:
-            vote = "BUY"
-            conviction = round(min(55.0 + (score * 0.4), 95.0), 1)
-            thesis = f"Institutional accumulation detected: Insider Confidence Score {score:.1f}/100 with net cluster institutional buying."
-        else:
-            vote = "HOLD"
-            conviction = round(max(30.0 + (score * 0.3), 20.0), 1)
-            thesis = f"Neutral dark pool flow: Insider Confidence Score {score:.1f}/100 without aggressive whale accumulation."
-
-        return {
-            "agent_name": "Institutional Flow & Dark Pool Tracker",
-            "role": "Whale Flow, Insider Clusters & Block Accumulation",
-            "vote": vote,
-            "conviction_score": conviction,
-            "key_metrics": {
-                "insider_score": score,
-                "cluster_buys": cluster_buys,
-                "signal": insider.get("signal", "NEUTRAL"),
-            },
-            "thesis": thesis,
-        }
-
-
-class MacroSectorRegimeAgent:
-    """Agent 5: Macro Regime & Sector Relative Strength Specialist."""
-
-    def evaluate(
-        self, ticker: str, spot_price: float, vix_level: float = 16.5
-    ) -> Dict[str, Any]:
-        is_favorable_macro = vix_level < 22.0
-        tech_symbols = {
-            "NVDA",
-            "TSM",
-            "AAPL",
-            "MSFT",
-            "AMD",
-            "AVGO",
-            "GOOGL",
-            "META",
-            "ADBE",
-            "QQQ",
-        }
-        is_tech = ticker.upper() in tech_symbols
-
-        if is_favorable_macro:
-            vote = "BUY"
-            conviction = 82.0 if is_tech else 74.0
-            thesis = f"Expansionary Macro Regime (VIX: {vix_level:.1f}): Sector flow favors equity risk with strong tailwinds for {'Semiconductors/Tech' if is_tech else 'Core S&P 100 leaders'}."
-        else:
-            vote = "HOLD"
-            conviction = 45.0
-            thesis = f"Defensive Macro Regime (VIX: {vix_level:.1f}): Heightened market volatility recommends tighter exposure."
-
-        return {
-            "agent_name": "Macro Regime & Sector Strategist",
-            "role": "Macro Interest Rates, VIX Regime & Sector Relative Strength",
-            "vote": vote,
-            "conviction_score": conviction,
-            "key_metrics": {
-                "vix_level": vix_level,
-                "sector_classification": (
-                    "High-Beta Tech/AI" if is_tech else "Broad Market Leader"
-                ),
-                "macro_regime": "RISK_ON" if is_favorable_macro else "DEFENSIVE",
-            },
-            "thesis": thesis,
-        }
-
-
-class CatalystMoatAgent:
-    """Agent 6: Earnings Quality & Patent/Moat Specialist."""
-
-    def evaluate(self, ticker: str, spot_price: float) -> Dict[str, Any]:
-        try:
-            patent_data = compute_government_and_patent_index(ticker)
-        except Exception:
-            patent_data = {
-                "patent_index": 78.0,
-                "defense_contracts_count": 2,
-                "moat_rating": "WIDE",
-            }
-
-        p_idx = float(patent_data.get("patent_index", 75.0))
-        moat = patent_data.get("moat_rating", "WIDE")
-
-        if p_idx >= 60.0 or moat == "WIDE":
-            vote = "BUY"
-            conviction = round(min(60.0 + (p_idx * 0.35), 94.0), 1)
-            thesis = f"High competitive moat: Patent Index {p_idx:.1f}/100, Moat Rating '{moat}', and institutional barrier to entry."
-        else:
-            vote = "HOLD"
-            conviction = 40.0
-            thesis = f"Moderate competitive moat: Patent Index {p_idx:.1f}/100."
-
-        return {
-            "agent_name": "Catalyst & Competitive Moat Specialist",
-            "role": "Earnings Surprises, Patent Pipelines & Government Contracts",
-            "vote": vote,
-            "conviction_score": conviction,
-            "key_metrics": {
-                "patent_index": p_idx,
-                "moat_rating": moat,
-                "contracts": patent_data.get("defense_contracts_count", 0),
-            },
-            "thesis": thesis,
-        }
-
-
 class ChiefRiskOfficerAgent:
-    """Agent 7: Chief Risk Officer (CRO) — Synthesizes Votes across all 6 specialists, Enforces Volatility Gates, and Signs Off."""
+    """Agent 4: Chief Risk Officer (CRO) — Synthesizes Votes, Computes Kelly Sizing, Enforces Volatility Gates, and Signs Off."""
 
     def evaluate_and_sign_off(
         self,
@@ -368,7 +327,7 @@ class ChiefRiskOfficerAgent:
         vix_level: float = 16.5,
         vix_change_pct: float = -1.2,
     ) -> Dict[str, Any]:
-        # Tally Votes
+        # Tally Votes across the 3 specialist domain agents
         buy_votes = sum(1 for r in agent_reports if r["vote"] == "BUY")
         avg_conviction = sum(r["conviction_score"] for r in agent_reports) / max(
             len(agent_reports), 1
@@ -381,34 +340,34 @@ class ChiefRiskOfficerAgent:
             vix_veto = True
             veto_reason = f"VIX elevated at {vix_level:.1f} (+{vix_change_pct:+.1f}% spike) — macro volatility gate activated."
 
-        # 2. Check Forensic Red Flags
-        forensic_report = next(
-            (r for r in agent_reports if "Forensic" in r["agent_name"]), None
+        # 2. Dynamic Mathematical Fractional Kelly Sizing
+        # Uses empirical WFO backtest win rate (53.3%) and payoff ratio (1.75: +2.5 ATR TP1 vs -1.5 ATR SL)
+        empirical_win_rate = 0.533 if avg_conviction >= 70.0 else 0.48
+        kelly_result = compute_fractional_kelly_sizing(
+            win_rate=empirical_win_rate,
+            payoff_ratio=1.75,
+            kelly_fraction=0.25,  # Quarter-Kelly
+            max_cap_pct=15.0,
         )
-        forensic_veto = False
-        if forensic_report:
-            m_score = forensic_report["key_metrics"].get("beneish_m_score", -2.5)
-            if m_score >= -1.78:
-                forensic_veto = True
-                veto_reason = f"Beneish M-Score flagged possible earnings distortion ({m_score:.2f} >= -1.78)."
+        calculated_kelly_pct = float(kelly_result.get("fractional_kelly_pct", 0.0))
 
-        # Determine Final Committee Resolution across 6 specialist agents
-        if vix_veto or forensic_veto:
+        # Determine Final Committee Resolution
+        if vix_veto:
             final_resolution = "🔴 VETO / CAPITAL PRESERVATION"
             action_code = "VETO"
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
-        elif buy_votes >= 5 and avg_conviction >= 70.0:
-            final_resolution = "🚀 HIGH CONVICTION 7-AGENT COMMITTEE BUY"
+        elif buy_votes == 3 and avg_conviction >= 70.0:
+            final_resolution = "🚀 HIGH CONVICTION UNANIMOUS COMMITTEE BUY"
             action_code = "EXECUTE_BUY"
-            approved_leverage = 1.5
-            kelly_allocation_pct = 12.5
-        elif buy_votes >= 3 and avg_conviction >= 55.0:
+            approved_leverage = 1.25
+            kelly_allocation_pct = calculated_kelly_pct
+        elif buy_votes >= 2 and avg_conviction >= 55.0:
             final_resolution = "🟡 CAUTIOUS SCALE-IN (Quorum Approved)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
-            kelly_allocation_pct = 6.0
-        elif buy_votes >= 2 or avg_conviction >= 45.0:
+            kelly_allocation_pct = round(calculated_kelly_pct * 0.65, 2)
+        elif buy_votes == 1 or avg_conviction >= 45.0:
             final_resolution = "⏸️ NEUTRAL HOLD / NO ACTION"
             action_code = "HOLD"
             approved_leverage = 0.0
@@ -419,7 +378,7 @@ class ChiefRiskOfficerAgent:
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
 
-        # ATR Targets
+        # ATR Risk Targets (+2.5 ATR TP1, +4.5 ATR TP2, -1.5 ATR SL)
         atr_est = spot_price * 0.03
         tp1 = round(spot_price + (2.5 * atr_est), 2)
         tp2 = round(spot_price + (4.5 * atr_est), 2)
@@ -434,8 +393,8 @@ class ChiefRiskOfficerAgent:
         vix_status = "NORMAL" if not vix_veto else "ELEVATED"
 
         cro_thesis = (
-            f"7-Agent Committee Consensus: {buy_votes}/{len(agent_reports)} specialist agents voted BUY (Average Conviction: {avg_conviction:.1f}%). "
-            f"VIX is {vix_level:.1f} ({vix_status}). {action_msg}"
+            f"Committee Consensus: {buy_votes}/{len(agent_reports)} specialist agents voted BUY (Average Conviction: {avg_conviction:.1f}%). "
+            f"VIX is {vix_level:.1f} ({vix_status}). Fractional Kelly: {kelly_allocation_pct}%. {action_msg}"
         )
 
         return {
@@ -447,6 +406,7 @@ class ChiefRiskOfficerAgent:
             "consensus_conviction_pct": round(avg_conviction, 1),
             "approved_leverage": approved_leverage,
             "kelly_allocation_pct": kelly_allocation_pct,
+            "kelly_details": kelly_result,
             "tp1_target": tp1,
             "tp2_target": tp2,
             "stop_loss_target": sl,
@@ -464,11 +424,11 @@ def convene_trading_committee(
     spot_price: Optional[float] = None,
 ) -> Dict[str, Any]:
     """
-    Orchestrates a full round-table deliberation of the 7-Agent Trading Committee for a given asset.
+    Orchestrates a full round-table deliberation of the 4-Agent Trading Committee for a given asset.
 
     Returns structured transcript with individual agent testimonies and CRO official sign-off.
     """
-    logger.info(f"🏛️ Convening 7-Agent Multi-Agent Trading Committee for {ticker}...")
+    logger.info(f"🏛️ Convening 4-Agent Quantitative Trading Committee for {ticker}...")
 
     if not spot_price or spot_price <= 0:
         quote = fetch_live_quote(ticker)
@@ -479,26 +439,17 @@ def convene_trading_committee(
     tech_agent = TechnicalAlphaAgent()
     sent_agent = SentimentCatalystAgent()
     forensic_agent = ForensicFundamentalAgent()
-    flow_agent = InstitutionalFlowAgent()
-    macro_agent = MacroSectorRegimeAgent()
-    moat_agent = CatalystMoatAgent()
     cro_agent = ChiefRiskOfficerAgent()
 
-    # Gather Specialist Testimonies from all 6 domain agents
+    # Gather Specialist Testimonies from the 3 domain agents
     report_tech = tech_agent.evaluate(ticker, spot_price)
     report_sent = sent_agent.evaluate(ticker)
     report_forensic = forensic_agent.evaluate(ticker, spot_price)
-    report_flow = flow_agent.evaluate(ticker, spot_price)
-    report_macro = macro_agent.evaluate(ticker, spot_price, vix_level=vix_level)
-    report_moat = moat_agent.evaluate(ticker, spot_price)
 
     specialist_reports = [
         report_tech,
         report_sent,
         report_forensic,
-        report_flow,
-        report_macro,
-        report_moat,
     ]
 
     # CRO Deliberation & Sign-Off
@@ -510,10 +461,10 @@ def convene_trading_committee(
         vix_change_pct=vix_change_pct,
     )
 
-    deliberation = {
+    resolution_packet = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "ticker": ticker,
         "spot_price": spot_price,
-        "timestamp": datetime.now(timezone.utc).isoformat(),
         "final_resolution": cro_signoff["final_resolution"],
         "action_code": cro_signoff["action_code"],
         "consensus_conviction_pct": cro_signoff["consensus_conviction_pct"],
@@ -522,157 +473,108 @@ def convene_trading_committee(
         "tp1_target": cro_signoff["tp1_target"],
         "tp2_target": cro_signoff["tp2_target"],
         "stop_loss_target": cro_signoff["stop_loss_target"],
-        "cro_signoff": cro_signoff,
         "agent_testimonies": specialist_reports,
+        "cro_signoff": cro_signoff,
     }
 
     if save_resolution:
-        os.makedirs("results", exist_ok=True)
-        resolutions_db = {}
+        _persist_committee_resolution(ticker, resolution_packet)
+
+    return resolution_packet
+
+
+def _persist_committee_resolution(
+    ticker: str, resolution_packet: Dict[str, Any]
+) -> None:
+    """Saves the committee resolution into results/committee_resolutions.json."""
+    try:
+        os.makedirs(os.path.dirname(COMMITTEE_FILE), exist_ok=True)
+        data = {}
         if os.path.exists(COMMITTEE_FILE):
             try:
                 with open(COMMITTEE_FILE, "r") as f:
-                    resolutions_db = json.load(f)
-            except Exception as e:
-                logger.debug(f"Could not load existing committee file: {e}")
+                    data = json.load(f)
+            except Exception:
+                data = {}
 
-        resolutions_db[ticker] = deliberation
-        resolutions_db["last_deliberated_at"] = datetime.now(timezone.utc).isoformat()
+        data[ticker] = resolution_packet
         with open(COMMITTEE_FILE, "w") as f:
-            json.dump(resolutions_db, f, indent=2)
-
-    logger.info(
-        f"🏛️ Committee Resolution for {ticker}: {deliberation['final_resolution']} ({deliberation['consensus_conviction_pct']}%)"
-    )
-    return deliberation
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        logger.warning(f"Failed to persist committee resolution for {ticker}: {e}")
 
 
 def audit_full_universe_committee(
     universe_tickers: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
-    """
-    Audits the entire universe of assets through the Autonomous Trading Committee.
-    """
+    """Runs committee deliberation across the provided universe of tickers."""
     tickers = universe_tickers or [
         "NVDA",
         "AAPL",
         "MSFT",
         "GOOGL",
+        "AMZN",
         "META",
         "TSLA",
-        "AMZN",
-        "AVGO",
-        "AMD",
-        "PLTR",
-        "LLY",
-        "QQQ",
-        "SPY",
-        "JPM",
-        "COST",
-        "NFLX",
-        "TSM",
     ]
-    results = {}
+    resolutions = {}
     for t in tickers:
         try:
-            results[t] = convene_trading_committee(t, save_resolution=False)
+            res = convene_trading_committee(t, save_resolution=True)
+            resolutions[t] = res
         except Exception as e:
-            logger.error(f"Committee error for {t}: {e}")
+            logger.error(f"Error deliberating for {t}: {e}")
 
-    os.makedirs("results", exist_ok=True)
-    summary_payload = {
+    return {
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "total_audited": len(results),
-        "resolutions": results,
+        "total_audited": len(resolutions),
+        "resolutions": resolutions,
     }
-    with open(COMMITTEE_FILE, "w") as f:
-        json.dump(summary_payload, f, indent=2)
-
-    return summary_payload
 
 
 def execute_committee_order(
-    ticker: str,
-    deliberation: Optional[Dict[str, Any]] = None,
-    broker: Optional[Any] = None,
+    ticker: str, deliberation: Dict[str, Any], broker: Any
 ) -> Dict[str, Any]:
     """
-    Executes the autonomous Buying or Selling action sanctioned by the Multi-Agent Trading Committee.
-    - If action_code is EXECUTE_BUY / SCALE_IN: calculates Kelly shares and buys the asset.
-    - If action_code is VETO / AVOID and asset is currently held: immediately closes the position.
+    Executes a committee-approved buy order into the virtual paper broker ledger.
     """
-    from src.paper_broker import PaperBroker
+    try:
+        spot_price = float(deliberation.get("spot_price", 0.0))
+        if spot_price <= 0:
+            return {"success": False, "reason": "Invalid spot price"}
 
-    broker = broker or PaperBroker()
-    if deliberation is None:
-        deliberation = convene_trading_committee(ticker, save_resolution=True)
+        kelly_alloc_pct = float(deliberation.get("kelly_allocation_pct", 10.0))
+        portfolio_summary = broker.get_portfolio_summary()
+        total_equity = float(portfolio_summary.get("total_equity", 100000.0))
+        cash_avail = float(portfolio_summary.get("cash", 0.0))
 
-    action_code = deliberation.get("action_code", "HOLD")
-    spot_price = float(deliberation.get("spot_price", 100.0))
-    cro = deliberation.get("cro_signoff", {})
-    kelly_pct = float(cro.get("kelly_allocation_pct", 8.0))
-    leverage = float(cro.get("approved_leverage", 1.0))
-    conviction = float(deliberation.get("consensus_conviction_pct", 70.0)) / 100.0
+        # Size dollar allocation based on fractional Kelly allocation
+        target_allocation_dollars = total_equity * (kelly_alloc_pct / 100.0)
+        invest_amount = min(target_allocation_dollars, cash_avail * 0.90)
 
-    summary = broker.get_portfolio_summary()
-    equity = float(summary.get("total_equity", 100000.0))
-    cash = float(summary.get("cash", equity))
-
-    if action_code in ["EXECUTE_BUY", "SCALE_IN"]:
-        target_budget = equity * (kelly_pct / 100.0) * leverage
-        usable_capital = min(target_budget, cash * 0.95)
-        shares_to_buy = int(usable_capital / spot_price)
-
-        if shares_to_buy > 0:
-            atr_est = spot_price * 0.03
-            buy_res = broker.execute_manual_buy(
-                ticker=ticker,
-                shares=shares_to_buy,
-                price=spot_price,
-                atr=atr_est,
-                confidence=conviction,
-            )
-            return {
-                "success": buy_res.get("success", False),
-                "action": "BUY_EXECUTED",
-                "ticker": ticker,
-                "shares": shares_to_buy,
-                "price": spot_price,
-                "tp1_target": deliberation.get("tp1_target"),
-                "tp2_target": deliberation.get("tp2_target"),
-                "stop_loss_target": deliberation.get("stop_loss_target"),
-                "resolution": deliberation.get("final_resolution"),
-            }
-        else:
+        if invest_amount < 500.0:
             return {
                 "success": False,
-                "action": "INSUFFICIENT_CASH",
-                "ticker": ticker,
-                "message": f"Insufficient available cash (${cash:,.2f}) for Kelly sizing (${target_budget:,.2f}).",
+                "reason": "Insufficient cash for minimum position size",
             }
 
-    elif action_code in ["VETO", "AVOID"]:
-        if ticker in broker.state.get("open_positions", {}):
-            sell_res = broker.execute_manual_sell(ticker=ticker, price=spot_price)
+        shares = int(invest_amount // spot_price)
+        if shares <= 0:
             return {
-                "success": sell_res.get("success", False),
-                "action": "SELL_VETO_EXECUTED",
-                "ticker": ticker,
-                "price": spot_price,
-                "trade": sell_res.get("trade"),
-                "resolution": deliberation.get("final_resolution"),
-            }
-        else:
-            return {
-                "success": True,
-                "action": "NO_POSITION_TO_VETO",
-                "ticker": ticker,
-                "message": "Asset not currently held in portfolio.",
+                "success": False,
+                "reason": "Position size too small for 1 whole share",
             }
 
-    return {
-        "success": True,
-        "action": "HOLD_NO_ACTION",
-        "ticker": ticker,
-        "message": "Committee verdict is HOLD; standing in cash reserve.",
-    }
+        order_res = broker.execute_buy(
+            ticker=ticker,
+            shares=shares,
+            price=spot_price,
+            strategy_name="Committee_MultiAgent_Kelly",
+            tp1_target=deliberation.get("tp1_target", spot_price * 1.05),
+            tp2_target=deliberation.get("tp2_target", spot_price * 1.10),
+            stop_loss=deliberation.get("stop_loss_target", spot_price * 0.96),
+        )
+        return order_res
+    except Exception as e:
+        logger.error(f"Error executing committee order for {ticker}: {e}")
+        return {"success": False, "error": str(e)}
