@@ -132,3 +132,6 @@ QQQ
 
 # Day-1 IPO Ingestion: OpenAI, Inc.
 OPENAI
+
+# Day-1 IPO Ingestion: Anthropic
+ANTH

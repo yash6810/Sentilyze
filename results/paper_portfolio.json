@@ -1,55 +1,14 @@
 {
   "initial_capital": 100000.0,
-  "cash": 768.7892791747454,
-  "total_equity": 102247.19,
-  "unrealized_pnl": 1030.0,
-  "realized_pnl": 1217.1906829833576,
+  "cash": 101523.31927917476,
+  "total_equity": 101407.77,
+  "unrealized_pnl": -29.9,
+  "realized_pnl": 1523.3192791747613,
   "win_rate": 53.3,
-  "total_trades": 15,
-  "winning_trades": 8,
-  "losing_trades": 7,
-  "open_positions": {
-    "META": {
-      "shares": 78,
-      "initial_shares": 78,
-      "entry_price": 576.1400146484375,
-      "current_price": 579.46,
-      "entry_date": "2026-08-27",
-      "tp1_target": 617.17,
-      "tp2_target": 649.99,
-      "sl_target": 551.52,
-      "scaled_out": false,
-      "confidence": 0.6999778747558594,
-      "regime": "\u25bc BEARISH (Below SMA200)"
-    },
-    "TSM": {
-      "shares": 107,
-      "initial_shares": 107,
-      "entry_price": 417.6900024414063,
-      "current_price": 425.21,
-      "entry_date": "2026-08-27",
-      "tp1_target": 445.16,
-      "tp2_target": 467.14,
-      "sl_target": 401.21,
-      "scaled_out": false,
-      "confidence": 0.6696692109107971,
-      "regime": "\u25b2 BULLISH (Above SMA200)"
-    },
-    "QQQ": {
-      "ticker": "QQQ",
-      "shares": 15,
-      "initial_shares": 15,
-      "entry_price": 721.11,
-      "current_price": 718.87,
-      "entry_date": "2026-08-28",
-      "tp1_target": 775.19,
-      "tp2_target": 818.46,
-      "sl_target": 688.66,
-      "scaled_out": false,
-      "confidence": 0.81,
-      "regime": "MANUAL_LIVE_ORDER"
-    }
-  },
+  "total_trades": 21,
+  "winning_trades": 11,
+  "losing_trades": 10,
+  "open_positions": {},
   "closed_trades": [
     {
       "ticker": "AMD",
@@ -215,6 +174,67 @@
       "pnl": -593.34,
       "return_pct": -1.33,
       "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "TSM",
+      "shares": 53,
+      "entry_price": 417.6900024414063,
+      "exit_price": 421.85,
+      "entry_date": "2026-08-27",
+      "exit_date": "2026-08-28",
+      "pnl": 220.48,
+      "return_pct": 1.0,
+      "reason": "MANUAL_50PCT_SCALE_OUT",
+      "scale_stage": "STAGE_1_50PCT",
+      "status": "RISK_FREE_RUNNER"
+    },
+    {
+      "ticker": "META",
+      "shares": 78,
+      "entry_price": 576.1400146484375,
+      "exit_price": 575.46,
+      "pnl": -53.04,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "TSM",
+      "shares": 54,
+      "entry_price": 417.6900024414063,
+      "exit_price": 421.27,
+      "pnl": 193.32,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "QQQ",
+      "shares": 15,
+      "entry_price": 721.11,
+      "exit_price": 716.72,
+      "pnl": -65.85,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "NVDA",
+      "shares": 86,
+      "entry_price": 220.22,
+      "exit_price": 220.29,
+      "pnl": 6.02,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "MSFT",
+      "shares": 7,
+      "entry_price": 515.84,
+      "exit_price": 516.65,
+      "pnl": 5.67,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "AAPL",
+      "shares": 1,
+      "entry_price": 321.62,
+      "exit_price": 321.15,
+      "pnl": -0.47,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
     }
   ],
   "equity_history": [
@@ -237,11 +257,11 @@
     {
       "date": "2026-08-28",
       "timestamp": "2026-08-28T01:50:51.055853+00:00",
-      "total_equity": 102247.19,
-      "cash": 768.79,
-      "invested": 101478.4,
-      "daily_return": 0.03
+      "total_equity": 101407.77,
+      "cash": 255.42,
+      "invested": 101152.35,
+      "daily_return": -0.22
     }
   ],
-  "last_updated": "2026-08-28T14:17:50.767132+00:00"
+  "last_updated": "2026-08-28T16:35:03.646192+00:00"
 }
