@@ -114,4 +114,6 @@ def analyze_earnings_call_transcript(
         "verdict": verdict,
         "color": color,
         "transcript_summary": f"Prepared remarks indicated high momentum ({opt_count} growth terms) vs moderate Q&A margin inquiries ({skep_count} headwind terms).",
+        "is_real_data": False,
+        "data_source": "CALIBRATED_TRANSCRIPT_DEMO",
     }

@@ -24,8 +24,10 @@ def generate_smartwatch_glance_payload(
     """
     pnl_sign = "+" if daily_pnl_pct >= 0 else ""
 
+    from datetime import datetime, timezone
+
     payload = {
-        "timestamp_utc": "2026-08-26T20:37:00Z",
+        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "complications": {
             "circular_gauge": {
                 "label": "P&L",

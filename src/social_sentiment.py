@@ -280,7 +280,8 @@ def fetch_social_sentiment_tracker(ticker: str) -> Dict[str, Any]:
         reddit_data.get("total_posts_found", 0) * 45
         + stocktwits_data.get("total_messages", 0) * 30
     )
-    if v_today < 100:
+    is_live_data = v_today >= 100
+    if not is_live_data:
         baselines = {
             "NVDA": (3200, 1400, 2450, 750),
             "TSLA": (4100, 2100, 2600, 1500),
@@ -307,4 +308,8 @@ def fetch_social_sentiment_tracker(ticker: str) -> Dict[str, Any]:
     profile = calculate_social_buzz_metrics(ticker, v_today, v_7d, b_pos, b_neg)
     profile["reddit_stream"] = reddit_data.get("recent_posts", [])
     profile["stocktwits_stream"] = stocktwits_data.get("recent_messages", [])
+    profile["is_real_data"] = is_live_data
+    profile["data_source"] = (
+        "LIVE_SOCIAL_SCRAPER" if is_live_data else "CALIBRATED_FALLBACK"
+    )
     return profile

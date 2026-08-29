@@ -168,8 +168,10 @@ def scrape_station_ticker_sentiment(
                 }
             )
 
+    is_fallback = False
     # Fallback calibration if feed is quiet or rate limited
     if not relevant_threads:
+        is_fallback = True
         station_defaults = {
             "wsb": (14, 5, 73.6, "HIGH_RETAIL_VOLATILITY"),
             "stocks": (8, 3, 72.7, "EARNINGS_CATALYST_CONSENSUS"),
@@ -204,6 +206,8 @@ def scrape_station_ticker_sentiment(
         "bullish_pct": bull_pct,
         "normalized_score": norm_score,  # -1.0 to +1.0
         "threads": relevant_threads[:3],
+        "is_real_data": not is_fallback,
+        "data_source": "LIVE_REDDIT_RSS" if not is_fallback else "CALIBRATED_FALLBACK",
     }
 
 

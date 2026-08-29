@@ -107,8 +107,34 @@ def handle_telegram_command(command_text: str) -> Dict[str, Any]:
         price = float(quote.get("price", 128.50))
         chg = float(quote.get("change_pct", 0.0))
 
-        conf = 0.865 if ticker in ["NVDA", "AAPL", "MSFT", "TSM"] else 0.65
-        signal = "BUY" if conf >= 0.55 else "HOLD"
+        from src.modeling import load_model, get_prediction_on_latest_data
+        from src.preprocessing import preprocess_data
+        from src.config import FEATURES
+        from src.utils import sanitize_filename, safe_path_join
+
+        clean_ticker = sanitize_filename(ticker)
+        m_path = safe_path_join("models", f"{clean_ticker}_model.json")
+        signal = "HOLD"
+        conf = 0.50
+        if os.path.exists(m_path):
+            try:
+                features_df, _, _ = preprocess_data(ticker, use_cache=True)
+                model = load_model(m_path)
+                pred_raw, conf_raw = get_prediction_on_latest_data(
+                    model, features_df.tail(1), FEATURES
+                )
+                pred = int(pred_raw[0])
+                conf = (
+                    float(conf_raw[0][1])
+                    if len(conf_raw[0]) > 1
+                    else float(conf_raw[0][0])
+                )
+                signal = "BUY" if pred == 1 and conf >= 0.50 else "HOLD"
+            except Exception as e:
+                logger.debug(
+                    f"Signal inference error in telegram_bot for {ticker}: {e}"
+                )
+
         tp1 = price * 1.06
         tp2 = price * 1.12
         sl = price * 0.95

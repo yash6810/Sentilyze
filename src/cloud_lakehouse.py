@@ -70,11 +70,13 @@ class CloudDataLake:
         synced_count = len(trades_list)
         logger.info(f"Synchronized {synced_count} trade records to Cloud Data Lake.")
 
+        from datetime import datetime, timezone
+
         return {
             "status": "SUCCESS",
             "synced_trades": synced_count,
             "cloud_engine": "PostgreSQL (Supabase/Neon)",
-            "timestamp": "2026-08-26T20:37:00Z",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
     def stream_live_portfolio_snapshot(
