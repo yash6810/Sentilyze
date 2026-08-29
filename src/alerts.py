@@ -403,51 +403,109 @@ def send_discord_market_pulse(
     pulse_data: Dict[str, Any], webhook_url: Optional[str] = None
 ) -> bool:
     """
-    Sends a consolidated morning macro regime and portfolio health pulse to Discord.
+    Sends a comprehensive institutional morning macro regime, portfolio health,
+    open holdings, realized P&L, and AI opportunities pulse to Discord.
     """
     url = webhook_url or os.getenv("DISCORD_WEBHOOK_URL")
     if not url:
         return False
 
-    vix = pulse_data.get("vix_level", 15.4)
+    vix = float(pulse_data.get("vix_level", 15.4))
     vix_regime = pulse_data.get("vix_regime", "LOW VOLATILITY / NORMAL")
     top_buys = pulse_data.get("top_buys", [])
-    equity = pulse_data.get("portfolio_equity", 100000.0)
-    open_pos = pulse_data.get("open_positions_count", 0)
+    equity = float(pulse_data.get("portfolio_equity", 100000.0))
+    cash = float(pulse_data.get("cash_balance", equity))
+    daily_pnl = float(pulse_data.get("daily_pnl", 0.0))
+    daily_ret = float(pulse_data.get("daily_return_pct", 0.0))
+    realized_pnl = float(pulse_data.get("realized_pnl", 0.0))
+    open_pos = pulse_data.get("open_positions", {})
+    recent_closed = pulse_data.get("recent_closed_trades", [])
 
-    buys_str = (
-        "\n".join(
+    # Format Top AI Buys across universe (sorted by highest confidence)
+    sorted_buys = sorted(top_buys, key=lambda x: x.get("confidence", 0.0), reverse=True)
+    if sorted_buys:
+        buys_str = "\n".join(
             [
-                f"• **{b['ticker']}**: Conf `{b.get('confidence', 0.6)*100:.1f}%` (${b.get('price', 0):.2f})"
-                for b in top_buys[:4]
+                f"• **{b['ticker']}**: Conf `{b.get('confidence', 0.6)*100:.1f}%` @ `${b.get('current_price', b.get('price', 0)):.2f}` | TP: `${b.get('take_profit', 0):.2f}`"
+                for b in sorted_buys[:5]
             ]
         )
-        or "No strong BUY setups today."
-    )
+    else:
+        buys_str = "ℹ️ No high-conviction BUY setups today. Capital preserved in cash."
+
+    # Format Open Holdings (What the bot has bought and currently holds)
+    if open_pos:
+        pos_lines = []
+        for sym, p in list(open_pos.items())[:5]:
+            curr_p = float(p.get("current_price", p.get("entry_price", 0.0)))
+            entry_p = float(p.get("entry_price", curr_p))
+            shares = int(p.get("shares", 0))
+            unrealized = (curr_p - entry_p) * shares
+            ret_pct = ((curr_p - entry_p) / entry_p) * 100.0 if entry_p > 0 else 0.0
+            emoji = "🟢" if unrealized >= 0 else "🔴"
+            pos_lines.append(
+                f"{emoji} **{sym}**: `{shares}` shs @ `${entry_p:.2f}` (Now `${curr_p:.2f}` | **`${unrealized:+,.2f}`** / `{ret_pct:+.1f}%`)"
+            )
+        holdings_str = "\n".join(pos_lines)
+    else:
+        holdings_str = "💼 **100% Liquid Cash** (0 Open Positions — Standing by for high-conviction entries)."
+
+    # Format Recent Closed Trades (Profits and Losses)
+    if recent_closed:
+        closed_lines = []
+        for t in recent_closed[-4:]:
+            pnl_val = float(t.get("pnl", 0.0))
+            ret_val = float(t.get("return_pct", 0.0))
+            emoji = "💰" if pnl_val >= 0 else "🛑"
+            closed_lines.append(
+                f"{emoji} **{t.get('ticker')}**: **`${pnl_val:+,.2f}`** (`{ret_val:+.2f}%`) — *{t.get('reason', 'EXIT')}*"
+            )
+        closed_str = "\n".join(closed_lines)
+    else:
+        closed_str = "No trades closed recently."
+
+    pnl_emoji = "🟢" if daily_pnl >= 0 else "🔴"
+
+    fields = [
+        {
+            "name": "🌪️ Macro Market Regime & Risk",
+            "value": f"VIX: **{vix:.2f}** (`{vix_regime}`)\nMacro Stance: **Capital Preservation & Kelly Optimization**",
+            "inline": False,
+        },
+        {
+            "name": "💼 Autonomous Portfolio & Performance",
+            "value": (
+                f"• **Total Equity:** **`${equity:,.2f}`**\n"
+                f"• **Available Cash:** `${cash:,.2f}`\n"
+                f"• **Today's P&L:** {pnl_emoji} **`${daily_pnl:+,.2f}`** (`{daily_ret:+.2f}%`)\n"
+                f"• **Total Realized P&L:** **`${realized_pnl:+,.2f}`**"
+            ),
+            "inline": False,
+        },
+        {
+            "name": "📦 Current Open Holdings (Stocks Held)",
+            "value": holdings_str,
+            "inline": False,
+        },
+        {
+            "name": "📜 Recent Realized Profits & Losses",
+            "value": closed_str,
+            "inline": False,
+        },
+        {
+            "name": "🚀 Top AI-Scanned Opportunities (106 Universe)",
+            "value": buys_str,
+            "inline": False,
+        },
+    ]
 
     embed = {
         "title": "🌅 [SENTILYZE MORNING MARKET RADAR] Institutional Briefing",
-        "description": f"**Pre-Market Quantitative Pulse & Macro Risk Status**",
+        "description": "Daily Pre-Market Quantitative Intelligence, Portfolio Health & Actionable Signals",
         "color": 0x38BDF8,  # Sky Blue
-        "fields": [
-            {
-                "name": "🌪️ Macro VIX Regime",
-                "value": f"VIX: **{vix:.2f}** (`{vix_regime}`)",
-                "inline": True,
-            },
-            {
-                "name": "💼 Autonomous Portfolio",
-                "value": f"Equity: **${equity:,.2f}** | Positions: `{open_pos}`",
-                "inline": True,
-            },
-            {
-                "name": "🚀 Top Institutional AI Setups",
-                "value": buys_str,
-                "inline": False,
-            },
-        ],
+        "fields": fields,
         "footer": {
-            "text": f"Sentilyze Pre-Market Intelligence • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+            "text": f"Sentilyze Autonomous Intelligence • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
         },
     }
 

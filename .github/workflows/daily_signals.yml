@@ -2,8 +2,10 @@ name: Daily Market Signal Bot
 
 on:
   schedule:
-    # Runs Monday through Saturday at 01:30 UTC (7:00 AM IST / Morning market & weekend digest)
-    - cron: '30 1 * * 1-6'
+    # 1. Morning Asia/India Radar: 02:30 UTC (8:00 AM IST)
+    - cron: '30 2 * * 1-6'
+    # 2. US Pre-Market Intelligence Briefing: 12:30 UTC (8:30 AM EDT / 6:00 PM IST)
+    - cron: '30 12 * * 1-5'
   workflow_dispatch: # Allows manual trigger from GitHub Actions tab
 
 jobs:

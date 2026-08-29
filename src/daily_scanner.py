@@ -152,15 +152,34 @@ def run_daily_market_scan() -> list:
         logger.info("Sending Master Market Digest to Discord...")
         send_discord_digest(signals_summary, webhook_url=discord_url)
 
-        # Dispatch Morning Market Pulse
-        top_buys = [s for s in signals_summary if s["signal"] == "BUY"]
+        # Dispatch Morning Market Pulse with live broker portfolio data
+        top_buys = [s for s in signals_summary if s.get("signal") == "BUY"]
+
+        try:
+            from src.paper_broker import PaperBroker
+
+            broker = PaperBroker()
+            broker_summary = broker.get_portfolio_summary()
+            open_pos = broker.state.get("open_positions", {})
+            recent_closed = broker.state.get("closed_trades", [])
+        except Exception as e:
+            logger.debug(f"Notice loading broker state for market pulse: {e}")
+            broker_summary = {}
+            open_pos = {}
+            recent_closed = []
+
         send_discord_market_pulse(
             {
                 "vix_level": 15.2,
                 "vix_regime": "LOW VOLATILITY / BULL REGIME",
                 "top_buys": top_buys,
-                "portfolio_equity": 100000.0,
-                "open_positions_count": len(top_buys),
+                "portfolio_equity": broker_summary.get("total_equity", 100000.0),
+                "cash_balance": broker_summary.get("cash", 100000.0),
+                "daily_pnl": broker_summary.get("daily_pnl", 0.0),
+                "daily_return_pct": broker_summary.get("daily_return_pct", 0.0),
+                "realized_pnl": broker_summary.get("realized_pnl", 0.0),
+                "open_positions": open_pos,
+                "recent_closed_trades": recent_closed,
             },
             webhook_url=discord_url,
         )
