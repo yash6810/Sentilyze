@@ -1,9 +1,12 @@
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import numpy as np
 from src.utils import get_logger
-from typing import Tuple, Dict, List, Any
+from typing import Tuple, Dict, List, Any, Optional
 
 logger = get_logger(__name__)
 
@@ -72,7 +75,8 @@ def run_backtest(
     max_leverage: float = 1.5,
     annual_margin_interest_rate: float = 0.05,
     maintenance_margin_pct: float = 0.25,
-) -> Tuple[pd.DataFrame, Dict, plt.Figure]:
+    generate_heatmap: bool = False,
+) -> Tuple[pd.DataFrame, Dict[str, Any], Optional[plt.Figure]]:
     """
     Runs an advanced regime-aware backtest with realistic margin constraints.
 
@@ -299,7 +303,9 @@ def run_backtest(
 
     # --- Performance Metrics & Visuals ---
     metrics = calculate_performance_metrics(portfolio)
-    heatmap_fig = create_monthly_returns_heatmap(portfolio)
+    heatmap_fig = (
+        create_monthly_returns_heatmap(portfolio) if generate_heatmap else None
+    )
 
     return portfolio, metrics, heatmap_fig
 

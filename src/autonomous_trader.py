@@ -31,6 +31,36 @@ logger = get_logger(__name__)
 
 STOCKS_FILE = "stocks.txt"
 AUTONOMOUS_LOG_FILE = os.path.join("results", "autonomous_execution_log.json")
+LOCK_FILE = os.path.join("results", ".autonomous_trader.lock")
+KILL_SWITCH_FILE = os.path.join("results", "KILL_SWITCH.flag")
+
+
+def is_kill_switch_active() -> bool:
+    """
+    Task 7: Master Kill Switch Check.
+    Returns True if SENTILYZE_KILL_SWITCH environment variable is enabled or results/KILL_SWITCH.flag exists.
+    """
+    env_kill = os.getenv("SENTILYZE_KILL_SWITCH", "").strip().lower() in (
+        "1",
+        "true",
+        "yes",
+        "on",
+    )
+    file_kill = os.path.exists(KILL_SWITCH_FILE)
+    return env_kill or file_kill
+
+
+def check_daily_loss_circuit_breaker(
+    portfolio_summary: Dict[str, Any], max_daily_loss_pct: float = 3.0
+) -> bool:
+    """
+    Task 8: Independent Max-Daily-Loss Circuit Breaker.
+    Returns True if current daily unrealized losses breach the safety threshold.
+    """
+    unrealized_pnl = float(portfolio_summary.get("unrealized_pnl", 0.0))
+    initial_capital = 10000.0
+    threshold_dollars = -(initial_capital * (max_daily_loss_pct / 100.0))
+    return unrealized_pnl < threshold_dollars
 
 
 def load_universe_tickers() -> List[str]:
@@ -105,8 +135,82 @@ class AutonomousTradingEngine:
         max_concurrent_positions: int = 4,
     ) -> Dict[str, Any]:
         """
-        Executes one full autonomous decision and execution cycle.
+        Executes one full autonomous decision and execution cycle with:
+        - Task 6: Idempotency lock guard
+        - Task 7: Master Kill Switch check
+        - Task 8: Daily loss & position size circuit breakers
+        - Task 9: Unhandled exception alerting
         """
+        # 1. Idempotency Lock Check (Task 6)
+        if os.path.exists(LOCK_FILE):
+            try:
+                with open(LOCK_FILE, "r") as f:
+                    lock_data = json.load(f)
+                lock_timestamp = float(lock_data.get("timestamp", 0))
+                age_seconds = time.time() - lock_timestamp
+                if age_seconds < 600:  # Lock is active (< 10 minutes)
+                    logger.warning(
+                        f"🔒 [IDEMPOTENCY LOCK] Active trading cycle in progress (PID {lock_data.get('pid')}, age: {int(age_seconds)}s). Skipping overlapping cycle."
+                    )
+                    return {
+                        "status": "SKIPPED_LOCKED",
+                        "message": "Autonomous cycle already in progress",
+                        "lock_pid": lock_data.get("pid"),
+                    }
+                else:
+                    logger.warning(
+                        f"⚠️ [STALE LOCK DETECTED] Lock is {int(age_seconds)}s old (>600s). Overriding stale lock."
+                    )
+            except Exception as e:
+                logger.debug(f"Error reading lock file: {e}")
+
+        # Acquire lock
+        os.makedirs(os.path.dirname(LOCK_FILE), exist_ok=True)
+        try:
+            with open(LOCK_FILE, "w") as f:
+                json.dump(
+                    {
+                        "pid": os.getpid(),
+                        "timestamp": time.time(),
+                        "iso": datetime.now(timezone.utc).isoformat(),
+                    },
+                    f,
+                )
+        except Exception as e:
+            logger.debug(f"Could not persist lock file: {e}")
+
+        try:
+            return self._execute_cycle_body(
+                candidate_tickers=candidate_tickers,
+                max_concurrent_positions=max_concurrent_positions,
+            )
+        except Exception as e:
+            # 2. Unhandled Exception Alerting (Task 9)
+            logger.critical(f"💥 [CRITICAL TRADING LOOP EXCEPTION] {e}", exc_info=True)
+            self.dispatch_discord_alert(
+                title="🚨 CRITICAL UNHANDLED EXCEPTION IN TRADING LOOP",
+                description=f"Autonomous trading loop encountered a fatal exception:\n```{str(e)[:500]}```",
+                color=0xFF0000,
+            )
+            return {
+                "status": "ERROR",
+                "error": str(e),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+        finally:
+            # Release lock in all circumstances
+            if os.path.exists(LOCK_FILE):
+                try:
+                    os.remove(LOCK_FILE)
+                except Exception:
+                    pass
+
+    def _execute_cycle_body(
+        self,
+        candidate_tickers: Optional[List[str]] = None,
+        max_concurrent_positions: int = 4,
+    ) -> Dict[str, Any]:
+        """Core cycle execution body."""
         start_time = time.time()
         tickers_to_scan = candidate_tickers or self.tickers
         now_str = datetime.now(timezone.utc).isoformat()
@@ -139,6 +243,7 @@ class AutonomousTradingEngine:
             "portfolio_equity": portfolio_summary["total_equity"],
             "cash_balance": portfolio_summary["cash"],
             "unrealized_pnl": portfolio_summary["unrealized_pnl"],
+            "kill_switch_active": is_kill_switch_active(),
         }
 
         # 2. Phase A: Manage & Audit Open Positions (Profit Taking / Trailing Stops)
@@ -292,18 +397,33 @@ class AutonomousTradingEngine:
             find_low_of_day_pullback_entry,
         )
 
+        curr_open_count = len(self.broker.state.get("open_positions", {}))
+        available_slots = max(0, max_concurrent_positions - curr_open_count)
+
+        # Task 7 Master Kill Switch Check
+        if is_kill_switch_active():
+            logger.warning(
+                "🛑 [MASTER KILL SWITCH ACTIVE] New order submissions and candidate entries are strictly HALTED."
+            )
+            available_slots = 0
+
+        # Task 8 Max Daily Loss Circuit Breaker
+        max_daily_loss = float(os.getenv("MAX_DAILY_LOSS_PCT", "3.0"))
+        if check_daily_loss_circuit_breaker(
+            portfolio_summary, max_daily_loss_pct=max_daily_loss
+        ):
+            logger.warning(
+                f"🚨 [CIRCUIT BREAKER: MAX DAILY LOSS] Daily drawdown exceeded {max_daily_loss}%. Halting new buy orders for session."
+            )
+            available_slots = 0
+
+        # Opening 15-Minute Shield
         if is_opening_15min_whipsaw_period():
             logger.info(
                 "🛡️ [OPENING 15-MIN SHIELD] Pausing aggressive buy orders (09:30 - 09:45 EDT) to let morning whiplash & retail gap traps settle."
             )
-            available_slots = 0  # Suppress new buy fills during opening 15 mins
+            available_slots = 0
 
-        curr_open_count = len(self.broker.state.get("open_positions", {}))
-        available_slots = (
-            max(0, max_concurrent_positions - curr_open_count)
-            if not is_opening_15min_whipsaw_period()
-            else 0
-        )
         cash_available = self.broker.state.get("cash", 0.0)
 
         if available_slots > 0 and cash_available > 5000.0:
@@ -351,11 +471,27 @@ class AutonomousTradingEngine:
                 reverse=True,
             )
 
+            # Task 8 Max Position Size Hard Constraint: Max 20% of total portfolio equity
+            max_position_dollars = portfolio_summary["total_equity"] * 0.20
+
             # Execute entries into Top candidate setups up to available slots
             for t, delib in buy_candidates[:available_slots]:
                 spot_price = float(delib.get("spot_price", 0))
                 if spot_price <= 0:
                     continue
+
+                # Ensure Kelly sizing allocation does not breach max position size
+                cro_info = delib.get("cro_signoff", {})
+                approved_kelly = float(cro_info.get("approved_kelly_pct", 8.0))
+                max_allowed_kelly = round(
+                    (max_position_dollars / portfolio_summary["total_equity"]) * 100.0,
+                    1,
+                )
+                if approved_kelly > max_allowed_kelly:
+                    logger.info(
+                        f"🔒 [CIRCUIT BREAKER: POSITION SIZE] Sizing for {t} capped from {approved_kelly}% to {max_allowed_kelly}% max position limit."
+                    )
+                    delib["cro_signoff"]["approved_kelly_pct"] = max_allowed_kelly
 
                 order_res = execute_committee_order(
                     ticker=t, deliberation=delib, broker=self.broker

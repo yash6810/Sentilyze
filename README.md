@@ -19,22 +19,39 @@
 
 ## 🔬 Project Overview & Core Thesis
 
-**Sentilyze** is an open-source quantitative trading research system and reproducible MLOps showcase. The project investigates whether combining **deep NLP financial sentiment** with **multi-timeframe technical momentum** can generate positive risk-adjusted expectancy when paired with **strict asymmetric trade management**.
+**Sentilyze** is an open-source quantitative trading research platform and reproducible MLOps showcase. The project investigates whether combining **deep NLP financial sentiment (FinBERT)** with **multi-timeframe technical momentum** can generate positive risk-adjusted expectancy when paired with **strict asymmetric trade management**.
 
 ### 💡 The Core Finding & Empirical Alpha Attribution
-In daily financial time series, directional return prediction is notoriously non-stationary (out-of-sample directional accuracy is $\sim 50\%\text{--}53\%$). Sentilyze includes an automated **Alpha Attribution Engine** ([`src/attribution_analysis.py`](src/attribution_analysis.py)) that decomposes strategy performance against zero-alpha baselines under identical market friction ($0.10\%$ fees, $0.05\%$ slippage, $5\%$ margin rate):
 
-#### **Attribution Decomposition Matrix (NVDA 2018–2026, 2,514 Trading Days)**
-| Strategy Configuration | Total Return (%) | Win Rate (%) | Sharpe Ratio | Max Drawdown (%) | Trade Count | Primary Role |
-| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| 🎲 **Random Signal Baseline + Asymmetric ATR Rules** | **+4,185.16%** | 54.41% | 1.85 | -83.18% | 350 | **Positive Expectancy Baseline** |
-| 📈 **Always-Long Baseline + Asymmetric ATR Rules** | **+13,029.48%** | 54.03% | 3.06 | -86.07% | 422 | **Market Beta Expansion** |
-| 🧠 **Full ML Strategy (FinBERT + XGBoost Filter)** | **+3,178.95%** | **57.14%** | 1.17 | **-42.19%** | **266** | **Volatility & Drawdown Shield** |
-| 🏛️ **Buy & Hold Benchmark** | +14,610.76% | N/A | ~1.10 | -66.36% | 1 | Passive Reference |
+In daily financial time series, directional return prediction is notoriously non-stationary (out-of-sample directional accuracy is $\sim 49\%\text{--}53\%$). Sentilyze includes an automated **Alpha Attribution Engine** ([`src/attribution_analysis.py`](src/attribution_analysis.py)) that decomposes strategy performance against zero-alpha baselines under identical market friction ($0.10\%$ transaction fees, $0.05\%$ slippage, $5\%$ margin rate) using **50 Monte Carlo trials per ticker** over the 2018–2026 evaluation window:
 
-#### **Key Attribution Takeaways:**
-1. **Trade Management Drives Baseline Expectancy**: Even purely random entries produce a positive Sharpe of $1.85$ under the $+2.5\text{ ATR}$ Take-Profit / $-1.5\text{ ATR}$ Stop-Loss / Breakeven Ratchet framework. The baseline positive edge is mathematical payoff geometry.
-2. **The ML Model Acts as a Drawdown Shield**: The FinBERT + XGBoost classifier filters out 156 high-risk false breakouts, **halving Maximum Drawdown from $-86.07\%$ down to $-42.19\%$** and lifting the win rate to $57.14\%$.
+#### **1. Multi-Ticker Empirical Attribution Decomposition (50 Monte Carlo Trials per Asset)**
+| Ticker | ML Strategy Return (%) | ML Win Rate (%) | ML Sharpe | ML Max DD (%) | Random Entries Return (%) | Random Sharpe | Random Max DD (%) | Always-Long Max DD (%) | ML Predictive Edge Share (%) | Risk Management Baseline Share (%) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **NVDA** | **+738.61%** | 52.67% | 0.90 | **-52.95%** | +1,486.21% | 1.84 | -83.73% | -86.07% | **0.0%** | **201.2%** |
+| **AAPL** | **+76.56%** | 50.27% | 0.48 | **-67.87%** | +133.40% | 1.42 | -75.95% | -83.52% | **0.0%** | **174.2%** |
+| **MSFT** | **+48.23%** | 49.03% | 0.37 | **-71.10%** | +167.21% | 1.37 | -74.83% | -84.82% | **0.0%** | **346.7%** |
+| **GOOGL** | **+63.78%** | 47.49% | 0.36 | **-75.47%** | +50.74% | 1.42 | -83.78% | -87.93% | **20.4%** | **79.6%** |
+| **AMZN** | **+17.18%** | 43.75% | 0.40 | **-72.61%** | +14.50% | 1.51 | -78.54% | -85.28% | **15.6%** | **84.4%** |
+| **META** | **+50.15%** | 47.25% | 0.42 | **-69.01%** | +37.71% | 1.58 | -86.09% | -95.76% | **24.8%** | **75.2%** |
+| **TSLA** | **+138.03%** | 49.35% | 0.47 | **-88.67%** | +28.72% | 1.97 | -92.60% | -97.92% | **79.2%** | **20.8%** |
+| **SPY** | **+77.03%** | 50.51% | 0.33 | **-59.55%** | +46.96% | 1.01 | -68.45% | -72.68% | **39.0%** | **61.0%** |
+| **AVERAGE** | **+151.20%** | **48.79%** | **0.47** | **-69.65%** | **+245.68%** | **1.52** | **-80.50%** | **-86.75%** | **22.38%** | **130.39%** |
+
+#### **2. 4-Agent Committee Ablation Matrix (400-Day Out-of-Sample Horizon)**
+| Ticker | Full Committee Sharpe | Full Committee Return (%) | Full Committee Max DD (%) | Minus-Forensic Sharpe | Minus-Sentiment Sharpe | Minus-CRO Sharpe | Technical-Only Sharpe |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **NVDA** | **0.46** | +15.98% | -23.82% | 0.57 | 0.04 | -0.39 | 0.04 |
+| **AAPL** | **0.70** | +26.89% | -16.83% | 0.76 | -0.11 | 0.19 | -0.11 |
+| **MSFT** | **0.45** | +13.38% | -25.60% | 0.42 | 0.36 | -0.32 | 0.36 |
+| **GOOGL** | **-0.03** | -4.84% | -23.76% | 0.08 | 0.36 | -0.38 | 0.36 |
+| **AMZN** | **0.03** | -5.31% | -20.48% | -0.02 | -0.89 | -0.32 | -0.89 |
+| **AVERAGE** | **+0.32** | **+9.22%** | **-22.10%** | **+0.36** | **-0.05** | **-0.24** | **-0.05** |
+
+#### **Key Empirical Conclusions:**
+1. **Asymmetric Trade Management Drives the Positive Expectancy Baseline**: Under $+2.5\times\text{ATR}$ take-profit, $-1.5\times\text{ATR}$ stop-loss, and breakeven ratchets, even purely randomized trade entries yield positive returns (average $+245.68\%$, Sharpe $1.52$) in an upward trending regime. However, random and unmanaged long signals experience catastrophic drawdowns (**$-80.50\%\text{ to }-86.75\%$**).
+2. **The ML Model Acts as a Drawdown and Tail-Risk Shield**: Predictive ML signals reduce trade count, avoid adverse regimes, and **contract maximum drawdown from $-86.75\%$ down to $-69.65\%$** (and down to $-22.10\%$ in the 4-agent council).
+3. **CRO Risk Management & FinBERT Sentiment are Critical**: Removing Chief Risk Officer sizing collapses Sharpe from $+0.32 \rightarrow -0.24$; removing FinBERT sentiment turns the council net-negative ($-0.05$ Sharpe). Technical indicators alone without sentiment and risk management fail to maintain positive risk-adjusted alpha.
 
 ---
 

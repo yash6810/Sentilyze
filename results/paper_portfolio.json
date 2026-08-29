@@ -1,135 +1,14 @@
 {
   "initial_capital": 100000.0,
-  "cash": 28787.65927917477,
+  "cash": 101523.31927917476,
   "total_equity": 101523.32,
   "unrealized_pnl": 0.0,
   "realized_pnl": 1523.3192791747613,
   "win_rate": 52.4,
-  "total_trades": 21,
+  "total_trades": 29,
   "winning_trades": 11,
-  "losing_trades": 10,
-  "open_positions": {
-    "TSM": {
-      "ticker": "TSM",
-      "shares": 45,
-      "initial_shares": 45,
-      "entry_price": 417.52,
-      "current_price": 417.52,
-      "entry_date": "2026-08-29",
-      "tp1_target": 448.83,
-      "tp2_target": 473.89,
-      "sl_target": 405.95,
-      "scaled_out": false,
-      "confidence": 0.8270000000000001,
-      "regime": "MANUAL_LIVE_ORDER",
-      "highest_price_seen": 417.52
-    },
-    "SPY": {
-      "ticker": "SPY",
-      "shares": 24,
-      "initial_shares": 24,
-      "entry_price": 769.35,
-      "current_price": 769.35,
-      "entry_date": "2026-08-29",
-      "tp1_target": 827.05,
-      "tp2_target": 873.21,
-      "sl_target": 765.35,
-      "scaled_out": false,
-      "confidence": 0.807,
-      "regime": "MANUAL_LIVE_ORDER",
-      "highest_price_seen": 769.35
-    },
-    "EOG": {
-      "ticker": "EOG",
-      "shares": 42,
-      "initial_shares": 42,
-      "entry_price": 143.35,
-      "current_price": 143.35,
-      "entry_date": "2026-08-29",
-      "tp1_target": 154.1,
-      "tp2_target": 162.7,
-      "sl_target": 139.78,
-      "scaled_out": false,
-      "confidence": 0.7959999999999999,
-      "regime": "MANUAL_LIVE_ORDER",
-      "highest_price_seen": 143.35
-    },
-    "ADBE": {
-      "ticker": "ADBE",
-      "shares": 20,
-      "initial_shares": 20,
-      "entry_price": 291.52,
-      "current_price": 291.52,
-      "entry_date": "2026-08-29",
-      "tp1_target": 313.38,
-      "tp2_target": 330.88,
-      "sl_target": 288.26,
-      "scaled_out": false,
-      "confidence": 0.792,
-      "regime": "MANUAL_LIVE_ORDER",
-      "highest_price_seen": 291.52
-    },
-    "PGR": {
-      "ticker": "PGR",
-      "shares": 27,
-      "initial_shares": 27,
-      "entry_price": 218.64,
-      "current_price": 218.64,
-      "entry_date": "2026-08-29",
-      "tp1_target": 235.04,
-      "tp2_target": 248.16,
-      "sl_target": 216.92,
-      "scaled_out": false,
-      "confidence": 0.7909999999999999,
-      "regime": "MANUAL_LIVE_ORDER",
-      "highest_price_seen": 218.64
-    },
-    "FDX": {
-      "ticker": "FDX",
-      "shares": 18,
-      "initial_shares": 18,
-      "entry_price": 330.88,
-      "current_price": 330.88,
-      "entry_date": "2026-08-29",
-      "tp1_target": 355.7,
-      "tp2_target": 375.55,
-      "sl_target": 322.68,
-      "scaled_out": false,
-      "confidence": 0.7909999999999999,
-      "regime": "MANUAL_LIVE_ORDER",
-      "highest_price_seen": 330.88
-    },
-    "MO": {
-      "ticker": "MO",
-      "shares": 88,
-      "initial_shares": 88,
-      "entry_price": 68.65,
-      "current_price": 68.65,
-      "entry_date": "2026-08-29",
-      "tp1_target": 73.8,
-      "tp2_target": 77.92,
-      "sl_target": 67.9,
-      "scaled_out": false,
-      "confidence": 0.7829999999999999,
-      "regime": "MANUAL_LIVE_ORDER",
-      "highest_price_seen": 68.65
-    },
-    "QQQ": {
-      "ticker": "QQQ",
-      "shares": 8,
-      "initial_shares": 8,
-      "entry_price": 716.43,
-      "current_price": 716.43,
-      "entry_date": "2026-08-29",
-      "tp1_target": 770.16,
-      "tp2_target": 813.15,
-      "sl_target": 711.92,
-      "scaled_out": false,
-      "confidence": 0.778,
-      "regime": "MANUAL_LIVE_ORDER",
-      "highest_price_seen": 716.43
-    }
-  },
+  "losing_trades": 18,
+  "open_positions": {},
   "closed_trades": [
     {
       "ticker": "AMD",
@@ -356,6 +235,70 @@
       "exit_price": 321.15,
       "pnl": -0.47,
       "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "TSM",
+      "shares": 45,
+      "entry_price": 417.52,
+      "exit_price": 417.52,
+      "pnl": 0.0,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "SPY",
+      "shares": 24,
+      "entry_price": 769.35,
+      "exit_price": 769.35,
+      "pnl": 0.0,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "EOG",
+      "shares": 42,
+      "entry_price": 143.35,
+      "exit_price": 143.35,
+      "pnl": 0.0,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "ADBE",
+      "shares": 20,
+      "entry_price": 291.52,
+      "exit_price": 291.52,
+      "pnl": 0.0,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "PGR",
+      "shares": 27,
+      "entry_price": 218.64,
+      "exit_price": 218.64,
+      "pnl": 0.0,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "FDX",
+      "shares": 18,
+      "entry_price": 330.88,
+      "exit_price": 330.88,
+      "pnl": 0.0,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "MO",
+      "shares": 88,
+      "entry_price": 68.65,
+      "exit_price": 68.65,
+      "pnl": 0.0,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "QQQ",
+      "shares": 8,
+      "entry_price": 716.43,
+      "exit_price": 716.43,
+      "pnl": 0.0,
+      "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
     }
   ],
   "equity_history": [
@@ -392,5 +335,5 @@
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-08-29T14:51:41.496327+00:00"
+  "last_updated": "2026-08-29T18:59:18.326665+00:00"
 }

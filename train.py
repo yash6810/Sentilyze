@@ -72,7 +72,10 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
             price_history_with_indicators.loc[oos_predictions.index]
         )
         portfolio, backtest_metrics, heatmap_fig = run_backtest(
-            test_price_history, oos_predictions, max_leverage=leverage
+            test_price_history,
+            oos_predictions,
+            max_leverage=leverage,
+            generate_heatmap=True,
         )
         logger.info(f"Backtest performance: {backtest_metrics}")
         mlflow.log_metrics(backtest_metrics)
@@ -126,6 +129,14 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
         portfolio.to_csv(f"results/{ticker}_portfolio.csv")
         mlflow.log_artifact(f"results/{ticker}_portfolio.csv")
         logger.info(f"Saved portfolio to results/{ticker}_portfolio.csv")
+
+        # Save out-of-sample predictions
+        predictions_df = pd.DataFrame(
+            {"Prob_Up": oos_predictions["prob_up"]}, index=oos_predictions.index
+        )
+        predictions_df.to_csv(f"results/{ticker}_predictions.csv")
+        mlflow.log_artifact(f"results/{ticker}_predictions.csv")
+        logger.info(f"Saved predictions to results/{ticker}_predictions.csv")
 
         # Save feature importances to a CSV file
         feature_importances = pd.DataFrame(

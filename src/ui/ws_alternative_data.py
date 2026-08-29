@@ -100,19 +100,18 @@ def render_alternative_data_workspace(selected_ticker: str):
                 )
 
     with t2:
-        st.markdown(
-            "### 🦄 Pre-IPO Pipeline (OpenAI, Anthropic, SpaceX, Stripe, Databricks)"
-        )
+        st.markdown("### 🦄 Pre-IPO Intelligence & SEC EDGAR S-1 Filings")
         st.markdown(
             """
             <div class="glass-card">
-                <b>Pre-IPO & Day-1 Auto Registration:</b> Tracks private market valuations, venture backing rounds, 
-                and parses real-time <b>SEC EDGAR Form S-1 / S-1/A</b> registration statements.
+                <b>Curated Private Market Intelligence:</b> Profiles late-stage private companies (OpenAI, Anthropic, SpaceX, Stripe, Databricks) 
+                with verified venture rounds, lead backers, and estimated secondary valuations alongside a live <b>SEC EDGAR Form S-1 / S-1/A</b> filing stream.
             </div>
             """,
             unsafe_allow_html=True,
         )
 
+        st.markdown("#### 🏛️ Late-Stage Private Enterprise Directory")
         ipo_df = get_pre_ipo_pipeline_df()
         st.dataframe(
             ipo_df.style.format(
@@ -122,6 +121,18 @@ def render_alternative_data_workspace(selected_ticker: str):
             ),
             use_container_width=True,
         )
+
+        st.markdown("#### 📜 Live SEC EDGAR Form S-1 IPO Filings Feed")
+        with st.spinner("Fetching live SEC EDGAR Form S-1 filings..."):
+            sec_filings = fetch_sec_edgar_ipo_filings()
+
+        if sec_filings:
+            filings_df = pd.DataFrame(sec_filings)
+            st.dataframe(filings_df, use_container_width=True)
+        else:
+            st.info(
+                "ℹ️ No new SEC Form S-1 filings detected in the current EDGAR polling cycle."
+            )
 
         st.markdown("#### ⚡ Register Upcoming IPO Ticker into Model Universe")
         r_col1, r_col2, r_col3 = st.columns([1.5, 2, 1])
