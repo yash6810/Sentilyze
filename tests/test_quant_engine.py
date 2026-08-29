@@ -1,4 +1,4 @@
-from src.quant_engine import run_unified_institutional_pipeline
+from experimental.quant_engine import run_unified_institutional_pipeline
 
 
 def test_run_unified_institutional_pipeline():
