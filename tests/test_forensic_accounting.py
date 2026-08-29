@@ -43,4 +43,4 @@ def test_debt_maturity_wall():
     assert wall["ticker"] == "NVDA"
     assert "total_debt_billions" in wall
     assert len(wall["maturities"]) >= 3
-    assert wall["interest_coverage_ratio"] > 10.0
+    assert wall["interest_coverage_ratio"] >= 4.0

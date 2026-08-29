@@ -55,3 +55,7 @@ Sentilyze_Research_Paper.md
 # Local agent memory and scratch experiments
 memory.md
 /experiments/
+.agents/
+.gemini/
+catboost_info/
+/data/raw/

@@ -1,37 +1,314 @@
 {
   "NVDA": {
     "ticker": "NVDA",
-    "sample_period_days": 2514,
+    "sample_period_days": 2013,
+    "evaluation_window": {
+      "start_date": "2018-08-23",
+      "end_date": "2026-08-27"
+    },
     "models": {
       "full_ml_strategy": {
-        "total_return_pct": 3178.95,
-        "sharpe_ratio": 1.17,
-        "win_rate_pct": 57.14,
-        "max_drawdown_pct": -42.19,
-        "trades_count": 266
+        "total_return_pct": 738.61,
+        "sharpe_ratio": 0.9,
+        "win_rate_pct": 52.67,
+        "max_drawdown_pct": -52.95,
+        "trades_count": 262
       },
       "always_long_strategy": {
-        "total_return_pct": 13029.48,
-        "sharpe_ratio": 3.06,
-        "win_rate_pct": 54.03,
+        "total_return_pct": 2082.79,
+        "sharpe_ratio": 3.12,
+        "win_rate_pct": 52.69,
         "max_drawdown_pct": -86.07,
-        "trades_count": 422
+        "trades_count": 353
       },
       "random_signal_strategy": {
-        "total_return_pct": 4185.16,
-        "sharpe_ratio": 1.85,
-        "win_rate_pct": 54.41,
-        "max_drawdown_pct": -83.18,
-        "n_monte_carlo_trials": 3
+        "total_return_pct": 1486.21,
+        "sharpe_ratio": 1.84,
+        "win_rate_pct": 53.81,
+        "max_drawdown_pct": -83.73,
+        "n_monte_carlo_trials": 50
       },
       "buy_and_hold_benchmark": {
-        "total_return_pct": 14610.76
+        "total_return_pct": 3317.48
       }
     },
     "attribution_decomposition": {
       "ml_predictive_edge_share_pct": 0.0,
-      "risk_trade_management_share_pct": 131.7,
-      "interpretation": "Empirical attribution shows that asymmetric trade management (+2.5 ATR TP, -1.5 ATR SL, breakeven ratchets) provides the primary baseline positive expectancy (Sharpe ~ 1.85 on random entries), while ML predictive filtering improves entry timing and reduces drawdowns."
+      "risk_trade_management_share_pct": 201.2,
+      "interpretation": "Empirical attribution shows that asymmetric trade management (+2.5 ATR TP, -1.5 ATR SL, breakeven ratchets) provides the primary baseline positive expectancy (Sharpe ~ 1.84 on random entries), while ML predictive filtering alters trade frequency, win rate, and tail drawdown characteristics."
+    }
+  },
+  "AAPL": {
+    "ticker": "AAPL",
+    "sample_period_days": 2013,
+    "evaluation_window": {
+      "start_date": "2018-08-23",
+      "end_date": "2026-08-27"
+    },
+    "models": {
+      "full_ml_strategy": {
+        "total_return_pct": 76.56,
+        "sharpe_ratio": 0.48,
+        "win_rate_pct": 50.27,
+        "max_drawdown_pct": -67.87,
+        "trades_count": 183
+      },
+      "always_long_strategy": {
+        "total_return_pct": 19.79,
+        "sharpe_ratio": 2.31,
+        "win_rate_pct": 50.0,
+        "max_drawdown_pct": -83.52,
+        "trades_count": 204
+      },
+      "random_signal_strategy": {
+        "total_return_pct": 133.4,
+        "sharpe_ratio": 1.42,
+        "win_rate_pct": 52.78,
+        "max_drawdown_pct": -75.95,
+        "n_monte_carlo_trials": 50
+      },
+      "buy_and_hold_benchmark": {
+        "total_return_pct": 483.93
+      }
+    },
+    "attribution_decomposition": {
+      "ml_predictive_edge_share_pct": 0.0,
+      "risk_trade_management_share_pct": 174.2,
+      "interpretation": "Empirical attribution shows that asymmetric trade management (+2.5 ATR TP, -1.5 ATR SL, breakeven ratchets) provides the primary baseline positive expectancy (Sharpe ~ 1.42 on random entries), while ML predictive filtering alters trade frequency, win rate, and tail drawdown characteristics."
+    }
+  },
+  "MSFT": {
+    "ticker": "MSFT",
+    "sample_period_days": 2013,
+    "evaluation_window": {
+      "start_date": "2018-08-23",
+      "end_date": "2026-08-27"
+    },
+    "models": {
+      "full_ml_strategy": {
+        "total_return_pct": 48.23,
+        "sharpe_ratio": 0.37,
+        "win_rate_pct": 49.03,
+        "max_drawdown_pct": -71.1,
+        "trades_count": 155
+      },
+      "always_long_strategy": {
+        "total_return_pct": 52.44,
+        "sharpe_ratio": 2.23,
+        "win_rate_pct": 50.26,
+        "max_drawdown_pct": -84.82,
+        "trades_count": 189
+      },
+      "random_signal_strategy": {
+        "total_return_pct": 167.21,
+        "sharpe_ratio": 1.37,
+        "win_rate_pct": 50.7,
+        "max_drawdown_pct": -74.83,
+        "n_monte_carlo_trials": 50
+      },
+      "buy_and_hold_benchmark": {
+        "total_return_pct": 369.56
+      }
+    },
+    "attribution_decomposition": {
+      "ml_predictive_edge_share_pct": 0.0,
+      "risk_trade_management_share_pct": 346.7,
+      "interpretation": "Empirical attribution shows that asymmetric trade management (+2.5 ATR TP, -1.5 ATR SL, breakeven ratchets) provides the primary baseline positive expectancy (Sharpe ~ 1.37 on random entries), while ML predictive filtering alters trade frequency, win rate, and tail drawdown characteristics."
+    }
+  },
+  "GOOGL": {
+    "ticker": "GOOGL",
+    "sample_period_days": 2012,
+    "evaluation_window": {
+      "start_date": "2018-08-22",
+      "end_date": "2026-08-25"
+    },
+    "models": {
+      "full_ml_strategy": {
+        "total_return_pct": 63.78,
+        "sharpe_ratio": 0.36,
+        "win_rate_pct": 47.49,
+        "max_drawdown_pct": -75.47,
+        "trades_count": 179
+      },
+      "always_long_strategy": {
+        "total_return_pct": 1.19,
+        "sharpe_ratio": 2.35,
+        "win_rate_pct": 47.85,
+        "max_drawdown_pct": -87.93,
+        "trades_count": 209
+      },
+      "random_signal_strategy": {
+        "total_return_pct": 50.74,
+        "sharpe_ratio": 1.42,
+        "win_rate_pct": 49.66,
+        "max_drawdown_pct": -83.78,
+        "n_monte_carlo_trials": 50
+      },
+      "buy_and_hold_benchmark": {
+        "total_return_pct": 467.97
+      }
+    },
+    "attribution_decomposition": {
+      "ml_predictive_edge_share_pct": 20.4,
+      "risk_trade_management_share_pct": 79.6,
+      "interpretation": "Empirical attribution shows that asymmetric trade management (+2.5 ATR TP, -1.5 ATR SL, breakeven ratchets) provides the primary baseline positive expectancy (Sharpe ~ 1.42 on random entries), while ML predictive filtering alters trade frequency, win rate, and tail drawdown characteristics."
+    }
+  },
+  "AMZN": {
+    "ticker": "AMZN",
+    "sample_period_days": 2012,
+    "evaluation_window": {
+      "start_date": "2018-08-22",
+      "end_date": "2026-08-25"
+    },
+    "models": {
+      "full_ml_strategy": {
+        "total_return_pct": 17.18,
+        "sharpe_ratio": 0.4,
+        "win_rate_pct": 43.75,
+        "max_drawdown_pct": -72.61,
+        "trades_count": 192
+      },
+      "always_long_strategy": {
+        "total_return_pct": -43.3,
+        "sharpe_ratio": 2.53,
+        "win_rate_pct": 44.49,
+        "max_drawdown_pct": -85.28,
+        "trades_count": 245
+      },
+      "random_signal_strategy": {
+        "total_return_pct": 14.5,
+        "sharpe_ratio": 1.51,
+        "win_rate_pct": 46.3,
+        "max_drawdown_pct": -78.54,
+        "n_monte_carlo_trials": 50
+      },
+      "buy_and_hold_benchmark": {
+        "total_return_pct": 174.09
+      }
+    },
+    "attribution_decomposition": {
+      "ml_predictive_edge_share_pct": 15.6,
+      "risk_trade_management_share_pct": 84.4,
+      "interpretation": "Empirical attribution shows that asymmetric trade management (+2.5 ATR TP, -1.5 ATR SL, breakeven ratchets) provides the primary baseline positive expectancy (Sharpe ~ 1.51 on random entries), while ML predictive filtering alters trade frequency, win rate, and tail drawdown characteristics."
+    }
+  },
+  "META": {
+    "ticker": "META",
+    "sample_period_days": 2012,
+    "evaluation_window": {
+      "start_date": "2018-08-22",
+      "end_date": "2026-08-25"
+    },
+    "models": {
+      "full_ml_strategy": {
+        "total_return_pct": 50.15,
+        "sharpe_ratio": 0.42,
+        "win_rate_pct": 47.25,
+        "max_drawdown_pct": -69.01,
+        "trades_count": 218
+      },
+      "always_long_strategy": {
+        "total_return_pct": -62.36,
+        "sharpe_ratio": 2.64,
+        "win_rate_pct": 44.57,
+        "max_drawdown_pct": -95.76,
+        "trades_count": 267
+      },
+      "random_signal_strategy": {
+        "total_return_pct": 37.71,
+        "sharpe_ratio": 1.58,
+        "win_rate_pct": 46.49,
+        "max_drawdown_pct": -86.09,
+        "n_monte_carlo_trials": 50
+      },
+      "buy_and_hold_benchmark": {
+        "total_return_pct": 228.29
+      }
+    },
+    "attribution_decomposition": {
+      "ml_predictive_edge_share_pct": 24.8,
+      "risk_trade_management_share_pct": 75.2,
+      "interpretation": "Empirical attribution shows that asymmetric trade management (+2.5 ATR TP, -1.5 ATR SL, breakeven ratchets) provides the primary baseline positive expectancy (Sharpe ~ 1.58 on random entries), while ML predictive filtering alters trade frequency, win rate, and tail drawdown characteristics."
+    }
+  },
+  "TSLA": {
+    "ticker": "TSLA",
+    "sample_period_days": 2012,
+    "evaluation_window": {
+      "start_date": "2018-08-22",
+      "end_date": "2026-08-25"
+    },
+    "models": {
+      "full_ml_strategy": {
+        "total_return_pct": 138.03,
+        "sharpe_ratio": 0.47,
+        "win_rate_pct": 49.35,
+        "max_drawdown_pct": -88.67,
+        "trades_count": 310
+      },
+      "always_long_strategy": {
+        "total_return_pct": -82.82,
+        "sharpe_ratio": 3.49,
+        "win_rate_pct": 47.72,
+        "max_drawdown_pct": -97.92,
+        "trades_count": 461
+      },
+      "random_signal_strategy": {
+        "total_return_pct": 28.72,
+        "sharpe_ratio": 1.97,
+        "win_rate_pct": 48.28,
+        "max_drawdown_pct": -92.6,
+        "n_monte_carlo_trials": 50
+      },
+      "buy_and_hold_benchmark": {
+        "total_return_pct": 1533.43
+      }
+    },
+    "attribution_decomposition": {
+      "ml_predictive_edge_share_pct": 79.2,
+      "risk_trade_management_share_pct": 20.8,
+      "interpretation": "Empirical attribution shows that asymmetric trade management (+2.5 ATR TP, -1.5 ATR SL, breakeven ratchets) provides the primary baseline positive expectancy (Sharpe ~ 1.97 on random entries), while ML predictive filtering alters trade frequency, win rate, and tail drawdown characteristics."
+    }
+  },
+  "SPY": {
+    "ticker": "SPY",
+    "sample_period_days": 2014,
+    "evaluation_window": {
+      "start_date": "2018-08-23",
+      "end_date": "2026-08-28"
+    },
+    "models": {
+      "full_ml_strategy": {
+        "total_return_pct": 77.03,
+        "sharpe_ratio": 0.33,
+        "win_rate_pct": 50.51,
+        "max_drawdown_pct": -59.55,
+        "trades_count": 99
+      },
+      "always_long_strategy": {
+        "total_return_pct": -12.32,
+        "sharpe_ratio": 1.64,
+        "win_rate_pct": 49.52,
+        "max_drawdown_pct": -72.68,
+        "trades_count": 105
+      },
+      "random_signal_strategy": {
+        "total_return_pct": 46.96,
+        "sharpe_ratio": 1.01,
+        "win_rate_pct": 52.6,
+        "max_drawdown_pct": -68.45,
+        "n_monte_carlo_trials": 50
+      },
+      "buy_and_hold_benchmark": {
+        "total_return_pct": 169.81
+      }
+    },
+    "attribution_decomposition": {
+      "ml_predictive_edge_share_pct": 39.0,
+      "risk_trade_management_share_pct": 61.0,
+      "interpretation": "Empirical attribution shows that asymmetric trade management (+2.5 ATR TP, -1.5 ATR SL, breakeven ratchets) provides the primary baseline positive expectancy (Sharpe ~ 1.01 on random entries), while ML predictive filtering alters trade frequency, win rate, and tail drawdown characteristics."
     }
   }
 }

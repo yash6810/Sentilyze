@@ -1,3 +1,4 @@
+import os
 import pytest
 from unittest.mock import MagicMock, patch
 from src.autonomous_trader import AutonomousTradingEngine, load_universe_tickers
@@ -66,3 +67,67 @@ def test_autonomous_cycle_execution(mock_committee, mock_news, mock_quotes):
     assert "buys" in res
     assert "portfolio_equity" in res
     assert res["portfolio_equity"] == 100000.0
+
+
+def test_idempotency_lock_prevents_overlap(tmp_path, monkeypatch):
+    """Task 6: Verify active lock file prevents overlapping concurrent cycles."""
+    import json
+    import time
+    from src.autonomous_trader import LOCK_FILE
+
+    # Create dummy lock file
+    os.makedirs(os.path.dirname(LOCK_FILE), exist_ok=True)
+    with open(LOCK_FILE, "w") as f:
+        json.dump({"pid": 99999, "timestamp": time.time()}, f)
+
+    try:
+        mock_broker = MagicMock(spec=PaperBroker)
+        engine = AutonomousTradingEngine(broker=mock_broker)
+        res = engine.run_autonomous_cycle(candidate_tickers=["NVDA"])
+
+        assert res.get("status") == "SKIPPED_LOCKED"
+        assert "lock_pid" in res
+    finally:
+        if os.path.exists(LOCK_FILE):
+            os.remove(LOCK_FILE)
+
+
+def test_master_kill_switch_blocks_buys(monkeypatch):
+    """Task 7: Verify master kill switch disables order placement."""
+    monkeypatch.setenv("SENTILYZE_KILL_SWITCH", "true")
+    from src.autonomous_trader import is_kill_switch_active
+
+    assert is_kill_switch_active() is True
+
+
+def test_daily_loss_circuit_breaker():
+    """Task 8: Verify circuit breaker triggers when unrealized loss exceeds 3%."""
+    from src.autonomous_trader import check_daily_loss_circuit_breaker
+
+    # 1. Normal state (+$500 unrealized PnL)
+    normal_summary = {"unrealized_pnl": 500.0, "total_equity": 10500.0}
+    assert (
+        check_daily_loss_circuit_breaker(normal_summary, max_daily_loss_pct=3.0)
+        is False
+    )
+
+    # 2. Breached state (-$400 loss on $10k initial capital = -4%)
+    breached_summary = {"unrealized_pnl": -400.0, "total_equity": 9600.0}
+    assert (
+        check_daily_loss_circuit_breaker(breached_summary, max_daily_loss_pct=3.0)
+        is True
+    )
+
+
+def test_unhandled_exception_handling_and_alert(monkeypatch):
+    """Task 9: Verify unhandled exception in cycle is caught and handled safely."""
+    engine = AutonomousTradingEngine()
+    monkeypatch.setattr(
+        engine,
+        "_execute_cycle_body",
+        MagicMock(side_effect=RuntimeError("Simulated critical DB failure")),
+    )
+
+    res = engine.run_autonomous_cycle()
+    assert res.get("status") == "ERROR"
+    assert "Simulated critical DB failure" in res.get("error", "")

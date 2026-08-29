@@ -87,7 +87,9 @@ def test_calculate_performance_metrics(
 def test_run_backtest(sample_backtest_data: tuple[pd.DataFrame, pd.Series]) -> None:
     """Test the run_backtest function."""
     price_history, signals = sample_backtest_data
-    portfolio, metrics, heatmap_fig = run_backtest(price_history, signals)
+    portfolio, metrics, heatmap_fig = run_backtest(
+        price_history, signals, generate_heatmap=True
+    )
 
     assert isinstance(portfolio, pd.DataFrame)
     assert len(portfolio) == 10

@@ -206,12 +206,9 @@ def run_unified_institutional_pipeline(
     )
 
     # Master Verdict
-    if (
-        composite_score >= 75.0
-        and (
-            beneish_res.get("beneish_m_score") is None
-            or beneish_res["beneish_m_score"] < -1.78
-        )
+    if composite_score >= 75.0 and (
+        beneish_res.get("beneish_m_score") is None
+        or beneish_res["beneish_m_score"] < -1.78
     ):
         verdict = "🚀 CONVICTION INSTITUTIONAL BUY (All 8 Pillars Aligned)"
         color = "#00D4AA"
