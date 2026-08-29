@@ -1,32 +1,19 @@
 {
   "initial_capital": 100000.0,
-  "cash": 768.7892791747454,
-  "total_equity": 101275.44,
-  "unrealized_pnl": 58.25,
-  "realized_pnl": 1217.1906829833576,
-  "win_rate": 53.3,
-  "total_trades": 15,
+  "cash": 11181.319216918884,
+  "total_equity": 101852.34,
+  "unrealized_pnl": 1028.27,
+  "realized_pnl": 824.0674163817955,
+  "win_rate": 47.1,
+  "total_trades": 17,
   "winning_trades": 8,
-  "losing_trades": 7,
+  "losing_trades": 9,
   "open_positions": {
-    "META": {
-      "shares": 78,
-      "initial_shares": 78,
-      "entry_price": 576.1400146484375,
-      "current_price": 578.02,
-      "entry_date": "2026-08-27",
-      "tp1_target": 617.17,
-      "tp2_target": 649.99,
-      "sl_target": 574.18,
-      "scaled_out": false,
-      "confidence": 0.6999778747558594,
-      "regime": "\u25bc BEARISH (Below SMA200)"
-    },
     "TSM": {
       "shares": 107,
       "initial_shares": 107,
       "entry_price": 417.6900024414063,
-      "current_price": 417.52,
+      "current_price": 427.2999877929688,
       "entry_date": "2026-08-27",
       "tp1_target": 445.16,
       "tp2_target": 467.14,
@@ -35,19 +22,18 @@
       "confidence": 0.6696692109107971,
       "regime": "\u25b2 BULLISH (Above SMA200)"
     },
-    "QQQ": {
-      "ticker": "QQQ",
-      "shares": 15,
-      "initial_shares": 15,
-      "entry_price": 721.11,
-      "current_price": 716.43,
-      "entry_date": "2026-08-28",
-      "tp1_target": 775.19,
-      "tp2_target": 818.46,
-      "sl_target": 711.92,
+    "NFLX": {
+      "shares": 563,
+      "initial_shares": 563,
+      "entry_price": 79.83999633789062,
+      "current_price": 79.83999633789062,
+      "entry_date": "2026-08-29",
+      "tp1_target": 85.53,
+      "tp2_target": 90.08,
+      "sl_target": 76.43,
       "scaled_out": false,
-      "confidence": 0.81,
-      "regime": "MANUAL_LIVE_ORDER"
+      "confidence": 0.7506499886512756,
+      "regime": "\u25bc BEARISH (Below SMA200)"
     }
   },
   "closed_trades": [
@@ -215,6 +201,28 @@
       "pnl": -593.34,
       "return_pct": -1.33,
       "reason": "\ud83d\udea8 REMOTE TELEGRAM KILL-SWITCH TRIGGERED"
+    },
+    {
+      "ticker": "META",
+      "shares": 78,
+      "entry_price": 576.1400146484375,
+      "exit_price": 571.0999755859375,
+      "entry_date": "2026-08-27",
+      "exit_date": "2026-08-29",
+      "pnl": -393.12,
+      "return_pct": -0.87,
+      "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "QQQ",
+      "shares": 15,
+      "entry_price": 721.11,
+      "exit_price": 721.1099853515625,
+      "entry_date": "2026-08-28",
+      "exit_date": "2026-08-29",
+      "pnl": -0.0,
+      "return_pct": -0.0,
+      "reason": "MODEL_SELL"
     }
   ],
   "equity_history": [
@@ -241,7 +249,15 @@
       "cash": 768.79,
       "invested": 100506.65,
       "daily_return": -0.95
+    },
+    {
+      "date": "2026-08-29",
+      "timestamp": "2026-08-29T07:58:21.359645+00:00",
+      "total_equity": 101852.34,
+      "cash": 11181.32,
+      "invested": 90671.02,
+      "daily_return": 0.57
     }
   ],
-  "last_updated": "2026-08-28T22:59:41.272275+00:00"
+  "last_updated": "2026-08-29T07:58:21.360007+00:00"
 }
