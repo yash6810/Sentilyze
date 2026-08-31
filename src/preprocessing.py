@@ -12,63 +12,79 @@ from src.feature_engineering import (
 )
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 from functools import lru_cache
+import threading
 from typing import Any
 
 logger = get_logger(__name__)
 
+_ANALYZER_LOCK = threading.Lock()
+_SENTIMENT_ANALYZER_INSTANCE = None
 
-# Cache the sentiment analyzer to avoid reloading on every call
-@lru_cache(maxsize=1)
+
 def _load_sentiment_analyzer() -> Any:
     """
-    Loads the FinBERT sentiment analysis model and tokenizer from the local
-    './models/finbert-fine-tuned' directory, with automatic fallback to
-    'ProsusAI/finbert', configured for multi-class probability extraction.
+    Thread-safely loads the FinBERT sentiment analysis model and tokenizer once
+    into memory as a shared singleton, preventing multi-threaded reloading races.
     """
-    import torch
+    global _SENTIMENT_ANALYZER_INSTANCE
+    if _SENTIMENT_ANALYZER_INSTANCE is not None:
+        return _SENTIMENT_ANALYZER_INSTANCE
 
-    device = 0 if torch.cuda.is_available() else -1
-    logger.info(
-        f"Loading FinBERT sentiment analysis model for preprocessing (device={device})..."
-    )
-    local_path = "./models/finbert-fine-tuned"
-    try:
-        if os.path.exists(local_path):
-            tokenizer = AutoTokenizer.from_pretrained(
-                local_path, local_files_only=True
-            )  # nosec B615
-            model = AutoModelForSequenceClassification.from_pretrained(
-                local_path, local_files_only=True
-            )  # nosec B615
-            return pipeline(
-                "sentiment-analysis",
-                model=model,
-                tokenizer=tokenizer,
-                top_k=None,
-                truncation=True,
-                max_length=512,
-                device=device,
-            )
-    except Exception as e:
-        logger.warning(
-            f"Could not load local fine-tuned model at {local_path}: {e}. Falling back to ProsusAI/finbert..."
+    with _ANALYZER_LOCK:
+        if _SENTIMENT_ANALYZER_INSTANCE is not None:
+            return _SENTIMENT_ANALYZER_INSTANCE
+
+        import torch
+
+        try:
+            torch.set_num_threads(2)
+        except Exception:
+            pass
+
+        device = 0 if torch.cuda.is_available() else -1
+        logger.info(
+            f"Loading FinBERT sentiment analysis model for preprocessing (device={device})..."
         )
+        local_path = "./models/finbert-fine-tuned"
+        try:
+            if os.path.exists(local_path):
+                tokenizer = AutoTokenizer.from_pretrained(
+                    local_path, local_files_only=True
+                )  # nosec B615
+                model = AutoModelForSequenceClassification.from_pretrained(
+                    local_path, local_files_only=True
+                )  # nosec B615
+                _SENTIMENT_ANALYZER_INSTANCE = pipeline(
+                    "sentiment-analysis",
+                    model=model,
+                    tokenizer=tokenizer,
+                    top_k=None,
+                    truncation=True,
+                    max_length=512,
+                    device=device,
+                )
+                return _SENTIMENT_ANALYZER_INSTANCE
+        except Exception as e:
+            logger.warning(
+                f"Could not load local fine-tuned model at {local_path}: {e}. Falling back to ProsusAI/finbert..."
+            )
 
-    tokenizer = AutoTokenizer.from_pretrained(
-        "ProsusAI/finbert", revision="main"
-    )  # nosec B615
-    model = AutoModelForSequenceClassification.from_pretrained(
-        "ProsusAI/finbert", revision="main"
-    )  # nosec B615
-    return pipeline(
-        "sentiment-analysis",
-        model=model,
-        tokenizer=tokenizer,
-        top_k=None,
-        truncation=True,
-        max_length=512,
-        device=device,
-    )
+        tokenizer = AutoTokenizer.from_pretrained(
+            "ProsusAI/finbert", revision="main"
+        )  # nosec B615
+        model = AutoModelForSequenceClassification.from_pretrained(
+            "ProsusAI/finbert", revision="main"
+        )  # nosec B615
+        _SENTIMENT_ANALYZER_INSTANCE = pipeline(
+            "sentiment-analysis",
+            model=model,
+            tokenizer=tokenizer,
+            top_k=None,
+            truncation=True,
+            max_length=512,
+            device=device,
+        )
+        return _SENTIMENT_ANALYZER_INSTANCE
 
 
 def clean_headline_data(

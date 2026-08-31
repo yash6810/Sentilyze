@@ -327,11 +327,15 @@ class ChiefRiskOfficerAgent:
         vix_level: float = 16.5,
         vix_change_pct: float = -1.2,
     ) -> Dict[str, Any]:
-        # Tally Votes across the 3 specialist domain agents
-        buy_votes = sum(1 for r in agent_reports if r["vote"] == "BUY")
-        avg_conviction = sum(r["conviction_score"] for r in agent_reports) / max(
-            len(agent_reports), 1
+        # Tally Votes across the 3 specialist domain agents safely
+        buy_votes = sum(
+            1 for r in agent_reports if isinstance(r, dict) and r.get("vote") == "BUY"
         )
+        avg_conviction = sum(
+            float(r.get("conviction_score", 50.0))
+            for r in agent_reports
+            if isinstance(r, dict)
+        ) / max(len(agent_reports), 1)
 
         # 1. Check Macro Volatility Gate (VIX Panic Check)
         vix_veto = False

@@ -254,9 +254,9 @@ class AutonomousTradingEngine:
             "stop_losses": [],
             "veto_exits": [],
             "committee_resolutions": {},
-            "portfolio_equity": portfolio_summary["total_equity"],
-            "cash_balance": portfolio_summary["cash"],
-            "unrealized_pnl": portfolio_summary["unrealized_pnl"],
+            "portfolio_equity": portfolio_summary.get("total_equity", 100000.0),
+            "cash_balance": portfolio_summary.get("cash", 100000.0),
+            "unrealized_pnl": portfolio_summary.get("unrealized_pnl", 0.0),
             "kill_switch_active": is_kill_switch_active(),
         }
 
@@ -273,12 +273,13 @@ class AutonomousTradingEngine:
                 continue
 
             pos["current_price"] = spot_price
-            shares = pos["shares"]
-            entry_price = pos["entry_price"]
-            tp1_target = pos.get("tp1_target", entry_price * 1.05)
-            tp2_target = pos.get("tp2_target", entry_price * 1.10)
-            sl_target = pos.get("sl_target", entry_price * 0.96)
-            scaled_out = pos.get("scaled_out", False)
+            shares = int(pos.get("shares", 0))
+            entry_price = float(pos.get("entry_price") or spot_price or 1.0)
+            denom = entry_price if entry_price > 0 else 1.0
+            tp1_target = float(pos.get("tp1_target", entry_price * 1.05))
+            tp2_target = float(pos.get("tp2_target", entry_price * 1.10))
+            sl_target = float(pos.get("sl_target", entry_price * 0.96))
+            scaled_out = bool(pos.get("scaled_out", False))
 
             # Check Stage 1 Scale-Out (+2.5 ATR)
             if not scaled_out and spot_price >= tp1_target:
@@ -286,7 +287,7 @@ class AutonomousTradingEngine:
                 proceeds = float(half_shares * spot_price)
                 cost_basis = float(half_shares * entry_price)
                 pnl = float(proceeds - cost_basis)
-                ret_pct = float((spot_price - entry_price) / entry_price * 100.0)
+                ret_pct = float((spot_price - entry_price) / denom * 100.0)
 
                 self.broker.state["cash"] += proceeds
                 self.broker.state["realized_pnl"] += pnl
@@ -325,7 +326,7 @@ class AutonomousTradingEngine:
                 proceeds = float(pos["shares"] * spot_price)
                 cost_basis = float(pos["shares"] * entry_price)
                 pnl = float(proceeds - cost_basis)
-                ret_pct = float((spot_price - entry_price) / entry_price * 100.0)
+                ret_pct = float((spot_price - entry_price) / denom * 100.0)
 
                 self.broker.state["cash"] += proceeds
                 self.broker.state["realized_pnl"] += pnl
@@ -337,7 +338,7 @@ class AutonomousTradingEngine:
                     "shares": pos["shares"],
                     "entry_price": entry_price,
                     "exit_price": spot_price,
-                    "entry_date": pos["entry_date"],
+                    "entry_date": pos.get("entry_date", date_str),
                     "exit_date": date_str,
                     "pnl": round(pnl, 2),
                     "return_pct": round(ret_pct, 2),
@@ -366,7 +367,7 @@ class AutonomousTradingEngine:
                 proceeds = float(pos["shares"] * spot_price)
                 cost_basis = float(pos["shares"] * entry_price)
                 pnl = float(proceeds - cost_basis)
-                ret_pct = float((spot_price - entry_price) / entry_price * 100.0)
+                ret_pct = float((spot_price - entry_price) / denom * 100.0)
 
                 self.broker.state["cash"] += proceeds
                 self.broker.state["realized_pnl"] += pnl
@@ -382,7 +383,7 @@ class AutonomousTradingEngine:
                     "shares": pos["shares"],
                     "entry_price": entry_price,
                     "exit_price": spot_price,
-                    "entry_date": pos["entry_date"],
+                    "entry_date": pos.get("entry_date", date_str),
                     "exit_date": date_str,
                     "pnl": round(pnl, 2),
                     "return_pct": round(ret_pct, 2),
@@ -447,6 +448,14 @@ class AutonomousTradingEngine:
                 if t not in self.broker.state.get("open_positions", {})
             ]
 
+            # Pre-warm FinBERT singleton once before spawning threads
+            try:
+                from src.preprocessing import _load_sentiment_analyzer
+
+                _load_sentiment_analyzer()
+            except Exception as se:
+                logger.debug(f"FinBERT pre-warm notice: {se}")
+
             import concurrent.futures
 
             def _deliberate_single(ticker_sym: str):
@@ -461,32 +470,41 @@ class AutonomousTradingEngine:
                     )
                     return ticker_sym, delib_res
                 except Exception as e:
-                    logger.debug(f"Committee scan error for {ticker_sym}: {e}")
+                    logger.debug(f"Committee scan notice for {ticker_sym}: {e}")
                     return ticker_sym, None
 
             deliberations = []
-            with concurrent.futures.ThreadPoolExecutor(max_workers=24) as executor:
+            # Controlled thread pool size (6 workers) to prevent memory & thread exhaustion
+            with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
                 results = executor.map(_deliberate_single, unheld_tickers)
                 for t, delib in results:
-                    if delib:
+                    if delib and isinstance(delib, dict):
                         deliberations.append((t, delib))
                         executed_actions["committee_resolutions"][t] = delib.get(
-                            "final_resolution"
+                            "final_resolution", "NEUTRAL"
                         )
 
-            # Sort candidate opportunities by CRO consensus conviction
+            # Sort candidate opportunities by CRO consensus conviction safely
             buy_candidates = [
                 (t, d)
                 for t, d in deliberations
-                if d.get("action_code") in ["EXECUTE_BUY", "SCALE_IN"]
+                if isinstance(d, dict)
+                and d.get("action_code") in ["EXECUTE_BUY", "SCALE_IN"]
             ]
             buy_candidates.sort(
-                key=lambda x: x[1].get("consensus_conviction_pct", 0.0),
+                key=lambda x: (
+                    float(x[1].get("consensus_conviction_pct") or 0.0)
+                    if isinstance(x[1], dict)
+                    else 0.0
+                ),
                 reverse=True,
             )
 
             # Task 8 Max Position Size Hard Constraint: Max 20% of total portfolio equity
-            max_position_dollars = portfolio_summary["total_equity"] * 0.20
+            total_eq = max(
+                float(portfolio_summary.get("total_equity") or 100000.0), 1.0
+            )
+            max_position_dollars = total_eq * 0.20
 
             # Execute entries into Top candidate setups up to available slots
             for t, delib in buy_candidates[:available_slots]:
@@ -495,25 +513,27 @@ class AutonomousTradingEngine:
                     continue
 
                 # Ensure Kelly sizing allocation does not breach max position size
-                cro_info = delib.get("cro_signoff", {})
+                cro_info = delib.get("cro_signoff") or {}
                 approved_kelly = float(cro_info.get("approved_kelly_pct", 8.0))
                 max_allowed_kelly = round(
-                    (max_position_dollars / portfolio_summary["total_equity"]) * 100.0,
+                    (max_position_dollars / total_eq) * 100.0,
                     1,
                 )
                 if approved_kelly > max_allowed_kelly:
                     logger.info(
                         f"🔒 [CIRCUIT BREAKER: POSITION SIZE] Sizing for {t} capped from {approved_kelly}% to {max_allowed_kelly}% max position limit."
                     )
-                    delib["cro_signoff"]["approved_kelly_pct"] = max_allowed_kelly
+                    if isinstance(delib.get("cro_signoff"), dict):
+                        delib["cro_signoff"]["approved_kelly_pct"] = max_allowed_kelly
 
                 order_res = execute_committee_order(
                     ticker=t, deliberation=delib, broker=self.broker
                 )
                 if order_res.get("success"):
                     executed_actions["buys"].append(order_res)
+                    resolution_text = delib.get("final_resolution", "APPROVED")
                     logger.info(
-                        f"🚀 [AUTONOMOUS BUY] Executed {order_res.get('shares')} shares of {t} @ ${spot_price:.2f} (Verdict: {delib['final_resolution']})"
+                        f"🚀 [AUTONOMOUS BUY] Executed {order_res.get('shares')} shares of {t} @ ${spot_price:.2f} (Verdict: {resolution_text})"
                     )
                     send_discord_execution_alert(
                         {
@@ -522,7 +542,7 @@ class AutonomousTradingEngine:
                             "ticker": t,
                             "price": spot_price,
                             "shares": order_res.get("shares"),
-                            "kelly_pct": delib.get("cro_signoff", {}).get(
+                            "kelly_pct": (delib.get("cro_signoff") or {}).get(
                                 "approved_kelly_pct", 8.0
                             ),
                             "tp1": delib.get("tp1_target", spot_price * 1.06),
@@ -591,6 +611,22 @@ class AutonomousTradingEngine:
                     f"Notice loading agent learning memory from {memory_file} ({e}). Initializing default learning state."
                 )
 
+        if not isinstance(learning_state.get("agent_voting_weights"), dict):
+            learning_state["agent_voting_weights"] = {
+                "technicals_weight": 0.30,
+                "sentiment_weight": 0.35,
+                "valuation_weight": 0.15,
+                "cro_weight": 0.20,
+            }
+        for k, default_val in [
+            ("technicals_weight", 0.30),
+            ("sentiment_weight", 0.35),
+            ("valuation_weight", 0.15),
+            ("cro_weight", 0.20),
+        ]:
+            if k not in learning_state["agent_voting_weights"]:
+                learning_state["agent_voting_weights"][k] = default_val
+
         learning_state["total_learning_cycles"] += 1
         learning_state["last_updated"] = datetime.now(timezone.utc).isoformat()
 
@@ -613,32 +649,29 @@ class AutonomousTradingEngine:
                 verdict = "🏆 POSITIVE ALPHA HARVEST"
                 lesson = f"Committee conviction on {ticker} succeeded with +{ret_pct:.2f}% gain."
                 # Reward sentiment & technical weights
-                learning_state["agent_voting_weights"]["sentiment_weight"] = min(
-                    0.45,
-                    round(
-                        learning_state["agent_voting_weights"]["sentiment_weight"]
-                        + 0.01,
-                        3,
-                    ),
+                curr_sent = float(
+                    learning_state["agent_voting_weights"].get("sentiment_weight", 0.35)
                 )
+                learning_state["agent_voting_weights"]["sentiment_weight"] = min(
+                    0.45, round(curr_sent + 0.01, 3)
+                )
+                curr_kelly = float(learning_state.get("adaptive_kelly_multiplier", 1.0))
                 learning_state["adaptive_kelly_multiplier"] = min(
-                    1.25,
-                    round(learning_state["adaptive_kelly_multiplier"] + 0.02, 2),
+                    1.25, round(curr_kelly + 0.02, 2)
                 )
             else:
                 verdict = "🛑 CONTROLLED RISK SHUTDOWN"
                 lesson = f"Stop loss on {ticker} triggered at {ret_pct:.2f}%. Protecting capital."
                 # Increase CRO risk weight and penalize volatile sentiment
-                learning_state["agent_voting_weights"]["cro_weight"] = min(
-                    0.35,
-                    round(
-                        learning_state["agent_voting_weights"]["cro_weight"] + 0.01,
-                        3,
-                    ),
+                curr_cro = float(
+                    learning_state["agent_voting_weights"].get("cro_weight", 0.20)
                 )
+                learning_state["agent_voting_weights"]["cro_weight"] = min(
+                    0.35, round(curr_cro + 0.01, 3)
+                )
+                curr_kelly = float(learning_state.get("adaptive_kelly_multiplier", 1.0))
                 learning_state["adaptive_kelly_multiplier"] = max(
-                    0.75,
-                    round(learning_state["adaptive_kelly_multiplier"] - 0.03, 2),
+                    0.75, round(curr_kelly - 0.03, 2)
                 )
 
                 # Queue model for continuous retraining

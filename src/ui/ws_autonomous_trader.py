@@ -117,10 +117,33 @@ def render_autonomous_trader_workspace(selected_ticker: str):
                     cycle_res = auto_engine.run_autonomous_cycle(
                         max_concurrent_positions=max_slots
                     )
-                    st.success(
-                        f"✅ Scanned 104 assets in {cycle_res.get('elapsed_seconds', 0)}s! "
-                        f"New Buys: {len(cycle_res.get('buys', []))}, TP1s: {len(cycle_res.get('take_profits_tp1', []))}, TP2s: {len(cycle_res.get('take_profits_tp2', []))}"
-                    )
+                    status = cycle_res.get("status", "SUCCESS")
+                    if status == "SKIPPED_LOCKED":
+                        st.warning(
+                            "⏳ An autonomous cycle is already in progress in the background. Please wait a few seconds and try again."
+                        )
+                    else:
+                        num_buys = len(cycle_res.get("buys", []))
+                        num_tp1 = len(cycle_res.get("take_profits_tp1", []))
+                        num_tp2 = len(cycle_res.get("take_profits_tp2", []))
+                        num_sl = len(cycle_res.get("stop_losses", []))
+                        elapsed = cycle_res.get("elapsed_seconds", 0)
+
+                        if num_buys > 0:
+                            bought_tickers = [
+                                b.get("ticker") for b in cycle_res.get("buys", [])
+                            ]
+                            st.success(
+                                f"🚀 Executed {num_buys} New Buy Orders: {bought_tickers} in {elapsed}s!"
+                            )
+                        elif num_tp1 + num_tp2 + num_sl > 0:
+                            st.success(
+                                f"🎯 Harvested Exits — TP1: {num_tp1} | TP2: {num_tp2} | Stops: {num_sl} in {elapsed}s!"
+                            )
+                        else:
+                            st.info(
+                                f"🛡️ Scanned 104 assets in {elapsed}s. 4-Agent Committee preserved capital (No high-conviction setup passed the 2-vote quorum on this candle)."
+                            )
                     st.rerun()
         with btn_col_b:
             if st.button(
