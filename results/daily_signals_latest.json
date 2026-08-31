@@ -1,5 +1,5 @@
 {
-  "scan_time": "2026-08-31T08:54:32.518808+00:00",
+  "scan_time": "2026-08-31T19:14:54.778365+00:00",
   "num_assets": 104,
   "signals": [
     {
@@ -24,7 +24,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "MSFT",
@@ -48,7 +48,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "NVDA",
@@ -72,7 +72,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "AVGO",
@@ -96,7 +96,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "ORCL",
@@ -120,12 +120,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "CRM",
       "signal": "SELL",
-      "confidence": 0.2326524555683136,
+      "confidence": 0.22648398578166962,
       "current_price": 256.0,
       "stop_loss": 224.7528555733817,
       "take_profit": 282.0392870221819,
@@ -144,7 +144,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "AMD",
@@ -168,7 +168,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "ADBE",
@@ -192,7 +192,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "QCOM",
@@ -216,12 +216,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "TXN",
       "signal": "SELL",
-      "confidence": 0.3446255624294281,
+      "confidence": 0.2495194375514984,
       "current_price": 258.6400146484375,
       "stop_loss": 233.8900146484375,
       "take_profit": 279.2650146484375,
@@ -240,12 +240,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "INTC",
       "signal": "BUY",
-      "confidence": 0.5807381272315979,
+      "confidence": 0.5897522568702698,
       "current_price": 89.47000122070312,
       "stop_loss": 75.24785940987721,
       "take_profit": 101.32178606305806,
@@ -264,12 +264,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "IBM",
       "signal": "BUY",
-      "confidence": 0.5854102969169617,
+      "confidence": 0.6470860242843628,
       "current_price": 235.58999633789065,
       "stop_loss": 226.1314234052386,
       "take_profit": 251.3542845589774,
@@ -288,12 +288,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "AMAT",
       "signal": "SELL",
-      "confidence": 0.33026400208473206,
+      "confidence": 0.3476366102695465,
       "current_price": 461.6700134277344,
       "stop_loss": 389.82643127441406,
       "take_profit": 521.539665222168,
@@ -312,12 +312,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "NOW",
       "signal": "SELL",
-      "confidence": 0.2521496117115021,
+      "confidence": 0.320677250623703,
       "current_price": 144.7100067138672,
       "stop_loss": 126.74215153285436,
       "take_profit": 159.68321936471122,
@@ -336,7 +336,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "LRCX",
@@ -360,12 +360,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "MU",
       "signal": "BUY",
-      "confidence": 0.592288076877594,
+      "confidence": 0.6173027753829956,
       "current_price": 932.8599853515624,
       "stop_loss": 778.4435468401227,
       "take_profit": 1061.5403507777621,
@@ -384,7 +384,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "PANW",
@@ -408,7 +408,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "ADI",
@@ -432,12 +432,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "KLAC",
       "signal": "BUY",
-      "confidence": 0.5406107902526855,
+      "confidence": 0.5542685389518738,
       "current_price": 175.5399932861328,
       "stop_loss": 150.4192831856864,
       "take_profit": 196.47391836983817,
@@ -456,7 +456,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "SNPS",
@@ -480,12 +480,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "CDNS",
       "signal": "SELL",
-      "confidence": 0.49388203024864197,
+      "confidence": 0.5006906986236572,
       "current_price": 340.3900146484375,
       "stop_loss": 310.5592956542969,
       "take_profit": 365.2489471435547,
@@ -504,12 +504,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "CRWD",
       "signal": "SELL",
-      "confidence": 0.214415043592453,
+      "confidence": 0.29880478978157043,
       "current_price": 218.3999938964844,
       "stop_loss": 184.14963531494146,
       "take_profit": 246.94195938110352,
@@ -528,7 +528,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "PLTR",
@@ -552,7 +552,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "TSM",
@@ -576,7 +576,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "ASML",
@@ -600,7 +600,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "GOOGL",
@@ -624,7 +624,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "META",
@@ -648,7 +648,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "NFLX",
@@ -672,7 +672,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "DIS",
@@ -696,7 +696,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "CMCSA",
@@ -720,7 +720,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "AMZN",
@@ -744,7 +744,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "TSLA",
@@ -768,7 +768,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "HD",
@@ -792,7 +792,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "MCD",
@@ -816,7 +816,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "NKE",
@@ -840,12 +840,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "LOW",
       "signal": "SELL",
-      "confidence": 0.43978530168533325,
+      "confidence": 0.425729364156723,
       "current_price": 208.0500030517578,
       "stop_loss": 199.60714558192663,
       "take_profit": 222.12143216814312,
@@ -864,7 +864,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "BKNG",
@@ -888,7 +888,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "SBUX",
@@ -912,7 +912,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "TJX",
@@ -936,7 +936,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "TGT",
@@ -960,7 +960,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "F",
@@ -984,7 +984,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "COST",
@@ -1008,7 +1008,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "WMT",
@@ -1032,12 +1032,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "PG",
       "signal": "SELL",
-      "confidence": 0.4802335500717163,
+      "confidence": 0.49349549412727356,
       "current_price": 143.77999877929688,
       "stop_loss": 140.66213444301061,
       "take_profit": 148.976439339774,
@@ -1056,12 +1056,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "KO",
       "signal": "BUY",
-      "confidence": 0.6070948839187622,
+      "confidence": 0.6012669801712036,
       "current_price": 89.66000366210938,
       "stop_loss": 85.52000372750419,
       "take_profit": 93.1100036076137,
@@ -1080,12 +1080,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "PEP",
       "signal": "BUY",
-      "confidence": 0.6104061007499695,
+      "confidence": 0.6175240278244019,
       "current_price": 141.07000732421875,
       "stop_loss": 137.73679133823939,
       "take_profit": 146.625367300851,
@@ -1104,7 +1104,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "PM",
@@ -1128,7 +1128,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "MDLZ",
@@ -1152,7 +1152,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "MO",
@@ -1176,12 +1176,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "CL",
-      "signal": "SELL",
-      "confidence": 0.5104047060012817,
+      "signal": "BUY",
+      "confidence": 0.522843062877655,
       "current_price": 90.75,
       "stop_loss": 85.78286361694333,
       "take_profit": 94.88928031921388,
@@ -1200,7 +1200,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "KMB",
@@ -1224,7 +1224,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "JPM",
@@ -1248,7 +1248,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "V",
@@ -1272,7 +1272,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "MA",
@@ -1296,7 +1296,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "BAC",
@@ -1320,7 +1320,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "WFC",
@@ -1344,7 +1344,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "MS",
@@ -1368,7 +1368,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "GS",
@@ -1392,7 +1392,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "BLK",
@@ -1416,7 +1416,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "SPGI",
@@ -1440,12 +1440,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "AXP",
       "signal": "SELL",
-      "confidence": 0.3590046167373657,
+      "confidence": 0.4179205298423767,
       "current_price": 333.20001220703125,
       "stop_loss": 324.4893024989537,
       "take_profit": 347.7178617204939,
@@ -1464,7 +1464,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "C",
@@ -1488,7 +1488,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "SCHW",
@@ -1512,7 +1512,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "PGR",
@@ -1536,7 +1536,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "CB",
@@ -1560,7 +1560,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "LLY",
@@ -1584,12 +1584,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "UNH",
       "signal": "BUY",
-      "confidence": 0.5622888207435608,
+      "confidence": 0.553865373134613,
       "current_price": 392.9500122070313,
       "stop_loss": 369.00999886649,
       "take_profit": 412.90002332414906,
@@ -1608,7 +1608,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "JNJ",
@@ -1632,12 +1632,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "ABBV",
       "signal": "SELL",
-      "confidence": 0.47071826457977295,
+      "confidence": 0.480991005897522,
       "current_price": 255.47999572753903,
       "stop_loss": 239.81356702532082,
       "take_profit": 268.53535297938754,
@@ -1656,7 +1656,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "MRK",
@@ -1680,7 +1680,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "TMO",
@@ -1704,7 +1704,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "ABT",
@@ -1728,12 +1728,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "PFE",
       "signal": "SELL",
-      "confidence": 0.36861759424209595,
+      "confidence": 0.3398667871952057,
       "current_price": 27.959999084472656,
       "stop_loss": 26.136426789419993,
       "take_profit": 29.47964266368321,
@@ -1752,7 +1752,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "DHR",
@@ -1776,7 +1776,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "AMGN",
@@ -1800,12 +1800,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "ISRG",
       "signal": "BUY",
-      "confidence": 0.6094794273376465,
+      "confidence": 0.6147393584251404,
       "current_price": 372.6000061035156,
       "stop_loss": 356.1589366367885,
       "take_profit": 400.0017885480608,
@@ -1824,7 +1824,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "BMY",
@@ -1848,7 +1848,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "GILD",
@@ -1872,7 +1872,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "VRTX",
@@ -1896,12 +1896,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "MDT",
       "signal": "SELL",
-      "confidence": 0.4419631063938141,
+      "confidence": 0.4495159089565277,
       "current_price": 91.2300033569336,
       "stop_loss": 85.19143513270788,
       "take_profit": 96.26214354378835,
@@ -1920,7 +1920,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "CAT",
@@ -1944,7 +1944,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "GE",
@@ -1968,7 +1968,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "UNP",
@@ -1992,7 +1992,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "HON",
@@ -2016,12 +2016,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "RTX",
       "signal": "BUY",
-      "confidence": 0.5236031413078308,
+      "confidence": 0.5318756103515625,
       "current_price": 211.7100067138672,
       "stop_loss": 199.2900020054408,
       "take_profit": 222.06001063755582,
@@ -2040,12 +2040,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "BA",
       "signal": "BUY",
-      "confidence": 0.5287424921989441,
+      "confidence": 0.5449770092964172,
       "current_price": 209.82000732421875,
       "stop_loss": 203.101076398577,
       "take_profit": 221.01822553362166,
@@ -2064,7 +2064,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "DE",
@@ -2088,7 +2088,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "LMT",
@@ -2112,7 +2112,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "UPS",
@@ -2136,12 +2136,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "FDX",
       "signal": "SELL",
-      "confidence": 0.21044129133224487,
+      "confidence": 0.20369146764278412,
       "current_price": 330.8800048828125,
       "stop_loss": 305.7742898123605,
       "take_profit": 351.8014341081892,
@@ -2160,12 +2160,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "XOM",
       "signal": "SELL",
-      "confidence": 0.34268802404403687,
+      "confidence": 0.3741084337234497,
       "current_price": 156.7100067138672,
       "stop_loss": 146.46715218680245,
       "take_profit": 165.24571881975447,
@@ -2184,12 +2184,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "CVX",
       "signal": "SELL",
-      "confidence": 0.41361767053604126,
+      "confidence": 0.40687745809555054,
       "current_price": 201.8600006103516,
       "stop_loss": 190.2864238194057,
       "take_profit": 211.50464793613983,
@@ -2208,12 +2208,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "COP",
       "signal": "SELL",
-      "confidence": 0.28948965668678284,
+      "confidence": 0.29946011304855347,
       "current_price": 130.35000610351562,
       "stop_loss": 121.0264276776995,
       "take_profit": 138.11965479169572,
@@ -2232,12 +2232,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "SLB",
       "signal": "BUY",
-      "confidence": 0.5321573615074158,
+      "confidence": 0.5699669122695923,
       "current_price": 57.33000183105469,
       "stop_loss": 52.78714288984027,
       "take_profit": 61.11571761540004,
@@ -2256,7 +2256,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "EOG",
@@ -2280,7 +2280,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "LIN",
@@ -2304,7 +2304,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "SHW",
@@ -2328,12 +2328,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "FCX",
       "signal": "SELL",
-      "confidence": 0.38299456238746643,
+      "confidence": 0.3685585558414459,
       "current_price": 76.44999694824219,
       "stop_loss": 68.13357053484236,
       "take_profit": 83.38035229274205,
@@ -2352,7 +2352,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "NEE",
@@ -2376,7 +2376,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "SO",
@@ -2400,7 +2400,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "PLD",
@@ -2424,7 +2424,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "AMT",
@@ -2448,7 +2448,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "SPY",
@@ -2472,7 +2472,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     },
     {
       "ticker": "QQQ",
@@ -2496,7 +2496,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-08-31 08:54 UTC"
+      "timestamp": "2026-08-31 19:14 UTC"
     }
   ]
 }
