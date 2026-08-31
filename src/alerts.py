@@ -288,43 +288,73 @@ def send_discord_committee_alert(
         return False
 
     ticker = deliberation.get("ticker", "ASSET")
-    verdict = deliberation.get("final_verdict", "HOLD")
-    cro = deliberation.get("cro_signoff", {})
-    votes = deliberation.get("committee_votes", {})
+    verdict = (
+        deliberation.get("final_resolution")
+        or deliberation.get("final_verdict")
+        or "HOLD"
+    )
+    cro = deliberation.get("cro_signoff") or {}
+    testimonies = deliberation.get("agent_testimonies") or []
 
-    is_buy = "BUY" in verdict.upper()
-    color = 0x3B82F6 if is_buy else 0x64748B
+    # Map testimonies by specialist role
+    tech_t = next(
+        (t for t in testimonies if "Technical" in t.get("agent_name", "")), {}
+    )
+    sent_t = next(
+        (t for t in testimonies if "Sentiment" in t.get("agent_name", "")), {}
+    )
+    fund_t = next((t for t in testimonies if "Forensic" in t.get("agent_name", "")), {})
 
-    tech_v = votes.get("Technical Specialist", {})
-    sent_v = votes.get("Sentiment & Alternative Data Specialist", {})
-    fund_v = votes.get("Forensic Accounting & Valuation Specialist", {})
+    is_buy = "BUY" in str(verdict).upper() or "SCALE_IN" in str(verdict).upper()
+    color = 0x10B981 if is_buy else 0x64748B
+
+    tech_metrics = tech_t.get("key_metrics", {})
+    tech_val = (
+        f"Vote: **{tech_t.get('vote', 'NEUTRAL')}** ({tech_t.get('conviction_score', 50.0):.0f}%)\n"
+        f"• RSI: `{tech_metrics.get('estimated_rsi', 50.0):.1f}` | Trend: `{tech_metrics.get('trend_status', 'NORMAL')}`\n"
+        f"• Thesis: *{tech_t.get('thesis', 'Aligned with moving averages.')[:120]}*"
+    )
+
+    sent_val = (
+        f"Vote: **{sent_t.get('vote', 'NEUTRAL')}** ({sent_t.get('conviction_score', 50.0):.0f}%)\n"
+        f"• Thesis: *{sent_t.get('thesis', 'Neutral sentiment flow.')[:120]}*"
+    )
+
+    fund_metrics = fund_t.get("metrics", {})
+    fund_val = (
+        f"Vote: **{fund_t.get('vote', 'NEUTRAL')}** ({fund_t.get('conviction_score', 50.0):.0f}%)\n"
+        f"• Piotroski F: `{fund_metrics.get('piotroski_f_score', 6)}/9` | Altman Z: `{fund_metrics.get('altman_z_score', 3.0):.2f}`\n"
+        f"• Margin of Safety: `{fund_metrics.get('margin_of_safety_pct', 0.0):+.1f}%`"
+    )
+
+    cro_val = (
+        f"Resolution: **{cro.get('final_resolution', verdict)}**\n"
+        f"• VIX Level: `{cro.get('vix_level', 16.5):.1f}` | Kelly Sizing: `+{cro.get('kelly_allocation_pct', 8.0):.1f}%`\n"
+        f"• Target 1: `${cro.get('tp1_target', 0):.2f}` | Target 2: `${cro.get('tp2_target', 0):.2f}` | Stop: `${cro.get('stop_loss_target', 0):.2f}`"
+    )
 
     fields = [
         {
-            "name": "📈 1. Technical Specialist",
-            "value": f"Vote: **{tech_v.get('vote', 'HOLD')}** | RSI: `{tech_v.get('rsi_14', 50.0):.1f}` | 200 SMA: `{tech_v.get('trend_200sma', 'NEUTRAL')}`",
+            "name": "📈 1. Technical Alpha Specialist",
+            "value": tech_val,
             "inline": False,
         },
         {
-            "name": "🧠 2. NLP Sentiment Specialist",
-            "value": f"Vote: **{sent_v.get('vote', 'HOLD')}** | Optimism: `{sent_v.get('sentiment_score', 60.0):.1f}/100` | Smart Money: `{sent_v.get('smart_money_score', 50.0):.1f}`",
+            "name": "🧠 2. FinBERT Sentiment Specialist",
+            "value": sent_val,
             "inline": False,
         },
-        {
-            "name": "🏛️ 3. Forensic DCF Specialist",
-            "value": f"Vote: **{fund_v.get('vote', 'HOLD')}** | Fair Value: `${fund_v.get('dcf_fair_value', 0.0):.2f}` | Margin of Safety: `{fund_v.get('margin_of_safety_pct', 0.0):+.1f}%`",
-            "inline": False,
-        },
+        {"name": "🏛️ 3. Forensic Fundamentalist", "value": fund_val, "inline": False},
         {
             "name": "🛡️ 4. Chief Risk Officer (CRO) Clearance",
-            "value": f"Status: **{cro.get('status', 'APPROVED')}** | VIX Gate: `{cro.get('macro_vix_level', 15.0):.1f}` | Kelly Sizing: `+{cro.get('approved_kelly_pct', 8.0):.1f}%`",
+            "value": cro_val,
             "inline": False,
         },
     ]
 
     embed = {
-        "title": f"🏛️ [4-AGENT COMMITTEE DEBATE] {ticker} Verdict: {verdict}",
-        "description": f"The Sentilyze AI Multi-Agent Committee convened to deliberate on **{ticker}**.",
+        "title": f"🏛️ [4-AGENT COMMITTEE DELIBERATION] {ticker} • {verdict}",
+        "description": f"The Sentilyze AI Multi-Agent Council concluded round-table deliberation on **{ticker}**.",
         "color": color,
         "fields": fields,
         "footer": {
