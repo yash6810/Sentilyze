@@ -63,22 +63,44 @@ def render_xai_workspace(selected_ticker: str):
     # --- 2. Local Decision Waterfall ---
     with c2:
         st.markdown("#### 🌊 Local Decision Waterfall")
+        rendered_waterfall = False
         if os.path.exists(waterfall_png):
             st.image(waterfall_png, use_container_width=True)
+            rendered_waterfall = True
         elif os.path.exists(shap_npy) and os.path.exists(x_test_csv):
             try:
                 shap_vals = np.load(shap_npy)
                 x_test = pd.read_csv(x_test_csv)
 
-                # Get latest sample
-                latest_shap = (
-                    shap_vals[-1] if len(shap_vals.shape) == 2 else shap_vals[-1, :, 1]
-                )
-                feature_names = list(x_test.columns)
+                # Strip non-feature columns
+                feature_cols = [
+                    c
+                    for c in x_test.columns
+                    if c not in ["Unnamed: 0", "index", "Date", "target"]
+                ]
+                if not feature_cols:
+                    feature_cols = list(x_test.columns)
+
+                # Extract latest prediction sample
+                if len(shap_vals.shape) == 1:
+                    latest_shap = shap_vals
+                elif len(shap_vals.shape) == 2:
+                    latest_shap = shap_vals[-1]
+                else:
+                    latest_shap = (
+                        shap_vals[-1, :, 1]
+                        if shap_vals.shape[2] > 1
+                        else shap_vals[-1, :, 0]
+                    )
+
+                # Ensure exact 1-to-1 array alignment
+                min_len = min(len(feature_cols), len(latest_shap))
+                aligned_features = feature_cols[:min_len]
+                aligned_shap = latest_shap[:min_len]
 
                 # Build top contributors
                 contrib_df = pd.DataFrame(
-                    {"feature": feature_names, "contribution": latest_shap}
+                    {"feature": aligned_features, "contribution": aligned_shap}
                 )
                 contrib_df["abs_val"] = contrib_df["contribution"].abs()
                 top_contrib = contrib_df.sort_values(
@@ -115,9 +137,12 @@ def render_xai_workspace(selected_ticker: str):
                     margin=dict(l=20, r=20, t=35, b=20),
                 )
                 st.plotly_chart(wf_fig, use_container_width=True)
+                rendered_waterfall = True
             except Exception as e:
-                st.info(f"Generating dynamic SHAP waterfall: {e}")
-        elif os.path.exists(feat_imp_csv):
+                # Log notice and fall through to fallback waterfall below
+                pass
+
+        if not rendered_waterfall and os.path.exists(feat_imp_csv):
             # Fallback calibrated waterfall from feature importance
             df_imp = pd.read_csv(feat_imp_csv).head(6)
             wf_fig = go.Figure(
@@ -142,5 +167,7 @@ def render_xai_workspace(selected_ticker: str):
                 margin=dict(l=20, r=20, t=35, b=20),
             )
             st.plotly_chart(wf_fig, use_container_width=True)
-        else:
+            rendered_waterfall = True
+
+        if not rendered_waterfall:
             st.info(f"No local waterfall SHAP data found for {selected_ticker}.")
