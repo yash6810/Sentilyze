@@ -248,7 +248,10 @@ if __name__ == "__main__":
                             logger.error(f"Error training {t}: {e}")
             else:
                 for ticker in tickers:
-                    main(ticker, leverage=args.leverage, use_cache=args.use_cache)
+                    try:
+                        main(ticker, leverage=args.leverage, use_cache=args.use_cache)
+                    except Exception as e:
+                        logger.error(f"Error training {ticker}: {e}")
 
             logger.info("Finished processing all tickers.")
         except FileNotFoundError:
