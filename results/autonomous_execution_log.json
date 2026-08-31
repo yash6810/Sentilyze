@@ -1,26 +1,15 @@
 {
-  "timestamp": "2026-08-29T21:54:30.148819+00:00",
+  "timestamp": "2026-08-31T15:21:39.493109+00:00",
   "buys": [
     {
       "success": true,
       "ticker": "AAPL",
       "shares": 9,
-      "price": 319.7,
-      "cost": 2877.2999999999997,
-      "tp1_target": 343.68,
-      "tp2_target": 362.86,
-      "sl_target": 305.31,
-      "strategy": "Committee_MultiAgent_Kelly"
-    },
-    {
-      "success": true,
-      "ticker": "AMZN",
-      "shares": 11,
-      "price": 266.43,
-      "cost": 2930.73,
-      "tp1_target": 286.41,
-      "tp2_target": 302.4,
-      "sl_target": 254.44,
+      "price": 315.2,
+      "cost": 2836.7999999999997,
+      "tp1_target": 338.84,
+      "tp2_target": 357.75,
+      "sl_target": 301.02,
       "strategy": "Committee_MultiAgent_Kelly"
     }
   ],
@@ -33,16 +22,14 @@
     "AAPL": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
     "MSFT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
     "GOOGL": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "AMZN": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
-    "META": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "TSLA": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION"
+    "AMZN": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION"
   },
-  "portfolio_equity": 101523.32,
-  "cash_balance": 101523.31927917476,
-  "unrealized_pnl": 0,
+  "portfolio_equity": 101633.15,
+  "cash_balance": 95818.39927917476,
+  "unrealized_pnl": 109.83,
   "kill_switch_active": false,
   "self_improvement": {
-    "total_cycles": 18,
+    "total_cycles": 23,
     "agent_weights": {
       "technicals_weight": 0.3,
       "sentiment_weight": 0.35,
@@ -52,5 +39,5 @@
     "kelly_multiplier": 1.0,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 42.02
+  "elapsed_seconds": 65.36
 }

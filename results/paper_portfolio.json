@@ -1,39 +1,57 @@
 {
   "initial_capital": 100000.0,
-  "cash": 11582.278828124952,
-  "total_equity": 101523.32,
-  "unrealized_pnl": 0.0,
+  "cash": 92981.59927917476,
+  "total_equity": 101638.43,
+  "unrealized_pnl": 115.11,
   "realized_pnl": 1523.3192791747613,
   "win_rate": 35.5,
   "total_trades": 31,
   "winning_trades": 11,
   "losing_trades": 20,
   "open_positions": {
-    "NFLX": {
-      "shares": 550,
-      "initial_shares": 550,
-      "entry_price": 81.72000122070312,
-      "current_price": 81.72000122070312,
-      "entry_date": "2026-08-31",
-      "tp1_target": 87.41,
-      "tp2_target": 91.96,
-      "sl_target": 78.31,
+    "QQQ": {
+      "ticker": "QQQ",
+      "shares": 4,
+      "initial_shares": 4,
+      "entry_price": 716.43,
+      "current_price": 715.08,
+      "entry_date": "2026-08-29",
+      "tp1_target": 770.16,
+      "tp2_target": 813.15,
+      "sl_target": 706.53,
       "scaled_out": false,
-      "confidence": 0.7506499886512756,
-      "regime": "\u25bc BEARISH (Below SMA200)"
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 716.43
     },
-    "BAC": {
-      "shares": 722,
-      "initial_shares": 722,
-      "entry_price": 62.31999969482422,
-      "current_price": 62.31999969482422,
-      "entry_date": "2026-08-31",
-      "tp1_target": 66.21,
-      "tp2_target": 69.33,
-      "sl_target": 59.98,
+    "CRWD": {
+      "ticker": "CRWD",
+      "shares": 13,
+      "initial_shares": 13,
+      "entry_price": 218.4,
+      "current_price": 227.67,
+      "entry_date": "2026-08-29",
+      "tp1_target": 234.78,
+      "tp2_target": 247.88,
+      "sl_target": 225.14,
       "scaled_out": false,
-      "confidence": 0.6691951751708984,
-      "regime": "\u25b2 BULLISH (Above SMA200)"
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 227.39
+    },
+    "AAPL": {
+      "ticker": "AAPL",
+      "shares": 9,
+      "initial_shares": 9,
+      "entry_price": 315.2,
+      "current_price": 315.2,
+      "entry_date": "2026-08-31",
+      "tp1_target": 338.84,
+      "tp2_target": 357.75,
+      "sl_target": 301.02,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly"
     }
   },
   "closed_trades": [
@@ -379,18 +397,18 @@
       "date": "2026-08-29",
       "timestamp": "2026-08-29T14:26:12.396541+00:00",
       "total_equity": 101523.32,
-      "cash": 101523.32,
-      "invested": 0,
+      "cash": 95818.4,
+      "invested": 5704.92,
       "daily_return": 0.0
     },
     {
       "date": "2026-08-31",
-      "timestamp": "2026-08-31T08:54:32.515474+00:00",
-      "total_equity": 101523.32,
-      "cash": 11582.28,
-      "invested": 89941.04,
+      "timestamp": "2026-08-31T15:14:54.973431+00:00",
+      "total_equity": 101638.43,
+      "cash": 92981.6,
+      "invested": 8656.83,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-08-31T08:54:32.515792+00:00"
+  "last_updated": "2026-08-31T15:22:44.845684+00:00"
 }
