@@ -570,10 +570,13 @@ class AutonomousTradingEngine:
             f"✅ [AUTONOMOUS TRADER] Completed cycle in {elapsed}s. Buys: {len(executed_actions['buys'])}, Exits: {len(executed_actions['take_profits_tp1']) + len(executed_actions['take_profits_tp2']) + len(executed_actions['stop_losses'])}"
         )
 
-        # Save cycle log
+        # Save cycle log safely with default=str serialization
         os.makedirs(os.path.dirname(AUTONOMOUS_LOG_FILE), exist_ok=True)
-        with open(AUTONOMOUS_LOG_FILE, "w") as f:
-            json.dump(executed_actions, f, indent=2)
+        try:
+            with open(AUTONOMOUS_LOG_FILE, "w") as f:
+                json.dump(executed_actions, f, indent=2, default=str)
+        except Exception as log_err:
+            logger.warning(f"Could not persist autonomous log file: {log_err}")
 
         return executed_actions
 

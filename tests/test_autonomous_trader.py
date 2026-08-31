@@ -1,8 +1,27 @@
 import os
 import pytest
 from unittest.mock import MagicMock, patch
-from src.autonomous_trader import AutonomousTradingEngine, load_universe_tickers
+from src.autonomous_trader import (
+    AutonomousTradingEngine,
+    load_universe_tickers,
+    LOCK_FILE,
+)
 from src.paper_broker import PaperBroker
+
+
+@pytest.fixture(autouse=True)
+def clean_lock_file():
+    if os.path.exists(LOCK_FILE):
+        try:
+            os.remove(LOCK_FILE)
+        except Exception:
+            pass
+    yield
+    if os.path.exists(LOCK_FILE):
+        try:
+            os.remove(LOCK_FILE)
+        except Exception:
+            pass
 
 
 def test_load_universe_tickers():
@@ -54,10 +73,17 @@ def test_autonomous_cycle_execution(mock_committee, mock_news, mock_quotes):
         "cash": 100000.0,
         "unrealized_pnl": 0.0,
     }
+    mock_broker.execute_buy.return_value = {
+        "success": True,
+        "shares": 100,
+        "price": 125.0,
+        "ticker": "NVDA",
+    }
     mock_broker.execute_manual_buy.return_value = {
         "success": True,
         "shares": 100,
         "price": 125.0,
+        "ticker": "NVDA",
     }
 
     engine = AutonomousTradingEngine(broker=mock_broker)
