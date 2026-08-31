@@ -1,14 +1,41 @@
 {
   "initial_capital": 100000.0,
-  "cash": 101523.31927917476,
+  "cash": 11582.278828124952,
   "total_equity": 101523.32,
-  "unrealized_pnl": 0,
+  "unrealized_pnl": 0.0,
   "realized_pnl": 1523.3192791747613,
   "win_rate": 35.5,
   "total_trades": 31,
   "winning_trades": 11,
   "losing_trades": 20,
-  "open_positions": {},
+  "open_positions": {
+    "NFLX": {
+      "shares": 550,
+      "initial_shares": 550,
+      "entry_price": 81.72000122070312,
+      "current_price": 81.72000122070312,
+      "entry_date": "2026-08-31",
+      "tp1_target": 87.41,
+      "tp2_target": 91.96,
+      "sl_target": 78.31,
+      "scaled_out": false,
+      "confidence": 0.7506499886512756,
+      "regime": "\u25bc BEARISH (Below SMA200)"
+    },
+    "BAC": {
+      "shares": 722,
+      "initial_shares": 722,
+      "entry_price": 62.31999969482422,
+      "current_price": 62.31999969482422,
+      "entry_date": "2026-08-31",
+      "tp1_target": 66.21,
+      "tp2_target": 69.33,
+      "sl_target": 59.98,
+      "scaled_out": false,
+      "confidence": 0.6691951751708984,
+      "regime": "\u25b2 BULLISH (Above SMA200)"
+    }
+  },
   "closed_trades": [
     {
       "ticker": "AMD",
@@ -355,7 +382,15 @@
       "cash": 101523.32,
       "invested": 0,
       "daily_return": 0.0
+    },
+    {
+      "date": "2026-08-31",
+      "timestamp": "2026-08-31T08:54:32.515474+00:00",
+      "total_equity": 101523.32,
+      "cash": 11582.28,
+      "invested": 89941.04,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-08-29T22:05:00.130186+00:00"
+  "last_updated": "2026-08-31T08:54:32.515792+00:00"
 }
