@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 11622.778829345654,
-  "total_equity": 101563.82,
-  "unrealized_pnl": 0.0,
+  "total_equity": 101196.66,
+  "unrealized_pnl": -367.16,
   "realized_pnl": 1563.819280395465,
   "win_rate": 35.3,
   "total_trades": 34,
@@ -13,27 +13,29 @@
       "shares": 550,
       "initial_shares": 550,
       "entry_price": 81.72000122070312,
-      "current_price": 81.72000122070312,
+      "current_price": 81.42,
       "entry_date": "2026-08-31",
       "tp1_target": 87.41,
       "tp2_target": 91.96,
-      "sl_target": 78.31,
+      "sl_target": 80.59,
       "scaled_out": false,
       "confidence": 0.7506499886512756,
-      "regime": "\u25bc BEARISH (Below SMA200)"
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "highest_price_seen": 81.72000122070312
     },
     "BAC": {
       "shares": 722,
       "initial_shares": 722,
       "entry_price": 62.31999969482422,
-      "current_price": 62.31999969482422,
+      "current_price": 62.04,
       "entry_date": "2026-08-31",
       "tp1_target": 66.21,
       "tp2_target": 69.33,
-      "sl_target": 59.98,
+      "sl_target": 61.21,
       "scaled_out": false,
       "confidence": 0.6691951751708984,
-      "regime": "\u25b2 BULLISH (Above SMA200)"
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "highest_price_seen": 62.31999969482422
     }
   },
   "closed_trades": [
@@ -419,11 +421,11 @@
     {
       "date": "2026-08-31",
       "timestamp": "2026-08-31T15:14:54.973431+00:00",
-      "total_equity": 101563.82,
+      "total_equity": 101196.66,
       "cash": 11622.78,
-      "invested": 89941.04,
-      "daily_return": -0.07
+      "invested": 89573.88,
+      "daily_return": -0.36
     }
   ],
-  "last_updated": "2026-08-31T19:14:54.775144+00:00"
+  "last_updated": "2026-08-31T19:29:40.486774+00:00"
 }
