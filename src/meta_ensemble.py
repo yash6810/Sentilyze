@@ -6,7 +6,7 @@ Pillar 1 Core Engine:
 - Provides granular sub-model transparency and ensemble voting consensus.
 """
 
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
@@ -122,3 +122,54 @@ def train_meta_ensemble(
     model = MetaEnsembleClassifier()
     model.fit(X_train, y_train)
     return model
+
+
+class DynamicSharpeMetaEnsemble:
+    """
+    Dynamically re-weights multi-agent specialist and sub-model signals
+    based on trailing rolling Sharpe performance.
+    """
+
+    def __init__(self, temperature: float = 1.0, lookback_window: int = 30):
+        self.temperature = max(0.1, temperature)
+        self.lookback_window = lookback_window
+        self.submodel_performance: Dict[str, List[float]] = {}
+        self.active_weights: Dict[str, float] = {}
+
+    def update_performance(self, model_name: str, daily_returns: List[float]):
+        """Record historical daily returns for a submodel."""
+        self.submodel_performance[model_name] = list(daily_returns)[
+            -self.lookback_window :
+        ]
+
+    def calculate_rolling_sharpes(self) -> Dict[str, float]:
+        """Calculate annualized Sharpe ratio for each submodel over lookback window."""
+        sharpes = {}
+        for name, rets in self.submodel_performance.items():
+            if not rets or len(rets) < 5:
+                sharpes[name] = 0.5
+                continue
+            r_arr = np.array(rets, dtype=float)
+            std = float(np.std(r_arr))
+            if std < 1e-6:
+                sharpes[name] = 0.5
+            else:
+                ann_sharpe = float((np.mean(r_arr) / std) * np.sqrt(252))
+                sharpes[name] = max(-2.0, min(5.0, ann_sharpe))
+        return sharpes
+
+    def compute_dynamic_weights(self) -> Dict[str, float]:
+        """Compute Softmax allocation weights over rolling Sharpe ratios."""
+        sharpes = self.calculate_rolling_sharpes()
+        if not sharpes:
+            return {}
+        names = list(sharpes.keys())
+        s_vals = np.array([sharpes[n] for n in names], dtype=float)
+        # Shift for numerical stability in softmax
+        s_shifted = s_vals - np.max(s_vals)
+        exp_s = np.exp(s_shifted / self.temperature)
+        weights = exp_s / np.sum(exp_s)
+        self.active_weights = {
+            names[i]: round(float(weights[i]), 4) for i in range(len(names))
+        }
+        return self.active_weights

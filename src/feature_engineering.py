@@ -91,6 +91,50 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
         .fillna(0.0)
     )
 
+    # =========================================================================
+    # High-Order Formulaic Alpha Factors (Qlib-Inspired Microstructure Signals)
+    # =========================================================================
+    # 1. 20-Day Rolling Return Skewness (Asymmetry of price innovations)
+    ret_1d = ph_shifted["Close"].pct_change(1)
+    price_history["alpha_vol_skew_20d"] = (
+        ret_1d.rolling(20)
+        .skew()
+        .replace([float("inf"), float("-inf")], 0.0)
+        .fillna(0.0)
+    )
+
+    # 2. Intraday Range Expansion Volatility Ratio (vs 50-day baseline)
+    atr_50 = true_range.rolling(50).mean() + 1e-5
+    price_history["alpha_range_vol_ratio"] = (
+        (true_range / atr_50).replace([float("inf"), float("-inf")], 1.0).fillna(1.0)
+    )
+
+    # 3. 5-Day Acceleration of Chaikin Money Flow (CMF derivative)
+    if "Volume" in ph_shifted.columns:
+        cl_spread = (ph_shifted["Close"] - ph_shifted["Low"]) - (
+            ph_shifted["High"] - ph_shifted["Close"]
+        )
+        hl_diff = ph_shifted["High"] - ph_shifted["Low"] + 1e-5
+        mf_multiplier = cl_spread / hl_diff
+        mf_volume = mf_multiplier * ph_shifted["Volume"]
+        cmf_20 = mf_volume.rolling(20).sum() / (
+            ph_shifted["Volume"].rolling(20).sum() + 1e-5
+        )
+        price_history["alpha_money_flow_accel"] = (
+            cmf_20.diff(5).replace([float("inf"), float("-inf")], 0.0).fillna(0.0)
+        )
+    else:
+        price_history["alpha_money_flow_accel"] = 0.0
+
+    # 4. Normalized Trend Residuals (Z-score of price vs 21-day EWMA)
+    ewma21 = ph_shifted["Close"].ewm(span=21, adjust=False).mean()
+    roll_std21 = ph_shifted["Close"].rolling(21).std() + 1e-5
+    price_history["alpha_trend_residual"] = (
+        ((ph_shifted["Close"] - ewma21) / roll_std21)
+        .replace([float("inf"), float("-inf")], 0.0)
+        .fillna(0.0)
+    )
+
     return price_history
 
 

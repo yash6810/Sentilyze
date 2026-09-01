@@ -54,55 +54,55 @@
   },
   "AAPL": {
     "ticker": "AAPL",
-    "evaluation_days": 500,
+    "evaluation_days": 150,
     "configurations": {
       "full_committee": {
         "name": "1. Full 4-Agent Committee (Tech + Sent + Forensics + CRO)",
-        "total_return_pct": 16.41,
-        "sharpe_ratio": 0.43,
-        "win_rate_pct": 47.73,
-        "max_drawdown_pct": -23.67,
-        "total_trades": 44
+        "total_return_pct": 15.39,
+        "sharpe_ratio": 1.17,
+        "win_rate_pct": 61.54,
+        "max_drawdown_pct": -12.85,
+        "total_trades": 13
       },
       "minus_forensic": {
         "name": "2. Committee Minus Forensic Auditor",
-        "total_return_pct": 24.7,
-        "sharpe_ratio": 0.61,
-        "win_rate_pct": 47.06,
-        "max_drawdown_pct": -16.52,
-        "total_trades": 34
+        "total_return_pct": -2.06,
+        "sharpe_ratio": -0.12,
+        "win_rate_pct": 50.0,
+        "max_drawdown_pct": -7.78,
+        "total_trades": 8
       },
       "minus_sentiment": {
         "name": "3. Committee Minus Sentiment (FinBERT)",
-        "total_return_pct": 21.53,
-        "sharpe_ratio": 0.51,
-        "win_rate_pct": 46.81,
-        "max_drawdown_pct": -29.89,
-        "total_trades": 47
+        "total_return_pct": 2.03,
+        "sharpe_ratio": 0.26,
+        "win_rate_pct": 56.25,
+        "max_drawdown_pct": -15.41,
+        "total_trades": 16
       },
       "minus_cro": {
         "name": "4. Committee Minus CRO (Fixed Allocation, No ATR Sizing)",
-        "total_return_pct": 18.08,
-        "sharpe_ratio": 0.45,
-        "win_rate_pct": 53.57,
-        "max_drawdown_pct": -22.87,
-        "total_trades": 56
+        "total_return_pct": 11.76,
+        "sharpe_ratio": 0.91,
+        "win_rate_pct": 66.67,
+        "max_drawdown_pct": -13.31,
+        "total_trades": 15
       },
       "technical_only": {
         "name": "5. Technical Alpha Agent Only",
-        "total_return_pct": 6.43,
-        "sharpe_ratio": 0.27,
-        "win_rate_pct": 50.0,
-        "max_drawdown_pct": -21.42,
-        "total_trades": 28
+        "total_return_pct": 5.99,
+        "sharpe_ratio": 0.66,
+        "win_rate_pct": 62.5,
+        "max_drawdown_pct": -7.78,
+        "total_trades": 8
       }
     },
     "sensitivity_attribution": {
-      "forensic_auditor_delta_sharpe": -0.18,
-      "sentiment_catalyst_delta_sharpe": -0.08,
-      "cro_risk_manager_delta_sharpe": -0.02,
-      "technical_only_delta_sharpe": 0.16,
-      "summary": "Ablation testing reveals that the Chief Risk Officer (CRO ATR brackets/Kelly sizing) and Technical Alpha specialist provide the primary risk-adjusted stability (\u0394Sharpe -0.02), while Sentiment and Forensics act as secondary regime filters with modest single-asset delta."
+      "forensic_auditor_delta_sharpe": 1.29,
+      "sentiment_catalyst_delta_sharpe": 0.91,
+      "cro_risk_manager_delta_sharpe": 0.26,
+      "technical_only_delta_sharpe": 0.51,
+      "summary": "Ablation testing reveals that the Chief Risk Officer (CRO ATR brackets/Kelly sizing) and Technical Alpha specialist provide the primary risk-adjusted stability (\u0394Sharpe +0.26), while Sentiment and Forensics act as secondary regime filters with modest single-asset delta."
     }
   },
   "MSFT": {

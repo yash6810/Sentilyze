@@ -1,16 +1,11 @@
 {
-  "timestamp": "2026-08-31T15:21:39.493109+00:00",
+  "timestamp": "2026-09-01T17:02:09.728861+00:00",
   "buys": [
     {
       "success": true,
-      "ticker": "AAPL",
-      "shares": 9,
-      "price": 315.2,
-      "cost": 2836.7999999999997,
-      "tp1_target": 338.84,
-      "tp2_target": 357.75,
-      "sl_target": 301.02,
-      "strategy": "Committee_MultiAgent_Kelly"
+      "shares": 100,
+      "price": 125.0,
+      "ticker": "NVDA"
     }
   ],
   "take_profits_tp1": [],
@@ -18,18 +13,14 @@
   "stop_losses": [],
   "veto_exits": [],
   "committee_resolutions": {
-    "NVDA": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "AAPL": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
-    "MSFT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "GOOGL": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "AMZN": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION"
+    "NVDA": "\ud83d\ude80 CONVICTION INSTITUTIONAL BUY"
   },
-  "portfolio_equity": 101633.15,
-  "cash_balance": 95818.39927917476,
-  "unrealized_pnl": 109.83,
+  "portfolio_equity": 100000.0,
+  "cash_balance": 100000.0,
+  "unrealized_pnl": 0.0,
   "kill_switch_active": false,
   "self_improvement": {
-    "total_cycles": 23,
+    "total_cycles": 24,
     "agent_weights": {
       "technicals_weight": 0.3,
       "sentiment_weight": 0.35,
@@ -39,5 +30,5 @@
     "kelly_multiplier": 1.0,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 65.36
+  "elapsed_seconds": 2.57
 }

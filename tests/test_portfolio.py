@@ -70,3 +70,46 @@ def test_build_unified_portfolio(tmp_path):
     assert "sharpe_ratio" in metrics
     assert "sortino_ratio" in metrics
     assert len(weights_df) == 2
+
+
+def test_calculate_hrp_weights(sample_portfolio_returns):
+    from src.portfolio import calculate_hrp_weights
+
+    weights = calculate_hrp_weights(sample_portfolio_returns)
+    assert len(weights) == 2
+    assert weights.sum() == pytest.approx(1.0)
+    # HRP allocates across clusters and respects variance
+    assert "NVDA" in weights.index
+    assert "MSFT" in weights.index
+    assert weights["MSFT"] > 0.0
+    assert weights["NVDA"] > 0.0
+
+
+def test_build_unified_portfolio_hrp(tmp_path):
+    from src.portfolio import build_unified_portfolio
+
+    dates = pd.date_range("2025-01-01", periods=10)
+    for ticker in ["AAPL", "MSFT"]:
+        df = pd.DataFrame(
+            {
+                "total": [10000.0 * (1.01**i) for i in range(10)],
+                "benchmark": [10000.0 * (1.005**i) for i in range(10)],
+                "cash": [1000.0] * 10,
+                "holdings": [9000.0] * 10,
+                "signal": [1] * 10,
+            },
+            index=dates,
+        )
+        df.to_csv(tmp_path / f"{ticker}_portfolio.csv")
+
+    unified_df, metrics, weights_df = build_unified_portfolio(
+        initial_capital=100000.0,
+        results_dir=str(tmp_path),
+        tickers=["AAPL", "MSFT"],
+        allocation_method="hrp",
+    )
+    assert isinstance(unified_df, pd.DataFrame)
+    assert len(unified_df) == 10
+    assert "total" in unified_df.columns
+    assert metrics["final_value"] > 100000.0
+    assert weights_df["weight"].sum() == pytest.approx(1.0)

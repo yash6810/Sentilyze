@@ -1,0 +1,82 @@
+{
+  "universe": [
+    "NVDA",
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "META",
+    "AMZN",
+    "TSLA",
+    "AMD",
+    "AVGO",
+    "QQQ",
+    "SPY"
+  ],
+  "evaluation_period": "2y",
+  "sample_trading_days": 2512,
+  "configurations": {
+    "1_Baseline_Committee": {
+      "total_return_pct": 174.27,
+      "cagr_pct": 10.65,
+      "sharpe_ratio": 0.98,
+      "sortino_ratio": 1.11,
+      "max_drawdown_pct": 15.46,
+      "calmar_ratio": 0.69,
+      "win_rate_pct": 55.65
+    },
+    "2_Plus_Alpha_Factors": {
+      "total_return_pct": 147.16,
+      "cagr_pct": 9.5,
+      "sharpe_ratio": 0.91,
+      "sortino_ratio": 1.02,
+      "max_drawdown_pct": 16.9,
+      "calmar_ratio": 0.56,
+      "win_rate_pct": 55.42
+    },
+    "3_Plus_HRP_Allocation": {
+      "total_return_pct": 151.76,
+      "cagr_pct": 9.7,
+      "sharpe_ratio": 1.06,
+      "sortino_ratio": 1.19,
+      "max_drawdown_pct": 13.72,
+      "calmar_ratio": 0.71,
+      "win_rate_pct": 55.8
+    },
+    "4_Full_Integrated_Quant": {
+      "total_return_pct": 134.49,
+      "cagr_pct": 8.93,
+      "sharpe_ratio": 1.06,
+      "sortino_ratio": 1.2,
+      "max_drawdown_pct": 12.9,
+      "calmar_ratio": 0.69,
+      "win_rate_pct": 55.51
+    },
+    "0_Buy_and_Hold_Benchmark": {
+      "total_return_pct": 1879.22,
+      "cagr_pct": 34.93,
+      "sharpe_ratio": 1.21,
+      "sortino_ratio": 1.62,
+      "max_drawdown_pct": 44.21,
+      "calmar_ratio": 0.79,
+      "win_rate_pct": 57.47
+    }
+  },
+  "hrp_allocations": {
+    "NVDA": 0.0531,
+    "AAPL": 0.0842,
+    "MSFT": 0.1013,
+    "GOOGL": 0.0841,
+    "META": 0.0978,
+    "AMZN": 0.0845,
+    "TSLA": 0.1095,
+    "AMD": 0.0969,
+    "AVGO": 0.0622,
+    "QQQ": 0.0896,
+    "SPY": 0.1368
+  },
+  "improvements": {
+    "sharpe_gain": 0.08,
+    "mdd_reduction_pct": 2.56,
+    "cagr_alpha_pct": -26.0
+  }
+}

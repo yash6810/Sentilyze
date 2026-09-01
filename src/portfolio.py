@@ -92,11 +92,122 @@ def calculate_risk_parity_weights(
     return weights
 
 
+def get_quasi_diag(link: np.ndarray) -> List[int]:
+    """Sort clustered items by hierarchical tree order."""
+    link = link.astype(int)
+    sort_ix = pd.Series([link[-1, 0], link[-1, 1]])
+    num_items = link[-1, 3]
+    while sort_ix.max() >= num_items:
+        sort_ix.index = range(0, sort_ix.shape[0] * 2, 2)
+        df0 = sort_ix[sort_ix >= num_items]
+        i = df0.index
+        j = df0.values - num_items
+        sort_ix[i] = link[j, 0]
+        df0 = pd.Series(link[j, 1], index=i + 1)
+        sort_ix = pd.concat([sort_ix, df0]).sort_index()
+        sort_ix.index = range(sort_ix.shape[0])
+    return sort_ix.tolist()
+
+
+def get_cluster_var(cov: np.ndarray, c_items: List[int]) -> float:
+    """Compute risk variance of a sub-cluster under inverse-variance weighting."""
+    cov_slice = cov[np.ix_(c_items, c_items)]
+    diag = np.diagonal(cov_slice)
+    w = 1.0 / np.maximum(diag, 1e-8)
+    w /= np.sum(w)
+    return float(np.dot(np.dot(w, cov_slice), w))
+
+
+def get_rec_bisection(cov: np.ndarray, sort_ix: List[int]) -> pd.Series:
+    """Recursively bisect clusters and compute inverse-cluster-variance weights."""
+    w = pd.Series(1.0, index=sort_ix)
+    c_items = [sort_ix]
+    while len(c_items) > 0:
+        c_items = [
+            i[j:k]
+            for i in c_items
+            for j, k in ((0, len(i) // 2), (len(i) // 2, len(i)))
+            if len(i) > 1
+        ]
+        for i in range(0, len(c_items), 2):
+            c_items0 = c_items[i]
+            c_items1 = c_items[i + 1]
+            var0 = get_cluster_var(cov, c_items0)
+            var1 = get_cluster_var(cov, c_items1)
+            alpha = 1.0 - var0 / (var0 + var1 + 1e-10)
+            w[c_items0] *= alpha
+            w[c_items1] *= 1.0 - alpha
+    return w
+
+
+def calculate_hrp_weights(returns_data: Any) -> pd.Series:
+    """
+    Marcos Lopez de Prado's Hierarchical Risk Parity (HRP) Portfolio Allocation.
+    Uses machine learning agglomerative clustering on the asset correlation matrix
+    to allocate risk across mutually uncorrelated clusters.
+
+    Args:
+        returns_data (Union[pd.DataFrame, Dict[str, pd.DataFrame]]):
+            Returns DataFrame or dictionary of portfolio DataFrames.
+
+    Returns:
+        pd.Series: Normalized HRP portfolio weights summing to 1.0.
+    """
+    if isinstance(returns_data, dict):
+        if not returns_data:
+            return pd.Series(dtype=float)
+        extracted = {}
+        for ticker, df in returns_data.items():
+            if isinstance(df, pd.DataFrame):
+                if "total" in df.columns:
+                    extracted[ticker] = df["total"].pct_change().dropna()
+                elif "Strategy_Cumulative" in df.columns:
+                    extracted[ticker] = df["Strategy_Cumulative"].pct_change().dropna()
+                elif "Close" in df.columns:
+                    extracted[ticker] = df["Close"].pct_change().dropna()
+        if extracted:
+            returns_df = pd.DataFrame(extracted).dropna()
+        else:
+            n = len(returns_data)
+            return pd.Series(1.0 / n, index=list(returns_data.keys()))
+    elif isinstance(returns_data, pd.DataFrame):
+        returns_df = returns_data
+    else:
+        return pd.Series(dtype=float)
+
+    if returns_df.empty or len(returns_df.columns) == 0:
+        return pd.Series(dtype=float)
+    if len(returns_df.columns) == 1:
+        return pd.Series([1.0], index=returns_df.columns)
+
+    import scipy.cluster.hierarchy as sch
+
+    cov = returns_df.cov().values
+    corr = returns_df.corr().fillna(0.0).values
+    np.fill_diagonal(corr, 1.0)
+
+    # 1. Tree clustering: correlation distance metric
+    dist = np.sqrt(np.clip(0.5 * (1.0 - corr), 0.0, 1.0))
+    link = sch.linkage(sch.distance.squareform(dist), method="single")
+
+    # 2. Quasi-diagonalization
+    sort_ix = get_quasi_diag(link)
+
+    # 3. Recursive bisection
+    hrp_weights = get_rec_bisection(cov, sort_ix)
+    hrp_weights = hrp_weights.sort_index()
+    hrp_weights.index = returns_df.columns[hrp_weights.index]
+
+    # Normalize to 1.0
+    hrp_weights = hrp_weights / hrp_weights.sum()
+    return hrp_weights
+
+
 def build_unified_portfolio(
     initial_capital: float = 100000.0,
     results_dir: str = "results",
     tickers: List[str] = None,
-    allocation_method: str = "risk_parity",
+    allocation_method: str = "hrp",
 ) -> Tuple[pd.DataFrame, Dict[str, Any], pd.DataFrame]:
     """
     Combines individual stock strategies into a single managed multi-asset fund.
@@ -105,7 +216,7 @@ def build_unified_portfolio(
         initial_capital (float): Total starting capital for the fund.
         results_dir (str): Directory containing backtest CSV results.
         tickers (List[str], optional): List of tickers.
-        allocation_method (str): 'risk_parity' (inverse-volatility) or 'equal_weight'.
+        allocation_method (str): 'hrp' (Hierarchical Risk Parity), 'risk_parity', or 'equal_weight'.
 
     Returns:
         Tuple[pd.DataFrame, Dict[str, Any], pd.DataFrame]:
@@ -140,7 +251,9 @@ def build_unified_portfolio(
     bench_returns = pd.DataFrame(bench_dict, index=common_dates)
 
     # Determine allocation weights
-    if allocation_method == "risk_parity":
+    if allocation_method == "hrp":
+        weights = calculate_hrp_weights(strat_returns)
+    elif allocation_method == "risk_parity":
         weights = calculate_risk_parity_weights(strat_returns)
     else:  # equal weight
         n = len(portfolios)

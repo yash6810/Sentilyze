@@ -1194,285 +1194,317 @@
     }
   },
   "AAPL": {
+    "timestamp": "2026-09-01T16:48:57.475730+00:00",
     "ticker": "AAPL",
-    "spot_price": 319.7,
-    "timestamp": "2026-08-29T14:18:32.109249+00:00",
-    "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Moderate Conviction)",
-    "action_code": "SCALE_IN",
-    "consensus_conviction_pct": 65.1,
-    "approved_leverage": 1.0,
-    "kelly_allocation_pct": 6.0,
-    "tp1_target": 343.68,
-    "tp2_target": 362.86,
-    "stop_loss_target": 305.31,
-    "cro_signoff": {
-      "cro_name": "Chief Risk Officer (Arbitrator)",
-      "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Moderate Conviction)",
-      "action_code": "SCALE_IN",
-      "buy_votes": 2,
-      "total_specialist_votes": 3,
-      "consensus_conviction_pct": 65.1,
-      "approved_leverage": 1.0,
-      "kelly_allocation_pct": 6.0,
-      "tp1_target": 343.68,
-      "tp2_target": 362.86,
-      "stop_loss_target": 305.31,
-      "cro_thesis": "Committee Consensus: 2/3 specialist agents voted BUY (Average Conviction: 65.1%). VIX is 16.5 (NORMAL). Trade signed off for execution.",
-      "vix_level": 16.5,
-      "vix_veto_triggered": false
-    },
+    "spot_price": 326.24,
+    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "action_code": "HOLD",
+    "consensus_conviction_pct": 57.9,
+    "approved_leverage": 0.0,
+    "kelly_allocation_pct": 0.0,
+    "tp1_target": 350.71,
+    "tp2_target": 370.28,
+    "stop_loss_target": 311.56,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Technical & Quant Alpha",
-        "vote": "BUY",
-        "conviction_score": 82.0,
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
+        "vote": "NEUTRAL",
+        "conviction_score": 52.0,
         "key_metrics": {
-          "estimated_rsi": 59.1,
-          "trend": "BULLISH_MOMENTUM_EXPANSION",
-          "tft_5d_forecast_pct": 1.7
+          "estimated_rsi": 65.1,
+          "sma_200": 282.81,
+          "ma_21": 310.19,
+          "return_5d_pct": 2.1,
+          "trend_status": "SIDEWAYS_CONSOLIDATION"
         },
-        "thesis": "Asset is in strong structural uptrend above 200 SMA ($282.58) with optimal pullback RSI (59.1)."
+        "thesis": "Momentum neutral (RSI: 65.1). 21-day MA at $310.19."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: NLP & Catalyst Intelligence",
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
         "vote": "BUY",
-        "conviction_score": 73.3,
+        "conviction_score": 71.6,
         "key_metrics": {
-          "earnings_tone": "\ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE",
-          "social_velocity": 2.34,
-          "insider_sentiment": "\ud83d\udd34 NET INSIDER DISTRIBUTIONS (Executives Trimming Holdings)",
-          "gov_procurement": "\ud83d\udfe2 STRONG INSTITUTIONAL IP (Active Patent Pipeline & Sustained Awards)"
+          "finbert_polarity": 0.291,
+          "headlines_analyzed": 100
         },
-        "thesis": "Earnings tone is \ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE. Social velocity is 2.3x. Insider smart money score: 42/100. FinBERT NLP Score: +0.93."
+        "thesis": "Strong bullish news flow (++0.29 FinBERT score across 100 live headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Accounting",
-        "vote": "HOLD",
-        "conviction_score": 40.1,
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "piotroski_f_score": 8,
-          "altman_z_score": 25.0,
-          "beneish_m_score": -1.91,
-          "dcf_fair_value": 171.86,
-          "dcf_margin_of_safety_pct": -46.2
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Valuation/Quality caution: Piotroski F-Score 8/9, DCF Fair Value $171.86 (Margin of Safety: -46.2%)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       }
-    ]
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "action_code": "HOLD",
+      "buy_votes": 1,
+      "total_specialist_votes": 3,
+      "consensus_conviction_pct": 57.9,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 350.71,
+      "tp2_target": 370.28,
+      "stop_loss_target": 311.56,
+      "cro_thesis": "Committee Consensus: 1/3 specialist agents voted BUY (Average Conviction: 57.9%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false
+    }
   },
   "last_deliberated_at": "2026-08-29T14:26:12.354905+00:00",
   "MSFT": {
+    "timestamp": "2026-09-01T16:49:05.457855+00:00",
     "ticker": "MSFT",
-    "spot_price": 513.53,
-    "timestamp": "2026-08-29T14:18:35.984339+00:00",
-    "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Moderate Conviction)",
-    "action_code": "SCALE_IN",
-    "consensus_conviction_pct": 65.7,
-    "approved_leverage": 1.0,
-    "kelly_allocation_pct": 6.0,
-    "tp1_target": 552.04,
-    "tp2_target": 582.86,
-    "stop_loss_target": 490.42,
-    "cro_signoff": {
-      "cro_name": "Chief Risk Officer (Arbitrator)",
-      "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Moderate Conviction)",
-      "action_code": "SCALE_IN",
-      "buy_votes": 2,
-      "total_specialist_votes": 3,
-      "consensus_conviction_pct": 65.7,
-      "approved_leverage": 1.0,
-      "kelly_allocation_pct": 6.0,
-      "tp1_target": 552.04,
-      "tp2_target": 582.86,
-      "stop_loss_target": 490.42,
-      "cro_thesis": "Committee Consensus: 2/3 specialist agents voted BUY (Average Conviction: 65.7%). VIX is 16.5 (NORMAL). Trade signed off for execution.",
-      "vix_level": 16.5,
-      "vix_veto_triggered": false
-    },
-    "agent_testimonies": [
-      {
-        "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Technical & Quant Alpha",
-        "vote": "BUY",
-        "conviction_score": 82.0,
-        "key_metrics": {
-          "estimated_rsi": 49.2,
-          "trend": "BULLISH_MOMENTUM_EXPANSION",
-          "tft_5d_forecast_pct": 4.5
-        },
-        "thesis": "Asset is in strong structural uptrend above 200 SMA ($431.13) with optimal pullback RSI (49.2)."
-      },
-      {
-        "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: NLP & Catalyst Intelligence",
-        "vote": "BUY",
-        "conviction_score": 82.2,
-        "key_metrics": {
-          "earnings_tone": "\ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE",
-          "social_velocity": 2.34,
-          "insider_sentiment": "\ud83d\udd34 NET INSIDER DISTRIBUTIONS (Executives Trimming Holdings)",
-          "gov_procurement": "\ud83c\udfc6 ELITE DEFENSE & INNOVATION MOAT (Tier-1 Government Procurement & Patent Velocity)"
-        },
-        "thesis": "Earnings tone is \ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE. Social velocity is 2.3x. Insider smart money score: 42/100. FinBERT NLP Score: +0.98."
-      },
-      {
-        "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Accounting",
-        "vote": "HOLD",
-        "conviction_score": 33.0,
-        "key_metrics": {
-          "piotroski_f_score": 8,
-          "altman_z_score": 19.5,
-          "beneish_m_score": -1.91,
-          "dcf_fair_value": 154.059,
-          "dcf_margin_of_safety_pct": -70.0
-        },
-        "thesis": "Valuation/Quality caution: Piotroski F-Score 8/9, DCF Fair Value $154.06 (Margin of Safety: -70.0%)."
-      }
-    ]
-  },
-  "NVDA": {
-    "ticker": "NVDA",
-    "spot_price": 217.55,
-    "timestamp": "2026-08-29T14:18:40.142597+00:00",
-    "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Moderate Conviction)",
-    "action_code": "SCALE_IN",
-    "consensus_conviction_pct": 69.1,
-    "approved_leverage": 1.0,
-    "kelly_allocation_pct": 6.0,
-    "tp1_target": 233.87,
-    "tp2_target": 246.92,
-    "stop_loss_target": 207.76,
-    "cro_signoff": {
-      "cro_name": "Chief Risk Officer (Arbitrator)",
-      "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Moderate Conviction)",
-      "action_code": "SCALE_IN",
-      "buy_votes": 2,
-      "total_specialist_votes": 3,
-      "consensus_conviction_pct": 69.1,
-      "approved_leverage": 1.0,
-      "kelly_allocation_pct": 6.0,
-      "tp1_target": 233.87,
-      "tp2_target": 246.92,
-      "stop_loss_target": 207.76,
-      "cro_thesis": "Committee Consensus: 2/3 specialist agents voted BUY (Average Conviction: 69.1%). VIX is 16.5 (NORMAL). Trade signed off for execution.",
-      "vix_level": 16.5,
-      "vix_veto_triggered": false
-    },
-    "agent_testimonies": [
-      {
-        "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Technical & Quant Alpha",
-        "vote": "BUY",
-        "conviction_score": 82.0,
-        "key_metrics": {
-          "estimated_rsi": 60.2,
-          "trend": "BULLISH_MOMENTUM_EXPANSION",
-          "tft_5d_forecast_pct": 6.2
-        },
-        "thesis": "Asset is in strong structural uptrend above 200 SMA ($195.88) with optimal pullback RSI (60.2)."
-      },
-      {
-        "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: NLP & Catalyst Intelligence",
-        "vote": "BUY",
-        "conviction_score": 89.3,
-        "key_metrics": {
-          "earnings_tone": "\ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE",
-          "social_velocity": 2.34,
-          "insider_sentiment": "\ud83d\udfe2 HEAVY SMART MONEY ACCUMULATION (Cluster Insider & Congressional Inflows)",
-          "gov_procurement": "\ud83d\udfe2 STRONG INSTITUTIONAL IP (Active Patent Pipeline & Sustained Awards)"
-        },
-        "thesis": "Earnings tone is \ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE. Social velocity is 2.3x. Insider smart money score: 88/100. FinBERT NLP Score: +1.00."
-      },
-      {
-        "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Accounting",
-        "vote": "HOLD",
-        "conviction_score": 36.0,
-        "key_metrics": {
-          "piotroski_f_score": 9,
-          "altman_z_score": 25.0,
-          "beneish_m_score": -1.91,
-          "dcf_fair_value": 65.265,
-          "dcf_margin_of_safety_pct": -70.0
-        },
-        "thesis": "Valuation/Quality caution: Piotroski F-Score 9/9, DCF Fair Value $65.27 (Margin of Safety: -70.0%)."
-      }
-    ]
-  },
-  "AVGO": {
-    "ticker": "AVGO",
-    "spot_price": 368.79,
-    "timestamp": "2026-08-29T14:18:44.120615+00:00",
-    "final_resolution": "\ud83d\udd34 BEARISH SKEW / AVOID ASSET",
-    "action_code": "AVOID",
-    "consensus_conviction_pct": 44.9,
+    "spot_price": 499.55,
+    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "action_code": "HOLD",
+    "consensus_conviction_pct": 60.7,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 396.45,
-    "tp2_target": 418.58,
-    "stop_loss_target": 352.19,
-    "cro_signoff": {
-      "cro_name": "Chief Risk Officer (Arbitrator)",
-      "final_resolution": "\ud83d\udd34 BEARISH SKEW / AVOID ASSET",
-      "action_code": "AVOID",
-      "buy_votes": 0,
-      "total_specialist_votes": 3,
-      "consensus_conviction_pct": 44.9,
-      "approved_leverage": 0.0,
-      "kelly_allocation_pct": 0.0,
-      "tp1_target": 396.45,
-      "tp2_target": 418.58,
-      "stop_loss_target": 352.19,
-      "cro_thesis": "Committee Consensus: 0/3 specialist agents voted BUY (Average Conviction: 44.9%). VIX is 16.5 (NORMAL). Trade blocked: Insufficient consensus.",
-      "vix_level": 16.5,
-      "vix_veto_triggered": false
-    },
+    "tp1_target": 537.02,
+    "tp2_target": 566.99,
+    "stop_loss_target": 477.07,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Technical & Quant Alpha",
-        "vote": "HOLD",
-        "conviction_score": 38.0,
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
+        "vote": "BUY",
+        "conviction_score": 82.0,
         "key_metrics": {
-          "estimated_rsi": 24.1,
-          "trend": "BEARISH_BELOW_SMA200",
-          "tft_5d_forecast_pct": 0.8
+          "estimated_rsi": 52.2,
+          "sma_200": 431.17,
+          "ma_21": 494.01,
+          "return_5d_pct": 4.1,
+          "trend_status": "BULLISH_MOMENTUM_EXPANSION"
         },
-        "thesis": "Asset is trading below its 200-day SMA ($369.40), trapped in a macro downtrend regime."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($431.17) with optimal pullback RSI (52.2)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: NLP & Catalyst Intelligence",
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
         "vote": "HOLD",
-        "conviction_score": 62.7,
+        "conviction_score": 50.0,
         "key_metrics": {
-          "earnings_tone": "\ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE",
-          "social_velocity": 2.34,
-          "insider_sentiment": "\ud83d\udd34 NET INSIDER DISTRIBUTIONS (Executives Trimming Holdings)",
-          "gov_procurement": "\ud83d\udfe1 STANDARD COMMERCIAL PROFILE"
+          "finbert_polarity": 0.162,
+          "headlines_analyzed": 100
         },
-        "thesis": "Earnings tone is \ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE. Social velocity is 2.3x. Insider smart money score: 42/100. FinBERT NLP Score: +0.35."
+        "thesis": "Balanced sentiment environment (+0.16 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Accounting",
-        "vote": "HOLD",
-        "conviction_score": 34.1,
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "piotroski_f_score": 8,
-          "altman_z_score": 17.4,
-          "beneish_m_score": -1.91,
-          "dcf_fair_value": 124.83,
-          "dcf_margin_of_safety_pct": -66.2
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Valuation/Quality caution: Piotroski F-Score 8/9, DCF Fair Value $124.83 (Margin of Safety: -66.2%)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       }
-    ]
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "action_code": "HOLD",
+      "buy_votes": 1,
+      "total_specialist_votes": 3,
+      "consensus_conviction_pct": 60.7,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 537.02,
+      "tp2_target": 566.99,
+      "stop_loss_target": 477.07,
+      "cro_thesis": "Committee Consensus: 1/3 specialist agents voted BUY (Average Conviction: 60.7%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false
+    }
+  },
+  "NVDA": {
+    "timestamp": "2026-09-01T16:48:49.951296+00:00",
+    "ticker": "NVDA",
+    "spot_price": 219.18,
+    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "action_code": "HOLD",
+    "consensus_conviction_pct": 60.7,
+    "approved_leverage": 0.0,
+    "kelly_allocation_pct": 0.0,
+    "tp1_target": 235.62,
+    "tp2_target": 248.77,
+    "stop_loss_target": 209.32,
+    "agent_testimonies": [
+      {
+        "agent_name": "Technical Momentum Specialist",
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
+        "vote": "BUY",
+        "conviction_score": 82.0,
+        "key_metrics": {
+          "estimated_rsi": 52.5,
+          "sma_200": 195.96,
+          "ma_21": 218.18,
+          "return_5d_pct": 5.9,
+          "trend_status": "BULLISH_MOMENTUM_EXPANSION"
+        },
+        "thesis": "Asset is in structural uptrend above 200 SMA ($195.96) with optimal pullback RSI (52.5)."
+      },
+      {
+        "agent_name": "Sentiment & Alternative Data Specialist",
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
+        "vote": "HOLD",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "finbert_polarity": -0.132,
+          "headlines_analyzed": 100
+        },
+        "thesis": "Balanced sentiment environment (-0.13 polarity across 100 headlines)."
+      },
+      {
+        "agent_name": "Forensic & Valuation Auditor",
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
+        },
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
+      }
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "action_code": "HOLD",
+      "buy_votes": 1,
+      "total_specialist_votes": 3,
+      "consensus_conviction_pct": 60.7,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 235.62,
+      "tp2_target": 248.77,
+      "stop_loss_target": 209.32,
+      "cro_thesis": "Committee Consensus: 1/3 specialist agents voted BUY (Average Conviction: 60.7%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false
+    }
+  },
+  "AVGO": {
+    "timestamp": "2026-09-01T16:49:50.129436+00:00",
+    "ticker": "AVGO",
+    "spot_price": 369.51,
+    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "action_code": "HOLD",
+    "consensus_conviction_pct": 56.7,
+    "approved_leverage": 0.0,
+    "kelly_allocation_pct": 0.0,
+    "tp1_target": 397.22,
+    "tp2_target": 419.39,
+    "stop_loss_target": 352.88,
+    "agent_testimonies": [
+      {
+        "agent_name": "Technical Momentum Specialist",
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
+        "vote": "BUY",
+        "conviction_score": 70.0,
+        "key_metrics": {
+          "estimated_rsi": 26.2,
+          "sma_200": 369.48,
+          "ma_21": 390.07,
+          "return_5d_pct": 3.23,
+          "trend_status": "OVERSOLD_MEAN_REVERSION"
+        },
+        "thesis": "Asset is oversold (RSI: 26.2 < 35), presenting mean-reversion setup."
+      },
+      {
+        "agent_name": "Sentiment & Alternative Data Specialist",
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
+        "vote": "HOLD",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "finbert_polarity": 0.044,
+          "headlines_analyzed": 100
+        },
+        "thesis": "Balanced sentiment environment (+0.04 polarity across 100 headlines)."
+      },
+      {
+        "agent_name": "Forensic & Valuation Auditor",
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
+        },
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
+      }
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "action_code": "HOLD",
+      "buy_votes": 1,
+      "total_specialist_votes": 3,
+      "consensus_conviction_pct": 56.7,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 397.22,
+      "tp2_target": 419.39,
+      "stop_loss_target": 352.88,
+      "cro_thesis": "Committee Consensus: 1/3 specialist agents voted BUY (Average Conviction: 56.7%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false
+    }
   },
   "ORCL": {
     "ticker": "ORCL",
@@ -1615,74 +1647,82 @@
     ]
   },
   "AMD": {
+    "timestamp": "2026-09-01T16:49:42.844570+00:00",
     "ticker": "AMD",
-    "spot_price": 465.58,
-    "timestamp": "2026-08-29T14:18:56.294694+00:00",
-    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "action_code": "HOLD",
-    "consensus_conviction_pct": 60.6,
-    "approved_leverage": 0.0,
-    "kelly_allocation_pct": 0.0,
-    "tp1_target": 500.5,
-    "tp2_target": 528.43,
-    "stop_loss_target": 444.63,
-    "cro_signoff": {
-      "cro_name": "Chief Risk Officer (Arbitrator)",
-      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-      "action_code": "HOLD",
-      "buy_votes": 1,
-      "total_specialist_votes": 3,
-      "consensus_conviction_pct": 60.6,
-      "approved_leverage": 0.0,
-      "kelly_allocation_pct": 0.0,
-      "tp1_target": 500.5,
-      "tp2_target": 528.43,
-      "stop_loss_target": 444.63,
-      "cro_thesis": "Committee Consensus: 1/3 specialist agents voted BUY (Average Conviction: 60.6%). VIX is 16.5 (NORMAL). Trade blocked: Insufficient consensus.",
-      "vix_level": 16.5,
-      "vix_veto_triggered": false
-    },
+    "spot_price": 457.7,
+    "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "action_code": "SCALE_IN",
+    "consensus_conviction_pct": 68.9,
+    "approved_leverage": 1.0,
+    "kelly_allocation_pct": 2.97,
+    "tp1_target": 492.03,
+    "tp2_target": 519.49,
+    "stop_loss_target": 437.1,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Technical & Quant Alpha",
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
         "vote": "BUY",
         "conviction_score": 82.0,
         "key_metrics": {
-          "estimated_rsi": 52.5,
-          "trend": "BULLISH_MOMENTUM_EXPANSION",
-          "tft_5d_forecast_pct": 0.7
+          "estimated_rsi": 48.8,
+          "sma_200": 336.72,
+          "ma_21": 481.5,
+          "return_5d_pct": 3.06,
+          "trend_status": "BULLISH_MOMENTUM_EXPANSION"
         },
-        "thesis": "Asset is in strong structural uptrend above 200 SMA ($335.61) with optimal pullback RSI (52.5)."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($336.72) with optimal pullback RSI (48.8)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: NLP & Catalyst Intelligence",
-        "vote": "HOLD",
-        "conviction_score": 66.7,
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
+        "vote": "BUY",
+        "conviction_score": 74.7,
         "key_metrics": {
-          "earnings_tone": "\ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE",
-          "social_velocity": 2.34,
-          "insider_sentiment": "\ud83d\udd34 NET INSIDER DISTRIBUTIONS (Executives Trimming Holdings)",
-          "gov_procurement": "\ud83d\udfe1 STANDARD COMMERCIAL PROFILE"
+          "finbert_polarity": 0.367,
+          "headlines_analyzed": 100
         },
-        "thesis": "Earnings tone is \ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE. Social velocity is 2.3x. Insider smart money score: 42/100. FinBERT NLP Score: +0.75."
+        "thesis": "Strong bullish news flow (++0.37 FinBERT score across 100 live headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Accounting",
-        "vote": "HOLD",
-        "conviction_score": 33.0,
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "piotroski_f_score": 8,
-          "altman_z_score": 25.0,
-          "beneish_m_score": -1.91,
-          "dcf_fair_value": 139.67399999999998,
-          "dcf_margin_of_safety_pct": -70.0
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Valuation/Quality caution: Piotroski F-Score 8/9, DCF Fair Value $139.67 (Margin of Safety: -70.0%)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       }
-    ]
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+      "action_code": "SCALE_IN",
+      "buy_votes": 2,
+      "total_specialist_votes": 3,
+      "consensus_conviction_pct": 68.9,
+      "approved_leverage": 1.0,
+      "kelly_allocation_pct": 2.97,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 492.03,
+      "tp2_target": 519.49,
+      "stop_loss_target": 437.1,
+      "cro_thesis": "Committee Consensus: 2/3 specialist agents voted BUY (Average Conviction: 68.9%). VIX is 16.5 (NORMAL). Fractional Kelly: 2.97%. Trade signed off for execution.",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false
+    }
   },
   "ADBE": {
     "ticker": "ADBE",
@@ -2875,74 +2915,82 @@
     ]
   },
   "GOOGL": {
+    "timestamp": "2026-09-01T16:49:13.190122+00:00",
     "ticker": "GOOGL",
-    "spot_price": 346.59,
-    "timestamp": "2026-08-29T14:20:17.326833+00:00",
-    "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Moderate Conviction)",
-    "action_code": "SCALE_IN",
-    "consensus_conviction_pct": 60.1,
-    "approved_leverage": 1.0,
-    "kelly_allocation_pct": 6.0,
-    "tp1_target": 372.58,
-    "tp2_target": 393.38,
-    "stop_loss_target": 330.99,
-    "cro_signoff": {
-      "cro_name": "Chief Risk Officer (Arbitrator)",
-      "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Moderate Conviction)",
-      "action_code": "SCALE_IN",
-      "buy_votes": 2,
-      "total_specialist_votes": 3,
-      "consensus_conviction_pct": 60.1,
-      "approved_leverage": 1.0,
-      "kelly_allocation_pct": 6.0,
-      "tp1_target": 372.58,
-      "tp2_target": 393.38,
-      "stop_loss_target": 330.99,
-      "cro_thesis": "Committee Consensus: 2/3 specialist agents voted BUY (Average Conviction: 60.1%). VIX is 16.5 (NORMAL). Trade signed off for execution.",
-      "vix_level": 16.5,
-      "vix_veto_triggered": false
-    },
+    "spot_price": 335.32,
+    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "action_code": "HOLD",
+    "consensus_conviction_pct": 60.7,
+    "approved_leverage": 0.0,
+    "kelly_allocation_pct": 0.0,
+    "tp1_target": 360.47,
+    "tp2_target": 380.59,
+    "stop_loss_target": 320.23,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Technical & Quant Alpha",
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
         "vote": "BUY",
-        "conviction_score": 70.0,
+        "conviction_score": 82.0,
         "key_metrics": {
-          "estimated_rsi": 28.2,
-          "trend": "OVERSOLD_MEAN_REVERSION",
-          "tft_5d_forecast_pct": -1.2
+          "estimated_rsi": 44.2,
+          "sma_200": 334.81,
+          "ma_21": 349.75,
+          "return_5d_pct": -2.5,
+          "trend_status": "BULLISH_MOMENTUM_EXPANSION"
         },
-        "thesis": "Asset is deeply oversold (RSI: 28.2 < 35), presenting high-probability rebound setup."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($334.81) with optimal pullback RSI (44.2)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: NLP & Catalyst Intelligence",
-        "vote": "BUY",
-        "conviction_score": 74.3,
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
+        "vote": "HOLD",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "earnings_tone": "\ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE",
-          "social_velocity": 2.34,
-          "insider_sentiment": "\ud83d\udd34 NET INSIDER DISTRIBUTIONS (Executives Trimming Holdings)",
-          "gov_procurement": "\ud83d\udfe2 STRONG INSTITUTIONAL IP (Active Patent Pipeline & Sustained Awards)"
+          "finbert_polarity": -0.071,
+          "headlines_analyzed": 100
         },
-        "thesis": "Earnings tone is \ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE. Social velocity is 2.3x. Insider smart money score: 42/100. FinBERT NLP Score: +0.97."
+        "thesis": "Balanced sentiment environment (-0.07 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Accounting",
-        "vote": "HOLD",
-        "conviction_score": 36.0,
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "piotroski_f_score": 9,
-          "altman_z_score": 23.01,
-          "beneish_m_score": -1.91,
-          "dcf_fair_value": 103.97699999999999,
-          "dcf_margin_of_safety_pct": -70.0
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Valuation/Quality caution: Piotroski F-Score 9/9, DCF Fair Value $103.98 (Margin of Safety: -70.0%)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       }
-    ]
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "action_code": "HOLD",
+      "buy_votes": 1,
+      "total_specialist_votes": 3,
+      "consensus_conviction_pct": 60.7,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 360.47,
+      "tp2_target": 380.59,
+      "stop_loss_target": 320.23,
+      "cro_thesis": "Committee Consensus: 1/3 specialist agents voted BUY (Average Conviction: 60.7%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false
+    }
   },
   "NFLX": {
     "ticker": "NFLX",
@@ -3155,144 +3203,160 @@
     ]
   },
   "AMZN": {
+    "timestamp": "2026-09-01T16:49:28.284214+00:00",
     "ticker": "AMZN",
-    "spot_price": 266.43,
-    "timestamp": "2026-08-29T14:20:39.013509+00:00",
+    "spot_price": 254.46,
     "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
     "action_code": "HOLD",
-    "consensus_conviction_pct": 56.3,
+    "consensus_conviction_pct": 50.7,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 286.41,
-    "tp2_target": 302.4,
-    "stop_loss_target": 254.44,
-    "cro_signoff": {
-      "cro_name": "Chief Risk Officer (Arbitrator)",
-      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-      "action_code": "HOLD",
-      "buy_votes": 2,
-      "total_specialist_votes": 3,
-      "consensus_conviction_pct": 56.3,
-      "approved_leverage": 0.0,
-      "kelly_allocation_pct": 0.0,
-      "tp1_target": 286.41,
-      "tp2_target": 302.4,
-      "stop_loss_target": 254.44,
-      "cro_thesis": "Committee Consensus: 2/3 specialist agents voted BUY (Average Conviction: 56.3%). VIX is 16.5 (NORMAL). Trade blocked: Insufficient consensus.",
-      "vix_level": 16.5,
-      "vix_veto_triggered": false
-    },
+    "tp1_target": 273.54,
+    "tp2_target": 288.81,
+    "stop_loss_target": 243.01,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Technical & Quant Alpha",
-        "vote": "BUY",
-        "conviction_score": 70.0,
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
+        "vote": "NEUTRAL",
+        "conviction_score": 52.0,
         "key_metrics": {
-          "estimated_rsi": 23.7,
-          "trend": "OVERSOLD_MEAN_REVERSION",
-          "tft_5d_forecast_pct": -0.9
+          "estimated_rsi": 38.1,
+          "sma_200": 238.73,
+          "ma_21": 266.55,
+          "return_5d_pct": -0.88,
+          "trend_status": "SIDEWAYS_CONSOLIDATION"
         },
-        "thesis": "Asset is deeply oversold (RSI: 23.7 < 35), presenting high-probability rebound setup."
+        "thesis": "Momentum neutral (RSI: 38.1). 21-day MA at $266.55."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: NLP & Catalyst Intelligence",
-        "vote": "BUY",
-        "conviction_score": 69.0,
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
+        "vote": "HOLD",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "earnings_tone": "\ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE",
-          "social_velocity": 2.34,
-          "insider_sentiment": "\ud83d\udd34 NET INSIDER DISTRIBUTIONS (Executives Trimming Holdings)",
-          "gov_procurement": "\ud83d\udfe1 STANDARD COMMERCIAL PROFILE"
+          "finbert_polarity": 0.005,
+          "headlines_analyzed": 100
         },
-        "thesis": "Earnings tone is \ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE. Social velocity is 2.3x. Insider smart money score: 42/100. FinBERT NLP Score: +0.98."
+        "thesis": "Balanced sentiment environment (+0.01 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Accounting",
-        "vote": "HOLD",
-        "conviction_score": 30.0,
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "piotroski_f_score": 7,
-          "altman_z_score": 9.39,
-          "beneish_m_score": -1.91,
-          "dcf_fair_value": 79.929,
-          "dcf_margin_of_safety_pct": -70.0
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Valuation/Quality caution: Piotroski F-Score 7/9, DCF Fair Value $79.93 (Margin of Safety: -70.0%)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       }
-    ]
-  },
-  "TSLA": {
-    "ticker": "TSLA",
-    "spot_price": 348.75,
-    "timestamp": "2026-08-29T14:20:43.010994+00:00",
-    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "action_code": "HOLD",
-    "consensus_conviction_pct": 43.7,
-    "approved_leverage": 0.0,
-    "kelly_allocation_pct": 0.0,
-    "tp1_target": 374.91,
-    "tp2_target": 395.83,
-    "stop_loss_target": 333.06,
+    ],
     "cro_signoff": {
       "cro_name": "Chief Risk Officer (Arbitrator)",
       "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
       "action_code": "HOLD",
-      "buy_votes": 1,
+      "buy_votes": 0,
       "total_specialist_votes": 3,
-      "consensus_conviction_pct": 43.7,
+      "consensus_conviction_pct": 50.7,
       "approved_leverage": 0.0,
       "kelly_allocation_pct": 0.0,
-      "tp1_target": 374.91,
-      "tp2_target": 395.83,
-      "stop_loss_target": 333.06,
-      "cro_thesis": "Committee Consensus: 1/3 specialist agents voted BUY (Average Conviction: 43.7%). VIX is 16.5 (NORMAL). Trade blocked: Insufficient consensus.",
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 273.54,
+      "tp2_target": 288.81,
+      "stop_loss_target": 243.01,
+      "cro_thesis": "Committee Consensus: 0/3 specialist agents voted BUY (Average Conviction: 50.7%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
       "vix_level": 16.5,
       "vix_veto_triggered": false
-    },
+    }
+  },
+  "TSLA": {
+    "timestamp": "2026-09-01T16:49:36.479896+00:00",
+    "ticker": "TSLA",
+    "spot_price": 356.85,
+    "final_resolution": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "action_code": "VETO",
+    "consensus_conviction_pct": 55.0,
+    "approved_leverage": 0.0,
+    "kelly_allocation_pct": 0.0,
+    "tp1_target": 383.61,
+    "tp2_target": 405.02,
+    "stop_loss_target": 340.79,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Technical & Quant Alpha",
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
         "vote": "HOLD",
         "conviction_score": 38.0,
         "key_metrics": {
-          "estimated_rsi": 62.7,
-          "trend": "BEARISH_BELOW_SMA200",
-          "tft_5d_forecast_pct": -2.2
+          "estimated_rsi": 65.0,
+          "sma_200": 400.57,
+          "ma_21": 340.21,
+          "return_5d_pct": 5.44,
+          "trend_status": "BEARISH_BELOW_SMA200"
         },
-        "thesis": "Asset is trading below its 200-day SMA ($400.96), trapped in a macro downtrend regime."
+        "thesis": "Asset is trading below its 200-day SMA ($400.57), signaling prevailing macro downtrend."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: NLP & Catalyst Intelligence",
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
         "vote": "BUY",
-        "conviction_score": 69.0,
+        "conviction_score": 77.1,
         "key_metrics": {
-          "earnings_tone": "\ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE",
-          "social_velocity": 2.34,
-          "insider_sentiment": "\ud83d\udd34 NET INSIDER DISTRIBUTIONS (Executives Trimming Holdings)",
-          "gov_procurement": "\ud83d\udfe1 STANDARD COMMERCIAL PROFILE"
+          "finbert_polarity": 0.428,
+          "headlines_analyzed": 100
         },
-        "thesis": "Earnings tone is \ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE. Social velocity is 2.3x. Insider smart money score: 42/100. FinBERT NLP Score: +0.98."
+        "thesis": "Strong bullish news flow (++0.43 FinBERT score across 100 live headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Accounting",
-        "vote": "HOLD",
-        "conviction_score": 24.0,
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
+          "data_available": false,
           "piotroski_f_score": 5,
-          "altman_z_score": 25.0,
-          "beneish_m_score": -1.91,
-          "dcf_fair_value": 104.625,
-          "dcf_margin_of_safety_pct": -70.0
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Valuation/Quality caution: Piotroski F-Score 5/9, DCF Fair Value $104.62 (Margin of Safety: -70.0%)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       }
-    ]
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "final_resolution": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+      "action_code": "VETO",
+      "buy_votes": 1,
+      "total_specialist_votes": 3,
+      "consensus_conviction_pct": 55.0,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 383.61,
+      "tp2_target": 405.02,
+      "stop_loss_target": 340.79,
+      "cro_thesis": "Committee Consensus: 1/3 specialist agents voted BUY (Average Conviction: 55.0%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200).",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false
+    }
   },
   "HD": {
     "ticker": "HD",
@@ -8195,74 +8259,82 @@
     ]
   },
   "SPY": {
+    "timestamp": "2026-09-01T16:50:04.711650+00:00",
     "ticker": "SPY",
-    "spot_price": 769.35,
-    "timestamp": "2026-08-29T14:25:39.845543+00:00",
-    "final_resolution": "\ud83d\ude80 CONVICTION INSTITUTIONAL BUY",
-    "action_code": "EXECUTE_BUY",
-    "consensus_conviction_pct": 80.7,
-    "approved_leverage": 1.5,
-    "kelly_allocation_pct": 12.5,
-    "tp1_target": 827.05,
-    "tp2_target": 873.21,
-    "stop_loss_target": 734.73,
-    "cro_signoff": {
-      "cro_name": "Chief Risk Officer (Arbitrator)",
-      "final_resolution": "\ud83d\ude80 CONVICTION INSTITUTIONAL BUY",
-      "action_code": "EXECUTE_BUY",
-      "buy_votes": 3,
-      "total_specialist_votes": 3,
-      "consensus_conviction_pct": 80.7,
-      "approved_leverage": 1.5,
-      "kelly_allocation_pct": 12.5,
-      "tp1_target": 827.05,
-      "tp2_target": 873.21,
-      "stop_loss_target": 734.73,
-      "cro_thesis": "Committee Consensus: 3/3 specialist agents voted BUY (Average Conviction: 80.7%). VIX is 16.5 (NORMAL). Trade signed off for execution.",
-      "vix_level": 16.5,
-      "vix_veto_triggered": false
-    },
+    "spot_price": 761.96,
+    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "action_code": "HOLD",
+    "consensus_conviction_pct": 60.7,
+    "approved_leverage": 0.0,
+    "kelly_allocation_pct": 0.0,
+    "tp1_target": 819.11,
+    "tp2_target": 864.82,
+    "stop_loss_target": 727.67,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Technical & Quant Alpha",
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
         "vote": "BUY",
         "conviction_score": 82.0,
         "key_metrics": {
-          "estimated_rsi": 47.7,
-          "trend": "BULLISH_MOMENTUM_EXPANSION",
-          "tft_5d_forecast_pct": 0.7
+          "estimated_rsi": 45.9,
+          "sma_200": 710.27,
+          "ma_21": 769.11,
+          "return_5d_pct": 0.47,
+          "trend_status": "BULLISH_MOMENTUM_EXPANSION"
         },
-        "thesis": "Asset is in strong structural uptrend above 200 SMA ($709.86) with optimal pullback RSI (47.7)."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($710.27) with optimal pullback RSI (45.9)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: NLP & Catalyst Intelligence",
-        "vote": "BUY",
-        "conviction_score": 68.2,
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
+        "vote": "HOLD",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "earnings_tone": "\ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE",
-          "social_velocity": 2.34,
-          "insider_sentiment": "\ud83d\udd34 NET INSIDER DISTRIBUTIONS (Executives Trimming Holdings)",
-          "gov_procurement": "\ud83d\udfe1 STANDARD COMMERCIAL PROFILE"
+          "finbert_polarity": -0.053,
+          "headlines_analyzed": 100
         },
-        "thesis": "Earnings tone is \ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE. Social velocity is 2.3x. Insider smart money score: 42/100. FinBERT NLP Score: +0.90."
+        "thesis": "Balanced sentiment environment (-0.05 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Accounting",
-        "vote": "BUY",
-        "conviction_score": 92.0,
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "piotroski_f_score": 9,
-          "altman_z_score": 25.0,
-          "beneish_m_score": -1.91,
-          "dcf_fair_value": 242.08,
-          "dcf_margin_of_safety_pct": 21.0
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Robust fundamentals: Piotroski F-Score 9/9, Altman Z-Score 25.00 (\ud83d\udfe2 SAFE ZONE (Minimal Bankruptcy / High Balance Sheet Strength)), and DCF Fair Value $242.08 (+21.0% margin of safety)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       }
-    ]
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "action_code": "HOLD",
+      "buy_votes": 1,
+      "total_specialist_votes": 3,
+      "consensus_conviction_pct": 60.7,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 819.11,
+      "tp2_target": 864.82,
+      "stop_loss_target": 727.67,
+      "cro_thesis": "Committee Consensus: 1/3 specialist agents voted BUY (Average Conviction: 60.7%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false
+    }
   },
   "OPENAI": {
     "ticker": "OPENAI",
@@ -8405,144 +8477,160 @@
     ]
   },
   "META": {
+    "timestamp": "2026-09-01T16:49:20.968198+00:00",
     "ticker": "META",
-    "spot_price": 578.02,
-    "timestamp": "2026-08-29T14:20:21.646866+00:00",
-    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "action_code": "HOLD",
-    "consensus_conviction_pct": 46.4,
+    "spot_price": 579.76,
+    "final_resolution": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "action_code": "VETO",
+    "consensus_conviction_pct": 46.0,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 621.37,
-    "tp2_target": 656.05,
-    "stop_loss_target": 552.01,
-    "cro_signoff": {
-      "cro_name": "Chief Risk Officer (Arbitrator)",
-      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-      "action_code": "HOLD",
-      "buy_votes": 0,
-      "total_specialist_votes": 3,
-      "consensus_conviction_pct": 46.4,
-      "approved_leverage": 0.0,
-      "kelly_allocation_pct": 0.0,
-      "tp1_target": 621.37,
-      "tp2_target": 656.05,
-      "stop_loss_target": 552.01,
-      "cro_thesis": "Committee Consensus: 0/3 specialist agents voted BUY (Average Conviction: 46.4%). VIX is 16.5 (NORMAL). Trade blocked: Insufficient consensus.",
-      "vix_level": 16.5,
-      "vix_veto_triggered": false
-    },
+    "tp1_target": 623.24,
+    "tp2_target": 658.03,
+    "stop_loss_target": 553.67,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Technical & Quant Alpha",
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
         "vote": "HOLD",
         "conviction_score": 38.0,
         "key_metrics": {
-          "estimated_rsi": 40.8,
-          "trend": "BEARISH_BELOW_SMA200",
-          "tft_5d_forecast_pct": 3.9
+          "estimated_rsi": 40.3,
+          "sma_200": 622.45,
+          "ma_21": 575.61,
+          "return_5d_pct": 2.38,
+          "trend_status": "BEARISH_BELOW_SMA200"
         },
-        "thesis": "Asset is trading below its 200-day SMA ($622.69), trapped in a macro downtrend regime."
+        "thesis": "Asset is trading below its 200-day SMA ($622.45), signaling prevailing macro downtrend."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: NLP & Catalyst Intelligence",
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
         "vote": "HOLD",
-        "conviction_score": 64.4,
+        "conviction_score": 50.0,
         "key_metrics": {
-          "earnings_tone": "\ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE",
-          "social_velocity": 2.34,
-          "insider_sentiment": "\ud83d\udd34 NET INSIDER DISTRIBUTIONS (Executives Trimming Holdings)",
-          "gov_procurement": "\ud83d\udfe1 STANDARD COMMERCIAL PROFILE"
+          "finbert_polarity": 0.017,
+          "headlines_analyzed": 100
         },
-        "thesis": "Earnings tone is \ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE. Social velocity is 2.3x. Insider smart money score: 42/100. FinBERT NLP Score: +0.52."
+        "thesis": "Balanced sentiment environment (+0.02 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Accounting",
-        "vote": "HOLD",
-        "conviction_score": 36.9,
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "piotroski_f_score": 9,
-          "altman_z_score": 10.39,
-          "beneish_m_score": -1.91,
-          "dcf_fair_value": 190.06,
-          "dcf_margin_of_safety_pct": -67.1
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Valuation/Quality caution: Piotroski F-Score 9/9, DCF Fair Value $190.06 (Margin of Safety: -67.1%)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       }
-    ]
-  },
-  "QQQ": {
-    "ticker": "QQQ",
-    "spot_price": 716.43,
-    "timestamp": "2026-08-29T14:25:43.681333+00:00",
-    "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Moderate Conviction)",
-    "action_code": "SCALE_IN",
-    "consensus_conviction_pct": 77.8,
-    "approved_leverage": 1.0,
-    "kelly_allocation_pct": 6.0,
-    "tp1_target": 770.16,
-    "tp2_target": 813.15,
-    "stop_loss_target": 684.19,
+    ],
     "cro_signoff": {
       "cro_name": "Chief Risk Officer (Arbitrator)",
-      "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Moderate Conviction)",
-      "action_code": "SCALE_IN",
-      "buy_votes": 2,
+      "final_resolution": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+      "action_code": "VETO",
+      "buy_votes": 0,
       "total_specialist_votes": 3,
-      "consensus_conviction_pct": 77.8,
-      "approved_leverage": 1.0,
-      "kelly_allocation_pct": 6.0,
-      "tp1_target": 770.16,
-      "tp2_target": 813.15,
-      "stop_loss_target": 684.19,
-      "cro_thesis": "Committee Consensus: 2/3 specialist agents voted BUY (Average Conviction: 77.8%). VIX is 16.5 (NORMAL). Trade signed off for execution.",
+      "consensus_conviction_pct": 46.0,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 623.24,
+      "tp2_target": 658.03,
+      "stop_loss_target": 553.67,
+      "cro_thesis": "Committee Consensus: 0/3 specialist agents voted BUY (Average Conviction: 46.0%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200).",
       "vix_level": 16.5,
       "vix_veto_triggered": false
-    },
+    }
+  },
+  "QQQ": {
+    "timestamp": "2026-09-01T16:49:57.105762+00:00",
+    "ticker": "QQQ",
+    "spot_price": 708.5,
+    "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "action_code": "SCALE_IN",
+    "consensus_conviction_pct": 67.3,
+    "approved_leverage": 1.0,
+    "kelly_allocation_pct": 2.97,
+    "tp1_target": 761.64,
+    "tp2_target": 804.15,
+    "stop_loss_target": 676.62,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Technical & Quant Alpha",
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
         "vote": "BUY",
         "conviction_score": 82.0,
         "key_metrics": {
-          "estimated_rsi": 50.2,
-          "trend": "BULLISH_MOMENTUM_EXPANSION",
-          "tft_5d_forecast_pct": 1.1
+          "estimated_rsi": 48.7,
+          "sma_200": 655.65,
+          "ma_21": 717.89,
+          "return_5d_pct": 1.48,
+          "trend_status": "BULLISH_MOMENTUM_EXPANSION"
         },
-        "thesis": "Asset is in strong structural uptrend above 200 SMA ($655.20) with optimal pullback RSI (50.2)."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($655.65) with optimal pullback RSI (48.7)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: NLP & Catalyst Intelligence",
-        "vote": "HOLD",
-        "conviction_score": 59.3,
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
+        "vote": "BUY",
+        "conviction_score": 70.0,
         "key_metrics": {
-          "earnings_tone": "\ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE",
-          "social_velocity": 2.34,
-          "insider_sentiment": "\ud83d\udd34 NET INSIDER DISTRIBUTIONS (Executives Trimming Holdings)",
-          "gov_procurement": "\ud83d\udfe1 STANDARD COMMERCIAL PROFILE"
+          "finbert_polarity": 0.25,
+          "headlines_analyzed": 100
         },
-        "thesis": "Earnings tone is \ud83d\udfe1 BALANCED / IN-LINE EARNINGS TONE. Social velocity is 2.3x. Insider smart money score: 42/100. FinBERT NLP Score: +0.01."
+        "thesis": "Strong bullish news flow (++0.25 FinBERT score across 100 live headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Accounting",
-        "vote": "BUY",
-        "conviction_score": 92.0,
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "piotroski_f_score": 9,
-          "altman_z_score": 25.0,
-          "beneish_m_score": -1.91,
-          "dcf_fair_value": 242.08,
-          "dcf_margin_of_safety_pct": 21.0
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Robust fundamentals: Piotroski F-Score 9/9, Altman Z-Score 25.00 (\ud83d\udfe2 SAFE ZONE (Minimal Bankruptcy / High Balance Sheet Strength)), and DCF Fair Value $242.08 (+21.0% margin of safety)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       }
-    ]
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+      "action_code": "SCALE_IN",
+      "buy_votes": 2,
+      "total_specialist_votes": 3,
+      "consensus_conviction_pct": 67.3,
+      "approved_leverage": 1.0,
+      "kelly_allocation_pct": 2.97,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 761.64,
+      "tp2_target": 804.15,
+      "stop_loss_target": 676.62,
+      "cro_thesis": "Committee Consensus: 2/3 specialist agents voted BUY (Average Conviction: 67.3%). VIX is 16.5 (NORMAL). Fractional Kelly: 2.97%. Trade signed off for execution.",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false
+    }
   },
   "ANTH": {
     "ticker": "ANTH",
