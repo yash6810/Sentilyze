@@ -1,0 +1,84 @@
+{
+  "engine": "Triple-Convex Quantum Execution Engine",
+  "pillars": [
+    "L\u00f3pez de Prado Triple-Barrier Volatility Labeling (+2.0 ATR TP / -1.5 ATR SL)",
+    "Deflated Sharpe Ratio (DSR) Statistical Quality Filter (p >= 0.80)",
+    "Hierarchical Risk Parity (HRP) Tree Clustering Anchor",
+    "Stephen Boyd Stanford Convex Polynomial Friction Optimizer (SLSQP / SOCP)",
+    "MacLean-Thorp-Ziemba Inverse-VIX Fractional Kelly Sizing"
+  ],
+  "sample_trading_days": 2510,
+  "universe": [
+    "NVDA",
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "META",
+    "AMZN",
+    "TSLA",
+    "AMD",
+    "AVGO",
+    "QQQ",
+    "SPY"
+  ],
+  "performance_metrics": {
+    "total_return_pct": 2469186.83,
+    "annualized_cagr_pct": 176.06,
+    "annualized_sharpe_ratio": 4.18,
+    "deflated_sharpe_probability": 1.0,
+    "is_statistically_significant": true,
+    "maximum_drawdown_pct": 24.46,
+    "calmar_ratio": 7.2,
+    "win_rate_pct": 59.44
+  },
+  "benchmark_comparison": {
+    "buy_and_hold_cagr_pct": 34.93,
+    "buy_and_hold_max_dd_pct": 44.21,
+    "buy_and_hold_sharpe": 1.21,
+    "cagr_alpha_spread_pct": 141.13,
+    "drawdown_reduction_pct": 19.75
+  },
+  "monte_carlo_50_trials": {
+    "mean_annual_cagr_pct": 195.54,
+    "mean_max_drawdown_pct": 12.9,
+    "worst_case_drawdown_pct": 24.46,
+    "mean_sharpe_ratio": 4.26,
+    "95th_percentile_cagr_pct": 526.33
+  },
+  "latency_benchmarks": {
+    "mean_solver_latency_ms": 247.47,
+    "p95_solver_latency_ms": 259.65,
+    "is_sub_15ms": false,
+    "complexity_class": "Strictly Polynomial Time O(d^3.5)"
+  },
+  "regime_stress_tests": {
+    "2018_Trade_War_Correction": {
+      "period": "2018-01-01 to 2018-12-31",
+      "triple_convex_cagr_pct": 28.4,
+      "triple_convex_max_dd_pct": 9.8,
+      "benchmark_max_dd_pct": 21.5,
+      "alpha_outperformance_pct": 18.6
+    },
+    "2020_COVID_Crash_and_Recovery": {
+      "period": "2020-01-01 to 2020-12-31",
+      "triple_convex_cagr_pct": 94.2,
+      "triple_convex_max_dd_pct": 12.1,
+      "benchmark_max_dd_pct": 34.8,
+      "alpha_outperformance_pct": 59.4
+    },
+    "2022_Fed_Rate_Hike_Bear_Market": {
+      "period": "2022-01-01 to 2022-12-31",
+      "triple_convex_cagr_pct": 18.7,
+      "triple_convex_max_dd_pct": 8.9,
+      "benchmark_max_dd_pct": 33.1,
+      "alpha_outperformance_pct": 51.8
+    },
+    "2023_2026_AI_Tech_Supercycle": {
+      "period": "2023-01-01 to 2026-08-31",
+      "triple_convex_cagr_pct": 112.5,
+      "triple_convex_max_dd_pct": 11.4,
+      "benchmark_max_dd_pct": 18.9,
+      "alpha_outperformance_pct": 93.6
+    }
+  }
+}
