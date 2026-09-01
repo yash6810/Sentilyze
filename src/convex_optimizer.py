@@ -102,8 +102,9 @@ class PolyTimeConvexOptimizer:
 
         # Constraints: Weights sum to 1.0
         constraints = [{"type": "eq", "fun": lambda w: np.sum(w) - 1.0}]
-        # Bounds: Long-only 0.0 <= w_i <= max_weight_per_asset
-        bounds = [(0.0, self.max_weight_per_asset) for _ in range(n)]
+        # Bounds: Long-only 0.0 <= w_i <= max_weight_per_asset (with feasibility check)
+        eff_max_w = max(self.max_weight_per_asset, 1.0 / n)
+        bounds = [(0.0, eff_max_w) for _ in range(n)]
 
         # Initial guess: equal weights
         init_guess = np.ones(n) / n
