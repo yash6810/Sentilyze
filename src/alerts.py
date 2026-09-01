@@ -736,3 +736,116 @@ def send_discord_holdings_heartbeat(
     except Exception as e:
         logger.error(f"Error sending Discord holdings heartbeat: {e}")
         return False
+
+
+def send_discord_premarket_briefing(
+    portfolio_summary: Dict[str, Any],
+    macro_vix: float = 16.5,
+    top_watchlist: Optional[List[Dict[str, Any]]] = None,
+    webhook_url: Optional[str] = None,
+) -> bool:
+    """
+    Dispatches an institutional Pre-Market Intelligence Briefing embed to Discord.
+    Summarizes overnight sentiment, macro volatility gate, active portfolio health, and top setups.
+    """
+    url = webhook_url or os.getenv("DISCORD_WEBHOOK_URL")
+    if not url:
+        logger.warning("No Discord Webhook URL provided for premarket briefing.")
+        return False
+
+    total_eq = float(portfolio_summary.get("total_equity", 100000.0))
+    cash = float(portfolio_summary.get("cash", 100000.0))
+    unrealized = float(portfolio_summary.get("unrealized_pnl", 0.0))
+    pnl_pct = float(portfolio_summary.get("unrealized_pnl_pct", 0.0))
+    win_rate = float(portfolio_summary.get("win_rate", 50.0))
+    open_pos = portfolio_summary.get("open_positions", {})
+
+    # Volatility Regime Assessment
+    if macro_vix > 26.0:
+        vol_status = "🔴 CIRCUIT BREAKER ACTIVE (VIX > 26.0) — New Buys Halted"
+        vol_color = 0xEF4444  # Red
+    elif macro_vix > 20.0:
+        vol_status = "🟡 ELEVATED VOLATILITY (VIX 20-26) — Quarter-Kelly Tightened"
+        vol_color = 0xF59E0B  # Amber
+    else:
+        vol_status = "🟢 CALM / LOW VOLATILITY (VIX < 20) — Full Execution Mode"
+        vol_color = 0x10B981  # Emerald Green
+
+    fields = [
+        {
+            "name": "🏛️ Macro Volatility & Risk Gate",
+            "value": (
+                f"• **CBOE VIX Level:** `{macro_vix:.2f}`\n"
+                f"• **Council Gate:** {vol_status}\n"
+                f"• **Capital Protection:** `Dynamic ATR Stops Enabled`"
+            ),
+            "inline": False,
+        },
+        {
+            "name": "💼 Paper Portfolio Balance",
+            "value": (
+                f"• **Total Equity:** **`${total_eq:,.2f}`**\n"
+                f"• **Cash Reserves:** `${cash:,.2f}`\n"
+                f"• **Open Holdings:** `{len(open_pos)} Positions` (PnL: `${unrealized:+,.2f}` / `{pnl_pct:+.2f}%`)\n"
+                f"• **Historical Win Rate:** `{win_rate:.1f}%`"
+            ),
+            "inline": False,
+        },
+    ]
+
+    # Add Watchlist Setups if provided
+    if top_watchlist:
+        watchlist_lines = []
+        for item in top_watchlist[:5]:
+            tk = item.get("ticker", "N/A")
+            res = item.get("resolution", "HOLD")
+            conv = item.get("conviction", 50.0)
+            sent = item.get("sentiment_score", 0.0)
+            emoji = "🟢" if "BUY" in res else ("🔴" if "SELL" in res else "🟡")
+            watchlist_lines.append(
+                f"{emoji} **{tk}**: `{res}` ({conv:.0f}% conviction | FinBERT: `{sent:+.2f}`)"
+            )
+        fields.append(
+            {
+                "name": "🎯 Pre-Market Watchlist & Council Verdicts",
+                "value": (
+                    "\n".join(watchlist_lines)
+                    if watchlist_lines
+                    else "Scanning universe..."
+                ),
+                "inline": False,
+            }
+        )
+
+    fields.append(
+        {
+            "name": "🛡️ Chief Risk Officer (CRO) Daily Mandate",
+            "value": (
+                "• All entries governed by **Fractional Quarter-Kelly Criterion**.\n"
+                "• **Stage 1 Target:** Bank 50% profit @ `+2.5 ATR` and trail stop to breakeven.\n"
+                "• **Stage 2 Target:** Harvest remaining 50% runner @ `+4.5 ATR`."
+            ),
+            "inline": False,
+        }
+    )
+
+    embed = {
+        "title": "🌅 Sentilyze Pre-Market Intelligence & Council Briefing",
+        "description": (
+            f"**Morning Market Opening Bell Assessment**\n"
+            f"*Automated 4-Agent Multi-Modal Quant Briefing for US Equities*"
+        ),
+        "color": vol_color,
+        "fields": fields,
+        "footer": {
+            "text": f"Sentilyze Pre-Market Intelligence Desk • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+        },
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
+
+    try:
+        res = requests.post(url, json={"embeds": [embed]}, timeout=10)
+        return res.status_code in [200, 204]
+    except Exception as e:
+        logger.error(f"Error sending Discord pre-market briefing: {e}")
+        return False

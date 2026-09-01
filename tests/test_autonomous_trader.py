@@ -174,3 +174,43 @@ def test_unhandled_exception_handling_and_alert(monkeypatch):
     res = engine.run_autonomous_cycle()
     assert res.get("status") == "ERROR"
     assert "Simulated critical DB failure" in res.get("error", "")
+
+
+def test_run_premarket_briefing(monkeypatch):
+    """Verify run_premarket_briefing gathers macro data and dispatches morning briefing."""
+    mock_broker = MagicMock()
+    mock_broker.get_portfolio_summary.return_value = {
+        "total_equity": 102000.0,
+        "cash": 98000.0,
+        "unrealized_pnl": 400.0,
+        "unrealized_pnl_pct": 0.4,
+        "win_rate": 55.0,
+        "open_positions": {},
+    }
+
+    engine = AutonomousTradingEngine(broker=mock_broker)
+    monkeypatch.setattr(
+        "src.autonomous_trader.fetch_live_quote",
+        lambda sym: {"price": 18.5 if sym == "^VIX" else 150.0},
+    )
+    monkeypatch.setattr(
+        "src.autonomous_trader.convene_trading_committee",
+        lambda tk, **kw: {
+            "final_resolution": "BUY",
+            "consensus_conviction_pct": 80.0,
+            "agent_testimonies": [
+                {"agent_name": "FinBERT Sentiment Specialist", "conviction_score": 80.0}
+            ],
+        },
+    )
+    monkeypatch.setattr(
+        "src.autonomous_trader.send_discord_premarket_briefing",
+        lambda **kwargs: True,
+    )
+
+    res = engine.run_premarket_briefing()
+    assert res["status"] == "success"
+    assert res["discord_dispatched"] is True
+    assert res["macro_vix"] == 18.5
+    assert res["total_equity"] == 102000.0
+    assert res["watchlist_evaluated"] == 5

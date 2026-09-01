@@ -25,6 +25,7 @@ from src.alerts import (
     send_discord_execution_alert,
     send_discord_committee_alert,
     send_discord_social_spike_alert,
+    send_discord_premarket_briefing,
 )
 
 logger = get_logger(__name__)
@@ -733,6 +734,62 @@ class AutonomousTradingEngine:
             "new_autopsies_count": len(autopsies),
         }
 
+    def run_premarket_briefing(self) -> Dict[str, Any]:
+        """
+        Gathers overnight macro VIX volatility regime, paper portfolio balance,
+        and top watchlist committee resolutions, then dispatches a rich morning briefing to Discord.
+        """
+        logger.info("🌅 [PRE-MARKET BRIEFING] Convening morning intelligence desk...")
+        summary = self.broker.get_portfolio_summary()
+
+        # Fetch Macro VIX
+        try:
+            vix_quote = fetch_live_quote("^VIX")
+            macro_vix = float(vix_quote.get("price", 16.5))
+        except Exception:
+            macro_vix = 16.5
+
+        # Scan top 5 benchmark tickers for morning setup
+        scan_tickers = ["NVDA", "AAPL", "MSFT", "TSLA", "AMZN"]
+        top_watchlist = []
+
+        for tk in scan_tickers:
+            try:
+                delib = convene_trading_committee(tk, save_resolution=False)
+                res = delib.get("final_resolution", "HOLD")
+                conv = delib.get("consensus_conviction_pct", 50.0)
+                # Find FinBERT sentiment score from testimonies
+                sent_score = 0.0
+                for t in delib.get("agent_testimonies", []):
+                    if "Sentiment" in t.get("agent_name", ""):
+                        sent_score = t.get("conviction_score", 50.0) / 100.0
+                top_watchlist.append(
+                    {
+                        "ticker": tk,
+                        "resolution": res,
+                        "conviction": conv,
+                        "sentiment_score": sent_score,
+                    }
+                )
+            except Exception as e:
+                logger.warning(f"Error evaluating {tk} for morning briefing: {e}")
+
+        # Send Discord Briefing
+        sent = send_discord_premarket_briefing(
+            portfolio_summary=summary,
+            macro_vix=macro_vix,
+            top_watchlist=top_watchlist,
+        )
+
+        return {
+            "status": "success",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "discord_dispatched": sent,
+            "macro_vix": macro_vix,
+            "total_equity": summary.get("total_equity", 100000.0),
+            "watchlist_evaluated": len(top_watchlist),
+        }
+
 
 def run_autonomous_daemon(interval_seconds: int = 300):
     """Runs the Autonomous Trading Engine continuously on an interval."""
@@ -760,6 +817,11 @@ if __name__ == "__main__":
         help="Run single autonomous decision & execution cycle",
     )
     parser.add_argument(
+        "--premarket",
+        action="store_true",
+        help="Run morning pre-market briefing and dispatch Discord report",
+    )
+    parser.add_argument(
         "--daemon",
         action="store_true",
         help="Run 24/7 continuous autonomous trading daemon",
@@ -774,7 +836,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     engine = AutonomousTradingEngine()
 
-    if args.daemon:
+    if args.premarket:
+        res = engine.run_premarket_briefing()
+        print(json.dumps(res, indent=2))
+    elif args.daemon:
         run_autonomous_daemon(interval_seconds=args.interval)
     else:
         summary = engine.run_autonomous_cycle()

@@ -171,3 +171,38 @@ def test_send_telegram_alert(mock_post):
     )
     assert success is True
     assert mock_post.called
+
+
+@patch("requests.post")
+def test_send_discord_premarket_briefing(mock_post):
+    from src.alerts import send_discord_premarket_briefing
+
+    mock_response = MagicMock()
+    mock_response.status_code = 204
+    mock_post.return_value = mock_response
+
+    summary = {
+        "total_equity": 105000.0,
+        "cash": 95000.0,
+        "unrealized_pnl": 500.0,
+        "unrealized_pnl_pct": 0.5,
+        "win_rate": 60.0,
+        "open_positions": {"NVDA": {"shares": 10}},
+    }
+    top_watchlist = [
+        {
+            "ticker": "NVDA",
+            "resolution": "BUY",
+            "conviction": 85.0,
+            "sentiment_score": 0.5,
+        }
+    ]
+
+    success = send_discord_premarket_briefing(
+        portfolio_summary=summary,
+        macro_vix=17.5,
+        top_watchlist=top_watchlist,
+        webhook_url="https://discord.com/api/webhooks/mock",
+    )
+    assert success is True
+    assert mock_post.called

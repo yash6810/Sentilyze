@@ -1,11 +1,24 @@
+---
+title: Sentilyze Multi-Agent Quant Engine
+emoji: 🤖
+colorFrom: indigo
+colorTo: purple
+sdk: streamlit
+sdk_version: "1.37.1"
+app_file: app.py
+pinned: false
+license: mit
+---
+
 # Sentilyze — Autonomous Multi-Agent Quantitative Trading & NLP Intelligence Platform
 
 <div align="center">
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black-000000?style=for-the-badge&logo=python&logoColor=white)](https://github.com/psf/black)
-[![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-171%20Tests%20Passing-10B981?style=for-the-badge&logo=github-actions&logoColor=white)](.github/workflows/)
+[![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-173%20Tests%20Passing-10B981?style=for-the-badge&logo=github-actions&logoColor=white)](.github/workflows/)
 [![Open In Colab](https://img.shields.io/badge/Google%20Colab-1--Click%20Demo-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb)
+[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces%20Live%20App-yellow?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co/spaces)
 [![Streamlit Interface](https://img.shields.io/badge/Mission%20Control-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](app.py)
 [![Discord Alerts](https://img.shields.io/badge/Live%20Alerts-Discord%20Hub-5865F2?style=for-the-badge&logo=discord&logoColor=white)](src/alerts.py)
 [![ML Framework](https://img.shields.io/badge/ML-XGBoost%20%2B%20FinBERT-F59E0B?style=for-the-badge&logo=scikit-learn&logoColor=white)](src/modeling.py)
