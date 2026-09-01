@@ -1932,15 +1932,15 @@
     "semantic_hash": ""
   },
   "results/daily_signals_latest.json": {
-    "mtime": 1788282223.610376,
-    "seen": 1788282286.7348511,
-    "ast_hash": "29037a0c88bf37f5f77021bc8bdbe807",
+    "mtime": 1788283624.7739663,
+    "seen": 1788283790.6825047,
+    "ast_hash": "4d1cc1d311cc4991af8a05950a1ca3fd",
     "semantic_hash": ""
   },
   "results/paper_portfolio.json": {
-    "mtime": 1788282281.3737032,
-    "seen": 1788282286.7348566,
-    "ast_hash": "431b05ab0aa05863f8b82f516f7f983e",
+    "mtime": 1788283661.9232287,
+    "seen": 1788283790.6825094,
+    "ast_hash": "c4aabf89407bfd8ec276e92c5eaa667c",
     "semantic_hash": ""
   },
   "run_batch_training.py": {
@@ -4203,6 +4203,84 @@
     "mtime": 1788279950.3368971,
     "seen": 1788282286.7685215,
     "ast_hash": "d06384ef207112d4f6a0bf47188b4f36",
+    "semantic_hash": ""
+  },
+  "results/academic_papers_benchmark.json": {
+    "mtime": 1788283705.8281107,
+    "seen": 1788283790.6800888,
+    "ast_hash": "30d2fd87cfacfa1f2b83235ac7fc66a4",
+    "semantic_hash": ""
+  },
+  "src/academic_papers_benchmark.py": {
+    "mtime": 1788283730.2244506,
+    "seen": 1788283790.6847332,
+    "ast_hash": "63a75765aee7f9698441238a8170c15b",
+    "semantic_hash": ""
+  },
+  "src/almgren_chriss_execution.py": {
+    "mtime": 1788283416.7148533,
+    "seen": 1788283790.6866665,
+    "ast_hash": "5a10c27a204eb142d808d836bbaa683a",
+    "semantic_hash": ""
+  },
+  "src/convex_optimizer.py": {
+    "mtime": 1788283510.064834,
+    "seen": 1788283790.6923301,
+    "ast_hash": "ff21d1307e20347ac77ed3fabae85f71",
+    "semantic_hash": ""
+  },
+  "src/fx_arbitrage_graph.py": {
+    "mtime": 1788283729.904591,
+    "seen": 1788283790.6970649,
+    "ast_hash": "63381b4849d645a8ae61c2c9e8345770",
+    "semantic_hash": ""
+  },
+  "src/hedge_agents.py": {
+    "mtime": 1788283729.8794103,
+    "seen": 1788283790.6977258,
+    "ast_hash": "86e8f7712a17c5d314b30bde62f24d40",
+    "semantic_hash": ""
+  },
+  "src/moment_sos_portfolio.py": {
+    "mtime": 1788283513.0295289,
+    "seen": 1788283790.7007024,
+    "ast_hash": "dc512e77f918672b0231c053a2208522",
+    "semantic_hash": ""
+  },
+  "src/online_newton_step.py": {
+    "mtime": 1788283020.7837427,
+    "seen": 1788283790.7007067,
+    "ast_hash": "aed93836a2772010173a3624f264850f",
+    "semantic_hash": ""
+  },
+  "src/triple_barrier.py": {
+    "mtime": 1788283020.8847349,
+    "seen": 1788283790.7101204,
+    "ast_hash": "a89e4f453615b34ad922a6c4345fac2c",
+    "semantic_hash": ""
+  },
+  "tests/test_all_14_papers.py": {
+    "mtime": 1788283730.034062,
+    "seen": 1788283790.7198157,
+    "ast_hash": "b7cb549e352f0c0f69bd4c9bf16d9ef3",
+    "semantic_hash": ""
+  },
+  "tests/test_convex_optimizer.py": {
+    "mtime": 1788282987.2220924,
+    "seen": 1788283790.7237818,
+    "ast_hash": "f4efaebdc1965ff0e0dd151261c06a81",
+    "semantic_hash": ""
+  },
+  "tests/test_online_newton_step.py": {
+    "mtime": 1788282987.2239287,
+    "seen": 1788283790.7311957,
+    "ast_hash": "9f9a10f72cdc997a8e1feb944a811b2e",
+    "semantic_hash": ""
+  },
+  "tests/test_triple_barrier.py": {
+    "mtime": 1788283020.7997744,
+    "seen": 1788283790.7395632,
+    "ast_hash": "db79db15da456afa88dba0a7ec872671",
     "semantic_hash": ""
   }
 }
