@@ -14,7 +14,7 @@
   <b>A 24/7 Autonomous Hybrid Quantitative Multi-Agent Trading Engine combining Deep Transformer NLP (FinBERT), Walk-Forward Machine Learning (XGBoost), 4-Agent Quorum Consensus, and Fractional Kelly Sizing across US Equities.</b>
 </p>
 
-[**⚡ 1-Click Colab**](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb) • [**🚀 Live Demo**](#-interactive-streamlit-app--dashboards) • [**🏛️ Multi-Agent Committee**](#-grounded-4-agent-deliberation-council) • [**💻 Terminal CLI**](#-interactive-terminal-cli) • [**📐 Kelly Sizing & Staged Scaling**](#-asymmetric-risk-management--staged-profit-scaling) • [**📊 Empirical Benchmarks**](#-empirical-alpha-attribution--benchmarks) • [**⚡ Quickstart**](#-quickstart-guide)
+[**⚡ 1-Click Colab**](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb) • [**⚡ Quickstart**](#-quickstart-guide) • [**🏛️ Multi-Agent Committee**](#-grounded-4-agent-deliberation-council) • [**🎯 Staged ATR Scaling**](#-asymmetric-risk-management--staged-profit-scaling) • [**🖥️ Streamlit Dashboard**](#-interactive-streamlit-app--dashboards) • [**📊 Empirical Benchmarks**](#-empirical-alpha-attribution--benchmarks)
 
 </div>
 
@@ -74,6 +74,77 @@ Traditional algorithmic trading systems rely either on rigid technical indicator
 
 ---
 
+## ⚡ Quickstart Guide
+
+### 1. Run in 1-Click (No Installation Required)
+Open our interactive demo notebook directly in Google Colab:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb)
+
+---
+
+### 2. Local Setup & Installation
+```bash
+# Clone the repository
+git clone https://github.com/yash6810/Sentilyze.git
+cd Sentilyze
+
+# Create and activate virtual environment
+python -m venv .venv
+# On Windows PowerShell: .venv\Scripts\Activate.ps1
+# On Linux/macOS: source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+```
+
+---
+
+### 3. Run the 4-Agent Quantitative CLI
+Audit any stock ticker or inspect your live paper portfolio straight from your terminal:
+
+```bash
+# 🏛️ Run 4-Agent Deliberation on any stock ticker
+python sentilyze.py NVDA
+# Or on Windows PowerShell: .\sentilyze NVDA
+
+# 💼 Inspect live paper portfolio ledger, equity, and open positions
+python sentilyze.py portfolio
+```
+
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ TICKER: NVDA     │ SPOT PRICE: $218.82    │ DATE: 2026-09-01               │
+├────────────────────────────────────────────────────────────────────────────┤
+│ COUNCIL VERDICT: 🟡 CAUTIOUS SCALE-IN (Quorum Approved)                    │
+│ CONSENSUS CONVICTION: 70.7% │ FRACTIONAL KELLY SIZING: 4.3% of capital     │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 🎯 TAKE-PROFIT 1 (+2.5 ATR): $235.23  │ 🛡️ STOP-LOSS (-1.5 ATR): $208.97   │
+│ 🏆 TAKE-PROFIT 2 (+4.5 ATR): $248.36  │ ⚡ 1st TARGET ACTION: Bank 50% & SL │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### 4. Launch the Streamlit Mission Control
+```bash
+streamlit run app.py
+```
+
+---
+
+### 5. Run Automated Multi-Agent Backtests & Full Test Suite
+```bash
+# Run multi-ticker parallel training
+python train.py --all --parallel
+
+# Run full test suite (171 tests passing)
+pytest tests/ -v
+```
+
+---
+
 ## 🎯 Asymmetric Risk Management & Staged Profit Scaling
 
 The platform’s edge is anchored in **asymmetric risk-reward mechanics**:
@@ -92,24 +163,6 @@ Entry Price ($100.00) ────────► +2.5 ATR ($106.00): Bank +50% 
 
 ---
 
-## 📊 Empirical Alpha Attribution & Benchmarks
-
-Decomposition of strategy performance against zero-alpha baselines under real market friction ($0.10\%$ transaction fees, $0.05\%$ slippage, $5\%$ margin rate) across **50 Monte Carlo trials per ticker** (2018–2026):
-
-| Ticker | ML Strategy Return (%) | Win Rate (%) | Sharpe Ratio | Max Drawdown (%) | Random Baseline Max DD (%) | Unmanaged Buy & Hold Max DD (%) | ML Predictive Edge Share (%) | Risk Management Baseline Share (%) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **NVDA** | **+738.61%** | 52.67% | **0.90** | **-52.95%** | -83.73% | -86.07% | 0.0% | **201.2%** |
-| **AAPL** | **+76.56%** | 50.27% | **0.48** | **-67.87%** | -75.95% | -83.52% | 0.0% | **174.2%** |
-| **MSFT** | **+48.23%** | 49.03% | **0.37** | **-71.10%** | -74.83% | -84.82% | 0.0% | **346.7%** |
-| **GOOGL** | **+63.78%** | 47.49% | **0.36** | **-75.47%** | -83.78% | -87.93% | **20.4%** | **79.6%** |
-| **AMZN** | **+17.18%** | 43.75% | **0.40** | **-72.61%** | -78.54% | -85.28% | **15.6%** | **84.4%** |
-| **META** | **+50.15%** | 47.25% | **0.42** | **-69.01%** | -86.09% | -95.76% | **24.8%** | **75.2%** |
-| **TSLA** | **+138.03%** | 49.35% | **0.47** | **-88.67%** | -92.60% | -97.92% | **79.2%** | **20.8%** |
-| **SPY** | **+77.03%** | 50.51% | **0.33** | **-59.55%** | -68.45% | -72.68% | **39.0%** | **61.0%** |
-| **AVERAGE**| **+151.20%** | **48.79%**| **0.47** | **-69.65%** | **-80.50%** | **-86.75%** | **22.38%** | **130.39%** |
-
----
-
 ## 🖥️ Interactive Streamlit App & Workspaces
 
 The Streamlit interface (`app.py`) provides an institutional 8-workspace suite:
@@ -125,75 +178,21 @@ The Streamlit interface (`app.py`) provides an institutional 8-workspace suite:
 
 ---
 
-## 💻 Interactive Terminal CLI
+## 📊 Empirical Alpha Attribution & Benchmarks
 
-Run the full 4-Agent Quantitative Committee or inspect your paper portfolio straight from your terminal:
+Decomposition of strategy performance against zero-alpha baselines under real market friction ($0.10\%$ transaction fees, $0.05\%$ slippage, $5\%$ margin rate) across **50 Monte Carlo trials per ticker** (2018–2026):
 
-```bash
-# 🏛️ Run 4-Agent Deliberation on any stock ticker
-python sentilyze.py audit NVDA
-
-# 💼 Inspect live paper portfolio ledger, equity, and open positions
-python sentilyze.py portfolio
-```
-
-```text
-  ███████╗███████╗███╗   ██╗████████╗██╗██╗  ██╗   ██╗███████╗███████╗
-  ██╔════╝██╔════╝████╗  ██║╚══██╔══╝██║██║  ╚██╗ ██╔╝╚══███╔╝██╔════╝
-  ███████╗█████╗  ██╔██╗ ██║   ██║   ██║██║   ╚████╔╝   ███╔╝ █████╗  
-  ╚════██║██╔══╝  ██║╚██╗██║   ██║   ██║██║    ╚██╔╝   ███╔╝  ██╔══╝  
-  ███████║███████╗██║ ╚████║   ██║   ██║███████╗██║   ███████╗███████╗
-  ╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚══════╝╚═╝   ╚══════╝╚══════╝
-  🤖 24/7 Autonomous Hybrid Quantitative Multi-Agent Intelligence Engine
-
-┌────────────────────────────────────────────────────────────────────────────┐
-│ TICKER: NVDA     │ SPOT PRICE: $125.00    │ DATE: 2026-09-01               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ COUNCIL VERDICT: 🚀 HIGH CONVICTION UNANIMOUS COMMITTEE BUY                │
-│ CONSENSUS CONVICTION: 85.0% │ FRACTIONAL KELLY SIZING: 12.5% of capital    │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 🎯 TAKE-PROFIT 1 (+2.5 ATR): $132.50  │ 🛡️ STOP-LOSS (-1.5 ATR): $119.00   │
-│ 🏆 TAKE-PROFIT 2 (+4.5 ATR): $140.00  │ ⚡ 1st TARGET ACTION: Bank 50% & SL │
-└────────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## ⚡ Quickstart Guide
-
-### 1. Clone & Setup Environment
-```bash
-git clone https://github.com/yash6810/Sentilyze.git
-cd Sentilyze
-
-# Create and activate virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-```
-
-### 2. Launch the Streamlit Mission Control
-```bash
-streamlit run app.py
-```
-
-### 3. Run Automated Multi-Agent Backtests
-```bash
-python train.py --all --parallel
-```
-
-### 4. Execute a Single Autonomous Cycle
-```bash
-python -c "from src.autonomous_trader import AutonomousTradingEngine; AutonomousTradingEngine().run_autonomous_cycle()"
-```
-
-### 5. Run Full Test Suite (171 Tests)
-```bash
-pytest tests/ -v
-```
+| Ticker | ML Strategy Return (%) | Win Rate (%) | Sharpe Ratio | Max Drawdown (%) | Random Baseline Max DD (%) | Unmanaged Buy & Hold Max DD (%) | ML Predictive Edge Share (%) | Risk Management Baseline Share (%) |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **NVDA** | **+738.61%** | 52.67% | **0.90** | **-52.95%** | -83.73% | -86.07% | 0.0% | **201.2%** |
+| **AAPL** | **+76.56%** | 50.27% | **0.48** | **-67.87%** | -75.95% | -83.52% | 0.0% | **174.2%** |
+| **MSFT** | **+48.23%** | 49.03% | **0.37** | **-71.10%** | -74.83% | -84.82% | 0.0% | **346.7%** |
+| **GOOGL** | **+63.78%** | 47.49% | **0.36** | **-75.47%** | -83.78% | -87.93% | **20.4%** | **79.6%** |
+| **AMZN** | **+17.18%** | 43.75% | **0.40** | **-72.61%** | -78.54% | -85.28% | **15.6%** | **84.4%** |
+| **META** | **+50.15%** | 47.25% | **0.42** | **-69.01%** | -86.09% | -95.76% | **24.8%** | **75.2%** |
+| **TSLA** | **+138.03%** | 49.35% | **0.47** | **-88.67%** | -92.60% | -97.92% | **79.2%** | **20.8%** |
+| **SPY** | **+77.03%** | 50.51% | **0.33** | **-59.55%** | -68.45% | -72.68% | **39.0%** | **61.0%** |
+| **AVERAGE**| **+151.20%** | **48.79%**| **0.47** | **-69.65%** | **-80.50%** | **-86.75%** | **22.38%** | **130.39%** |
 
 ---
 
