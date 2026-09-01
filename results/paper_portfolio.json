@@ -1,33 +1,19 @@
 {
   "initial_capital": 100000.0,
-  "cash": 11622.778829345654,
+  "cash": 11315.161977539014,
   "total_equity": 100920.96,
-  "unrealized_pnl": -642.86,
-  "realized_pnl": 1563.819280395465,
-  "win_rate": 35.3,
-  "total_trades": 34,
+  "unrealized_pnl": -274.36,
+  "realized_pnl": 1195.3202874755432,
+  "win_rate": 34.3,
+  "total_trades": 35,
   "winning_trades": 12,
-  "losing_trades": 22,
+  "losing_trades": 23,
   "open_positions": {
-    "NFLX": {
-      "shares": 550,
-      "initial_shares": 550,
-      "entry_price": 81.72000122070312,
-      "current_price": 81.05,
-      "entry_date": "2026-08-31",
-      "tp1_target": 87.41,
-      "tp2_target": 91.96,
-      "sl_target": 80.59,
-      "scaled_out": false,
-      "confidence": 0.7506499886512756,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 81.72000122070312
-    },
     "BAC": {
       "shares": 722,
       "initial_shares": 722,
       "entry_price": 62.31999969482422,
-      "current_price": 61.94,
+      "current_price": 61.93999862670898,
       "entry_date": "2026-08-31",
       "tp1_target": 66.21,
       "tp2_target": 69.33,
@@ -36,6 +22,19 @@
       "confidence": 0.6691951751708984,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "highest_price_seen": 62.31999969482422
+    },
+    "ORCL": {
+      "shares": 301,
+      "initial_shares": 301,
+      "entry_price": 149.1199951171875,
+      "current_price": 149.1199951171875,
+      "entry_date": "2026-09-01",
+      "tp1_target": 164.8,
+      "tp2_target": 177.35,
+      "sl_target": 139.71,
+      "scaled_out": false,
+      "confidence": 0.7553485631942749,
+      "regime": "\u25bc BEARISH (Below SMA200)"
     }
   },
   "closed_trades": [
@@ -383,6 +382,17 @@
       "pnl": 40.5,
       "return_pct": 1.43,
       "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "NFLX",
+      "shares": 550,
+      "entry_price": 81.72000122070312,
+      "exit_price": 81.05000305175781,
+      "entry_date": "2026-08-31",
+      "exit_date": "2026-09-01",
+      "pnl": -368.5,
+      "return_pct": -0.82,
+      "reason": "MODEL_SELL"
     }
   ],
   "equity_history": [
@@ -425,7 +435,15 @@
       "cash": 11622.78,
       "invested": 89298.18,
       "daily_return": -0.27
+    },
+    {
+      "date": "2026-09-01",
+      "timestamp": "2026-09-01T08:00:21.295440+00:00",
+      "total_equity": 100920.96,
+      "cash": 11315.16,
+      "invested": 89605.8,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-08-31T23:21:14.935973+00:00"
+  "last_updated": "2026-09-01T08:00:21.295695+00:00"
 }
