@@ -7,7 +7,7 @@ sdk: streamlit
 sdk_version: "1.37.1"
 app_file: app.py
 pinned: false
-license: mit
+license: apache-2.0
 ---
 
 # Sentilyze — Autonomous Multi-Agent Quantitative Trading & NLP Intelligence Platform
@@ -229,6 +229,6 @@ To receive automatic execution cards and committee debates directly on Discord:
 
 ## 📄 License & Disclaimer
 
-Distributed under the **MIT License**. See `LICENSE` for more information.
+Distributed under the **Apache 2.0 License**. See [`LICENSE`](LICENSE) for more information.
 
 > **Disclaimer**: *Sentilyze is an experimental research and educational algorithmic trading platform, not financial or investment advice. Always test strategies thoroughly in simulated paper environments before considering real capital.*
