@@ -34,27 +34,27 @@ Traditional algorithmic trading systems rely either on rigid technical indicator
 ## 🏛️ Grounded 4-Agent Deliberation Council
 
 ```mermaid
-flowchart TD
-    subgraph S["Live Market Data Ingestion"]
-        OHLCV["106-Ticker Live OHLCV (yfinance)"]
-        NEWS["Real-Time News Stream (NewsAPI / Finnhub)"]
-        SEC["SEC Financial Statements (Balance Sheets / 10-K)"]
-        VIX["Macro Volatility Index (CBOE VIX)"]
+graph TD
+    subgraph Data_Ingestion [1. Live Market Data Ingestion]
+        OHLCV[106-Ticker Live OHLCV - yfinance]
+        NEWS[Real-Time News Stream - FinBERT]
+        SEC[SEC Financial Statements - 10-K DCF]
+        VIX[Macro Volatility Index - CBOE VIX]
     end
 
-    subgraph C["🏛️ 4-Agent Quantitative Committee"]
-        A1["📈 1. Technical Alpha Agent<br/>• RSI-14 Momentum<br/>• 200-Day SMA Regime<br/>• Volume Point-of-Control (PoC)"]
-        A2["🧠 2. FinBERT Sentiment Agent<br/>• HuggingFace FinBERT Pipeline<br/>• Real-Time Polarity Score<br/>• Headline Catalyst Momentum"]
-        A3["🏛️ 3. Forensic DCF Agent<br/>• Piotroski F-Score (0-9)<br/>• Altman Z-Score Bankruptcy Risk<br/>• 2-Year Beneish M-Score & DCF"]
-        A4["🛡️ 4. Chief Risk Officer (CRO)<br/>• Macro VIX Panic Gate (VIX &gt; 26.0)<br/>• 2+ Quorum Consensus Validator<br/>• Fractional Quarter-Kelly Sizing"]
+    subgraph Council [2. 4-Agent Quantitative Committee]
+        A1[1. Technical Alpha Specialist - RSI and SMA200]
+        A2[2. NLP Sentiment Specialist - FinBERT Transformer]
+        A3[3. Forensic DCF Specialist - Piotroski and Altman]
+        A4[4. Chief Risk Officer - Quarter-Kelly and VIX Gate]
     end
 
-    subgraph E["⚡ Execution & Risk Engine"]
-        ORD["🚀 Autonomous Order Dispatch"]
-        TP1["🎯 Stage 1: Bank +50% Profit @ +2.5 ATR<br/>Trail Stop to Breakeven (Risk-Free)"]
-        TP2["🏆 Stage 2: Harvest Runner @ +4.5 ATR"]
-        SL["🛡️ Protective Stop-Loss @ -1.5 ATR"]
-        DISCORD["💬 Real-Time Discord Webhook Hub"]
+    subgraph Execution [3. Autonomous Execution and Risk Engine]
+        ORD[Autonomous Order Dispatch]
+        TP1[Stage 1: Bank 50 pct Profit at +2.5 ATR and Trail Stop]
+        TP2[Stage 2: Harvest Runner at +4.5 ATR]
+        SL[Protective Stop-Loss at -1.5 ATR]
+        DISCORD[Real-Time Discord Webhook Hub]
     end
 
     OHLCV --> A1
@@ -66,8 +66,8 @@ flowchart TD
     A2 --> A4
     A3 --> A4
 
-    A4 -->|"Quorum Approved (&gt;= 55%)"| ORD
-    A4 -->|"Veto / Capital Preservation"| DISCORD
+    A4 -->|Quorum Approved: Conviction 55%+| ORD
+    A4 -->|Veto: Capital Preservation| DISCORD
 
     ORD --> TP1
     TP1 --> TP2
