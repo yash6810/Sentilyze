@@ -5,6 +5,7 @@ Run directly with:
     python sentilyze.py audit AAPL
     python sentilyze.py portfolio
 """
+
 import sys
 import os
 
