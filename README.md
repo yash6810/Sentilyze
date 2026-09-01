@@ -33,46 +33,36 @@ Traditional algorithmic trading systems rely either on rigid technical indicator
 
 ## 🏛️ Grounded 4-Agent Deliberation Council
 
-```mermaid
-graph TD
-    subgraph Data_Ingestion [1. Live Market Data Ingestion]
-        OHLCV[106-Ticker Live OHLCV - yfinance]
-        NEWS[Real-Time News Stream - FinBERT]
-        SEC[SEC Financial Statements - 10-K DCF]
-        VIX[Macro Volatility Index - CBOE VIX]
-    end
-
-    subgraph Council [2. 4-Agent Quantitative Committee]
-        A1[1. Technical Alpha Specialist - RSI and SMA200]
-        A2[2. NLP Sentiment Specialist - FinBERT Transformer]
-        A3[3. Forensic DCF Specialist - Piotroski and Altman]
-        A4[4. Chief Risk Officer - Quarter-Kelly and VIX Gate]
-    end
-
-    subgraph Execution [3. Autonomous Execution and Risk Engine]
-        ORD[Autonomous Order Dispatch]
-        TP1[Stage 1: Bank 50 pct Profit at +2.5 ATR and Trail Stop]
-        TP2[Stage 2: Harvest Runner at +4.5 ATR]
-        SL[Protective Stop-Loss at -1.5 ATR]
-        DISCORD[Real-Time Discord Webhook Hub]
-    end
-
-    OHLCV --> A1
-    NEWS --> A2
-    SEC --> A3
-    VIX --> A4
-
-    A1 --> A4
-    A2 --> A4
-    A3 --> A4
-
-    A4 -->|Quorum Approved: Conviction 55%+| ORD
-    A4 -->|Veto: Capital Preservation| DISCORD
-
-    ORD --> TP1
-    TP1 --> TP2
-    ORD --> SL
-    ORD --> DISCORD
+```
+                                  ┌────────────────────────────────────────────────────────┐
+                                  │            4-AGENT GROUNDED DECISION COUNCIL           │
+                                  └────────────────────────────────────────────────────────┘
+                                                              │
+             ┌────────────────────────────────────────────────┼────────────────────────────────────────────────┐
+             │                                                │                                                │
+┌────────────▼────────────┐                      ┌────────────▼────────────┐                      ┌────────────▼────────────┐
+│ 1. 📈 TECHNICAL ALPHA   │                      │ 2. 📰 FINBERT SENTIMENT │                      │ 3. 🏛️ SEC FORENSICS     │
+├─────────────────────────┤                      ├─────────────────────────┤                      ├─────────────────────────┤
+│ • Real Price Action     │                      │ • HuggingFace FinBERT   │                      │ • Piotroski F-Score     │
+│ • RSI(14) & SMA(200)    │                      │ • Live News Ingestion   │                      │ • Altman Z-Score & DCF  │
+│ • Trend Momentum Regimes│                      │ • Semantic Confidence   │                      │ • 2-Yr Beneish M-Score  │
+└────────────┬────────────┘                      └────────────┬────────────┘                      └────────────┬────────────┘
+             │                                                │                                                │
+             └────────────────────────────────────────────────┼────────────────────────────────────────────────┘
+                                                              │
+                                                 ┌────────────▼────────────┐
+                                                 │ 4. 🛡️ CHIEF RISK OFFICER│
+                                                 ├─────────────────────────┤
+                                                 │ • Formulaic Kelly Sizing│
+                                                 │ • Macro VIX Vol Gate    │
+                                                 │ • Final Veto Authority  │
+                                                 └────────────┬────────────┘
+                                                              │
+                                                 ┌────────────▼────────────┐
+                                                 │ EXECUTED ORDER WITH ATR │
+                                                 │ TP1 (+2.5 ATR) / TP2    │
+                                                 │ Stop-Loss (-1.5 ATR)    │
+                                                 └─────────────────────────┘
 ```
 
 ### Specialist Breakdown:
