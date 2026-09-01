@@ -1,1 +1,1 @@
-ticker,shares,entry_price,exit_price,entry_date,exit_date,pnl,return_pct,reason,scale_stage,status
+ticker,shares,entry_price,exit_price,entry_date,exit_date,pnl,return_pct,reason

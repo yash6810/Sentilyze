@@ -1,0 +1,97 @@
+{
+  "evaluation_period": "2y",
+  "universe": [
+    "NVDA",
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "META",
+    "AMZN",
+    "TSLA",
+    "AMD",
+    "AVGO",
+    "QQQ",
+    "SPY"
+  ],
+  "sample_trading_days": 2511,
+  "papers_benchmarked": {
+    "1_Boyd_Stanford_Convex_SOCP": {
+      "methodology": "Boyd et al. (Stanford): Convex Multi-Period Slippage Optimizer",
+      "total_return_pct": 3702.93,
+      "cagr_pct": 44.07,
+      "annualized_sharpe": 1.28,
+      "deflated_sharpe_prob": 0.0009,
+      "statistically_significant": false,
+      "max_drawdown_pct": 48.57,
+      "calmar_ratio": 0.91,
+      "win_rate_pct": 55.75,
+      "solver_latency_ms": 26.46,
+      "complexity_class": "Polynomial Time O(d^k)"
+    },
+    "2_Lopez_de_Prado_Triple_Barrier": {
+      "methodology": "Marcos Lopez de Prado: Triple-Barrier Method & DSR",
+      "total_return_pct": 1204768.17,
+      "cagr_pct": 156.78,
+      "annualized_sharpe": 7.74,
+      "deflated_sharpe_prob": 1.0,
+      "statistically_significant": true,
+      "max_drawdown_pct": 2.26,
+      "calmar_ratio": 69.29,
+      "win_rate_pct": 82.32,
+      "solver_latency_ms": 259.76,
+      "complexity_class": "Polynomial Time O(d^k)"
+    },
+    "3_Hazan_Online_Newton_Step": {
+      "methodology": "Agarwal, Hazan, Kale: Online Newton Step (ONS) O(d^2)",
+      "total_return_pct": 693.09,
+      "cagr_pct": 23.1,
+      "annualized_sharpe": 0.95,
+      "deflated_sharpe_prob": 0.0,
+      "statistically_significant": false,
+      "max_drawdown_pct": 40.93,
+      "calmar_ratio": 0.56,
+      "win_rate_pct": 54.56,
+      "solver_latency_ms": 301.43,
+      "complexity_class": "Polynomial Time O(d^k)"
+    },
+    "4_Unified_PolyTime_Master_Engine": {
+      "methodology": "Sentilyze Unified Poly-Time Multi-Agent Engine",
+      "total_return_pct": 21009.05,
+      "cagr_pct": 71.11,
+      "annualized_sharpe": 2.59,
+      "deflated_sharpe_prob": 0.8453,
+      "statistically_significant": false,
+      "max_drawdown_pct": 22.2,
+      "calmar_ratio": 3.2,
+      "win_rate_pct": 57.71,
+      "solver_latency_ms": 0.81,
+      "complexity_class": "Polynomial Time O(d^k)"
+    },
+    "0_Buy_and_Hold_Benchmark": {
+      "methodology": "Buy & Hold S&P Benchmark (Equal Weight)",
+      "total_return_pct": 1879.22,
+      "cagr_pct": 34.93,
+      "annualized_sharpe": 1.21,
+      "deflated_sharpe_prob": 0.0005,
+      "statistically_significant": false,
+      "max_drawdown_pct": 44.21,
+      "calmar_ratio": 0.79,
+      "win_rate_pct": 57.47,
+      "solver_latency_ms": 0.1,
+      "complexity_class": "Polynomial Time O(d^k)"
+    }
+  },
+  "boyd_optimal_weights": {
+    "NVDA": 0.25,
+    "AAPL": 0.25,
+    "MSFT": 0.25,
+    "GOOGL": 0.0,
+    "META": 0.0,
+    "AMZN": 0.0,
+    "TSLA": 0.25,
+    "AMD": 0.0,
+    "AVGO": 0.0,
+    "QQQ": 0.0,
+    "SPY": 0.0
+  }
+}
