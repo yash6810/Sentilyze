@@ -19,7 +19,7 @@ license: apache-2.0
 [![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-173%20Tests%20Passing-10B981?style=for-the-badge&logo=github-actions&logoColor=white)](.github/workflows/)
 [![Open In Colab](https://img.shields.io/badge/Google%20Colab-1--Click%20Demo-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb)
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces%20Live%20App-yellow?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co/spaces/clash1462/Sentilyze)
-[![Streamlit Interface](https://img.shields.io/badge/Mission%20Control-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](app.py)
+[![Streamlit Interface](https://img.shields.io/badge/Mission%20Control-Streamlit%20Live-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://sentilyze.streamlit.app/)
 [![Discord Alerts](https://img.shields.io/badge/Live%20Alerts-Discord%20Hub-5865F2?style=for-the-badge&logo=discord&logoColor=white)](src/alerts.py)
 [![ML Framework](https://img.shields.io/badge/ML-XGBoost%20%2B%20FinBERT-F59E0B?style=for-the-badge&logo=scikit-learn&logoColor=white)](src/modeling.py)
 
@@ -27,7 +27,7 @@ license: apache-2.0
   <b>A 24/7 Autonomous Hybrid Quantitative Multi-Agent Trading Engine combining Deep Transformer NLP (FinBERT), Walk-Forward Machine Learning (XGBoost), 4-Agent Quorum Consensus, and Fractional Kelly Sizing across US Equities.</b>
 </p>
 
-[**⚡ 1-Click Colab**](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb) • [**⚡ Quickstart**](#-quickstart-guide) • [**🏛️ Multi-Agent Committee**](#-grounded-4-agent-deliberation-council) • [**🎯 Staged ATR Scaling**](#-asymmetric-risk-management--staged-profit-scaling) • [**🖥️ Streamlit Dashboard**](#-interactive-streamlit-app--dashboards) • [**📊 Empirical Benchmarks**](#-empirical-alpha-attribution--benchmarks)
+[**🚀 Live App**](https://sentilyze.streamlit.app/) • [**⚡ 1-Click Colab**](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb) • [**⚡ Quickstart**](#-quickstart-guide) • [**🏛️ Multi-Agent Committee**](#-grounded-4-agent-deliberation-council) • [**🎯 Staged ATR Scaling**](#-asymmetric-risk-management--staged-profit-scaling) • [**📊 Empirical Benchmarks**](#-empirical-alpha-attribution--benchmarks)
 
 </div>
 
