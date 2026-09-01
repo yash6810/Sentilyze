@@ -339,10 +339,22 @@ class ChiefRiskOfficerAgent:
 
         # 1. Check Macro Volatility Gate (VIX Panic Check)
         vix_veto = False
+        trend_veto = False
         veto_reason = None
         if vix_level > 26.0 or vix_change_pct > 8.0:
             vix_veto = True
             veto_reason = f"VIX elevated at {vix_level:.1f} (+{vix_change_pct:+.1f}% spike) — macro volatility gate activated."
+        else:
+            # Check Trend Regime Gate: Long positions blocked if asset is below 200 SMA
+            for r in agent_reports:
+                if (
+                    isinstance(r, dict)
+                    and r.get("key_metrics", {}).get("trend_status")
+                    == "BEARISH_BELOW_SMA200"
+                ):
+                    trend_veto = True
+                    veto_reason = "Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200)."
+                    break
 
         # 2. Dynamic Mathematical Fractional Kelly Sizing
         # Uses empirical WFO backtest win rate (53.3%) and payoff ratio (1.75: +2.5 ATR TP1 vs -1.5 ATR SL)
@@ -356,8 +368,12 @@ class ChiefRiskOfficerAgent:
         calculated_kelly_pct = float(kelly_result.get("fractional_kelly_pct", 0.0))
 
         # Determine Final Committee Resolution
-        if vix_veto:
-            final_resolution = "🔴 VETO / CAPITAL PRESERVATION"
+        if vix_veto or trend_veto:
+            final_resolution = (
+                "🔴 VETO / CAPITAL PRESERVATION"
+                if vix_veto
+                else "🔴 VETO / MACRO DOWNTREND (BELOW SMA200)"
+            )
             action_code = "VETO"
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
