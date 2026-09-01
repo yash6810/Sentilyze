@@ -5,6 +5,7 @@
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black-000000?style=for-the-badge&logo=python&logoColor=white)](https://github.com/psf/black)
 [![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-171%20Tests%20Passing-10B981?style=for-the-badge&logo=github-actions&logoColor=white)](.github/workflows/)
+[![Open In Colab](https://img.shields.io/badge/Google%20Colab-1--Click%20Demo-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb)
 [![Streamlit Interface](https://img.shields.io/badge/Mission%20Control-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](app.py)
 [![Discord Alerts](https://img.shields.io/badge/Live%20Alerts-Discord%20Hub-5865F2?style=for-the-badge&logo=discord&logoColor=white)](src/alerts.py)
 [![ML Framework](https://img.shields.io/badge/ML-XGBoost%20%2B%20FinBERT-F59E0B?style=for-the-badge&logo=scikit-learn&logoColor=white)](src/modeling.py)
@@ -13,7 +14,7 @@
   <b>A 24/7 Autonomous Hybrid Quantitative Multi-Agent Trading Engine combining Deep Transformer NLP (FinBERT), Walk-Forward Machine Learning (XGBoost), 4-Agent Quorum Consensus, and Fractional Kelly Sizing across US Equities.</b>
 </p>
 
-[**🚀 Live Demo**](#-interactive-streamlit-app--dashboards) • [**🏛️ Multi-Agent Committee**](#-grounded-4-agent-deliberation-council) • [**📐 Kelly Sizing & Staged Scaling**](#-asymmetric-risk-management--staged-profit-scaling) • [**📊 Empirical Benchmarks**](#-empirical-alpha-attribution--benchmarks) • [**⚡ Quickstart**](#-quickstart-guide)
+[**⚡ 1-Click Colab**](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb) • [**🚀 Live Demo**](#-interactive-streamlit-app--dashboards) • [**🏛️ Multi-Agent Committee**](#-grounded-4-agent-deliberation-council) • [**💻 Terminal CLI**](#-interactive-terminal-cli) • [**📐 Kelly Sizing & Staged Scaling**](#-asymmetric-risk-management--staged-profit-scaling) • [**📊 Empirical Benchmarks**](#-empirical-alpha-attribution--benchmarks) • [**⚡ Quickstart**](#-quickstart-guide)
 
 </div>
 
@@ -121,6 +122,40 @@ The Streamlit interface (`app.py`) provides an institutional 8-workspace suite:
 - **Workspace 6: 🏛️ Multi-Agent Deliberations**: Full round-table transcripts and CRO official votes.
 - **Workspace 7: 🧠 XAI & SHAP Waterfall**: Interactive Plotly waterfall decompositions for individual trades.
 - **Workspace 8: 💬 Discord Command Center**: Real-time webhook configuration and live channel alerts.
+
+---
+
+## 💻 Interactive Terminal CLI
+
+Run the full 4-Agent Quantitative Committee or inspect your paper portfolio straight from your terminal:
+
+```bash
+# 🏛️ Run 4-Agent Deliberation on any stock ticker
+python sentilyze.py audit NVDA
+
+# 💼 Inspect live paper portfolio ledger, equity, and open positions
+python sentilyze.py portfolio
+```
+
+```text
+  ███████╗███████╗███╗   ██╗████████╗██╗██╗  ██╗   ██╗███████╗███████╗
+  ██╔════╝██╔════╝████╗  ██║╚══██╔══╝██║██║  ╚██╗ ██╔╝╚══███╔╝██╔════╝
+  ███████╗█████╗  ██╔██╗ ██║   ██║   ██║██║   ╚████╔╝   ███╔╝ █████╗  
+  ╚════██║██╔══╝  ██║╚██╗██║   ██║   ██║██║    ╚██╔╝   ███╔╝  ██╔══╝  
+  ███████║███████╗██║ ╚████║   ██║   ██║███████╗██║   ███████╗███████╗
+  ╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚══════╝╚═╝   ╚══════╝╚══════╝
+  🤖 24/7 Autonomous Hybrid Quantitative Multi-Agent Intelligence Engine
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ TICKER: NVDA     │ SPOT PRICE: $125.00    │ DATE: 2026-09-01               │
+├────────────────────────────────────────────────────────────────────────────┤
+│ COUNCIL VERDICT: 🚀 HIGH CONVICTION UNANIMOUS COMMITTEE BUY                │
+│ CONSENSUS CONVICTION: 85.0% │ FRACTIONAL KELLY SIZING: 12.5% of capital    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 🎯 TAKE-PROFIT 1 (+2.5 ATR): $132.50  │ 🛡️ STOP-LOSS (-1.5 ATR): $119.00   │
+│ 🏆 TAKE-PROFIT 2 (+4.5 ATR): $140.00  │ ⚡ 1st TARGET ACTION: Bank 50% & SL │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
