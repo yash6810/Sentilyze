@@ -43,28 +43,15 @@ flowchart TD
     end
 
     subgraph C["🏛️ 4-Agent Quantitative Committee"]
-        A1["📈 1. Technical Alpha Agent
-• RSI(14) Momentum
-• 200-Day SMA Regime
-• Volume Point-of-Control (PoC)"]
-        A2["🧠 2. FinBERT Sentiment Agent
-• HuggingFace FinBERT Pipeline
-• Real-Time Polarity Score
-• Headline Catalyst Momentum"]
-        A3["🏛️ 3. Forensic DCF Agent
-• Piotroski F-Score (0-9)
-• Altman Z-Score Bankruptcy Risk
-• 2-Year Beneish M-Score & DCF"]
-        A4["🛡️ 4. Chief Risk Officer (CRO)
-• Macro VIX Panic Gate (VIX > 26.0)
-• 2+ Quorum Consensus Validator
-• Fractional Quarter-Kelly Position Sizing"]
+        A1["📈 1. Technical Alpha Agent<br/>• RSI-14 Momentum<br/>• 200-Day SMA Regime<br/>• Volume Point-of-Control (PoC)"]
+        A2["🧠 2. FinBERT Sentiment Agent<br/>• HuggingFace FinBERT Pipeline<br/>• Real-Time Polarity Score<br/>• Headline Catalyst Momentum"]
+        A3["🏛️ 3. Forensic DCF Agent<br/>• Piotroski F-Score (0-9)<br/>• Altman Z-Score Bankruptcy Risk<br/>• 2-Year Beneish M-Score & DCF"]
+        A4["🛡️ 4. Chief Risk Officer (CRO)<br/>• Macro VIX Panic Gate (VIX &gt; 26.0)<br/>• 2+ Quorum Consensus Validator<br/>• Fractional Quarter-Kelly Sizing"]
     end
 
     subgraph E["⚡ Execution & Risk Engine"]
         ORD["🚀 Autonomous Order Dispatch"]
-        TP1["🎯 Stage 1: Bank +50% Profit @ +2.5 ATR
-Trail Stop to Breakeven (Risk-Free)"]
+        TP1["🎯 Stage 1: Bank +50% Profit @ +2.5 ATR<br/>Trail Stop to Breakeven (Risk-Free)"]
         TP2["🏆 Stage 2: Harvest Runner @ +4.5 ATR"]
         SL["🛡️ Protective Stop-Loss @ -1.5 ATR"]
         DISCORD["💬 Real-Time Discord Webhook Hub"]
@@ -79,8 +66,8 @@ Trail Stop to Breakeven (Risk-Free)"]
     A2 --> A4
     A3 --> A4
 
-    A4 -->|Quorum Approved >= 55%| ORD
-    A4 -->|Veto / Capital Preservation| DISCORD
+    A4 -->|"Quorum Approved (&gt;= 55%)"| ORD
+    A4 -->|"Veto / Capital Preservation"| DISCORD
 
     ORD --> TP1
     TP1 --> TP2
