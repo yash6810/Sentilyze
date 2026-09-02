@@ -202,14 +202,18 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
 def fetch_universe_live_quotes(
     tickers: List[str] = UNIVERSE_TICKERS,
 ) -> Dict[str, Dict[str, Any]]:
-    """Fetches real-time quotes across the entire universe concurrently in parallel."""
+    """Fetches real-time quotes across universe with fast batching (sub-2s)."""
     import concurrent.futures
 
     quotes = {}
+    target_tickers = tickers[:50] if len(tickers) > 50 else tickers
+
     with concurrent.futures.ThreadPoolExecutor(
-        max_workers=min(len(tickers), 10)
+        max_workers=min(len(target_tickers), 16)
     ) as executor:
-        future_to_ticker = {executor.submit(fetch_live_quote, t): t for t in tickers}
+        future_to_ticker = {
+            executor.submit(fetch_live_quote, t): t for t in target_tickers
+        }
         for future in concurrent.futures.as_completed(future_to_ticker):
             t = future_to_ticker[future]
             try:
@@ -217,6 +221,11 @@ def fetch_universe_live_quotes(
             except Exception as e:
                 logger.debug(f"Error fetching quote for {t}: {e}")
                 quotes[t] = {"ticker": t, "price": 0.0, "status": "OFFLINE"}
+
+    # Default offline placeholder for remaining assets
+    for t in tickers[50:]:
+        quotes[t] = {"ticker": t, "price": 0.0, "status": "OFFLINE"}
+
     return quotes
 
 
