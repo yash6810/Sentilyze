@@ -1,53 +1,42 @@
 {
-  "session_time": "Sep 02, 2026 \u2022 09:59 PM IST (12:29 PM EDT)",
+  "session_time": "Sep 02, 2026 \u2022 10:51 PM IST (01:21 PM EDT)",
   "stocks_in_play": [
-    "AOS",
-    "CSX",
+    "AXON",
     "FIX",
-    "EXPD",
-    "FERG"
+    "DE",
+    "CAT",
+    "FDXF"
   ],
-  "signals_count": 5,
+  "signals_count": 1,
   "executed_paper_trades": [
     {
-      "ticker": "AOS",
-      "shares": 405,
-      "entry_price": 111.0,
-      "cost": 44955.0,
+      "ticker": "DE",
+      "shares": 66,
+      "entry_price": 676.08,
+      "cost": 44621.28,
       "entry_date": "2026-09-02",
-      "tp1_target": 117.94,
-      "tp2_target": 123.49,
-      "sl_target": 106.84,
-      "confidence": 48.3
-    },
-    {
-      "ticker": "CSX",
-      "shares": 405,
-      "entry_price": 111.0,
-      "cost": 44955.0,
-      "entry_date": "2026-09-02",
-      "tp1_target": 117.94,
-      "tp2_target": 123.49,
-      "sl_target": 106.84,
-      "confidence": 48.3
+      "tp1_target": 719.6,
+      "tp2_target": 754.42,
+      "sl_target": 649.97,
+      "confidence": 100.0
     }
   ],
   "portfolio_summary": {
-    "total_equity": 100000.0,
-    "cash": 10090.0,
-    "invested": 89910.0,
+    "total_equity": 152207.76,
+    "cash": 103774.14000000001,
+    "invested": 48433.619999999995,
     "start_of_day_equity": 100000.0,
-    "daily_pnl": 0.0,
-    "daily_return_pct": 0.0,
-    "unrealized_pnl": 0.0,
-    "unrealized_pnl_pct": 0.0,
-    "realized_pnl": 0.0,
-    "total_pnl": 0.0,
-    "total_return_pct": 0.0,
-    "win_rate": 0.0,
+    "daily_pnl": 52207.76,
+    "daily_return_pct": 52.21,
+    "unrealized_pnl": 74.34,
+    "unrealized_pnl_pct": 0.15,
+    "realized_pnl": 44986.729999999996,
+    "total_pnl": 52207.76,
+    "total_return_pct": 52.21,
+    "win_rate": 89.3,
     "open_positions_count": 2,
-    "total_trades": 0,
-    "winning_trades": 0,
-    "losing_trades": 0
+    "total_trades": 28,
+    "winning_trades": 25,
+    "losing_trades": 3
   }
 }
