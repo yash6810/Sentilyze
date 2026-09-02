@@ -39,7 +39,7 @@ def load_safety_benchmarks() -> Dict[str, Any]:
 
 def render_quantum_tournament_workspace(selected_ticker: str = "NVDA"):
     render_workspace_header(
-        title="👑 25-Paper Quantum Tournament & Omni-Hybrid Engine",
+        title="👑 25-Paper Multi-Strategy Tournament & Deep Learning Engine",
         subtitle="10-Year Empirical Benchmark (2,511 Days) across 11 Core Assets • Microsecond Risk Guard",
         badge_text="25 RESEARCH PAPERS UNIFIED",
         badge_color="#10B981",

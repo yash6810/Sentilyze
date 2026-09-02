@@ -118,7 +118,7 @@ def main():
         "🌪️ 11. Black Swan Crisis Simulator": "stress",
         "🕵️ 12. Forensic Beneish M-Score": "forensic",
         "🏛️ 13. DCF Intrinsic Valuation": "dcf",
-        "👑 14. 25-Paper Quantum Tournament & Shield": "quantum_tournament",
+        "👑 14. 25-Paper Tournament & Deep Learning Shield": "quantum_tournament",
     }
 
     selected_ws_label = st.sidebar.radio(

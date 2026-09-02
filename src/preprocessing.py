@@ -70,7 +70,7 @@ def _load_sentiment_analyzer() -> Any:
             )
 
         tokenizer = AutoTokenizer.from_pretrained(
-            "ProsusAI/finbert", revision="main"
+            "ProsusAI/finbert", revision="main", use_fast=True
         )  # nosec B615
         model = AutoModelForSequenceClassification.from_pretrained(
             "ProsusAI/finbert", revision="main"
