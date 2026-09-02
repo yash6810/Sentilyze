@@ -35,6 +35,9 @@ from src.ui.ws_performance_factsheet import render_performance_factsheet_workspa
 from src.ui.ws_drl_agent import render_drl_agent_workspace
 from src.ui.ws_strategy_incubator import render_strategy_incubator_workspace
 from src.ui.ws_market_neutral_statarb import render_market_neutral_statarb_workspace
+from src.ui.ws_morning_briefing import render_morning_briefing_workspace
+from src.ui.ws_broker_webhooks import render_broker_webhooks_workspace
+from src.ui.ws_macro_liquidity import render_macro_liquidity_workspace
 from src.ui.components import get_market_status
 from src.config import COMPANY_NAMES
 
@@ -131,6 +134,9 @@ def main():
         "🤖 18. Deep RL Autonomous Policy Agent": "drl_agent",
         "🔬 19. Evolutionary Strategy Incubator": "strategy_incubator",
         "🔄 20. Market-Neutral Cointegration & Stat-Arb": "market_neutral_statarb",
+        "🎙️ 21. AI Pre-Market Morning Audio & Briefing": "morning_briefing",
+        "⚡ 22. Automated Broker Webhooks & API Dispatcher": "broker_webhooks",
+        "🌐 23. Real-Time Macro Liquidity & Yield Radar": "macro_liquidity",
     }
 
     selected_ws_label = st.sidebar.radio(
@@ -188,6 +194,12 @@ def main():
         render_strategy_incubator_workspace(selected_ticker)
     elif ws_key == "market_neutral_statarb":
         render_market_neutral_statarb_workspace(selected_ticker)
+    elif ws_key == "morning_briefing":
+        render_morning_briefing_workspace(selected_ticker)
+    elif ws_key == "broker_webhooks":
+        render_broker_webhooks_workspace(selected_ticker)
+    elif ws_key == "macro_liquidity":
+        render_macro_liquidity_workspace()
 
 
 if __name__ == "__main__":
