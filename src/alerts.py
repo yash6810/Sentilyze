@@ -3,7 +3,7 @@ import requests
 import json
 from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
-from src.utils import get_logger
+from src.utils import get_logger, get_market_timestamp
 
 logger = get_logger(__name__)
 
@@ -43,7 +43,7 @@ def format_signal_card(
         "take_profit": take_profit,
         "regime": regime,
         "top_features": top_features,
-        "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC"),
+        "timestamp": get_market_timestamp(),
     }
 
 
@@ -118,7 +118,7 @@ def send_discord_alert(
         "color": color,
         "fields": fields,
         "footer": {
-            "text": f"Sentilyze Institutional MLOps Wire • {alert_payload.get('timestamp', datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC'))}"
+            "text": f"Sentilyze Institutional MLOps Wire • {alert_payload.get('timestamp', get_market_timestamp())}"
         },
     }
 
@@ -310,7 +310,7 @@ def send_discord_execution_alert(
         "color": color,
         "fields": fields,
         "footer": {
-            "text": f"Sentilyze 24/7 Quantum Autonomous Trader • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+            "text": f"Sentilyze 24/7 Quantum Autonomous Trader • {get_market_timestamp()}"
         },
     }
 
@@ -408,7 +408,7 @@ def send_discord_committee_alert(
         "color": color,
         "fields": fields,
         "footer": {
-            "text": f"Sentilyze Multi-Agent Committee • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+            "text": f"Sentilyze Multi-Agent Committee • {get_market_timestamp()}"
         },
     }
 
@@ -462,7 +462,7 @@ def send_discord_social_spike_alert(
             },
         ],
         "footer": {
-            "text": f"Sentilyze Social Alternative Data Wire • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+            "text": f"Sentilyze Social Alternative Data Wire • {get_market_timestamp()}"
         },
     }
 
@@ -585,7 +585,7 @@ def send_discord_market_pulse(
         "color": 0x38BDF8,  # Sky Blue
         "fields": fields,
         "footer": {
-            "text": f"Sentilyze Autonomous Intelligence • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+            "text": f"Sentilyze Autonomous Intelligence • {get_market_timestamp()}"
         },
     }
 
@@ -636,7 +636,7 @@ def send_discord_digest(
         + "\n".join(lines),
         "color": 0x3B82F6,  # Institutional Blue
         "footer": {
-            "text": f"Sentilyze Autonomous MLOps Engine • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+            "text": f"Sentilyze Autonomous MLOps Engine • {get_market_timestamp()}"
         },
     }
 
@@ -718,7 +718,7 @@ def send_discord_holdings_heartbeat(
         "color": color,
         "fields": fields,
         "footer": {
-            "text": f"Sentilyze Sub-Second Price Guardian • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+            "text": f"Sentilyze Sub-Second Price Guardian • {get_market_timestamp()}"
         },
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }
@@ -831,7 +831,7 @@ def send_discord_premarket_briefing(
         "color": vol_color,
         "fields": fields,
         "footer": {
-            "text": f"Sentilyze Pre-Market Intelligence Desk • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+            "text": f"Sentilyze Pre-Market Intelligence Desk • {get_market_timestamp()}"
         },
         "timestamp": datetime.now(timezone.utc).isoformat(),
     }

@@ -74,3 +74,25 @@ def safe_path_join(base_dir: str, *paths: str) -> str:
             f"Path traversal detected: {target_path} is outside {base_abs}"
         )
     return target_path
+
+
+def get_market_timestamp(dt=None) -> str:
+    """
+    Returns a clean, human-readable dual US Eastern & Local IST timestamp with AM/PM.
+    Example: 'Sep 02, 2026 • 09:35 AM EDT (07:05 PM IST)'
+    """
+    from datetime import datetime, timezone
+    import zoneinfo
+
+    utc_dt = dt or datetime.now(timezone.utc)
+    if utc_dt.tzinfo is None:
+        utc_dt = utc_dt.replace(tzinfo=timezone.utc)
+
+    try:
+        ny_dt = utc_dt.astimezone(zoneinfo.ZoneInfo("America/New_York"))
+        ist_dt = utc_dt.astimezone(zoneinfo.ZoneInfo("Asia/Kolkata"))
+        ny_str = ny_dt.strftime("%b %d, %Y • %I:%M %p %Z")
+        ist_str = ist_dt.strftime("%I:%M %p IST")
+        return f"{ny_str} ({ist_str})"
+    except Exception:
+        return utc_dt.strftime("%b %d, %Y • %I:%M %p UTC")

@@ -5,7 +5,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from datetime import datetime, timezone
 from typing import Dict, List, Any, Optional
-from src.utils import get_logger
+from src.utils import get_logger, get_market_timestamp
 
 logger = get_logger(__name__)
 
@@ -28,10 +28,9 @@ def send_email_digest(
         return False
 
     try:
+        timestamp_str = get_market_timestamp()
         msg = MIMEMultipart("alternative")
-        msg["Subject"] = (
-            f"📊 Sentilyze Morning Market Digest • {datetime.now(timezone.utc).strftime('%b %d, %Y')}"
-        )
+        msg["Subject"] = f"📊 Sentilyze Quantitative Alpha Digest • {timestamp_str}"
         msg["From"] = f"Sentilyze AI <{user}>"
         msg["To"] = recipient
 
@@ -65,7 +64,7 @@ def send_email_digest(
         <body style="font-family: Arial, sans-serif; background-color: #0F172A; color: #F8FAFC; padding: 20px;">
             <div style="max-width: 650px; margin: 0 auto; background: #1E293B; border-radius: 12px; padding: 25px; border: 1px solid #334155;">
                 <h1 style="color: #00D4AA; margin-top: 0; font-size: 22px;">📊 Sentilyze Quantitative Alpha Digest</h1>
-                <p style="color: #94A3B8; font-size: 14px;">Daily scan across 17 institutional assets complete.</p>
+                <p style="color: #94A3B8; font-size: 14px;">Scan across universe complete • {timestamp_str}</p>
                 <div style="background: #0F172A; padding: 12px 18px; border-radius: 8px; margin-bottom: 20px; font-weight: bold;">
                     🟢 <span style="color: #10B981;">BUY Signals: {buy_count}</span> &nbsp;|&nbsp; 
                     🔴 <span style="color: #EF4444;">SELL / CASH: {sell_count}</span>
@@ -86,7 +85,7 @@ def send_email_digest(
                     </tbody>
                 </table>
                 <p style="margin-top: 25px; font-size: 11px; color: #64748B; text-align: center;">
-                    Sentilyze Autonomous MLOps Engine • Automated Morning Market Dispatch
+                    Sentilyze Autonomous MLOps Engine • {timestamp_str}
                 </p>
             </div>
         </body>
