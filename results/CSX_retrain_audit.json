@@ -1,0 +1,14 @@
+{
+  "ticker": "CSX",
+  "timestamp": "2026-09-02T19:51:21.445795+00:00",
+  "elapsed_seconds": 16.56,
+  "dataset_rows": 2512,
+  "features_used": 25,
+  "champion_accuracy": 0.52,
+  "challenger_accuracy": 0.4846,
+  "accuracy_delta_pct": -3.54,
+  "challenger_roc_auc": 0.4928,
+  "challenger_precision": 0.4955,
+  "deployment_verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)",
+  "is_promoted": false
+}

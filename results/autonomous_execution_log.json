@@ -1,34 +1,119 @@
 {
-  "timestamp": "2026-09-02T19:10:46.513742+00:00",
+  "timestamp": "2026-09-02T19:50:50.431207+00:00",
   "buys": [
     {
       "success": true,
-      "shares": 100,
-      "price": 125.0,
-      "ticker": "NVDA"
+      "ticker": "GEV",
+      "shares": 4,
+      "price": 924.56,
+      "cost": 3698.24,
+      "tp1_target": 993.9,
+      "tp2_target": 1049.38,
+      "sl_target": 882.95,
+      "strategy": "Committee_MultiAgent_Kelly"
+    },
+    {
+      "success": true,
+      "ticker": "FDX",
+      "shares": 7,
+      "price": 316.83,
+      "cost": 2217.81,
+      "tp1_target": 340.59,
+      "tp2_target": 359.6,
+      "sl_target": 302.57,
+      "strategy": "Committee_MultiAgent_Kelly"
+    },
+    {
+      "success": true,
+      "ticker": "BR",
+      "shares": 13,
+      "price": 178.25,
+      "cost": 2317.25,
+      "tp1_target": 191.62,
+      "tp2_target": 202.31,
+      "sl_target": 170.23,
+      "strategy": "Committee_MultiAgent_Kelly"
+    },
+    {
+      "success": true,
+      "ticker": "DAL",
+      "shares": 20,
+      "price": 78.25,
+      "cost": 1565.0,
+      "tp1_target": 84.12,
+      "tp2_target": 88.81,
+      "sl_target": 74.73,
+      "strategy": "Committee_MultiAgent_Kelly"
     }
   ],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
-  "stop_losses": [],
+  "stop_losses": [
+    {
+      "ticker": "AOS",
+      "shares": 405,
+      "entry_price": 111.0,
+      "exit_price": 59.35,
+      "entry_date": "2026-09-02",
+      "exit_date": "2026-09-02",
+      "pnl": -20918.25,
+      "return_pct": -46.53,
+      "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "CSX",
+      "shares": 405,
+      "entry_price": 111.0,
+      "exit_price": 48.65,
+      "entry_date": "2026-09-02",
+      "exit_date": "2026-09-02",
+      "pnl": -25251.75,
+      "return_pct": -56.17,
+      "reason": "STOP_LOSS"
+    }
+  ],
   "veto_exits": [],
   "committee_resolutions": {
-    "NVDA": "\ud83d\ude80 CONVICTION INSTITUTIONAL BUY"
+    "LDOS": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "DE": "\ud83d\udd34 BEARISH SKEW / AVOID ASSET",
+    "GEV": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "ALLE": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "FDX": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "DAL": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "LMT": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "HUBB": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "CAT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "HON": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "BA": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "GWW": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "JBHT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "CHRW": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "AOS": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "FAST": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "AXON": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "EMR": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "BR": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "GD": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "HII": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "FERG": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "HONA": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "CTAS": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "IEX": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)"
   },
   "portfolio_equity": 100000.0,
-  "cash_balance": 100000.0,
+  "cash_balance": 10090.0,
   "unrealized_pnl": 0.0,
   "kill_switch_active": false,
   "self_improvement": {
-    "total_cycles": 33,
+    "total_cycles": 34,
     "agent_weights": {
-      "technicals_weight": 0.3,
-      "sentiment_weight": 0.35,
-      "valuation_weight": 0.15,
-      "cro_weight": 0.2
+      "technicals_weight": 0.294,
+      "sentiment_weight": 0.343,
+      "valuation_weight": 0.147,
+      "cro_weight": 0.216
     },
-    "kelly_multiplier": 1.0,
-    "new_autopsies_count": 0
+    "kelly_multiplier": 0.94,
+    "new_autopsies_count": 2
   },
-  "elapsed_seconds": 0.02
+  "elapsed_seconds": 47.57
 }

@@ -1,1 +1,3 @@
 ticker,shares,entry_price,exit_price,entry_date,exit_date,pnl,return_pct,reason
+AOS,405,111.0,59.35,2026-09-02,2026-09-02,-20918.25,-46.53,STOP_LOSS
+CSX,405,111.0,48.65,2026-09-02,2026-09-02,-25251.75,-56.17,STOP_LOSS
