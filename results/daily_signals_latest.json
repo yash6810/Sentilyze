@@ -1,1651 +1,259 @@
 {
-  "scan_time": "2026-09-02T07:21:00.099162+00:00",
-  "num_assets": 104,
+  "scan_time": "2026-09-02T16:50:21.643742+00:00",
+  "num_assets": 102,
   "signals": [
     {
-      "ticker": "AAPL",
+      "ticker": "BA",
       "signal": "SELL",
-      "confidence": 0.49374890327453613,
-      "current_price": 325.1300048828125,
-      "stop_loss": 306.74857657296315,
-      "take_profit": 340.44786180768693,
+      "confidence": 0.24931040406227112,
+      "current_price": 205.66000366210938,
+      "stop_loss": 199.22821807861328,
+      "take_profit": 216.37964630126953,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 9.4585599899292
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 182.95
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "CAT",
+      "signal": "SELL",
+      "confidence": 0.49639177322387695,
+      "current_price": 779.1599731445312,
+      "stop_loss": 700.0156841278076,
+      "take_profit": 845.1135473251343,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 65.12159111759672
+          "importance": 36.602447509765625
         },
         {
           "feature": "Volume PoC",
-          "importance": 59.2
+          "importance": 132.22
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "DE",
+      "signal": "SELL",
+      "confidence": 0.24694666266441345,
+      "current_price": 676.0800170898438,
+      "stop_loss": 613.1057147979736,
+      "take_profit": 728.5586023330688,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 60.56239700317383
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 174.7
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "MSFT",
-      "signal": "BUY",
-      "confidence": 0.533004879951477,
-      "current_price": 501.0199890136719,
-      "stop_loss": 471.5749751499721,
-      "take_profit": 525.557500566755,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 52.22791804947283
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 108.22
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "NVDA",
+      "ticker": "FDX",
       "signal": "SELL",
-      "confidence": 0.23391664028167725,
-      "current_price": 217.44000244140625,
-      "stop_loss": 197.00786154610768,
-      "take_profit": 234.46678652082173,
+      "confidence": 0.43647319078445435,
+      "current_price": 324.8800048828125,
+      "stop_loss": 301.122154712677,
+      "take_profit": 344.6782133579254,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 52.54027176414378
+          "importance": 54.83745193481445
         },
         {
           "feature": "Volume PoC",
-          "importance": 13.81
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "AVGO",
-      "signal": "SELL",
-      "confidence": 0.3608025312423706,
-      "current_price": 369.6799926757813,
-      "stop_loss": 331.70855494907926,
-      "take_profit": 401.322857448033,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 26.231565606046388
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 40.8
+          "importance": 186.79
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "ORCL",
+      "ticker": "GE",
       "signal": "BUY",
-      "confidence": 0.7566602826118469,
-      "current_price": 141.32000732421875,
-      "stop_loss": 132.36500876290458,
-      "take_profit": 156.24500492640905,
+      "confidence": 0.6129087209701538,
+      "current_price": 331.0899963378906,
+      "stop_loss": 301.4371500015259,
+      "take_profit": 355.8007016181946,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 32.757694244384766
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 65.37
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "HON",
+      "signal": "SELL",
+      "confidence": 0.40370869636535645,
+      "current_price": 209.97999572753906,
+      "stop_loss": 203.16249346733093,
+      "take_profit": 221.3424994945526,
       "regime": "\u25bc BEARISH (Below SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 53.81871374640329
+          "importance": 28.637649536132812
         },
         {
           "feature": "Volume PoC",
-          "importance": 53.84
+          "importance": 209.58
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "CRM",
+      "ticker": "LMT",
       "signal": "SELL",
-      "confidence": 0.1904674470424652,
-      "current_price": 258.1099853515625,
-      "stop_loss": 224.64498247419084,
-      "take_profit": 285.9974877493722,
+      "confidence": 0.371692419052124,
+      "current_price": 544.5,
+      "stop_loss": 524.5864305496216,
+      "take_profit": 577.6892824172974,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 35.08811950683594
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 472.45
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "RTX",
+      "signal": "BUY",
+      "confidence": 0.5715423226356506,
+      "current_price": 205.16000366210938,
+      "stop_loss": 192.69071435928345,
+      "take_profit": 215.55107808113098,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 80.77672383241702
+          "importance": 26.643510818481445
         },
         {
           "feature": "Volume PoC",
-          "importance": 161.98
+          "importance": 82.06
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "AMD",
+      "ticker": "UNP",
       "signal": "SELL",
-      "confidence": 0.2495579868555069,
-      "current_price": 459.6099853515625,
-      "stop_loss": 402.3228498186384,
-      "take_profit": 507.34926496233254,
+      "confidence": 0.4192218780517578,
+      "current_price": 290.6199951171875,
+      "stop_loss": 273.0078454017639,
+      "take_profit": 305.29678654670715,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 48.846447735278424
+          "importance": 60.05675506591797
         },
         {
           "feature": "Volume PoC",
-          "importance": 36.14
+          "importance": 231.65
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "ADBE",
+      "ticker": "UPS",
       "signal": "SELL",
-      "confidence": 0.36294612288475037,
-      "current_price": 286.0799865722656,
-      "stop_loss": 254.12357657296315,
-      "take_profit": 312.710328238351,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 68.64104388814876
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 256.2
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "QCOM",
-      "signal": "SELL",
-      "confidence": 0.3216796815395355,
-      "current_price": 166.61000061035156,
-      "stop_loss": 159.17000034877233,
-      "take_profit": 179.01000104631697,
+      "confidence": 0.5109472870826721,
+      "current_price": 102.66000366210938,
+      "stop_loss": 99.69214600324631,
+      "take_profit": 107.60643309354782,
       "regime": "\u25bc BEARISH (Below SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 65.12802179204144
+          "importance": 49.210121154785156
         },
         {
           "feature": "Volume PoC",
-          "importance": 59.68
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "TXN",
-      "signal": "SELL",
-      "confidence": 0.27644380927085876,
-      "current_price": 253.33999633789065,
-      "stop_loss": 229.2135685511998,
-      "take_profit": 273.4453528267997,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 31.345220379261292
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 179.03
+          "importance": 113.94
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "INTC",
-      "signal": "BUY",
-      "confidence": 0.527061402797699,
-      "current_price": 88.97000122070312,
-      "stop_loss": 74.92357526506694,
-      "take_profit": 100.67535618373327,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 37.80487527976266
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 50.48
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "IBM",
-      "signal": "SELL",
-      "confidence": 0.4374763071537018,
-      "current_price": 231.3999938964844,
-      "stop_loss": 221.6199923924038,
-      "take_profit": 247.69999640328544,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 45.59193664093682
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 138.34
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "AMAT",
-      "signal": "SELL",
-      "confidence": 0.4254905879497528,
-      "current_price": 441.8500061035156,
-      "stop_loss": 371.9757101876395,
-      "take_profit": 500.07858603341236,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 30.66613439930586
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 65.04
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "NOW",
-      "signal": "SELL",
-      "confidence": 0.43642812967300415,
-      "current_price": 142.89999389648438,
-      "stop_loss": 123.34428078787667,
-      "take_profit": 159.1964214869908,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 69.42070653658119
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 109.15
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "LRCX",
-      "signal": "BUY",
-      "confidence": 0.5492724776268005,
-      "current_price": 290.20001220703125,
-      "stop_loss": 243.33572387695312,
-      "take_profit": 329.2535858154297,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 45.800873517596024
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 31.59
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "MU",
-      "signal": "BUY",
-      "confidence": 0.5755758881568909,
-      "current_price": 933.4400024414062,
-      "stop_loss": 780.7549961635045,
-      "take_profit": 1060.677507672991,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 61.92086225073939
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 81.37
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "PANW",
-      "signal": "SELL",
-      "confidence": 0.2486337423324585,
-      "current_price": 362.0899963378906,
-      "stop_loss": 307.1642870221819,
-      "take_profit": 407.8614207676479,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 49.3565605840353
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 37.94
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "ADI",
-      "signal": "BUY",
-      "confidence": 0.7387445569038391,
-      "current_price": 354.5199890136719,
-      "stop_loss": 321.81784275599887,
-      "take_profit": 381.77177756173273,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 30.109940914027916
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 181.19
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "KLAC",
-      "signal": "BUY",
-      "confidence": 0.5861068367958069,
-      "current_price": 170.88999938964844,
-      "stop_loss": 148.01714106968473,
-      "take_profit": 189.95071465628487,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 25.67092569678576
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 22.66
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "SNPS",
-      "signal": "BUY",
-      "confidence": 0.6061233878135681,
-      "current_price": 414.8200073242188,
-      "stop_loss": 386.9874986921039,
-      "take_profit": 461.20752171107705,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 60.669638193563316
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 87.38
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "CDNS",
-      "signal": "SELL",
-      "confidence": 0.23245254158973694,
-      "current_price": 313.0400085449219,
-      "stop_loss": 297.12500762939453,
-      "take_profit": 339.5650100708008,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 58.490573858741364
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 44.81
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "CRWD",
-      "signal": "SELL",
-      "confidence": 0.29673126339912415,
-      "current_price": 215.07000732421875,
-      "stop_loss": 177.6310729980469,
-      "take_profit": 246.26911926269528,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 54.06322790194799
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 43.65
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "PLTR",
-      "signal": "SELL",
-      "confidence": 0.22097602486610413,
-      "current_price": 179.9199981689453,
-      "stop_loss": 159.54077802385603,
-      "take_profit": 196.9026816231864,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 61.202503083846985
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 27.14
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "TSM",
-      "signal": "SELL",
-      "confidence": 0.4909147620201111,
-      "current_price": 414.0,
-      "stop_loss": 382.02858189174106,
-      "take_profit": 440.64284842354914,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 45.83539813451172
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 51.93
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "ASML",
-      "signal": "SELL",
-      "confidence": 0.4782661199569702,
-      "current_price": 1665.1400146484375,
-      "stop_loss": 1527.4057006835938,
-      "take_profit": 1779.9186096191406,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 33.665183788162224
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 198.78
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "GOOGL",
-      "signal": "SELL",
-      "confidence": 0.44314083456993103,
-      "current_price": 335.0199890136719,
-      "stop_loss": 316.5506896972656,
-      "take_profit": 350.41107177734375,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 44.17387788143545
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 56.73
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "META",
-      "signal": "BUY",
-      "confidence": 0.5448132753372192,
-      "current_price": 578.5399780273438,
-      "stop_loss": 551.5303453717913,
-      "take_profit": 623.5560324532645,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 40.31116416677833
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 199.9
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "NFLX",
-      "signal": "BUY",
-      "confidence": 0.590799868106842,
-      "current_price": 80.80999755859375,
-      "stop_loss": 77.56678118024554,
-      "take_profit": 86.21535818917411,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 66.26817281736379
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 35.6
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "DIS",
-      "signal": "SELL",
-      "confidence": 0.4331328570842743,
-      "current_price": 106.22000122070312,
-      "stop_loss": 99.38642828805106,
-      "take_profit": 111.9146453312465,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 59.950507124042254
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 104.9
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "CMCSA",
-      "signal": "BUY",
-      "confidence": 0.5429444313049316,
-      "current_price": 26.299999237060547,
-      "stop_loss": 25.39464180810111,
-      "take_profit": 27.808928285326278,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 60.85011326964232
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 36.71
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "AMZN",
-      "signal": "SELL",
-      "confidence": 0.27480798959732056,
-      "current_price": 254.9199981689453,
-      "stop_loss": 237.1128638131278,
-      "take_profit": 269.7592767987932,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 38.09522425403464
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 101.74
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "TSLA",
-      "signal": "BUY",
-      "confidence": 0.7161357402801514,
-      "current_price": 356.0899963378906,
-      "stop_loss": 335.8282154628209,
-      "take_profit": 389.8596311296736,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 64.9761545413071
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 37.43
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "HD",
-      "signal": "SELL",
-      "confidence": 0.3208457827568054,
-      "current_price": 319.7699890136719,
-      "stop_loss": 308.15999385288785,
-      "take_profit": 339.11998094831193,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 21.679068270446734
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 186.6
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "MCD",
-      "signal": "SELL",
-      "confidence": 0.4991406798362732,
-      "current_price": 261.1099853515625,
-      "stop_loss": 253.24998365129744,
-      "take_profit": 274.20998818533764,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 35.20226706504209
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 171.23
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "NKE",
-      "signal": "SELL",
-      "confidence": 0.3188383877277374,
-      "current_price": 38.119998931884766,
-      "stop_loss": 36.452855518886025,
-      "take_profit": 40.89857128688267,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 39.764497662428354
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 60.25
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "LOW",
-      "signal": "SELL",
-      "confidence": 0.45863717794418335,
-      "current_price": 200.0500030517578,
-      "stop_loss": 192.21678870064872,
-      "take_profit": 213.10536030360632,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 24.180964935154293
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 84.53
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "BKNG",
-      "signal": "SELL",
-      "confidence": 0.2989899516105652,
-      "current_price": 195.69000244140625,
-      "stop_loss": 177.5249982561384,
-      "take_profit": 210.82750592912947,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 33.087884436628926
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 84.14
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "SBUX",
-      "signal": "SELL",
-      "confidence": 0.38065335154533386,
-      "current_price": 106.1500015258789,
-      "stop_loss": 98.67785644531253,
-      "take_profit": 112.37678909301755,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 48.80185851988942
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 59.84
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "TJX",
-      "signal": "SELL",
-      "confidence": 0.21298380196094513,
-      "current_price": 133.27000427246094,
-      "stop_loss": 128.4571489606585,
-      "take_profit": 141.2914297921317,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 5.612054623513345
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 39.95
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "TGT",
-      "signal": "BUY",
-      "confidence": 0.54279625415802,
-      "current_price": 163.75,
-      "stop_loss": 146.82999856131417,
-      "take_profit": 177.85000119890486,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 60.218909068572685
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 60.16
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "F",
-      "signal": "SELL",
-      "confidence": 0.35041457414627075,
-      "current_price": 13.84000015258789,
-      "stop_loss": 12.702142715454102,
-      "take_profit": 14.788214683532715,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 49.404762053124095
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 12.03
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "COST",
-      "signal": "SELL",
-      "confidence": 0.4002441465854645,
-      "current_price": 939.9600219726562,
-      "stop_loss": 914.379658290318,
-      "take_profit": 982.5939614432199,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 49.85216506263065
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 192.34
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "WMT",
-      "signal": "SELL",
-      "confidence": 0.3447040021419525,
-      "current_price": 105.91999816894533,
-      "stop_loss": 101.7414267403739,
-      "take_profit": 112.88428388323103,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 33.670691721950774
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 51.6
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "PG",
-      "signal": "SELL",
-      "confidence": 0.5169137120246887,
-      "current_price": 146.2100067138672,
-      "stop_loss": 143.09000396728516,
-      "take_profit": 151.4100112915039,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 49.695289823786126
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 93.82
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "KO",
-      "signal": "SELL",
-      "confidence": 0.5026551485061646,
-      "current_price": 88.0,
-      "stop_loss": 83.86857169015067,
-      "take_profit": 91.44285692487445,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 60.641389032839285
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 62.9
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "PEP",
-      "signal": "SELL",
-      "confidence": 0.4951583445072174,
-      "current_price": 139.7899932861328,
-      "stop_loss": 136.4921362740653,
-      "take_profit": 145.2864216395787,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 55.38203220174551
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 149.07
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "PM",
-      "signal": "BUY",
-      "confidence": 0.6375882625579834,
-      "current_price": 187.1499938964844,
-      "stop_loss": 174.28642926897322,
-      "take_profit": 197.86963108607705,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 51.633395963236126
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 103.93
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "MDLZ",
-      "signal": "SELL",
-      "confidence": 0.43917009234428406,
-      "current_price": 61.61000061035156,
-      "stop_loss": 58.22428730555943,
-      "take_profit": 64.43142836434501,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 51.707897450228316
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 43.92
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "MO",
-      "signal": "BUY",
-      "confidence": 0.6987088918685913,
-      "current_price": 69.56999969482422,
-      "stop_loss": 65.26928220476422,
-      "take_profit": 73.15393093654087,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 62.655897089306606
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 45.74
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "CL",
-      "signal": "BUY",
-      "confidence": 0.5428623557090759,
-      "current_price": 89.62999725341797,
-      "stop_loss": 84.71643229893273,
-      "take_profit": 93.724634715489,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 40.702029276877965
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 73.8
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "KMB",
-      "signal": "BUY",
-      "confidence": 0.5228964686393738,
-      "current_price": 107.08000183105467,
-      "stop_loss": 100.93214906964982,
-      "take_profit": 112.20321246555872,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 47.870868211663314
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 135.2
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "JPM",
-      "signal": "SELL",
-      "confidence": 0.474382221698761,
-      "current_price": 354.95001220703125,
-      "stop_loss": 339.3542916434152,
-      "take_profit": 367.9464460100446,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 40.2145357263451
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 112.7
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "V",
-      "signal": "SELL",
-      "confidence": 0.37434452772140503,
-      "current_price": 372.6700134277344,
-      "stop_loss": 355.1885746547153,
-      "take_profit": 387.23787907191695,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 67.9461842786533
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 222.2
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "MA",
-      "signal": "SELL",
-      "confidence": 0.4630836248397827,
-      "current_price": 581.0999755859375,
-      "stop_loss": 552.7499912806919,
-      "take_profit": 604.7249625069754,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 70.60475610160236
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 362.84
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "BAC",
-      "signal": "SELL",
-      "confidence": 0.48952722549438477,
-      "current_price": 61.9900016784668,
-      "stop_loss": 58.70285715375627,
-      "take_profit": 64.72928878239223,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 37.40832264377308
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 30.73
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "WFC",
-      "signal": "BUY",
-      "confidence": 0.7152308225631714,
-      "current_price": 87.04000091552734,
-      "stop_loss": 81.9721450805664,
-      "take_profit": 91.26321411132812,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 45.32629419808861
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 49.13
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "MS",
-      "signal": "SELL",
-      "confidence": 0.4839961528778076,
-      "current_price": 211.0399932861328,
-      "stop_loss": 198.18927546909876,
-      "take_profit": 221.74892480032784,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 47.13208875584925
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 48.78
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "GS",
-      "signal": "SELL",
-      "confidence": 0.33292102813720703,
-      "current_price": 1002.5599975585938,
-      "stop_loss": 933.478515625,
-      "take_profit": 1060.1278991699219,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 47.48833951655768
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 238.55
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "BLK",
-      "signal": "SELL",
-      "confidence": 0.4206838309764862,
-      "current_price": 1128.0999755859375,
-      "stop_loss": 1065.2777709960938,
-      "take_profit": 1180.4518127441406,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 52.13578444012261
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 418.29
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "SPGI",
-      "signal": "SELL",
-      "confidence": 0.4785672426223755,
-      "current_price": 440.2099914550781,
-      "stop_loss": 410.8121468680245,
-      "take_profit": 464.7081952776228,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 72.5385928458623
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 336.37
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "AXP",
-      "signal": "SELL",
-      "confidence": 0.4283316433429718,
-      "current_price": 324.19000244140625,
-      "stop_loss": 315.71822248186385,
-      "take_profit": 338.3096357073103,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 35.74489798287537
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 111.29
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "C",
-      "signal": "BUY",
-      "confidence": 0.6030715703964233,
-      "current_price": 132.5399932861328,
-      "stop_loss": 125.12356785365513,
-      "take_profit": 138.72034781319755,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 39.10758926102767
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 68.62
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "SCHW",
-      "signal": "SELL",
-      "confidence": 0.3716948330402374,
-      "current_price": 108.27999877929688,
-      "stop_loss": 101.39929090227398,
-      "take_profit": 114.01392201014929,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 55.849901238746476
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 41.66
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "PGR",
-      "signal": "SELL",
-      "confidence": 0.44442325830459595,
-      "current_price": 220.5399932861328,
-      "stop_loss": 205.65570613316126,
-      "take_profit": 232.94356591360912,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 56.70802005498203
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 85.79
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "CB",
-      "signal": "SELL",
-      "confidence": 0.41871029138565063,
-      "current_price": 338.739990234375,
-      "stop_loss": 322.8571341378348,
-      "take_profit": 351.97570364815846,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 37.95165293733098
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 145.99
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "LLY",
-      "signal": "BUY",
-      "confidence": 0.739923357963562,
-      "current_price": 1160.0,
-      "stop_loss": 1048.4214128766741,
-      "take_profit": 1252.9821559361048,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 39.99037423092008
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 128.84
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "UNH",
-      "signal": "SELL",
-      "confidence": 0.4333136975765228,
-      "current_price": 396.2999877929688,
-      "stop_loss": 372.81425912039623,
-      "take_profit": 415.871428353446,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 39.62326331583893
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 315.99
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "JNJ",
-      "signal": "SELL",
-      "confidence": 0.4807363450527191,
-      "current_price": 271.19000244140625,
-      "stop_loss": 255.91356222970145,
-      "take_profit": 283.9203692844936,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 58.326466254998486
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 170.8
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
       "ticker": "ABBV",
       "signal": "SELL",
       "confidence": 0.4824141561985016,
       "current_price": 259.989990234375,
-      "stop_loss": 243.5542798723493,
-      "take_profit": 273.68641553606307,
+      "stop_loss": 243.5542802810669,
+      "take_profit": 273.6864151954651,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 57.99041867613471
+          "importance": 57.99041748046875
         },
         {
           "feature": "Volume PoC",
@@ -1656,68 +264,20 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "MRK",
-      "signal": "SELL",
-      "confidence": 0.3473086357116699,
-      "current_price": 149.86000061035156,
-      "stop_loss": 135.14500427246094,
-      "take_profit": 162.12249755859375,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 68.63714577713323
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 78.44
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "TMO",
-      "signal": "SELL",
-      "confidence": 0.39005163311958313,
-      "current_price": 600.5,
-      "stop_loss": 552.883566720145,
-      "take_profit": 640.1803610665457,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 56.990969564736986
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 560.07
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
       "ticker": "ABT",
       "signal": "SELL",
       "confidence": 0.4443536102771759,
       "current_price": 108.93000030517578,
-      "stop_loss": 101.9314297267369,
-      "take_profit": 114.76214245387486,
+      "stop_loss": 101.9314296245575,
+      "take_profit": 114.76214253902435,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 52.04603592572821
+          "importance": 52.04603576660156
         },
         {
           "feature": "Volume PoC",
@@ -1728,68 +288,20 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "PFE",
-      "signal": "SELL",
-      "confidence": 0.448507696390152,
-      "current_price": 28.549999237060547,
-      "stop_loss": 26.72428403581892,
-      "take_profit": 30.07142857142857,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 69.65812364315042
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 27.36
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "DHR",
-      "signal": "SELL",
-      "confidence": 0.4188615381717682,
-      "current_price": 206.92999267578125,
-      "stop_loss": 189.41213553292414,
-      "take_profit": 221.5282069614955,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 58.708014462674385
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 79.17
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
       "ticker": "AMGN",
       "signal": "SELL",
       "confidence": 0.41619518399238586,
       "current_price": 438.1199951171875,
-      "stop_loss": 409.7121364048549,
-      "take_profit": 461.793210710798,
+      "stop_loss": 409.71213722229004,
+      "take_profit": 461.79321002960205,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 61.79947507012986
+          "importance": 61.799476623535156
         },
         {
           "feature": "Volume PoC",
@@ -1800,44 +312,20 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "ISRG",
-      "signal": "SELL",
-      "confidence": 0.40662282705307007,
-      "current_price": 369.25,
-      "stop_loss": 353.67571912493025,
-      "take_profit": 395.2071347917829,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 31.940086526947567
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 183.26
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
       "ticker": "BMY",
       "signal": "SELL",
       "confidence": 0.4591754674911499,
       "current_price": 66.91999816894531,
-      "stop_loss": 62.394280842372346,
-      "take_profit": 70.69142927442279,
+      "stop_loss": 62.394280791282654,
+      "take_profit": 70.69142931699753,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 64.10933853547594
+          "importance": 64.10933685302734
         },
         {
           "feature": "Volume PoC",
@@ -1848,20 +336,44 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "DHR",
+      "signal": "SELL",
+      "confidence": 0.4188615381717682,
+      "current_price": 206.92999267578125,
+      "stop_loss": 189.41213512420654,
+      "take_profit": 221.5282073020935,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 58.70801544189453
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 79.17
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
       "ticker": "GILD",
       "signal": "SELL",
       "confidence": 0.4686656892299652,
       "current_price": 149.9199981689453,
-      "stop_loss": 138.96571023123605,
-      "take_profit": 159.0485714503697,
+      "stop_loss": 138.96570992469788,
+      "take_profit": 159.04857170581818,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 70.89755261893737
+          "importance": 70.89755249023438
         },
         {
           "feature": "Volume PoC",
@@ -1872,31 +384,79 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "VRTX",
+      "ticker": "ISRG",
       "signal": "SELL",
-      "confidence": 0.39770928025245667,
-      "current_price": 547.6500244140625,
-      "stop_loss": 506.8007376534598,
-      "take_profit": 581.6910967145648,
+      "confidence": 0.40662282705307007,
+      "current_price": 369.25,
+      "stop_loss": 353.6757197380066,
+      "take_profit": 395.207133769989,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 31.940086364746094
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 183.26
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "JNJ",
+      "signal": "SELL",
+      "confidence": 0.4807363450527191,
+      "current_price": 271.19000244140625,
+      "stop_loss": 255.9135618209839,
+      "take_profit": 283.92036962509155,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 57.12370087338785
+          "importance": 58.32646560668945
         },
         {
           "feature": "Volume PoC",
-          "importance": 198.89
+          "importance": 170.8
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "LLY",
+      "signal": "BUY",
+      "confidence": 0.739923357963562,
+      "current_price": 1160.0,
+      "stop_loss": 1048.4214096069336,
+      "take_profit": 1252.9821586608887,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 39.99037551879883
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 128.84
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
       "ticker": "MDT",
@@ -1909,7 +469,7 @@
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 49.891700961825876
+          "importance": 49.891700744628906
         },
         {
           "feature": "Volume PoC",
@@ -1920,452 +480,692 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "CAT",
+      "ticker": "MRK",
       "signal": "SELL",
-      "confidence": 0.49639177322387695,
-      "current_price": 779.1599731445312,
-      "stop_loss": 700.0156816755023,
-      "take_profit": 845.1135493687221,
+      "confidence": 0.3473086357116699,
+      "current_price": 149.86000061035156,
+      "stop_loss": 135.14500427246094,
+      "take_profit": 162.12249755859375,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 36.602448531365724
+          "importance": 68.63714599609375
         },
         {
           "feature": "Volume PoC",
-          "importance": 132.22
+          "importance": 78.44
         },
         {
           "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "GE",
-      "signal": "BUY",
-      "confidence": 0.6129087209701538,
-      "current_price": 331.0899963378906,
-      "stop_loss": 301.43715122767856,
-      "take_profit": 355.8007005964007,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 32.757692426067706
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 65.37
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "UNP",
+      "ticker": "PFE",
       "signal": "SELL",
-      "confidence": 0.4192218780517578,
-      "current_price": 290.6199951171875,
-      "stop_loss": 273.0078451974051,
-      "take_profit": 305.29678671700617,
+      "confidence": 0.448507696390152,
+      "current_price": 28.549999237060547,
+      "stop_loss": 26.72428411245346,
+      "take_profit": 30.071428507566452,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 60.05675419596636
+          "importance": 69.65812683105469
         },
         {
           "feature": "Volume PoC",
-          "importance": 231.65
+          "importance": 27.36
         },
         {
           "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "HON",
+      "ticker": "TMO",
       "signal": "SELL",
-      "confidence": 0.40370869636535645,
-      "current_price": 209.97999572753903,
-      "stop_loss": 203.1624935695103,
-      "take_profit": 221.3424993242536,
-      "regime": "\u25bc BEARISH (Below SMA200)",
+      "confidence": 0.39005163311958313,
+      "current_price": 600.5,
+      "stop_loss": 552.88356590271,
+      "take_profit": 640.1803617477417,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 28.637648627798058
+          "importance": 56.990970611572266
         },
         {
           "feature": "Volume PoC",
-          "importance": 209.58
+          "importance": 560.07
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "RTX",
-      "signal": "BUY",
-      "confidence": 0.5715423226356506,
-      "current_price": 205.16000366210935,
-      "stop_loss": 192.69071415492462,
-      "take_profit": 215.55107825142997,
+      "ticker": "UNH",
+      "signal": "SELL",
+      "confidence": 0.4333136975765228,
+      "current_price": 396.29998779296875,
+      "stop_loss": 372.81425952911377,
+      "take_profit": 415.8714280128479,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 26.643511152453215
+          "importance": 39.62326431274414
         },
         {
           "feature": "Volume PoC",
-          "importance": 82.06
+          "importance": 315.99
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "VRTX",
+      "signal": "SELL",
+      "confidence": 0.39770928025245667,
+      "current_price": 547.6500244140625,
+      "stop_loss": 506.80073642730713,
+      "take_profit": 581.6910977363586,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 57.12369918823242
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 198.89
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "AAPL",
+      "signal": "SELL",
+      "confidence": 0.49374890327453613,
+      "current_price": 325.1300048828125,
+      "stop_loss": 306.7485761642456,
+      "take_profit": 340.4478621482849,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 65.12158966064453
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 59.2
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "ADBE",
+      "signal": "SELL",
+      "confidence": 0.36294612288475037,
+      "current_price": 286.0799865722656,
+      "stop_loss": 254.1235761642456,
+      "take_profit": 312.710328578949,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 68.64104461669922
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 256.2
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "BA",
+      "ticker": "ADI",
+      "signal": "BUY",
+      "confidence": 0.7387445569038391,
+      "current_price": 354.5199890136719,
+      "stop_loss": 321.8178415298462,
+      "take_profit": 381.7717785835266,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 30.109941482543945
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 181.19
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "AMAT",
       "signal": "SELL",
-      "confidence": 0.24931040406227112,
-      "current_price": 205.66000366210935,
-      "stop_loss": 199.22821807861325,
-      "take_profit": 216.3796463012695,
+      "confidence": 0.4254905879497528,
+      "current_price": 441.8500061035156,
+      "stop_loss": 371.97571182250977,
+      "take_profit": 500.0785846710205,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 30.666133880615234
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 65.04
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "AMD",
+      "signal": "SELL",
+      "confidence": 0.2495579868555069,
+      "current_price": 459.6099853515625,
+      "stop_loss": 402.322847366333,
+      "take_profit": 507.3492670059204,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 48.8464469909668
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 36.14
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "AVGO",
+      "signal": "SELL",
+      "confidence": 0.3608025312423706,
+      "current_price": 369.67999267578125,
+      "stop_loss": 331.70855617523193,
+      "take_profit": 401.322856426239,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 26.231565475463867
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 40.8
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "CDNS",
+      "signal": "SELL",
+      "confidence": 0.23245254158973694,
+      "current_price": 313.0400085449219,
+      "stop_loss": 297.12500762939453,
+      "take_profit": 339.5650100708008,
       "regime": "\u25bc BEARISH (Below SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 9.458560453338123
+          "importance": 58.49057388305664
         },
         {
           "feature": "Volume PoC",
-          "importance": 182.95
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "DE",
-      "signal": "SELL",
-      "confidence": 0.24694666266441345,
-      "current_price": 676.0800170898438,
-      "stop_loss": 613.105717250279,
-      "take_profit": 728.558600289481,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 60.562398091156
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 174.7
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "LMT",
-      "signal": "SELL",
-      "confidence": 0.371692419052124,
-      "current_price": 544.5,
-      "stop_loss": 524.586430140904,
-      "take_profit": 577.6892830984933,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 35.08812045197297
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 472.45
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "UPS",
-      "signal": "SELL",
-      "confidence": 0.5109472870826721,
-      "current_price": 102.66000366210938,
-      "stop_loss": 99.69214602879116,
-      "take_profit": 107.60643305097307,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 49.21012190829646
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 113.94
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "FDX",
-      "signal": "SELL",
-      "confidence": 0.43647319078445435,
-      "current_price": 324.8800048828125,
-      "stop_loss": 301.12215532575334,
-      "take_profit": 344.6782128470285,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 54.83745253944757
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 186.79
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "XOM",
-      "signal": "SELL",
-      "confidence": 0.5098841786384583,
-      "current_price": 164.5500030517578,
-      "stop_loss": 154.8492911202567,
-      "take_profit": 172.63392966134208,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 52.344059076532545
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 84.01
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "CVX",
-      "signal": "SELL",
-      "confidence": 0.3477470278739929,
-      "current_price": 211.0500030517578,
-      "stop_loss": 199.99071393694197,
-      "take_profit": 220.26607731410436,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 71.31293476626207
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 120.28
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "COP",
-      "signal": "SELL",
-      "confidence": 0.27759262919425964,
-      "current_price": 136.19000244140625,
-      "stop_loss": 127.32928521292551,
-      "take_profit": 143.5739334651402,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 64.36380485711962
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 45.61
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "SLB",
-      "signal": "SELL",
-      "confidence": 0.36865168809890747,
-      "current_price": 57.150001525878906,
-      "stop_loss": 51.61928612845285,
-      "take_profit": 61.75893102373396,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 75.9289159577431
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 35.86
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "EOG",
-      "signal": "SELL",
-      "confidence": 0.42733800411224365,
-      "current_price": 148.35000610351562,
-      "stop_loss": 139.03499276297433,
-      "take_profit": 156.11251722063338,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 53.44525807849541
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 127.0
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "LIN",
-      "signal": "SELL",
-      "confidence": 0.34182822704315186,
-      "current_price": 486.760009765625,
-      "stop_loss": 462.577878679548,
-      "take_profit": 506.9117856706892,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 49.154039304831215
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 182.92
+          "importance": 44.81
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "SHW",
+      "ticker": "CRM",
       "signal": "SELL",
-      "confidence": 0.34381869435310364,
-      "current_price": 329.95001220703125,
-      "stop_loss": 319.0707223074777,
-      "take_profit": 348.0821620396206,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "top_features": [
-        {
-          "feature": "RSI",
-          "importance": 25.688238711958974
-        },
-        {
-          "feature": "Volume PoC",
-          "importance": 147.32
-        },
-        {
-          "feature": "Confluence",
-          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
-        }
-      ],
-      "timestamp": "2026-09-02 07:20 UTC"
-    },
-    {
-      "ticker": "FCX",
-      "signal": "SELL",
-      "confidence": 0.4802839159965515,
-      "current_price": 72.47000122070312,
-      "stop_loss": 64.08286176409041,
-      "take_profit": 79.45928410121373,
+      "confidence": 0.1904674470424652,
+      "current_price": 258.1099853515625,
+      "stop_loss": 224.64498329162598,
+      "take_profit": 285.99748706817627,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 63.85637907899554
+          "importance": 80.77672576904297
         },
         {
           "feature": "Volume PoC",
-          "importance": 12.76
+          "importance": 161.98
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "CRWD",
+      "signal": "SELL",
+      "confidence": 0.29673126339912415,
+      "current_price": 215.07000732421875,
+      "stop_loss": 177.63107299804688,
+      "take_profit": 246.2691192626953,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 54.063228607177734
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 43.65
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "IBM",
+      "signal": "SELL",
+      "confidence": 0.4374763071537018,
+      "current_price": 231.39999389648438,
+      "stop_loss": 221.61999249458313,
+      "take_profit": 247.69999623298645,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 45.59193801879883
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 138.34
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "INTC",
+      "signal": "BUY",
+      "confidence": 0.527061402797699,
+      "current_price": 88.97000122070312,
+      "stop_loss": 74.92357587814331,
+      "take_profit": 100.6753556728363,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 37.804874420166016
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 50.48
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "KLAC",
+      "signal": "BUY",
+      "confidence": 0.5861068367958069,
+      "current_price": 170.88999938964844,
+      "stop_loss": 148.01714086532593,
+      "take_profit": 189.95071482658386,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 25.67092514038086
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 22.66
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "LRCX",
+      "signal": "BUY",
+      "confidence": 0.5492724776268005,
+      "current_price": 290.20001220703125,
+      "stop_loss": 243.33572387695312,
+      "take_profit": 329.2535858154297,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 45.800872802734375
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 31.59
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "MSFT",
+      "signal": "BUY",
+      "confidence": 0.533004879951477,
+      "current_price": 501.0199890136719,
+      "stop_loss": 471.5749759674072,
+      "take_profit": 525.5574998855591,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 52.2279167175293
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 108.22
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "MU",
+      "signal": "BUY",
+      "confidence": 0.5755758881568909,
+      "current_price": 933.4400024414062,
+      "stop_loss": 780.7550010681152,
+      "take_profit": 1060.6775035858154,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 61.92086410522461
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 81.37
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "NOW",
+      "signal": "SELL",
+      "confidence": 0.43642812967300415,
+      "current_price": 142.89999389648438,
+      "stop_loss": 123.34428119659424,
+      "take_profit": 159.19642114639282,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 69.42070770263672
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 109.15
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "NVDA",
+      "signal": "SELL",
+      "confidence": 0.23391664028167725,
+      "current_price": 217.44000244140625,
+      "stop_loss": 197.00786113739014,
+      "take_profit": 234.46678686141968,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 52.5402717590332
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 13.81
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "ORCL",
+      "signal": "BUY",
+      "confidence": 0.7566602826118469,
+      "current_price": 141.32000732421875,
+      "stop_loss": 132.36500906944275,
+      "take_profit": 156.24500441551208,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 53.8187141418457
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 53.84
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "PANW",
+      "signal": "SELL",
+      "confidence": 0.2486337423324585,
+      "current_price": 362.0899963378906,
+      "stop_loss": 307.1642894744873,
+      "take_profit": 407.86141872406006,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 49.35655975341797
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 37.94
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "PLTR",
+      "signal": "SELL",
+      "confidence": 0.22097602486610413,
+      "current_price": 179.9199981689453,
+      "stop_loss": 159.54077863693237,
+      "take_profit": 196.90268111228943,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 61.2025032043457
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 27.14
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "QCOM",
+      "signal": "SELL",
+      "confidence": 0.3216796815395355,
+      "current_price": 166.61000061035156,
+      "stop_loss": 159.1700005531311,
+      "take_profit": 179.010000705719,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 65.12802124023438
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 59.68
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "SNPS",
+      "signal": "BUY",
+      "confidence": 0.6061233878135681,
+      "current_price": 414.82000732421875,
+      "stop_loss": 386.98749828338623,
+      "take_profit": 461.20752239227295,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 60.669639587402344
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 87.38
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "TXN",
+      "signal": "SELL",
+      "confidence": 0.27644380927085876,
+      "current_price": 253.33999633789062,
+      "stop_loss": 229.21356773376465,
+      "take_profit": 273.4453535079956,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 31.3452205657959
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 179.03
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
       "ticker": "NEE",
       "signal": "SELL",
       "confidence": 0.44672492146492004,
       "current_price": 82.93000030517578,
-      "stop_loss": 81.11285672869,
-      "take_profit": 85.95857293265206,
+      "stop_loss": 81.11285680532455,
+      "take_profit": 85.95857280492783,
       "regime": "\u25bc BEARISH (Below SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 19.090938090319142
+          "importance": 19.090938568115234
         },
         {
           "feature": "Volume PoC",
@@ -2376,20 +1176,20 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
       "ticker": "SO",
       "signal": "SELL",
       "confidence": 0.3190697431564331,
       "current_price": 88.08999633789062,
-      "stop_loss": 86.15606662205288,
-      "take_profit": 91.31321253095355,
+      "stop_loss": 86.15606659650803,
+      "take_profit": 91.31321257352829,
       "regime": "\u25bc BEARISH (Below SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 26.213619196422954
+          "importance": 26.213619232177734
         },
         {
           "feature": "Volume PoC",
@@ -2400,31 +1200,655 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
-      "ticker": "PLD",
-      "signal": "BUY",
-      "confidence": 0.5502029657363892,
-      "current_price": 139.67999267578125,
-      "stop_loss": 134.19214194161552,
-      "take_profit": 144.25320162091936,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "ticker": "AXP",
+      "signal": "SELL",
+      "confidence": 0.4283316433429718,
+      "current_price": 324.19000244140625,
+      "stop_loss": 315.71822237968445,
+      "take_profit": 338.30963587760925,
+      "regime": "\u25bc BEARISH (Below SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 51.92306348063807
+          "importance": 35.74489974975586
         },
         {
           "feature": "Volume PoC",
-          "importance": 127.16
+          "importance": 111.29
         },
         {
           "feature": "Confluence",
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "BAC",
+      "signal": "SELL",
+      "confidence": 0.48952722549438477,
+      "current_price": 61.9900016784668,
+      "stop_loss": 58.70285725593567,
+      "take_profit": 64.72928869724274,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 37.408321380615234
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 30.73
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "BLK",
+      "signal": "SELL",
+      "confidence": 0.4206838309764862,
+      "current_price": 1128.0999755859375,
+      "stop_loss": 1065.2777709960938,
+      "take_profit": 1180.4518127441406,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 52.13578414916992
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 418.29
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "C",
+      "signal": "BUY",
+      "confidence": 0.6030715703964233,
+      "current_price": 132.5399932861328,
+      "stop_loss": 125.12356805801392,
+      "take_profit": 138.72034764289856,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 39.10758972167969
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 68.62
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "CB",
+      "signal": "SELL",
+      "confidence": 0.41871029138565063,
+      "current_price": 338.739990234375,
+      "stop_loss": 322.8571343421936,
+      "take_profit": 351.9757034778595,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 37.95165252685547
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 145.99
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "GS",
+      "signal": "SELL",
+      "confidence": 0.33292102813720703,
+      "current_price": 1002.5599975585938,
+      "stop_loss": 933.478515625,
+      "take_profit": 1060.1278991699219,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 47.488338470458984
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 238.55
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "JPM",
+      "signal": "SELL",
+      "confidence": 0.474382221698761,
+      "current_price": 354.95001220703125,
+      "stop_loss": 339.3542914390564,
+      "take_profit": 367.9464461803436,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 40.214534759521484
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 112.7
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "MA",
+      "signal": "SELL",
+      "confidence": 0.4630836248397827,
+      "current_price": 581.0999755859375,
+      "stop_loss": 552.7499904632568,
+      "take_profit": 604.7249631881714,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 70.6047592163086
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 362.84
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "MS",
+      "signal": "SELL",
+      "confidence": 0.4839961528778076,
+      "current_price": 211.0399932861328,
+      "stop_loss": 198.18927526474,
+      "take_profit": 221.74892497062683,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 47.13208770751953
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 48.78
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "PGR",
+      "signal": "SELL",
+      "confidence": 0.44442325830459595,
+      "current_price": 220.5399932861328,
+      "stop_loss": 205.6557059288025,
+      "take_profit": 232.94356608390808,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 56.7080192565918
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 85.79
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "SCHW",
+      "signal": "SELL",
+      "confidence": 0.3716948330402374,
+      "current_price": 108.27999877929688,
+      "stop_loss": 101.3992908000946,
+      "take_profit": 114.01392209529877,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 55.84990310668945
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 41.66
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "SPGI",
+      "signal": "SELL",
+      "confidence": 0.4785672426223755,
+      "current_price": 440.2099914550781,
+      "stop_loss": 410.81214809417725,
+      "take_profit": 464.70819425582886,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 72.53858947753906
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 336.37
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "V",
+      "signal": "SELL",
+      "confidence": 0.37434452772140503,
+      "current_price": 372.6700134277344,
+      "stop_loss": 355.18857526779175,
+      "take_profit": 387.2378785610199,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 67.94618225097656
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 222.2
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "WFC",
+      "signal": "BUY",
+      "confidence": 0.7152308225631714,
+      "current_price": 87.04000091552734,
+      "stop_loss": 81.9721450805664,
+      "take_profit": 91.26321411132812,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 45.3262939453125
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 49.13
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "FCX",
+      "signal": "SELL",
+      "confidence": 0.4802839159965515,
+      "current_price": 72.47000122070312,
+      "stop_loss": 64.08286166191101,
+      "take_profit": 79.45928418636322,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 63.856380462646484
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 12.76
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "LIN",
+      "signal": "SELL",
+      "confidence": 0.34182822704315186,
+      "current_price": 486.760009765625,
+      "stop_loss": 462.5778799057007,
+      "take_profit": 506.91178464889526,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 49.15403747558594
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 182.92
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "SHW",
+      "signal": "SELL",
+      "confidence": 0.34381869435310364,
+      "current_price": 329.95001220703125,
+      "stop_loss": 319.0707221031189,
+      "take_profit": 348.0821623802185,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 25.6882381439209
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 147.32
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "AMZN",
+      "signal": "SELL",
+      "confidence": 0.27480798959732056,
+      "current_price": 254.9199981689453,
+      "stop_loss": 237.11286401748657,
+      "take_profit": 269.75927662849426,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 38.09522247314453
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 101.74
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "BKNG",
+      "signal": "SELL",
+      "confidence": 0.2989899516105652,
+      "current_price": 195.69000244140625,
+      "stop_loss": 177.52499866485596,
+      "take_profit": 210.8275055885315,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 33.08788299560547
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 84.14
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "F",
+      "signal": "SELL",
+      "confidence": 0.35041457414627075,
+      "current_price": 13.84000015258789,
+      "stop_loss": 12.702142715454102,
+      "take_profit": 14.788214683532715,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 49.404762268066406
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 12.03
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "HD",
+      "signal": "SELL",
+      "confidence": 0.3208457827568054,
+      "current_price": 319.7699890136719,
+      "stop_loss": 308.15999364852905,
+      "take_profit": 339.1199812889099,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 21.679067611694336
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 186.6
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "LOW",
+      "signal": "SELL",
+      "confidence": 0.45863717794418335,
+      "current_price": 200.0500030517578,
+      "stop_loss": 192.2167890071869,
+      "take_profit": 213.10535979270935,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 24.180965423583984
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 84.53
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "MCD",
+      "signal": "SELL",
+      "confidence": 0.4991406798362732,
+      "current_price": 261.1099853515625,
+      "stop_loss": 253.24998354911804,
+      "take_profit": 274.2099883556366,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 35.202266693115234
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 171.23
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "NKE",
+      "signal": "SELL",
+      "confidence": 0.3188383877277374,
+      "current_price": 38.119998931884766,
+      "stop_loss": 36.452855467796326,
+      "take_profit": 40.898571372032166,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 39.764495849609375
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 60.25
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "SBUX",
+      "signal": "SELL",
+      "confidence": 0.38065335154533386,
+      "current_price": 106.1500015258789,
+      "stop_loss": 98.6778564453125,
+      "take_profit": 112.37678909301758,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 48.801856994628906
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 59.84
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "TJX",
+      "signal": "SELL",
+      "confidence": 0.21298380196094513,
+      "current_price": 133.27000427246094,
+      "stop_loss": 128.4571489095688,
+      "take_profit": 141.2914298772812,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 5.612054824829102
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 39.95
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "TSLA",
+      "signal": "BUY",
+      "confidence": 0.7161357402801514,
+      "current_price": 356.0899963378906,
+      "stop_loss": 335.8282160758972,
+      "take_profit": 389.85963010787964,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 64.97615814208984
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 37.43
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
       "ticker": "AMT",
@@ -2437,7 +1861,7 @@
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 64.19010171635607
+          "importance": 64.19010162353516
         },
         {
           "feature": "Volume PoC",
@@ -2448,20 +1872,548 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "PLD",
+      "signal": "BUY",
+      "confidence": 0.5502029657363892,
+      "current_price": 139.67999267578125,
+      "stop_loss": 134.19214189052582,
+      "take_profit": 144.2532016634941,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 51.923065185546875
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 127.16
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "GOOGL",
+      "signal": "SELL",
+      "confidence": 0.44314083456993103,
+      "current_price": 335.0199890136719,
+      "stop_loss": 316.5506896972656,
+      "take_profit": 350.41107177734375,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 44.17387771606445
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 56.73
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "CL",
+      "signal": "BUY",
+      "confidence": 0.5428623557090759,
+      "current_price": 89.62999725341797,
+      "stop_loss": 84.71643245220184,
+      "take_profit": 93.72463458776474,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 40.702030181884766
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 73.8
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "COST",
+      "signal": "SELL",
+      "confidence": 0.4002441465854645,
+      "current_price": 939.9600219726562,
+      "stop_loss": 914.3796586990356,
+      "take_profit": 982.5939607620239,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 49.85216522216797
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 192.34
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "KMB",
+      "signal": "BUY",
+      "confidence": 0.5228964686393738,
+      "current_price": 107.08000183105469,
+      "stop_loss": 100.93214917182922,
+      "take_profit": 112.20321238040924,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 47.87086868286133
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 135.2
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "KO",
+      "signal": "SELL",
+      "confidence": 0.5026551485061646,
+      "current_price": 88.0,
+      "stop_loss": 83.86857163906097,
+      "take_profit": 91.44285696744919,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 60.641387939453125
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 62.9
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "MDLZ",
+      "signal": "SELL",
+      "confidence": 0.43917009234428406,
+      "current_price": 61.61000061035156,
+      "stop_loss": 58.224287152290344,
+      "take_profit": 64.43142849206924,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 51.7078971862793
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 43.92
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "MO",
+      "signal": "BUY",
+      "confidence": 0.6987088918685913,
+      "current_price": 69.56999969482422,
+      "stop_loss": 65.26928210258484,
+      "take_profit": 73.15393102169037,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 62.6558952331543
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 45.74
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "PEP",
+      "signal": "SELL",
+      "confidence": 0.4951583445072174,
+      "current_price": 139.7899932861328,
+      "stop_loss": 136.4921361207962,
+      "take_profit": 145.28642189502716,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 55.38203048706055
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 149.07
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "PG",
+      "signal": "SELL",
+      "confidence": 0.5169137120246887,
+      "current_price": 146.2100067138672,
+      "stop_loss": 143.09000396728516,
+      "take_profit": 151.4100112915039,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 49.695289611816406
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 93.82
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "PM",
+      "signal": "BUY",
+      "confidence": 0.6375882625579834,
+      "current_price": 187.14999389648438,
+      "stop_loss": 174.28642988204956,
+      "take_profit": 197.86963057518005,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 51.63339614868164
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 103.93
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "TGT",
+      "signal": "BUY",
+      "confidence": 0.54279625415802,
+      "current_price": 163.75,
+      "stop_loss": 146.82999897003174,
+      "take_profit": 177.85000085830688,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 60.218910217285156
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 60.16
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "WMT",
+      "signal": "SELL",
+      "confidence": 0.3447040021419525,
+      "current_price": 105.91999816894531,
+      "stop_loss": 101.7414265871048,
+      "take_profit": 112.8842841386795,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 33.670692443847656
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 51.6
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "COP",
+      "signal": "SELL",
+      "confidence": 0.27759262919425964,
+      "current_price": 136.19000244140625,
+      "stop_loss": 127.32928490638733,
+      "take_profit": 143.57393372058868,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 64.36380767822266
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 45.61
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "CVX",
+      "signal": "SELL",
+      "confidence": 0.3477470278739929,
+      "current_price": 211.0500030517578,
+      "stop_loss": 199.99071383476257,
+      "take_profit": 220.26607739925385,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 71.31293487548828
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 120.28
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "EOG",
+      "signal": "SELL",
+      "confidence": 0.42733800411224365,
+      "current_price": 148.35000610351562,
+      "stop_loss": 139.03499245643616,
+      "take_profit": 156.11251747608185,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 53.44525909423828
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 127.0
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "SLB",
+      "signal": "SELL",
+      "confidence": 0.36865168809890747,
+      "current_price": 57.150001525878906,
+      "stop_loss": 51.61928617954254,
+      "take_profit": 61.75893098115921,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 75.92891693115234
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 35.86
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "XOM",
+      "signal": "SELL",
+      "confidence": 0.5098841786384583,
+      "current_price": 164.5500030517578,
+      "stop_loss": 154.84929132461548,
+      "take_profit": 172.6339294910431,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 52.344058990478516
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 84.01
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "CMCSA",
+      "signal": "BUY",
+      "confidence": 0.5429444313049316,
+      "current_price": 26.299999237060547,
+      "stop_loss": 25.39464184641838,
+      "take_profit": 27.808928221464157,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 60.85011291503906
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 36.71
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "DIS",
+      "signal": "SELL",
+      "confidence": 0.4331328570842743,
+      "current_price": 106.22000122070312,
+      "stop_loss": 99.38642859458923,
+      "take_profit": 111.91464507579803,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 59.95050811767578
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 104.9
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "META",
+      "signal": "BUY",
+      "confidence": 0.5448132753372192,
+      "current_price": 578.5399780273438,
+      "stop_loss": 551.5303449630737,
+      "take_profit": 623.5560331344604,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 40.31116485595703
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 199.9
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
+    },
+    {
+      "ticker": "NFLX",
+      "signal": "BUY",
+      "confidence": 0.590799868106842,
+      "current_price": 80.80999755859375,
+      "stop_loss": 77.56678128242493,
+      "take_profit": 86.21535801887512,
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "top_features": [
+        {
+          "feature": "RSI",
+          "importance": 66.26817321777344
+        },
+        {
+          "feature": "Volume PoC",
+          "importance": 35.6
+        },
+        {
+          "feature": "Confluence",
+          "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
+        }
+      ],
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
       "ticker": "SPY",
       "signal": "SELL",
       "confidence": 0.5190060138702393,
       "current_price": 761.780029296875,
-      "stop_loss": 746.6536080496652,
-      "take_profit": 774.3853803362165,
+      "stop_loss": 746.6536078453064,
+      "take_profit": 774.3853805065155,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 45.90621627397487
+          "importance": 45.90621566772461
         },
         {
           "feature": "Volume PoC",
@@ -2472,20 +2424,20 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     },
     {
       "ticker": "QQQ",
       "signal": "SELL",
       "confidence": 0.43917137384414673,
       "current_price": 707.6400146484375,
-      "stop_loss": 683.1557268415179,
-      "take_profit": 728.0435878208706,
+      "stop_loss": 683.1557264328003,
+      "take_profit": 728.0435881614685,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "top_features": [
         {
           "feature": "RSI",
-          "importance": 48.68359372293836
+          "importance": 48.68359375
         },
         {
           "feature": "Volume PoC",
@@ -2496,7 +2448,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "2026-09-02 07:20 UTC"
+      "timestamp": "Sep 02, 2026 \u2022 10:20 PM IST (12:50 PM EDT)"
     }
   ]
 }

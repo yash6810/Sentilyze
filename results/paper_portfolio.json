@@ -1,24 +1,51 @@
 {
   "initial_capital": 100000.0,
-  "cash": 100000.0,
+  "cash": 10980.237670898438,
   "total_equity": 100000.0,
-  "unrealized_pnl": 0,
+  "unrealized_pnl": 0.0,
   "realized_pnl": 0.0,
   "win_rate": 0.0,
   "total_trades": 0,
   "winning_trades": 0,
   "losing_trades": 0,
-  "open_positions": {},
+  "open_positions": {
+    "ORCL": {
+      "shares": 318,
+      "initial_shares": 318,
+      "entry_price": 141.32000732421875,
+      "current_price": 141.32000732421875,
+      "entry_date": "2026-09-02",
+      "tp1_target": 156.25,
+      "tp2_target": 168.19,
+      "sl_target": 132.37,
+      "scaled_out": false,
+      "confidence": 0.7566602826118469,
+      "regime": "\u25bc BEARISH (Below SMA200)"
+    },
+    "LLY": {
+      "shares": 38,
+      "initial_shares": 38,
+      "entry_price": 1160.0,
+      "current_price": 1160.0,
+      "entry_date": "2026-09-02",
+      "tp1_target": 1252.98,
+      "tp2_target": 1327.37,
+      "sl_target": 1104.21,
+      "scaled_out": false,
+      "confidence": 0.739923357963562,
+      "regime": "\u25b2 BULLISH (Above SMA200)"
+    }
+  },
   "closed_trades": [],
   "equity_history": [
     {
       "date": "2026-09-02",
       "timestamp": "2026-09-02T07:13:20.464505+00:00",
       "total_equity": 100000.0,
-      "cash": 100000.0,
-      "invested": 0,
+      "cash": 10980.24,
+      "invested": 89019.76,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-02T07:16:12.550611+00:00"
+  "last_updated": "2026-09-02T16:50:21.641456+00:00"
 }
