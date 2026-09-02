@@ -235,5 +235,13 @@ def preprocess_data(
     )
     features_df = features_df.dropna().sort_index()
 
+    # Memory Optimization (Downcast float64 to float32 for 50% RAM reduction)
+    from src.utils import optimize_dataframe_memory
+
+    features_df = optimize_dataframe_memory(features_df)
+    price_history_with_indicators = optimize_dataframe_memory(
+        price_history_with_indicators
+    )
+
     logger.info(f"Preprocessing for {ticker} complete. Shape: {features_df.shape}")
     return features_df, price_history_with_indicators, news_with_sentiment_df
