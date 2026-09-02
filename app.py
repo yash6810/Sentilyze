@@ -29,6 +29,7 @@ from src.ui.ws_xai_shap import render_xai_workspace
 from src.ui.ws_options_surface import render_options_surface_workspace
 from src.ui.ws_deep_quant import render_deep_quant_workspace
 from src.ui.ws_quantum_tournament import render_quantum_tournament_workspace
+from src.ui.ws_portfolio_diversity import render_portfolio_diversity_workspace
 from src.ui.components import get_market_status
 from src.config import COMPANY_NAMES
 
@@ -119,6 +120,7 @@ def main():
         "🕵️ 12. Forensic Beneish M-Score": "forensic",
         "🏛️ 13. DCF Intrinsic Valuation": "dcf",
         "👑 14. 25-Paper Tournament & Deep Learning Shield": "quantum_tournament",
+        "🧬 15. Portfolio Diversity & Correlation Grader": "portfolio_diversity",
     }
 
     selected_ws_label = st.sidebar.radio(
@@ -164,6 +166,8 @@ def main():
         render_deep_quant_workspace(selected_ticker, mode=ws_key)
     elif ws_key == "quantum_tournament":
         render_quantum_tournament_workspace(selected_ticker)
+    elif ws_key == "portfolio_diversity":
+        render_portfolio_diversity_workspace()
 
 
 if __name__ == "__main__":
