@@ -147,11 +147,11 @@ def send_discord_execution_alert(
     trade_data: Dict[str, Any], webhook_url: Optional[str] = None
 ) -> bool:
     """
-    Dispatches a high-impact Discord card for live autonomous trade lifecycle events:
-    - BUY Entry with Kelly sizing
-    - TP1 Hit (+2.5 ATR): 50% Profit Locked & Stop trailed to Breakeven
-    - TP2 Hit (+4.5 ATR): Full Profit Realized
-    - Stop-Loss / Emergency Exit
+    Dispatches a crystal-clear, high-impact Discord card for live autonomous trade executions:
+    - 🟢 BUY ENTRY: 9-Paper Quantum Omni-Hybrid conviction, Kelly sizing, ATR corridors, Stop-Loss
+    - 🎯 TP1 HIT (+2.0 ATR): 50% Profit Locked & Stop trailed to Breakeven
+    - 🚀 TP2 HIT (+4.0 ATR): Full Profit Realized on remaining runner
+    - 🛑 STOP-LOSS / DERISK: Liquidated per Grossman-Zhou / CUSUM safety floor
     """
     url = webhook_url or os.getenv("DISCORD_WEBHOOK_URL")
     if not url:
@@ -159,16 +159,18 @@ def send_discord_execution_alert(
 
     action = trade_data.get("action", "BUY").upper()
     ticker = trade_data.get("ticker", "ASSET")
-    price = trade_data.get("price", 0.0)
-    shares = trade_data.get("shares", 0)
+    price = float(trade_data.get("price", 0.0))
+    shares = int(trade_data.get("shares", 0))
     stage = trade_data.get("stage", "ENTRY")
+    order_value = price * shares
 
     if action == "BUY":
         color = 0x10B981  # Emerald Green
-        title = f"🤖 [AUTONOMOUS BUY EXECUTION] {ticker} Filled @ ${price:.2f}"
+        title = f"👑 [QUANTUM OMNI-HYBRID] BUY ENTRY: {ticker} Filled @ ${price:.2f}"
         desc = (
-            f"**Autonomous Buying Agent** has entered **{shares:,} shares** of **{ticker}** "
-            f"via Kelly Criterion Allocation (`{trade_data.get('kelly_pct', 8.0):.1f}%` of portfolio)."
+            f"**Sentilyze Autonomous Quant Trader** executed an institutional **BUY ORDER** for **{ticker}**.\n"
+            f"⚡ **Conviction**: Ranked as Top *Stock in Play* (ORB + FinBERT Catalyst) passing DSR Overfit Gate.\n"
+            f"🛡️ **Risk Model**: Allocated via **HRP + Boyd Convex SOCP + Risk-Constrained Kelly**."
         )
         fields = [
             {
@@ -177,42 +179,63 @@ def send_discord_execution_alert(
                 "inline": True,
             },
             {
-                "name": "📦 Order Size",
-                "value": f"**{shares:,} shares** (${price * shares:,.2f})",
+                "name": "📦 Position Size",
+                "value": f"**{shares:,} shares** (${order_value:,.2f})",
                 "inline": True,
             },
             {
-                "name": "🎯 Take-Profit 1 (+2.5 ATR)",
-                "value": f"`${trade_data.get('tp1', price * 1.06):.2f}` *(50% Profit Lock)*",
+                "name": "📊 Portfolio Allocation",
+                "value": f"**{trade_data.get('kelly_pct', 8.0):.1f}%** (Risk-Kelly)",
+                "inline": True,
+            },
+            {
+                "name": "🎯 Take-Profit 1 (+2.0 ATR)",
+                "value": f"**`${trade_data.get('tp1', price * 1.05):.2f}`** *(50% Scale-Out + Breakeven Lock)*",
                 "inline": False,
             },
             {
-                "name": "🚀 Take-Profit 2 (+4.5 ATR)",
-                "value": f"`${trade_data.get('tp2', price * 1.12):.2f}` *(Remaining Runner)*",
+                "name": "🚀 Take-Profit 2 (+4.0 ATR)",
+                "value": f"**`${trade_data.get('tp2', price * 1.10):.2f}`** *(Max Extension Runner)*",
                 "inline": True,
             },
             {
-                "name": "🛡️ Protective Stop-Loss",
-                "value": f"`${trade_data.get('stop_loss', price * 0.965):.2f}`",
+                "name": "🛑 Hard Stop-Loss (-1.5 ATR)",
+                "value": f"**`${trade_data.get('stop_loss', price * 0.965):.2f}`** *(Grossman-Zhou Protected)*",
                 "inline": True,
+            },
+            {
+                "name": "🔬 Academic Engine Papers",
+                "value": "`#11 Triple-Barrier` • `#25 ORB` • `#10 DSR` • `#12 HRP` • `#02 Boyd SOCP` • `#18 Grossman-Zhou`",
+                "inline": False,
             },
         ]
     elif "TP1" in stage:
         color = 0xF59E0B  # Amber Gold
-        title = f"🎯 [TAKE-PROFIT 1 HIT] {ticker} +50% Profit Banked!"
+        pnl = float(trade_data.get("realized_pnl", 0.0))
+        ret_pct = float(
+            trade_data.get(
+                "return_pct",
+                (
+                    (price - float(trade_data.get("entry_price", price)))
+                    / max(float(trade_data.get("entry_price", 1.0)), 1e-6)
+                )
+                * 100.0,
+            )
+        )
+        title = f"🎯 [TAKE-PROFIT 1 REALIZED] {ticker} +50% Profit Locked!"
         desc = (
-            f"**Autonomous Selling Agent** has locked in **+50% of the position** at **${price:.2f}**.\n"
-            f"🛡️ **Risk-Free Update**: Stop-Loss automatically trailed to **Breakeven (${trade_data.get('entry_price', price):.2f})**! Trade is now completely risk-free."
+            f"**Autonomous Selling Agent** has locked in **50% of the position** at **${price:.2f}**.\n"
+            f"🛡️ **Trade Made Risk-Free**: Stop-loss automatically trailed to **Breakeven (${trade_data.get('entry_price', price):.2f})**!"
         )
         fields = [
             {
                 "name": "💰 Realized Cash Profit",
-                "value": f"**+${trade_data.get('realized_pnl', 0.0):,.2f}**",
+                "value": f"**+${pnl:,.2f}** ({ret_pct:+.2f}%)",
                 "inline": True,
             },
             {
-                "name": "📈 Exit Price",
-                "value": f"${price:.2f}",
+                "name": "📈 Scale-Out Price",
+                "value": f"**${price:.2f}**",
                 "inline": True,
             },
             {
@@ -220,37 +243,64 @@ def send_discord_execution_alert(
                 "value": f"**{shares:,} shares** targeting TP2 (`${trade_data.get('tp2', 0.0):.2f}`)",
                 "inline": False,
             },
+            {
+                "name": "🔒 Risk Status",
+                "value": "`100% RISK-FREE (Stop Trailed to Entry)`",
+                "inline": False,
+            },
         ]
     elif "TP2" in stage:
         color = 0x8B5CF6  # Royal Purple
-        title = f"🚀 [TAKE-PROFIT 2 MAX RUNNER] {ticker} Full Profit Realized!"
-        desc = f"**Autonomous Selling Agent** closed the remaining runner at peak market extension (**${price:.2f}**)."
+        pnl = float(trade_data.get("realized_pnl", 0.0))
+        ret_pct = float(trade_data.get("return_pct", 10.0))
+        title = f"🚀 [TAKE-PROFIT 2 MAX RUNNER] {ticker} Full Target Banked!"
+        desc = f"**Autonomous Selling Agent** closed the final runner of **{ticker}** at peak volatility extension (**${price:.2f}**)."
         fields = [
             {
-                "name": "🏆 Total Trade PnL",
-                "value": f"**+${trade_data.get('realized_pnl', 0.0):,.2f}**",
+                "name": "🏆 Total Trade Realized PnL",
+                "value": f"**+${pnl:,.2f}**",
                 "inline": True,
             },
             {
-                "name": "📊 Return on Trade",
-                "value": f"**+{trade_data.get('return_pct', 12.0):.2f}%**",
+                "name": "📈 Overall Trade Gain",
+                "value": f"**+{ret_pct:.2f}%**",
                 "inline": True,
+            },
+            {
+                "name": "📦 Closed Shares",
+                "value": f"**{shares:,} shares** @ **${price:.2f}**",
+                "inline": True,
+            },
+            {
+                "name": "💼 Cash State",
+                "value": "`Capital Returned to Cash Pool for Reallocation`",
+                "inline": False,
             },
         ]
     else:
         color = 0xEF4444  # Crimson Red
-        title = f"🛡️ [STOP-LOSS / EXIT EXECUTED] {ticker} Liquidated @ ${price:.2f}"
-        desc = f"Position liquidated according to risk-first capital preservation protocols."
+        title = (
+            f"🛑 [STOP-LOSS / CAPITAL PRESERVATION] {ticker} Liquidated @ ${price:.2f}"
+        )
+        desc = (
+            f"**Autonomous Risk Officer** closed **{ticker}** to strictly enforce the **Grossman-Zhou Capital Floor** "
+            f"and prevent drawdown beyond pre-set parameters."
+        )
         fields = [
             {
                 "name": "Exit Price",
-                "value": f"${price:.2f}",
+                "value": f"**${price:.2f}**",
                 "inline": True,
             },
             {
-                "name": "Shares Closed",
-                "value": f"{shares:,}",
+                "name": "Shares Liquidated",
+                "value": f"**{shares:,} shares**",
                 "inline": True,
+            },
+            {
+                "name": "Risk Reason",
+                "value": f"`{trade_data.get('reason', 'PROTECTIVE_STOP_LOSS')}`",
+                "inline": False,
             },
         ]
 
@@ -260,7 +310,7 @@ def send_discord_execution_alert(
         "color": color,
         "fields": fields,
         "footer": {
-            "text": f"Sentilyze 24/7 Autonomous Trader • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
+            "text": f"Sentilyze 24/7 Quantum Autonomous Trader • {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"
         },
     }
 
@@ -600,63 +650,6 @@ def send_discord_digest(
         return response.status_code in [200, 204]
     except Exception as e:
         logger.error(f"Error sending Discord digest: {e}")
-        return False
-
-
-def send_telegram_alert(
-    alert_payload: Dict[str, Any],
-    bot_token: Optional[str] = None,
-    chat_id: Optional[str] = None,
-) -> bool:
-    """
-    Sends a formatted Markdown alert to a Telegram chat or channel.
-    """
-    token = (bot_token or os.getenv("TELEGRAM_BOT_TOKEN", "")).strip()
-    chat = (chat_id or os.getenv("TELEGRAM_CHAT_ID", "")).strip()
-
-    if not token or not chat:
-        logger.warning("Telegram Bot Token or Chat ID missing. Alert skipped.")
-        return False
-
-    is_buy = alert_payload["signal"].upper() == "BUY"
-    emoji = "🟢 *STRONG BUY*" if is_buy else "🔴 *STRONG SELL*"
-
-    message = (
-        f"{emoji} *{alert_payload['ticker']} Signal*\n\n"
-        f"🎯 *Confidence*: `{alert_payload['confidence'] * 100:.1f}%`\n"
-        f"💵 *Price*: `${alert_payload['current_price']:.2f}`\n"
-        f"🛡️ *Dynamic Stop-Loss*: `${alert_payload['stop_loss']:.2f}`\n"
-        f"📊 *Regime*: `{alert_payload['regime']}`\n\n"
-        f"🧠 *Key AI Drivers*:\n"
-    )
-
-    for f in alert_payload.get("top_features", [])[:3]:
-        fname = f.get("feature", "Feature")
-        imp = f.get("importance", 0)
-        imp_str = f"`{imp:+.3f}`" if isinstance(imp, (int, float)) else f"`{imp}`"
-        message += f"• `{fname}`: {imp_str}\n"
-
-    message += f"\n⏰ _{alert_payload['timestamp']}_"
-
-    url = f"https://api.telegram.org/bot{token}/sendMessage"
-    try:
-        res = requests.post(
-            url,
-            json={
-                "chat_id": chat,
-                "text": message,
-                "parse_mode": "Markdown",
-            },
-            timeout=10,
-        )
-        if res.status_code == 200:
-            logger.info(f"Telegram alert sent for {alert_payload['ticker']}")
-            return True
-        else:
-            logger.error(f"Telegram API failed with code {res.status_code}: {res.text}")
-            return False
-    except Exception as e:
-        logger.error(f"Error sending Telegram alert: {e}")
         return False
 
 

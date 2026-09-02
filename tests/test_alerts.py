@@ -2,7 +2,6 @@ from unittest.mock import patch, MagicMock
 from src.alerts import (
     format_signal_card,
     send_discord_alert,
-    send_telegram_alert,
     send_discord_execution_alert,
     send_discord_committee_alert,
     send_discord_social_spike_alert,
@@ -148,29 +147,6 @@ def test_send_discord_committee_and_pulse(mock_post):
         send_discord_digest(digest, webhook_url="https://discord.com/api/webhooks/mock")
         is True
     )
-
-
-@patch("requests.post")
-def test_send_telegram_alert(mock_post):
-    mock_response = MagicMock()
-    mock_response.status_code = 200
-    mock_post.return_value = mock_response
-
-    payload = format_signal_card(
-        ticker="MSFT",
-        signal="SELL",
-        confidence=0.75,
-        current_price=410.0,
-        stop_loss=420.0,
-        regime="BEARISH",
-        top_features=[],
-    )
-
-    success = send_telegram_alert(
-        payload, bot_token="12345:mock_token", chat_id="98765"
-    )
-    assert success is True
-    assert mock_post.called
 
 
 @patch("requests.post")

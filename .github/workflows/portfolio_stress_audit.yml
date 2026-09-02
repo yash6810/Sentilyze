@@ -33,8 +33,6 @@ jobs:
       - name: Run Black Swan Crisis Simulation Audit
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.TRADE_BOT || secrets.DISCORD_WEBHOOK_URL }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           python -u -c "from src.stress_tester import run_full_crisis_simulation_suite; print('Stress audit complete:', run_full_crisis_simulation_suite())"
 

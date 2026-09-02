@@ -8,7 +8,7 @@ Unifies all 8 Pillars and 40 Specialized Systems into a Synchronized Institution
 5. Options Microstructure & Derivatives Flow (GEX, Max Pain, Vol/OI, Recommended Spreads)
 6. Forensic Accounting & Fundamental Valuation (Piotroski, Altman Z, Beneish M, DCF)
 7. Institutional Risk Management & Kelly Sizing (Monte Carlo VaR, Fractional Kelly, Slippage)
-8. Smart Execution Routing & Omnichannel Alerts (VWAP Slicing, Telegram, WhatsApp, WatchOS)
+8. Smart Execution Routing & Institutional Discord Webhook Alerts (VWAP Slicing, Real-Time PnL)
 """
 
 from typing import Any, Dict
