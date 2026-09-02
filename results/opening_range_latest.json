@@ -1,0 +1,53 @@
+{
+  "session_time": "Sep 02, 2026 \u2022 09:59 PM IST (12:29 PM EDT)",
+  "stocks_in_play": [
+    "AOS",
+    "CSX",
+    "FIX",
+    "EXPD",
+    "FERG"
+  ],
+  "signals_count": 5,
+  "executed_paper_trades": [
+    {
+      "ticker": "AOS",
+      "shares": 405,
+      "entry_price": 111.0,
+      "cost": 44955.0,
+      "entry_date": "2026-09-02",
+      "tp1_target": 117.94,
+      "tp2_target": 123.49,
+      "sl_target": 106.84,
+      "confidence": 48.3
+    },
+    {
+      "ticker": "CSX",
+      "shares": 405,
+      "entry_price": 111.0,
+      "cost": 44955.0,
+      "entry_date": "2026-09-02",
+      "tp1_target": 117.94,
+      "tp2_target": 123.49,
+      "sl_target": 106.84,
+      "confidence": 48.3
+    }
+  ],
+  "portfolio_summary": {
+    "total_equity": 100000.0,
+    "cash": 10090.0,
+    "invested": 89910.0,
+    "start_of_day_equity": 100000.0,
+    "daily_pnl": 0.0,
+    "daily_return_pct": 0.0,
+    "unrealized_pnl": 0.0,
+    "unrealized_pnl_pct": 0.0,
+    "realized_pnl": 0.0,
+    "total_pnl": 0.0,
+    "total_return_pct": 0.0,
+    "win_rate": 0.0,
+    "open_positions_count": 2,
+    "total_trades": 0,
+    "winning_trades": 0,
+    "losing_trades": 0
+  }
+}
