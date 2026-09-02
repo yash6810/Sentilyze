@@ -77,15 +77,20 @@ def render_autonomous_trader_workspace(selected_ticker: str):
     )
 
     # Controls Row
-    st.markdown("#### ⚡ 104-Universe Multi-Asset Capital Allocator")
+    universe_count = (
+        len(auto_engine.universe_tickers)
+        if hasattr(auto_engine, "universe_tickers")
+        else 538
+    )
+    st.markdown(f"#### ⚡ {universe_count}-Universe Multi-Asset Capital Allocator")
     ctrl_col1, ctrl_col2, ctrl_col3 = st.columns([2, 1, 1])
     with ctrl_col1:
         st.markdown(
-            """
+            f"""
             <div class="glass-card">
-                <b>104-Universe Capital Engine:</b>
+                <b>{universe_count}-Universe Capital Engine:</b>
                 <ul>
-                    <li><b>Alpha Discovery:</b> Scans all 104 S&P stocks, ranking by 4-Agent Committee Quorum (>60%).</li>
+                    <li><b>Alpha Discovery:</b> Scans all {universe_count} S&P stocks, ranking by 4-Agent Committee Quorum (>60%).</li>
                     <li><b>Kelly Distribution:</b> Allocates available capital proportionally to probability & reward/risk.</li>
                     <li><b>2-Stage Profit Scaling:</b> Takes +50% profit at +2.5 ATR, locks stop at Breakeven, and lets runners target +4.5 ATR.</li>
                 </ul>
@@ -109,10 +114,10 @@ def render_autonomous_trader_workspace(selected_ticker: str):
                 "🚀 Scan & Deploy",
                 use_container_width=True,
                 type="primary",
-                help="Scans 104 tickers and deploys Kelly capital into top setups.",
+                help=f"Scans {universe_count} tickers and deploys Kelly capital into top setups.",
             ):
                 with st.spinner(
-                    f"Scanning 104 universe assets and executing top Kelly setups (Max: {max_slots} slots)..."
+                    f"Scanning {universe_count} universe assets and executing top Kelly setups (Max: {max_slots} slots)..."
                 ):
                     cycle_res = auto_engine.run_autonomous_cycle(
                         max_concurrent_positions=max_slots
@@ -142,7 +147,7 @@ def render_autonomous_trader_workspace(selected_ticker: str):
                             )
                         else:
                             st.info(
-                                f"🛡️ Scanned 104 assets in {elapsed}s. 4-Agent Committee preserved capital (No high-conviction setup passed the 2-vote quorum on this candle)."
+                                f"🛡️ Scanned {universe_count} assets in {elapsed}s. 4-Agent Committee preserved capital (No high-conviction setup passed the 2-vote quorum on this candle)."
                             )
                     st.rerun()
         with btn_col_b:

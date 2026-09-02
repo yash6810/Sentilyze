@@ -193,7 +193,7 @@ def render_portfolio_workspace(selected_ticker: str):
                 x=unified_df.index,
                 y=unified_df["total"],
                 mode="lines",
-                name="Sentilyze 104-Asset Risk Parity Fund",
+                name="Sentilyze S&P Multi-Asset Risk Parity Fund",
                 line=dict(color="#10B981", width=2.5),
                 fill="tozeroy",
                 fillcolor="rgba(16, 185, 129, 0.08)",
@@ -223,7 +223,7 @@ def render_portfolio_workspace(selected_ticker: str):
         st.plotly_chart(fig_equity, use_container_width=True)
 
     # =========================================================================
-    # 3. BUILD SYSTEMATIC METRICS DATAFRAME FOR ALL 104 ASSETS (WITH COMPANY NAMES)
+    # 3. BUILD SYSTEMATIC METRICS DATAFRAME FOR ALL PORTFOLIO ASSETS (WITH COMPANY NAMES)
     # =========================================================================
     records = []
     for ticker, df in portfolios.items():
