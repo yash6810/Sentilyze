@@ -16,18 +16,18 @@ license: apache-2.0
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black-000000?style=for-the-badge&logo=python&logoColor=white)](https://github.com/psf/black)
-[![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-173%20Tests%20Passing-10B981?style=for-the-badge&logo=github-actions&logoColor=white)](.github/workflows/)
+[![CI/CD Pipeline](https://img.shields.io/badge/CI%2FCD-240%2B%20Tests%20Passing-10B981?style=for-the-badge&logo=github-actions&logoColor=white)](.github/workflows/)
 [![Open In Colab](https://img.shields.io/badge/Google%20Colab-1--Click%20Demo-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb)
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces%20Live%20App-yellow?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co/spaces/clash1462/Sentilyze)
-[![Streamlit Interface](https://img.shields.io/badge/Mission%20Control-Streamlit%20Live-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://sentilyze.streamlit.app/)
+[![Streamlit Interface](https://img.shields.io/badge/Mission%20Control-23%20Workspaces%20Live-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://sentilyze.streamlit.app/)
 [![Discord Alerts](https://img.shields.io/badge/Live%20Alerts-Discord%20Hub-5865F2?style=for-the-badge&logo=discord&logoColor=white)](src/alerts.py)
-[![ML Framework](https://img.shields.io/badge/ML-XGBoost%20%2B%20FinBERT-F59E0B?style=for-the-badge&logo=scikit-learn&logoColor=white)](src/modeling.py)
+[![ML Framework](https://img.shields.io/badge/ML-XGBoost%20%2B%20FinBERT%20%2B%20PyTorch%20RL-F59E0B?style=for-the-badge&logo=scikit-learn&logoColor=white)](src/modeling.py)
 
 <p align="center">
-  <b>A 24/7 Autonomous Hybrid Quantitative Multi-Agent Trading Engine combining Deep Transformer NLP (FinBERT), Walk-Forward Machine Learning (XGBoost), 4-Agent Quorum Consensus, and Fractional Kelly Sizing across US Equities.</b>
+  <b>A 24/7 Autonomous Hybrid Quantitative Multi-Agent Trading Engine combining Deep Transformer NLP (FinBERT), Walk-Forward Machine Learning (XGBoost), 4-Agent Quorum Consensus, Deep Reinforcement Learning (PyTorch Continuous Actor-Critic), Genetic Strategy Incubation, and Fractional Kelly Sizing across US Equities.</b>
 </p>
 
-[**🚀 Live App**](https://sentilyze.streamlit.app/) • [**⚡ 1-Click Colab**](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb) • [**⚡ Quickstart**](#-quickstart-guide) • [**🏛️ Multi-Agent Committee**](#-grounded-4-agent-deliberation-council) • [**🎯 Staged ATR Scaling**](#-asymmetric-risk-management--staged-profit-scaling) • [**📊 Empirical Benchmarks**](#-empirical-alpha-attribution--benchmarks)
+[**🚀 Live App**](https://sentilyze.streamlit.app/) • [**⚡ 1-Click Colab**](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb) • [**⚡ Quickstart**](#-quickstart-guide) • [**🏛️ Multi-Agent Committee**](#-grounded-4-agent-deliberation-council) • [**🎯 Staged ATR Scaling**](#-asymmetric-risk-management--staged-profit-scaling) • [**📂 23 Workspaces Matrix**](#-interactive-streamlit-app--23-mission-control-workspaces)
 
 </div>
 
@@ -42,6 +42,7 @@ Traditional algorithmic trading systems rely either on rigid technical indicator
 3. 📐 **Fractional Kelly Capital Allocation**: Eliminates arbitrary position sizing by dynamically calculating empirical mathematical edge: $f^* = \frac{p \cdot b - (1 - p)}{b}$.
 4. 🎯 **2-Stage Staged Profit Scaler**: Banks $+50\%$ cash at $+2.5\times\text{ATR}$, immediately trails stop-loss to **Breakeven (Risk-Free)**, and lets runners target $+4.5\times\text{ATR}$.
 5. 🛡️ **Zero-Hallucination Guarantee**: Unlike conversational LLM trading demos that hallucinate stock prices and metrics, Sentilyze uses **100% deterministic mathematical valuations** (Piotroski F-Score, Altman Z-Score, 2-Year Beneish M-Score, and Volume Point-of-Control).
+6. 🎙️ **Pre-Market AI Audio Intelligence**: Automatically synthesizes broadcast-quality audio briefs and Wall Street research memoranda before the 9:30 AM opening bell.
 
 ---
 
@@ -78,12 +79,6 @@ Traditional algorithmic trading systems rely either on rigid technical indicator
                                                  │ Stop-Loss (-1.5 ATR)    │
                                                  └─────────────────────────┘
 ```
-
-### Specialist Breakdown:
-1. **📈 Agent 1: Technical Alpha Specialist**: Evaluates price momentum, RSI pullbacks, 21-day moving averages, and structural uptrends above the 200-day SMA.
-2. **🧠 Agent 2: NLP Sentiment Specialist**: Extracts live headlines and scores semantic market optimism using HuggingFace's domain-specific `ProsusAI/finbert` transformer.
-3. **🏛️ Agent 3: Forensic & Valuation Auditor**: Analyzes balance sheets to compute Piotroski F-Scores ($\ge 6$), Altman Z-Scores ($> 2.99$), Beneish manipulation metrics, and DCF margin of safety.
-4. **🛡️ Agent 4: Chief Risk Officer (Arbitrator)**: Enforces macro volatility gates (halts trading if VIX spikes $> 26.0$), requires a 2-vote quorum, and computes Fractional Kelly capital allocation.
 
 ---
 
@@ -126,18 +121,6 @@ python sentilyze.py NVDA
 python sentilyze.py portfolio
 ```
 
-```text
-┌────────────────────────────────────────────────────────────────────────────┐
-│ TICKER: NVDA     │ SPOT PRICE: $218.82    │ DATE: 2026-09-01               │
-├────────────────────────────────────────────────────────────────────────────┤
-│ COUNCIL VERDICT: 🟡 CAUTIOUS SCALE-IN (Quorum Approved)                    │
-│ CONSENSUS CONVICTION: 70.7% │ FRACTIONAL KELLY SIZING: 4.3% of capital     │
-├────────────────────────────────────────────────────────────────────────────┤
-│ 🎯 TAKE-PROFIT 1 (+2.5 ATR): $235.23  │ 🛡️ STOP-LOSS (-1.5 ATR): $208.97   │
-│ 🏆 TAKE-PROFIT 2 (+4.5 ATR): $248.36  │ ⚡ 1st TARGET ACTION: Bank 50% & SL │
-└────────────────────────────────────────────────────────────────────────────┘
-```
-
 ---
 
 ### 4. Launch the Streamlit Mission Control
@@ -147,47 +130,42 @@ streamlit run app.py
 
 ---
 
-### 5. Run Automated Multi-Agent Backtests & Full Test Suite
+### 5. Run Full Test Suite (240+ Unit Tests)
 ```bash
-# Run multi-ticker parallel training
-python train.py --all --parallel
-
-# Run full test suite (171 tests passing)
 pytest tests/ -v
 ```
 
 ---
 
-## 🎯 Asymmetric Risk Management & Staged Profit Scaling
+## 🖥️ Interactive Streamlit App & 23 Mission Control Workspaces
 
-The platform’s edge is anchored in **asymmetric risk-reward mechanics**:
+The Streamlit interface (`app.py`) provides an institutional 23-workspace suite:
 
-$$\text{Risk-to-Reward Ratio} = \frac{+2.5\times\text{ATR} \text{ (Take Profit 1)}}{-1.5\times\text{ATR} \text{ (Stop Loss)}} = 1.67\text{ : }1.0$$
-
-```
-Entry Price ($100.00) ────────► +2.5 ATR ($106.00): Bank +50% Profit & Move SL to Breakeven ($100.00)
-                              └────────► +4.5 ATR ($112.00): Harvest Remaining 50% Runner
-                              └────────► -1.5 ATR ($96.50): Initial Protective Stop-Loss
-```
-
-- **Stage 1 (Profit Banking)**: When the price reaches $+2.5\times\text{ATR}$, the engine automatically liquidates $50\%$ of the position, locking in cash gains.
-- **Breakeven Trailing Ratchet**: Immediately upon Stage 1 completion, the Stop-Loss is automatically adjusted to the exact entry price — converting the trade into a **completely risk-free position**.
-- **Stage 2 (Runner Harvesting)**: The remaining $50\%$ runs until peak momentum exhaustion or $+4.5\times\text{ATR}$.
-
----
-
-## 🖥️ Interactive Streamlit App & Workspaces
-
-The Streamlit interface (`app.py`) provides an institutional 8-workspace suite:
-
-- **Workspace 1: 🎯 Live Predictions**: Instant momentum signal with SHAP explainability.
-- **Workspace 2: 📊 Quantitative Dashboard**: Real-time technical indicators, FinBERT polarity, and financial statements.
-- **Workspace 3: 🤖 24/7 Autonomous Broker**: Live portfolio ledger, Doubling Target ($100k → $200k) tracker, dedicated 1-bot-per-stock Sentinel Swarm, and manual trigger controls.
-- **Workspace 4: 📈 Backtest & Walk-Forward**: Interactive equity curves, drawdowns, and Sharpe benchmarks.
-- **Workspace 5: 🔬 Signal Attribution**: Monte Carlo random-entry baselines vs ML edge decomposition.
-- **Workspace 6: 🏛️ Multi-Agent Deliberations**: Full round-table transcripts and CRO official votes.
-- **Workspace 7: 🧠 XAI & SHAP Waterfall**: Interactive Plotly waterfall decompositions for individual trades.
-- **Workspace 8: 💬 Discord Command Center**: Real-time webhook configuration and live channel alerts.
+| # | Workspace | Domain & Technology |
+|---|---|---|
+| **1** | **🎯 Live Momentum Predictions** | FinBERT NLP + XGBoost Walk-Forward momentum predictions |
+| **2** | **🏛️ Multi-Agent Deliberations** | 4-agent round-table quorum votes and Chief Risk Officer vetoes |
+| **3** | **🤖 24/7 Autonomous Trader** | Real-time position tracking, multi-stage ATR scaling, and fill ledger |
+| **4** | **🌐 Alternative Data & Macro Intelligence** | Congressional disclosures, Google Search trends, and Macro Yields |
+| **5** | **💼 Portfolio Kelly Sizing & Risk Parity** | Fractional Kelly, Hierarchical Risk Parity, and Monte Carlo |
+| **6** | **📈 Backtesting & Regime Stress Lab** | Non-overlapping walk-forward splits and dynamic regime leverage |
+| **7** | **🧠 Explainable AI (XAI) & SHAP** | TreeExplainer waterfall attributions and beeswarm summary plots |
+| **8** | **⚡ Implied Volatility Surface & GEX** | Black-Scholes surfaces, Put/Call ratios, and Net Dealer Gamma |
+| **9** | **🌅 Opening Range Breakout (ORB)** | 9:30–10:00 AM volatility expansion breakouts with ATR stops |
+| **10** | **🕸️ Market Graph Neural Network (GNN)** | Inter-asset contagion, sector graphs, and spectral centrality |
+| **11** | **🌪️ Crisis Stress Testing Lab** | 2008 GFC, 2020 COVID, and 2022 Fed rate hike shock simulations |
+| **12** | **🕵️ Forensic Accounting & Beneish M-Score** | Beneish M-Score (earnings manipulation) & Altman Z-Score |
+| **13** | **🏛️ DCF Intrinsic Valuation** | 3-scenario Monte Carlo Discounted Cash Flow and Margin of Safety |
+| **14** | **👑 25-Paper Tournament Arena** | Multi-strategy tournament arena, ADWIN drift, and Page-Hinkley test |
+| **15** | **🧬 Portfolio Diversity & Correlation Grader** | $N \times N$ correlation matrix, PCA Shannon entropy $N_{\text{eff}}$, and $A+$ to $D$ score |
+| **16** | **🏛️ Smart-Money Executive & Insider Radar** | SEC Form 4 cluster buy tracking and 0–100 Insider Conviction Index |
+| **17** | **📊 Institutional Risk & Alpha Factsheet** | 30+ hedge fund ratios (Sortino, Calmar, Omega) and Monthly Returns grid |
+| **18** | **🤖 Deep RL Autonomous Policy Agent** | PyTorch continuous Actor-Critic policy with Sortino-penalized rewards |
+| **19** | **🔬 Evolutionary Strategy Incubator** | Genetic Algorithm breeding, 3-Zone In/Out-of-sample tests, Strategy Vault |
+| **20** | **🔄 Market-Neutral Cointegration & Stat-Arb** | Engle-Granger ADF tests, Ornstein-Uhlenbeck half-life, $\pm 2.0\sigma$ Z-scores |
+| **21** | **🎙️ AI Pre-Market Morning Audio Briefing** | Synthesized speech podcast audio (.mp3) + Wall Street research memo |
+| **22** | **⚡ Automated Broker Webhooks & API Gateway** | Alpaca / IBKR bracket order payload generator with HMAC-SHA256 signatures |
+| **23** | **🌐 Real-Time Macro Liquidity & Yield Radar** | 10Y-2Y Treasury spread inversion signals and Fed Net Liquidity index |
 
 ---
 

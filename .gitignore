@@ -57,5 +57,11 @@ Sentilyze_Research_Paper.md
 memory.md
 /experiments/
 .gemini/
-catboost_info/
 /data/raw/
+/data/processed/
+/data/
+catboost_info/
+graphify-out/cache/
+graphify-out/2026-*/
+
+
