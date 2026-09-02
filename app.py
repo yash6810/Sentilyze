@@ -30,6 +30,8 @@ from src.ui.ws_options_surface import render_options_surface_workspace
 from src.ui.ws_deep_quant import render_deep_quant_workspace
 from src.ui.ws_quantum_tournament import render_quantum_tournament_workspace
 from src.ui.ws_portfolio_diversity import render_portfolio_diversity_workspace
+from src.ui.ws_insider_radar import render_insider_radar_workspace
+from src.ui.ws_performance_factsheet import render_performance_factsheet_workspace
 from src.ui.components import get_market_status
 from src.config import COMPANY_NAMES
 
@@ -121,6 +123,8 @@ def main():
         "🏛️ 13. DCF Intrinsic Valuation": "dcf",
         "👑 14. 25-Paper Tournament & Deep Learning Shield": "quantum_tournament",
         "🧬 15. Portfolio Diversity & Correlation Grader": "portfolio_diversity",
+        "🏛️ 16. Smart-Money Executive & Insider Radar": "insider_radar",
+        "📊 17. Institutional Risk & Alpha Factsheet": "performance_factsheet",
     }
 
     selected_ws_label = st.sidebar.radio(
@@ -168,6 +172,10 @@ def main():
         render_quantum_tournament_workspace(selected_ticker)
     elif ws_key == "portfolio_diversity":
         render_portfolio_diversity_workspace()
+    elif ws_key == "insider_radar":
+        render_insider_radar_workspace(selected_ticker)
+    elif ws_key == "performance_factsheet":
+        render_performance_factsheet_workspace()
 
 
 if __name__ == "__main__":
