@@ -78,8 +78,8 @@ def safe_path_join(base_dir: str, *paths: str) -> str:
 
 def get_market_timestamp(dt=None) -> str:
     """
-    Returns a clean, human-readable dual US Eastern & Local IST timestamp with AM/PM.
-    Example: 'Sep 02, 2026 • 09:35 AM EDT (07:05 PM IST)'
+    Returns a clean, human-readable Indian Standard Time (IST) timestamp with 12-hour AM/PM format.
+    Example: 'Sep 02, 2026 • 01:49 PM IST (04:19 AM EDT)'
     """
     from datetime import datetime, timezone
     import zoneinfo
@@ -89,10 +89,10 @@ def get_market_timestamp(dt=None) -> str:
         utc_dt = utc_dt.replace(tzinfo=timezone.utc)
 
     try:
-        ny_dt = utc_dt.astimezone(zoneinfo.ZoneInfo("America/New_York"))
         ist_dt = utc_dt.astimezone(zoneinfo.ZoneInfo("Asia/Kolkata"))
-        ny_str = ny_dt.strftime("%b %d, %Y • %I:%M %p %Z")
-        ist_str = ist_dt.strftime("%I:%M %p IST")
-        return f"{ny_str} ({ist_str})"
+        ny_dt = utc_dt.astimezone(zoneinfo.ZoneInfo("America/New_York"))
+        ist_str = ist_dt.strftime("%b %d, %Y • %I:%M %p IST")
+        ny_str = ny_dt.strftime("%I:%M %p EDT")
+        return f"{ist_str} ({ny_str})"
     except Exception:
-        return utc_dt.strftime("%b %d, %Y • %I:%M %p UTC")
+        return utc_dt.strftime("%b %d, %Y • %I:%M %p IST")
