@@ -28,6 +28,7 @@ from src.ui.ws_backtesting import render_backtesting_workspace
 from src.ui.ws_xai_shap import render_xai_workspace
 from src.ui.ws_options_surface import render_options_surface_workspace
 from src.ui.ws_deep_quant import render_deep_quant_workspace
+from src.ui.ws_quantum_tournament import render_quantum_tournament_workspace
 from src.ui.components import get_market_status
 from src.config import COMPANY_NAMES
 
@@ -117,6 +118,7 @@ def main():
         "🌪️ 11. Black Swan Crisis Simulator": "stress",
         "🕵️ 12. Forensic Beneish M-Score": "forensic",
         "🏛️ 13. DCF Intrinsic Valuation": "dcf",
+        "👑 14. 25-Paper Quantum Tournament & Shield": "quantum_tournament",
     }
 
     selected_ws_label = st.sidebar.radio(
@@ -160,6 +162,8 @@ def main():
         render_options_surface_workspace(selected_ticker)
     elif ws_key in ["statarb", "gnn", "stress", "forensic", "dcf"]:
         render_deep_quant_workspace(selected_ticker, mode=ws_key)
+    elif ws_key == "quantum_tournament":
+        render_quantum_tournament_workspace(selected_ticker)
 
 
 if __name__ == "__main__":
