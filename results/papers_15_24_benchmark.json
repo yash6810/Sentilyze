@@ -1,0 +1,169 @@
+{
+  "paper_16_cusum": {
+    "paper": "Paper 16 - CUSUM (Page 1954)",
+    "ticker_monitored": "NVDA",
+    "n_observations": 2511,
+    "n_alarms": 60,
+    "alarm_rate_pct": 2.39,
+    "latency_per_obs_ns": 2478.7,
+    "total_latency_ms": 6.22,
+    "complexity": "O(1) per observation"
+  },
+  "paper_17_ewma": {
+    "paper": "Paper 17 - EWMA (RiskMetrics 1996)",
+    "n_assets": 7,
+    "n_updates": 2481,
+    "alert_days": 114,
+    "alert_rate_pct": 4.59,
+    "mean_avg_correlation": 0.4957,
+    "max_avg_correlation": 0.8873,
+    "latency_per_obs_ns": 179408.0,
+    "total_latency_ms": 445.11,
+    "complexity": "O(1) per observation per pair"
+  },
+  "paper_18_grossman_zhou": {
+    "paper": "Paper 18 - Grossman-Zhou (1993)",
+    "ticker": "NVDA",
+    "total_return_pct": 142.99,
+    "annualized_return_pct": 9.32,
+    "max_drawdown_pct": 11.37,
+    "drawdown_tolerance_pct": 15.0,
+    "constraint_respected": true,
+    "sharpe_ratio": 1.23,
+    "avg_risky_weight": 0.1547,
+    "latency_per_obs_ns": 37321.8,
+    "total_latency_ms": 93.71,
+    "complexity": "O(1) per rebalance"
+  },
+  "paper_22_page_hinkley": {
+    "paper": "Paper 22 - Page-Hinkley (1954/1971)",
+    "ticker_monitored": "NVDA",
+    "n_observations": 2511,
+    "n_drifts_detected": 2,
+    "drift_rate_pct": 0.08,
+    "latency_per_obs_ns": 2893.7,
+    "total_latency_ms": 7.27,
+    "complexity": "O(1) per observation"
+  },
+  "paper_15_hmm": {
+    "paper": "Paper 15 - Gaussian HMM (Hamilton 1989)",
+    "ticker": "NVDA",
+    "n_observations": 2511,
+    "regime_distribution": {
+      "Crisis": 1929,
+      "Normal": 545,
+      "Bull": 37
+    },
+    "crisis_days": 1929,
+    "crisis_pct": 76.82,
+    "latency_per_obs_ns": 38012.3,
+    "total_latency_ms": 95.45,
+    "complexity": "O(T * K^2)"
+  },
+  "paper_20_cppi": {
+    "final_value": 11592867.57,
+    "total_return_pct": 11492.87,
+    "max_drawdown_pct": 66.36,
+    "floor_value": 85000.0,
+    "floor_breached": false,
+    "avg_risky_weight_pct": 98.92,
+    "paper": "Paper 20 - CPPI (Black-Jones 1987)",
+    "ticker": "NVDA",
+    "total_latency_ms": 96.06,
+    "complexity": "O(1) per rebalance"
+  },
+  "paper_21_adwin": {
+    "paper": "Paper 21 - ADWIN (Bifet-Gavalda 2007)",
+    "ticker_monitored": "NVDA",
+    "n_observations": 2511,
+    "n_drifts_detected": 0,
+    "drift_rate_pct": 0.0,
+    "final_window_size": 2511,
+    "latency_per_obs_ns": 207963.8,
+    "total_latency_ms": 522.2,
+    "complexity": "O(log W) amortized"
+  },
+  "paper_23_risk_kelly": {
+    "paper": "Paper 23 - Risk-Constrained Kelly (Busseti-Boyd 2016)",
+    "n_assets": 7,
+    "weights": {
+      "NVDA": 0.0102,
+      "AAPL": 0.0071,
+      "MSFT": 0.0,
+      "GOOGL": 0.0018,
+      "META": 0.0,
+      "AMZN": 0.0,
+      "TSLA": 0.0028
+    },
+    "log_growth_rate": 0.010257,
+    "expected_return": 0.0103,
+    "portfolio_sharpe": 1.33,
+    "variance_used_pct": 100.0,
+    "solver_converged": true,
+    "total_latency_ms": 27.69,
+    "complexity": "O(d^3) convex solver"
+  },
+  "paper_19_cdar": {
+    "paper": "Paper 19 - CDaR (Chekhlov-Uryasev-Zabarankin 2003)",
+    "n_assets": 7,
+    "weights": {
+      "NVDA": 0.0969,
+      "AAPL": 0.2248,
+      "MSFT": 0.2059,
+      "GOOGL": 0.1738,
+      "META": 0.0763,
+      "AMZN": 0.1249,
+      "TSLA": 0.0974
+    },
+    "portfolio_cdar": 0.3749,
+    "annualized_return_pct": 32.14,
+    "annualized_volatility_pct": 27.13,
+    "asset_cdars": {
+      "NVDA": 0.688666,
+      "AAPL": 0.296766,
+      "MSFT": 0.323912,
+      "GOOGL": 0.383773,
+      "META": 0.874007,
+      "AMZN": 0.534013,
+      "TSLA": 0.684569
+    },
+    "total_latency_ms": 1.99,
+    "complexity": "O(T * d) LP"
+  },
+  "paper_24_dcc": {
+    "paper": "Paper 24 - DCC (Engle 2002)",
+    "n_assets": 7,
+    "n_observations": 2511,
+    "final_avg_correlation": 0.2199,
+    "correlation_breakdown_alert": false,
+    "mean_avg_correlation": 0.4773,
+    "max_avg_correlation": 0.8108,
+    "min_avg_correlation": 0.1877,
+    "garch_volatilities": {
+      "NVDA": 50.89,
+      "AAPL": 30.53,
+      "MSFT": 41.4,
+      "GOOGL": 34.62,
+      "META": 40.0,
+      "AMZN": 44.51,
+      "TSLA": 47.65
+    },
+    "total_latency_ms": 179.99,
+    "complexity": "O(d^2 * T)"
+  },
+  "_summary": {
+    "total_papers": 10,
+    "data_period": "2y",
+    "n_trading_days": 2511,
+    "n_assets": 7,
+    "tickers": [
+      "NVDA",
+      "AAPL",
+      "MSFT",
+      "GOOGL",
+      "META",
+      "AMZN",
+      "TSLA"
+    ]
+  }
+}
