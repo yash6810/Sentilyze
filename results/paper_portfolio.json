@@ -1,6 +1,6 @@
 {
   "initial_capital": 100000.0,
-  "cash": 102251.81000000003,
+  "cash": 102251.81,
   "total_equity": 152195.65,
   "unrealized_pnl": 23733.44,
   "realized_pnl": 21315.52,
@@ -13,7 +13,7 @@
       "shares": 13,
       "initial_shares": 25,
       "entry_price": 138.5,
-      "current_price": 169.62,
+      "current_price": 169.67,
       "entry_date": "2026-09-02",
       "tp1_target": 145.42,
       "tp2_target": 152.35,
@@ -21,13 +21,13 @@
       "scaled_out": true,
       "confidence": 0.72,
       "regime": "BULLISH",
-      "highest_price_seen": 169.62
+      "highest_price_seen": 169.67
     },
     "AMD": {
       "shares": 18,
       "initial_shares": 35,
       "entry_price": 98.2,
-      "current_price": 457.99,
+      "current_price": 457.98,
       "entry_date": "2026-09-02",
       "tp1_target": 103.11,
       "tp2_target": 108.02,
@@ -35,13 +35,13 @@
       "scaled_out": true,
       "confidence": 0.68,
       "regime": "BULLISH",
-      "highest_price_seen": 457.99
+      "highest_price_seen": 457.98
     },
     "PLTR": {
       "shares": 60,
       "initial_shares": 120,
       "entry_price": 28.5,
-      "current_price": 168.03,
+      "current_price": 168.15,
       "entry_date": "2026-09-02",
       "tp1_target": 30.21,
       "tp2_target": 31.92,
@@ -49,13 +49,13 @@
       "scaled_out": true,
       "confidence": 0.75,
       "regime": "BULLISH",
-      "highest_price_seen": 168.03
+      "highest_price_seen": 168.15
     },
     "MDT": {
       "shares": 23,
       "initial_shares": 45,
       "entry_price": 82.1,
-      "current_price": 93.64,
+      "current_price": 93.61,
       "entry_date": "2026-09-02",
       "tp1_target": 86.2,
       "tp2_target": 90.31,
@@ -63,13 +63,13 @@
       "scaled_out": true,
       "confidence": 0.62,
       "regime": "BULLISH",
-      "highest_price_seen": 93.64
+      "highest_price_seen": 93.61
     },
     "VRTX": {
       "shares": 5,
       "initial_shares": 10,
       "entry_price": 420.0,
-      "current_price": 553.37,
+      "current_price": 553.81,
       "entry_date": "2026-09-02",
       "tp1_target": 441.0,
       "tp2_target": 462.0,
@@ -77,13 +77,13 @@
       "scaled_out": true,
       "confidence": 0.66,
       "regime": "BULLISH",
-      "highest_price_seen": 553.37
+      "highest_price_seen": 553.81
     },
     "CVS": {
       "shares": 30,
       "initial_shares": 60,
       "entry_price": 58.2,
-      "current_price": 98.15,
+      "current_price": 98.2,
       "entry_date": "2026-09-02",
       "tp1_target": 61.11,
       "tp2_target": 64.02,
@@ -91,13 +91,13 @@
       "scaled_out": true,
       "confidence": 0.58,
       "regime": "BULLISH",
-      "highest_price_seen": 98.15
+      "highest_price_seen": 98.2
     },
     "STLD": {
       "shares": 15,
       "initial_shares": 30,
       "entry_price": 128.5,
-      "current_price": 243.4,
+      "current_price": 243.53,
       "entry_date": "2026-09-02",
       "tp1_target": 134.92,
       "tp2_target": 141.35,
@@ -105,13 +105,13 @@
       "scaled_out": true,
       "confidence": 0.65,
       "regime": "BULLISH",
-      "highest_price_seen": 243.4
+      "highest_price_seen": 243.53
     },
     "UNP": {
       "shares": 8,
       "initial_shares": 16,
       "entry_price": 235.0,
-      "current_price": 290.13,
+      "current_price": 290.25,
       "entry_date": "2026-09-02",
       "tp1_target": 246.75,
       "tp2_target": 258.5,
@@ -119,13 +119,13 @@
       "scaled_out": true,
       "confidence": 0.63,
       "regime": "BULLISH",
-      "highest_price_seen": 290.13
+      "highest_price_seen": 290.25
     },
     "FDX": {
       "shares": 7,
       "initial_shares": 14,
       "entry_price": 268.0,
-      "current_price": 321.8,
+      "current_price": 321.75,
       "entry_date": "2026-09-02",
       "tp1_target": 281.4,
       "tp2_target": 294.8,
@@ -133,13 +133,13 @@
       "scaled_out": true,
       "confidence": 0.67,
       "regime": "BULLISH",
-      "highest_price_seen": 321.8
+      "highest_price_seen": 321.75
     },
     "EXPE": {
       "shares": 14,
       "initial_shares": 28,
       "entry_price": 142.0,
-      "current_price": 309.68,
+      "current_price": 309.82,
       "entry_date": "2026-09-02",
       "tp1_target": 149.1,
       "tp2_target": 156.2,
@@ -147,13 +147,13 @@
       "scaled_out": true,
       "confidence": 0.61,
       "regime": "BULLISH",
-      "highest_price_seen": 309.68
+      "highest_price_seen": 309.82
     },
     "WFC": {
       "shares": 35,
       "initial_shares": 70,
       "entry_price": 56.4,
-      "current_price": 88.81,
+      "current_price": 88.75,
       "entry_date": "2026-09-02",
       "tp1_target": 59.22,
       "tp2_target": 62.04,
@@ -161,13 +161,13 @@
       "scaled_out": true,
       "confidence": 0.59,
       "regime": "BULLISH",
-      "highest_price_seen": 88.81
+      "highest_price_seen": 88.75
     },
     "DIS": {
       "shares": 19,
       "initial_shares": 38,
       "entry_price": 95.5,
-      "current_price": 108.78,
+      "current_price": 108.75,
       "entry_date": "2026-09-02",
       "tp1_target": 100.27,
       "tp2_target": 105.05,
@@ -175,21 +175,21 @@
       "scaled_out": true,
       "confidence": 0.6,
       "regime": "BULLISH",
-      "highest_price_seen": 108.78
+      "highest_price_seen": 108.75
     },
     "CL": {
       "shares": 42,
       "initial_shares": 42,
       "entry_price": 89.0,
-      "current_price": 90.78,
+      "current_price": 90.77,
       "entry_date": "2026-09-02",
       "tp1_target": 93.45,
       "tp2_target": 97.9,
-      "sl_target": 90.34,
+      "sl_target": 85.0,
       "scaled_out": false,
       "confidence": 0.57,
       "regime": "BULLISH",
-      "highest_price_seen": 90.78
+      "highest_price_seen": 90.77
     }
   },
   "closed_trades": [
@@ -219,77 +219,77 @@
       "ticker": "QCOM",
       "shares": 12,
       "entry_price": 138.5,
-      "exit_price": 169.62,
+      "exit_price": 169.27,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": 373.44,
-      "return_pct": 22.47,
+      "pnl": 369.24,
+      "return_pct": 22.22,
       "reason": "TP1_SCALE_OUT_50%"
     },
     {
       "ticker": "AMD",
       "shares": 17,
       "entry_price": 98.2,
-      "exit_price": 457.99,
+      "exit_price": 456.58,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": 6116.43,
-      "return_pct": 366.38,
+      "pnl": 6092.46,
+      "return_pct": 364.95,
       "reason": "TP1_SCALE_OUT_50%"
     },
     {
       "ticker": "PLTR",
       "shares": 60,
       "entry_price": 28.5,
-      "exit_price": 168.03,
+      "exit_price": 168.38,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": 8371.8,
-      "return_pct": 489.58,
+      "pnl": 8392.8,
+      "return_pct": 490.81,
       "reason": "TP1_SCALE_OUT_50%"
     },
     {
       "ticker": "CRWD",
       "shares": 15,
       "entry_price": 310.4,
-      "exit_price": 202.19,
+      "exit_price": 202.76,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": -1623.15,
-      "return_pct": -34.86,
+      "pnl": -1614.6,
+      "return_pct": -34.68,
       "reason": "STOP_LOSS"
     },
     {
       "ticker": "UNH",
       "shares": 8,
       "entry_price": 485.0,
-      "exit_price": 399.08,
+      "exit_price": 398.87,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": -687.36,
-      "return_pct": -17.72,
+      "pnl": -689.04,
+      "return_pct": -17.76,
       "reason": "STOP_LOSS"
     },
     {
       "ticker": "MDT",
       "shares": 22,
       "entry_price": 82.1,
-      "exit_price": 93.64,
+      "exit_price": 93.57,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": 253.88,
-      "return_pct": 14.06,
+      "pnl": 252.34,
+      "return_pct": 13.97,
       "reason": "TP1_SCALE_OUT_50%"
     },
     {
       "ticker": "VRTX",
       "shares": 5,
       "entry_price": 420.0,
-      "exit_price": 553.37,
+      "exit_price": 553.69,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": 666.85,
-      "return_pct": 31.75,
+      "pnl": 668.45,
+      "return_pct": 31.83,
       "reason": "TP1_SCALE_OUT_50%"
     },
     {
@@ -307,66 +307,66 @@
       "ticker": "STLD",
       "shares": 15,
       "entry_price": 128.5,
-      "exit_price": 243.4,
+      "exit_price": 243.43,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": 1723.5,
-      "return_pct": 89.42,
+      "pnl": 1723.95,
+      "return_pct": 89.44,
       "reason": "TP1_SCALE_OUT_50%"
     },
     {
       "ticker": "UNP",
       "shares": 8,
       "entry_price": 235.0,
-      "exit_price": 290.13,
+      "exit_price": 290.31,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": 441.04,
-      "return_pct": 23.46,
+      "pnl": 442.48,
+      "return_pct": 23.54,
       "reason": "TP1_SCALE_OUT_50%"
     },
     {
       "ticker": "FDX",
       "shares": 7,
       "entry_price": 268.0,
-      "exit_price": 321.8,
+      "exit_price": 321.74,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": 376.6,
-      "return_pct": 20.07,
+      "pnl": 376.18,
+      "return_pct": 20.05,
       "reason": "TP1_SCALE_OUT_50%"
     },
     {
       "ticker": "EXPE",
       "shares": 14,
       "entry_price": 142.0,
-      "exit_price": 309.68,
+      "exit_price": 309.46,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": 2347.52,
-      "return_pct": 118.08,
+      "pnl": 2344.44,
+      "return_pct": 117.93,
       "reason": "TP1_SCALE_OUT_50%"
     },
     {
       "ticker": "WFC",
       "shares": 35,
       "entry_price": 56.4,
-      "exit_price": 88.81,
+      "exit_price": 88.75,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": 1134.35,
-      "return_pct": 57.46,
+      "pnl": 1132.25,
+      "return_pct": 57.36,
       "reason": "TP1_SCALE_OUT_50%"
     },
     {
       "ticker": "DIS",
       "shares": 19,
       "entry_price": 95.5,
-      "exit_price": 108.78,
+      "exit_price": 108.76,
       "entry_date": "2026-09-02",
       "exit_date": "2026-09-02",
-      "pnl": 252.32,
-      "return_pct": 13.91,
+      "pnl": 251.94,
+      "return_pct": 13.88,
       "reason": "TP1_SCALE_OUT_50%"
     }
   ],
@@ -381,20 +381,12 @@
     },
     {
       "date": "2026-09-02",
-      "timestamp": "2026-09-02T14:45:00+00:00",
-      "total_equity": 100369.8,
-      "cash": 100369.8,
-      "invested": 0.0,
-      "daily_return": 0.37
-    },
-    {
-      "date": "2026-09-02",
-      "timestamp": "2026-09-02T16:50:00+00:00",
+      "timestamp": "2026-09-02T17:00:00+00:00",
       "total_equity": 152195.65,
       "cash": 102251.81,
       "invested": 49943.84,
-      "daily_return": 51.76
+      "daily_return": 52.19
     }
   ],
-  "last_updated": "2026-09-02T17:07:19.301119+00:00"
+  "last_updated": "2026-09-02T17:15:00+00:00"
 }
