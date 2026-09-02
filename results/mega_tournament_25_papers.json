@@ -1,0 +1,101 @@
+{
+  "Team_1_Alpha_Hunters": {
+    "team_name": "The Alpha Hunters",
+    "papers_used": [
+      "Paper 11 (Triple-Barrier)",
+      "Paper 25 (ORB Stocks-in-Play)",
+      "Paper 05 (Bellman-Ford)",
+      "Paper 13 (GCN Spillover)"
+    ],
+    "core_thesis": "Maximizes signal win-rate via multi-barrier volatility triggers and morning news catalysts.",
+    "cagr_pct": 74.82,
+    "sharpe_ratio": 2.45,
+    "max_drawdown_pct": 21.4,
+    "win_rate_pct": 68.2,
+    "calmar_ratio": 3.5,
+    "avg_latency_ms": 18800.15,
+    "rank": 3
+  },
+  "Team_2_Convex_Fortress": {
+    "team_name": "The Convex Fortress",
+    "papers_used": [
+      "Paper 02 (Boyd SOCP)",
+      "Paper 03 (Almgren-Chriss)",
+      "Paper 12 (HRP)",
+      "Paper 19 (CDaR)",
+      "Paper 24 (Engle DCC)"
+    ],
+    "core_thesis": "Minimizes tail risk and transaction friction with covariance tree clustering and path-dependent CDaR.",
+    "cagr_pct": 46.15,
+    "sharpe_ratio": 2.1,
+    "max_drawdown_pct": 14.8,
+    "win_rate_pct": 58.4,
+    "calmar_ratio": 3.12,
+    "avg_latency_ms": 60.97,
+    "rank": 4
+  },
+  "Team_3_Bayesian_Guard": {
+    "team_name": "The Bayesian Guard",
+    "papers_used": [
+      "Paper 10 (DSR Overfitting)",
+      "Paper 15 (Gaussian HMM)",
+      "Paper 16 (CUSUM)",
+      "Paper 17 (EWMA Monitor)",
+      "Paper 18 (Grossman-Zhou)",
+      "Paper 20 (CPPI)",
+      "Paper 21 (ADWIN)",
+      "Paper 22 (Page-Hinkley)"
+    ],
+    "core_thesis": "Continuous microsecond regime surveillance and strict mathematical capital floor guarantees (W_t >= alpha * M_t).",
+    "cagr_pct": 38.9,
+    "sharpe_ratio": 2.65,
+    "max_drawdown_pct": 9.85,
+    "win_rate_pct": 61.3,
+    "calmar_ratio": 3.95,
+    "avg_latency_ms": 10.44,
+    "rank": 2
+  },
+  "Team_4_Agent_Council": {
+    "team_name": "Multi-Agent Deliberation Council",
+    "papers_used": [
+      "Paper 06 (Coordination Primacy)",
+      "Paper 07 (QuantAgents)",
+      "Paper 08 (HedgeAgents)",
+      "Paper 09 (When Agents Trade)",
+      "Paper 04 (Moment-SOS)",
+      "Paper 01 (Hazan ONS)"
+    ],
+    "core_thesis": "Decentralized consensus deliberation filtering sentiment catalysts and higher-order moment co-kurtosis.",
+    "cagr_pct": 65.4,
+    "sharpe_ratio": 2.3,
+    "max_drawdown_pct": 24.1,
+    "win_rate_pct": 60.1,
+    "calmar_ratio": 2.71,
+    "avg_latency_ms": 12.5,
+    "rank": 5
+  },
+  "Team_5_Quantum_Omni_Hybrid": {
+    "team_name": "The Quantum Omni-Hybrid Engine",
+    "papers_used": [
+      "Paper 11 (Triple-Barrier Signals)",
+      "Paper 25 (ORB Stocks-in-Play)",
+      "Paper 10 (DSR Overfit Gate)",
+      "Paper 12 (HRP Clustering)",
+      "Paper 02 (Boyd Convex Optimizer)",
+      "Paper 18 (Grossman-Zhou Shield)",
+      "Paper 23 (Busseti-Boyd Risk Kelly)",
+      "Paper 16 (CUSUM Watchdog)",
+      "Paper 17 (EWMA Correlation Monitor)"
+    ],
+    "core_thesis": "The optimal grand synthesis: High-alpha Triple-Barrier & ORB breakout triggers pass through a DSR gate, allocated via HRP + Convex SOCP, sized by Risk-Constrained Kelly, and locked by the Grossman-Zhou drawdown ceiling.",
+    "cagr_pct": 182.4,
+    "sharpe_ratio": 4.62,
+    "max_drawdown_pct": 11.2,
+    "win_rate_pct": 72.85,
+    "calmar_ratio": 16.28,
+    "dsr_probability": 1.0,
+    "statistically_significant": true,
+    "avg_latency_ms": 16.8,
+    "rank": 1
+  }
+}
