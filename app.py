@@ -34,6 +34,7 @@ from src.ui.ws_insider_radar import render_insider_radar_workspace
 from src.ui.ws_performance_factsheet import render_performance_factsheet_workspace
 from src.ui.ws_drl_agent import render_drl_agent_workspace
 from src.ui.ws_strategy_incubator import render_strategy_incubator_workspace
+from src.ui.ws_market_neutral_statarb import render_market_neutral_statarb_workspace
 from src.ui.components import get_market_status
 from src.config import COMPANY_NAMES
 
@@ -129,6 +130,7 @@ def main():
         "📊 17. Institutional Risk & Alpha Factsheet": "performance_factsheet",
         "🤖 18. Deep RL Autonomous Policy Agent": "drl_agent",
         "🔬 19. Evolutionary Strategy Incubator": "strategy_incubator",
+        "🔄 20. Market-Neutral Cointegration & Stat-Arb": "market_neutral_statarb",
     }
 
     selected_ws_label = st.sidebar.radio(
@@ -184,6 +186,8 @@ def main():
         render_drl_agent_workspace(selected_ticker)
     elif ws_key == "strategy_incubator":
         render_strategy_incubator_workspace(selected_ticker)
+    elif ws_key == "market_neutral_statarb":
+        render_market_neutral_statarb_workspace(selected_ticker)
 
 
 if __name__ == "__main__":
