@@ -106,32 +106,94 @@ LMT
 UPS
 FDX
 
-# 8. Energy & Natural Resources
+# 8. Energy, Nuclear Power & Clean Tech
 XOM
 CVX
 COP
 SLB
 EOG
+OXY
+CEG
+VST
+CCJ
+GEV
+ENPH
+FSLR
 
-# 9. Basic Materials & Specialty Chemicals
+# 9. Cloud SaaS, AI Software & Cybersecurity
+NET
+DDOG
+ZS
+MDB
+SNOW
+WDAY
+FTNT
+OKTA
+HUBS
+TEAM
+ARM
+SMCI
+MRVL
+ANET
+DELL
+VRT
+MPWR
+
+# 10. Next-Gen FinTech, Digital Brokerages & Crypto
+COIN
+HOOD
+SQ
+PYPL
+AFRM
+SOFI
+NU
+MSTR
+
+# 11. Advanced BioTech & Genomic Innovators
+REGN
+CRSP
+BIIB
+DXCM
+BNTX
+MRNA
+ALNY
+ILMN
+
+# 12. Defense, Space Exploration & Robotics
+NOC
+GD
+SYM
+RKLB
+
+# 13. Basic Materials & Specialty Chemicals
 LIN
 SHW
 FCX
 
-# 10. Utilities & Infrastructure
+# 14. Utilities & Power Infrastructure
 NEE
 SO
+ETN
 
-# 11. Real Estate & Digital Tower Infrastructure
+# 15. Real Estate & Digital Tower Infrastructure
 PLD
 AMT
 
-# 12. Market Benchmarks & Macro Regime Proxies
+# 16. Market Benchmarks & Leveraged Alpha ETFs
 SPY
 QQQ
+IWM
+SMH
+XBI
+ARKK
+TQQQ
+SOXL
+TLT
+IBIT
 
 # Day-1 IPO Ingestion: OpenAI, Inc.
 OPENAI
 
 # Day-1 IPO Ingestion: Anthropic
 ANTH
+

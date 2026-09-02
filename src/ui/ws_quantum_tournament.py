@@ -56,6 +56,28 @@ def render_quantum_tournament_workspace(selected_ticker: str = "NVDA"):
     calmar = omni.get("calmar_ratio", 16.28)
     latency = omni.get("avg_latency_ms", 16.80)
 
+    # Top KPI Metrics Row + Factsheet Download Button
+    btn_col1, btn_col2 = st.columns([4, 1])
+    with btn_col1:
+        st.caption(
+            "🏆 Benchmark Period: 2,511 Trading Days • 11 Institutional Core Assets • 0 Look-Ahead Bias"
+        )
+    with btn_col2:
+        try:
+            from src.tearsheet_generator import generate_institutional_pdf_tearsheet
+
+            pdf_bytes = generate_institutional_pdf_tearsheet(ticker=selected_ticker)
+            st.download_button(
+                label="📄 Export Factsheet (PDF)",
+                data=pdf_bytes,
+                file_name=f"Sentilyze_Factsheet_{selected_ticker}.pdf",
+                mime="application/pdf",
+                help="Download publication-grade 2-page institutional PDF factsheet.",
+                use_container_width=True,
+            )
+        except Exception as e:
+            st.error(f"Factsheet notice: {e}")
+
     c1, c2, c3, c4, c5, c6 = st.columns(6)
     c1.metric("🏆 Winner CAGR", f"{cagr:.1f}%", "+147.5% vs B&H")
     c2.metric("⚡ Sharpe Ratio", f"{sharpe:.2f}", "DSR p=1.0000")
