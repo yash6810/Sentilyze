@@ -282,8 +282,46 @@ class AutonomousTradingEngine:
             sl_target = float(pos.get("sl_target", entry_price * 0.96))
             scaled_out = bool(pos.get("scaled_out", False))
 
+            # 🛡️ High-Water Mark & Dynamic Trailing Profit Shield
+            high_water = max(pos.get("high_water_mark", entry_price), spot_price)
+            pos["high_water_mark"] = high_water
+            unrealized_gain_pct = (spot_price - entry_price) / denom * 100.0
+            max_gain_pct = (high_water - entry_price) / denom * 100.0
+
+            # Level 1: Breakeven Shield (Once in profit >= +1.2%, never allow trade to go red)
+            if (
+                not scaled_out
+                and max_gain_pct >= 1.2
+                and sl_target < entry_price * 1.002
+            ):
+                new_sl = round(entry_price * 1.002, 2)
+                pos["sl_target"] = new_sl
+                sl_target = new_sl
+                logger.info(
+                    f"🛡️ [BREAKEVEN SHIELD] {ticker} gained +{max_gain_pct:.2f}%. Stop trailed up to Breakeven (${new_sl:.2f})"
+                )
+
+            # Level 2: Trailing Profit Lock (If gained >= +2.5%, lock in >= +1.0% profit)
+            if max_gain_pct >= 2.5 and sl_target < entry_price * 1.01:
+                new_sl = round(entry_price * 1.01, 2)
+                pos["sl_target"] = new_sl
+                sl_target = new_sl
+                logger.info(
+                    f"🔒 [PROFIT LOCK TIER 1] {ticker} peaked at +{max_gain_pct:.2f}%. Stop trailed to lock +1.0% profit (${new_sl:.2f})"
+                )
+
+            # Level 3: Trailing Profit Lock (If gained >= +4.0%, lock in >= +2.0% profit)
+            if max_gain_pct >= 4.0 and sl_target < entry_price * 1.02:
+                new_sl = round(entry_price * 1.02, 2)
+                pos["sl_target"] = new_sl
+                sl_target = new_sl
+                logger.info(
+                    f"🔒 [PROFIT LOCK TIER 2] {ticker} peaked at +{max_gain_pct:.2f}%. Stop trailed to lock +2.0% profit (${new_sl:.2f})"
+                )
+
             # Check Stage 1 Scale-Out (+2.5 ATR)
             if not scaled_out and spot_price >= tp1_target:
+
                 half_shares = max(1, shares // 2)
                 proceeds = float(half_shares * spot_price)
                 cost_basis = float(half_shares * entry_price)
