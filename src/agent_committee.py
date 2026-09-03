@@ -377,12 +377,14 @@ class ChiefRiskOfficerAgent:
             action_code = "VETO"
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
-        elif buy_votes == 3 and avg_conviction >= 70.0:
+        elif buy_votes >= 3 and avg_conviction >= 70.0:
+
             final_resolution = "🚀 HIGH CONVICTION UNANIMOUS COMMITTEE BUY"
             action_code = "EXECUTE_BUY"
             approved_leverage = 1.25
             kelly_allocation_pct = calculated_kelly_pct
         elif buy_votes >= 2 and avg_conviction >= 55.0:
+
             final_resolution = "🟡 CAUTIOUS SCALE-IN (Quorum Approved)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
@@ -463,20 +465,25 @@ def convene_trading_committee(
         if spot_price <= 0.0:
             spot_price = 100.0
 
+    from src.price_scout import PriceActionScoutAgent
+
     tech_agent = TechnicalAlphaAgent()
     sent_agent = SentimentCatalystAgent()
     forensic_agent = ForensicFundamentalAgent()
+    scout_agent = PriceActionScoutAgent()
     cro_agent = ChiefRiskOfficerAgent()
 
-    # Gather Specialist Testimonies from the 3 domain agents
+    # Gather Specialist Testimonies from domain agents + real-time price scout
     report_tech = tech_agent.evaluate(ticker, spot_price)
     report_sent = sent_agent.evaluate(ticker)
     report_forensic = forensic_agent.evaluate(ticker, spot_price)
+    report_scout = scout_agent.evaluate(ticker, spot_price)
 
     specialist_reports = [
         report_tech,
         report_sent,
         report_forensic,
+        report_scout,
     ]
 
     # CRO Deliberation & Sign-Off

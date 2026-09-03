@@ -96,7 +96,7 @@ def test_convene_trading_committee(tmp_path, mocker):
     res = convene_trading_committee("NVDA", vix_level=16.0)
     assert res["ticker"] == "NVDA"
     assert "final_resolution" in res
-    assert len(res["agent_testimonies"]) == 3
+    assert len(res["agent_testimonies"]) == 4
     assert "cro_signoff" in res
 
 
