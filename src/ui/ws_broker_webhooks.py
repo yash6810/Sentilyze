@@ -97,7 +97,13 @@ def render_broker_webhooks_workspace(selected_ticker: str = "NVDA"):
             f"#### 🎯 Generate & Test Bracket Order Payload for **{selected_ticker}**"
         )
 
-        spot = fetch_live_quote(selected_ticker)
+        quote_data = fetch_live_quote(selected_ticker)
+        spot_price = (
+            float(quote_data.get("price", 100.0))
+            if isinstance(quote_data, dict)
+            else float(quote_data or 100.0)
+        )
+
         col_t1, col_t2, col_t3 = st.columns(3)
         with col_t1:
             test_shares = st.number_input(
@@ -106,21 +112,21 @@ def render_broker_webhooks_workspace(selected_ticker: str = "NVDA"):
             test_action = st.selectbox("Order Action:", ["BUY", "SELL"], index=0)
         with col_t2:
             tp1_test = st.number_input(
-                "Target 1 Limit ($):", value=round(spot * 1.05, 2)
+                "Target 1 Limit ($):", value=round(spot_price * 1.05, 2)
             )
             tp2_test = st.number_input(
-                "Target 2 Runner ($):", value=round(spot * 1.10, 2)
+                "Target 2 Runner ($):", value=round(spot_price * 1.10, 2)
             )
         with col_t3:
             sl_test = st.number_input(
-                "Stop-Loss Limit ($):", value=round(spot * 0.96, 2)
+                "Stop-Loss Limit ($):", value=round(spot_price * 0.96, 2)
             )
 
         payload = format_broker_order_payload(
             ticker=selected_ticker,
             action=test_action,
             shares=test_shares,
-            price=spot,
+            price=spot_price,
             tp1_target=tp1_test,
             tp2_target=tp2_test,
             sl_target=sl_test,
