@@ -214,3 +214,16 @@ def test_run_premarket_briefing(monkeypatch):
     assert res["macro_vix"] == 18.5
     assert res["total_equity"] == 102000.0
     assert res["watchlist_evaluated"] == 5
+
+
+def test_ensure_background_daemon_thread_running():
+    from src.autonomous_trader import (
+        ensure_background_daemon_thread_running,
+        get_daemon_status,
+    )
+
+    t = ensure_background_daemon_thread_running(interval_seconds=3600)
+    assert t is not None
+    assert t.is_alive()
+    status = get_daemon_status()
+    assert status["is_active"] is True

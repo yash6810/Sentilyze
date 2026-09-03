@@ -808,6 +808,82 @@ class AutonomousTradingEngine:
         }
 
 
+import threading
+
+_DAEMON_THREAD = None
+_DAEMON_LOCK = threading.Lock()
+_LAST_DAEMON_PULSE = {"timestamp": None, "status": "IDLE", "actions": None}
+
+
+def get_daemon_status() -> Dict[str, Any]:
+    """Returns current live daemon running state and last pulse timestamp."""
+    global _DAEMON_THREAD, _LAST_DAEMON_PULSE
+    is_alive = _DAEMON_THREAD is not None and _DAEMON_THREAD.is_alive()
+    return {
+        "is_active": is_alive,
+        "last_pulse": _LAST_DAEMON_PULSE.get("timestamp"),
+        "last_status": _LAST_DAEMON_PULSE.get("status", "IDLE"),
+        "last_actions": _LAST_DAEMON_PULSE.get("actions"),
+    }
+
+
+def ensure_background_daemon_thread_running(interval_seconds: int = 60):
+    """
+    Ensures a single background autonomous trading daemon thread is permanently active.
+    Polls the market continuously and executes cycles during open market hours.
+    """
+    global _DAEMON_THREAD, _DAEMON_LOCK
+    with _DAEMON_LOCK:
+        if _DAEMON_THREAD is not None and _DAEMON_THREAD.is_alive():
+            return _DAEMON_THREAD
+
+        def _daemon_loop():
+            engine = AutonomousTradingEngine()
+            logger.info(
+                f"🤖 [PERMANENT 24/7 DAEMON THREAD] Initialized. Interval: {interval_seconds}s"
+            )
+            while True:
+                try:
+                    from src.market_session import get_us_market_session
+
+                    sess = get_us_market_session()
+                    if sess.get("is_open", False):
+                        logger.info(
+                            f"🟢 [DAEMON CYCLE] Market is LIVE ({sess.get('time_edt')}). Running autonomous scan..."
+                        )
+                        cycle_res = engine.run_autonomous_cycle()
+                        _LAST_DAEMON_PULSE["timestamp"] = datetime.now(
+                            timezone.utc
+                        ).isoformat()
+                        _LAST_DAEMON_PULSE["status"] = "EXECUTED_CYCLE"
+                        _LAST_DAEMON_PULSE["actions"] = {
+                            "buys": len(cycle_res.get("buys", [])),
+                            "tp1": len(cycle_res.get("take_profits_tp1", [])),
+                            "tp2": len(cycle_res.get("take_profits_tp2", [])),
+                            "stops": len(cycle_res.get("stop_losses", [])),
+                        }
+                    else:
+                        _LAST_DAEMON_PULSE["timestamp"] = datetime.now(
+                            timezone.utc
+                        ).isoformat()
+                        _LAST_DAEMON_PULSE["status"] = (
+                            f"STANDBY_{sess.get('status', 'MARKET_CLOSED')}"
+                        )
+                except Exception as e:
+                    logger.error(f"Daemon background loop exception: {e}")
+                    _LAST_DAEMON_PULSE["status"] = f"ERROR: {str(e)[:100]}"
+                time.sleep(interval_seconds)
+
+        _DAEMON_THREAD = threading.Thread(
+            target=_daemon_loop, daemon=True, name="SentilyzeAutonomousDaemon"
+        )
+        _DAEMON_THREAD.start()
+        logger.info(
+            "🚀 [PERMANENT 24/7 DAEMON THREAD] Background trading worker started successfully."
+        )
+        return _DAEMON_THREAD
+
+
 def run_autonomous_daemon(interval_seconds: int = 300):
     """Runs the Autonomous Trading Engine continuously on an interval."""
     engine = AutonomousTradingEngine()

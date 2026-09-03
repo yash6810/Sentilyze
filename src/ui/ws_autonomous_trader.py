@@ -9,17 +9,27 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from src.ui.components import render_workspace_header
-from src.autonomous_trader import AutonomousTradingEngine
+from src.autonomous_trader import (
+    AutonomousTradingEngine,
+    ensure_background_daemon_thread_running,
+    get_daemon_status,
+)
 from src.data_ingestion import get_price_history
 
 
 def render_autonomous_trader_workspace(selected_ticker: str):
     """Renders the 24/7 Autonomous Live Trading & News Agent interface."""
+    # Ensure permanent background 24/7 trading daemon is active
+    ensure_background_daemon_thread_running(interval_seconds=60)
+    daemon_info = get_daemon_status()
+
     render_workspace_header(
         title="🤖 24/7 Autonomous Live Trading & News Agent",
         subtitle="Multi-Source News Ingestion + 4-Agent Committee + Kelly Allocation + 2-Stage Staged Profit Scaler",
-        badge_text="24/7 DAEMON ACTIVE",
-        badge_color="#10B981",
+        badge_text=(
+            "24/7 DAEMON ACTIVE" if daemon_info["is_active"] else "DAEMON INITIALIZING"
+        ),
+        badge_color="#10B981" if daemon_info["is_active"] else "#F59E0B",
     )
 
     auto_engine = AutonomousTradingEngine()
