@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 130371.09999999999,
-  "total_equity": 152226.69,
-  "unrealized_pnl": 28.6,
+  "total_equity": 152223.09,
+  "unrealized_pnl": 25.0,
   "realized_pnl": 52198.09,
   "win_rate": 89.7,
   "total_trades": 29,
@@ -14,14 +14,15 @@
       "shares": 20,
       "initial_shares": 20,
       "entry_price": 221.85,
-      "current_price": 223.28,
+      "current_price": 223.1,
       "entry_date": "2026-09-03",
       "tp1_target": 238.49,
       "tp2_target": 251.8,
       "sl_target": 211.87,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "high_water_mark": 223.1
     },
     "STLD": {
       "ticker": "STLD",
@@ -407,11 +408,11 @@
     {
       "date": "2026-09-03",
       "timestamp": "2026-09-03T12:15:00+00:00",
-      "total_equity": 152226.69,
+      "total_equity": 152223.09,
       "cash": 130371.1,
-      "invested": 21855.59,
+      "invested": 21851.99,
       "daily_return": -0.0
     }
   ],
-  "last_updated": "2026-09-03T19:53:18.503992+00:00"
+  "last_updated": "2026-09-03T21:58:27.926165+00:00"
 }
