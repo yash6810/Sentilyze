@@ -26,3 +26,5 @@ gtts>=2.5.1
 defusedxml>=0.7.1
 lightgbm>=4.0.0
 catboost>=1.2.0
+tzdata>=2024.1
+

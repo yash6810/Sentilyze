@@ -76,24 +76,43 @@ def safe_path_join(base_dir: str, *paths: str) -> str:
     return target_path
 
 
+__all__ = [
+    "get_logger",
+    "sanitize_filename",
+    "safe_path_join",
+    "get_market_timestamp",
+    "optimize_dataframe_memory",
+    "cleanup_memory",
+]
+
+
 def get_market_timestamp(dt=None) -> str:
     """
     Returns a clean, human-readable Indian Standard Time (IST) timestamp with 12-hour AM/PM format.
     Example: 'Sep 02, 2026 • 01:49 PM IST (04:19 AM EDT)'
     """
-    from datetime import datetime, timezone
-    import zoneinfo
+    from datetime import datetime, timezone, timedelta
 
     utc_dt = dt or datetime.now(timezone.utc)
     if utc_dt.tzinfo is None:
         utc_dt = utc_dt.replace(tzinfo=timezone.utc)
 
     try:
-        ist_dt = utc_dt.astimezone(zoneinfo.ZoneInfo("Asia/Kolkata"))
-        ny_dt = utc_dt.astimezone(zoneinfo.ZoneInfo("America/New_York"))
-        ist_str = ist_dt.strftime("%b %d, %Y • %I:%M %p IST")
-        ny_str = ny_dt.strftime("%I:%M %p EDT")
-        return f"{ist_str} ({ny_str})"
+        try:
+            import zoneinfo
+
+            ist_dt = utc_dt.astimezone(zoneinfo.ZoneInfo("Asia/Kolkata"))
+            ny_dt = utc_dt.astimezone(zoneinfo.ZoneInfo("America/New_York"))
+            ist_str = ist_dt.strftime("%b %d, %Y • %I:%M %p IST")
+            ny_str = ny_dt.strftime("%I:%M %p EDT")
+            return f"{ist_str} ({ny_str})"
+        except Exception:
+            # Fallback for minimal containers without tzdata: Fixed UTC offsets (+5:30 IST, -4:00 EDT)
+            ist_dt = utc_dt + timedelta(hours=5, minutes=30)
+            ny_dt = utc_dt - timedelta(hours=4)
+            ist_str = ist_dt.strftime("%b %d, %Y • %I:%M %p IST")
+            ny_str = ny_dt.strftime("%I:%M %p EDT")
+            return f"{ist_str} ({ny_str})"
     except Exception:
         return utc_dt.strftime("%b %d, %Y • %I:%M %p IST")
 

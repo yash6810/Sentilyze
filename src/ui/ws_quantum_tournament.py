@@ -12,7 +12,15 @@ import plotly.graph_objects as go
 from typing import Dict, Any
 
 from src.ui.components import render_workspace_header
-from src.utils import get_market_timestamp
+
+try:
+    from src.utils import get_market_timestamp
+except Exception:
+
+    def get_market_timestamp(dt=None) -> str:
+        from datetime import datetime, timezone
+
+        return datetime.now(timezone.utc).strftime("%b %d, %Y • %I:%M %p UTC")
 
 
 def load_tournament_results() -> Dict[str, Any]:
