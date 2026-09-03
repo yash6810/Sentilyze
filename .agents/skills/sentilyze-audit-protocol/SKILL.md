@@ -107,6 +107,13 @@ at least once. Each audit run, pick up where the last one left off rather than
 re-checking the same files repeatedly. Never claim a module is "clean" unless you've
 actually opened and read it this session.
 
+## 10. Strict Portfolio Preservation & Realized Gain Integrity
+
+- Verify that `results/paper_portfolio.json` and `results/executed_trades.csv` are NEVER overwritten with dummy/test data.
+- The portfolio baseline is **$152,198.09 Cash (100% Realized Gains, $0 debt, 0 open positions, 29 trades at 89.66% win rate)**.
+- Any background test or CI script must use an isolated temporary portfolio directory (`tmp_path`) and must NEVER modify production `results/paper_portfolio.json`.
+
+
 ---
 
 ## Reporting format (use every time)

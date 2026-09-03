@@ -46,17 +46,18 @@ def render_broker_webhooks_workspace(selected_ticker: str = "NVDA"):
             broker_name = st.selectbox(
                 "Target Broker Gateway:",
                 [
-                    "Alpaca Paper Trading API",
-                    "Interactive Brokers Webhook Gateway",
-                    "Custom Institutional REST Endpoint",
+                    "Custom Institutional REST Webhook",
+                    "Simulated Paper Trading Gateway",
+                    "External Broker API",
                 ],
                 index=0,
             )
             webhook_url = st.text_input(
                 "Webhook Destination URL:",
                 value=config.get(
-                    "webhook_url", "https://paper-api.alpaca.markets/v2/orders"
+                    "webhook_url", "https://api.your-broker.com/v2/orders"
                 ),
+                help="Enter your private webhook endpoint. Loaded securely from environment or local secrets.",
             )
             env = st.selectbox(
                 "Execution Environment:",
@@ -67,8 +68,10 @@ def render_broker_webhooks_workspace(selected_ticker: str = "NVDA"):
         with c2:
             hmac_secret = st.text_input(
                 "HMAC SHA-256 Secret Key:",
-                value=config.get("hmac_secret", "sentilyze_secure_hmac_key_2026"),
+                value="",
+                placeholder="Enter private HMAC secret...",
                 type="password",
+                help="Cryptographic secret key used to sign order payloads. Never committed to Git.",
             )
             enable_webhooks = st.toggle(
                 "Enable Live Webhook Dispatching", value=config.get("enabled", False)

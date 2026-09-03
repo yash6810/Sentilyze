@@ -30,13 +30,13 @@ def load_webhook_config() -> Dict[str, Any]:
         except Exception:
             pass
     return {
-        "webhook_url": "https://api.alpaca.markets/v2/orders",
-        "broker_name": "Alpaca Trading API",
-        "api_key_header": "APCA-API-KEY-ID",
-        "api_secret_header": "APCA-API-SECRET-KEY",
+        "webhook_url": "https://api.your-broker.com/v2/orders",
+        "broker_name": "Custom REST Webhook",
+        "api_key_header": "X-API-KEY",
+        "api_secret_header": "X-API-SECRET",
         "enabled": False,
         "environment": "PAPER_TRADING",
-        "hmac_secret": "sentilyze_secure_hmac_key_2026",
+        "hmac_secret": "",
     }
 
 
