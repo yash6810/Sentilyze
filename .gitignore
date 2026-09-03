@@ -17,6 +17,9 @@ __pycache__/
 
 # Data files
 /data/temp/
+results/*.lock
+results/.*.lock
+
 
 # Notebooks
 *.ipynb

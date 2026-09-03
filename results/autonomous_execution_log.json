@@ -1,17 +1,55 @@
 {
-  "timestamp": "2026-09-02T22:06:02.621092+00:00",
-  "buys": [],
+  "timestamp": "2026-09-03T14:16:06.785108+00:00",
+  "buys": [
+    {
+      "success": true,
+      "ticker": "IEX",
+      "shares": 20,
+      "price": 221.85,
+      "cost": 4437.0,
+      "tp1_target": 238.49,
+      "tp2_target": 251.8,
+      "sl_target": 211.87,
+      "strategy": "Committee_MultiAgent_Kelly"
+    }
+  ],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
   "stop_losses": [],
   "veto_exits": [],
-  "committee_resolutions": {},
-  "portfolio_equity": 53830.0,
-  "cash_balance": 44031.700000000004,
-  "unrealized_pnl": 0.0,
+  "committee_resolutions": {
+    "CPRT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "AXON": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "EFX": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "DD": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "IEX": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "BA": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "BR": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "HWM": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "CAT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "ADP": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "CMI": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "AME": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "FDXF": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "DE": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "CTAS": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "AOS": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "EMR": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "GD": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "IR": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "ETN": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "FTV": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "JBHT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "LII": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "CSX": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "HII": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)"
+  },
+  "portfolio_equity": 152198.09,
+  "cash_balance": 152198.09,
+  "unrealized_pnl": 0,
   "kill_switch_active": false,
   "self_improvement": {
-    "total_cycles": 35,
+    "total_cycles": 42,
     "agent_weights": {
       "technicals_weight": 0.294,
       "sentiment_weight": 0.343,
@@ -21,5 +59,5 @@
     "kelly_multiplier": 0.94,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 0.73
+  "elapsed_seconds": 94.84
 }
