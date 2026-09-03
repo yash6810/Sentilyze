@@ -1,14 +1,71 @@
 {
   "initial_capital": 100000.0,
-  "cash": 152198.09,
+  "cash": 115840.9,
   "total_equity": 152198.09,
   "unrealized_pnl": 0.0,
   "realized_pnl": 52198.09,
-  "win_rate": 89.66,
+  "win_rate": 89.7,
   "total_trades": 29,
   "winning_trades": 26,
   "losing_trades": 3,
-  "open_positions": {},
+  "open_positions": {
+    "F": {
+      "ticker": "F",
+      "shares": 455,
+      "initial_shares": 455,
+      "entry_price": 14.45,
+      "current_price": 14.45,
+      "entry_date": "2026-09-03",
+      "tp1_target": 16.95,
+      "tp2_target": 18.95,
+      "sl_target": 12.95,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly"
+    },
+    "ACGL": {
+      "ticker": "ACGL",
+      "shares": 100,
+      "initial_shares": 100,
+      "entry_price": 100.28,
+      "current_price": 100.28,
+      "entry_date": "2026-09-03",
+      "tp1_target": 107.8,
+      "tp2_target": 113.82,
+      "sl_target": 95.77,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly"
+    },
+    "TRV": {
+      "ticker": "TRV",
+      "shares": 26,
+      "initial_shares": 26,
+      "entry_price": 375.56,
+      "current_price": 375.56,
+      "entry_date": "2026-09-03",
+      "tp1_target": 403.73,
+      "tp2_target": 426.26,
+      "sl_target": 358.66,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly"
+    },
+    "QCOM": {
+      "ticker": "QCOM",
+      "shares": 59,
+      "initial_shares": 59,
+      "entry_price": 169.32,
+      "current_price": 169.32,
+      "entry_date": "2026-09-03",
+      "tp1_target": 182.02,
+      "tp2_target": 192.18,
+      "sl_target": 161.7,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly"
+    }
+  },
   "closed_trades": [
     {
       "ticker": "FIX",
@@ -351,10 +408,10 @@
       "date": "2026-09-03",
       "timestamp": "2026-09-03T12:15:00+00:00",
       "total_equity": 152198.09,
-      "cash": 152198.09,
-      "invested": 0.0,
-      "daily_return": 52.2
+      "cash": 115840.9,
+      "invested": 36357.19,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-03T12:15:00+00:00"
+  "last_updated": "2026-09-03T17:11:29.275727+00:00"
 }
