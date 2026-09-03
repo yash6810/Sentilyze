@@ -106,6 +106,13 @@ def render_autonomous_trader_workspace(selected_ticker: str):
             value=8,
             help="Number of concurrent multi-asset positions to hold.",
         )
+        auto_pilot = st.toggle(
+            "🔴 Live Market Auto-Pilot",
+            value=st.session_state.get("auto_pilot_enabled", False),
+            help="When enabled during regular market hours (09:30 - 16:00 EDT), continuously scans the universe and executes top setups.",
+        )
+        st.session_state["auto_pilot_enabled"] = auto_pilot
+
     with ctrl_col3:
         st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
         btn_col_a, btn_col_b = st.columns([1, 1])
