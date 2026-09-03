@@ -3,8 +3,10 @@ import requests
 import json
 from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
+from dotenv import load_dotenv
 from src.utils import get_logger, get_market_timestamp
 
+load_dotenv()
 logger = get_logger(__name__)
 
 
