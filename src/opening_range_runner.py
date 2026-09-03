@@ -90,17 +90,24 @@ def run_opening_range_session() -> Dict[str, Any]:
 
     signals = []
     broker = PaperBroker()
-    executed_trades = []
 
     for ticker in stocks_in_play:
         df_hist = universe_data.get(ticker, pd.DataFrame())
-        if df_hist.empty:
+        if df_hist.empty or len(df_hist) < 5:
             continue
         cat_score = catalyst_scores.get(ticker, 0.5)
         sig_info = orb.evaluate_orb_signals(df_hist, sentiment_score=cat_score)
 
         if sig_info.get("signal") == 1:
-            entry_p = sig_info.get("current_close", 100.0)
+            live_quote = fetch_live_quote(ticker)
+            entry_p = (
+                live_quote.get("price")
+                if live_quote and live_quote.get("price", 0) > 0
+                else sig_info.get("current_close", 0.0)
+            )
+            if entry_p <= 0:
+                continue
+
             atr_val = sig_info.get("atr", entry_p * 0.02)
             tp = round(entry_p + (2.0 * atr_val), 2)
             sl = round(entry_p - (1.0 * atr_val), 2)
@@ -116,31 +123,11 @@ def run_opening_range_session() -> Dict[str, Any]:
                 }
             )
 
-    # Execute Paper Trades on $100k Account via Concentrated Kelly Sizing
-    execution_result = broker.execute_daily_signals(signals) if signals else {}
-    executed_buys = execution_result.get("buys", [])
-
-    for buy in executed_buys:
-        tk = buy.get("ticker")
-        send_discord_execution_alert(
-            trade_data={
-                "ticker": tk,
-                "action": "BUY",
-                "shares": buy.get("shares", 100),
-                "price": buy.get("entry_price", 100.0),
-                "entry_price": buy.get("entry_price", 100.0),
-                "tp1": buy.get("tp1_target", 110.0),
-                "tp2": buy.get("tp2_target", 120.0),
-                "stop_loss": buy.get("sl_target", 95.0),
-                "kelly_pct": 8.5,
-            }
-        )
-
     result_payload = {
         "session_time": get_market_timestamp(),
         "stocks_in_play": stocks_in_play,
         "signals_count": len(signals),
-        "executed_paper_trades": executed_buys,
+        "signals": signals,
         "portfolio_summary": broker.get_portfolio_summary(),
     }
 
