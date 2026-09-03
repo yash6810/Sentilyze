@@ -360,25 +360,81 @@ def generate_morning_briefing_text(
     return memo_sections
 
 
+VOICE_PROFILES = {
+    "US_WALL_STREET": {
+        "name": "🇺🇸 US Financial Anchor (Wall Street Standard)",
+        "tld": "com",
+        "lang": "en",
+        "description": "Crisp, authoritative American financial broadcast delivery.",
+    },
+    "UK_LONDON": {
+        "name": "🇬🇧 London City Analyst (British Financial Times)",
+        "tld": "co.uk",
+        "lang": "en",
+        "description": "Distinguished British financial market commentary.",
+    },
+    "AU_SYDNEY": {
+        "name": "🇦🇺 Sydney Macro Strategist (Australian English)",
+        "tld": "com.au",
+        "lang": "en",
+        "description": "Dynamic Asia-Pacific market desk perspective.",
+    },
+    "IN_DALAL_STREET": {
+        "name": "🇮🇳 Global Macro & Quant Specialist (Indian English)",
+        "tld": "co.in",
+        "lang": "en",
+        "description": "Sharp, articulate emerging markets & tech momentum analysis.",
+    },
+    "CA_TORONTO": {
+        "name": "🇨🇦 Toronto Institutional Lead (Canadian English)",
+        "tld": "ca",
+        "lang": "en",
+        "description": "Balanced North American institutional briefing tone.",
+    },
+    "IE_DUBLIN": {
+        "name": "🇮🇪 Dublin Quantitative Analyst (Irish English)",
+        "tld": "ie",
+        "lang": "en",
+        "description": "Energetic quantitative macro analyst persona.",
+    },
+    "ZA_JOHANNESBURG": {
+        "name": "🇿🇦 Emerging Markets Anchor (South African)",
+        "tld": "co.za",
+        "lang": "en",
+        "description": "Authoritative global resources & commodity tone.",
+    },
+}
+
+
 def synthesize_briefing_audio(
-    script_text: str, output_path: str = BRIEFING_AUDIO_PATH
+    script_text: str,
+    output_path: str = BRIEFING_AUDIO_PATH,
+    voice_key: str = "US_WALL_STREET",
+    slow: bool = False,
 ) -> Optional[str]:
     """
-    Synthesizes broadcast audio podcast (.mp3) using Google Text-to-Speech (gTTS).
+    Synthesizes broadcast audio podcast (.mp3) using Google Text-to-Speech (gTTS)
+    with customizable voice accents and pacing.
 
     Args:
         script_text: Text script to synthesize into speech.
         output_path: Target audio file path.
+        voice_key: Selected voice profile key from VOICE_PROFILES.
+        slow: Whether to speak at a slower, more deliberate cadence.
 
     Returns:
         Absolute path to generated mp3 or None if failed.
     """
+    profile = VOICE_PROFILES.get(voice_key, VOICE_PROFILES["US_WALL_STREET"])
+    tld = profile.get("tld", "com")
+    lang = profile.get("lang", "en")
+
     try:
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
-        tts = gTTS(text=script_text, lang="en", tld="com", slow=False)
+        tts = gTTS(text=script_text, lang=lang, tld=tld, slow=slow)
         tts.save(output_path)
         logger.info(
-            f"🎙️ Successfully generated executive audio podcast at {output_path}"
+            f"🎙️ Successfully generated {profile['name']} audio podcast at {output_path} (tld={tld})"
         )
         return output_path
     except Exception as e:

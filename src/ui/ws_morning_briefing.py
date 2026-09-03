@@ -10,6 +10,7 @@ import json
 from src.morning_briefing import (
     generate_morning_briefing_text,
     synthesize_briefing_audio,
+    VOICE_PROFILES,
     BRIEFING_AUDIO_PATH,
     BRIEFING_JSON_PATH,
 )
@@ -26,11 +27,11 @@ def render_morning_briefing_workspace(selected_ticker: str = "NVDA"):
 
     comp_name = COMPANY_NAMES.get(selected_ticker, selected_ticker)
 
-    # Broadcast Mode Selector Bar
-    b1, b2 = st.columns([2, 2])
+    # Broadcast Mode & Voice Selector Grid
+    b1, b2, b3 = st.columns([2, 2, 1])
     with b1:
         broadcast_mode = st.selectbox(
-            "📻 Select Broadcast Episode Mode:",
+            "📻 Broadcast Episode Mode:",
             [
                 "📻 Full Market Master Podcast (Macro + Top Stocks + Portfolio)",
                 "🚀 Top Alpha Stocks in Play (Universe Momentum Scan)",
@@ -40,12 +41,28 @@ def render_morning_briefing_workspace(selected_ticker: str = "NVDA"):
             index=0,
         )
     with b2:
-        st.markdown("<div style='height: 28px;'></div>", unsafe_allow_html=True)
-        generate_btn = st.button(
-            "🎙️ Synthesize & Broadcast Morning Audio Brief",
-            type="primary",
-            use_container_width=True,
+        voice_options = {k: v["name"] for k, v in VOICE_PROFILES.items()}
+        selected_voice_key = st.selectbox(
+            "🎙️ Anchor Voice & Regional Accent:",
+            options=list(voice_options.keys()),
+            format_func=lambda x: voice_options[x],
+            index=0,
+            help="Select the AI radio anchor persona, pronunciation, and regional market desk accent.",
         )
+    with b3:
+        speech_pace = st.selectbox(
+            "⏱️ Pacing:",
+            ["Standard (1.0x)", "Deliberate (0.85x)"],
+            index=0,
+        )
+        is_slow = "Deliberate" in speech_pace
+
+    st.markdown("<div style='height: 4px;'></div>", unsafe_allow_html=True)
+    generate_btn = st.button(
+        "🎙️ Synthesize & Broadcast Morning Audio Brief",
+        type="primary",
+        use_container_width=True,
+    )
 
     # Map selected mode
     mode_key = (
@@ -68,11 +85,17 @@ def render_morning_briefing_workspace(selected_ticker: str = "NVDA"):
             memo_data = generate_morning_briefing_text(
                 mode=mode_key, ticker=selected_ticker
             )
-            synthesize_briefing_audio(memo_data["audio_script"])
+            synthesize_briefing_audio(
+                memo_data["audio_script"],
+                voice_key=selected_voice_key,
+                slow=is_slow,
+            )
+            memo_data["active_voice"] = VOICE_PROFILES[selected_voice_key]["name"]
             st.session_state["morning_memo"] = memo_data
             st.success(
-                "🎙️ Morning Podcast Episode & Intelligence Memo Generated Successfully!"
+                f"🎙️ Morning Podcast Generated with {VOICE_PROFILES[selected_voice_key]['name']}!"
             )
+
             st.rerun()
 
     # Load existing or default memo data
@@ -111,13 +134,15 @@ def render_morning_briefing_workspace(selected_ticker: str = "NVDA"):
 
     with audio_col2:
         mode_label = memo.get("mode", "MARKET_MASTER").replace("_", " ").title()
+        active_voice_name = memo.get("active_voice", "🇺🇸 US Financial Anchor")
         st.markdown(
             f"""
             <div style="background: rgba(15, 23, 42, 0.6); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
                 <div style="font-size: 0.75rem; color: #64748B;">BROADCAST METADATA</div>
                 <div style="font-size: 0.85rem; color: #F3F4F6; margin-top: 4px;">● Generated: <b>{memo.get('generated_at', 'Live Pre-Market')}</b></div>
                 <div style="font-size: 0.85rem; color: #38BDF8;">● Format: <b>{mode_label}</b></div>
-                <div style="font-size: 0.85rem; color: #10B981;">● Audio Cadence: <b>Wall Street Broadcast Quality</b></div>
+                <div style="font-size: 0.85rem; color: #F59E0B;">● Anchor Voice: <b>{active_voice_name}</b></div>
+                <div style="font-size: 0.85rem; color: #10B981;">● Audio Quality: <b>320kbps HD Audio</b></div>
             </div>
             """,
             unsafe_allow_html=True,

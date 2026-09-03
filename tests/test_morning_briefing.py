@@ -61,6 +61,9 @@ def test_synthesize_briefing_audio_execution():
         "Good morning. This is your Sentilyze quantitative morning test briefing."
     )
     path = synthesize_briefing_audio(
-        test_script, output_path="results/test_briefing.mp3"
+        test_script,
+        output_path="results/test_briefing.mp3",
+        voice_key="UK_LONDON",
+        slow=False,
     )
     assert path is not None
