@@ -842,7 +842,7 @@ def ensure_background_daemon_thread_running(interval_seconds: int = 60):
             logger.info(
                 f"🤖 [PERMANENT 24/7 DAEMON THREAD] Initialized. Interval: {interval_seconds}s"
             )
-            while True:
+            while threading.main_thread().is_alive():
                 try:
                     from src.market_session import get_us_market_session
 
@@ -869,10 +869,17 @@ def ensure_background_daemon_thread_running(interval_seconds: int = 60):
                         _LAST_DAEMON_PULSE["status"] = (
                             f"STANDBY_{sess.get('status', 'MARKET_CLOSED')}"
                         )
+                except (RuntimeError, ValueError):
+                    break
                 except Exception as e:
                     logger.error(f"Daemon background loop exception: {e}")
                     _LAST_DAEMON_PULSE["status"] = f"ERROR: {str(e)[:100]}"
-                time.sleep(interval_seconds)
+
+                # Sleep in short increments to allow rapid shutdown
+                for _ in range(max(1, interval_seconds // 2)):
+                    if not threading.main_thread().is_alive():
+                        break
+                    time.sleep(2)
 
         _DAEMON_THREAD = threading.Thread(
             target=_daemon_loop, daemon=True, name="SentilyzeAutonomousDaemon"
