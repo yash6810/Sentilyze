@@ -449,22 +449,10 @@ class AutonomousTradingEngine:
                 if t not in self.broker.state.get("open_positions", {})
             ]
 
-            # Stage 1: High-Speed Quantitative Funnel (Filters 538 assets -> Top 25 Prime Setups in < 1s)
-            if len(unheld_tickers) > 25:
-
-                def _fast_rank_score(tk: str) -> float:
-                    q = quotes_map.get(tk, {})
-                    chg = abs(float(q.get("change_pct", 0.0)))
-                    vol = float(q.get("volume", 0.0))
-                    # Priority boost for high intraday momentum or relative volume
-                    return chg * 100.0 + (10.0 if vol > 0 else 0.0)
-
-                unheld_tickers = sorted(
-                    unheld_tickers, key=_fast_rank_score, reverse=True
-                )[:25]
-                logger.info(
-                    f"⚡ [STAGE-1 QUANT FUNNEL] Filtered universe to Top 25 high-momentum candidates: {unheld_tickers[:8]}..."
-                )
+            # Stage 1: High-Speed Full Universe Scanning (Scans all 500+ S&P assets)
+            logger.info(
+                f"🌐 [FULL UNIVERSE SCAN] Initiating parallel multi-agent evaluation across all {len(unheld_tickers)} candidate stocks..."
+            )
 
             # Pre-warm FinBERT singleton once before spawning threads
             try:
@@ -492,8 +480,8 @@ class AutonomousTradingEngine:
                     return ticker_sym, None
 
             deliberations = []
-            # Controlled thread pool size (6 workers) to prevent memory & thread exhaustion
-            with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
+            # High-throughput thread pool (12 workers) to evaluate entire 500-stock universe rapidly
+            with concurrent.futures.ThreadPoolExecutor(max_workers=12) as executor:
                 results = executor.map(_deliberate_single, unheld_tickers)
                 for t, delib in results:
                     if delib and isinstance(delib, dict):
