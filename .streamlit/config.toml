@@ -7,8 +7,9 @@ textColor = "#E5E7EB"
 font = "sans serif"
 
 [server]
-fileWatcherType = "poll"
+fileWatcherType = "none"
 headless = true
+
 
 [browser]
 gatherUsageStats = false
