@@ -1,6 +1,6 @@
 {
   "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Thursday, September 03, 2026",
-  "mode": "TOP_STOCKS",
+  "mode": "SINGLE_TICKER",
   "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.4**. Top algorithmic focus is on **ADP, BR, CHRW** with **ADP** leading at 78% conviction. The fund holds **$152,198.09** in 100% liquid cash reserves, ready for morning opening range opportunities.",
   "macro_posture": {
     "regime": "BULLISH_EXPANSION",
@@ -63,6 +63,6 @@
     "open_positions": 0,
     "active_tickers": []
   },
-  "audio_script": "Good morning traders. Here is your Sentilyze Top Alpha Stocks in Play radar for Thursday, September 03, 2026. Scanning our 500-asset universe, our algorithms have identified three high-conviction breakout candidates for today: Number 1, ADP, trading at 283.51 dollars with 69 percent conviction, targeting take profit one at 297.69 dollars and stop loss at 275.01 dollars. Number 2, BR, trading at 180.63 dollars with 68 percent conviction, targeting take profit one at 189.66 dollars and stop loss at 175.21 dollars. Number 3, CHRW, trading at 147.53 dollars with 66 percent conviction, targeting take profit one at 155.19 dollars and stop loss at 142.93 dollars. Maintain strict stop-loss discipline on all opening orders. Have a profitable session.",
-  "generated_at": "12:42 PM UTC"
+  "audio_script": "Good morning. This is your Sentilyze Deep Dive Analyst Briefing on NVDA for Thursday, September 03, 2026. The macroeconomic volatility regime is Bullish Expansion with VIX at 15.4. The Multi-Agent Quantitative Committee has delivered a APPROVED verdict on NVDA with 78 percent conviction. Our portfolio holds 152,198.09 dollars in liquid cash, ready to allocate fractional Kelly sizing upon market open.",
+  "generated_at": "12:48 PM UTC"
 }

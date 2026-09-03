@@ -1,17 +1,26 @@
 {
-  "timestamp": "2026-09-03T19:48:18.827338+00:00",
-  "buys": [],
+  "timestamp": "2026-09-03T19:53:58.655458+00:00",
+  "buys": [
+    {
+      "success": true,
+      "shares": 100,
+      "price": 125.0,
+      "ticker": "NVDA"
+    }
+  ],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
   "stop_losses": [],
   "veto_exits": [],
-  "committee_resolutions": {},
-  "portfolio_equity": 152198.09,
-  "cash_balance": 115840.9,
+  "committee_resolutions": {
+    "NVDA": "\ud83d\ude80 CONVICTION INSTITUTIONAL BUY"
+  },
+  "portfolio_equity": 100000.0,
+  "cash_balance": 100000.0,
   "unrealized_pnl": 0.0,
   "kill_switch_active": false,
   "self_improvement": {
-    "total_cycles": 44,
+    "total_cycles": 154,
     "agent_weights": {
       "technicals_weight": 0.294,
       "sentiment_weight": 0.343,
@@ -21,5 +30,5 @@
     "kelly_multiplier": 0.94,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 0.76
+  "elapsed_seconds": 33.17
 }
