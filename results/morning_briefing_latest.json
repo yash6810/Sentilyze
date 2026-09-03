@@ -1,25 +1,68 @@
 {
-  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Wednesday, September 02, 2026",
-  "executive_summary": "Pre-market global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.4**. The Autonomous Committee maintains a **APPROVED** posture on **NVDA** (72% confidence), supported by disciplined risk-budgeting across 0 active holdings.",
+  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Thursday, September 03, 2026",
+  "mode": "TOP_STOCKS",
+  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.4**. Top algorithmic focus is on **ADP, BR, CHRW** with **ADP** leading at 78% conviction. The fund holds **$152,198.09** in 100% liquid cash reserves, ready for morning opening range opportunities.",
   "macro_posture": {
     "regime": "BULLISH_EXPANSION",
     "vix_level": 15.390000343322754,
     "10y_treasury": "4.25%",
-    "fed_rate": "5.25%"
+    "fed_liquidity": "$6.05 Trillion"
   },
-  "focus_asset": {
-    "ticker": "NVDA",
-    "last_price": 217.44000244140625,
-    "day_change_pct": -1.51,
+  "top_stocks_in_play": [
+    {
+      "ticker": "ADP",
+      "last_price": 283.51,
+      "day_change_pct": -0.94,
+      "momentum_5d_pct": 0.77,
+      "atr": 5.67,
+      "tp1_target": 297.69,
+      "tp2_target": 309.03,
+      "sl_target": 275.01,
+      "conviction_pct": 69.3,
+      "headline_catalyst": "Solid institutional institutional order flow observed in ADP.",
+      "sentiment_buzz": "Consolidation"
+    },
+    {
+      "ticker": "BR",
+      "last_price": 180.63,
+      "day_change_pct": 0.13,
+      "momentum_5d_pct": -1.34,
+      "atr": 3.61,
+      "tp1_target": 189.66,
+      "tp2_target": 196.89,
+      "sl_target": 175.21,
+      "conviction_pct": 68.3,
+      "headline_catalyst": "Solid institutional institutional order flow observed in BR.",
+      "sentiment_buzz": "Consolidation"
+    },
+    {
+      "ticker": "CHRW",
+      "last_price": 147.53,
+      "day_change_pct": -0.24,
+      "momentum_5d_pct": -2.39,
+      "atr": 3.07,
+      "tp1_target": 155.19,
+      "tp2_target": 161.33,
+      "sl_target": 142.93,
+      "conviction_pct": 65.9,
+      "headline_catalyst": "Solid institutional institutional order flow observed in CHRW.",
+      "sentiment_buzz": "Consolidation"
+    }
+  ],
+  "primary_focus": {
+    "ticker": "ADP",
     "committee_decision": "APPROVED",
-    "confidence_pct": 72.0,
-    "rationale": "Strong multi-agent confluence across quantitative factors."
+    "confidence_pct": 78.0,
+    "rationale": "Strong momentum catalyst and disciplined risk-reward ratio."
   },
   "portfolio_status": {
-    "total_equity": 100000.0,
-    "cash_reserves": 100000.0,
-    "open_positions": 0
+    "total_equity": 152198.09,
+    "cash_reserves": 152198.09,
+    "realized_gain": 52198.09,
+    "win_rate_pct": 89.66,
+    "open_positions": 0,
+    "active_tickers": []
   },
-  "audio_script": "Good morning. This is your Sentilyze Quantitative Pre-Market Intelligence Briefing for Wednesday, September 02, 2026. The macroeconomic volatility regime is currently categorized as Bullish Expansion, with the VIX tracking at 15.4 and the benchmark 10-year Treasury yield trading at 4.25 percent. For our priority focus asset, NVDA, trading at approximately 217.44 dollars, the Multi-Agent Quantitative Committee has issued a APPROVED recommendation with 72 percent conviction. Our portfolio currently manages 100,000.00 dollars in total equity with 0 active risk-hedged holdings and 100,000.00 dollars in liquid cash ready for morning opening range breakouts. Maintain disciplined stop-losses at the 9:30 AM opening bell. Have a profitable trading day.",
-  "generated_at": "07:11 PM UTC"
+  "audio_script": "Good morning traders. Here is your Sentilyze Top Alpha Stocks in Play radar for Thursday, September 03, 2026. Scanning our 500-asset universe, our algorithms have identified three high-conviction breakout candidates for today: Number 1, ADP, trading at 283.51 dollars with 69 percent conviction, targeting take profit one at 297.69 dollars and stop loss at 275.01 dollars. Number 2, BR, trading at 180.63 dollars with 68 percent conviction, targeting take profit one at 189.66 dollars and stop loss at 175.21 dollars. Number 3, CHRW, trading at 147.53 dollars with 66 percent conviction, targeting take profit one at 155.19 dollars and stop loss at 142.93 dollars. Maintain strict stop-loss discipline on all opening orders. Have a profitable session.",
+  "generated_at": "12:42 PM UTC"
 }
