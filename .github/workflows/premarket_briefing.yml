@@ -2,9 +2,12 @@ name: Daily Pre-Market Intelligence Briefing
 
 on:
   schedule:
-    # 13:30 UTC = 9:00 AM EST (Mon-Fri)
-    - cron: '30 13 * * 1-5'
+    # 13:00 UTC = 9:00 AM EDT (Mon-Fri)
+    - cron: '0 13 * * 1-5'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   premarket-briefing:
@@ -16,10 +19,10 @@ jobs:
       - name: 📥 Check out repository
         uses: actions/checkout@v4
 
-      - name: 🐍 Set up Python 3.10
+      - name: 🐍 Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.11"
           cache: "pip"
 
       - name: 📦 Install core dependencies
@@ -29,8 +32,23 @@ jobs:
 
       - name: 🌅 Generate & Dispatch Pre-Market Briefing
         env:
+          PYTHONPATH: .
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
         run: |
-          python src/autonomous_trader.py --premarket
+          python -m src.autonomous_trader --premarket
+
+      - name: 💾 Commit & Push Morning Briefing State
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/morning_briefing_latest.json || true
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(briefing): update morning briefing state [skip ci]"
+            git pull --rebase origin main || true
+            git push origin main || echo "Push skipped"
+          fi
+

@@ -37,6 +37,7 @@ jobs:
 
       - name: Execute Autonomous Trading & Self-Improvement Loop
         env:
+          PYTHONPATH: .
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
           MARKETAUX_API_KEY: ${{ secrets.MARKETAUX_API_KEY }}
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
@@ -45,6 +46,7 @@ jobs:
           ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
           ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
         run: |
           python -u -m src.autonomous_trader --once
 
