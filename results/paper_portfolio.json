@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 130371.09999999999,
-  "total_equity": 152226.69,
-  "unrealized_pnl": 28.6,
+  "total_equity": 152188.82,
+  "unrealized_pnl": -9.27,
   "realized_pnl": 52198.09,
   "win_rate": 89.7,
   "total_trades": 29,
@@ -14,56 +14,61 @@
       "shares": 20,
       "initial_shares": 20,
       "entry_price": 221.85,
-      "current_price": 223.28,
+      "current_price": 224.12,
       "entry_date": "2026-09-03",
       "tp1_target": 238.49,
       "tp2_target": 251.8,
-      "sl_target": 211.87,
+      "sl_target": 220.5,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 223.18,
+      "high_water_mark": 224.12
     },
     "STLD": {
       "ticker": "STLD",
       "shares": 26,
       "initial_shares": 26,
       "entry_price": 247.67,
-      "current_price": 247.67,
+      "current_price": 246.03,
       "entry_date": "2026-09-03",
       "tp1_target": 266.25,
       "tp2_target": 281.11,
-      "sl_target": 236.52,
+      "sl_target": 243.89,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 247.67
     },
     "EQT": {
       "ticker": "EQT",
       "shares": 117,
       "initial_shares": 117,
       "entry_price": 56.08,
-      "current_price": 56.08,
+      "current_price": 55.62,
       "entry_date": "2026-09-03",
       "tp1_target": 60.29,
       "tp2_target": 63.65,
-      "sl_target": 53.56,
+      "sl_target": 54.87,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 56.08
     },
     "DHR": {
       "ticker": "DHR",
       "shares": 21,
       "initial_shares": 21,
       "entry_price": 209.01,
-      "current_price": 209.01,
+      "current_price": 211.0,
       "entry_date": "2026-09-03",
       "tp1_target": 224.69,
       "tp2_target": 237.23,
-      "sl_target": 199.6,
+      "sl_target": 209.06,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 211.0
     }
   },
   "closed_trades": [
@@ -407,11 +412,19 @@
     {
       "date": "2026-09-03",
       "timestamp": "2026-09-03T12:15:00+00:00",
-      "total_equity": 152226.69,
+      "total_equity": 152170.02,
       "cash": 130371.1,
-      "invested": 21855.59,
-      "daily_return": -0.0
+      "invested": 21798.92,
+      "daily_return": -0.01
+    },
+    {
+      "date": "2026-09-04",
+      "timestamp": "2026-09-04T13:56:39.591382+00:00",
+      "total_equity": 152188.82,
+      "cash": 130371.1,
+      "invested": 21817.72,
+      "daily_return": 0.01
     }
   ],
-  "last_updated": "2026-09-03T19:53:18.503992+00:00"
+  "last_updated": "2026-09-04T14:22:44.255382+00:00"
 }
