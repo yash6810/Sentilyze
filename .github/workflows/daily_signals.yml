@@ -21,10 +21,10 @@ jobs:
         with:
           lfs: true
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.11"
           cache: 'pip'
 
       - name: Install Dependencies
@@ -34,6 +34,7 @@ jobs:
 
       - name: Run Daily Market Scanner
         env:
+          PYTHONPATH: .
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
           MARKETAUX_API_KEY: ${{ secrets.MARKETAUX_API_KEY }}
@@ -44,6 +45,7 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || secrets.TRADE_BOT }}
         run: |
           python -u -m src.daily_scanner
+
 
       - name: Upload Daily Signals Artifact
         uses: actions/upload-artifact@v4

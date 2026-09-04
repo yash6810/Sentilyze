@@ -4,10 +4,12 @@ on:
   workflow_run:
     workflows:
       - "AI Trading Pipeline (CI/CD)"
-      - "🤖 Autonomous Live Trading & News Agent Daemon"
+      - "🤖 Autonomous Live Trading & Self-Improving Agent Daemon"
       - "Weekly Model Retraining & Drift Check"
       - "5-Minute Autonomous Intraday Market Guardian"
       - "Multi-Agent Trading Committee Audit"
+      - "Daily Pre-Market Intelligence Briefing"
+
     types:
       - completed
   schedule:

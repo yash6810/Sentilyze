@@ -19,10 +19,10 @@ jobs:
         with:
           lfs: true
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.11"
           cache: 'pip'
 
       - name: Install Dependencies
@@ -32,9 +32,11 @@ jobs:
 
       - name: Run Black Swan Crisis Simulation Audit
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.TRADE_BOT || secrets.DISCORD_WEBHOOK_URL }}
+          PYTHONPATH: .
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || secrets.TRADE_BOT }}
         run: |
           python -u -c "from src.stress_tester import run_full_crisis_simulation_suite; print('Stress audit complete:', run_full_crisis_simulation_suite())"
+
 
       - name: Commit & Push Updated Risk Audit Metrics
         run: |

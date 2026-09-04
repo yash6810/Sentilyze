@@ -19,10 +19,10 @@ jobs:
         with:
           lfs: true
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.11"
           cache: 'pip'
 
       - name: Install Dependencies
@@ -32,6 +32,7 @@ jobs:
 
       - name: Run Paper 25 Opening Range Breakout
         env:
+          PYTHONPATH: .
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
           MARKETAUX_API_KEY: ${{ secrets.MARKETAUX_API_KEY }}
@@ -55,8 +56,10 @@ jobs:
           git add results/
           if ! git diff --staged --quiet; then
             git commit -m "chore(auto): update simulated paper portfolio & ORB breakout log [skip ci]"
-            git push origin main
+            git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
+            git push origin main || echo "No changes or push skipped"
           else
             echo "No portfolio changes to commit."
           fi
+
 

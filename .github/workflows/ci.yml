@@ -18,10 +18,10 @@ jobs:
         with:
           lfs: true
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.11"
           cache: 'pip'
 
       - name: Install dependencies
@@ -58,10 +58,10 @@ jobs:
         with:
           lfs: true
 
-      - name: Set up Python 3.10
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: "3.11"
           cache: 'pip'
 
       - name: Install dependencies
@@ -71,8 +71,11 @@ jobs:
           pip install -r requirements-dev.txt
 
       - name: Run Tests with Coverage
+        env:
+          PYTHONPATH: .
         run: |
           pytest --cov=src tests/ --cov-report=xml
+
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
