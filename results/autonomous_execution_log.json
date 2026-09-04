@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-09-04T14:22:38.017068+00:00",
+  "timestamp": "2026-09-04T14:25:56.610395+00:00",
   "buys": [],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
   "stop_losses": [],
   "veto_exits": [],
   "committee_resolutions": {},
-  "portfolio_equity": 152171.42,
+  "portfolio_equity": 152188.82,
   "cash_balance": 130371.09999999999,
-  "unrealized_pnl": -26.67,
+  "unrealized_pnl": -9.27,
   "kill_switch_active": false,
   "self_improvement": {
-    "total_cycles": 169,
+    "total_cycles": 172,
     "agent_weights": {
       "technicals_weight": 0.294,
       "sentiment_weight": 0.343,
@@ -21,5 +21,5 @@
     "kelly_multiplier": 0.94,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 6.26
+  "elapsed_seconds": 6.58
 }
