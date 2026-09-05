@@ -48,6 +48,10 @@ def run_daily_market_scan() -> list:
                 logger.warning(f"Insufficient data for {ticker}. Skipping.")
                 continue
 
+            for f in FEATURES:
+                if f not in features_df.columns:
+                    features_df[f] = 0.0
+
             spec_features = features_df.iloc[-1:][FEATURES]
             pred, conf = get_prediction_on_latest_data(model, spec_features, FEATURES)
 

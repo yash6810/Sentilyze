@@ -135,6 +135,21 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
         .fillna(0.0)
     )
 
+    # 5. Fixed-Width Window Fractional Differentiation (Preserves 90%+ Long Memory while ADF Stationary)
+    from src.fractional_diff import fractional_differentiation_ffd
+
+    try:
+        ffd_close = fractional_differentiation_ffd(ph_shifted["Close"], d=0.40)
+        price_history["Close_FFD"] = ffd_close
+    except Exception:
+        price_history["Close_FFD"] = ph_shifted["Close"].diff()
+    price_history["Close_FFD"] = (
+        price_history["Close_FFD"]
+        .ffill()
+        .replace([float("inf"), float("-inf")], 0.0)
+        .fillna(0.0)
+    )
+
     return price_history
 
 

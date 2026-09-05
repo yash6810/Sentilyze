@@ -256,7 +256,9 @@ def load_dlinear_model(filepath: str) -> DLinearTCNModel:
     """Loads a pre-trained DLinear-TCN model from state_dict."""
     if not os.path.exists(filepath):
         raise FileNotFoundError(f"Model file not found at {filepath}")
-    checkpoint = torch.load(filepath, map_location="cpu")
+    checkpoint = torch.load(
+        filepath, map_location="cpu", weights_only=True
+    )  # nosec B614
     seq_len = checkpoint.get("seq_len", 10)
     num_features = checkpoint.get("num_features", 25)
     model = DLinearTCNModel(seq_len=seq_len, num_features=num_features)

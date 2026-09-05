@@ -34,6 +34,7 @@ FEATURES = [
     "positive",
     "negative",
     "neutral",
+    "Close_FFD",
 ]
 
 # Hyperparameters for the XGBoost Classifier (regularized for low-noise time series)

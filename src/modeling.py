@@ -15,7 +15,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 from src.utils import get_logger, sanitize_filename, safe_path_join
 from src.config import XGB_MODEL_PARAMS
-from typing import Tuple, Dict, Any, List
+from typing import Tuple, Dict, Any, List, Optional
+from src.purged_cv import PurgedGroupTimeSeriesSplit, compute_deflated_sharpe_ratio
+from src.conformal_calibration import ConformalCalibrator
 
 logger = get_logger(__name__)
 
@@ -26,80 +28,129 @@ def train_model(
     train_window: int = 500,
     test_window: int = 20,
     tune_hyperparameters: bool = False,
+    use_purged_cv: bool = True,
+    n_splits: int = 5,
 ) -> Tuple[xgb.XGBClassifier, Dict[str, Any], pd.Series]:
     """
-    Train the XGBoost model using Walk-Forward Optimization (WFO) alongside a Logistic Regression baseline.
-    Strictly trains on past data (e.g., 500 days) to predict the immediate future (e.g., 20 days), rolling forward.
+    Train the XGBoost model using Combinatorial Purged & Embargoed Cross-Validation (CPCV)
+    with Conformal Probability Calibration and Deflated Sharpe Ratio calculation alongside
+    a Logistic Regression baseline.
 
     Args:
         X (pd.DataFrame): The full features DataFrame (chronologically ordered).
         y (pd.Series): The full target Series.
-        train_window (int): Number of days for the rolling training window.
-        test_window (int): Number of days to predict iteratively.
+        train_window (int): Number of days for legacy rolling training window fallback.
+        test_window (int): Number of days to predict iteratively for legacy WFO fallback.
         tune_hyperparameters (bool): If True, runs a randomized hyperparameter search.
+        use_purged_cv (bool): If True, uses CPCV with PurgedGroupTimeSeriesSplit and Conformal Calibration.
+        n_splits (int): Number of splits for CPCV.
 
     Returns:
         Tuple[xgb.XGBClassifier, Dict[str, Any], pd.Series]:
             - The final trained model (trained on all recent data for live use).
-            - A dictionary of metrics across the entire WFO out-of-sample period (including baseline comparison).
-            - A Series containing all out-of-sample predictions.
+            - A dictionary of metrics across the entire OOS period (including DSR & baseline).
+            - A Series containing all calibrated out-of-sample predictions.
     """
     logger.info(
-        f"Starting Walk-Forward Optimization (Train: {train_window}d, Test: {test_window}d)..."
+        f"Starting Model Training (Purged CV: {use_purged_cv}, Samples: {len(X)})..."
     )
 
-    # Store out-of-sample (OOS) predictions for XGBoost
     oos_predictions = []
     oos_true = []
     oos_indices = []
-
-    # Store out-of-sample predictions for Logistic Regression baseline
     baseline_oos_predictions = []
 
     model_params = XGB_MODEL_PARAMS.copy()
-
     total_samples = len(X)
 
-    if total_samples <= train_window:
+    if total_samples < 30:
         logger.error(
-            f"Not enough data for WFO. Got {total_samples} rows, need > {train_window}"
+            f"Not enough data for training. Got {total_samples} rows, need >= 30"
         )
         raise ValueError("Insufficient data for requested training window.")
 
-    # Rolling WFO Loop
-    for start_idx in range(0, total_samples - train_window, test_window):
-        end_train = start_idx + train_window
-        end_test = min(end_train + test_window, total_samples)
+    if use_purged_cv and total_samples >= 80:
+        logger.info(
+            f"Executing Combinatorial Purged & Embargoed Cross-Validation ({n_splits} folds)..."
+        )
+        cv = PurgedGroupTimeSeriesSplit(
+            n_splits=n_splits, purge_window=5, embargo_pct=0.02
+        )
 
-        # Split Data
-        X_train_fold = X.iloc[start_idx:end_train]
-        y_train_fold = y.iloc[start_idx:end_train]
-        X_test_fold = X.iloc[end_train:end_test]
-        y_test_fold = y.iloc[end_train:end_test]
+        for fold, (train_idx, test_idx) in enumerate(cv.split(X, y)):
+            X_train_fold, y_train_fold = X.iloc[train_idx], y.iloc[train_idx]
+            X_test_fold, y_test_fold = X.iloc[test_idx], y.iloc[test_idx]
 
-        # 1. Train Fold XGBoost Model
-        fold_model = xgb.XGBClassifier(**model_params)
-        fold_model.fit(X_train_fold, y_train_fold)
-        fold_probs = fold_model.predict_proba(X_test_fold)[:, 1]
-
-        # 2. Train Fold Baseline Logistic Regression Model (with scaling)
-        try:
-            baseline_model = make_pipeline(
-                StandardScaler(), LogisticRegression(max_iter=500, random_state=42)
+            # Split training fold into estimation (80%) and holdout calibration set (20%)
+            calib_split = int(len(X_train_fold) * 0.8)
+            X_est, y_est = (
+                X_train_fold.iloc[:calib_split],
+                y_train_fold.iloc[:calib_split],
             )
-            baseline_model.fit(X_train_fold, y_train_fold)
-            baseline_probs = baseline_model.predict_proba(X_test_fold)[:, 1]
-        except Exception:
-            baseline_probs = np.full(len(y_test_fold), 0.5)
+            X_cal, y_cal = (
+                X_train_fold.iloc[calib_split:],
+                y_train_fold.iloc[calib_split:],
+            )
 
-        oos_predictions.extend(fold_probs)
-        baseline_oos_predictions.extend(baseline_probs)
-        oos_true.extend(y_test_fold.values)
-        oos_indices.extend(y_test_fold.index)
+            # 1. Train Fold XGBoost Model
+            fold_model = xgb.XGBClassifier(**model_params)
+            fold_model.fit(X_est, y_est)
+            raw_cal_probs = fold_model.predict_proba(X_cal)[:, 1]
+            raw_test_probs = fold_model.predict_proba(X_test_fold)[:, 1]
 
-    final_oos_preds_series = pd.Series(oos_predictions, index=oos_indices)
+            # 2. Conformal Probability Calibration
+            calibrator = ConformalCalibrator(alpha=0.10)
+            calibrator.fit(raw_cal_probs, y_cal.values)
+            calibrated_test_probs = calibrator.calibrate(raw_test_probs)
 
-    # Calculate XGBoost global metrics
+            # 3. Train Fold Baseline Logistic Regression Model
+            try:
+                baseline_model = make_pipeline(
+                    StandardScaler(), LogisticRegression(max_iter=500, random_state=42)
+                )
+                baseline_model.fit(X_train_fold, y_train_fold)
+                baseline_probs = baseline_model.predict_proba(X_test_fold)[:, 1]
+            except Exception:
+                baseline_probs = np.full(len(y_test_fold), 0.5)
+
+            oos_predictions.extend(calibrated_test_probs)
+            baseline_oos_predictions.extend(baseline_probs)
+            oos_true.extend(y_test_fold.values)
+            oos_indices.extend(y_test_fold.index)
+    else:
+        # Walk-Forward Optimization (WFO) fallback
+        w_train = min(train_window, int(total_samples * 0.7))
+        w_test = max(5, min(test_window, int(total_samples * 0.1)))
+
+        for start_idx in range(0, total_samples - w_train, w_test):
+            end_train = start_idx + w_train
+            end_test = min(end_train + w_test, total_samples)
+
+            X_train_fold = X.iloc[start_idx:end_train]
+            y_train_fold = y.iloc[start_idx:end_train]
+            X_test_fold = X.iloc[end_train:end_test]
+            y_test_fold = y.iloc[end_train:end_test]
+
+            fold_model = xgb.XGBClassifier(**model_params)
+            fold_model.fit(X_train_fold, y_train_fold)
+            fold_probs = fold_model.predict_proba(X_test_fold)[:, 1]
+
+            try:
+                baseline_model = make_pipeline(
+                    StandardScaler(), LogisticRegression(max_iter=500, random_state=42)
+                )
+                baseline_model.fit(X_train_fold, y_train_fold)
+                baseline_probs = baseline_model.predict_proba(X_test_fold)[:, 1]
+            except Exception:
+                baseline_probs = np.full(len(y_test_fold), 0.5)
+
+            oos_predictions.extend(fold_probs)
+            baseline_oos_predictions.extend(baseline_probs)
+            oos_true.extend(y_test_fold.values)
+            oos_indices.extend(y_test_fold.index)
+
+    final_oos_preds_series = pd.Series(oos_predictions, index=oos_indices).sort_index()
+
     binary_preds = [1 if p > 0.5 else 0 for p in oos_predictions]
     accuracy = float(accuracy_score(oos_true, binary_preds))
     precision = float(precision_score(oos_true, binary_preds, zero_division=0))
@@ -121,12 +172,28 @@ def train_model(
     except Exception:
         baseline_roc_auc = 0.5
 
+    # Compute Strategy Sharpe & Deflated Sharpe Ratio (DSR - Bailey & Lopez de Prado 2014)
+    strat_signals = np.where(np.array(oos_predictions) > 0.50, 1.0, -0.5)
+    strat_returns = strat_signals * np.where(np.array(oos_true) == 1, 0.01, -0.01)
+    sharpe = float(
+        np.mean(strat_returns) / (np.std(strat_returns) + 1e-8) * np.sqrt(252)
+    )
+    dsr = compute_deflated_sharpe_ratio(
+        estimated_sharpe=sharpe,
+        benchmark_sharpe=0.0,
+        n_trials=30,
+        var_sharpe=0.15,
+        sample_length=len(oos_predictions),
+    )
+
     metrics = {
         "accuracy": accuracy,
         "precision": precision,
         "recall": recall,
         "f1": f1,
         "roc_auc": roc_auc,
+        "strategy_sharpe": sharpe,
+        "deflated_sharpe_ratio": dsr,
         "baseline_logistic_accuracy": baseline_accuracy,
         "baseline_logistic_roc_auc": baseline_roc_auc,
         "classification_report": report,
@@ -134,20 +201,18 @@ def train_model(
         "total_test_samples": len(oos_true),
     }
 
-    logger.info(f"WFO complete across {len(oos_true)} out-of-sample days.")
-    logger.info(f"XGBoost Accuracy: {accuracy:.4f}, ROC-AUC: {roc_auc:.4f}")
+    logger.info(f"Training complete across {len(oos_true)} out-of-sample days.")
+    logger.info(
+        f"XGBoost Calibrated Accuracy: {accuracy:.4f}, ROC-AUC: {roc_auc:.4f}, DSR: {dsr:.4f}"
+    )
     logger.info(
         f"Baseline Logistic Regression Accuracy: {baseline_accuracy:.4f}, ROC-AUC: {baseline_roc_auc:.4f}"
     )
 
-    # Train final production model on the most recent data window
-    logger.info("Training final production model on the most recent data window...")
-    final_start = max(0, total_samples - train_window)
-    X_final = X.iloc[final_start:]
-    y_final = y.iloc[final_start:]
-
+    # Train final production model on full dataset
+    logger.info("Training final production booster...")
     final_model = xgb.XGBClassifier(**model_params)
-    final_model.fit(X_final, y_final)
+    final_model.fit(X, y)
 
     return final_model, metrics, final_oos_preds_series
 

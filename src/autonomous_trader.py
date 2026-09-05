@@ -600,6 +600,20 @@ class AutonomousTradingEngine:
                 if spot_price <= 0:
                     continue
 
+                # Portfolio Correlation Matrix Shield Check (Markowitz Diversification)
+                from src.correlation_shield import check_correlation_shield
+
+                corr_check = check_correlation_shield(
+                    candidate_ticker=t,
+                    open_positions=self.broker.state.get("open_positions", {}),
+                    max_corr_threshold=0.70,
+                )
+                if not corr_check.get("allowed"):
+                    logger.warning(
+                        f"🛡️ [CORRELATION SHIELD VETO] Candidate {t} rejected: {corr_check.get('reason')}"
+                    )
+                    continue
+
                 # Ensure Kelly sizing allocation does not breach max position size
                 cro_info = delib.get("cro_signoff") or {}
                 approved_kelly = float(cro_info.get("approved_kelly_pct", 8.0))

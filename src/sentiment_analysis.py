@@ -124,6 +124,7 @@ def get_sentiment(
     extracting full multi-class probability distributions, signed polarity scores,
     and optional file-based caching.
     """
+    cached_df = None
     if ticker:
         clean_ticker = sanitize_filename(ticker)
         cache_path = safe_path_join(PROCESSED_DATA_DIR, f"{clean_ticker}_sentiment.csv")
@@ -133,36 +134,35 @@ def get_sentiment(
             import time
 
             cache_age_hours = (time.time() - os.path.getmtime(cache_path)) / 3600.0
-            if cache_age_hours < cache_duration_hours:
-                try:
+            try:
+                cached_df = pd.read_csv(
+                    cache_path, index_col="publishedAt", parse_dates=True
+                )
+                if (
+                    cache_duration_hours > 0
+                    and cache_age_hours < cache_duration_hours
+                    and not cached_df.empty
+                ):
                     logger.info(
                         f"Loading cached sentiment data for {ticker} from {cache_path}"
                     )
-                    sentiment_df = pd.read_csv(
-                        cache_path, index_col="publishedAt", parse_dates=True
-                    )
-                    return sentiment_df
-                except Exception as e:
-                    logger.warning(
-                        f"Corrupted cache file found for {ticker} ({e}). Re-running sentiment analysis."
-                    )
-                    try:
-                        os.remove(cache_path)
-                    except OSError:
-                        pass
-            else:
-                logger.info(
-                    f"Sentiment cache for {ticker} is stale ({cache_age_hours:.1f}h old). Re-analyzing fresh news..."
+                    return cached_df
+            except Exception as e:
+                logger.warning(
+                    f"Corrupted cache file found for {ticker} ({e}). Re-running full sentiment analysis."
                 )
+                cached_df = None
+                try:
+                    os.remove(cache_path)
+                except OSError:
+                    pass
 
     if articles is None or articles.empty:
-        return pd.DataFrame()
-
-    logger.info(
-        f"Running FinBERT sentiment analysis (caching {'enabled' if ticker else 'disabled'})."
-    )
-
-    from tqdm import tqdm
+        return (
+            cached_df
+            if (cached_df is not None and not cached_df.empty)
+            else pd.DataFrame()
+        )
 
     # Determine available text columns
     text_columns = []
@@ -177,7 +177,50 @@ def get_sentiment(
         )
         return articles
 
-    articles_for_sentiment = articles[text_columns].dropna(subset=text_columns).copy()
+    # Determine which articles are truly new / unscored (Delta Increment)
+    articles_to_score = articles.copy()
+    if cached_df is not None and not cached_df.empty:
+        # Match against existing cached headlines by normalized Title
+        if "Title" in articles.columns and "Title" in cached_df.columns:
+            existing_titles = set(
+                cached_df["Title"].dropna().astype(str).str.strip().str.lower()
+            )
+            new_mask = (
+                ~articles["Title"]
+                .astype(str)
+                .str.strip()
+                .str.lower()
+                .isin(existing_titles)
+            )
+            articles_to_score = articles[new_mask].copy()
+
+    if articles_to_score.empty and cached_df is not None and not cached_df.empty:
+        logger.info(
+            f"⚡ Delta Cache Hit: All {len(articles)} headlines for {ticker} already scored. Fast-skipping FinBERT."
+        )
+        try:
+            # Touch cache file to update mtime
+            os.utime(cache_path, None)
+        except OSError:
+            pass
+        return cached_df
+
+    delta_count = len(articles_to_score)
+    total_count = len(articles)
+    if delta_count < total_count:
+        logger.info(
+            f"⚡ Incremental Sentiment: Scoring {delta_count} fresh headlines for {ticker} (skipping {total_count - delta_count} cached)..."
+        )
+    else:
+        logger.info(
+            f"Running FinBERT sentiment analysis on {total_count} headlines (caching {'enabled' if ticker else 'disabled'})."
+        )
+
+    from tqdm import tqdm
+
+    articles_for_sentiment = (
+        articles_to_score[text_columns].dropna(subset=text_columns).copy()
+    )
 
     # Apply specialized financial text cleaning
     clean_titles = (
@@ -204,24 +247,6 @@ def get_sentiment(
         articles_for_sentiment["text"] != ""
     ]
 
-    if articles_for_sentiment.empty:
-        return articles
-
-    results = []
-    text_list = articles_for_sentiment["text"].tolist()
-    chunk_size = 32
-
-    for i in tqdm(
-        range(0, len(text_list), chunk_size), desc="Analyzing sentiment (FinBERT)"
-    ):
-        chunk = text_list[i : i + chunk_size]
-        raw_res = sentiment_analyzer(chunk)
-        results.extend(raw_res)
-
-    parsed_metrics: List[Dict[str, Any]] = [_parse_analyzer_output(r) for r in results]
-    parsed_df = pd.DataFrame(parsed_metrics, index=articles_for_sentiment.index)
-
-    # Join metrics back to original articles DataFrame
     cols_to_join = [
         "sentiment_label",
         "sentiment_score",
@@ -230,11 +255,47 @@ def get_sentiment(
         "prob_neutral",
         "sentiment_confidence",
     ]
-    for c in cols_to_join:
-        if c in articles.columns:
-            articles.drop(columns=[c], inplace=True)
 
-    enriched_articles = articles.join(parsed_df[cols_to_join])
+    if not articles_for_sentiment.empty:
+        results = []
+        text_list = articles_for_sentiment["text"].tolist()
+        chunk_size = 32
+
+        for i in tqdm(
+            range(0, len(text_list), chunk_size), desc=f"FinBERT ({ticker or 'NLP'})"
+        ):
+            chunk = text_list[i : i + chunk_size]
+            raw_res = sentiment_analyzer(chunk)
+            results.extend(raw_res)
+
+        parsed_metrics: List[Dict[str, Any]] = [
+            _parse_analyzer_output(r) for r in results
+        ]
+        parsed_df = pd.DataFrame(parsed_metrics, index=articles_for_sentiment.index)
+
+        # Drop old sentiment columns if present
+        for c in cols_to_join:
+            if c in articles_to_score.columns:
+                articles_to_score.drop(columns=[c], inplace=True)
+
+        scored_delta = articles_to_score.join(parsed_df[cols_to_join])
+    else:
+        scored_delta = articles_to_score.copy()
+        for c in cols_to_join:
+            if c not in scored_delta.columns:
+                scored_delta[c] = None
+
+    # Merge delta with cached_df if available
+    if cached_df is not None and not cached_df.empty:
+        combined_df = pd.concat([cached_df, scored_delta])
+        # Drop duplicates if any by Title or index
+        if "Title" in combined_df.columns:
+            combined_df = combined_df.drop_duplicates(subset=["Title"], keep="last")
+        else:
+            combined_df = combined_df[~combined_df.index.duplicated(keep="last")]
+        enriched_articles = combined_df.sort_index()
+    else:
+        enriched_articles = scored_delta
 
     enriched_articles["sentiment_label"] = enriched_articles["sentiment_label"].fillna(
         "neutral"

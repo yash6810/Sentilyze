@@ -151,6 +151,38 @@ class TechnicalAlphaAgent:
                 thesis = (
                     f"Momentum neutral (RSI: {rsi_val:.1f}). 21-day MA at ${ma21:,.2f}."
                 )
+            # Check ACPM XGBoost Model Conformal Prediction
+            model_path = os.path.join("models", f"{ticker}_model.json")
+            calibrated_prob = None
+            if os.path.exists(model_path):
+                try:
+                    from src.modeling import load_model
+                    from src.config import FEATURES
+                    from src.feature_engineering import create_technical_indicators
+
+                    xgb_model = load_model(model_path)
+                    ti_df = create_technical_indicators(df)
+                    row_dict = {}
+                    for col in FEATURES:
+                        row_dict[col] = (
+                            float(ti_df[col].iloc[-1]) if col in ti_df.columns else 0.0
+                        )
+                    feat_df = pd.DataFrame([row_dict])
+                    prob_up = float(xgb_model.predict_proba(feat_df)[0, 1])
+                    calibrated_prob = round(prob_up, 4)
+
+                    # Conformal Calibration Gatekeeper (>= 58% conviction floor)
+                    if prob_up >= 0.58 and vote in ["BUY", "NEUTRAL"]:
+                        vote = "BUY"
+                        conviction = max(conviction, round(prob_up * 100.0, 1))
+                        thesis += f" ACPM Conformal Model confirms bullish expansion ({prob_up:.1%} probability >= 58% floor)."
+                    elif prob_up < 0.44:
+                        if vote == "BUY":
+                            vote = "HOLD"
+                            conviction = min(conviction, 48.0)
+                        thesis += f" ACPM Conformal Model signals caution ({prob_up:.1%} probability)."
+                except Exception as me:
+                    logger.debug(f"ACPM model inference notice for {ticker}: {me}")
         else:
             vote = "NEUTRAL"
             conviction = 50.0
@@ -159,6 +191,7 @@ class TechnicalAlphaAgent:
             sma200 = spot_price
             ma21 = spot_price
             ret_5d = 0.0
+            calibrated_prob = None
             thesis = (
                 "Insufficient historical price series; neutral technical vote cast."
             )
@@ -178,6 +211,7 @@ class TechnicalAlphaAgent:
                 "ma_21": round(ma21, 2),
                 "return_5d_pct": round(ret_5d, 2),
                 "trend_status": trend_status,
+                "acpm_calibrated_prob": calibrated_prob,
             },
             "thesis": thesis,
         }
@@ -341,11 +375,27 @@ class ChiefRiskOfficerAgent:
         # 1. Check Macro Volatility Gate (VIX Panic Check)
         vix_veto = False
         trend_veto = False
+        red_team_veto = False
+        red_team_caution = False
         veto_reason = None
+
+        # Check Red-Team Adversarial Veto
+        for r in agent_reports:
+            if (
+                isinstance(r, dict)
+                and r.get("agent_name") == "Adversarial Red-Team Specialist"
+            ):
+                if r.get("vote") == "VETO":
+                    red_team_veto = True
+                    veto_reason = f"Adversarial Red-Team VETO: {r.get('thesis')}"
+                    break
+                elif r.get("vote") == "CAUTION":
+                    red_team_caution = True
+
         if vix_level > 26.0 or vix_change_pct > 8.0:
             vix_veto = True
             veto_reason = f"VIX elevated at {vix_level:.1f} (+{vix_change_pct:+.1f}% spike) — macro volatility gate activated."
-        else:
+        elif not red_team_veto:
             # Check Trend Regime Gate: Long positions blocked if asset is below 200 SMA
             for r in agent_reports:
                 if (
@@ -366,25 +416,26 @@ class ChiefRiskOfficerAgent:
             max_cap_pct=15.0,
         )
         calculated_kelly_pct = float(kelly_result.get("fractional_kelly_pct", 0.0))
+        if red_team_caution:
+            calculated_kelly_pct = round(calculated_kelly_pct * 0.65, 2)
 
         # Determine Final Committee Resolution
-        if vix_veto or trend_veto:
-            final_resolution = (
-                "🔴 VETO / CAPITAL PRESERVATION"
-                if vix_veto
-                else "🔴 VETO / MACRO DOWNTREND (BELOW SMA200)"
-            )
+        if vix_veto or trend_veto or red_team_veto:
+            if vix_veto:
+                final_resolution = "🔴 VETO / CAPITAL PRESERVATION"
+            elif red_team_veto:
+                final_resolution = "🔴 VETO / RED-TEAM VULNERABILITY"
+            else:
+                final_resolution = "🔴 VETO / MACRO DOWNTREND (BELOW SMA200)"
             action_code = "VETO"
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
         elif buy_votes >= 3 and avg_conviction >= 70.0:
-
             final_resolution = "🚀 HIGH CONVICTION UNANIMOUS COMMITTEE BUY"
             action_code = "EXECUTE_BUY"
             approved_leverage = 1.25
             kelly_allocation_pct = calculated_kelly_pct
         elif buy_votes >= 2 and avg_conviction >= 55.0:
-
             final_resolution = "🟡 CAUTIOUS SCALE-IN (Quorum Approved)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
@@ -442,6 +493,7 @@ class ChiefRiskOfficerAgent:
             "cro_thesis": cro_thesis,
             "vix_level": vix_level,
             "vix_veto_triggered": vix_veto,
+            "red_team_veto_triggered": red_team_veto,
         }
 
 
@@ -453,11 +505,11 @@ def convene_trading_committee(
     spot_price: Optional[float] = None,
 ) -> Dict[str, Any]:
     """
-    Orchestrates a full round-table deliberation of the 4-Agent Trading Committee for a given asset.
+    Orchestrates a full round-table deliberation of the 5-Agent Trading Committee for a given asset.
 
     Returns structured transcript with individual agent testimonies and CRO official sign-off.
     """
-    logger.info(f"🏛️ Convening 4-Agent Quantitative Trading Committee for {ticker}...")
+    logger.info(f"🏛️ Convening 5-Agent Quantitative Trading Committee for {ticker}...")
 
     if not spot_price or spot_price <= 0:
         quote = fetch_live_quote(ticker)
@@ -466,24 +518,28 @@ def convene_trading_committee(
             spot_price = 100.0
 
     from src.price_scout import PriceActionScoutAgent
+    from src.red_team_agent import AdversarialRedTeamAgent
 
     tech_agent = TechnicalAlphaAgent()
     sent_agent = SentimentCatalystAgent()
     forensic_agent = ForensicFundamentalAgent()
     scout_agent = PriceActionScoutAgent()
+    red_team_agent = AdversarialRedTeamAgent()
     cro_agent = ChiefRiskOfficerAgent()
 
-    # Gather Specialist Testimonies from domain agents + real-time price scout
+    # Gather Specialist Testimonies from domain agents + real-time price scout + red-team stress tester
     report_tech = tech_agent.evaluate(ticker, spot_price)
     report_sent = sent_agent.evaluate(ticker)
     report_forensic = forensic_agent.evaluate(ticker, spot_price)
     report_scout = scout_agent.evaluate(ticker, spot_price)
+    report_red_team = red_team_agent.evaluate(ticker, spot_price)
 
     specialist_reports = [
         report_tech,
         report_sent,
         report_forensic,
         report_scout,
+        report_red_team,
     ]
 
     # CRO Deliberation & Sign-Off

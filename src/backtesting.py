@@ -458,30 +458,32 @@ def run_significance_test(
     close_prices = price_history["Close"].values
     daily_price_returns = np.diff(close_prices) / (close_prices[:-1] + 1e-10)
 
-    # Generate N random Sharpe ratios
-    random_sharpes = []
+    # Generate N random Sharpe ratios via vectorized NumPy matrix operations
     avg_hold_days = max(1, int(n_days / (n_trades * 2)))
+    n_pts = len(daily_price_returns)
+    max_entry = max(1, n_pts - avg_hold_days)
 
-    for _ in range(n_simulations):
-        # Pick random entry points
-        random_entries = rng.choice(
-            len(daily_price_returns) - avg_hold_days, size=n_trades, replace=False
-        )
-        sim_returns = np.zeros_like(daily_price_returns)
+    # 1. Generate random entry matrix (n_simulations x n_trades)
+    entries = rng.integers(0, max_entry, size=(n_simulations, n_trades))
+    offsets = np.arange(avg_hold_days)
+    all_indices = (entries[:, :, None] + offsets[None, None, :]).reshape(
+        n_simulations, -1
+    )
+    all_indices = np.clip(all_indices, 0, n_pts - 1)
 
-        for entry in random_entries:
-            sim_returns[entry : entry + avg_hold_days] = daily_price_returns[
-                entry : entry + avg_hold_days
-            ]
+    # 2. Vectorized mask creation & returns matrix
+    sim_masks = np.zeros((n_simulations, n_pts), dtype=bool)
+    rows = np.arange(n_simulations)[:, None]
+    sim_masks[rows, all_indices] = True
 
-        sim_std = np.std(sim_returns)
-        if sim_std > 0:
-            sim_sharpe = (np.mean(sim_returns) / sim_std) * np.sqrt(252)
-        else:
-            sim_sharpe = 0.0
-        random_sharpes.append(sim_sharpe)
+    sim_returns = np.where(sim_masks, daily_price_returns[None, :], 0.0)
+    sim_means = np.mean(sim_returns, axis=1)
+    sim_stds = np.std(sim_returns, axis=1)
 
-    random_sharpes_arr = np.array(random_sharpes)
+    # 3. Vectorized annualized Sharpe ratio calculation
+    valid = sim_stds > 0
+    random_sharpes_arr = np.zeros(n_simulations, dtype=np.float64)
+    random_sharpes_arr[valid] = (sim_means[valid] / sim_stds[valid]) * np.sqrt(252)
     p_value = float(np.mean(random_sharpes_arr >= strategy_sharpe))
     ci_lower = float(np.percentile(random_sharpes_arr, 2.5))
     ci_upper = float(np.percentile(random_sharpes_arr, 97.5))

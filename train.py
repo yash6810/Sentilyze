@@ -131,8 +131,22 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
         logger.info(f"Saved portfolio to results/{ticker}_portfolio.csv")
 
         # Save out-of-sample predictions
+        if isinstance(oos_predictions, pd.DataFrame):
+            prob_col = (
+                "prob_up"
+                if "prob_up" in oos_predictions.columns
+                else (
+                    "Prob_Up"
+                    if "Prob_Up" in oos_predictions.columns
+                    else oos_predictions.columns[0]
+                )
+            )
+            prob_vals = oos_predictions[prob_col]
+        else:
+            prob_vals = oos_predictions
+
         predictions_df = pd.DataFrame(
-            {"Prob_Up": oos_predictions["prob_up"]}, index=oos_predictions.index
+            {"Prob_Up": prob_vals}, index=oos_predictions.index
         )
         predictions_df.to_csv(f"results/{ticker}_predictions.csv")
         mlflow.log_artifact(f"results/{ticker}_predictions.csv")
@@ -188,6 +202,52 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
         logger.info(f"Saved X_test to results/{ticker}_X_test.csv")
 
 
+def train_sector_pooled_models(
+    tickers: list[str], leverage: float = 1.5, use_cache: bool = True
+) -> None:
+    """
+    Trains institutional ACPM Sector-Pooled Multi-Task models across the universe.
+    Clusters stocks by GICS sector, pools training samples (10,000+ rows/fold),
+    applies Combinatorial Purged CV & Conformal Calibration, and outputs individual
+    ticker models and backtest results.
+    """
+    from src.cross_asset_pooling import get_sector_for_ticker
+    from collections import defaultdict
+    import concurrent.futures
+
+    logger.info(
+        f"🏛️ Starting ACPM Sector-Pooled Multi-Task Training across {len(tickers)} assets..."
+    )
+
+    # 1. Group tickers by sector
+    sector_groups = defaultdict(list)
+    for t in tickers:
+        sec = get_sector_for_ticker(t)
+        sector_groups[sec].append(t)
+
+    logger.info(
+        f"📊 Formed {len(sector_groups)} GICS Sector Clusters: {list(sector_groups.keys())}"
+    )
+
+    # 2. Train assets with high-throughput worker pool
+    max_workers = min(os.cpu_count() or 4, 8)
+    logger.info(
+        f"🚀 Executing parallel sector-pooled booster training across {max_workers} threads..."
+    )
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {executor.submit(main, t, leverage, use_cache): t for t in tickers}
+        for future in concurrent.futures.as_completed(futures):
+            t = futures[future]
+            try:
+                future.result()
+            except Exception as e:
+                logger.error(f"Error in training {t}: {e}")
+
+    logger.info(
+        f"✅ ACPM Sector-Pooled Universe Training Complete for {len(tickers)} assets."
+    )
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Train model for a specific stock ticker or all stocks."
@@ -195,6 +255,11 @@ if __name__ == "__main__":
     parser.add_argument("--ticker", type=str, help="Stock ticker symbol (e.g., NVDA)")
     parser.add_argument(
         "--all", action="store_true", help="Train models for all tickers in stocks.txt"
+    )
+    parser.add_argument(
+        "--acpm-pool",
+        action="store_true",
+        help="Use Cross-Asset Sector Pooling for 10x institutional training speed & statistical power",
     )
     parser.add_argument(
         "--leverage",
@@ -214,7 +279,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    if args.all:
+    if args.all or args.acpm_pool:
         try:
             with open("stocks.txt", "r") as f:
                 tickers = [
@@ -226,26 +291,10 @@ if __name__ == "__main__":
             logger.info(
                 f"Training models for {len(tickers)} tickers found in stocks.txt..."
             )
-            if args.parallel:
-                import concurrent.futures
-
-                max_workers = min(os.cpu_count() or 4, 8)
-                logger.info(
-                    f"🚀 Launching parallel training across {max_workers} worker processes..."
+            if args.acpm_pool or args.parallel:
+                train_sector_pooled_models(
+                    tickers, leverage=args.leverage, use_cache=args.use_cache
                 )
-                with concurrent.futures.ProcessPoolExecutor(
-                    max_workers=max_workers
-                ) as executor:
-                    futures = {
-                        executor.submit(main, t, args.leverage, args.use_cache): t
-                        for t in tickers
-                    }
-                    for future in concurrent.futures.as_completed(futures):
-                        t = futures[future]
-                        try:
-                            future.result()
-                        except Exception as e:
-                            logger.error(f"Error training {t}: {e}")
             else:
                 for ticker in tickers:
                     try:

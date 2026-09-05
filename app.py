@@ -38,6 +38,7 @@ from src.ui.ws_market_neutral_statarb import render_market_neutral_statarb_works
 from src.ui.ws_morning_briefing import render_morning_briefing_workspace
 from src.ui.ws_broker_webhooks import render_broker_webhooks_workspace
 from src.ui.ws_macro_liquidity import render_macro_liquidity_workspace
+from src.ui.ws_screener import render_screener_workspace
 from src.ui.components import get_market_status
 from src.config import COMPANY_NAMES
 
@@ -115,7 +116,7 @@ def main():
     # 3. Workspace Navigation
     workspaces = {
         "🔮 1. Live Directional Prediction": "prediction",
-        "🏛️ 2. 4-Agent Trading Committee": "committee",
+        "🏛️ 2. 5-Agent Adversarial Committee (War Room)": "committee",
         "🤖 3. 24/7 Autonomous Live Trader": "auto_trader",
         "📡 4. 4-Station Reddit News & Pre-IPO": "alternative",
         "💼 5. Portfolio Kelly Sizing": "portfolio",
@@ -137,6 +138,7 @@ def main():
         "🎙️ 21. AI Pre-Market Morning Audio & Briefing": "morning_briefing",
         "⚡ 22. Automated Broker Webhooks & API Dispatcher": "broker_webhooks",
         "🌐 23. Real-Time Macro Liquidity & Yield Radar": "macro_liquidity",
+        "📡 24. Real-Time Market Anomaly Screener": "screener",
     }
 
     selected_ws_label = st.sidebar.radio(
@@ -200,6 +202,8 @@ def main():
         render_broker_webhooks_workspace(selected_ticker)
     elif ws_key == "macro_liquidity":
         render_macro_liquidity_workspace()
+    elif ws_key == "screener":
+        render_screener_workspace()
 
 
 if __name__ == "__main__":

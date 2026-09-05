@@ -54,6 +54,18 @@ def _load_sentiment_analyzer() -> Any:
                 model = AutoModelForSequenceClassification.from_pretrained(
                     local_path, local_files_only=True
                 )  # nosec B615
+                if device == -1:
+                    try:
+                        import torch.quantization
+
+                        model = torch.quantization.quantize_dynamic(
+                            model, {torch.nn.Linear}, dtype=torch.qint8
+                        )
+                        logger.info(
+                            "⚡ PyTorch INT8 Dynamic Quantization enabled for FinBERT on CPU."
+                        )
+                    except Exception as q_err:
+                        logger.debug(f"INT8 quantization skipped: {q_err}")
                 _SENTIMENT_ANALYZER_INSTANCE = pipeline(
                     "sentiment-analysis",
                     model=model,
@@ -75,6 +87,18 @@ def _load_sentiment_analyzer() -> Any:
         model = AutoModelForSequenceClassification.from_pretrained(
             "ProsusAI/finbert", revision="main"
         )  # nosec B615
+        if device == -1:
+            try:
+                import torch.quantization
+
+                model = torch.quantization.quantize_dynamic(
+                    model, {torch.nn.Linear}, dtype=torch.qint8
+                )
+                logger.info(
+                    "⚡ PyTorch INT8 Dynamic Quantization enabled for FinBERT on CPU."
+                )
+            except Exception as q_err:
+                logger.debug(f"INT8 quantization skipped: {q_err}")
         _SENTIMENT_ANALYZER_INSTANCE = pipeline(
             "sentiment-analysis",
             model=model,
