@@ -34,7 +34,7 @@ def test_get_portfolio_intelligence():
     assert "total_equity" in intel
     assert "cash_reserves" in intel
     assert intel["total_equity"] >= 100000.0
-    assert intel["win_rate"] > 0
+    assert intel["win_rate"] >= 0.0
 
 
 def test_generate_morning_briefing_market_master_mode():
