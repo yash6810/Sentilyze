@@ -1,7 +1,7 @@
 {
-  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Thursday, September 03, 2026",
+  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Saturday, September 05, 2026",
   "mode": "SINGLE_TICKER",
-  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.4**. Top algorithmic focus is on **ADP, BR, CHRW** with **ADP** leading at 78% conviction. The fund holds **$152,198.09** in 100% liquid cash reserves, ready for morning opening range opportunities.",
+  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.4**. Top algorithmic focus is on **CAT, CARR, BA** with **CAT** leading at 78% conviction. The fund holds **$100,000.00** in 100% liquid cash reserves, ready for morning opening range opportunities.",
   "macro_posture": {
     "regime": "BULLISH_EXPANSION",
     "vix_level": 15.390000343322754,
@@ -10,59 +10,59 @@
   },
   "top_stocks_in_play": [
     {
-      "ticker": "ADP",
-      "last_price": 283.51,
-      "day_change_pct": -0.94,
-      "momentum_5d_pct": 0.77,
-      "atr": 5.67,
-      "tp1_target": 297.69,
-      "tp2_target": 309.03,
-      "sl_target": 275.01,
-      "conviction_pct": 69.3,
-      "headline_catalyst": "Solid institutional institutional order flow observed in ADP.",
-      "sentiment_buzz": "Consolidation"
+      "ticker": "CAT",
+      "last_price": 813.8,
+      "day_change_pct": 1.74,
+      "momentum_5d_pct": 2.01,
+      "atr": 18.05,
+      "tp1_target": 858.91,
+      "tp2_target": 895.01,
+      "sl_target": 786.73,
+      "conviction_pct": 76.5,
+      "headline_catalyst": "Solid institutional institutional order flow observed in CAT.",
+      "sentiment_buzz": "Bullish Momentum"
     },
     {
-      "ticker": "BR",
-      "last_price": 180.63,
-      "day_change_pct": 0.13,
-      "momentum_5d_pct": -1.34,
-      "atr": 3.61,
-      "tp1_target": 189.66,
-      "tp2_target": 196.89,
-      "sl_target": 175.21,
-      "conviction_pct": 68.3,
-      "headline_catalyst": "Solid institutional institutional order flow observed in BR.",
-      "sentiment_buzz": "Consolidation"
+      "ticker": "CARR",
+      "last_price": 59.71,
+      "day_change_pct": 1.08,
+      "momentum_5d_pct": 2.57,
+      "atr": 1.2,
+      "tp1_target": 62.71,
+      "tp2_target": 65.11,
+      "sl_target": 57.91,
+      "conviction_pct": 76.0,
+      "headline_catalyst": "Solid institutional institutional order flow observed in CARR.",
+      "sentiment_buzz": "Bullish Momentum"
     },
     {
-      "ticker": "CHRW",
-      "last_price": 147.53,
-      "day_change_pct": -0.24,
-      "momentum_5d_pct": -2.39,
-      "atr": 3.07,
-      "tp1_target": 155.19,
-      "tp2_target": 161.33,
-      "sl_target": 142.93,
-      "conviction_pct": 65.9,
-      "headline_catalyst": "Solid institutional institutional order flow observed in CHRW.",
-      "sentiment_buzz": "Consolidation"
+      "ticker": "BA",
+      "last_price": 212.19,
+      "day_change_pct": 0.79,
+      "momentum_5d_pct": 2.14,
+      "atr": 4.24,
+      "tp1_target": 222.8,
+      "tp2_target": 231.29,
+      "sl_target": 205.83,
+      "conviction_pct": 74.8,
+      "headline_catalyst": "Solid institutional institutional order flow observed in BA.",
+      "sentiment_buzz": "Bullish Momentum"
     }
   ],
   "primary_focus": {
-    "ticker": "ADP",
+    "ticker": "CAT",
     "committee_decision": "APPROVED",
     "confidence_pct": 78.0,
     "rationale": "Strong momentum catalyst and disciplined risk-reward ratio."
   },
   "portfolio_status": {
-    "total_equity": 152198.09,
-    "cash_reserves": 152198.09,
-    "realized_gain": 52198.09,
-    "win_rate_pct": 89.66,
+    "total_equity": 100000.0,
+    "cash_reserves": 100000.0,
+    "realized_gain": 0.0,
+    "win_rate_pct": 0.0,
     "open_positions": 0,
     "active_tickers": []
   },
-  "audio_script": "Good morning. This is your Sentilyze Deep Dive Analyst Briefing on NVDA for Thursday, September 03, 2026. The macroeconomic volatility regime is Bullish Expansion with VIX at 15.4. The Multi-Agent Quantitative Committee has delivered a APPROVED verdict on NVDA with 78 percent conviction. Our portfolio holds 152,198.09 dollars in liquid cash, ready to allocate fractional Kelly sizing upon market open.",
-  "generated_at": "12:48 PM UTC"
+  "audio_script": "Good morning. This is your Sentilyze Deep Dive Analyst Briefing on NVDA for Saturday, September 05, 2026. The macroeconomic volatility regime is Bullish Expansion with VIX at 15.4. The Multi-Agent Quantitative Committee has delivered a APPROVED verdict on NVDA with 78 percent conviction. Our portfolio holds 100,000.00 dollars in liquid cash, ready to allocate fractional Kelly sizing upon market open.",
+  "generated_at": "07:03 PM UTC"
 }

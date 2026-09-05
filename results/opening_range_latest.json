@@ -1,53 +1,100 @@
 {
-  "session_time": "Sep 03, 2026 \u2022 12:41 AM IST (03:11 PM EDT)",
+  "session_time": "Sep 06, 2026 \u2022 12:33 AM IST (03:03 PM EDT)",
   "stocks_in_play": [
-    "AOS",
     "CSX",
-    "FIX",
     "EXPD",
-    "FERG"
+    "ALLE",
+    "DD",
+    "CARR"
   ],
   "signals_count": 5,
-  "executed_paper_trades": [
-    {
-      "ticker": "AOS",
-      "shares": 405,
-      "entry_price": 111.0,
-      "cost": 44955.0,
-      "entry_date": "2026-09-02",
-      "tp1_target": 117.94,
-      "tp2_target": 123.49,
-      "sl_target": 106.84,
-      "confidence": 48.3
-    },
+  "signals": [
     {
       "ticker": "CSX",
-      "shares": 405,
-      "entry_price": 111.0,
-      "cost": 44955.0,
-      "entry_date": "2026-09-02",
-      "tp1_target": 117.94,
-      "tp2_target": 123.49,
-      "sl_target": 106.84,
-      "confidence": 48.3
+      "signal": "BUY",
+      "current_price": 49.41,
+      "confidence": 0.4833,
+      "take_profit": 55.41,
+      "stop_loss": 46.41
+    },
+    {
+      "ticker": "EXPD",
+      "signal": "BUY",
+      "current_price": 188.8,
+      "confidence": 0.4833,
+      "take_profit": 194.8,
+      "stop_loss": 185.8
+    },
+    {
+      "ticker": "ALLE",
+      "signal": "BUY",
+      "current_price": 157.12,
+      "confidence": 0.4833,
+      "take_profit": 163.12,
+      "stop_loss": 154.12
+    },
+    {
+      "ticker": "DD",
+      "signal": "BUY",
+      "current_price": 131.59,
+      "confidence": 0.4833,
+      "take_profit": 137.59,
+      "stop_loss": 128.59
+    },
+    {
+      "ticker": "CARR",
+      "signal": "BUY",
+      "current_price": 59.71,
+      "confidence": 0.4833,
+      "take_profit": 65.71,
+      "stop_loss": 56.71
+    }
+  ],
+  "executed_paper_trades": [
+    {
+      "ticker": "CSX",
+      "signal": "BUY",
+      "current_price": 49.41,
+      "confidence": 0.4833,
+      "take_profit": 55.41,
+      "stop_loss": 46.41
+    },
+    {
+      "ticker": "EXPD",
+      "signal": "BUY",
+      "current_price": 188.8,
+      "confidence": 0.4833,
+      "take_profit": 194.8,
+      "stop_loss": 185.8
+    },
+    {
+      "ticker": "ALLE",
+      "signal": "BUY",
+      "current_price": 157.12,
+      "confidence": 0.4833,
+      "take_profit": 163.12,
+      "stop_loss": 154.12
+    },
+    {
+      "ticker": "DD",
+      "signal": "BUY",
+      "current_price": 131.59,
+      "confidence": 0.4833,
+      "take_profit": 137.59,
+      "stop_loss": 128.59
+    },
+    {
+      "ticker": "CARR",
+      "signal": "BUY",
+      "current_price": 59.71,
+      "confidence": 0.4833,
+      "take_profit": 65.71,
+      "stop_loss": 56.71
     }
   ],
   "portfolio_summary": {
-    "total_equity": 100000.0,
-    "cash": 10090.0,
-    "invested": 89910.0,
-    "start_of_day_equity": 100000.0,
-    "daily_pnl": 0.0,
-    "daily_return_pct": 0.0,
-    "unrealized_pnl": 0.0,
-    "unrealized_pnl_pct": 0.0,
-    "realized_pnl": 0.0,
-    "total_pnl": 0.0,
-    "total_return_pct": 0.0,
-    "win_rate": 0.0,
-    "open_positions_count": 2,
-    "total_trades": 0,
-    "winning_trades": 0,
-    "losing_trades": 0
+    "total_equity": 151872.25,
+    "cash": 140982.95,
+    "win_rate": 83.9
   }
 }

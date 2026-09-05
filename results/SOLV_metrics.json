@@ -1,0 +1,30 @@
+{
+    "accuracy": 0.5405405405405406,
+    "precision": 0.5714285714285714,
+    "recall": 0.42105263157894735,
+    "f1": 0.48484848484848486,
+    "roc_auc": 0.5240415854450942,
+    "baseline_logistic_accuracy": 0.5045045045045045,
+    "baseline_logistic_roc_auc": 0.4727095516569201,
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.52      0.67      0.59        54\n           1       0.57      0.42      0.48        57\n\n    accuracy                           0.54       111\n   macro avg       0.55      0.54      0.54       111\nweighted avg       0.55      0.54      0.53       111\n",
+    "best_params": {
+        "n_estimators": 150,
+        "learning_rate": 0.03,
+        "max_depth": 3,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_alpha": 0.1,
+        "reg_lambda": 1.0,
+        "random_state": 42,
+        "eval_metric": "logloss"
+    },
+    "total_test_samples": 111,
+    "strategy_total_return": 0.2664744077013881,
+    "buy_and_hold_total_return": 0.4467916488647461,
+    "strategy_max_drawdown": -0.06108517057987772,
+    "buy_and_hold_max_drawdown": -0.10793107748031616,
+    "sharpe_ratio": 2.4681604901193412,
+    "sortino_ratio": 4.6548222041131995,
+    "total_trades": 6,
+    "win_rate": 0.6666666666666666
+}

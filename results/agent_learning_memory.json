@@ -1,46 +1,13 @@
 {
-<<<<<<< Updated upstream
-  "total_learning_cycles": 175,
-  "last_updated": "2026-09-04T21:36:16.761026+00:00",
-=======
-  "total_learning_cycles": 185,
-  "last_updated": "2026-09-05T06:54:21.363825+00:00",
->>>>>>> Stashed changes
+  "total_learning_cycles": 4,
+  "last_updated": "2026-09-05T19:01:54.047434+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.294,
-    "sentiment_weight": 0.343,
-    "valuation_weight": 0.147,
-    "cro_weight": 0.216
+    "technicals_weight": 0.3,
+    "sentiment_weight": 0.35,
+    "valuation_weight": 0.15,
+    "cro_weight": 0.2
   },
-  "adaptive_kelly_multiplier": 0.94,
-  "recent_trade_autopsies": [
-    {
-      "ticker": "AOS",
-      "pnl": -20918.25,
-      "return_pct": -46.53,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on AOS triggered at -46.53%. Protecting capital.",
-      "timestamp": "2026-09-02T19:51:21.445745+00:00"
-    },
-    {
-      "ticker": "CSX",
-      "pnl": -25251.75,
-      "return_pct": -56.17,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on CSX triggered at -56.17%. Protecting capital.",
-      "timestamp": "2026-09-02T19:51:38.002579+00:00"
-    }
-  ],
-  "retrained_models": [
-    {
-      "ticker": "AOS",
-      "timestamp": "2026-09-02T19:51:21.445737+00:00",
-      "verdict": null
-    },
-    {
-      "ticker": "CSX",
-      "timestamp": "2026-09-02T19:51:38.002570+00:00",
-      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
-    }
-  ]
+  "adaptive_kelly_multiplier": 1.0,
+  "recent_trade_autopsies": [],
+  "retrained_models": []
 }
