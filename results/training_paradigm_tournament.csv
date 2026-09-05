@@ -1,0 +1,9 @@
+Paradigm,Avg Sharpe Ratio,Avg Win Rate (%),Avg Net Return (%),Avg Max Drawdown (%),Avg Profit Factor,Avg ROC-AUC,Rank
+8. Conformal Calibrated Uncertainty,0.58,56.1,0.0,0.0,0.0,0.494,#1
+6. Cross-Asset Pooled Multi-Task,0.58,53.0,0.0,0.0,0.0,0.498,#2
+4. Regime Mixture of Experts (MoE),0.55,53.3,0.0,0.0,0.0,0.497,#3
+7. Direct Reinforcement Policy Gradient,0.51,54.6,0.0,0.0,0.0,0.492,#4
+5. Online Continual Streaming,0.49,50.7,0.0,0.0,0.0,0.492,#5
+1. Baseline Rolling WFO,0.48,52.8,0.0,0.0,0.0,0.494,#6
+2. Expanding Window + Exponential Decay,0.47,52.6,0.0,0.0,0.0,0.495,#7
+3. Triple-Barrier Meta-Labeling,-0.15,0.0,0.0,0.0,0.0,0.501,#8

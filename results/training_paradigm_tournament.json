@@ -1,0 +1,82 @@
+[
+  {
+    "Paradigm": "8. Conformal Calibrated Uncertainty",
+    "Avg Sharpe Ratio": 0.58,
+    "Avg Win Rate (%)": 56.1,
+    "Avg Net Return (%)": 0.0,
+    "Avg Max Drawdown (%)": 0.0,
+    "Avg Profit Factor": 0.0,
+    "Avg ROC-AUC": 0.494,
+    "Rank": "#1"
+  },
+  {
+    "Paradigm": "6. Cross-Asset Pooled Multi-Task",
+    "Avg Sharpe Ratio": 0.58,
+    "Avg Win Rate (%)": 53.0,
+    "Avg Net Return (%)": 0.0,
+    "Avg Max Drawdown (%)": 0.0,
+    "Avg Profit Factor": 0.0,
+    "Avg ROC-AUC": 0.498,
+    "Rank": "#2"
+  },
+  {
+    "Paradigm": "4. Regime Mixture of Experts (MoE)",
+    "Avg Sharpe Ratio": 0.55,
+    "Avg Win Rate (%)": 53.3,
+    "Avg Net Return (%)": 0.0,
+    "Avg Max Drawdown (%)": 0.0,
+    "Avg Profit Factor": 0.0,
+    "Avg ROC-AUC": 0.497,
+    "Rank": "#3"
+  },
+  {
+    "Paradigm": "7. Direct Reinforcement Policy Gradient",
+    "Avg Sharpe Ratio": 0.51,
+    "Avg Win Rate (%)": 54.6,
+    "Avg Net Return (%)": 0.0,
+    "Avg Max Drawdown (%)": 0.0,
+    "Avg Profit Factor": 0.0,
+    "Avg ROC-AUC": 0.492,
+    "Rank": "#4"
+  },
+  {
+    "Paradigm": "5. Online Continual Streaming",
+    "Avg Sharpe Ratio": 0.49,
+    "Avg Win Rate (%)": 50.7,
+    "Avg Net Return (%)": 0.0,
+    "Avg Max Drawdown (%)": 0.0,
+    "Avg Profit Factor": 0.0,
+    "Avg ROC-AUC": 0.492,
+    "Rank": "#5"
+  },
+  {
+    "Paradigm": "1. Baseline Rolling WFO",
+    "Avg Sharpe Ratio": 0.48,
+    "Avg Win Rate (%)": 52.8,
+    "Avg Net Return (%)": 0.0,
+    "Avg Max Drawdown (%)": 0.0,
+    "Avg Profit Factor": 0.0,
+    "Avg ROC-AUC": 0.494,
+    "Rank": "#6"
+  },
+  {
+    "Paradigm": "2. Expanding Window + Exponential Decay",
+    "Avg Sharpe Ratio": 0.47,
+    "Avg Win Rate (%)": 52.6,
+    "Avg Net Return (%)": 0.0,
+    "Avg Max Drawdown (%)": 0.0,
+    "Avg Profit Factor": 0.0,
+    "Avg ROC-AUC": 0.495,
+    "Rank": "#7"
+  },
+  {
+    "Paradigm": "3. Triple-Barrier Meta-Labeling",
+    "Avg Sharpe Ratio": -0.15,
+    "Avg Win Rate (%)": 0.0,
+    "Avg Net Return (%)": 0.0,
+    "Avg Max Drawdown (%)": 0.0,
+    "Avg Profit Factor": 0.0,
+    "Avg ROC-AUC": 0.501,
+    "Rank": "#8"
+  }
+]
