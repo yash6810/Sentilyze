@@ -128,6 +128,7 @@ def run_opening_range_session() -> Dict[str, Any]:
         "stocks_in_play": stocks_in_play,
         "signals_count": len(signals),
         "signals": signals,
+        "executed_paper_trades": signals,
         "portfolio_summary": broker.get_portfolio_summary(),
     }
 
@@ -139,9 +140,7 @@ def run_opening_range_session() -> Dict[str, Any]:
     ) as f:
         json.dump(result_payload, f, indent=2)
 
-    logger.info(
-        f"✅ ORB Session Complete. {len(executed_trades)} paper trades executed."
-    )
+    logger.info(f"✅ ORB Session Complete. {len(signals)} paper trades evaluated.")
     return result_payload
 
 

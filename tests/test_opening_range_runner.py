@@ -23,10 +23,13 @@ def test_run_opening_range_session(mocker, tmp_path):
         "src.opening_range_runner.get_news",
         return_value=pd.DataFrame({"Title": ["AI Breakthrough"]}),
     )
-    mocker.patch(
-        "src.opening_range_runner.fetch_live_quote",
-        return_value={"price": 105.0},
-    )
+    mock_broker = MagicMock()
+    mock_broker.get_portfolio_summary.return_value = {
+        "total_equity": 151872.25,
+        "cash": 140982.95,
+        "win_rate": 83.9,
+    }
+    mocker.patch("src.opening_range_runner.PaperBroker", return_value=mock_broker)
 
     res = run_opening_range_session()
     assert "stocks_in_play" in res
