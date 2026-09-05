@@ -1,12 +1,12 @@
 {
-    "accuracy": 0.5166418281172379,
-    "precision": 0.5382381413359149,
-    "recall": 0.5285171102661597,
-    "f1": 0.5333333333333333,
-    "roc_auc": 0.5154910323925885,
-    "baseline_logistic_accuracy": 0.5151515151515151,
-    "baseline_logistic_roc_auc": 0.5193951959104703,
-    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.49      0.50      0.50       961\n           1       0.54      0.53      0.53      1052\n\n    accuracy                           0.52      2013\n   macro avg       0.52      0.52      0.52      2013\nweighted avg       0.52      0.52      0.52      2013\n",
+    "accuracy": 0.4835589941972921,
+    "precision": 0.5426229508196722,
+    "recall": 0.5648464163822525,
+    "f1": 0.5535117056856187,
+    "roc_auc": 0.46290110007313506,
+    "baseline_logistic_accuracy": 0.4951644100580271,
+    "baseline_logistic_roc_auc": 0.48428358117991227,
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.40      0.38      0.39       448\n           1       0.54      0.56      0.55       586\n\n    accuracy                           0.48      1034\n   macro avg       0.47      0.47      0.47      1034\nweighted avg       0.48      0.48      0.48      1034\n",
     "best_params": {
         "n_estimators": 150,
         "learning_rate": 0.03,
@@ -18,13 +18,13 @@
         "random_state": 42,
         "eval_metric": "logloss"
     },
-    "total_test_samples": 2013,
-    "strategy_total_return": 1.6529801192386797,
-    "buy_and_hold_total_return": 4.702931507845788,
-    "strategy_max_drawdown": -0.569134540964627,
-    "buy_and_hold_max_drawdown": -0.5828267714080902,
-    "sharpe_ratio": 0.46942715080249575,
-    "sortino_ratio": 0.5835435778765127,
-    "total_trades": 108,
-    "win_rate": 0.5648148148148148
+    "total_test_samples": 1034,
+    "strategy_total_return": 2.9269285022947247,
+    "buy_and_hold_total_return": 7.103636741638184,
+    "strategy_max_drawdown": -0.5597574179824132,
+    "buy_and_hold_max_drawdown": -0.23474544286727905,
+    "sharpe_ratio": 0.8554121817871463,
+    "sortino_ratio": 1.0529857966689342,
+    "total_trades": 50,
+    "win_rate": 0.68
 }

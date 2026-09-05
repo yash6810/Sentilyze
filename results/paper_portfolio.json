@@ -1,20 +1,33 @@
 {
   "initial_capital": 100000.0,
+<<<<<<< Updated upstream
   "cash": 130371.09999999999,
   "total_equity": 152181.22,
   "unrealized_pnl": -16.87,
   "realized_pnl": 52198.09,
   "win_rate": 89.7,
   "total_trades": 29,
+=======
+  "cash": 140982.94999999998,
+  "total_equity": 151872.25,
+  "unrealized_pnl": -109.06,
+  "realized_pnl": 51981.30999999999,
+  "win_rate": 83.9,
+  "total_trades": 31,
+>>>>>>> Stashed changes
   "winning_trades": 26,
-  "losing_trades": 3,
+  "losing_trades": 5,
   "open_positions": {
     "IEX": {
       "ticker": "IEX",
       "shares": 20,
       "initial_shares": 20,
       "entry_price": 221.85,
+<<<<<<< Updated upstream
       "current_price": 223.74,
+=======
+      "current_price": 223.3,
+>>>>>>> Stashed changes
       "entry_date": "2026-09-03",
       "tp1_target": 238.49,
       "tp2_target": 251.8,
@@ -22,30 +35,15 @@
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_MultiAgent_Kelly",
-      "highest_price_seen": 223.18,
-      "high_water_mark": 224.12
-    },
-    "STLD": {
-      "ticker": "STLD",
-      "shares": 26,
-      "initial_shares": 26,
-      "entry_price": 247.67,
-      "current_price": 246.03,
-      "entry_date": "2026-09-03",
-      "tp1_target": 266.25,
-      "tp2_target": 281.11,
-      "sl_target": 243.89,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly",
-      "highest_price_seen": 247.67
+      "highest_price_seen": 223.3,
+      "high_water_mark": 224.41
     },
     "EQT": {
       "ticker": "EQT",
       "shares": 117,
       "initial_shares": 117,
       "entry_price": 56.08,
-      "current_price": 55.62,
+      "current_price": 54.9,
       "entry_date": "2026-09-03",
       "tp1_target": 60.29,
       "tp2_target": 63.65,
@@ -54,21 +52,6 @@
       "confidence": 0.85,
       "regime": "Committee_MultiAgent_Kelly",
       "highest_price_seen": 56.08
-    },
-    "DHR": {
-      "ticker": "DHR",
-      "shares": 21,
-      "initial_shares": 21,
-      "entry_price": 209.01,
-      "current_price": 211.0,
-      "entry_date": "2026-09-03",
-      "tp1_target": 224.69,
-      "tp2_target": 237.23,
-      "sl_target": 209.06,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly",
-      "highest_price_seen": 211.0
     }
   },
   "closed_trades": [
@@ -390,6 +373,28 @@
       "pnl": 46.2,
       "return_pct": 1.24,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "STLD",
+      "shares": 26,
+      "entry_price": 247.67,
+      "exit_price": 241.19,
+      "entry_date": "2026-09-03",
+      "exit_date": "2026-09-04",
+      "pnl": -168.48,
+      "return_pct": -2.62,
+      "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "DHR",
+      "shares": 21,
+      "entry_price": 209.01,
+      "exit_price": 206.71,
+      "entry_date": "2026-09-03",
+      "exit_date": "2026-09-04",
+      "pnl": -48.3,
+      "return_pct": -1.1,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -420,6 +425,7 @@
     {
       "date": "2026-09-04",
       "timestamp": "2026-09-04T13:56:39.591382+00:00",
+<<<<<<< Updated upstream
       "total_equity": 152181.22,
       "cash": 130371.1,
       "invested": 21810.12,
@@ -427,4 +433,13 @@
     }
   ],
   "last_updated": "2026-09-04T21:36:16.753333+00:00"
+=======
+      "total_equity": 151872.25,
+      "cash": 140982.95,
+      "invested": 10889.3,
+      "daily_return": -0.2
+    }
+  ],
+  "last_updated": "2026-09-04T15:20:11.597970+00:00"
+>>>>>>> Stashed changes
 }

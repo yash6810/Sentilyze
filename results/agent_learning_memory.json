@@ -1,6 +1,11 @@
 {
+<<<<<<< Updated upstream
   "total_learning_cycles": 175,
   "last_updated": "2026-09-04T21:36:16.761026+00:00",
+=======
+  "total_learning_cycles": 185,
+  "last_updated": "2026-09-05T06:54:21.363825+00:00",
+>>>>>>> Stashed changes
   "agent_voting_weights": {
     "technicals_weight": 0.294,
     "sentiment_weight": 0.343,

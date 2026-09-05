@@ -1,10 +1,23 @@
 {
+<<<<<<< Updated upstream
   "timestamp": "2026-09-04T21:36:15.979385+00:00",
   "buys": [],
+=======
+  "timestamp": "2026-09-05T06:53:04.901554+00:00",
+  "buys": [
+    {
+      "success": true,
+      "shares": 100,
+      "price": 125.0,
+      "ticker": "NVDA"
+    }
+  ],
+>>>>>>> Stashed changes
   "take_profits_tp1": [],
   "take_profits_tp2": [],
   "stop_losses": [],
   "veto_exits": [],
+<<<<<<< Updated upstream
   "committee_resolutions": {},
   "portfolio_equity": 152182.62,
   "cash_balance": 130371.09999999999,
@@ -12,6 +25,17 @@
   "kill_switch_active": false,
   "self_improvement": {
     "total_cycles": 175,
+=======
+  "committee_resolutions": {
+    "NVDA": "\ud83d\ude80 CONVICTION INSTITUTIONAL BUY"
+  },
+  "portfolio_equity": 100000.0,
+  "cash_balance": 100000.0,
+  "unrealized_pnl": 0.0,
+  "kill_switch_active": false,
+  "self_improvement": {
+    "total_cycles": 185,
+>>>>>>> Stashed changes
     "agent_weights": {
       "technicals_weight": 0.294,
       "sentiment_weight": 0.343,
@@ -21,5 +45,9 @@
     "kelly_multiplier": 0.94,
     "new_autopsies_count": 0
   },
+<<<<<<< Updated upstream
   "elapsed_seconds": 0.78
+=======
+  "elapsed_seconds": 76.46
+>>>>>>> Stashed changes
 }

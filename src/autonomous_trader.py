@@ -280,6 +280,7 @@ class AutonomousTradingEngine:
             tp1_target = float(pos.get("tp1_target", entry_price * 1.05))
             tp2_target = float(pos.get("tp2_target", entry_price * 1.10))
             sl_target = float(pos.get("sl_target", entry_price * 0.96))
+            stage0_taken = bool(pos.get("stage0_taken", False))
             scaled_out = bool(pos.get("scaled_out", False))
 
             # 🛡️ High-Water Mark & Dynamic Trailing Profit Shield
@@ -318,6 +319,49 @@ class AutonomousTradingEngine:
                 logger.info(
                     f"🔒 [PROFIT LOCK TIER 2] {ticker} peaked at +{max_gain_pct:.2f}%. Stop trailed to lock +2.0% profit (${new_sl:.2f})"
                 )
+
+            # ⚡ Check Stage 0 Quick Profit Micro-Harvest (+1.5% Gain)
+            if not stage0_taken and spot_price >= entry_price * 1.015 and shares >= 2:
+                third_shares = max(1, shares // 3)
+                proceeds = float(third_shares * spot_price)
+                cost_basis = float(third_shares * entry_price)
+                pnl = float(proceeds - cost_basis)
+                ret_pct = float((spot_price - entry_price) / denom * 100.0)
+
+                self.broker.state["cash"] += proceeds
+                self.broker.state["realized_pnl"] += pnl
+                pos["shares"] = shares - third_shares
+                pos["stage0_taken"] = True
+                pos["sl_target"] = max(
+                    pos.get("sl_target", 0.0), round(entry_price * 1.002, 2)
+                )
+
+                tp0_record = {
+                    "ticker": ticker,
+                    "shares_sold": third_shares,
+                    "remaining_shares": pos["shares"],
+                    "exit_price": spot_price,
+                    "pnl": round(pnl, 2),
+                    "return_pct": round(ret_pct, 2),
+                    "action": "STAGE0_MICRO_HARVEST_33PCT",
+                }
+                executed_actions.setdefault("take_profits_tp0", []).append(tp0_record)
+                logger.info(
+                    f"💰 [STAGE 0 QUICK HARVEST] Sold {third_shares} shares of {ticker} @ ${spot_price:.2f} (+{ret_pct:.2f}%) | Realized PnL: ${pnl:+,.2f} | Stop locked at Breakeven (${pos['sl_target']:.2f})"
+                )
+                send_discord_execution_alert(
+                    {
+                        "action": "SELL",
+                        "stage": "STAGE0_QUICK_HARVEST_1.5PCT",
+                        "ticker": ticker,
+                        "price": spot_price,
+                        "entry_price": entry_price,
+                        "shares": pos["shares"],
+                        "realized_pnl": pnl,
+                        "return_pct": ret_pct,
+                    }
+                )
+                shares = pos["shares"]
 
             # Check Stage 1 Scale-Out (+2.5 ATR)
             if not scaled_out and spot_price >= tp1_target:
