@@ -6,3 +6,9 @@
 *.pth filter=lfs diff=lfs merge=lfs -text
 *.bin filter=lfs diff=lfs merge=lfs -text
 *.npy filter=lfs diff=lfs merge=lfs -text
+
+# GitHub Linguist Language Overrides
+graphify-out/** linguist-generated=true
+graphify-out/** linguist-vendored=true
+*.html linguist-documentation=true
+*.sig linguist-generated=true
