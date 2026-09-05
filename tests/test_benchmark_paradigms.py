@@ -19,11 +19,11 @@ def sample_synthetic_dataset():
     np.random.seed(42)
     n_samples = 600
     dates = pd.date_range("2022-01-01", periods=n_samples, freq="D")
-    
+
     # Synthetic prices
     returns = np.random.normal(0.0005, 0.015, n_samples)
     price = 100 * np.exp(np.cumsum(returns))
-    
+
     df_raw = pd.DataFrame(
         {
             "Open": price * (1 + np.random.normal(0, 0.002, n_samples)),
@@ -37,7 +37,7 @@ def sample_synthetic_dataset():
         },
         index=dates,
     )
-    
+
     # Features
     X = pd.DataFrame(
         {
@@ -48,11 +48,11 @@ def sample_synthetic_dataset():
         },
         index=dates,
     )
-    
+
     # Binary Target (1 = Up, 0 = Down)
     y = pd.Series((np.roll(returns, -1) > 0).astype(int), index=dates)
     y.iloc[-1] = 0
-    
+
     return df_raw, X, y
 
 
@@ -67,17 +67,23 @@ def test_all_8_training_paradigms(sample_synthetic_dataset):
     assert 0.0 <= m1["auc"] <= 1.0
 
     # 2. Expanding Window + Exponential Decay
-    p2, m2 = run_paradigm_expanding_timedecay(X, y, min_train_window=train_w, test_window=test_w)
+    p2, m2 = run_paradigm_expanding_timedecay(
+        X, y, min_train_window=train_w, test_window=test_w
+    )
     assert len(p2) > 0
     assert 0.0 <= m2["auc"] <= 1.0
 
     # 3. Triple-Barrier Meta-Labeling
-    p3, m3 = run_paradigm_triple_barrier_meta(df_raw, X, y, train_window=train_w, test_window=test_w)
+    p3, m3 = run_paradigm_triple_barrier_meta(
+        df_raw, X, y, train_window=train_w, test_window=test_w
+    )
     assert len(p3) > 0
     assert 0.0 <= m3["auc"] <= 1.0
 
     # 4. Mixture of Experts
-    p4, m4 = run_paradigm_mixture_of_experts(df_raw, X, y, train_window=train_w, test_window=test_w)
+    p4, m4 = run_paradigm_mixture_of_experts(
+        df_raw, X, y, train_window=train_w, test_window=test_w
+    )
     assert len(p4) > 0
     assert 0.0 <= m4["auc"] <= 1.0
 
@@ -88,16 +94,22 @@ def test_all_8_training_paradigms(sample_synthetic_dataset):
 
     # 6. Cross-Asset Pooled Multi-Task
     asset_map = {"SYNTH_A": (df_raw, X, y), "SYNTH_B": (df_raw, X, y)}
-    p6, m6 = run_paradigm_cross_asset_pooled(asset_map, "SYNTH_A", train_window=train_w, test_window=test_w)
+    p6, m6 = run_paradigm_cross_asset_pooled(
+        asset_map, "SYNTH_A", train_window=train_w, test_window=test_w
+    )
     assert len(p6) > 0
     assert 0.0 <= m6["auc"] <= 1.0
 
     # 7. Direct Reinforcement Policy
-    p7, m7 = run_paradigm_direct_reinforcement_policy(df_raw, X, y, train_window=train_w, test_window=test_w)
+    p7, m7 = run_paradigm_direct_reinforcement_policy(
+        df_raw, X, y, train_window=train_w, test_window=test_w
+    )
     assert len(p7) > 0
     assert 0.0 <= m7["auc"] <= 1.0
 
     # 8. Conformal Calibrated Uncertainty
-    p8, m8 = run_paradigm_conformal_calibrated(X, y, train_window=train_w, test_window=test_w)
+    p8, m8 = run_paradigm_conformal_calibrated(
+        X, y, train_window=train_w, test_window=test_w
+    )
     assert len(p8) > 0
     assert 0.0 <= m8["auc"] <= 1.0

@@ -120,7 +120,11 @@ def run_paradigm_triple_barrier_meta(
     """Triple-Barrier Meta-Labeling (Upper +2.0 ATR, Lower -1.2 ATR, Vertical 10d)."""
     total_samples = len(X)
     close = df_raw["Close"] if "Close" in df_raw.columns else df_raw.iloc[:, 0]
-    atr = df_raw["ATR"] if "ATR" in df_raw.columns else (close.rolling(14).max() - close.rolling(14).min()).fillna(1.0)
+    atr = (
+        df_raw["ATR"]
+        if "ATR" in df_raw.columns
+        else (close.rolling(14).max() - close.rolling(14).min()).fillna(1.0)
+    )
 
     tb_labels = np.zeros(total_samples)
     for i in range(total_samples - horizon_days):
@@ -185,7 +189,11 @@ def run_paradigm_mixture_of_experts(
     """Regime-Conditioned Mixture of Experts (MoE) with 3 specialized sub-boosters."""
     total_samples = len(X)
     close = df_raw["Close"] if "Close" in df_raw.columns else df_raw.iloc[:, 0]
-    sma200 = df_raw["SMA200"] if "SMA200" in df_raw.columns else close.rolling(200).mean().fillna(close)
+    sma200 = (
+        df_raw["SMA200"]
+        if "SMA200" in df_raw.columns
+        else close.rolling(200).mean().fillna(close)
+    )
     rsi = df_raw["RSI"] if "RSI" in df_raw.columns else pd.Series(50, index=X.index)
 
     regimes = np.zeros(total_samples, dtype=int)
@@ -254,7 +262,9 @@ def run_paradigm_online_continual(
 ) -> Tuple[pd.Series, Dict[str, Any]]:
     """Online Streaming Incremental Learning with Stochastic Gradient Descent & Adaptive Learning Rate."""
     scaler = StandardScaler()
-    X_scaled = pd.DataFrame(scaler.fit_transform(X.fillna(0)), index=X.index, columns=X.columns)
+    X_scaled = pd.DataFrame(
+        scaler.fit_transform(X.fillna(0)), index=X.index, columns=X.columns
+    )
 
     online_model = SGDClassifier(
         loss="log_loss",
@@ -466,7 +476,9 @@ def run_financial_ml_tournament(
     prob_threshold: float = 0.52,
 ) -> Dict[str, Any]:
     """Executes a head-to-head empirical tournament across all 8 training paradigms."""
-    logger.info(f"🏆 Starting 8-Paradigm Financial ML Tournament across {len(tickers)} assets: {tickers}...")
+    logger.info(
+        f"🏆 Starting 8-Paradigm Financial ML Tournament across {len(tickers)} assets: {tickers}..."
+    )
 
     # 1. Ingest Data for Assets
     from src.config import FEATURES
@@ -474,22 +486,31 @@ def run_financial_ml_tournament(
     asset_data_map = {}
     for tk in tickers:
         try:
-            features_df, price_history_with_indicators, _ = preprocess_data(tk, use_cache=True)
+            features_df, price_history_with_indicators, _ = preprocess_data(
+                tk, use_cache=True
+            )
             avail_features = [f for f in FEATURES if f in features_df.columns]
-            X_clean = features_df[avail_features].select_dtypes(include=[np.number]).fillna(0.0)
-            
+            X_clean = (
+                features_df[avail_features]
+                .select_dtypes(include=[np.number])
+                .fillna(0.0)
+            )
+
             target_col = "target" if "target" in features_df.columns else "Target"
             if target_col in features_df.columns:
                 y_clean = features_df[target_col].astype(int)
             else:
-                y_clean = (price_history_with_indicators["Close"].pct_change().shift(-1) > 0).loc[features_df.index].fillna(0).astype(int)
+                y_clean = (
+                    (price_history_with_indicators["Close"].pct_change().shift(-1) > 0)
+                    .loc[features_df.index]
+                    .fillna(0)
+                    .astype(int)
+                )
 
             raw_df = price_history_with_indicators.loc[features_df.index]
             asset_data_map[tk] = (raw_df, X_clean, y_clean)
         except Exception as e:
             logger.warning(f"Failed to preprocess {tk} for tournament: {e}")
-
-
 
     if not asset_data_map:
         raise ValueError("No asset data available for tournament benchmark.")
@@ -512,43 +533,99 @@ def run_financial_ml_tournament(
 
         # 1. Baseline
         p1_preds, p1_meta = run_paradigm_rolling_wfo(X, y)
-        _, p1_bt, _ = run_backtest(raw_df.loc[p1_preds.index], p1_preds, initial_capital=initial_capital, prob_threshold=prob_threshold)
-        tournament_results["1. Baseline Rolling WFO"].append({"ticker": tk, "meta": p1_meta, "bt": p1_bt})
+        _, p1_bt, _ = run_backtest(
+            raw_df.loc[p1_preds.index],
+            p1_preds,
+            initial_capital=initial_capital,
+            prob_threshold=prob_threshold,
+        )
+        tournament_results["1. Baseline Rolling WFO"].append(
+            {"ticker": tk, "meta": p1_meta, "bt": p1_bt}
+        )
 
         # 2. Expanding
         p2_preds, p2_meta = run_paradigm_expanding_timedecay(X, y)
-        _, p2_bt, _ = run_backtest(raw_df.loc[p2_preds.index], p2_preds, initial_capital=initial_capital, prob_threshold=prob_threshold)
-        tournament_results["2. Expanding Window + Exponential Decay"].append({"ticker": tk, "meta": p2_meta, "bt": p2_bt})
+        _, p2_bt, _ = run_backtest(
+            raw_df.loc[p2_preds.index],
+            p2_preds,
+            initial_capital=initial_capital,
+            prob_threshold=prob_threshold,
+        )
+        tournament_results["2. Expanding Window + Exponential Decay"].append(
+            {"ticker": tk, "meta": p2_meta, "bt": p2_bt}
+        )
 
         # 3. Triple Barrier
         p3_preds, p3_meta = run_paradigm_triple_barrier_meta(raw_df, X, y)
-        _, p3_bt, _ = run_backtest(raw_df.loc[p3_preds.index], p3_preds, initial_capital=initial_capital, prob_threshold=prob_threshold)
-        tournament_results["3. Triple-Barrier Meta-Labeling"].append({"ticker": tk, "meta": p3_meta, "bt": p3_bt})
+        _, p3_bt, _ = run_backtest(
+            raw_df.loc[p3_preds.index],
+            p3_preds,
+            initial_capital=initial_capital,
+            prob_threshold=prob_threshold,
+        )
+        tournament_results["3. Triple-Barrier Meta-Labeling"].append(
+            {"ticker": tk, "meta": p3_meta, "bt": p3_bt}
+        )
 
         # 4. MoE
         p4_preds, p4_meta = run_paradigm_mixture_of_experts(raw_df, X, y)
-        _, p4_bt, _ = run_backtest(raw_df.loc[p4_preds.index], p4_preds, initial_capital=initial_capital, prob_threshold=prob_threshold)
-        tournament_results["4. Regime Mixture of Experts (MoE)"].append({"ticker": tk, "meta": p4_meta, "bt": p4_bt})
+        _, p4_bt, _ = run_backtest(
+            raw_df.loc[p4_preds.index],
+            p4_preds,
+            initial_capital=initial_capital,
+            prob_threshold=prob_threshold,
+        )
+        tournament_results["4. Regime Mixture of Experts (MoE)"].append(
+            {"ticker": tk, "meta": p4_meta, "bt": p4_bt}
+        )
 
         # 5. Online
         p5_preds, p5_meta = run_paradigm_online_continual(X, y)
-        _, p5_bt, _ = run_backtest(raw_df.loc[p5_preds.index], p5_preds, initial_capital=initial_capital, prob_threshold=prob_threshold)
-        tournament_results["5. Online Continual Streaming"].append({"ticker": tk, "meta": p5_meta, "bt": p5_bt})
+        _, p5_bt, _ = run_backtest(
+            raw_df.loc[p5_preds.index],
+            p5_preds,
+            initial_capital=initial_capital,
+            prob_threshold=prob_threshold,
+        )
+        tournament_results["5. Online Continual Streaming"].append(
+            {"ticker": tk, "meta": p5_meta, "bt": p5_bt}
+        )
 
         # 6. Pooled
         p6_preds, p6_meta = run_paradigm_cross_asset_pooled(asset_data_map, tk)
-        _, p6_bt, _ = run_backtest(raw_df.loc[p6_preds.index], p6_preds, initial_capital=initial_capital, prob_threshold=prob_threshold)
-        tournament_results["6. Cross-Asset Pooled Multi-Task"].append({"ticker": tk, "meta": p6_meta, "bt": p6_bt})
+        _, p6_bt, _ = run_backtest(
+            raw_df.loc[p6_preds.index],
+            p6_preds,
+            initial_capital=initial_capital,
+            prob_threshold=prob_threshold,
+        )
+        tournament_results["6. Cross-Asset Pooled Multi-Task"].append(
+            {"ticker": tk, "meta": p6_meta, "bt": p6_bt}
+        )
 
         # 7. Reinforcement Policy
         p7_preds, p7_meta = run_paradigm_direct_reinforcement_policy(raw_df, X, y)
-        _, p7_bt, _ = run_backtest(raw_df.loc[p7_preds.index], p7_preds, initial_capital=initial_capital, prob_threshold=prob_threshold)
-        tournament_results["7. Direct Reinforcement Policy Gradient"].append({"ticker": tk, "meta": p7_meta, "bt": p7_bt})
+        _, p7_bt, _ = run_backtest(
+            raw_df.loc[p7_preds.index],
+            p7_preds,
+            initial_capital=initial_capital,
+            prob_threshold=prob_threshold,
+        )
+        tournament_results["7. Direct Reinforcement Policy Gradient"].append(
+            {"ticker": tk, "meta": p7_meta, "bt": p7_bt}
+        )
 
         # 8. Conformal
         p8_preds, p8_meta = run_paradigm_conformal_calibrated(X, y)
-        _, p8_bt, _ = run_backtest(raw_df.loc[p8_preds.index], p8_preds, initial_capital=initial_capital, prob_threshold=prob_threshold)
-        tournament_results["8. Conformal Calibrated Uncertainty"].append({"ticker": tk, "meta": p8_meta, "bt": p8_bt})
+        _, p8_bt, _ = run_backtest(
+            raw_df.loc[p8_preds.index],
+            p8_preds,
+            initial_capital=initial_capital,
+            prob_threshold=prob_threshold,
+        )
+        tournament_results["8. Conformal Calibrated Uncertainty"].append(
+            {"ticker": tk, "meta": p8_meta, "bt": p8_bt}
+        )
 
     # Aggregate Metrics into Leaderboard
     leaderboard_rows = []
@@ -572,7 +649,9 @@ def run_financial_ml_tournament(
             }
         )
 
-    leaderboard_df = pd.DataFrame(leaderboard_rows).sort_values(by="Avg Sharpe Ratio", ascending=False)
+    leaderboard_df = pd.DataFrame(leaderboard_rows).sort_values(
+        by="Avg Sharpe Ratio", ascending=False
+    )
     leaderboard_df.reset_index(drop=True, inplace=True)
     leaderboard_df["Rank"] = [f"#{i+1}" for i in range(len(leaderboard_df))]
 
@@ -593,8 +672,15 @@ def run_financial_ml_tournament(
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Run Financial ML Training Paradigm Tournament")
-    parser.add_argument("--tickers", type=str, default="NVDA,AAPL,MSFT", help="Comma-separated ticker list")
+    parser = argparse.ArgumentParser(
+        description="Run Financial ML Training Paradigm Tournament"
+    )
+    parser.add_argument(
+        "--tickers",
+        type=str,
+        default="NVDA,AAPL,MSFT",
+        help="Comma-separated ticker list",
+    )
     args = parser.parse_args()
     tickers = [t.strip().upper() for t in args.tickers.split(",")]
     run_financial_ml_tournament(tickers=tickers)
