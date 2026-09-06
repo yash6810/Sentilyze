@@ -12,7 +12,7 @@ Solved in strictly Polynomial Time O(d^3.5) using Convex Quadratic Programming.
 """
 
 import time
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Optional
 import numpy as np
 import pandas as pd
 import scipy.optimize as sco
@@ -67,11 +67,13 @@ class PolyTimeConvexOptimizer:
             return {"weights": pd.Series([1.0], index=tickers), "runtime_ms": 0.1}
 
         # Align covariance matrix with alpha scores
-        cov_aligned = (
-            cov_matrix.reindex(index=tickers, columns=tickers).fillna(0.0).values
+        cov_aligned = np.array(
+            cov_matrix.reindex(index=tickers, columns=tickers).fillna(0.0).values,
+            copy=True,
+            dtype=float,
         )
         # Regularize covariance matrix to ensure strict positive semi-definiteness
-        cov_aligned += np.eye(n) * 1e-6
+        cov_aligned = cov_aligned + np.eye(n) * 1e-6
 
         mu = alpha_scores.values
         w0 = (

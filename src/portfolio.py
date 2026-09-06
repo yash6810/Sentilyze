@@ -182,8 +182,8 @@ def calculate_hrp_weights(returns_data: Any) -> pd.Series:
 
     import scipy.cluster.hierarchy as sch
 
-    cov = returns_df.cov().values
-    corr = returns_df.corr().fillna(0.0).values
+    cov = np.array(returns_df.cov().values, copy=True, dtype=float)
+    corr = np.array(returns_df.corr().fillna(0.0).values, copy=True, dtype=float)
     np.fill_diagonal(corr, 1.0)
 
     # 1. Tree clustering: correlation distance metric

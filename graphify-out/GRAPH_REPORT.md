@@ -1,7 +1,7 @@
 # Graph Report - Sentilyze  (2026-09-06)
 
 ## Corpus Check
-- 1839 files · ~2,030,960 words
+- 1839 files · ~2,030,964 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `919ebbe3`
+- Built from commit: `d651658d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

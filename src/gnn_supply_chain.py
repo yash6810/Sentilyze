@@ -8,7 +8,6 @@ Pillar 1 Advanced AI Module:
 
 from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
-import pandas as pd
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -134,8 +133,9 @@ class SupplyChainGraphNetwork:
     def _compute_laplacian_normalization(self, A: np.ndarray) -> np.ndarray:
         """Computes symmetric normalized Laplacian: D^(-1/2) * A * D^(-1/2)."""
         degrees = np.sum(A, axis=1)
-        degrees_inv_sqrt = np.power(degrees, -0.5, where=degrees > 0)
-        degrees_inv_sqrt[degrees == 0] = 0.0
+        degrees_inv_sqrt = np.zeros_like(degrees, dtype=float)
+        nonzero = degrees > 0
+        degrees_inv_sqrt[nonzero] = degrees[nonzero] ** -0.5
         D_inv = np.diag(degrees_inv_sqrt)
         return D_inv @ A @ D_inv
 
@@ -203,7 +203,7 @@ class SupplyChainGraphNetwork:
             # Determine dependency context
             edge_desc = self.edge_descriptions.get(
                 (source_ticker, target_ticker),
-                f"2-Hop indirect supply spillover via tech ecosystem",
+                "2-Hop indirect supply spillover via tech ecosystem",
             )
 
             results.append(
