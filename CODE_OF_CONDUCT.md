@@ -1,123 +1,62 @@
+# Sentilyze Community Code of Conduct
 
-# Contributor Covenant Code of Conduct
+## 🌟 Our Pledge
 
-## Our Pledge
+We as members, contributors, and maintainers of **Sentilyze** pledge to make participation in our research community, issue tracker, pull requests, and collaborative quantitative finance discussions a welcoming, harassment-free, and intellectually rigorous experience for everyone.
 
-We as members, contributors, and leaders pledge to make participation in our
-community a harassment-free experience for everyone, regardless of age, body
-size, visible or invisible disability, ethnicity, sex characteristics, gender
-identity and expression, level of experience, education, socio-economic status,
-nationality, personal appearance, race, religion, or sexual identity
-and orientation.
+We pledge to act and interact in ways that are considerate, respectful, scientifically honest, and collaborative.
 
-We pledge to act and interact in ways that are considerate, respectful, and
-collaborative.
+---
 
-## Our Standards
+## 🎯 Our Standards
 
-Examples of behavior that contributes to a positive environment for our
-community include:
+Examples of behavior that contributes to a positive, productive environment include:
 
-*   Demonstrating empathy and kindness toward other people
-*   Being respectful of differing opinions, viewpoints, and experiences
-*   Giving and gracefully accepting constructive feedback
-*   Accepting responsibility and apologizing to those affected by our mistakes,
-    and learning from the experience
-*   Focusing on what is best not just for us as individuals, but for the
-    overall community
+* **Scientific & Mathematical Rigor**: Promoting reproducible research, sound statistical methodologies, and transparent quantitative backtesting.
+* **Demonstrating Empathy & Respect**: Being respectful of differing opinions, coding styles, and levels of experience.
+* **Constructive Feedback**: Providing actionable, well-reasoned code reviews and gracefully accepting architectural feedback.
+* **Ethical AI & Market Research Integrity**: Fostering responsible AI practices that prioritize financial safety, transparency, and deterministic metrics over speculative hallucinations.
+* **Collaboration & Community Focus**: Focusing on what is best for the long-term health and credibility of the project and its open-source users.
 
 Examples of unacceptable behavior include:
 
-*   The use of sexualized language or imagery, and sexual attention or
-    advances of any kind
-*   Trolling, insulting or derogatory comments, and personal or political attacks
-*   Public or private harassment
-*   Publishing others' private information, such as a physical or email
-    address, without their explicit permission
-*   Other conduct which could reasonably be considered inappropriate in a
-    professional setting
+* Trolling, insulting, derogatory comments, or personal and political attacks.
+* Harassment, public or private intimidation, or unwelcome personal advances.
+* Publishing private information of others without explicit consent.
+* Submitting malicious, obfuscated, backdoored code, or insecure serialization payloads.
+* Misrepresenting academic literature, fabricating backtest metrics, or deliberate data-snooping bias.
 
-## Enforcement Responsibilities
+---
 
-Community leaders are responsible for clarifying and enforcing our standards of
-acceptable behavior and will take appropriate and fair corrective action in
-response to any behavior that they deem inappropriate, threatening, offensive,
-or harmful.
+## 🛡️ Enforcement & Responsibilities
 
-Community leaders have the right and responsibility to remove, edit, or reject
-comments, commits, code, wiki edits, issues, and other contributions that are
-not aligned to this Code of Conduct, and will communicate reasons for moderation
-decisions when appropriate.
+Community maintainers are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior deemed inappropriate, threatening, or harmful.
 
-## Scope
+Maintainers have the right and responsibility to remove, edit, or reject comments, commits, code, issues, and pull requests that do not align with this Code of Conduct.
 
-This Code of Conduct applies within all community spaces, and also applies when
-an individual is officially representing the community in public spaces.
-Examples of representing our community include using an official e-mail address,
-posting via an official social media account, or acting as an appointed
-representative at an online or offline event.
+---
 
-## Enforcement
+## 📬 Reporting Guidelines
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-[INSERT CONTACT METHOD].
-All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported directly to the project maintainer:
 
-All community leaders are obligated to respect the privacy and security of the
-reporter of any incident.
+* **Maintainer**: Yash Upadhyay
+* **Email**: [yashupadhyay481@gmail.com](mailto:yashupadhyay481@gmail.com)
+* **GitHub**: [@yash6810](https://github.com/yash6810)
 
-## Enforcement Guidelines
+All complaints will be reviewed and investigated promptly and treated with strict confidentiality.
 
-Community leaders will follow these Community Impact Guidelines in determining
-the consequences for any action they deem in violation of this Code of Conduct:
+---
 
-### 1. Correction
+## ⚖️ Enforcement Escalation
 
-**Community Impact**: Use of inappropriate language or other behavior deemed
-unprofessional or unwelcome in the community.
+1. **Correction**: A private, written warning providing clarity on the nature of the violation and expected corrective action.
+2. **Warning**: Formal warning with temporary interaction cooldown in repository discussions.
+3. **Temporary Ban**: Temporary restriction from contributing or interacting in Sentilyze spaces.
+4. **Permanent Ban**: Permanent ban from repository participation for sustained or severe violations.
 
-**Consequence**: A private, written warning from community leaders, providing
-clarity around the nature of the violation and an explanation of why the
-behavior was inappropriate. A public apology may be requested.
+---
 
-### 2. Warning
+## 📜 Attribution
 
-**Community Impact**: A violation through a single incident or series
-of actions.
-
-**Consequence**: A warning with consequences for continued behavior. No
-interaction with the people involved, including unsolicited interaction with
-those enforcing the Code of Conduct, for a specified period of time. This
-includes avoiding interaction in community spaces as well as external channels
-like social media. Violating these terms may lead to a temporary or
-permanent ban.
-
-### 3. Temporary Ban
-
-**Community Impact**: A serious violation of community standards, including
-sustained inappropriate behavior.
-
-**Consequence**: A temporary ban from any sort of interaction or public
-communication with the community for a specified period of time. No public or
-private interaction with the people involved, including unsolicited interaction
-with those enforcing the Code of Conduct, is allowed during this period.
-Violating these terms may lead to a permanent ban.
-
-### 4. Permanent Ban
-
-**Community Impact**: Demonstrating a pattern of violation of community
-standards, including sustained inappropriate behavior, harassment of an
-individual, or aggression toward or disparagement of classes of individuals.
-
-**Consequence**: A permanent ban from any sort of public interaction within the
-community.
-
-## Attribution
-
-This Code of Conduct is adapted from the [Contributor Covenant][homepage],
-version 2.1, available at
-[https://www.contributor-covenant.org/version/2/1/code_of_conduct.html][v2.1].
-
-[homepage]: https://www.contributor-covenant.org
-[v2.1]: https://www.contributor-covenant.org/version/2/1/code_of_conduct.html
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.1.
