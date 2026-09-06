@@ -10,8 +10,13 @@ To maintain institutional code quality, reproducible research, and deterministic
 
 All contributions must adhere to the fundamental architectural principles of Sentilyze:
 
-1. **Python ONLY**: All algorithmic, analytical, ML, and automation logic must be written in Python.
-2. **Streamlit ONLY Frontend**: UI development is built exclusively with Streamlit. Do not suggest or add separate JavaScript, React, Django, or Flask frameworks.
+1. **Primary Foundation & Polyglot Extensibility**:
+   - Python is the primary core language for Sentilyze pipelines, ML models, and backtesting.
+   - However, **we welcome polyglot innovation**: developers are encouraged to propose or contribute high-performance modules, low-latency execution kernels, or analytical extensions in other languages (such as **Rust, C++, Go, CUDA, or Mojo**).
+   - Non-Python modules and extensions will be reviewed, benchmarked for stability/safety, and tested collaboratively by maintainers before integration into the core repository.
+2. **Frontend & Dashboard Interface**:
+   - The primary reference dashboard is built with **Streamlit** for seamless cloud deployment and research exploration.
+   - Complementary client tools, headless API endpoints, terminal UIs, or external visualization bridges are welcome for review.
 3. **Secure Model Serialization**:
    - **NEVER use `pickle` or `joblib`** to save or load machine learning models.
    - All XGBoost models must use native `.json` format (`model.save_model()` / `model.load_model()`) in compliance with CodeQL `py/unsafe-deserialization` security policies.
