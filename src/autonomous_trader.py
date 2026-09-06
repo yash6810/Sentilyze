@@ -901,7 +901,6 @@ _LAST_DAEMON_PULSE = {"timestamp": None, "status": "IDLE", "actions": None}
 
 def get_daemon_status() -> Dict[str, Any]:
     """Returns current live daemon running state and last pulse timestamp."""
-    global _DAEMON_THREAD, _LAST_DAEMON_PULSE
     is_alive = _DAEMON_THREAD is not None and _DAEMON_THREAD.is_alive()
     return {
         "is_active": is_alive,
@@ -916,7 +915,7 @@ def ensure_background_daemon_thread_running(interval_seconds: int = 60):
     Ensures a single background autonomous trading daemon thread is permanently active.
     Polls the market continuously and executes cycles during open market hours.
     """
-    global _DAEMON_THREAD, _DAEMON_LOCK
+    global _DAEMON_THREAD
     with _DAEMON_LOCK:
         if _DAEMON_THREAD is not None and _DAEMON_THREAD.is_alive():
             return _DAEMON_THREAD

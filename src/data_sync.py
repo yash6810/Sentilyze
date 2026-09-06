@@ -61,6 +61,14 @@ def sync_all_market_data(period: str = "10y") -> dict:
         "assets_synced": len(tickers),
         "details": sync_status,
     }
+    os.makedirs("results", exist_ok=True)
+    try:
+        import json
+
+        with open("results/data_sync_latest.json", "w") as f:
+            json.dump(summary, f, indent=2)
+    except Exception as e:
+        logger.warning(f"Could not write results/data_sync_latest.json: {e}")
     logger.info("Nightly data lake sync complete.")
     return summary
 

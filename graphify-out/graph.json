@@ -1171,7 +1171,7 @@
       "file_type": "code",
       "norm_label": "run_autonomous_daemon()",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L978"
+      "source_location": "L977"
     },
     {
       "id": "tests_test_autonomous_trader_clean_lock_file",
@@ -1471,7 +1471,7 @@
       "file_type": "code",
       "norm_label": "ensure_background_daemon_thread_running()",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L914"
+      "source_location": "L913"
     },
     {
       "id": "src_ui_ws_autonomous_trader_render_autonomous_trader_workspace",
@@ -10231,7 +10231,7 @@
       "source_location": "L903"
     },
     {
-      "id": "src_autonomous_trader_rationale_979",
+      "id": "src_autonomous_trader_rationale_978",
       "label": "Runs the Autonomous Trading Engine continuously on an interval.",
       "_origin": "ast",
       "community": 10,
@@ -10239,7 +10239,7 @@
       "file_type": "rationale",
       "norm_label": "runs the autonomous trading engine continuously on an interval.",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L979"
+      "source_location": "L978"
     },
     {
       "id": "tests_test_autonomous_trader_rationale_122",
@@ -10627,7 +10627,7 @@
       "source_location": "L1"
     },
     {
-      "id": "src_autonomous_trader_rationale_915",
+      "id": "src_autonomous_trader_rationale_914",
       "label": "Ensures a single background autonomous trading daemon thread is permanently\u2026",
       "_origin": "ast",
       "community": 106,
@@ -10635,7 +10635,7 @@
       "file_type": "rationale",
       "norm_label": "ensures a single background autonomous trading daemon thread is permanently...",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L915"
+      "source_location": "L914"
     },
     {
       "id": "src_ui_ws_autonomous_trader_rationale_1",
@@ -24043,7 +24043,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L933",
+      "source_location": "L932",
       "weight": 1.0
     },
     {
@@ -24055,7 +24055,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L980",
+      "source_location": "L979",
       "weight": 1.0
     },
     {
@@ -52706,7 +52706,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L914",
+      "source_location": "L913",
       "weight": 1.0
     },
     {
@@ -52717,7 +52717,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L978",
+      "source_location": "L977",
       "weight": 1.0
     },
     {
@@ -61862,25 +61862,25 @@
       "weight": 1.0
     },
     {
-      "source": "src_autonomous_trader_rationale_915",
+      "source": "src_autonomous_trader_rationale_914",
       "target": "src_autonomous_trader_ensure_background_daemon_thread_running",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L915",
+      "source_location": "L914",
       "weight": 1.0
     },
     {
-      "source": "src_autonomous_trader_rationale_979",
+      "source": "src_autonomous_trader_rationale_978",
       "target": "src_autonomous_trader_run_autonomous_daemon",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L979",
+      "source_location": "L978",
       "weight": 1.0
     },
     {
@@ -67492,5 +67492,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "d78492675e33e82dbd1acd92f62e0da69d5db573"
+  "built_at_commit": "919ebbe3553f349be99ff8bb9e45cb2621f16ebd"
 }
