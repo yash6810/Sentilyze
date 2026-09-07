@@ -1,100 +1,81 @@
 {
-  "session_time": "Sep 06, 2026 \u2022 09:58 AM IST (12:28 AM EDT)",
+  "session_time": "Sep 07, 2026 \u2022 11:55 PM IST (02:25 PM EDT)",
   "stocks_in_play": [
-    "CSX",
-    "EXPD",
-    "ALLE",
-    "DD",
-    "CARR"
+    "EFX",
+    "AXON",
+    "BLDR",
+    "FIX",
+    "FDXF"
   ],
-  "signals_count": 5,
+  "signals_count": 3,
   "signals": [
     {
-      "ticker": "CSX",
+      "ticker": "BLDR",
       "signal": "BUY",
-      "current_price": 49.41,
-      "confidence": 0.4833,
-      "take_profit": 55.41,
-      "stop_loss": 46.41
+      "current_price": 65.79,
+      "confidence": 0.753,
+      "take_profit": 71.59,
+      "stop_loss": 62.89
     },
     {
-      "ticker": "EXPD",
+      "ticker": "FIX",
       "signal": "BUY",
-      "current_price": 188.8,
-      "confidence": 0.4833,
-      "take_profit": 194.8,
-      "stop_loss": 185.8
+      "current_price": 1610.34,
+      "confidence": 0.3089,
+      "take_profit": 1763.68,
+      "stop_loss": 1533.67
     },
     {
-      "ticker": "ALLE",
+      "ticker": "FDXF",
       "signal": "BUY",
-      "current_price": 157.12,
-      "confidence": 0.4833,
-      "take_profit": 163.12,
-      "stop_loss": 154.12
-    },
-    {
-      "ticker": "DD",
-      "signal": "BUY",
-      "current_price": 131.59,
-      "confidence": 0.4833,
-      "take_profit": 137.59,
-      "stop_loss": 128.59
-    },
-    {
-      "ticker": "CARR",
-      "signal": "BUY",
-      "current_price": 59.71,
-      "confidence": 0.4833,
-      "take_profit": 65.71,
-      "stop_loss": 56.71
+      "current_price": 129.45,
+      "confidence": 0.738,
+      "take_profit": 140.13,
+      "stop_loss": 124.11
     }
   ],
   "executed_paper_trades": [
     {
-      "ticker": "CSX",
+      "ticker": "BLDR",
       "signal": "BUY",
-      "current_price": 49.41,
-      "confidence": 0.4833,
-      "take_profit": 55.41,
-      "stop_loss": 46.41
+      "current_price": 65.79,
+      "confidence": 0.753,
+      "take_profit": 71.59,
+      "stop_loss": 62.89
     },
     {
-      "ticker": "EXPD",
+      "ticker": "FIX",
       "signal": "BUY",
-      "current_price": 188.8,
-      "confidence": 0.4833,
-      "take_profit": 194.8,
-      "stop_loss": 185.8
+      "current_price": 1610.34,
+      "confidence": 0.3089,
+      "take_profit": 1763.68,
+      "stop_loss": 1533.67
     },
     {
-      "ticker": "ALLE",
+      "ticker": "FDXF",
       "signal": "BUY",
-      "current_price": 157.12,
-      "confidence": 0.4833,
-      "take_profit": 163.12,
-      "stop_loss": 154.12
-    },
-    {
-      "ticker": "DD",
-      "signal": "BUY",
-      "current_price": 131.59,
-      "confidence": 0.4833,
-      "take_profit": 137.59,
-      "stop_loss": 128.59
-    },
-    {
-      "ticker": "CARR",
-      "signal": "BUY",
-      "current_price": 59.71,
-      "confidence": 0.4833,
-      "take_profit": 65.71,
-      "stop_loss": 56.71
+      "current_price": 129.45,
+      "confidence": 0.738,
+      "take_profit": 140.13,
+      "stop_loss": 124.11
     }
   ],
   "portfolio_summary": {
-    "total_equity": 151872.25,
-    "cash": 140982.95,
-    "win_rate": 83.9
+    "total_equity": 100000.0,
+    "cash": 10132.740829467773,
+    "invested": 89867.25917053223,
+    "start_of_day_equity": 100000.0,
+    "daily_pnl": 0.0,
+    "daily_return_pct": 0.0,
+    "unrealized_pnl": 0.0,
+    "unrealized_pnl_pct": 0.0,
+    "realized_pnl": 0.0,
+    "total_pnl": 0.0,
+    "total_return_pct": 0.0,
+    "win_rate": 0.0,
+    "open_positions_count": 2,
+    "total_trades": 0,
+    "winning_trades": 0,
+    "losing_trades": 0
   }
 }
