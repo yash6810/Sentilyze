@@ -13,27 +13,29 @@
       "shares": 410,
       "initial_shares": 410,
       "entry_price": 109.51000213623047,
-      "current_price": 109.51000213623047,
+      "current_price": 109.51,
       "entry_date": "2026-09-07",
       "tp1_target": 122.2,
       "tp2_target": 132.34,
-      "sl_target": 101.9,
+      "sl_target": 104.38,
       "scaled_out": false,
       "confidence": 0.64666748046875,
-      "regime": "\u25b2 BULLISH (Above SMA200)"
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "highest_price_seen": 109.51000213623047
     },
     "TSLA": {
       "shares": 127,
       "initial_shares": 127,
       "entry_price": 354.0799865722656,
-      "current_price": 354.0799865722656,
+      "current_price": 354.08,
       "entry_date": "2026-09-07",
       "tp1_target": 389.37,
       "tp2_target": 417.61,
-      "sl_target": 332.9,
+      "sl_target": 340.82,
       "scaled_out": false,
       "confidence": 0.6270439624786377,
-      "regime": "\u25bc BEARISH (Below SMA200)"
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "highest_price_seen": 354.08
     }
   },
   "closed_trades": [],
@@ -55,5 +57,5 @@
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-07T08:09:47.284669+00:00"
+  "last_updated": "2026-09-07T18:13:00.533276+00:00"
 }
