@@ -1194,7 +1194,7 @@
     }
   },
   "AAPL": {
-    "timestamp": "2026-09-07T07:11:53.501926+00:00",
+    "timestamp": "2026-09-08T07:05:31.363371+00:00",
     "ticker": "AAPL",
     "spot_price": 319.97,
     "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
@@ -1235,10 +1235,10 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.05,
+          "finbert_polarity": 0.069,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (+0.05 polarity across 100 headlines)."
+        "thesis": "Balanced sentiment environment (+0.07 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -1271,7 +1271,7 @@
         "conviction_score": 30.0,
         "vote": "SELL",
         "verdict": "\ud83d\udd34 Weak Tape / Selling Pressure (RVOL 1.0x, Range 19%, 5D Vel +1.0%)",
-        "timestamp": "2026-09-07T07:11:53.497729+00:00"
+        "timestamp": "2026-09-08T07:05:31.358586+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -1329,7 +1329,7 @@
   },
   "last_deliberated_at": "2026-08-29T14:26:12.354905+00:00",
   "MSFT": {
-    "timestamp": "2026-09-07T07:11:55.625739+00:00",
+    "timestamp": "2026-09-08T07:05:33.030822+00:00",
     "ticker": "MSFT",
     "spot_price": 499.7,
     "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
@@ -1370,10 +1370,10 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.147,
+          "finbert_polarity": 0.091,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (+0.15 polarity across 100 headlines)."
+        "thesis": "Balanced sentiment environment (+0.09 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -1406,7 +1406,7 @@
         "conviction_score": 30.0,
         "vote": "SELL",
         "verdict": "\ud83d\udd34 Weak Tape / Selling Pressure (RVOL 0.79x, Range 3%, 5D Vel -1.5%)",
-        "timestamp": "2026-09-07T07:11:55.621456+00:00"
+        "timestamp": "2026-09-08T07:05:33.024046+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -1463,7 +1463,7 @@
     }
   },
   "NVDA": {
-    "timestamp": "2026-09-07T07:11:51.031706+00:00",
+    "timestamp": "2026-09-08T07:05:29.397604+00:00",
     "ticker": "NVDA",
     "spot_price": 230.36,
     "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
@@ -1504,10 +1504,10 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.073,
+          "finbert_polarity": 0.164,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (+0.07 polarity across 100 headlines)."
+        "thesis": "Balanced sentiment environment (+0.16 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -1540,7 +1540,7 @@
         "conviction_score": 70.0,
         "vote": "BUY",
         "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.05x, Range 14%, 5D Vel +4.3%)",
-        "timestamp": "2026-09-07T07:11:51.027293+00:00"
+        "timestamp": "2026-09-08T07:05:29.392741+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -3083,7 +3083,7 @@
     ]
   },
   "GOOGL": {
-    "timestamp": "2026-09-07T07:11:57.770380+00:00",
+    "timestamp": "2026-09-08T07:05:35.027696+00:00",
     "ticker": "GOOGL",
     "spot_price": 338.46,
     "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
@@ -3124,7 +3124,7 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.057,
+          "finbert_polarity": 0.056,
           "headlines_analyzed": 100
         },
         "thesis": "Balanced sentiment environment (+0.06 polarity across 100 headlines)."
@@ -3160,7 +3160,7 @@
         "conviction_score": 60.0,
         "vote": "HOLD",
         "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 21%, RVOL 1.04x, 5D Vel -0.3%)",
-        "timestamp": "2026-09-07T07:11:57.766093+00:00"
+        "timestamp": "2026-09-08T07:05:35.022880+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -3427,7 +3427,7 @@
     ]
   },
   "AMZN": {
-    "timestamp": "2026-09-07T07:11:59.843512+00:00",
+    "timestamp": "2026-09-08T07:05:36.892123+00:00",
     "ticker": "AMZN",
     "spot_price": 258.51,
     "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
@@ -3468,10 +3468,10 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.184,
+          "finbert_polarity": -0.073,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (+0.18 polarity across 100 headlines)."
+        "thesis": "Balanced sentiment environment (-0.07 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -3504,7 +3504,7 @@
         "conviction_score": 60.0,
         "vote": "HOLD",
         "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 55%, RVOL 0.94x, 5D Vel -0.5%)",
-        "timestamp": "2026-09-07T07:11:59.839190+00:00"
+        "timestamp": "2026-09-08T07:05:36.887463+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -3561,7 +3561,7 @@
     }
   },
   "TSLA": {
-    "timestamp": "2026-09-07T07:12:03.823553+00:00",
+    "timestamp": "2026-09-08T07:05:40.490086+00:00",
     "ticker": "TSLA",
     "spot_price": 354.08,
     "final_resolution": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
@@ -3602,10 +3602,10 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.169,
+          "finbert_polarity": -0.038,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (+0.17 polarity across 100 headlines)."
+        "thesis": "Balanced sentiment environment (-0.04 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -3638,7 +3638,7 @@
         "conviction_score": 35.0,
         "vote": "SELL",
         "verdict": "\ud83d\udd34 Weak Tape / Selling Pressure (RVOL 1.71x, Range 21%, 5D Vel -3.8%)",
-        "timestamp": "2026-09-07T07:12:03.819292+00:00"
+        "timestamp": "2026-09-08T07:05:40.485390+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -8813,7 +8813,7 @@
     ]
   },
   "META": {
-    "timestamp": "2026-09-07T07:12:01.680415+00:00",
+    "timestamp": "2026-09-08T07:05:38.656813+00:00",
     "ticker": "META",
     "spot_price": 616.77,
     "final_resolution": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
@@ -8854,10 +8854,10 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.066,
+          "finbert_polarity": 0.062,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (+0.07 polarity across 100 headlines)."
+        "thesis": "Balanced sentiment environment (+0.06 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -8890,7 +8890,7 @@
         "conviction_score": 85.0,
         "vote": "BUY",
         "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.0x, Range 94%, 5D Vel +7.8%)",
-        "timestamp": "2026-09-07T07:12:01.676340+00:00"
+        "timestamp": "2026-09-08T07:05:38.652135+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
