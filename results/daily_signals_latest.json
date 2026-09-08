@@ -1,5 +1,5 @@
 {
-  "scan_time": "2026-09-07T08:09:47.286317+00:00",
+  "scan_time": "2026-09-08T08:03:16.272201+00:00",
   "num_assets": 534,
   "signals": [
     {
@@ -24,7 +24,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:57 PM IST (03:27 AM EDT)"
     },
     {
       "ticker": "ALLE",
@@ -48,7 +48,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:57 PM IST (03:27 AM EDT)"
     },
     {
       "ticker": "AME",
@@ -72,7 +72,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:57 PM IST (03:27 AM EDT)"
     },
     {
       "ticker": "AOS",
@@ -96,7 +96,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:57 PM IST (03:27 AM EDT)"
     },
     {
       "ticker": "AXON",
@@ -120,12 +120,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:57 PM IST (03:27 AM EDT)"
     },
     {
       "ticker": "BA",
       "signal": "SELL",
-      "confidence": 0.47600993514060974,
+      "confidence": 0.4723215401172638,
       "current_price": 212.25,
       "stop_loss": 205.95750045776367,
       "take_profit": 222.73749923706055,
@@ -144,7 +144,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:57 PM IST (03:27 AM EDT)"
     },
     {
       "ticker": "BLDR",
@@ -168,7 +168,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:57 PM IST (03:27 AM EDT)"
     },
     {
       "ticker": "BR",
@@ -192,7 +192,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "CARR",
@@ -216,7 +216,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "CAT",
@@ -240,7 +240,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "CHRW",
@@ -264,7 +264,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "CMI",
@@ -288,7 +288,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "CPRT",
@@ -312,7 +312,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "CSX",
@@ -336,7 +336,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "CTAS",
@@ -360,12 +360,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "DAL",
       "signal": "SELL",
-      "confidence": 0.46888795495033264,
+      "confidence": 0.4600085914134979,
       "current_price": 80.16999816894531,
       "stop_loss": 73.41570806503296,
       "take_profit": 85.79857325553894,
@@ -384,7 +384,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "DD",
@@ -408,7 +408,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "DE",
@@ -432,7 +432,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "DOV",
@@ -456,7 +456,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "EFX",
@@ -480,7 +480,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "EME",
@@ -504,7 +504,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "EMR",
@@ -528,7 +528,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:58 PM IST (03:28 AM EDT)"
     },
     {
       "ticker": "ETN",
@@ -552,7 +552,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "EXPD",
@@ -576,7 +576,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "FAST",
@@ -600,12 +600,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "FDX",
       "signal": "SELL",
-      "confidence": 0.3657049834728241,
+      "confidence": 0.3734068274497986,
       "current_price": 322.5199890136719,
       "stop_loss": 298.012131690979,
       "take_profit": 342.94320344924927,
@@ -624,7 +624,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "FDXF",
@@ -648,7 +648,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "FERG",
@@ -672,7 +672,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "FIX",
@@ -696,7 +696,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "FTV",
@@ -720,7 +720,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "GD",
@@ -744,7 +744,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "GE",
@@ -768,7 +768,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "GEV",
@@ -792,7 +792,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "GNRC",
@@ -816,7 +816,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "GWW",
@@ -840,7 +840,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "HII",
@@ -864,7 +864,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 12:59 PM IST (03:29 AM EDT)"
     },
     {
       "ticker": "HON",
@@ -888,12 +888,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "HONA",
       "signal": "SELL",
-      "confidence": 0.12752823531627655,
+      "confidence": 0.13089051842689514,
       "current_price": 161.00999450683594,
       "stop_loss": 151.9210638999939,
       "take_profit": 176.158212184906,
@@ -912,7 +912,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "HUBB",
@@ -936,7 +936,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "HWM",
@@ -960,7 +960,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "IEX",
@@ -984,7 +984,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "IR",
@@ -1008,7 +1008,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "ITW",
@@ -1032,7 +1032,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "J",
@@ -1056,7 +1056,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "JBHT",
@@ -1080,7 +1080,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "JCI",
@@ -1104,7 +1104,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "LDOS",
@@ -1128,7 +1128,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "LHX",
@@ -1152,7 +1152,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "LII",
@@ -1176,7 +1176,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "LMT",
@@ -1200,7 +1200,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "LUV",
@@ -1224,7 +1224,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:00 PM IST (03:30 AM EDT)"
     },
     {
       "ticker": "MAS",
@@ -1248,7 +1248,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "MMM",
@@ -1272,7 +1272,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "NDSN",
@@ -1296,12 +1296,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "NOC",
       "signal": "SELL",
-      "confidence": 0.417726069688797,
+      "confidence": 0.4312874376773834,
       "current_price": 514.97998046875,
       "stop_loss": 495.0128254890442,
       "take_profit": 548.258572101593,
@@ -1320,7 +1320,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "NSC",
@@ -1344,7 +1344,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "ODFL",
@@ -1368,7 +1368,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "OTIS",
@@ -1392,7 +1392,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "PAYX",
@@ -1416,7 +1416,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "PCAR",
@@ -1440,12 +1440,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "PH",
       "signal": "SELL",
-      "confidence": 0.3567875027656555,
+      "confidence": 0.3559577167034149,
       "current_price": 962.5900268554688,
       "stop_loss": 890.1957492828369,
       "take_profit": 1022.9185914993286,
@@ -1464,7 +1464,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "PNR",
@@ -1488,7 +1488,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "PWR",
@@ -1512,7 +1512,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "ROK",
@@ -1536,7 +1536,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "ROL",
@@ -1560,12 +1560,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "RSG",
       "signal": "SELL",
-      "confidence": 0.41127249598503113,
+      "confidence": 0.438010036945343,
       "current_price": 222.7100067138672,
       "stop_loss": 211.88428854942322,
       "take_profit": 231.7314385175705,
@@ -1584,7 +1584,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:01 PM IST (03:31 AM EDT)"
     },
     {
       "ticker": "RTX",
@@ -1608,7 +1608,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "SNA",
@@ -1632,7 +1632,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "SWK",
@@ -1656,7 +1656,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "TDG",
@@ -1680,7 +1680,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "TT",
@@ -1704,7 +1704,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "TXT",
@@ -1728,7 +1728,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "UAL",
@@ -1752,7 +1752,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "UBER",
@@ -1776,7 +1776,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "UNP",
@@ -1800,7 +1800,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "UPS",
@@ -1824,7 +1824,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "URI",
@@ -1848,7 +1848,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "VLTO",
@@ -1872,7 +1872,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "VRSK",
@@ -1896,7 +1896,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "VRT",
@@ -1920,7 +1920,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "WAB",
@@ -1944,7 +1944,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:02 PM IST (03:32 AM EDT)"
     },
     {
       "ticker": "WM",
@@ -1968,7 +1968,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "XYL",
@@ -1992,7 +1992,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "A",
@@ -2016,12 +2016,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "ABBV",
       "signal": "SELL",
-      "confidence": 0.38347122073173523,
+      "confidence": 0.33151373267173767,
       "current_price": 256.4599914550781,
       "stop_loss": 239.45643854141235,
       "take_profit": 270.62961888313293,
@@ -2040,7 +2040,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "ABT",
@@ -2064,7 +2064,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "ALGN",
@@ -2088,7 +2088,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "AMGN",
@@ -2112,7 +2112,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "BAX",
@@ -2136,7 +2136,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "BDX",
@@ -2160,7 +2160,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "BIIB",
@@ -2184,7 +2184,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "BMY",
@@ -2208,7 +2208,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "BSX",
@@ -2232,7 +2232,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "CAH",
@@ -2256,12 +2256,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "CI",
       "signal": "SELL",
-      "confidence": 0.5120415091514587,
+      "confidence": 0.49321532249450684,
       "current_price": 282.5199890136719,
       "stop_loss": 265.87213134765625,
       "take_profit": 296.39320373535156,
@@ -2280,12 +2280,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:03 PM IST (03:33 AM EDT)"
     },
     {
       "ticker": "CNC",
       "signal": "SELL",
-      "confidence": 0.48896434903144836,
+      "confidence": 0.49877575039863586,
       "current_price": 67.04000091552734,
       "stop_loss": 61.45785903930664,
       "take_profit": 71.69178581237793,
@@ -2304,7 +2304,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "COO",
@@ -2328,7 +2328,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "COR",
@@ -2352,7 +2352,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "CRL",
@@ -2376,7 +2376,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "CVS",
@@ -2400,7 +2400,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "DGX",
@@ -2424,7 +2424,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "DHR",
@@ -2448,12 +2448,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "DVA",
       "signal": "SELL",
-      "confidence": 0.4542359709739685,
+      "confidence": 0.4487460255622864,
       "current_price": 183.99000549316406,
       "stop_loss": 171.28286790847778,
       "take_profit": 194.57928681373596,
@@ -2472,7 +2472,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "DXCM",
@@ -2496,7 +2496,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "ELV",
@@ -2520,7 +2520,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "EW",
@@ -2544,12 +2544,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "GEHC",
       "signal": "SELL",
-      "confidence": 0.3566877543926239,
+      "confidence": 0.43225017189979553,
       "current_price": 68.86000061035156,
       "stop_loss": 66.48378622531891,
       "take_profit": 72.82035791873932,
@@ -2568,7 +2568,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "GILD",
@@ -2592,12 +2592,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "HCA",
       "signal": "SELL",
-      "confidence": 0.3956126272678375,
+      "confidence": 0.41182786226272583,
       "current_price": 405.0,
       "stop_loss": 388.20214319229126,
       "take_profit": 432.9964280128479,
@@ -2616,7 +2616,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "HSIC",
@@ -2640,7 +2640,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:04 PM IST (03:34 AM EDT)"
     },
     {
       "ticker": "HUM",
@@ -2664,7 +2664,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "IDXX",
@@ -2688,7 +2688,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "INCY",
@@ -2712,7 +2712,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "IQV",
@@ -2736,7 +2736,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "ISRG",
@@ -2760,7 +2760,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "JNJ",
@@ -2784,7 +2784,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "LH",
@@ -2808,7 +2808,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "LLY",
@@ -2832,7 +2832,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "MCK",
@@ -2856,7 +2856,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "MDT",
@@ -2880,7 +2880,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "MRK",
@@ -2904,7 +2904,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "MRNA",
@@ -2928,7 +2928,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "MTD",
@@ -2952,7 +2952,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "PFE",
@@ -2976,7 +2976,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "PODD",
@@ -3000,7 +3000,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:05 PM IST (03:35 AM EDT)"
     },
     {
       "ticker": "REGN",
@@ -3024,7 +3024,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "RVTY",
@@ -3048,7 +3048,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "SOLV",
@@ -3072,7 +3072,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "STE",
@@ -3096,12 +3096,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "SYK",
       "signal": "BUY",
-      "confidence": 0.5370544791221619,
+      "confidence": 0.545917809009552,
       "current_price": 303.1300048828125,
       "stop_loss": 288.1471481323242,
       "take_profit": 328.10143280029297,
@@ -3120,7 +3120,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "TECH",
@@ -3144,7 +3144,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "TMO",
@@ -3168,7 +3168,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "UHS",
@@ -3192,12 +3192,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "UNH",
       "signal": "SELL",
-      "confidence": 0.4470248520374298,
+      "confidence": 0.44596001505851746,
       "current_price": 397.1400146484375,
       "stop_loss": 373.6007151603699,
       "take_profit": 416.7560975551605,
@@ -3216,12 +3216,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "VEEV",
       "signal": "SELL",
-      "confidence": 0.4132988750934601,
+      "confidence": 0.42358115315437317,
       "current_price": 275.0899963378906,
       "stop_loss": 240.73785400390625,
       "take_profit": 303.71678161621094,
@@ -3240,7 +3240,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "VRTX",
@@ -3264,7 +3264,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "VTRS",
@@ -3288,7 +3288,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "WAT",
@@ -3312,7 +3312,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "WST",
@@ -3336,7 +3336,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "ZBH",
@@ -3360,7 +3360,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:06 PM IST (03:36 AM EDT)"
     },
     {
       "ticker": "ZTS",
@@ -3384,12 +3384,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "AAPL",
       "signal": "SELL",
-      "confidence": 0.4264396131038666,
+      "confidence": 0.4258660078048706,
       "current_price": 319.9700012207031,
       "stop_loss": 299.03643560409546,
       "take_profit": 337.41463923454285,
@@ -3408,7 +3408,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "ACN",
@@ -3432,7 +3432,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "ADBE",
@@ -3456,7 +3456,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "ADI",
@@ -3480,7 +3480,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "ADSK",
@@ -3504,7 +3504,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "AKAM",
@@ -3528,7 +3528,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "AMAT",
@@ -3552,7 +3552,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "AMD",
@@ -3576,7 +3576,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "ANET",
@@ -3600,7 +3600,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "APH",
@@ -3624,7 +3624,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "AVGO",
@@ -3648,7 +3648,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "CDNS",
@@ -3672,7 +3672,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "CDW",
@@ -3696,7 +3696,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:07 PM IST (03:37 AM EDT)"
     },
     {
       "ticker": "CIEN",
@@ -3720,7 +3720,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "COHR",
@@ -3744,7 +3744,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "CRM",
@@ -3768,7 +3768,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "CRWD",
@@ -3792,7 +3792,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "CSCO",
@@ -3816,12 +3816,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "CTSH",
       "signal": "BUY",
-      "confidence": 0.550388753414154,
+      "confidence": 0.5322216749191284,
       "current_price": 62.310001373291016,
       "stop_loss": 59.22964346408844,
       "take_profit": 67.44393122196198,
@@ -3840,7 +3840,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "DDOG",
@@ -3864,7 +3864,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "DELL",
@@ -3888,7 +3888,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "FFIV",
@@ -3912,7 +3912,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "FICO",
@@ -3936,7 +3936,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "FLEX",
@@ -3960,7 +3960,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "FSLR",
@@ -3984,7 +3984,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:08 PM IST (03:38 AM EDT)"
     },
     {
       "ticker": "FTNT",
@@ -4008,7 +4008,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "GDDY",
@@ -4032,7 +4032,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "GEN",
@@ -4056,7 +4056,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "GLW",
@@ -4080,7 +4080,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "HPE",
@@ -4104,7 +4104,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "HPQ",
@@ -4128,7 +4128,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "IBM",
@@ -4152,7 +4152,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "INTC",
@@ -4176,7 +4176,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "INTU",
@@ -4200,7 +4200,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "IT",
@@ -4224,7 +4224,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "JBL",
@@ -4248,7 +4248,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "KEYS",
@@ -4272,7 +4272,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "KLAC",
@@ -4296,7 +4296,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "LITE",
@@ -4320,7 +4320,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "LRCX",
@@ -4344,7 +4344,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:09 PM IST (03:39 AM EDT)"
     },
     {
       "ticker": "MCHP",
@@ -4368,7 +4368,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "MPWR",
@@ -4392,7 +4392,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "MRVL",
@@ -4416,7 +4416,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "MSFT",
@@ -4440,7 +4440,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "MSI",
@@ -4464,7 +4464,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "MU",
@@ -4488,7 +4488,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "NOW",
@@ -4512,7 +4512,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "NTAP",
@@ -4536,7 +4536,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "NVDA",
@@ -4560,7 +4560,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "NXPI",
@@ -4584,12 +4584,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "ON",
       "signal": "SELL",
-      "confidence": 0.5111831426620483,
+      "confidence": 0.39913806319236755,
       "current_price": 74.37999725341797,
       "stop_loss": 70.12428283691406,
       "take_profit": 81.47285461425781,
@@ -4608,7 +4608,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "ORCL",
@@ -4632,7 +4632,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "PANW",
@@ -4656,7 +4656,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "PLTR",
@@ -4680,7 +4680,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:10 PM IST (03:40 AM EDT)"
     },
     {
       "ticker": "PTC",
@@ -4704,7 +4704,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "Q",
@@ -4728,7 +4728,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "QCOM",
@@ -4752,7 +4752,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "ROP",
@@ -4776,12 +4776,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "SMCI",
       "signal": "BUY",
-      "confidence": 0.5442081093788147,
+      "confidence": 0.5282265543937683,
       "current_price": 39.59000015258789,
       "stop_loss": 33.088571548461914,
       "take_profit": 45.00785732269287,
@@ -4800,7 +4800,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "SNDK",
@@ -4824,7 +4824,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "SNPS",
@@ -4848,7 +4848,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "STX",
@@ -4872,7 +4872,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "SWKS",
@@ -4896,7 +4896,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "TDY",
@@ -4920,7 +4920,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "TEL",
@@ -4944,7 +4944,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "TER",
@@ -4968,7 +4968,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "TRMB",
@@ -4992,7 +4992,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "TXN",
@@ -5016,7 +5016,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "TYL",
@@ -5040,7 +5040,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:11 PM IST (03:41 AM EDT)"
     },
     {
       "ticker": "VRSN",
@@ -5064,12 +5064,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "WDAY",
       "signal": "SELL",
-      "confidence": 0.4170312285423279,
+      "confidence": 0.41689708828926086,
       "current_price": 195.7899932861328,
       "stop_loss": 170.0499963760376,
       "take_profit": 217.23999071121216,
@@ -5088,7 +5088,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "WDC",
@@ -5112,7 +5112,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "ZBRA",
@@ -5136,7 +5136,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "AEE",
@@ -5160,7 +5160,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "AEP",
@@ -5184,7 +5184,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "AES",
@@ -5208,7 +5208,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "ATO",
@@ -5232,7 +5232,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "AWK",
@@ -5256,7 +5256,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "CEG",
@@ -5280,7 +5280,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "CMS",
@@ -5304,7 +5304,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "CNP",
@@ -5328,7 +5328,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "D",
@@ -5352,12 +5352,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "DTE",
       "signal": "SELL",
-      "confidence": 0.45092058181762695,
+      "confidence": 0.5008986592292786,
       "current_price": 136.0800018310547,
       "stop_loss": 133.0650018453598,
       "take_profit": 141.10500180721283,
@@ -5376,7 +5376,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "DUK",
@@ -5400,7 +5400,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:12 PM IST (03:42 AM EDT)"
     },
     {
       "ticker": "ED",
@@ -5424,7 +5424,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "EIX",
@@ -5448,7 +5448,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "ES",
@@ -5472,7 +5472,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "ETR",
@@ -5496,7 +5496,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "EVRG",
@@ -5520,7 +5520,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "EXC",
@@ -5544,12 +5544,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "FE",
       "signal": "SELL",
-      "confidence": 0.4697558581829071,
+      "confidence": 0.4753033518791199,
       "current_price": 46.77000045776367,
       "stop_loss": 45.60750102996826,
       "take_profit": 48.707499504089355,
@@ -5568,7 +5568,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "LNT",
@@ -5592,7 +5592,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "NEE",
@@ -5616,7 +5616,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "NI",
@@ -5640,7 +5640,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "NRG",
@@ -5664,7 +5664,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "PCG",
@@ -5688,7 +5688,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "PEG",
@@ -5712,7 +5712,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "PNW",
@@ -5736,7 +5736,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "PPL",
@@ -5760,7 +5760,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "SO",
@@ -5784,7 +5784,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:13 PM IST (03:43 AM EDT)"
     },
     {
       "ticker": "SRE",
@@ -5808,7 +5808,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "WEC",
@@ -5832,7 +5832,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "XEL",
@@ -5856,7 +5856,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "ACGL",
@@ -5880,7 +5880,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "AFL",
@@ -5904,7 +5904,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "AIG",
@@ -5928,7 +5928,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "AIZ",
@@ -5952,7 +5952,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "AJG",
@@ -5976,7 +5976,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "ALL",
@@ -6000,7 +6000,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "AMP",
@@ -6024,7 +6024,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "AON",
@@ -6048,7 +6048,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "APO",
@@ -6072,7 +6072,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "ARES",
@@ -6096,12 +6096,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "AXP",
       "signal": "SELL",
-      "confidence": 0.42870256304740906,
+      "confidence": 0.42788970470428467,
       "current_price": 326.1600036621094,
       "stop_loss": 317.4053614139557,
       "take_profit": 340.75107407569885,
@@ -6120,7 +6120,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:14 PM IST (03:44 AM EDT)"
     },
     {
       "ticker": "BAC",
@@ -6144,7 +6144,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "BEN",
@@ -6168,7 +6168,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "BLK",
@@ -6192,7 +6192,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "BNY",
@@ -6216,7 +6216,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "BRO",
@@ -6240,7 +6240,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "BX",
@@ -6264,7 +6264,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "C",
@@ -6288,12 +6288,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "CB",
       "signal": "SELL",
-      "confidence": 0.3723892569541931,
+      "confidence": 0.3648129999637604,
       "current_price": 341.5899963378906,
       "stop_loss": 324.87571716308594,
       "take_profit": 355.51856231689453,
@@ -6312,12 +6312,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "CBOE",
       "signal": "SELL",
-      "confidence": 0.516063392162323,
+      "confidence": 0.4987511932849884,
       "current_price": 298.3800048828125,
       "stop_loss": 264.6707057952881,
       "take_profit": 326.4710874557495,
@@ -6336,7 +6336,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "CFG",
@@ -6360,12 +6360,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "CINF",
       "signal": "SELL",
-      "confidence": 0.4319276213645935,
+      "confidence": 0.4409846365451813,
       "current_price": 171.10000610351562,
       "stop_loss": 163.04714560508728,
       "take_profit": 177.81072318553925,
@@ -6384,7 +6384,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "CME",
@@ -6408,7 +6408,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "COF",
@@ -6432,7 +6432,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "COIN",
@@ -6456,7 +6456,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "CPAY",
@@ -6480,7 +6480,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:15 PM IST (03:45 AM EDT)"
     },
     {
       "ticker": "EG",
@@ -6504,7 +6504,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "ERIE",
@@ -6528,7 +6528,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "FDS",
@@ -6552,12 +6552,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "FIS",
       "signal": "SELL",
-      "confidence": 0.44668686389923096,
+      "confidence": 0.4561566710472107,
       "current_price": 41.88999938964844,
       "stop_loss": 40.11464220285416,
       "take_profit": 44.84892803430557,
@@ -6576,7 +6576,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "FISV",
@@ -6600,7 +6600,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "FITB",
@@ -6624,7 +6624,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "GL",
@@ -6648,7 +6648,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "GPN",
@@ -6672,7 +6672,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "GS",
@@ -6696,7 +6696,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "HBAN",
@@ -6720,7 +6720,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "HIG",
@@ -6744,7 +6744,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "HOOD",
@@ -6768,7 +6768,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "IBKR",
@@ -6792,7 +6792,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "ICE",
@@ -6816,7 +6816,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "IVZ",
@@ -6840,7 +6840,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:16 PM IST (03:46 AM EDT)"
     },
     {
       "ticker": "JKHY",
@@ -6864,7 +6864,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "JPM",
@@ -6888,12 +6888,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "KEY",
       "signal": "SELL",
-      "confidence": 0.46144309639930725,
+      "confidence": 0.4780352711677551,
       "current_price": 22.18000030517578,
       "stop_loss": 20.883571922779083,
       "take_profit": 23.260357290506363,
@@ -6912,12 +6912,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "KKR",
       "signal": "SELL",
-      "confidence": 0.44615936279296875,
+      "confidence": 0.46125528216362,
       "current_price": 107.7300033569336,
       "stop_loss": 97.29857635498047,
       "take_profit": 116.42285919189453,
@@ -6936,7 +6936,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "L",
@@ -6960,7 +6960,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "MA",
@@ -6984,7 +6984,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "MCO",
@@ -7008,7 +7008,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "MET",
@@ -7032,7 +7032,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "MRSH",
@@ -7056,7 +7056,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "MS",
@@ -7080,12 +7080,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "MSCI",
       "signal": "SELL",
-      "confidence": 0.4783157706260681,
+      "confidence": 0.46000322699546814,
       "current_price": 573.010009765625,
       "stop_loss": 555.1964440345764,
       "take_profit": 602.6992859840393,
@@ -7104,7 +7104,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "MTB",
@@ -7128,7 +7128,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "NDAQ",
@@ -7152,7 +7152,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "NTRS",
@@ -7176,7 +7176,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "PFG",
@@ -7200,7 +7200,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:17 PM IST (03:47 AM EDT)"
     },
     {
       "ticker": "PGR",
@@ -7224,12 +7224,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "PNC",
       "signal": "SELL",
-      "confidence": 0.42455407977104187,
+      "confidence": 0.38702595233917236,
       "current_price": 245.60000610351562,
       "stop_loss": 230.82501983642578,
       "take_profit": 257.9124946594238,
@@ -7248,7 +7248,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "PRU",
@@ -7272,7 +7272,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "PYPL",
@@ -7296,7 +7296,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "RF",
@@ -7320,12 +7320,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "RJF",
       "signal": "SELL",
-      "confidence": 0.43283432722091675,
+      "confidence": 0.3747890591621399,
       "current_price": 178.2899932861328,
       "stop_loss": 166.0178427696228,
       "take_profit": 188.5167853832245,
@@ -7344,7 +7344,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "SCHW",
@@ -7368,7 +7368,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "SPGI",
@@ -7392,7 +7392,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "STT",
@@ -7416,7 +7416,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "SYF",
@@ -7440,7 +7440,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "TFC",
@@ -7464,7 +7464,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "TROW",
@@ -7488,7 +7488,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "TRV",
@@ -7512,7 +7512,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "USB",
@@ -7536,7 +7536,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:18 PM IST (03:48 AM EDT)"
     },
     {
       "ticker": "V",
@@ -7560,12 +7560,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "WFC",
       "signal": "SELL",
-      "confidence": 0.42262566089630127,
+      "confidence": 0.47458016872406006,
       "current_price": 89.97000122070312,
       "stop_loss": 84.62571656703949,
       "take_profit": 94.42357176542282,
@@ -7584,7 +7584,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "WRB",
@@ -7608,7 +7608,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "WTW",
@@ -7632,7 +7632,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "XYZ",
@@ -7656,7 +7656,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "ALB",
@@ -7680,12 +7680,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "AMCR",
       "signal": "SELL",
-      "confidence": 0.4600439965724945,
+      "confidence": 0.4845052659511566,
       "current_price": 45.150001525878906,
       "stop_loss": 41.929288268089294,
       "take_profit": 47.83392924070358,
@@ -7704,7 +7704,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "APD",
@@ -7728,7 +7728,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "AVY",
@@ -7752,7 +7752,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "BALL",
@@ -7776,7 +7776,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "CF",
@@ -7800,12 +7800,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "CRH",
       "signal": "BUY",
-      "confidence": 0.5231423377990723,
+      "confidence": 0.5812099575996399,
       "current_price": 94.26000213623047,
       "stop_loss": 90.49821400642395,
       "take_profit": 100.52964901924133,
@@ -7824,7 +7824,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "CTVA",
@@ -7848,12 +7848,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "DOW",
       "signal": "SELL",
-      "confidence": 0.38213488459587097,
+      "confidence": 0.37556830048561096,
       "current_price": 29.440000534057617,
       "stop_loss": 27.934214651584625,
       "take_profit": 31.949643671512604,
@@ -7872,7 +7872,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "ECL",
@@ -7896,7 +7896,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:19 PM IST (03:49 AM EDT)"
     },
     {
       "ticker": "FCX",
@@ -7920,7 +7920,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "IFF",
@@ -7944,7 +7944,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "IP",
@@ -7968,7 +7968,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "LIN",
@@ -7992,7 +7992,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "LYB",
@@ -8016,7 +8016,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "MLM",
@@ -8040,7 +8040,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "MOS",
@@ -8064,7 +8064,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "NEM",
@@ -8088,7 +8088,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "NUE",
@@ -8112,12 +8112,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "PKG",
       "signal": "SELL",
-      "confidence": 0.3781970739364624,
+      "confidence": 0.36406779289245605,
       "current_price": 237.25,
       "stop_loss": 219.43642711639404,
       "take_profit": 252.09464406967163,
@@ -8136,7 +8136,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "PPG",
@@ -8160,7 +8160,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "SHW",
@@ -8184,7 +8184,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "STLD",
@@ -8208,7 +8208,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "SW",
@@ -8232,7 +8232,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "VMC",
@@ -8256,7 +8256,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "ABNB",
@@ -8280,7 +8280,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:20 PM IST (03:50 AM EDT)"
     },
     {
       "ticker": "AMZN",
@@ -8304,12 +8304,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "APTV",
       "signal": "BUY",
-      "confidence": 0.6264553666114807,
+      "confidence": 0.5790311098098755,
       "current_price": 47.95000076293945,
       "stop_loss": 45.84357351064682,
       "take_profit": 51.46071285009384,
@@ -8328,7 +8328,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "AZO",
@@ -8352,7 +8352,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "BBY",
@@ -8376,7 +8376,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "BKNG",
@@ -8400,7 +8400,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "CCL",
@@ -8424,7 +8424,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "CMG",
@@ -8448,7 +8448,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "CVNA",
@@ -8472,7 +8472,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "DASH",
@@ -8496,7 +8496,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "DECK",
@@ -8520,7 +8520,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "DHI",
@@ -8544,7 +8544,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "DPZ",
@@ -8568,7 +8568,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "DRI",
@@ -8592,7 +8592,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "EBAY",
@@ -8616,7 +8616,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:21 PM IST (03:51 AM EDT)"
     },
     {
       "ticker": "EXPE",
@@ -8640,7 +8640,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "F",
@@ -8664,7 +8664,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "GM",
@@ -8688,7 +8688,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "GPC",
@@ -8712,7 +8712,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "GRMN",
@@ -8736,7 +8736,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "HAS",
@@ -8760,7 +8760,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "HD",
@@ -8784,7 +8784,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "HLT",
@@ -8808,7 +8808,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "LEN",
@@ -8832,7 +8832,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "LOW",
@@ -8856,7 +8856,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "LULU",
@@ -8880,7 +8880,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "LVS",
@@ -8904,7 +8904,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "MAR",
@@ -8928,12 +8928,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "MCD",
       "signal": "SELL",
-      "confidence": 0.4078514575958252,
+      "confidence": 0.36456936597824097,
       "current_price": 255.69000244140625,
       "stop_loss": 248.85535836219788,
       "take_profit": 267.08107590675354,
@@ -8952,7 +8952,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "MGM",
@@ -8976,7 +8976,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:22 PM IST (03:52 AM EDT)"
     },
     {
       "ticker": "NCLH",
@@ -9000,7 +9000,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "NKE",
@@ -9024,7 +9024,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "NVR",
@@ -9048,7 +9048,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "ORLY",
@@ -9072,7 +9072,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "PHM",
@@ -9096,7 +9096,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "RCL",
@@ -9120,7 +9120,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "RL",
@@ -9144,7 +9144,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "ROST",
@@ -9168,7 +9168,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "SBUX",
@@ -9192,7 +9192,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "TJX",
@@ -9216,7 +9216,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "TPR",
@@ -9240,7 +9240,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "TSCO",
@@ -9264,7 +9264,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "TSLA",
@@ -9288,12 +9288,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "ULTA",
       "signal": "SELL",
-      "confidence": 0.49380651116371155,
+      "confidence": 0.47407740354537964,
       "current_price": 564.1199951171875,
       "stop_loss": 501.0343074798584,
       "take_profit": 616.6914014816284,
@@ -9312,7 +9312,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "WSM",
@@ -9336,7 +9336,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:23 PM IST (03:53 AM EDT)"
     },
     {
       "ticker": "WYNN",
@@ -9360,7 +9360,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "YUM",
@@ -9384,7 +9384,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "AMT",
@@ -9408,7 +9408,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "ARE",
@@ -9432,7 +9432,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "BXP",
@@ -9456,12 +9456,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "CBRE",
       "signal": "SELL",
-      "confidence": 0.3169676959514618,
+      "confidence": 0.3242127597332001,
       "current_price": 147.85000610351562,
       "stop_loss": 133.63857555389404,
       "take_profit": 159.69286489486694,
@@ -9480,7 +9480,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "CCI",
@@ -9504,7 +9504,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "CPT",
@@ -9528,7 +9528,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "CSGP",
@@ -9552,7 +9552,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "DLR",
@@ -9576,7 +9576,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "DOC",
@@ -9600,7 +9600,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "EQIX",
@@ -9624,7 +9624,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "ESS",
@@ -9648,7 +9648,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "EXR",
@@ -9672,12 +9672,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "FRT",
       "signal": "SELL",
-      "confidence": 0.44992148876190186,
+      "confidence": 0.4089878499507904,
       "current_price": 117.08999633789062,
       "stop_loss": 112.75285077095032,
       "take_profit": 120.70428431034088,
@@ -9696,7 +9696,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:24 PM IST (03:54 AM EDT)"
     },
     {
       "ticker": "HST",
@@ -9720,7 +9720,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "INVH",
@@ -9744,7 +9744,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "IRM",
@@ -9768,12 +9768,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "KIM",
       "signal": "SELL",
-      "confidence": 0.28788119554519653,
+      "confidence": 0.3117971122264862,
       "current_price": 23.600000381469727,
       "stop_loss": 22.67857199907303,
       "take_profit": 24.36785736680031,
@@ -9792,7 +9792,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "MAA",
@@ -9816,7 +9816,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "O",
@@ -9840,7 +9840,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "PLD",
@@ -9864,7 +9864,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "PSA",
@@ -9888,7 +9888,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "REG",
@@ -9912,7 +9912,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "SBAC",
@@ -9936,7 +9936,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "SPG",
@@ -9960,7 +9960,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "UDR",
@@ -9984,7 +9984,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "VICI",
@@ -10008,7 +10008,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "VMRK",
@@ -10032,7 +10032,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "VTR",
@@ -10056,7 +10056,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "WELL",
@@ -10080,7 +10080,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:25 PM IST (03:55 AM EDT)"
     },
     {
       "ticker": "WY",
@@ -10104,7 +10104,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "FOXA",
@@ -10128,12 +10128,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "GOOGL",
       "signal": "SELL",
-      "confidence": 0.4116799533367157,
+      "confidence": 0.4496627449989319,
       "current_price": 338.4599914550781,
       "stop_loss": 318.8978343009949,
       "take_profit": 354.76178908348083,
@@ -10152,7 +10152,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "NWSA",
@@ -10176,7 +10176,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "GOOG",
@@ -10200,7 +10200,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "ADM",
@@ -10224,7 +10224,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "BG",
@@ -10248,7 +10248,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "CASY",
@@ -10272,7 +10272,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "CHD",
@@ -10296,7 +10296,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "CL",
@@ -10320,7 +10320,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "CLX",
@@ -10344,7 +10344,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "COST",
@@ -10368,7 +10368,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "DG",
@@ -10392,12 +10392,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "DLTR",
-      "signal": "BUY",
-      "confidence": 0.5373932123184204,
+      "signal": "SELL",
+      "confidence": 0.49426406621932983,
       "current_price": 131.4199981689453,
       "stop_loss": 115.49856567382812,
       "take_profit": 144.68785858154297,
@@ -10416,7 +10416,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "EL",
@@ -10440,7 +10440,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:26 PM IST (03:56 AM EDT)"
     },
     {
       "ticker": "GIS",
@@ -10464,7 +10464,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "HRL",
@@ -10488,7 +10488,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "HSY",
@@ -10512,7 +10512,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "KDP",
@@ -10536,7 +10536,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "KHC",
@@ -10560,7 +10560,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "KMB",
@@ -10584,12 +10584,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "KO",
       "signal": "SELL",
-      "confidence": 0.3564507067203522,
+      "confidence": 0.39016228914260864,
       "current_price": 88.06999969482422,
       "stop_loss": 83.72214245796204,
       "take_profit": 91.69321405887604,
@@ -10608,7 +10608,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "KR",
@@ -10632,7 +10632,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "KVUE",
@@ -10656,7 +10656,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "MDLZ",
@@ -10680,7 +10680,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "MKC",
@@ -10704,7 +10704,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "MNST",
@@ -10728,7 +10728,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "MO",
@@ -10752,7 +10752,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "PEP",
@@ -10776,7 +10776,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:27 PM IST (03:57 AM EDT)"
     },
     {
       "ticker": "PG",
@@ -10800,7 +10800,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "PM",
@@ -10824,7 +10824,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "SJM",
@@ -10848,7 +10848,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "STZ",
@@ -10872,12 +10872,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "SYY",
       "signal": "SELL",
-      "confidence": 0.28918132185935974,
+      "confidence": 0.25229281187057495,
       "current_price": 80.05000305175781,
       "stop_loss": 76.03214764595032,
       "take_profit": 83.39821588993073,
@@ -10896,7 +10896,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "TAP",
@@ -10920,7 +10920,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "TGT",
@@ -10944,7 +10944,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:34 PM IST (04:04 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "TSN",
@@ -10968,7 +10968,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "WMT",
@@ -10992,7 +10992,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "APA",
@@ -11016,12 +11016,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "BKR",
       "signal": "SELL",
-      "confidence": 0.3721505403518677,
+      "confidence": 0.3635863959789276,
       "current_price": 63.5,
       "stop_loss": 58.85428738594055,
       "take_profit": 67.37142717838287,
@@ -11040,7 +11040,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "COP",
@@ -11064,12 +11064,12 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "CVX",
       "signal": "SELL",
-      "confidence": 0.40988481044769287,
+      "confidence": 0.405283659696579,
       "current_price": 208.60000610351562,
       "stop_loss": 197.71214938163757,
       "take_profit": 217.673220038414,
@@ -11088,7 +11088,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "DVN",
@@ -11112,7 +11112,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "EOG",
@@ -11136,7 +11136,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:28 PM IST (03:58 AM EDT)"
     },
     {
       "ticker": "EQT",
@@ -11160,7 +11160,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "EXE",
@@ -11184,7 +11184,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "FANG",
@@ -11208,7 +11208,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "HAL",
@@ -11232,7 +11232,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "KMI",
@@ -11256,7 +11256,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "MPC",
@@ -11280,7 +11280,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "OKE",
@@ -11304,7 +11304,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:35 PM IST (04:05 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "OXY",
@@ -11328,7 +11328,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "PSX",
@@ -11352,7 +11352,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "SLB",
@@ -11376,7 +11376,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "TPL",
@@ -11400,12 +11400,12 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "TRGP",
       "signal": "SELL",
-      "confidence": 0.4262319505214691,
+      "confidence": 0.4166485071182251,
       "current_price": 290.04998779296875,
       "stop_loss": 263.30282497406006,
       "take_profit": 312.3392901420593,
@@ -11424,7 +11424,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "VLO",
@@ -11448,7 +11448,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "WMB",
@@ -11472,7 +11472,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:29 PM IST (03:59 AM EDT)"
     },
     {
       "ticker": "XOM",
@@ -11496,7 +11496,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "APP",
@@ -11520,7 +11520,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "CHTR",
@@ -11544,7 +11544,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "CMCSA",
@@ -11568,7 +11568,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "DIS",
@@ -11592,7 +11592,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "ECHO",
@@ -11616,7 +11616,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "LYV",
@@ -11640,7 +11640,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:36 PM IST (04:06 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "META",
@@ -11664,7 +11664,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "NFLX",
@@ -11688,7 +11688,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "OMC",
@@ -11712,7 +11712,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "PSKY",
@@ -11736,7 +11736,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "RDDT",
@@ -11760,7 +11760,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "T",
@@ -11784,7 +11784,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "TKO",
@@ -11808,7 +11808,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "TMUS",
@@ -11832,7 +11832,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:30 PM IST (04:00 AM EDT)"
     },
     {
       "ticker": "TTD",
@@ -11856,7 +11856,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "TTWO",
@@ -11880,7 +11880,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "VZ",
@@ -11904,7 +11904,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "WBD",
@@ -11928,7 +11928,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "FOX",
@@ -11952,7 +11952,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "NWS",
@@ -11976,7 +11976,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:37 PM IST (04:07 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "RMD",
@@ -12000,7 +12000,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "VST",
@@ -12024,7 +12024,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "COIN",
@@ -12048,7 +12048,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "HOOD",
@@ -12072,7 +12072,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "AFRM",
@@ -12096,7 +12096,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "SOFI",
@@ -12120,7 +12120,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "NU",
@@ -12144,7 +12144,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "MSTR",
@@ -12168,7 +12168,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:31 PM IST (04:01 AM EDT)"
     },
     {
       "ticker": "IBIT",
@@ -12192,7 +12192,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "ARM",
@@ -12216,12 +12216,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "SMCI",
       "signal": "BUY",
-      "confidence": 0.5442081093788147,
+      "confidence": 0.5282265543937683,
       "current_price": 39.59000015258789,
       "stop_loss": 33.088571548461914,
       "take_profit": 45.00785732269287,
@@ -12240,7 +12240,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "MRVL",
@@ -12264,7 +12264,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "ANET",
@@ -12288,7 +12288,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "DELL",
@@ -12312,7 +12312,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "VRT",
@@ -12336,7 +12336,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "MPWR",
@@ -12360,7 +12360,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "CRSP",
@@ -12384,7 +12384,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "BIIB",
@@ -12408,7 +12408,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "DXCM",
@@ -12432,7 +12432,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "BNTX",
@@ -12456,7 +12456,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "MRNA",
@@ -12480,7 +12480,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "ALNY",
@@ -12504,7 +12504,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "ILMN",
@@ -12528,7 +12528,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "SYM",
@@ -12552,7 +12552,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:38 PM IST (04:08 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "RKLB",
@@ -12576,7 +12576,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:39 PM IST (04:09 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "SPY",
@@ -12600,7 +12600,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:39 PM IST (04:09 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "QQQ",
@@ -12624,7 +12624,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:39 PM IST (04:09 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "IWM",
@@ -12648,12 +12648,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:39 PM IST (04:09 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "SMH",
       "signal": "BUY",
-      "confidence": 0.5958787798881531,
+      "confidence": 0.6130253076553345,
       "current_price": 567.010009765625,
       "stop_loss": 521.6285495758057,
       "take_profit": 604.8278932571411,
@@ -12672,7 +12672,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:39 PM IST (04:09 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "XBI",
@@ -12696,7 +12696,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:39 PM IST (04:09 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "ARKK",
@@ -12720,7 +12720,7 @@
           "importance": "\ud83d\udd25 UNANIMOUS MULTI-TIMEFRAME CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:39 PM IST (04:09 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "TQQQ",
@@ -12744,12 +12744,12 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:39 PM IST (04:09 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:32 PM IST (04:02 AM EDT)"
     },
     {
       "ticker": "SOXL",
       "signal": "BUY",
-      "confidence": 0.5553358197212219,
+      "confidence": 0.5657685399055481,
       "current_price": 117.27999877929688,
       "stop_loss": 83.99714088439941,
       "take_profit": 145.01571369171143,
@@ -12768,7 +12768,7 @@
           "importance": "\ud83d\udfe2 STRONG BULLISH CONFLUENCE"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:39 PM IST (04:09 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
     },
     {
       "ticker": "TLT",
@@ -12792,7 +12792,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:39 PM IST (04:09 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
     },
     {
       "ticker": "ANTH",
@@ -12816,7 +12816,7 @@
           "importance": "\ud83d\udfe1 MIXED TIMEFRAME SIGNALS"
         }
       ],
-      "timestamp": "Sep 07, 2026 \u2022 01:39 PM IST (04:09 AM EDT)"
+      "timestamp": "Sep 08, 2026 \u2022 01:33 PM IST (04:03 AM EDT)"
     }
   ]
 }

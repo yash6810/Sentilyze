@@ -13,7 +13,7 @@
       "shares": 410,
       "initial_shares": 410,
       "entry_price": 109.51000213623047,
-      "current_price": 109.51,
+      "current_price": 109.51000213623047,
       "entry_date": "2026-09-07",
       "tp1_target": 122.2,
       "tp2_target": 132.34,
@@ -27,7 +27,7 @@
       "shares": 127,
       "initial_shares": 127,
       "entry_price": 354.0799865722656,
-      "current_price": 354.08,
+      "current_price": 354.0799865722656,
       "entry_date": "2026-09-07",
       "tp1_target": 389.37,
       "tp2_target": 417.61,
@@ -55,7 +55,15 @@
       "cash": 10132.74,
       "invested": 89867.26,
       "daily_return": 0.0
+    },
+    {
+      "date": "2026-09-08",
+      "timestamp": "2026-09-08T08:03:16.270517+00:00",
+      "total_equity": 100000.0,
+      "cash": 10132.74,
+      "invested": 89867.26,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-07T23:47:13.665631+00:00"
+  "last_updated": "2026-09-08T08:03:16.270821+00:00"
 }
