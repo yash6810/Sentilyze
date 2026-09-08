@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 10132.740829467773,
-  "total_equity": 103849.01,
-  "unrealized_pnl": 3849.01,
+  "total_equity": 103756.16,
+  "unrealized_pnl": 3756.16,
   "realized_pnl": 0.0,
   "win_rate": 0.0,
   "total_trades": 0,
@@ -13,7 +13,7 @@
       "shares": 410,
       "initial_shares": 410,
       "entry_price": 109.51000213623047,
-      "current_price": 114.49,
+      "current_price": 114.31,
       "entry_date": "2026-09-07",
       "tp1_target": 122.2,
       "tp2_target": 132.34,
@@ -27,7 +27,7 @@
       "shares": 127,
       "initial_shares": 127,
       "entry_price": 354.0799865722656,
-      "current_price": 368.31,
+      "current_price": 368.16,
       "entry_date": "2026-09-07",
       "tp1_target": 389.37,
       "tp2_target": 417.61,
@@ -59,11 +59,11 @@
     {
       "date": "2026-09-08",
       "timestamp": "2026-09-08T08:03:16.270517+00:00",
-      "total_equity": 103849.01,
+      "total_equity": 103756.16,
       "cash": 10132.74,
-      "invested": 93716.27,
-      "daily_return": 0.25
+      "invested": 93623.42,
+      "daily_return": -0.09
     }
   ],
-  "last_updated": "2026-09-08T19:57:20.489043+00:00"
+  "last_updated": "2026-09-08T22:29:36.874156+00:00"
 }
