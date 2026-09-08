@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 10132.740829467773,
-  "total_equity": 100000.0,
-  "unrealized_pnl": 0.0,
+  "total_equity": 103592.42,
+  "unrealized_pnl": 3592.42,
   "realized_pnl": 0.0,
   "win_rate": 0.0,
   "total_trades": 0,
@@ -13,29 +13,29 @@
       "shares": 410,
       "initial_shares": 410,
       "entry_price": 109.51000213623047,
-      "current_price": 109.51000213623047,
+      "current_price": 113.7,
       "entry_date": "2026-09-07",
       "tp1_target": 122.2,
       "tp2_target": 132.34,
-      "sl_target": 104.38,
+      "sl_target": 112.65,
       "scaled_out": false,
       "confidence": 0.64666748046875,
       "regime": "\u25b2 BULLISH (Above SMA200)",
-      "highest_price_seen": 109.51000213623047
+      "highest_price_seen": 113.7
     },
     "TSLA": {
       "shares": 127,
       "initial_shares": 127,
       "entry_price": 354.0799865722656,
-      "current_price": 354.0799865722656,
+      "current_price": 368.84,
       "entry_date": "2026-09-07",
       "tp1_target": 389.37,
       "tp2_target": 417.61,
-      "sl_target": 340.82,
+      "sl_target": 365.15,
       "scaled_out": false,
       "confidence": 0.6270439624786377,
       "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 354.08
+      "highest_price_seen": 368.84
     }
   },
   "closed_trades": [],
@@ -59,11 +59,11 @@
     {
       "date": "2026-09-08",
       "timestamp": "2026-09-08T08:03:16.270517+00:00",
-      "total_equity": 100000.0,
+      "total_equity": 103592.42,
       "cash": 10132.74,
-      "invested": 89867.26,
-      "daily_return": 0.0
+      "invested": 93459.68,
+      "daily_return": 3.59
     }
   ],
-  "last_updated": "2026-09-08T08:03:16.270821+00:00"
+  "last_updated": "2026-09-08T17:11:52.757251+00:00"
 }
