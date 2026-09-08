@@ -1,77 +1,27 @@
 {
-  "session_time": "Sep 07, 2026 \u2022 11:55 PM IST (02:25 PM EDT)",
+  "session_time": "Sep 08, 2026 \u2022 10:59 PM IST (01:29 PM EDT)",
   "stocks_in_play": [
-    "EFX",
     "AXON",
     "BLDR",
+    "EFX",
     "FIX",
     "FDXF"
   ],
-  "signals_count": 3,
-  "signals": [
-    {
-      "ticker": "BLDR",
-      "signal": "BUY",
-      "current_price": 65.79,
-      "confidence": 0.753,
-      "take_profit": 71.59,
-      "stop_loss": 62.89
-    },
-    {
-      "ticker": "FIX",
-      "signal": "BUY",
-      "current_price": 1610.34,
-      "confidence": 0.3089,
-      "take_profit": 1763.68,
-      "stop_loss": 1533.67
-    },
-    {
-      "ticker": "FDXF",
-      "signal": "BUY",
-      "current_price": 129.45,
-      "confidence": 0.738,
-      "take_profit": 140.13,
-      "stop_loss": 124.11
-    }
-  ],
-  "executed_paper_trades": [
-    {
-      "ticker": "BLDR",
-      "signal": "BUY",
-      "current_price": 65.79,
-      "confidence": 0.753,
-      "take_profit": 71.59,
-      "stop_loss": 62.89
-    },
-    {
-      "ticker": "FIX",
-      "signal": "BUY",
-      "current_price": 1610.34,
-      "confidence": 0.3089,
-      "take_profit": 1763.68,
-      "stop_loss": 1533.67
-    },
-    {
-      "ticker": "FDXF",
-      "signal": "BUY",
-      "current_price": 129.45,
-      "confidence": 0.738,
-      "take_profit": 140.13,
-      "stop_loss": 124.11
-    }
-  ],
+  "signals_count": 0,
+  "signals": [],
+  "executed_paper_trades": [],
   "portfolio_summary": {
-    "total_equity": 100000.0,
+    "total_equity": 103592.42,
     "cash": 10132.740829467773,
-    "invested": 89867.25917053223,
+    "invested": 93459.67917053222,
     "start_of_day_equity": 100000.0,
-    "daily_pnl": 0.0,
-    "daily_return_pct": 0.0,
-    "unrealized_pnl": 0.0,
-    "unrealized_pnl_pct": 0.0,
+    "daily_pnl": 3592.42,
+    "daily_return_pct": 3.59,
+    "unrealized_pnl": 3592.42,
+    "unrealized_pnl_pct": 3.84,
     "realized_pnl": 0.0,
-    "total_pnl": 0.0,
-    "total_return_pct": 0.0,
+    "total_pnl": 3592.42,
+    "total_return_pct": 3.59,
     "win_rate": 0.0,
     "open_positions_count": 2,
     "total_trades": 0,
