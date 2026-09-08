@@ -1,6 +1,6 @@
 {
   "initial_capital": 100000.0,
-  "cash": 10132.740829467773,
+  "cash": 333.4608294677737,
   "total_equity": 103756.16,
   "unrealized_pnl": 3756.16,
   "realized_pnl": 0.0,
@@ -36,6 +36,34 @@
       "confidence": 0.6270439624786377,
       "regime": "\u25bc BEARISH (Below SMA200)",
       "highest_price_seen": 368.84
+    },
+    "GEV": {
+      "ticker": "GEV",
+      "shares": 7,
+      "initial_shares": 7,
+      "entry_price": 971.31,
+      "current_price": 971.31,
+      "entry_date": "2026-09-08",
+      "tp1_target": 1044.16,
+      "tp2_target": 1102.44,
+      "sl_target": 927.6,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly"
+    },
+    "WRB": {
+      "ticker": "WRB",
+      "shares": 43,
+      "initial_shares": 43,
+      "entry_price": 69.77,
+      "current_price": 69.77,
+      "entry_date": "2026-09-08",
+      "tp1_target": 75.0,
+      "tp2_target": 79.19,
+      "sl_target": 66.63,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly"
     }
   },
   "closed_trades": [],
@@ -60,10 +88,10 @@
       "date": "2026-09-08",
       "timestamp": "2026-09-08T08:03:16.270517+00:00",
       "total_equity": 103756.16,
-      "cash": 10132.74,
-      "invested": 93623.42,
-      "daily_return": -0.09
+      "cash": 333.46,
+      "invested": 103422.7,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-08T22:29:36.874156+00:00"
+  "last_updated": "2026-09-08T22:41:40.891785+00:00"
 }
