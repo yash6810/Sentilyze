@@ -1,19 +1,19 @@
 {
   "initial_capital": 100000.0,
-  "cash": 333.4608294677737,
+  "cash": 3333.570685119629,
   "total_equity": 103756.16,
   "unrealized_pnl": 3756.16,
-  "realized_pnl": 0.0,
+  "realized_pnl": -0.0001443481442038319,
   "win_rate": 0.0,
-  "total_trades": 0,
+  "total_trades": 1,
   "winning_trades": 0,
-  "losing_trades": 0,
+  "losing_trades": 1,
   "open_positions": {
     "FLEX": {
       "shares": 410,
       "initial_shares": 410,
       "entry_price": 109.51000213623047,
-      "current_price": 114.31,
+      "current_price": 114.30999755859375,
       "entry_date": "2026-09-07",
       "tp1_target": 122.2,
       "tp2_target": 132.34,
@@ -27,7 +27,7 @@
       "shares": 127,
       "initial_shares": 127,
       "entry_price": 354.0799865722656,
-      "current_price": 368.16,
+      "current_price": 368.1600036621094,
       "entry_date": "2026-09-07",
       "tp1_target": 389.37,
       "tp2_target": 417.61,
@@ -42,7 +42,7 @@
       "shares": 7,
       "initial_shares": 7,
       "entry_price": 971.31,
-      "current_price": 971.31,
+      "current_price": 971.3099975585938,
       "entry_date": "2026-09-08",
       "tp1_target": 1044.16,
       "tp2_target": 1102.44,
@@ -50,23 +50,21 @@
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_MultiAgent_Kelly"
-    },
-    "WRB": {
-      "ticker": "WRB",
-      "shares": 43,
-      "initial_shares": 43,
-      "entry_price": 69.77,
-      "current_price": 69.77,
-      "entry_date": "2026-09-08",
-      "tp1_target": 75.0,
-      "tp2_target": 79.19,
-      "sl_target": 66.63,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
     }
   },
-  "closed_trades": [],
+  "closed_trades": [
+    {
+      "ticker": "WRB",
+      "shares": 43,
+      "entry_price": 69.77,
+      "exit_price": 69.7699966430664,
+      "entry_date": "2026-09-08",
+      "exit_date": "2026-09-09",
+      "pnl": -0.0,
+      "return_pct": -0.0,
+      "reason": "MODEL_SELL"
+    }
+  ],
   "equity_history": [
     {
       "date": "2026-09-06",
@@ -91,7 +89,15 @@
       "cash": 333.46,
       "invested": 103422.7,
       "daily_return": 0.0
+    },
+    {
+      "date": "2026-09-09",
+      "timestamp": "2026-09-09T08:03:13.633330+00:00",
+      "total_equity": 103756.16,
+      "cash": 3333.57,
+      "invested": 100422.59,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-08T22:41:40.891785+00:00"
+  "last_updated": "2026-09-09T08:03:13.633861+00:00"
 }
