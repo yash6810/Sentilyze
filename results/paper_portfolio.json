@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 49688.17068511963,
-  "total_equity": 103181.18,
-  "unrealized_pnl": 1725.68,
+  "total_equity": 103205.01,
+  "unrealized_pnl": 1749.51,
   "realized_pnl": 1455.4989797973622,
   "win_rate": 50.0,
   "total_trades": 2,
@@ -13,22 +13,22 @@
       "shares": 127,
       "initial_shares": 127,
       "entry_price": 354.0799865722656,
-      "current_price": 368.61,
+      "current_price": 368.92,
       "entry_date": "2026-09-07",
       "tp1_target": 389.37,
       "tp2_target": 417.61,
-      "sl_target": 365.15,
+      "sl_target": 365.21,
       "scaled_out": false,
       "confidence": 0.6270439624786377,
       "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 368.84
+      "highest_price_seen": 368.92
     },
     "GEV": {
       "ticker": "GEV",
       "shares": 7,
       "initial_shares": 7,
       "entry_price": 971.31,
-      "current_price": 954.22,
+      "current_price": 952.0,
       "entry_date": "2026-09-08",
       "tp1_target": 1044.16,
       "tp2_target": 1102.44,
@@ -91,11 +91,11 @@
     {
       "date": "2026-09-09",
       "timestamp": "2026-09-09T08:03:13.633330+00:00",
-      "total_equity": 103181.18,
+      "total_equity": 103205.01,
       "cash": 49688.17,
-      "invested": 53493.01,
-      "daily_return": -0.55
+      "invested": 53516.84,
+      "daily_return": 0.02
     }
   ],
-  "last_updated": "2026-09-09T17:07:40.819625+00:00"
+  "last_updated": "2026-09-09T19:47:37.857835+00:00"
 }
