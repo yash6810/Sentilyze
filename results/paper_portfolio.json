@@ -1,33 +1,19 @@
 {
   "initial_capital": 100000.0,
-  "cash": 3333.570685119629,
-  "total_equity": 103756.16,
-  "unrealized_pnl": 3756.16,
-  "realized_pnl": -0.0001443481442038319,
-  "win_rate": 0.0,
-  "total_trades": 1,
-  "winning_trades": 0,
+  "cash": 49688.17068511963,
+  "total_equity": 103181.18,
+  "unrealized_pnl": 1725.68,
+  "realized_pnl": 1455.4989797973622,
+  "win_rate": 50.0,
+  "total_trades": 2,
+  "winning_trades": 1,
   "losing_trades": 1,
   "open_positions": {
-    "FLEX": {
-      "shares": 410,
-      "initial_shares": 410,
-      "entry_price": 109.51000213623047,
-      "current_price": 114.30999755859375,
-      "entry_date": "2026-09-07",
-      "tp1_target": 122.2,
-      "tp2_target": 132.34,
-      "sl_target": 113.25,
-      "scaled_out": false,
-      "confidence": 0.64666748046875,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "highest_price_seen": 114.49
-    },
     "TSLA": {
       "shares": 127,
       "initial_shares": 127,
       "entry_price": 354.0799865722656,
-      "current_price": 368.1600036621094,
+      "current_price": 368.61,
       "entry_date": "2026-09-07",
       "tp1_target": 389.37,
       "tp2_target": 417.61,
@@ -42,14 +28,15 @@
       "shares": 7,
       "initial_shares": 7,
       "entry_price": 971.31,
-      "current_price": 971.3099975585938,
+      "current_price": 954.22,
       "entry_date": "2026-09-08",
       "tp1_target": 1044.16,
       "tp2_target": 1102.44,
       "sl_target": 927.6,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 971.31
     }
   },
   "closed_trades": [
@@ -63,6 +50,17 @@
       "pnl": -0.0,
       "return_pct": -0.0,
       "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "FLEX",
+      "shares": 410,
+      "entry_price": 109.51000213623047,
+      "exit_price": 113.06,
+      "entry_date": "2026-09-07",
+      "exit_date": "2026-09-09",
+      "pnl": 1455.5,
+      "return_pct": 3.24,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -93,11 +91,11 @@
     {
       "date": "2026-09-09",
       "timestamp": "2026-09-09T08:03:13.633330+00:00",
-      "total_equity": 103756.16,
-      "cash": 3333.57,
-      "invested": 100422.59,
-      "daily_return": 0.0
+      "total_equity": 103181.18,
+      "cash": 49688.17,
+      "invested": 53493.01,
+      "daily_return": -0.55
     }
   ],
-  "last_updated": "2026-09-09T08:03:13.633861+00:00"
+  "last_updated": "2026-09-09T17:07:40.819625+00:00"
 }
