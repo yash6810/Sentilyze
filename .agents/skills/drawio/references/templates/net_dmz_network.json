@@ -1,0 +1,73 @@
+{
+  "title": "Network DMZ Architecture",
+  "type": "network",
+  "theme": "light",
+  "containers": [
+    {
+      "id": "dmz_net",
+      "label": "Demilitarized Zone (DMZ)",
+      "type": "vlan",
+      "parentId": "1"
+    },
+    {
+      "id": "lan_net",
+      "label": "Internal LAN",
+      "type": "vlan",
+      "parentId": "1"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "internet",
+      "label": "Internet",
+      "type": "internet",
+      "parentId": "1"
+    },
+    {
+      "id": "ext_fw",
+      "label": "External Firewall",
+      "type": "firewall",
+      "parentId": "1"
+    },
+    {
+      "id": "web_proxy",
+      "label": "Web Proxy Server",
+      "type": "rectangle",
+      "parentId": "dmz_net"
+    },
+    {
+      "id": "int_fw",
+      "label": "Internal Firewall",
+      "type": "firewall",
+      "parentId": "1"
+    },
+    {
+      "id": "db_internal",
+      "label": "Core DB Server",
+      "type": "cylinder",
+      "parentId": "lan_net"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "internet",
+      "targetId": "ext_fw",
+      "label": "Inbound"
+    },
+    {
+      "sourceId": "ext_fw",
+      "targetId": "web_proxy",
+      "label": "DMZ Route"
+    },
+    {
+      "sourceId": "web_proxy",
+      "targetId": "int_fw",
+      "label": "Query"
+    },
+    {
+      "sourceId": "int_fw",
+      "targetId": "db_internal",
+      "label": "Access DB"
+    }
+  ]
+}

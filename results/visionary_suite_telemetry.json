@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-09-06T12:28:04.389216+00:00",
+  "pillar1_net_liquidity": {
+    "net_trillions": 5.76,
+    "regime": "\ud83d\udfe2 HIGH-LIQUIDITY EXPANSION (BULL ACCELERATION)"
+  },
+  "pillar2_sec_audit": [
+    {
+      "ticker": "NVDA",
+      "new_risk_disclosures": 1,
+      "accounting_changes": 0,
+      "risk_level": "\ud83d\udfe2 CLEAN (Low Footnote Anomaly)"
+    },
+    {
+      "ticker": "BA",
+      "new_risk_disclosures": 7,
+      "accounting_changes": 2,
+      "risk_level": "\ud83d\udd34 CRITICAL (Regulatory & Warranty Red Flags)"
+    },
+    {
+      "ticker": "AAPL",
+      "new_risk_disclosures": 2,
+      "accounting_changes": 0,
+      "risk_level": "\ud83d\udfe2 CLEAN (Standard Antitrust Updates)"
+    },
+    {
+      "ticker": "INTC",
+      "new_risk_disclosures": 5,
+      "accounting_changes": 1,
+      "risk_level": "\ud83d\udfe1 ELEVATED (Foundry Capex Depreciation Adjustments)"
+    }
+  ],
+  "pillar3_iceberg_detector": [
+    {
+      "ticker": "NVDA",
+      "pattern": "TWAP Rhythmic Slice",
+      "slice_size": "3,500 shares",
+      "frequency_sec": 90,
+      "total_accumulated": "$48.5M",
+      "confidence": "94.2%"
+    },
+    {
+      "ticker": "GE",
+      "pattern": "VWAP Liquidity Sweep",
+      "slice_size": "5,000 shares",
+      "frequency_sec": 120,
+      "total_accumulated": "$32.0M",
+      "confidence": "91.8%"
+    },
+    {
+      "ticker": "DELL",
+      "pattern": "Dark Pool Cross Block",
+      "slice_size": "12,000 shares",
+      "frequency_sec": 300,
+      "total_accumulated": "$18.2M",
+      "confidence": "88.5%"
+    }
+  ],
+  "pillar4_100_agent_wargame": {
+    "sentilyze_pnl": 24069.67260912836,
+    "hft_pnl": 29113.52586219149,
+    "mm_pnl": -3396.431661119311,
+    "retail_pnl": -54579.55087079721
+  },
+  "pillar5_macro_triangles": {
+    "gold_price": 2650.0,
+    "fair_value": 2580.0,
+    "divergence_sigma": 2.0
+  },
+  "pillar6_executive_audio_script": "Good morning, portfolio managers. This is the Sentilyze Institutional Morning Intelligence Briefing for Sunday, September 06, 2026. Global Net Fed Liquidity is expanding by 140 billion dollars, maintaining a bullish macro tailwind. In today's algorithmic scan, top high-conviction momentum breakout setups are identified in: Nvidia with 88 percent model confidence, General Electric with 84 percent confidence, and Dell Technologies with 81 percent confidence. All positions are dynamically managed with a 75 percent high-watermark profit ratchet and real-time FinBERT headline crash protection. Have a disciplined and profitable trading session."
+}

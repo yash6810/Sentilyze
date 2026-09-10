@@ -1,0 +1,60 @@
+{
+  "title": "AWS Realtime Analytics Pipeline",
+  "type": "architecture",
+  "theme": "light",
+  "containers": [],
+  "nodes": [
+    {
+      "id": "devices",
+      "label": "IoT Devices",
+      "type": "user",
+      "parentId": "1"
+    },
+    {
+      "id": "kinesis",
+      "label": "Kinesis Data Stream",
+      "type": "pubsub",
+      "parentId": "1"
+    },
+    {
+      "id": "parser",
+      "label": "Lambda Parser",
+      "type": "lambda",
+      "parentId": "1"
+    },
+    {
+      "id": "s3_bucket",
+      "label": "S3 Raw Bucket",
+      "type": "s3",
+      "parentId": "1"
+    },
+    {
+      "id": "redshift",
+      "label": "Redshift DWH",
+      "type": "rds",
+      "parentId": "1"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "devices",
+      "targetId": "kinesis",
+      "label": "Ingest Stream"
+    },
+    {
+      "sourceId": "kinesis",
+      "targetId": "parser",
+      "label": "Trigger Lambda"
+    },
+    {
+      "sourceId": "parser",
+      "targetId": "s3_bucket",
+      "label": "Store Raw"
+    },
+    {
+      "sourceId": "parser",
+      "targetId": "redshift",
+      "label": "Copy Structured"
+    }
+  ]
+}

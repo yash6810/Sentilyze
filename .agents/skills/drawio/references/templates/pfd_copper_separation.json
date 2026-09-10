@@ -1,0 +1,60 @@
+{
+  "title": "Copper Ore Separation Process PFD",
+  "type": "pfd",
+  "theme": "light",
+  "containers": [],
+  "nodes": [
+    {
+      "id": "mill",
+      "label": "Grinding Mill",
+      "type": "mill",
+      "parentId": "1"
+    },
+    {
+      "id": "rougher",
+      "label": "Rougher Flotation",
+      "type": "tank",
+      "parentId": "1"
+    },
+    {
+      "id": "cleaner",
+      "label": "Cleaner Flotation",
+      "type": "tank",
+      "parentId": "1"
+    },
+    {
+      "id": "thickener",
+      "label": "Concentrate Thickener",
+      "type": "tank",
+      "parentId": "1"
+    },
+    {
+      "id": "tails_pump",
+      "label": "Tailings Disposal Pump",
+      "type": "pump",
+      "parentId": "1"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "mill",
+      "targetId": "rougher",
+      "label": "Slurry Feed"
+    },
+    {
+      "sourceId": "rougher",
+      "targetId": "cleaner",
+      "label": "Rougher Concentrate"
+    },
+    {
+      "sourceId": "rougher",
+      "targetId": "tails_pump",
+      "label": "Rougher Tails"
+    },
+    {
+      "sourceId": "cleaner",
+      "targetId": "thickener",
+      "label": "Final Concentrate"
+    }
+  ]
+}

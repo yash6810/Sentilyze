@@ -1,0 +1,14 @@
+{
+  "ticker": "NVDA",
+  "timestamp": "2026-09-06T11:52:52.506153+00:00",
+  "elapsed_seconds": 13.42,
+  "dataset_rows": 1535,
+  "features_used": 26,
+  "champion_accuracy": 0.6,
+  "challenger_accuracy": 0.5055,
+  "accuracy_delta_pct": -9.45,
+  "challenger_roc_auc": 0.489,
+  "challenger_precision": 0.5327,
+  "deployment_verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)",
+  "is_promoted": false
+}

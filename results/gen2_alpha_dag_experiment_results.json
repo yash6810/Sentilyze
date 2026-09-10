@@ -1,0 +1,205 @@
+{
+  "mode": "gen2_adaptive",
+  "dynamic_alpha_allocations": {
+    "alpha_momentum": 0.4113,
+    "alpha_sentiment": 0.0,
+    "alpha_mean_reversion": 0.0239,
+    "alpha_macro_carry": 0.5648
+  },
+  "individual_alphas": {
+    "alpha_momentum": {
+      "total_return_pct": 73.32,
+      "sharpe_ratio": 0.64,
+      "sortino_ratio": 0.7,
+      "max_drawdown_pct": -20.41,
+      "win_rate_pct": 43.42,
+      "sample_bars": 2515,
+      "information_coefficient": -0.0017
+    },
+    "alpha_sentiment": {
+      "total_return_pct": -2.27,
+      "sharpe_ratio": -0.04,
+      "sortino_ratio": -0.04,
+      "max_drawdown_pct": -13.27,
+      "win_rate_pct": 18.85,
+      "sample_bars": 2515,
+      "information_coefficient": 0.0049
+    },
+    "alpha_mean_reversion": {
+      "total_return_pct": 10.21,
+      "sharpe_ratio": 0.15,
+      "sortino_ratio": 0.11,
+      "max_drawdown_pct": -35.81,
+      "win_rate_pct": 19.72,
+      "sample_bars": 2515,
+      "information_coefficient": 0.0115
+    },
+    "alpha_macro_carry": {
+      "total_return_pct": 81.03,
+      "sharpe_ratio": 0.75,
+      "sortino_ratio": 0.81,
+      "max_drawdown_pct": -15.37,
+      "win_rate_pct": 47.71,
+      "sample_bars": 2515,
+      "information_coefficient": -0.0027
+    }
+  },
+  "composite_book": {
+    "total_return_pct": 76.39,
+    "sharpe_ratio": 0.72,
+    "sortino_ratio": 0.79,
+    "max_drawdown_pct": -16.43,
+    "win_rate_pct": 50.02,
+    "sample_bars": 2515
+  },
+  "buy_and_hold_benchmark": {
+    "total_return_pct": 376.27,
+    "sharpe_ratio": 0.76,
+    "sortino_ratio": 0.97,
+    "max_drawdown_pct": -50.41,
+    "win_rate_pct": 54.31,
+    "sample_bars": 2515
+  },
+  "lineage_graph": [
+    {
+      "timestamp": "2026-09-06T14:15:36.518310+00:00",
+      "stage": "sources",
+      "node": "sources_ingestion",
+      "inputs": [
+        "yfinance",
+        "FRED_API",
+        "NewsFeed"
+      ],
+      "outputs": [
+        "raw_prices_10_tickers",
+        "macro_liquidity_payload"
+      ],
+      "meta": {
+        "tickers_loaded": [
+          "NVDA",
+          "AAPL",
+          "MSFT",
+          "AMZN",
+          "GOOGL",
+          "META",
+          "TSLA",
+          "JPM",
+          "XOM",
+          "LLY"
+        ],
+        "macro_regime": "\ud83d\udfe2 STEEPENING_EXPANSION (Pro-Growth)"
+      }
+    },
+    {
+      "timestamp": "2026-09-06T14:15:36.585305+00:00",
+      "stage": "normalized",
+      "node": "price_normalization",
+      "inputs": [
+        "raw_prices"
+      ],
+      "outputs": [
+        "norm_NVDA",
+        "norm_AAPL",
+        "norm_MSFT",
+        "norm_AMZN",
+        "norm_GOOGL",
+        "norm_META",
+        "norm_TSLA",
+        "norm_JPM",
+        "norm_XOM",
+        "norm_LLY"
+      ],
+      "meta": {
+        "row_counts": {
+          "NVDA": 1536,
+          "AAPL": 1536,
+          "MSFT": 1536,
+          "AMZN": 1536,
+          "GOOGL": 1536,
+          "META": 1536,
+          "TSLA": 1536,
+          "JPM": 2512,
+          "XOM": 2512,
+          "LLY": 1533
+        }
+      }
+    },
+    {
+      "timestamp": "2026-09-06T14:15:36.732033+00:00",
+      "stage": "features",
+      "node": "factor_engineering_gen2",
+      "inputs": [
+        "normalized_tables",
+        "macro_data"
+      ],
+      "outputs": [
+        "features_NVDA",
+        "features_AAPL",
+        "features_MSFT",
+        "features_AMZN",
+        "features_GOOGL",
+        "features_META",
+        "features_TSLA",
+        "features_JPM",
+        "features_XOM",
+        "features_LLY"
+      ],
+      "meta": {
+        "factors": [
+          "trend_strength",
+          "rsi",
+          "pct_b",
+          "sentiment_catalyst",
+          "macro_carry_signal"
+        ]
+      }
+    },
+    {
+      "timestamp": "2026-09-06T14:15:36.828398+00:00",
+      "stage": "weights",
+      "node": "alpha_weight_generation_gen2",
+      "inputs": [
+        "feature_tables"
+      ],
+      "outputs": [
+        "alpha_momentum",
+        "alpha_sentiment",
+        "alpha_mean_reversion",
+        "alpha_macro_carry"
+      ],
+      "meta": {
+        "alphas_count": 4,
+        "information_coefficients": {
+          "alpha_momentum": -0.0017,
+          "alpha_sentiment": 0.0049,
+          "alpha_mean_reversion": 0.0115,
+          "alpha_macro_carry": -0.0027
+        }
+      }
+    },
+    {
+      "timestamp": "2026-09-06T14:15:37.014304+00:00",
+      "stage": "pnl",
+      "node": "pnl_attribution_pricing_gen2",
+      "inputs": [
+        "alpha_momentum",
+        "alpha_sentiment",
+        "alpha_mean_reversion",
+        "alpha_macro_carry"
+      ],
+      "outputs": [
+        "composite_book_metrics",
+        "dynamic_alpha_allocations"
+      ],
+      "meta": {
+        "composite_sharpe": 0.72,
+        "dynamic_allocations": {
+          "alpha_momentum": 0.4113,
+          "alpha_sentiment": 0.0,
+          "alpha_mean_reversion": 0.0239,
+          "alpha_macro_carry": 0.5648
+        }
+      }
+    }
+  ]
+}

@@ -10,7 +10,6 @@ from src.feature_engineering import (
     aggregate_sentiment_scores,
     create_features,
 )
-from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 from functools import lru_cache
 import threading
 from typing import Any
@@ -35,6 +34,11 @@ def _load_sentiment_analyzer() -> Any:
             return _SENTIMENT_ANALYZER_INSTANCE
 
         import torch
+        from transformers import (
+            pipeline,
+            AutoTokenizer,
+            AutoModelForSequenceClassification,
+        )
 
         try:
             torch.set_num_threads(2)
@@ -245,7 +249,13 @@ def preprocess_data(
 
     # 2. Analyze sentiment
     logger.info("Analyzing sentiment...")
-    sentiment_analyzer = _load_sentiment_analyzer()
+    # Check if cached sentiment exists to skip expensive FinBERT load
+    sentiment_cache_file = os.path.join("data", "processed", f"{ticker}_sentiment.csv")
+    if os.path.exists(sentiment_cache_file) and (use_cache or cache_duration > 0):
+        sentiment_analyzer = None
+    else:
+        sentiment_analyzer = _load_sentiment_analyzer()
+
     news_with_sentiment_df = get_sentiment(
         news_df, sentiment_analyzer, ticker, cache_duration_hours=cache_duration
     )

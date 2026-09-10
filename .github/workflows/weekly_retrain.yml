@@ -40,7 +40,7 @@ jobs:
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || secrets.TRADE_BOT }}
         run: |
-          python -m train --all --use-cache
+          python -m train --all --parallel --workers 4 --use-cache
 
 
       - name: Upload Retrained Models & Results Artifact

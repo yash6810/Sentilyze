@@ -6,8 +6,8 @@
     "roc_auc": 0.49320445225541887,
     "strategy_sharpe": 0.040703996024887036,
     "deflated_sharpe_ratio": 3.9690996955906863e-144,
-    "baseline_logistic_accuracy": 0.5266903914590747,
-    "baseline_logistic_roc_auc": 0.5400465491853893,
+    "baseline_logistic_accuracy": 0.5293594306049823,
+    "baseline_logistic_roc_auc": 0.5386659066799665,
     "classification_report": "              precision    recall  f1-score   support\n\n           0       0.51      0.34      0.41       569\n           1       0.50      0.68      0.57       555\n\n    accuracy                           0.50      1124\n   macro avg       0.51      0.51      0.49      1124\nweighted avg       0.51      0.50      0.49      1124\n",
     "best_params": {
         "n_estimators": 150,

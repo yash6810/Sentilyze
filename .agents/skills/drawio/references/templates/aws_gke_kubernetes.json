@@ -1,0 +1,77 @@
+{
+  "title": "Kubernetes Cluster Architecture",
+  "type": "architecture",
+  "theme": "light",
+  "containers": [
+    {
+      "id": "k8s_cluster",
+      "label": "K8s Cluster",
+      "type": "vpc",
+      "parentId": "1"
+    },
+    {
+      "id": "ns_prod",
+      "label": "Namespace: production",
+      "type": "subnet",
+      "parentId": "k8s_cluster",
+      "tier": "app"
+    },
+    {
+      "id": "pod_replica_a",
+      "label": "Deployment Pod A",
+      "type": "subnet",
+      "parentId": "ns_prod",
+      "tier": "app"
+    },
+    {
+      "id": "pod_replica_b",
+      "label": "Deployment Pod B",
+      "type": "subnet",
+      "parentId": "ns_prod",
+      "tier": "app"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ingress_ctrl",
+      "label": "Ingress Controller",
+      "type": "ecs",
+      "parentId": "k8s_cluster"
+    },
+    {
+      "id": "app_svc",
+      "label": "Service: app-service",
+      "type": "ecs",
+      "parentId": "ns_prod"
+    },
+    {
+      "id": "container_a",
+      "label": "Web App Container",
+      "type": "ec2",
+      "parentId": "pod_replica_a"
+    },
+    {
+      "id": "container_b",
+      "label": "Web App Container",
+      "type": "ec2",
+      "parentId": "pod_replica_b"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "ingress_ctrl",
+      "targetId": "app_svc",
+      "label": "Route Request"
+    },
+    {
+      "sourceId": "app_svc",
+      "targetId": "container_a",
+      "label": "Balance load"
+    },
+    {
+      "sourceId": "app_svc",
+      "targetId": "container_b",
+      "label": "Balance load"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "title": "AWS Event-Driven Processing",
+  "type": "architecture",
+  "theme": "light",
+  "containers": [],
+  "nodes": [
+    {
+      "id": "publisher",
+      "label": "API Service",
+      "type": "ecs",
+      "parentId": "1"
+    },
+    {
+      "id": "bus",
+      "label": "EventBridge Bus",
+      "type": "eventbridge",
+      "parentId": "1"
+    },
+    {
+      "id": "queue_a",
+      "label": "SQS Order Queue",
+      "type": "sqs",
+      "parentId": "1"
+    },
+    {
+      "id": "topic_b",
+      "label": "SNS Notify Topic",
+      "type": "sns",
+      "parentId": "1"
+    },
+    {
+      "id": "worker_a",
+      "label": "Lambda Processor",
+      "type": "lambda",
+      "parentId": "1"
+    },
+    {
+      "id": "worker_b",
+      "label": "Lambda Notifier",
+      "type": "lambda",
+      "parentId": "1"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "publisher",
+      "targetId": "bus",
+      "label": "Put Event"
+    },
+    {
+      "sourceId": "bus",
+      "targetId": "queue_a",
+      "label": "Route rule"
+    },
+    {
+      "sourceId": "bus",
+      "targetId": "topic_b",
+      "label": "Route rule"
+    },
+    {
+      "sourceId": "queue_a",
+      "targetId": "worker_a",
+      "label": "Poll SQS",
+      "style": "dashed"
+    },
+    {
+      "sourceId": "topic_b",
+      "targetId": "worker_b",
+      "label": "Subscribe SNS",
+      "style": "dashed"
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "title": "E-Commerce ERD Schema",
+  "type": "erd",
+  "theme": "light",
+  "containers": [],
+  "nodes": [
+    {
+      "id": "tbl_users",
+      "label": "users",
+      "type": "table",
+      "parentId": "1",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INT",
+          "pk": true
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "password_hash",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "created_at",
+          "type": "TIMESTAMP"
+        }
+      ]
+    },
+    {
+      "id": "tbl_orders",
+      "label": "orders",
+      "type": "table",
+      "parentId": "1",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INT",
+          "pk": true
+        },
+        {
+          "name": "user_id",
+          "type": "INT",
+          "fk": true
+        },
+        {
+          "name": "order_date",
+          "type": "TIMESTAMP"
+        },
+        {
+          "name": "total_amount",
+          "type": "DECIMAL(10,2)"
+        }
+      ]
+    },
+    {
+      "id": "tbl_order_items",
+      "label": "order_items",
+      "type": "table",
+      "parentId": "1",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INT",
+          "pk": true
+        },
+        {
+          "name": "order_id",
+          "type": "INT",
+          "fk": true
+        },
+        {
+          "name": "product_id",
+          "type": "INT",
+          "fk": true
+        },
+        {
+          "name": "quantity",
+          "type": "INT"
+        },
+        {
+          "name": "unit_price",
+          "type": "DECIMAL(10,2)"
+        }
+      ]
+    },
+    {
+      "id": "tbl_products",
+      "label": "products",
+      "type": "table",
+      "parentId": "1",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INT",
+          "pk": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "price",
+          "type": "DECIMAL(10,2)"
+        },
+        {
+          "name": "stock_qty",
+          "type": "INT"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "tbl_users",
+      "targetId": "tbl_orders",
+      "label": "1 to many"
+    },
+    {
+      "sourceId": "tbl_orders",
+      "targetId": "tbl_order_items",
+      "label": "1 to many"
+    },
+    {
+      "sourceId": "tbl_products",
+      "targetId": "tbl_order_items",
+      "label": "1 to many"
+    }
+  ]
+}

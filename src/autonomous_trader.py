@@ -81,7 +81,7 @@ def check_daily_loss_circuit_breaker(
 def load_universe_tickers() -> List[str]:
     """Loads universe of tickers from stocks.txt."""
     if os.path.exists(STOCKS_FILE):
-        with open(STOCKS_FILE, "r") as f:
+        with open(STOCKS_FILE, "r", encoding="utf-8") as f:
             tickers = [
                 line.strip().upper()
                 for line in f
@@ -147,7 +147,7 @@ class AutonomousTradingEngine:
     def run_autonomous_cycle(
         self,
         candidate_tickers: Optional[List[str]] = None,
-        max_concurrent_positions: int = 4,
+        max_concurrent_positions: Optional[int] = None,
     ) -> Dict[str, Any]:
         """
         Executes one full autonomous decision and execution cycle with:
@@ -156,10 +156,12 @@ class AutonomousTradingEngine:
         - Task 8: Daily loss & position size circuit breakers
         - Task 9: Unhandled exception alerting
         """
+        if max_concurrent_positions is None:
+            max_concurrent_positions = int(os.getenv("MAX_CONCURRENT_POSITIONS", "10"))
         # 1. Idempotency Lock Check (Task 6)
         if os.path.exists(LOCK_FILE):
             try:
-                with open(LOCK_FILE, "r") as f:
+                with open(LOCK_FILE, "r", encoding="utf-8") as f:
                     lock_data = json.load(f)
                 lock_timestamp = float(lock_data.get("timestamp", 0))
                 age_seconds = time.time() - lock_timestamp
@@ -182,7 +184,7 @@ class AutonomousTradingEngine:
         # Acquire lock
         os.makedirs(os.path.dirname(LOCK_FILE), exist_ok=True)
         try:
-            with open(LOCK_FILE, "w") as f:
+            with open(LOCK_FILE, "w", encoding="utf-8") as f:
                 json.dump(
                     {
                         "pid": os.getpid(),
@@ -213,6 +215,9 @@ class AutonomousTradingEngine:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
         finally:
+            import gc
+
+            gc.collect()
             # Release lock in all circumstances
             if os.path.exists(LOCK_FILE):
                 try:
@@ -223,7 +228,7 @@ class AutonomousTradingEngine:
     def _execute_cycle_body(
         self,
         candidate_tickers: Optional[List[str]] = None,
-        max_concurrent_positions: int = 4,
+        max_concurrent_positions: int = 10,
     ) -> Dict[str, Any]:
         """Core cycle execution body."""
         start_time = time.time()
@@ -320,8 +325,8 @@ class AutonomousTradingEngine:
                     f"🔒 [PROFIT LOCK TIER 2] {ticker} peaked at +{max_gain_pct:.2f}%. Stop trailed to lock +2.0% profit (${new_sl:.2f})"
                 )
 
-            # ⚡ Check Stage 0 Quick Profit Micro-Harvest (+1.5% Gain)
-            if not stage0_taken and spot_price >= entry_price * 1.015 and shares >= 2:
+            # ⚡ Check Stage 0 Quick Profit Micro-Harvest (+1.0% Gain)
+            if not stage0_taken and spot_price >= entry_price * 1.010 and shares >= 2:
                 third_shares = max(1, shares // 3)
                 proceeds = float(third_shares * spot_price)
                 cost_basis = float(third_shares * entry_price)
@@ -352,7 +357,7 @@ class AutonomousTradingEngine:
                 send_discord_execution_alert(
                     {
                         "action": "SELL",
-                        "stage": "STAGE0_QUICK_HARVEST_1.5PCT",
+                        "stage": "STAGE0_QUICK_HARVEST_1.0PCT",
                         "ticker": ticker,
                         "price": spot_price,
                         "entry_price": entry_price,
@@ -531,9 +536,26 @@ class AutonomousTradingEngine:
                 if t not in self.broker.state.get("open_positions", {})
             ]
 
-            # Stage 1: High-Speed Full Universe Scanning (Scans all 500+ S&P assets)
+            # Lightweight Pre-Screening: Filter to top 15 active/liquid assets
+            # This keeps RAM usage minimal (<250MB) and prevents laptop freezing
+            scored_candidates = []
+            for t in unheld_tickers:
+                q = quotes_map.get(t, {})
+                p = float(q.get("price", 0.0))
+                chg = abs(float(q.get("change_pct", 0.0)))
+                vol = float(q.get("volume", 1.0))
+                if p > 5.0:  # Filter out illiquid penny stocks
+                    scored_candidates.append((t, chg * vol))
+
+            scored_candidates.sort(key=lambda x: x[1], reverse=True)
+            top_candidates = (
+                [t for t, _ in scored_candidates[:15]]
+                if scored_candidates
+                else unheld_tickers[:15]
+            )
+
             logger.info(
-                f"🌐 [FULL UNIVERSE SCAN] Initiating parallel multi-agent evaluation across all {len(unheld_tickers)} candidate stocks..."
+                f"🌐 [LEAN MULTI-AGENT SCAN] Evaluating top {len(top_candidates)} active candidates: {top_candidates}"
             )
 
             # Pre-warm FinBERT singleton once before spawning threads
@@ -562,9 +584,9 @@ class AutonomousTradingEngine:
                     return ticker_sym, None
 
             deliberations = []
-            # High-throughput thread pool (12 workers) to evaluate entire 500-stock universe rapidly
-            with concurrent.futures.ThreadPoolExecutor(max_workers=12) as executor:
-                results = executor.map(_deliberate_single, unheld_tickers)
+            # Lean thread pool (2 workers) to preserve system memory and responsiveness
+            with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+                results = executor.map(_deliberate_single, top_candidates)
                 for t, delib in results:
                     if delib and isinstance(delib, dict):
                         deliberations.append((t, delib))
@@ -588,11 +610,11 @@ class AutonomousTradingEngine:
                 reverse=True,
             )
 
-            # Task 8 Max Position Size Hard Constraint: Max 20% of total portfolio equity
+            # Task 8 Max Position Size Hard Constraint: Max 10% of total portfolio equity for 8-10 position dynamic model
             total_eq = max(
                 float(portfolio_summary.get("total_equity") or 100000.0), 1.0
             )
-            max_position_dollars = total_eq * 0.20
+            max_position_dollars = total_eq * 0.10
 
             # Execute entries into Top candidate setups up to available slots
             for t, delib in buy_candidates[:available_slots]:
@@ -675,7 +697,7 @@ class AutonomousTradingEngine:
         # Save cycle log safely with default=str serialization
         os.makedirs(os.path.dirname(AUTONOMOUS_LOG_FILE), exist_ok=True)
         try:
-            with open(AUTONOMOUS_LOG_FILE, "w") as f:
+            with open(AUTONOMOUS_LOG_FILE, "w", encoding="utf-8") as f:
                 json.dump(executed_actions, f, indent=2, default=str)
         except Exception as log_err:
             logger.warning(f"Could not persist autonomous log file: {log_err}")
@@ -709,7 +731,7 @@ class AutonomousTradingEngine:
 
         if os.path.exists(memory_file):
             try:
-                with open(memory_file, "r") as f:
+                with open(memory_file, "r", encoding="utf-8") as f:
                     learning_state.update(json.load(f))
             except Exception as e:
                 logger.warning(
@@ -825,7 +847,7 @@ class AutonomousTradingEngine:
 
         # Persist learning memory
         os.makedirs(os.path.dirname(memory_file), exist_ok=True)
-        with open(memory_file, "w") as f:
+        with open(memory_file, "w", encoding="utf-8") as f:
             json.dump(learning_state, f, indent=2)
 
         return {
@@ -931,20 +953,52 @@ def ensure_background_daemon_thread_running(interval_seconds: int = 60):
 
                     sess = get_us_market_session()
                     if sess.get("is_open", False):
-                        logger.info(
-                            f"🟢 [DAEMON CYCLE] Market is LIVE ({sess.get('time_edt')}). Running autonomous scan..."
+                        # 1. Fast sub-second Sentinel price & stop floor audit for active holdings
+                        from src.realtime_tracker import (
+                            update_live_holdings_prices_and_alert_discord,
                         )
-                        cycle_res = engine.run_autonomous_cycle()
-                        _LAST_DAEMON_PULSE["timestamp"] = datetime.now(
-                            timezone.utc
-                        ).isoformat()
-                        _LAST_DAEMON_PULSE["status"] = "EXECUTED_CYCLE"
-                        _LAST_DAEMON_PULSE["actions"] = {
-                            "buys": len(cycle_res.get("buys", [])),
-                            "tp1": len(cycle_res.get("take_profits_tp1", [])),
-                            "tp2": len(cycle_res.get("take_profits_tp2", [])),
-                            "stops": len(cycle_res.get("stop_losses", [])),
-                        }
+
+                        guard_res = update_live_holdings_prices_and_alert_discord(
+                            notify_discord=False
+                        )
+
+                        # 2. Only run full autonomous scan if Auto-Pilot is explicitly armed by user
+                        autopilot_flag = os.path.exists(
+                            os.path.join("results", "AUTOPILOT_ACTIVE.flag")
+                        ) or (
+                            os.getenv("SENTILYZE_AUTOPILOT", "").lower()
+                            in ("1", "true")
+                        )
+                        if autopilot_flag:
+                            logger.info(
+                                f"🟢 [DAEMON CYCLE] Auto-Pilot is ARMED. Running top-25 candidate scan..."
+                            )
+                            cycle_res = engine.run_autonomous_cycle(
+                                candidate_tickers=engine.tickers[:25]
+                            )
+                            _LAST_DAEMON_PULSE["timestamp"] = datetime.now(
+                                timezone.utc
+                            ).isoformat()
+                            _LAST_DAEMON_PULSE["status"] = "EXECUTED_CYCLE"
+                            _LAST_DAEMON_PULSE["actions"] = {
+                                "buys": len(cycle_res.get("buys", [])),
+                                "tp1": len(cycle_res.get("take_profits_tp1", [])),
+                                "tp2": len(cycle_res.get("take_profits_tp2", [])),
+                                "stops": len(cycle_res.get("stop_losses", [])),
+                            }
+                        else:
+                            _LAST_DAEMON_PULSE["timestamp"] = datetime.now(
+                                timezone.utc
+                            ).isoformat()
+                            _LAST_DAEMON_PULSE["status"] = (
+                                "SENTINEL_GUARD_ACTIVE (Auto-Pilot Standby)"
+                            )
+                            _LAST_DAEMON_PULSE["actions"] = {
+                                "buys": 0,
+                                "tp1": 0,
+                                "tp2": 0,
+                                "stops": len(guard_res.get("executed_trades", [])),
+                            }
                     else:
                         _LAST_DAEMON_PULSE["timestamp"] = datetime.now(
                             timezone.utc

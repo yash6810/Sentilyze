@@ -32,7 +32,7 @@ def load_ticker_sectors(stocks_file: str = "stocks.txt") -> Dict[str, str]:
     sector_map = {}
     current_sector = "General S&P 100"
     if os.path.exists(stocks_file):
-        with open(stocks_file, "r") as f:
+        with open(stocks_file, "r", encoding="utf-8") as f:
             for line in f:
                 line_str = line.strip()
                 if not line_str or line_str.startswith("# ==="):
@@ -48,6 +48,11 @@ def load_ticker_sectors(stocks_file: str = "stocks.txt") -> Dict[str, str]:
     return sector_map
 
 
+@st.cache_data(ttl=600)
+def _get_cached_portfolios():
+    return load_all_ticker_portfolios(results_dir="results")
+
+
 def render_portfolio_workspace(selected_ticker: str):
     """Renders the Institutional Portfolio Optimization, HRP Allocation, and Empirical Benchmark workspace."""
     render_workspace_header(
@@ -57,7 +62,7 @@ def render_portfolio_workspace(selected_ticker: str):
         badge_color="#3B82F6",
     )
 
-    portfolios = load_all_ticker_portfolios(results_dir="results")
+    portfolios = _get_cached_portfolios()
     sector_map = load_ticker_sectors("stocks.txt")
 
     if not portfolios:
@@ -240,7 +245,7 @@ def render_portfolio_workspace(selected_ticker: str):
 
         if os.path.exists(metrics_path):
             try:
-                with open(metrics_path, "r") as mf:
+                with open(metrics_path, "r", encoding="utf-8") as mf:
                     mdata = json.load(mf)
                 strat_ret = float(
                     mdata.get(

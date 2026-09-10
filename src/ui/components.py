@@ -24,7 +24,25 @@ def get_market_status() -> Dict[str, Any]:
     time_str = now_ny.strftime("%I:%M %p EDT")
     date_str = now_ny.strftime("%A, %b %d, %Y")
 
-    if weekday >= 5:
+    try:
+        from src.market_session import US_MARKET_HOLIDAYS
+
+        is_holiday = now_ny.date() in US_MARKET_HOLIDAYS
+    except Exception:
+        is_holiday = False
+
+    if is_holiday:
+        return {
+            "status": "MARKET CLOSED (FEDERAL HOLIDAY)",
+            "is_open": False,
+            "badge_color": "#EF4444",
+            "time_str": time_str,
+            "date_str": date_str,
+            "session": "US Exchange Holiday (Labor Day)",
+            "icon": "🔴",
+            "description": "US Exchanges (NYSE/NASDAQ) are closed for the Federal Holiday.",
+        }
+    elif weekday >= 5:
         return {
             "status": "MARKET CLOSED (WEEKEND)",
             "is_open": False,

@@ -1,0 +1,177 @@
+{
+  "title": "AWS 3-Tier Web App",
+  "type": "architecture",
+  "theme": "light",
+  "containers": [
+    {
+      "id": "reg",
+      "label": "us-east-1",
+      "type": "region",
+      "parentId": "1"
+    },
+    {
+      "id": "vpc_1",
+      "label": "Prod VPC",
+      "type": "vpc",
+      "parentId": "reg"
+    },
+    {
+      "id": "az_a",
+      "label": "Availability Zone A",
+      "type": "az",
+      "parentId": "vpc_1"
+    },
+    {
+      "id": "az_b",
+      "label": "Availability Zone B",
+      "type": "az",
+      "parentId": "vpc_1"
+    },
+    {
+      "id": "sub_pub_a",
+      "label": "Public Subnet A",
+      "type": "subnet",
+      "parentId": "az_a",
+      "tier": "public"
+    },
+    {
+      "id": "sub_pub_b",
+      "label": "Public Subnet B",
+      "type": "subnet",
+      "parentId": "az_b",
+      "tier": "public"
+    },
+    {
+      "id": "sub_app_a",
+      "label": "App Subnet A",
+      "type": "subnet",
+      "parentId": "az_a",
+      "tier": "app"
+    },
+    {
+      "id": "sub_app_b",
+      "label": "App Subnet B",
+      "type": "subnet",
+      "parentId": "az_b",
+      "tier": "app"
+    },
+    {
+      "id": "sub_db_a",
+      "label": "Data Subnet A",
+      "type": "subnet",
+      "parentId": "az_a",
+      "tier": "data"
+    },
+    {
+      "id": "sub_db_b",
+      "label": "Data Subnet B",
+      "type": "subnet",
+      "parentId": "az_b",
+      "tier": "data"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "user",
+      "label": "Users",
+      "type": "user",
+      "parentId": "1"
+    },
+    {
+      "id": "route53",
+      "label": "Route 53 DNS",
+      "type": "route53",
+      "parentId": "1"
+    },
+    {
+      "id": "alb",
+      "label": "Public ALB",
+      "type": "alb",
+      "parentId": "vpc_1"
+    },
+    {
+      "id": "web_a",
+      "label": "Web Instance A",
+      "type": "ec2",
+      "parentId": "sub_pub_a"
+    },
+    {
+      "id": "web_b",
+      "label": "Web Instance B",
+      "type": "ec2",
+      "parentId": "sub_pub_b"
+    },
+    {
+      "id": "app_a",
+      "label": "App Server A",
+      "type": "ecs",
+      "parentId": "sub_app_a"
+    },
+    {
+      "id": "app_b",
+      "label": "App Server B",
+      "type": "ecs",
+      "parentId": "sub_app_b"
+    },
+    {
+      "id": "rds_primary",
+      "label": "RDS Primary",
+      "type": "rds",
+      "parentId": "sub_db_a"
+    },
+    {
+      "id": "rds_replica",
+      "label": "RDS Read Replica",
+      "type": "rds",
+      "parentId": "sub_db_b"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "user",
+      "targetId": "route53",
+      "label": "DNS Query"
+    },
+    {
+      "sourceId": "user",
+      "targetId": "alb",
+      "label": "HTTPS"
+    },
+    {
+      "sourceId": "alb",
+      "targetId": "web_a",
+      "label": "Forward"
+    },
+    {
+      "sourceId": "alb",
+      "targetId": "web_b",
+      "label": "Forward"
+    },
+    {
+      "sourceId": "web_a",
+      "targetId": "app_a",
+      "label": "API Call"
+    },
+    {
+      "sourceId": "web_b",
+      "targetId": "app_b",
+      "label": "API Call"
+    },
+    {
+      "sourceId": "app_a",
+      "targetId": "rds_primary",
+      "label": "Write"
+    },
+    {
+      "sourceId": "app_b",
+      "targetId": "rds_replica",
+      "label": "Read"
+    },
+    {
+      "sourceId": "rds_primary",
+      "targetId": "rds_replica",
+      "label": "Replication",
+      "style": "dashed"
+    }
+  ]
+}

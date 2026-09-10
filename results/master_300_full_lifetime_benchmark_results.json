@@ -1,0 +1,67 @@
+{
+  "Master_300_Unified_Engine": {
+    "name": "\ud83d\udc51 Master Unified 300-Resource Engine",
+    "description": "100 Papers + 100 Repos + 100 Apps (Full Fusion)",
+    "total_return_pct": 3983.86,
+    "cagr_pct": 29.7,
+    "sharpe": 1.25,
+    "sortino": 1.78,
+    "max_dd_pct": -28.8,
+    "calmar": 1.03,
+    "win_rate_pct": 54.41,
+    "sample_trading_days": 3595,
+    "total_years": 14.3
+  },
+  "Pillar2_100_Repos_Synthesis": {
+    "name": "\ud83d\udcbb Pillar 2: 100 Repos Synthesis (Qlib+EconML+FinRL)",
+    "description": "AI Factors + Causal DML + Dynamic Sizing",
+    "total_return_pct": 10581.66,
+    "cagr_pct": 38.74,
+    "sharpe": 1.36,
+    "sortino": 1.93,
+    "max_dd_pct": -43.41,
+    "calmar": 0.89,
+    "win_rate_pct": 54.7,
+    "sample_trading_days": 3595,
+    "total_years": 14.3
+  },
+  "Pillar1_100_Papers_Synthesis": {
+    "name": "\ud83c\udfdb\ufe0f Pillar 1: 100 Academic Papers Synthesis (ONS+HRP+DML)",
+    "description": "Online Newton Step + HRP + Convex Portfolios",
+    "total_return_pct": 3291.46,
+    "cagr_pct": 28.02,
+    "sharpe": 1.04,
+    "sortino": 1.38,
+    "max_dd_pct": -44.81,
+    "calmar": 0.63,
+    "win_rate_pct": 54.17,
+    "sample_trading_days": 3595,
+    "total_years": 14.3
+  },
+  "Pillar3_100_Apps_Synthesis": {
+    "name": "\ud83d\udcf1 Pillar 3: 100 Institutional Apps Synthesis (OpenBB+VWAP)",
+    "description": "Dark Pool Volume + Multi-Timeframe VWAP",
+    "total_return_pct": 68736.8,
+    "cagr_pct": 58.1,
+    "sharpe": 1.37,
+    "sortino": 1.94,
+    "max_dd_pct": -62.08,
+    "calmar": 0.94,
+    "win_rate_pct": 54.32,
+    "sample_trading_days": 3595,
+    "total_years": 14.3
+  },
+  "Passive_Buy_and_Hold_Full_Lifetime": {
+    "name": "\ud83d\udcc8 Passive Buy & Hold Benchmark (Equal-Weight)",
+    "description": "Equal-Weight Index Baseline",
+    "total_return_pct": 10819.86,
+    "cagr_pct": 38.95,
+    "sharpe": 1.33,
+    "sortino": 1.8,
+    "max_dd_pct": -47.05,
+    "calmar": 0.83,
+    "win_rate_pct": 56.66,
+    "sample_trading_days": 3595,
+    "total_years": 14.3
+  }
+}

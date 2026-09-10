@@ -1,0 +1,83 @@
+{
+  "title": "GCP 3-Tier Web App",
+  "type": "architecture",
+  "theme": "light",
+  "containers": [
+    {
+      "id": "gcp_reg",
+      "label": "us-central1",
+      "type": "region",
+      "parentId": "1"
+    },
+    {
+      "id": "gcp_vpc",
+      "label": "Global VPC",
+      "type": "vpc",
+      "parentId": "gcp_reg"
+    },
+    {
+      "id": "sub_web",
+      "label": "Subnet Web",
+      "type": "subnet",
+      "parentId": "gcp_vpc",
+      "tier": "public"
+    },
+    {
+      "id": "sub_app",
+      "label": "Subnet App",
+      "type": "subnet",
+      "parentId": "gcp_vpc",
+      "tier": "app"
+    },
+    {
+      "id": "sub_data",
+      "label": "Subnet Data",
+      "type": "subnet",
+      "parentId": "gcp_vpc",
+      "tier": "data"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "gclb",
+      "label": "GCP Load Balancer",
+      "type": "load_balancing",
+      "parentId": "gcp_vpc"
+    },
+    {
+      "id": "vm_web",
+      "label": "Web VM Instance",
+      "type": "compute_engine",
+      "parentId": "sub_web"
+    },
+    {
+      "id": "vm_app",
+      "label": "App VM Instance",
+      "type": "compute_engine",
+      "parentId": "sub_app"
+    },
+    {
+      "id": "cloud_sql",
+      "label": "Cloud SQL Database",
+      "type": "cloud_sql",
+      "parentId": "sub_data"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "gclb",
+      "targetId": "vm_web",
+      "label": "Route Request"
+    },
+    {
+      "sourceId": "vm_web",
+      "targetId": "vm_app",
+      "label": "Internal API"
+    },
+    {
+      "sourceId": "vm_app",
+      "targetId": "cloud_sql",
+      "label": "SQL Query"
+    }
+  ]
+}

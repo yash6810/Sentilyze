@@ -1,0 +1,90 @@
+{
+  "Combined_OpenSource_Repos_Engine": {
+    "name": "Combined Open-Source Repos (Qlib+EconML+VBT+Pyfolio+BT)",
+    "total_return_pct": 358.66,
+    "cagr_pct": 28.45,
+    "sharpe": 0.94,
+    "sortino": 1.42,
+    "max_dd_pct": -54.94,
+    "calmar": 0.52,
+    "win_rate_pct": 52.1,
+    "sample_days": 1533
+  },
+  "microsoft_qlib_Standalone": {
+    "name": "microsoft/qlib Standalone (ML Factor Ranking)",
+    "total_return_pct": 717.14,
+    "cagr_pct": 41.24,
+    "sharpe": 1.11,
+    "sortino": 1.64,
+    "max_dd_pct": -58.15,
+    "calmar": 0.71,
+    "win_rate_pct": 53.45,
+    "sample_days": 1533
+  },
+  "quantopian_pyfolio_Standalone": {
+    "name": "quantopian/pyfolio Standalone (Risk Parity)",
+    "total_return_pct": 360.18,
+    "cagr_pct": 28.52,
+    "sharpe": 1.04,
+    "sortino": 1.49,
+    "max_dd_pct": -43.22,
+    "calmar": 0.66,
+    "win_rate_pct": 56.17,
+    "sample_days": 1533
+  },
+  "pywhy_EconML_Standalone": {
+    "name": "py-why/EconML Standalone (Project ALICE DML)",
+    "total_return_pct": 563.39,
+    "cagr_pct": 36.49,
+    "sharpe": 1.0,
+    "sortino": 1.51,
+    "max_dd_pct": -49.18,
+    "calmar": 0.74,
+    "win_rate_pct": 52.53,
+    "sample_days": 1533
+  },
+  "backtrader_Standalone": {
+    "name": "backtrader Standalone (SMA Trend Following)",
+    "total_return_pct": 182.45,
+    "cagr_pct": 18.61,
+    "sharpe": 0.76,
+    "sortino": 1.01,
+    "max_dd_pct": -57.73,
+    "calmar": 0.32,
+    "win_rate_pct": 54.01,
+    "sample_days": 1533
+  },
+  "polakowo_vectorbt_Standalone": {
+    "name": "polakowo/vectorbt Standalone (Dual RSI/Bollinger)",
+    "total_return_pct": 196.32,
+    "cagr_pct": 19.55,
+    "sharpe": 0.74,
+    "sortino": 0.84,
+    "max_dd_pct": -52.11,
+    "calmar": 0.38,
+    "win_rate_pct": 54.17,
+    "sample_days": 1533
+  },
+  "Passive_Buy_and_Hold_Benchmark": {
+    "name": "Passive Buy & Hold Benchmark (Equal-Weight)",
+    "total_return_pct": 510.44,
+    "cagr_pct": 34.63,
+    "sharpe": 1.13,
+    "sortino": 1.65,
+    "max_dd_pct": -47.21,
+    "calmar": 0.73,
+    "win_rate_pct": 55.97,
+    "sample_days": 1533
+  },
+  "Sentilyze_Master_Engine": {
+    "name": "Sentilyze Master Engine (Benchmark Reference)",
+    "total_return_pct": 698.58,
+    "cagr_pct": 40.71,
+    "sharpe": 1.33,
+    "sortino": 2.01,
+    "max_dd_pct": -44.9,
+    "calmar": 0.91,
+    "win_rate_pct": 53.63,
+    "sample_days": 1533
+  }
+}

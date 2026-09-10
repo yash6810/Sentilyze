@@ -38,7 +38,7 @@ def generate_executive_pdf_tearsheet(
         portfolio_file = os.path.join("results", "paper_portfolio.json")
         if os.path.exists(portfolio_file):
             try:
-                with open(portfolio_file, "r") as f:
+                with open(portfolio_file, "r", encoding="utf-8") as f:
                     pdata = json.load(f)
                     portfolio_summary = portfolio_summary or {
                         "total_equity": pdata.get("total_equity", 100000.0),

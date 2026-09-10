@@ -1,0 +1,32 @@
+{
+  "TraderAlice_Sentilyze_MultiAgent": {
+    "total_return_pct": 1647.04,
+    "sharpe": 2.08,
+    "max_dd_pct": -22.23,
+    "win_rate_pct": 56.01
+  },
+  "microsoft_qlib_AI_Ranking": {
+    "total_return_pct": 559.29,
+    "sharpe": 1.06,
+    "max_dd_pct": -57.32,
+    "win_rate_pct": 54.23
+  },
+  "polakowo_vectorbt_Vectorized": {
+    "total_return_pct": 69.13,
+    "sharpe": 0.48,
+    "max_dd_pct": -36.31,
+    "win_rate_pct": 53.42
+  },
+  "pywhy_EconML_Causal_DML": {
+    "total_return_pct": 188.71,
+    "sharpe": 1.08,
+    "max_dd_pct": -33.63,
+    "win_rate_pct": 54.31
+  },
+  "Buy_and_Hold_Equal_Weight": {
+    "total_return_pct": 553.24,
+    "sharpe": 1.17,
+    "max_dd_pct": -49.17,
+    "win_rate_pct": 55.32
+  }
+}

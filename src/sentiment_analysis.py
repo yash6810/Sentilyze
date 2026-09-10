@@ -257,6 +257,10 @@ def get_sentiment(
     ]
 
     if not articles_for_sentiment.empty:
+        if sentiment_analyzer is None:
+            from src.preprocessing import _load_sentiment_analyzer
+
+            sentiment_analyzer = _load_sentiment_analyzer()
         results = []
         text_list = articles_for_sentiment["text"].tolist()
         chunk_size = 32

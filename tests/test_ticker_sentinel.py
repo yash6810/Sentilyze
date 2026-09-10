@@ -29,11 +29,17 @@ def test_ticker_sentinel_lifecycle():
     assert sentinel.ticker == "TSM"
     assert sentinel.highest_price_seen == 417.52
 
-    # Stock rallies to 426.00
+    # Stock rallies to 426.00 (+2.03% -> triggers +80% Peak Gain Lock)
     report = sentinel.audit_tick(current_price=426.00, volume_ratio=1.35)
     assert sentinel.highest_price_seen == 426.00
     assert report["unrealized_pnl"] > 0
-    assert report["status"] in ["🟢 TRACKING WAVE", "🎯 HARVEST READY"]
+    assert report["profit_lock_status"] == "🔒 +80% PEAK LOCKED"
+    assert report["sl_target"] > sentinel.entry_price
+    assert report["status"] in [
+        "🟢 TRACKING WAVE",
+        "🎯 HARVEST READY",
+        "🔒 +80% PEAK LOCKED",
+    ]
 
 
 def test_ticker_sentinel_swarm():

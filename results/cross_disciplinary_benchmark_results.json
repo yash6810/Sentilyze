@@ -1,0 +1,93 @@
+{
+  "Unified_CrossDisciplinary_Omnichannel_Fusion": {
+    "name": "\ud83c\udf0c Unified Cross-Disciplinary Omnichannel Fusion",
+    "domain": "Cross-Disciplinary Matrix",
+    "total_return_pct": 919.96,
+    "cagr_pct": 46.49,
+    "sharpe": 1.09,
+    "sortino": 1.5,
+    "max_dd_pct": -56.72,
+    "calmar": 0.82,
+    "win_rate_pct": 53.16,
+    "sample_trading_days": 1533,
+    "total_years": 6.1
+  },
+  "Quantum_Tunneling_Tensile_Fatigue": {
+    "name": "\ud83e\uddea Quantum Chemistry Tunneling & Tensile Fatigue",
+    "domain": "Quantum Mechanics & Material Science",
+    "total_return_pct": 502.77,
+    "cagr_pct": 34.35,
+    "sharpe": 0.98,
+    "sortino": 1.39,
+    "max_dd_pct": -53.18,
+    "calmar": 0.65,
+    "win_rate_pct": 53.16,
+    "sample_trading_days": 1533,
+    "total_years": 6.1
+  },
+  "Theta_Gamma_Brainwave_Coupling": {
+    "name": "\ud83e\udde0 Theta-Gamma Brainwave Multi-Scale Coupling",
+    "domain": "Cognitive Neuroscience",
+    "total_return_pct": 798.03,
+    "cagr_pct": 43.45,
+    "sharpe": 1.12,
+    "sortino": 1.55,
+    "max_dd_pct": -55.5,
+    "calmar": 0.78,
+    "win_rate_pct": 53.16,
+    "sample_trading_days": 1533,
+    "total_years": 6.1
+  },
+  "Navier_Stokes_Hydrodynamic_Turbulence": {
+    "name": "\ud83c\udf0a Navier-Stokes Hydrodynamic Turbulence (Re)",
+    "domain": "Fluid Dynamics & Aerodynamics",
+    "total_return_pct": 1066.74,
+    "cagr_pct": 49.76,
+    "sharpe": 1.08,
+    "sortino": 1.58,
+    "max_dd_pct": -67.95,
+    "calmar": 0.73,
+    "win_rate_pct": 53.16,
+    "sample_trading_days": 1533,
+    "total_years": 6.1
+  },
+  "Lotka_Volterra_Predator_Prey": {
+    "name": "\ud83d\udc3a Lotka-Volterra Predator-Prey Ecology",
+    "domain": "Evolutionary Biology",
+    "total_return_pct": 147.45,
+    "cagr_pct": 16.06,
+    "sharpe": 1.08,
+    "sortino": 1.58,
+    "max_dd_pct": -27.33,
+    "calmar": 0.59,
+    "win_rate_pct": 53.16,
+    "sample_trading_days": 1533,
+    "total_years": 6.1
+  },
+  "Ising_Ferromagnetic_Curie_Phase": {
+    "name": "\ud83e\uddf2 Ising Ferromagnetic Curie Phase Transition",
+    "domain": "Statistical Mechanics",
+    "total_return_pct": 809.23,
+    "cagr_pct": 43.74,
+    "sharpe": 1.06,
+    "sortino": 1.56,
+    "max_dd_pct": -62.9,
+    "calmar": 0.7,
+    "win_rate_pct": 53.16,
+    "sample_trading_days": 1533,
+    "total_years": 6.1
+  },
+  "Passive_Buy_and_Hold_Baseline": {
+    "name": "\ud83d\udcc8 Passive Buy & Hold Benchmark (Equal-Weight)",
+    "domain": "Market Baseline",
+    "total_return_pct": 510.44,
+    "cagr_pct": 34.63,
+    "sharpe": 1.13,
+    "sortino": 1.65,
+    "max_dd_pct": -47.21,
+    "calmar": 0.73,
+    "win_rate_pct": 55.97,
+    "sample_trading_days": 1533,
+    "total_years": 6.1
+  }
+}

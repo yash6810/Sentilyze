@@ -15,6 +15,11 @@ from src.performance_factsheet import generate_comprehensive_factsheet
 from src.paper_broker import PaperBroker
 
 
+@st.cache_data(ttl=600)
+def _get_cached_factsheet():
+    return generate_comprehensive_factsheet()
+
+
 def render_performance_factsheet_workspace():
     st.markdown("### 📊 Institutional Risk & Alpha Performance Factsheet")
     st.caption(
@@ -26,7 +31,7 @@ def render_performance_factsheet_workspace():
     portfolio_summary = broker.get_portfolio_summary()
 
     with st.spinner("Computing Quantitative Risk & Return Attribution Metrics..."):
-        factsheet = generate_comprehensive_factsheet()
+        factsheet = _get_cached_factsheet()
 
     tot_ret = factsheet["total_return_pct"]
     bench_ret = factsheet["benchmark_return_pct"]

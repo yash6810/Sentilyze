@@ -1,6 +1,6 @@
 """
 Sentilyze - Institutional Algorithmic Trading & MLOps Platform.
-Modular Master Entry Point & High-Performance Routing Station.
+High-Speed 5-Cockpit Mission Control Station.
 """
 
 import os
@@ -12,43 +12,24 @@ load_dotenv()
 # --- 1. Streamlit Page Configuration (Must Be First) ---
 st.set_page_config(
     layout="wide",
-    page_title="Sentilyze | Institutional AI Trading Platform",
+    page_title="Sentilyze | Institutional Quant OS",
     page_icon="📈",
     initial_sidebar_state="expanded",
 )
 
-# --- 2. Import Modular Theme Engine & Workspaces ---
-from src.ui.theme import inject_custom_theme, THEMES
-from src.ui.ws_live_prediction import render_live_prediction_workspace
-from src.ui.ws_committee import render_committee_workspace
-from src.ui.ws_autonomous_trader import render_autonomous_trader_workspace
-from src.ui.ws_alternative_data import render_alternative_data_workspace
-from src.ui.ws_portfolio import render_portfolio_workspace
-from src.ui.ws_backtesting import render_backtesting_workspace
-from src.ui.ws_xai_shap import render_xai_workspace
-from src.ui.ws_options_surface import render_options_surface_workspace
-from src.ui.ws_deep_quant import render_deep_quant_workspace
-from src.ui.ws_quantum_tournament import render_quantum_tournament_workspace
-from src.ui.ws_portfolio_diversity import render_portfolio_diversity_workspace
-from src.ui.ws_insider_radar import render_insider_radar_workspace
-from src.ui.ws_performance_factsheet import render_performance_factsheet_workspace
-from src.ui.ws_drl_agent import render_drl_agent_workspace
-from src.ui.ws_strategy_incubator import render_strategy_incubator_workspace
-from src.ui.ws_market_neutral_statarb import render_market_neutral_statarb_workspace
-from src.ui.ws_morning_briefing import render_morning_briefing_workspace
-from src.ui.ws_broker_webhooks import render_broker_webhooks_workspace
-from src.ui.ws_macro_liquidity import render_macro_liquidity_workspace
-from src.ui.ws_screener import render_screener_workspace
+# --- 2. Import Modular Theme Engine & Components ---
+from src.ui.theme import inject_custom_theme
 from src.ui.components import get_market_status
 from src.config import COMPANY_NAMES
 
 STOCKS_FILE = "stocks.txt"
 
 
+@st.cache_data(ttl=3600)
 def load_universe_tickers():
     """Loads active S&P 100 universe tickers."""
     if os.path.exists(STOCKS_FILE):
-        with open(STOCKS_FILE, "r") as f:
+        with open(STOCKS_FILE, "r", encoding="utf-8") as f:
             tickers = [
                 line.strip().upper()
                 for line in f
@@ -59,7 +40,68 @@ def load_universe_tickers():
     return ["NVDA", "AAPL", "MSFT", "GOOGL", "META", "AMZN", "TSLA"]
 
 
+@st.cache_data(ttl=300)
+def get_model_universe_indicator():
+    """Computes universe model training coverage and mean accuracy using compiled summary."""
+    import glob
+    import json
+
+    summary_file = os.path.join("results", "universe_summary.json")
+    if os.path.exists(summary_file):
+        try:
+            with open(summary_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            accs = [row["accuracy"] for row in data if "accuracy" in row]
+            mean_acc = (sum(accs) / len(accs)) if accs else 0.0
+            model_count = len(data)
+            total_valid = 535
+            pct = min(100.0, (model_count / total_valid) * 100.0)
+            return {
+                "models_count": model_count,
+                "total_valid": total_valid,
+                "pct_trained": pct,
+                "mean_accuracy": mean_acc,
+                "metrics_count": len(accs),
+            }
+        except Exception:
+            pass
+
+    model_files = glob.glob("models/*_model.json")
+    model_count = len(model_files)
+    metrics_files = glob.glob("results/*_metrics.json")
+    accuracies = []
+    for f in metrics_files:
+        try:
+            with open(f, "r", encoding="utf-8") as jf:
+                d = json.load(jf)
+                a = d.get("accuracy")
+                if a is not None and isinstance(a, (int, float)):
+                    accuracies.append(float(a))
+        except Exception:
+            pass
+    mean_acc = (sum(accuracies) / len(accuracies) * 100.0) if accuracies else 0.0
+    total_valid = 535
+    pct = min(100.0, (model_count / total_valid) * 100.0) if total_valid else 0.0
+    return {
+        "models_count": model_count,
+        "total_valid": total_valid,
+        "pct_trained": pct,
+        "mean_accuracy": mean_acc,
+        "metrics_count": len(accuracies),
+    }
+
+
 def main():
+    # Ensure permanent 24/7 autonomous trading daemon is continuously running
+    try:
+        from src.autonomous_trader import (
+            ensure_background_daemon_thread_running,
+        )
+
+        ensure_background_daemon_thread_running(interval_seconds=60)
+    except Exception:
+        pass
+
     # --- Sidebar Controls ---
     st.sidebar.markdown(
         """
@@ -91,16 +133,31 @@ def main():
         unsafe_allow_html=True,
     )
 
-    # 1. Bespoke Theme Selector
-    theme_choice = st.sidebar.selectbox(
-        "🎨 UI Theme Preset",
-        list(THEMES.keys()),
-        index=0,
-        help="Select a bespoke institutional visual theme.",
+    # Model Universe Training Indicator Widget
+    u_stats = get_model_universe_indicator()
+    st.sidebar.markdown(
+        f"""
+        <div style="background: rgba(16, 185, 129, 0.06); border: 1px solid rgba(16, 185, 129, 0.22); border-radius: 8px; padding: 10px; margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.75rem; font-weight: 700; color: #10B981; text-transform: uppercase;">🧠 TRAINED UNIVERSE</span>
+                <span style="font-size: 0.72rem; font-weight: 800; color: #10B981; font-family: 'JetBrains Mono', monospace;">{u_stats['pct_trained']:.1f}% READY</span>
+            </div>
+            <div style="font-size: 1.05rem; font-weight: 800; color: #F8FAFC; margin-top: 4px; font-family: 'JetBrains Mono', monospace;">
+                {u_stats['models_count']} / {u_stats['total_valid']} Assets Trained
+            </div>
+            <div style="font-size: 0.75rem; color: #94A3B8; margin-top: 2px;">
+                Mean Accuracy: <b style="color: #38BDF8;">{u_stats['mean_accuracy']:.2f}%</b> (5-Fold Purged CV)
+            </div>
+            <div style="width: 100%; background: rgba(255,255,255,0.1); border-radius: 4px; height: 5px; margin-top: 6px;">
+                <div style="width: {u_stats['pct_trained']}%; background: #10B981; height: 5px; border-radius: 4px;"></div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
-    inject_custom_theme(theme_choice)
 
-    st.sidebar.markdown("---")
+    # 1. Institutional Theme Engine (🏛️ Goldman Slate)
+    inject_custom_theme("🏛️ Goldman Slate")
 
     # 2. Universe Ticker Selector
     tickers = load_universe_tickers()
@@ -113,40 +170,21 @@ def main():
 
     st.sidebar.markdown("---")
 
-    # 3. Workspace Navigation
-    workspaces = {
-        "🔮 1. Live Directional Prediction": "prediction",
-        "🏛️ 2. 5-Agent Adversarial Committee (War Room)": "committee",
-        "🤖 3. 24/7 Autonomous Live Trader": "auto_trader",
-        "📡 4. 4-Station Reddit News & Pre-IPO": "alternative",
-        "💼 5. Portfolio Kelly Sizing": "portfolio",
-        "📈 6. Walk-Forward Backtesting": "backtesting",
-        "🧠 7. SHAP Explainability & Trees": "xai",
-        "📉 8. 3D Volatility & Dark Pools": "options",
-        "🔗 9. Statistical Arbitrage Pairs": "statarb",
-        "🕸️ 10. GNN Supply Chain Contagion": "gnn",
-        "🌪️ 11. Black Swan Crisis Simulator": "stress",
-        "🕵️ 12. Forensic Beneish M-Score": "forensic",
-        "🏛️ 13. DCF Intrinsic Valuation": "dcf",
-        "👑 14. 25-Paper Tournament & Deep Learning Shield": "quantum_tournament",
-        "🧬 15. Portfolio Diversity & Correlation Grader": "portfolio_diversity",
-        "🏛️ 16. Smart-Money Executive & Insider Radar": "insider_radar",
-        "📊 17. Institutional Risk & Alpha Factsheet": "performance_factsheet",
-        "🤖 18. Deep RL Autonomous Policy Agent": "drl_agent",
-        "🔬 19. Evolutionary Strategy Incubator": "strategy_incubator",
-        "🔄 20. Market-Neutral Cointegration & Stat-Arb": "market_neutral_statarb",
-        "🎙️ 21. AI Pre-Market Morning Audio & Briefing": "morning_briefing",
-        "⚡ 22. Automated Broker Webhooks & API Dispatcher": "broker_webhooks",
-        "🌐 23. Real-Time Macro Liquidity & Yield Radar": "macro_liquidity",
-        "📡 24. Real-Time Market Anomaly Screener": "screener",
+    # 3. Streamlined 5 Master Cockpits
+    cockpits = {
+        "🎯 1. Live Trading & Alpha Cockpit": "trading",
+        "🌊 2. Smart Money & Alternative Data": "smart_money",
+        "💼 3. Portfolio & Risk Engine": "portfolio",
+        "📈 4. Backtest & Performance Factsheet": "backtest",
+        "🧠 5. Deep Quant & Explainability (XAI)": "deep_quant",
     }
 
-    selected_ws_label = st.sidebar.radio(
-        "📂 Mission Control Workspaces",
-        list(workspaces.keys()),
+    selected_cockpit_label = st.sidebar.radio(
+        "📂 Mission Control Cockpits",
+        list(cockpits.keys()),
         index=0,
     )
-    ws_key = workspaces[selected_ws_label]
+    cockpit_key = cockpits[selected_cockpit_label]
 
     # Quick Status in Sidebar
     comp_name = COMPANY_NAMES.get(selected_ticker, selected_ticker)
@@ -157,53 +195,33 @@ def main():
             ● Model Universe: {len(tickers)} S&P Assets<br>
             ● Active Asset: <b>{selected_ticker}</b><br>
             ● Company: {comp_name}<br>
-            ● Status: 🟢 All Systems Operational
+            ● Status: 🟢 5 Cockpits Operational
         </div>
         """,
         unsafe_allow_html=True,
     )
 
-    # --- Dispatch Workspace Router ---
-    if ws_key == "prediction":
-        render_live_prediction_workspace(selected_ticker)
-    elif ws_key == "committee":
-        render_committee_workspace(selected_ticker)
-    elif ws_key == "auto_trader":
-        render_autonomous_trader_workspace(selected_ticker)
-    elif ws_key == "alternative":
-        render_alternative_data_workspace(selected_ticker)
-    elif ws_key == "portfolio":
-        render_portfolio_workspace(selected_ticker)
-    elif ws_key == "backtesting":
-        render_backtesting_workspace(selected_ticker)
-    elif ws_key == "xai":
-        render_xai_workspace(selected_ticker)
-    elif ws_key == "options":
-        render_options_surface_workspace(selected_ticker)
-    elif ws_key in ["statarb", "gnn", "stress", "forensic", "dcf"]:
-        render_deep_quant_workspace(selected_ticker, mode=ws_key)
-    elif ws_key == "quantum_tournament":
-        render_quantum_tournament_workspace(selected_ticker)
-    elif ws_key == "portfolio_diversity":
-        render_portfolio_diversity_workspace()
-    elif ws_key == "insider_radar":
-        render_insider_radar_workspace(selected_ticker)
-    elif ws_key == "performance_factsheet":
-        render_performance_factsheet_workspace()
-    elif ws_key == "drl_agent":
-        render_drl_agent_workspace(selected_ticker)
-    elif ws_key == "strategy_incubator":
-        render_strategy_incubator_workspace(selected_ticker)
-    elif ws_key == "market_neutral_statarb":
-        render_market_neutral_statarb_workspace(selected_ticker)
-    elif ws_key == "morning_briefing":
-        render_morning_briefing_workspace(selected_ticker)
-    elif ws_key == "broker_webhooks":
-        render_broker_webhooks_workspace(selected_ticker)
-    elif ws_key == "macro_liquidity":
-        render_macro_liquidity_workspace()
-    elif ws_key == "screener":
-        render_screener_workspace()
+    # --- Dispatch Cockpit Router (Lazy Loaded for Instant Startup) ---
+    if cockpit_key == "trading":
+        from src.ui.cockpit_trading import render_trading_cockpit
+
+        render_trading_cockpit(selected_ticker)
+    elif cockpit_key == "smart_money":
+        from src.ui.cockpit_smart_money import render_smart_money_cockpit
+
+        render_smart_money_cockpit(selected_ticker)
+    elif cockpit_key == "portfolio":
+        from src.ui.cockpit_portfolio import render_portfolio_cockpit
+
+        render_portfolio_cockpit(selected_ticker)
+    elif cockpit_key == "backtest":
+        from src.ui.cockpit_backtest import render_backtest_cockpit
+
+        render_backtest_cockpit(selected_ticker)
+    elif cockpit_key == "deep_quant":
+        from src.ui.cockpit_deep_quant import render_deep_quant_cockpit
+
+        render_deep_quant_cockpit(selected_ticker)
 
 
 if __name__ == "__main__":

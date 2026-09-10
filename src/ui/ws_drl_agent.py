@@ -19,6 +19,11 @@ from src.paper_broker import PaperBroker
 from src.config import COMPANY_NAMES
 
 
+@st.cache_data(ttl=600)
+def _get_cached_policy_action(ticker: str):
+    return evaluate_drl_policy_action(ticker)
+
+
 def render_drl_agent_workspace(selected_ticker: str = "NVDA"):
     st.markdown("### 🤖 Deep Reinforcement Learning (DRL) Autonomous Policy Agent")
     st.caption(
@@ -45,7 +50,7 @@ def render_drl_agent_workspace(selected_ticker: str = "NVDA"):
         with st.spinner(
             "Evaluating 6-dimensional continuous state vector in PyTorch..."
         ):
-            policy_res = evaluate_drl_policy_action(selected_ticker)
+            policy_res = _get_cached_policy_action(selected_ticker)
 
         act_label = policy_res["action_label"]
         act_color = policy_res["action_color"]

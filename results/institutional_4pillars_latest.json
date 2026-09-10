@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-09-06T07:21:12.474071+00:00",
+  "status": "EXPERIMENT_SUCCESS",
+  "pillar1_sector_dispatcher": {
+    "total_archetypes": 4,
+    "average_alpha_pct": -2.12
+  },
+  "pillar2_convex_portfolio": {
+    "portfolio_cagr_pct": 61.27,
+    "spy_cagr_pct": 15.27,
+    "alpha_spread_pct": 46.0,
+    "portfolio_sharpe": 2.24,
+    "spy_sharpe": 0.91,
+    "weights": {
+      "NVDA": 0.25,
+      "GE": 0.25,
+      "CAT": 0.0,
+      "DELL": 0.25,
+      "AAPL": 0.0,
+      "LLY": 0.25,
+      "JNJ": 0.0,
+      "DOW": 0.0
+    }
+  },
+  "pillar3_finbert_circuit_breaker": {
+    "test_stock": "UNH",
+    "unhedged_cagr_pct": 6.56,
+    "protected_cagr_pct": 34.79,
+    "alpha_rescued_pct": 28.22
+  }
+}

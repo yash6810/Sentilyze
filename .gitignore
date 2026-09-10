@@ -66,5 +66,7 @@ memory.md
 catboost_info/
 graphify-out/cache/
 graphify-out/2026-*/
+*.bak
+*.tmp
 
 

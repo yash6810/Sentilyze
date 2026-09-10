@@ -87,6 +87,16 @@ class TechnicalAlphaAgent:
     """Agent 1: Evaluates Technical Price Action, Momentum, RSI, and Trend Alignment."""
 
     def evaluate(self, ticker: str, spot_price: float) -> Dict[str, Any]:
+        vote = "NEUTRAL"
+        conviction = 50.0
+        trend_status = "NEUTRAL"
+        thesis = "Technical momentum analysis in progress."
+        rsi_val = 50.0
+        sma200 = spot_price
+        ma21 = spot_price
+        ret_5d = 0.0
+        calibrated_prob = None
+
         try:
             df = get_price_history(ticker, period="1y", use_cache=True)
         except Exception:
@@ -143,14 +153,31 @@ class TechnicalAlphaAgent:
                 vote = "BUY"
                 conviction = 70.0
                 trend_status = "OVERSOLD_MEAN_REVERSION"
-                thesis = f"Asset is oversold (RSI: {rsi_val:.1f} < 35), presenting mean-reversion setup."
+                thesis = f"Asset RSI is oversold ({rsi_val:.1f} < 35), signaling potential mean-reversion opportunity."
             else:
-                vote = "NEUTRAL"
-                conviction = 52.0
-                trend_status = "SIDEWAYS_CONSOLIDATION"
-                thesis = (
-                    f"Momentum neutral (RSI: {rsi_val:.1f}). 21-day MA at ${ma21:,.2f}."
-                )
+                vote = "HOLD"
+                conviction = 55.0
+                trend_status = "NEUTRAL_CONSOLIDATION"
+                thesis = f"Asset is consolidating within trend (RSI {rsi_val:.1f}, SMA200 ${sma200:,.2f})."
+            # Check 15-Minute Opening Range Breakout (Paper 25)
+            try:
+                from src.opening_range_engine import calculate_15min_opening_range
+
+                orb = calculate_15min_opening_range(ticker, df)
+                if orb.get("has_opening_range"):
+                    or_high = float(orb.get("or_high", 0))
+                    or_low = float(orb.get("or_low", 0))
+                    if spot_price > or_high and or_high > 0:
+                        vote = "BUY"
+                        conviction = max(conviction, 85.0)
+                        trend_status = "ORB_BULLISH_BREAKOUT"
+                        thesis += f" 🎯 15-Min Opening Range Breakout verified (Price ${spot_price:.2f} > OR_High ${or_high:.2f})."
+                    elif spot_price < or_low and or_low > 0:
+                        trend_status = "ORB_BEARISH_BREAKDOWN"
+                        thesis += f" ⚠️ Below 15-Min Opening Low (${or_low:.2f}); downward momentum dominant."
+            except Exception as oe:
+                logger.debug(f"ORB check notice for {ticker}: {oe}")
+
             # Check ACPM XGBoost Model Conformal Prediction
             model_path = os.path.join("models", f"{ticker}_model.json")
             calibrated_prob = None
@@ -223,46 +250,80 @@ class SentimentCatalystAgent:
     def evaluate(self, ticker: str) -> Dict[str, Any]:
         net_polarity = 0.0
         head_count = 0
+        event_type = "GENERAL_MARKET_FLOW"
+        urgency = 0.2
+        is_material = False
+        vote = "HOLD"
+        conviction = 50.0
+        thesis = "Balanced news flow."
+
         try:
+            from src.fast_finbert import get_fast_finbert_engine
+            from src.event_classifier_model import EventClassifierModel
+
+            fast_finbert = get_fast_finbert_engine()
+            event_classifier = EventClassifierModel()
+
             news_raw = get_news(ticker, use_cache=True)
             if isinstance(news_raw, pd.DataFrame) and not news_raw.empty:
-                sent_df = analyze_sentiment(news_raw.head(8), ticker=ticker)
-                if (
-                    isinstance(sent_df, pd.DataFrame)
-                    and "sentiment_score" in sent_df.columns
-                ):
-                    net_polarity = round(float(sent_df["sentiment_score"].mean()), 3)
-                head_count = len(news_raw)
+                titles = (
+                    news_raw["Title"].dropna().tolist()
+                    if "Title" in news_raw.columns
+                    else []
+                )
             elif isinstance(news_raw, list) and len(news_raw) > 0:
-                df_news = pd.DataFrame({"Title": news_raw[:8]})
-                sent_df = analyze_sentiment(df_news, ticker=ticker)
-                if (
-                    isinstance(sent_df, pd.DataFrame)
-                    and "sentiment_score" in sent_df.columns
-                ):
-                    net_polarity = round(float(sent_df["sentiment_score"].mean()), 3)
-                head_count = len(news_raw)
+                titles = [str(x) for x in news_raw]
+            else:
+                titles = []
+
+            head_count = len(titles)
+            if titles:
+                # Fast batch scoring via FastFinBERT INT8 + Event Model
+                first_title = titles[0]
+                ev_res = event_classifier.classify(first_title)
+                event_type = ev_res["event_type"]
+                urgency = ev_res["urgency_score"]
+                is_material = ev_res["is_material"]
+
+                sent_scores = []
+                for t in titles[:8]:
+                    p_res = fast_finbert.predict_single(t, ticker=ticker)
+                    sent_scores.append(p_res["sentiment_score"])
+
+                net_polarity = (
+                    round(float(np.mean(sent_scores)), 3) if sent_scores else 0.0
+                )
         except Exception as e:
             logger.debug(f"Sentiment evaluation notice for {ticker}: {e}")
             net_polarity = 0.0
             head_count = 0
 
-        if net_polarity >= 0.20:
+        # High-impact material catalysts boost conviction
+        if is_material and urgency >= 0.75:
+            if net_polarity >= 0:
+                vote = "BUY"
+                conviction = round(min(75.0 + (urgency * 20.0), 95.0), 1)
+                thesis = f"🚀 HIGH-IMPACT CATALYST DETECTED: {event_type} (Urgency: {urgency:.1%}, Polarity: {net_polarity:+.2f} across {head_count} headlines)."
+            else:
+                vote = "SELL"
+                conviction = round(min(75.0 + (urgency * 20.0), 95.0), 1)
+                thesis = f"🚨 SEVERE RISK CATALYST: {event_type} (Urgency: {urgency:.1%}, Polarity: {net_polarity:+.2f}). Defensive de-risking mandatory."
+        elif net_polarity >= 0.20:
             vote = "BUY"
             conviction = round(min(60.0 + (net_polarity * 40.0), 92.0), 1)
-            thesis = f"Strong bullish news flow (+{net_polarity:+.2f} FinBERT score across {head_count} live headlines)."
+            thesis = f"Strong bullish news flow (+{net_polarity:+.2f} FinBERT score across {head_count} live headlines; Event: {event_type})."
         elif net_polarity <= -0.20:
             vote = "SELL"
             conviction = round(min(60.0 + (abs(net_polarity) * 40.0), 90.0), 1)
-            thesis = f"Negative media catalyst ({net_polarity:+.2f} FinBERT polarity); downstream selling pressure likely."
+            thesis = f"Negative media catalyst ({net_polarity:+.2f} FinBERT polarity; Event: {event_type}); downstream selling pressure likely."
         else:
             vote = "HOLD"
             conviction = 50.0
-            thesis = f"Balanced sentiment environment ({net_polarity:+.2f} polarity across {head_count} headlines)."
+            thesis = f"Balanced sentiment environment ({net_polarity:+.2f} polarity across {head_count} headlines; Event: {event_type})."
 
         return {
             "agent_name": "Sentiment & Alternative Data Specialist",
-            "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
+            "role": "Pillar 2: Tri-Brain FinBERT + Event Classifier NLP",
             "academic_grounding": [
                 "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
                 "Paper 21: Bifet & Gavaldà (2007) ADWIN Adaptive Concept Drift Tracking",
@@ -271,6 +332,9 @@ class SentimentCatalystAgent:
             "conviction_score": conviction,
             "key_metrics": {
                 "finbert_polarity": net_polarity,
+                "event_type": event_type,
+                "urgency_score": urgency,
+                "is_material": is_material,
                 "headlines_analyzed": head_count,
             },
             "thesis": thesis,
@@ -281,6 +345,10 @@ class ForensicFundamentalAgent:
     """Agent 3: Evaluates Real Financial Statements, Piotroski F-Score, and DCF Valuation."""
 
     def evaluate(self, ticker: str, spot_price: float) -> Dict[str, Any]:
+        vote = "HOLD"
+        conviction = 50.0
+        thesis = "Valuation evaluation in progress."
+
         fin_data = fetch_financial_statements(ticker)
         is_real = fin_data.get("is_real_data", False)
 
@@ -582,13 +650,13 @@ def _persist_committee_resolution(
         data = {}
         if os.path.exists(COMMITTEE_FILE):
             try:
-                with open(COMMITTEE_FILE, "r") as f:
+                with open(COMMITTEE_FILE, "r", encoding="utf-8") as f:
                     data = json.load(f)
             except Exception:
                 data = {}
 
         data[ticker] = resolution_packet
-        with open(COMMITTEE_FILE, "w") as f:
+        with open(COMMITTEE_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
     except Exception as e:
         logger.warning(f"Failed to persist committee resolution for {ticker}: {e}")

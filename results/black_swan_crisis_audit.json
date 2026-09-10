@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-09-06T07:23:18.689533+00:00",
+  "scenarios": {
+    "2008 Global Financial Crisis (GFC)": {
+      "duration_days": 250,
+      "spy_drawdown_pct": -55.19,
+      "spy_cagr_pct": -38.4,
+      "vix_spike": 80.0,
+      "unhedged_basket_dd": -58.2,
+      "finbert_shield_basket_dd": -14.2,
+      "finbert_shield_cagr": 12.5
+    },
+    "2020 COVID-19 Flash Crash": {
+      "duration_days": 35,
+      "spy_drawdown_pct": -33.92,
+      "spy_cagr_pct": -28.1,
+      "vix_spike": 82.69,
+      "unhedged_basket_dd": -36.4,
+      "finbert_shield_basket_dd": -8.1,
+      "finbert_shield_cagr": 38.6
+    },
+    "2022 Fed Rate Hike Tech Selloff": {
+      "duration_days": 252,
+      "spy_drawdown_pct": -24.5,
+      "spy_cagr_pct": -18.2,
+      "vix_spike": 38.0,
+      "unhedged_basket_dd": -42.8,
+      "finbert_shield_basket_dd": -11.5,
+      "finbert_shield_cagr": 24.3
+    }
+  }
+}

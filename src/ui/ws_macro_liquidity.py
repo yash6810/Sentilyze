@@ -12,6 +12,11 @@ from src.macro_liquidity import calculate_macro_liquidity_metrics
 from src.data_ingestion import get_price_history
 
 
+@st.cache_data(ttl=300)
+def _get_cached_macro_metrics():
+    return calculate_macro_liquidity_metrics()
+
+
 def render_macro_liquidity_workspace():
     st.markdown("### 🌐 Real-Time Macro Liquidity & Treasury Yield Radar")
     st.caption(
@@ -20,7 +25,7 @@ def render_macro_liquidity_workspace():
         "and Systemic Financial Conditions Driving Institutional Equity Flows."
     )
 
-    metrics = calculate_macro_liquidity_metrics()
+    metrics = _get_cached_macro_metrics()
 
     # Top KPI Metrics Row
     m1, m2, m3, m4 = st.columns(4)
@@ -115,3 +120,14 @@ def render_macro_liquidity_workspace():
                 yaxis_title="Yield Percentage (%)",
             )
             st.plotly_chart(fig_tnx, use_container_width=True)
+
+    # Source & Attribution Notice
+    source_label = (
+        "🟢 Live FRED® (St. Louis Fed)"
+        if metrics.get("is_live_fred")
+        else "🟡 Proxy Feeds"
+    )
+    st.caption(
+        f"Data Feed: **{source_label}** | As of: `{metrics.get('as_of_date', 'N/A')}` | "
+        f"*{metrics.get('attribution', 'This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis.')}*"
+    )

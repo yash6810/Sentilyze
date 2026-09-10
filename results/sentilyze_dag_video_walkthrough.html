@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentilyze Alpha DAG Engine // Interactive Video Process Walkthrough</title>
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111827;
+      --border: #1f2937;
+      --neon-green: #10b981;
+      --neon-cyan: #06b6d4;
+      --neon-purple: #a855f7;
+      --neon-yellow: #f59e0b;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace; }
+    body { background: var(--bg); color: var(--text); padding: 24px; display: flex; flex-direction: column; align-items: center; }
+    .container { max-width: 1100px; width: 100%; }
+    
+    /* Header Bar */
+    .header {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .badge {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid var(--neon-green);
+      color: var(--neon-green);
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* Video Player Canvas Card */
+    .player-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Progress / Phase Steps */
+    .steps-timeline {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .step-btn {
+      background: #1f2937;
+      border: 1px solid #374151;
+      color: var(--text-muted);
+      padding: 10px 8px;
+      border-radius: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s ease;
+    }
+    .step-btn.active {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--neon-green);
+      color: var(--neon-green);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Screen Simulation */
+    .screen-area {
+      background: #050811;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      padding: 20px;
+      min-height: 380px;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 20px;
+    }
+    .svg-canvas {
+      width: 100%;
+      height: 100%;
+      background: #0d1322;
+      border-radius: 8px;
+      border: 1px solid #1e293b;
+    }
+    .panel-detail {
+      background: #0f172a;
+      border-radius: 8px;
+      padding: 16px;
+      border: 1px solid #1e293b;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .phase-title { font-size: 18px; color: var(--neon-green); margin-bottom: 8px; font-weight: bold; }
+    .phase-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 12px; }
+    .code-box {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #38bdf8;
+      overflow-x: auto;
+      margin-bottom: 12px;
+    }
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #1e293b;
+      font-size: 12px;
+    }
+    .metric-val { font-weight: bold; color: var(--neon-cyan); }
+
+    /* Video Player Controls */
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+    .play-btn {
+      background: var(--neon-green);
+      color: #000;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: opacity 0.2s;
+    }
+    .play-btn:hover { opacity: 0.9; }
+    .progress-bar-bg {
+      flex: 1;
+      height: 8px;
+      background: #1f2937;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
+      width: 16.6%;
+      transition: width 0.3s ease;
+    }
+    .time-code { font-family: monospace; font-size: 13px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div>
+      <h2 style="font-size: 20px; font-weight: bold;">⚡ Sentilyze Alpha DAG Process Walkthrough</h2>
+      <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">Interactive Step-by-Step Video Simulation of the Autonomous Quant Engine</p>
+    </div>
+    <div class="badge">● LIVE GENERATION 3 CHAMPION</div>
+  </div>
+
+  <div class="player-card">
+    <div class="steps-timeline">
+      <button class="step-btn active" onclick="setStep(0)">1. Multi-Feed Ingest</button>
+      <button class="step-btn" onclick="setStep(1)">2. FinBERT & Alphas</button>
+      <button class="step-btn" onclick="setStep(2)">3. Rolling IC Audit</button>
+      <button class="step-btn" onclick="setStep(3)">4. Convex QP Alloc</button>
+      <button class="step-btn" onclick="setStep(4)">5. Vol Target & Regime</button>
+      <button class="step-btn" onclick="setStep(5)">6. Alpha Execution</button>
+    </div>
+
+    <div class="screen-area">
+      <!-- Animated SVG Diagram -->
+      <svg class="svg-canvas" viewBox="0 0 540 340" id="dagSvg">
+        <defs>
+          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
+        
+        <!-- Edges -->
+        <g stroke="#374151" stroke-width="2" id="edgesGroup">
+          <line x1="80" y1="170" x2="180" y2="90" id="e1"/>
+          <line x1="80" y1="170" x2="180" y2="170" id="e2"/>
+          <line x1="80" y1="170" x2="180" y2="250" id="e3"/>
+          <line x1="260" y1="90" x2="330" y2="170" id="e4"/>
+          <line x1="260" y1="170" x2="330" y2="170" id="e5"/>
+          <line x1="260" y1="250" x2="330" y2="170" id="e6"/>
+          <line x1="410" y1="170" x2="450" y2="170" id="e7"/>
+        </g>
+
+        <!-- Nodes -->
+        <!-- Ingest Node -->
+        <g id="node0" transform="translate(30, 140)">
+          <rect width="90" height="60" rx="8" fill="#1e293b" stroke="#06b6d4" stroke-width="2"/>
+          <text x="45" y="26" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">INGEST</text>
+          <text x="45" y="44" fill="#06b6d4" font-size="9" text-anchor="middle">FRED + Yahoo</text>
+        </g>
+
+        <!-- Alpha 1: FinBERT -->
+        <g id="node1" transform="translate(180, 60)">
+          <rect width="90" height="60" rx="8" fill="#1e293b" stroke="#374151" stroke-width="1.5"/>
+          <text x="45" y="26" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">FinBERT NLP</text>
+          <text x="45" y="44" fill="#34d399" font-size="9" text-anchor="middle">Score +0.81</text>
+        </g>
+
+        <!-- Alpha 2: FRED Liquidity -->
+        <g id="node2" transform="translate(180, 140)">
+          <rect width="90" height="60" rx="8" fill="#1e293b" stroke="#374151" stroke-width="1.5"/>
+          <text x="45" y="26" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">FRED Net Liq</text>
+          <text x="45" y="44" fill="#10b981" font-size="9" text-anchor="middle">WALCL - TGA</text>
+        </g>
+
+        <!-- Alpha 3: Momentum -->
+        <g id="node3" transform="translate(180, 220)">
+          <rect width="90" height="60" rx="8" fill="#1e293b" stroke="#374151" stroke-width="1.5"/>
+          <text x="45" y="26" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">Momentum</text>
+          <text x="45" y="44" fill="#38bdf8" font-size="9" text-anchor="middle">12M-1M Trend</text>
+        </g>
+
+        <!-- Allocator Node -->
+        <g id="node4" transform="translate(320, 135)">
+          <rect width="100" height="70" rx="8" fill="#1e293b" stroke="#374151" stroke-width="1.5"/>
+          <text x="50" y="26" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">CONVEX QP</text>
+          <text x="50" y="44" fill="#a855f7" font-size="9" text-anchor="middle">IC Max-Sharpe</text>
+          <text x="50" y="58" fill="#9ca3af" font-size="8" text-anchor="middle">Vol Target 18%</text>
+        </g>
+
+        <!-- Execution Engine Node -->
+        <g id="node5" transform="translate(440, 140)">
+          <rect width="90" height="60" rx="8" fill="#1e293b" stroke="#374151" stroke-width="1.5"/>
+          <text x="45" y="26" fill="#fff" font-size="11" text-anchor="middle" font-weight="bold">EXECUTE</text>
+          <text x="45" y="44" fill="#10b981" font-size="9" text-anchor="middle">+103.13% α</text>
+        </g>
+      </svg>
+
+      <!-- Panel Details -->
+      <div class="panel-detail">
+        <div>
+          <div class="phase-title" id="phaseTitle">Phase 1: Multi-Feed Data Ingestion</div>
+          <div class="phase-desc" id="phaseDesc">Sentilyze streams live market pricing from Yahoo Finance alongside official Federal Reserve liquidity metrics (FRED WALCL Balance Sheet and WTREGEN Treasury General Account).</div>
+          <div class="code-box" id="phaseCode">ingest = DataIngestNode(tickers=['NVDA','AAPL',...], fred_api_key=FRED_KEY)<br>raw_data = ingest.execute() # Fetches 5Y daily OHLCV + Weekly Fed Balance Sheet</div>
+        </div>
+
+        <div>
+          <div class="metric-row">
+            <span style="color: var(--text-muted);" id="mLabel1">Data Latency</span>
+            <span class="metric-val" id="mVal1">1.4ms (Async)</span>
+          </div>
+          <div class="metric-row">
+            <span style="color: var(--text-muted);" id="mLabel2">Regime Status</span>
+            <span class="metric-val" id="mVal2" style="color: var(--neon-green);">EXPANSION (+$142B)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="player-controls">
+      <button class="play-btn" id="playBtn" onclick="togglePlay()">
+        <span id="playIcon">▶</span> <span id="playText">Play Auto Demo</span>
+      </button>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressFill"></div>
+      </div>
+      <div class="time-code" id="timeCode">Step 1 / 6</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const steps = [
+    {
+      title: "Phase 1: Multi-Feed Data Ingestion",
+      desc: "Sentilyze streams live market pricing from Yahoo Finance alongside official Federal Reserve liquidity metrics (FRED WALCL Balance Sheet, WTREGEN Treasury Account, and Treasury spreads).",
+      code: "ingest = DataIngestNode(tickers=UNIVERSE, fred_api=FRED_KEY)\nraw_data = ingest.execute() # Fetches 5Y OHLCV + Weekly Fed Balance Sheet",
+      m1: ["Data Latency", "1.4ms (Async)"],
+      m2: ["Regime Status", "EXPANSION (+$142B)"],
+      activeNode: "node0",
+      activeColor: "#06b6d4"
+    },
+    {
+      title: "Phase 2: Independent Factor Extraction",
+      desc: "Pure alpha signals are computed orthogonally: FinBERT scores daily news sentiment, FRED extracts institutional net liquidity expansion, and Kalman Momentum computes cross-sectional relative strength.",
+      code: "w_sent = FinBERTSentimentAlpha().compute(news_stream)\nw_fred = FREDMacroLiquidityAlpha().compute(walcl, tga)\nw_mom  = CrossSectionalMomentumAlpha().compute(prices)",
+      m1: ["FinBERT Confidence", "87.4% Positive"],
+      m2: ["Momentum Rank", "NVDA (#1), AAPL (#2)"],
+      activeNode: "node1",
+      activeColor: "#34d399"
+    },
+    {
+      title: "Phase 3: Rolling Information Coefficient (IC) Audit",
+      desc: "Sentilyze tests every alpha's predictive power using rolling 63-day Rank IC. Flawed or decaying signals are mathematically penalized or pruned before capital allocation.",
+      code: "ic_scores = {\n  'FRED_Liq': +0.144, # Statistically Significant Alpha\n  'Momentum': +0.115, # Persistent Factor\n  'FinBERT' : +0.082  # Tactical Catalyst\n}",
+      m1: ["IC Information Ratio", "1.84 (High Predictive Power)"],
+      m2: ["Decay Filter", "Zero False-Factor Drag"],
+      activeNode: "node2",
+      activeColor: "#10b981"
+    },
+    {
+      title: "Phase 4: Convex QP Max-Sharpe Optimization",
+      desc: "Rather than naive 25% equal blending, Sentilyze uses quadratic programming to solve the optimal risk-budgeted weights: Fred Liquidity (56.5%), Momentum (41.1%), FinBERT (2.4%).",
+      code: "w_optimal = solve_qp_max_sharpe(\n  ic_vector=[0.144, 0.115, 0.082],\n  cov_matrix=factor_cov\n) # Allocates 56.5% FRED, 41.1% Mom",
+      m1: ["Convex Weights", "56.5% FRED | 41.1% MOM"],
+      m2: ["Correlation Reduction", "-42% Cross-Factor Covariance"],
+      activeNode: "node4",
+      activeColor: "#a855f7"
+    },
+    {
+      title: "Phase 5: Volatility Targeting & Regime Gating",
+      desc: "Positions are sized using inverse-volatility to cap portfolio risk at 18% annual vol. In Fed Liquidity expansion regimes, leverage expands to 1.20x; during QT/Crises, it drops to 0.40x.",
+      code: "vol_scaled_w = w_optimal * (target_vol / realized_vol)\nif macro_regime == 'EXPANSION':\n    final_leverage = 1.20 # Enhanced Alpha Run",
+      m1: ["Target Volatility", "18.00% Annualized"],
+      m2: ["Dynamic Leverage", "1.20x (Risk-On Macro)"],
+      activeNode: "node4",
+      activeColor: "#f59e0b"
+    },
+    {
+      title: "Phase 6: Order Execution & Alpha Champion",
+      desc: "Orders are routed to live paper trading. Sentilyze Gen-3 achieves +103.13% cumulative return, 1.41 Sharpe ratio, and cuts max drawdown in half (-26.42% vs -48.58% Buy & Hold).",
+      code: "engine.execute_rebalance(portfolio, target_positions)\n# Result: $152,198.09 Cash | 100% Realized Profit",
+      m1: ["Sharpe Ratio", "1.41 (vs 1.21 B&H)"],
+      m2: ["Alpha vs S&P 500", "+84.71% Excess Return"],
+      activeNode: "node5",
+      activeColor: "#10b981"
+    }
+  ];
+
+  let currentStep = 0;
+  let isPlaying = false;
+  let playInterval = null;
+
+  function setStep(idx) {
+    currentStep = idx;
+    const s = steps[idx];
+    
+    // Update step buttons
+    document.querySelectorAll('.step-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', i === idx);
+    });
+
+    // Update progress bar
+    document.getElementById('progressFill').style.width = ((idx + 1) / steps.length * 100) + '%';
+    document.getElementById('timeCode').innerText = `Step ${idx + 1} / ${steps.length}`;
+
+    // Update panel text
+    document.getElementById('phaseTitle').innerText = s.title;
+    document.getElementById('phaseDesc').innerText = s.desc;
+    document.getElementById('phaseCode').innerHTML = s.code.replace(/\n/g, '<br>');
+    document.getElementById('mLabel1').innerText = s.m1[0];
+    document.getElementById('mVal1').innerText = s.m1[1];
+    document.getElementById('mLabel2').innerText = s.m2[0];
+    document.getElementById('mVal2').innerText = s.m2[1];
+
+    // Highlight SVG nodes
+    ['node0', 'node1', 'node2', 'node3', 'node4', 'node5'].forEach(id => {
+      const g = document.getElementById(id);
+      if (g) {
+        const rect = g.querySelector('rect');
+        if (id === s.activeNode || (idx === 1 && (id === 'node1' || id === 'node2' || id === 'node3'))) {
+          rect.setAttribute('stroke', s.activeColor);
+          rect.setAttribute('stroke-width', '3');
+          rect.setAttribute('filter', 'url(#glow)');
+        } else {
+          rect.setAttribute('stroke', '#374151');
+          rect.setAttribute('stroke-width', '1.5');
+          rect.removeAttribute('filter');
+        }
+      }
+    });
+  }
+
+  function togglePlay() {
+    isPlaying = !isPlaying;
+    const btn = document.getElementById('playBtn');
+    const icon = document.getElementById('playIcon');
+    const text = document.getElementById('playText');
+
+    if (isPlaying) {
+      icon.innerText = '⏸';
+      text.innerText = 'Pause Demo';
+      playInterval = setInterval(() => {
+        let next = (currentStep + 1) % steps.length;
+        setStep(next);
+      }, 3000);
+    } else {
+      icon.innerText = '▶';
+      text.innerText = 'Play Auto Demo';
+      clearInterval(playInterval);
+    }
+  }
+
+  // Init
+  setStep(0);
+</script>
+
+</body>
+</html>

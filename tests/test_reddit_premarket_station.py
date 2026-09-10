@@ -2,6 +2,8 @@ from unittest.mock import patch, MagicMock
 from src.reddit_premarket_station import (
     scrape_station_ticker_sentiment,
     fetch_4station_premarket_intelligence,
+    fetch_8station_premarket_intelligence,
+    fetch_all_reddit_headlines_for_ticker,
     _fetch_subreddit_rss_entries,
 )
 
@@ -22,6 +24,27 @@ def test_fetch_4station_premarket_intelligence():
     assert 0.0 <= intel["composite_conviction_pct"] <= 100.0
     assert "regime" in intel
     assert "color" in intel
+
+
+def test_fetch_8station_premarket_intelligence():
+    intel = fetch_8station_premarket_intelligence("NVDA")
+    assert intel["ticker"] == "NVDA"
+    assert len(intel["stations"]) == 9
+    assert intel["total_stations_count"] == 9
+    assert -1.0 <= intel["composite_score"] <= 1.0
+    assert 0.0 <= intel["composite_conviction_pct"] <= 100.0
+    assert "regime_code" in intel
+    assert "color" in intel
+
+
+def test_fetch_all_reddit_headlines_for_ticker():
+    df = fetch_all_reddit_headlines_for_ticker("NVDA")
+    assert df is not None
+    # Even if live network fails in CI, fallback or empty df returned safely
+    if not df.empty:
+        assert "Title" in df.columns
+        assert "publishedAt" in df.columns
+        assert "source" in df.columns
 
 
 @patch("requests.Session.get")

@@ -1,0 +1,181 @@
+{
+    "total_scenarios_tested": 9,
+    "scenarios_passed": 9,
+    "mean_cold_latency_ms": 55.61,
+    "p95_latency_ms": 118.41,
+    "mean_warm_cached_latency_ms": 1.783,
+    "max_throughput_ops_per_sec": 560,
+    "scenarios": [
+        {
+            "id": 1,
+            "category": "M&A / Buyout Catalyst",
+            "ticker": "NVDA",
+            "headline": "NVIDIA to acquire AI chip startup in $12B all-cash takeover buyout deal",
+            "expected_action": "STRONG_BUY",
+            "actual_action": "STRONG_BUY",
+            "composite_score": 0.7523,
+            "conviction": 0.7523,
+            "event_type": "M_AND_A_TAKEOVER",
+            "veto_triggered": false,
+            "attributions": {
+                "finbert_sentiment_pct": 35.0,
+                "event_companion_pct": 46.1,
+                "dlinear_tcn_pct": 18.9
+            },
+            "latency_ms": 160.05,
+            "status": "PASS"
+        },
+        {
+            "id": 2,
+            "category": "Earnings Beat + Guidance Hike",
+            "ticker": "AAPL",
+            "headline": "Apple beats Q3 profit estimates, crushes earnings and raises full-year revenue outlook",
+            "expected_action": "STRONG_BUY",
+            "actual_action": "STRONG_BUY",
+            "composite_score": 0.8683,
+            "conviction": 0.8683,
+            "event_type": "EARNINGS_SURPRISE_UP",
+            "veto_triggered": false,
+            "attributions": {
+                "finbert_sentiment_pct": 35.0,
+                "event_companion_pct": 47.3,
+                "dlinear_tcn_pct": 17.7
+            },
+            "latency_ms": 49.43,
+            "status": "PASS"
+        },
+        {
+            "id": 3,
+            "category": "SEC Fraud & Criminal Probe",
+            "ticker": "SMCI",
+            "headline": "DOJ and SEC launch criminal accounting fraud investigation and issue subpoenas",
+            "expected_action": "STRONG_SELL",
+            "actual_action": "STRONG_SELL",
+            "composite_score": -0.6183,
+            "conviction": 0.6183,
+            "event_type": "LEGAL_FRAUD_INQUIRY",
+            "veto_triggered": false,
+            "attributions": {
+                "finbert_sentiment_pct": 35.0,
+                "event_companion_pct": 59.5,
+                "dlinear_tcn_pct": 5.5
+            },
+            "latency_ms": 40.38,
+            "status": "PASS"
+        },
+        {
+            "id": 4,
+            "category": "FDA Drug Approval",
+            "ticker": "LLY",
+            "headline": "FDA grants accelerated breakthrough approval to novel weight loss drug",
+            "expected_action": "STRONG_BUY",
+            "actual_action": "STRONG_BUY",
+            "composite_score": 0.8899,
+            "conviction": 0.8899,
+            "event_type": "FDA_DRUG_APPROVAL",
+            "veto_triggered": false,
+            "attributions": {
+                "finbert_sentiment_pct": 35.0,
+                "event_companion_pct": 44.1,
+                "dlinear_tcn_pct": 20.9
+            },
+            "latency_ms": 36.93,
+            "status": "PASS"
+        },
+        {
+            "id": 5,
+            "category": "Capital Dilution Offering",
+            "ticker": "MSTR",
+            "headline": "Company announces massive $3B secondary share dilution stock offering",
+            "expected_action": "SELL",
+            "actual_action": "SELL",
+            "composite_score": -0.2051,
+            "conviction": 0.2051,
+            "event_type": "CAPITAL_DILUTION_OFFERING",
+            "veto_triggered": false,
+            "attributions": {
+                "finbert_sentiment_pct": 43.9,
+                "event_companion_pct": 33.4,
+                "dlinear_tcn_pct": 22.7
+            },
+            "latency_ms": 37.8,
+            "status": "PASS"
+        },
+        {
+            "id": 6,
+            "category": "Reddit Gamma Squeeze & Slang",
+            "ticker": "GME",
+            "headline": "\ud83d\ude80\ud83d\ude80\ud83d\ude80 diamond hands to the moon! massive call sweep and short squeeze trending on wallstreetbets",
+            "expected_action": "BUY",
+            "actual_action": "BUY",
+            "composite_score": 0.2796,
+            "conviction": 0.2796,
+            "event_type": "RETAIL_FOMO_VIRALITY",
+            "veto_triggered": false,
+            "attributions": {
+                "finbert_sentiment_pct": 39.4,
+                "event_companion_pct": 26.4,
+                "dlinear_tcn_pct": 34.2
+            },
+            "latency_ms": 55.96,
+            "status": "PASS"
+        },
+        {
+            "id": 7,
+            "category": "Panic Liquidation Cascade",
+            "ticker": "TSLA",
+            "headline": "Catastrophic liquidation bloodbath and margin calls trigger flash crash plunge",
+            "expected_action": "STRONG_SELL",
+            "actual_action": "STRONG_SELL",
+            "composite_score": -0.5905,
+            "conviction": 0.5905,
+            "event_type": "PANIC_DUMP_CASCADE",
+            "veto_triggered": false,
+            "attributions": {
+                "finbert_sentiment_pct": 42.5,
+                "event_companion_pct": 41.6,
+                "dlinear_tcn_pct": 16.0
+            },
+            "latency_ms": 38.89,
+            "status": "PASS"
+        },
+        {
+            "id": 8,
+            "category": "Nuanced Earnings Improvement",
+            "ticker": "AMZN",
+            "headline": "Q2 operating loss narrows significantly as cost-cutting initiatives gain traction",
+            "expected_action": "BUY",
+            "actual_action": "BUY",
+            "composite_score": 0.3904,
+            "conviction": 0.3904,
+            "event_type": "GENERAL_MARKET_FLOW",
+            "veto_triggered": false,
+            "attributions": {
+                "finbert_sentiment_pct": 42.2,
+                "event_companion_pct": 29.2,
+                "dlinear_tcn_pct": 28.5
+            },
+            "latency_ms": 39.31,
+            "status": "PASS"
+        },
+        {
+            "id": 9,
+            "category": "Bull Trap VETO (Social Hype vs Dark Pool Dump)",
+            "ticker": "COIN",
+            "headline": "Social media hype urges aggressive call buying and FOMO",
+            "expected_action": "NEUTRAL",
+            "actual_action": "NEUTRAL",
+            "composite_score": 0.0894,
+            "conviction": 0.0894,
+            "event_type": "RETAIL_FOMO_VIRALITY",
+            "veto_triggered": true,
+            "attributions": {
+                "finbert_sentiment_pct": 40.5,
+                "event_companion_pct": 39.7,
+                "dlinear_tcn_pct": 19.8
+            },
+            "latency_ms": 41.72,
+            "status": "PASS"
+        }
+    ]
+}

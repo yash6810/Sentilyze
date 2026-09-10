@@ -22,6 +22,41 @@ from src.fundamental_valuation import (
 )
 
 
+@st.cache_data(ttl=600)
+def _get_cached_pairs():
+    return scan_pairs_universe()
+
+
+@st.cache_data(ttl=600)
+def _get_cached_gnn(ticker: str, shock_pct: float = -5.0):
+    return analyze_supply_chain_spillover(origin_ticker=ticker, shock_pct=shock_pct)
+
+
+@st.cache_data(ttl=600)
+def _get_cached_stress(
+    initial_equity: float = 100000.0, num_paths: int = 1000, days: int = 30
+):
+    return run_monte_carlo_var(
+        initial_equity=initial_equity, num_paths=num_paths, days=days
+    )
+
+
+@st.cache_data(ttl=600)
+def _get_cached_forensic(ticker: str):
+    m_score = calculate_beneish_m_score(ticker)
+    debt = analyze_debt_maturity_wall(ticker)
+    return m_score, debt
+
+
+@st.cache_data(ttl=600)
+def _get_cached_dcf(ticker: str):
+    fin = fetch_financial_statements(ticker)
+    f_score = calculate_piotroski_f_score(ticker, fin)
+    z_score = calculate_altman_z_score(ticker, fin)
+    dcf = calculate_dcf_fair_value(ticker, fin)
+    return fin, f_score, z_score, dcf
+
+
 def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
     """Renders specialized institutional quant workspaces."""
     if mode == "statarb":
@@ -32,7 +67,7 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
             badge_color="#6366F1",
         )
         with st.spinner("Scanning universe pairs for cointegration..."):
-            pairs_list = scan_pairs_universe()
+            pairs_list = _get_cached_pairs()
         if pairs_list:
             rows = []
             for p in pairs_list:
@@ -66,9 +101,7 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
         with st.spinner(
             f"Simulating supply chain shock propagation for {selected_ticker}..."
         ):
-            gnn_res = analyze_supply_chain_spillover(
-                origin_ticker=selected_ticker, shock_pct=-5.0
-            )
+            gnn_res = _get_cached_gnn(ticker=selected_ticker, shock_pct=-5.0)
 
         st.markdown(
             f"**Simulated Upstream Shock:** `{gnn_res.get('input_shock_pct', -5.0):+.1f}%` revenue drop on `{selected_ticker}`"
@@ -100,7 +133,7 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
             badge_color="#EF4444",
         )
         with st.spinner("Running Monte Carlo Value-at-Risk simulations..."):
-            stress_res = run_monte_carlo_var(
+            stress_res = _get_cached_stress(
                 initial_equity=100000.0, num_paths=1000, days=30
             )
 
@@ -131,8 +164,7 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
             badge_text="FORENSIC AUDIT",
             badge_color="#F59E0B",
         )
-        m_score = calculate_beneish_m_score(selected_ticker)
-        debt = analyze_debt_maturity_wall(selected_ticker)
+        m_score, debt = _get_cached_forensic(selected_ticker)
 
         f1, f2 = st.columns(2)
         with f1:
@@ -190,10 +222,7 @@ def render_deep_quant_workspace(selected_ticker: str, mode: str = "statarb"):
             badge_text="FUNDAMENTAL DCF",
             badge_color="#38BDF8",
         )
-        fin = fetch_financial_statements(selected_ticker)
-        f_score = calculate_piotroski_f_score(selected_ticker, fin)
-        z_score = calculate_altman_z_score(selected_ticker, fin)
-        dcf = calculate_dcf_fair_value(selected_ticker, fin)
+        fin, f_score, z_score, dcf = _get_cached_dcf(selected_ticker)
 
         d1, d2, d3 = st.columns(3)
         d1.metric(

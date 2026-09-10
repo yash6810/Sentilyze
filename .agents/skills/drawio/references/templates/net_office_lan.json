@@ -1,0 +1,95 @@
+{
+  "title": "Office LAN Network Layout",
+  "type": "network",
+  "theme": "light",
+  "containers": [
+    {
+      "id": "vlan_10",
+      "label": "VLAN 10 - Users",
+      "type": "vlan",
+      "parentId": "1"
+    },
+    {
+      "id": "vlan_20",
+      "label": "VLAN 20 - Printers",
+      "type": "vlan",
+      "parentId": "1"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "router",
+      "label": "Edge Router",
+      "type": "router",
+      "parentId": "1"
+    },
+    {
+      "id": "fw",
+      "label": "NextGen Firewall",
+      "type": "firewall",
+      "parentId": "1"
+    },
+    {
+      "id": "core_sw",
+      "label": "Core Switch",
+      "type": "switch",
+      "parentId": "1"
+    },
+    {
+      "id": "access_sw_a",
+      "label": "Access Switch A",
+      "type": "switch",
+      "parentId": "vlan_10"
+    },
+    {
+      "id": "access_sw_b",
+      "label": "Access Switch B",
+      "type": "switch",
+      "parentId": "vlan_20"
+    },
+    {
+      "id": "pc_a",
+      "label": "User PC 1",
+      "type": "user",
+      "parentId": "vlan_10"
+    },
+    {
+      "id": "printer",
+      "label": "Office Printer",
+      "type": "user",
+      "parentId": "vlan_20"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "router",
+      "targetId": "fw",
+      "label": "WAN Uplink"
+    },
+    {
+      "sourceId": "fw",
+      "targetId": "core_sw",
+      "label": "LAN Trunk"
+    },
+    {
+      "sourceId": "core_sw",
+      "targetId": "access_sw_a",
+      "label": "Trunk Link"
+    },
+    {
+      "sourceId": "core_sw",
+      "targetId": "access_sw_b",
+      "label": "Trunk Link"
+    },
+    {
+      "sourceId": "access_sw_a",
+      "targetId": "pc_a",
+      "label": "Ethernet"
+    },
+    {
+      "sourceId": "access_sw_b",
+      "targetId": "printer",
+      "label": "Ethernet"
+    }
+  ]
+}

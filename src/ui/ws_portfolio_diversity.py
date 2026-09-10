@@ -16,6 +16,11 @@ from src.paper_broker import PaperBroker
 from src.config import COMPANY_NAMES
 
 
+@st.cache_data(ttl=300)
+def _get_cached_diversity_grade(tickers: tuple, period: str):
+    return calculate_portfolio_diversity_grade(list(tickers), period=period)
+
+
 def render_portfolio_diversity_workspace():
     st.markdown("### 🧬 Portfolio Diversity & Correlation Health Grader")
     st.caption(
@@ -72,8 +77,8 @@ def render_portfolio_diversity_workspace():
     )
 
     with st.spinner("Calculating Pearson Correlation Matrix & Eigenvalue Entropy..."):
-        diversity_res = calculate_portfolio_diversity_grade(
-            selected_tickers, period=timeframe
+        diversity_res = _get_cached_diversity_grade(
+            tuple(selected_tickers), period=timeframe
         )
 
     grade = diversity_res.get("grade", "N/A")

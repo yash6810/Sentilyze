@@ -28,6 +28,45 @@ from src.chart_pattern_learning import (
 )
 
 
+@st.cache_data(ttl=300)
+def _compute_live_prediction_payload(ticker: str):
+    features_df, price_df, news_df = preprocess_data(
+        ticker, period="1y", use_cache=True
+    )
+    if features_df.empty:
+        return None
+
+    latest_row = features_df.tail(1)
+    model_path = os.path.join("models", f"{ticker}_model.json")
+    if not os.path.exists(model_path):
+        model_path = os.path.join("models", "NVDA_model.json")
+
+    model = load_model(model_path)
+    prediction, confidence = get_prediction_on_latest_data(model, latest_row, FEATURES)
+
+    sm_data = calculate_smart_money_zones(price_df)
+    mtf_data = evaluate_multi_timeframe_confluence(ticker, price_df)
+    detected_patterns = detect_classical_chart_patterns(price_df)
+    chart_twin = match_historical_chart_twins(price_df)
+    chart_story = generate_ai_chart_explanation(
+        ticker, price_df, detected_patterns, chart_twin, sm_data
+    )
+
+    return {
+        "features_df": features_df,
+        "price_df": price_df,
+        "news_df": news_df,
+        "latest_row": latest_row,
+        "prediction": prediction,
+        "confidence": confidence,
+        "sm_data": sm_data,
+        "mtf_data": mtf_data,
+        "detected_patterns": detected_patterns,
+        "chart_twin": chart_twin,
+        "chart_story": chart_story,
+    }
+
+
 def render_live_prediction_workspace(ticker: str):
     """Renders the high-speed live inference and directional prediction workspace."""
     comp_name = COMPANY_NAMES.get(ticker, ticker)
@@ -45,26 +84,24 @@ def render_live_prediction_workspace(ticker: str):
             current_price = float(quote.get("price", 100.0))
             price_chg = float(quote.get("change_pct", 0.0))
 
-            # 2. Preprocess features and price history
-            features_df, price_df, news_df = preprocess_data(
-                ticker, period="1y", use_cache=True
-            )
-
-            if features_df.empty:
+            # 2. Get cached inference payload
+            payload = _compute_live_prediction_payload(ticker)
+            if payload is None:
                 st.warning(f"Insufficient feature history for {ticker}.")
                 return
 
-            latest_row = features_df.tail(1)
+            features_df = payload["features_df"]
+            price_df = payload["price_df"]
+            news_df = payload.get("news_df", pd.DataFrame())
+            latest_row = payload["latest_row"]
+            prediction = payload["prediction"]
+            confidence = payload["confidence"]
+            sm_data = payload["sm_data"]
+            mtf_data = payload["mtf_data"]
+            detected_patterns = payload["detected_patterns"]
+            chart_twin = payload["chart_twin"]
+            chart_story = payload["chart_story"]
 
-            # 3. Load Walk-Forward Model & Predict
-            model_path = os.path.join("models", f"{ticker}_model.json")
-            if not os.path.exists(model_path):
-                model_path = os.path.join("models", "NVDA_model.json")
-
-            model = load_model(model_path)
-            prediction, confidence = get_prediction_on_latest_data(
-                model, latest_row, FEATURES
-            )
             pred_class = int(prediction[0])
             pred_prob = float(confidence[0][1])
 
@@ -95,15 +132,6 @@ def render_live_prediction_workspace(ticker: str):
                 float(latest_row.get("volume_ratio", 1.0).iloc[0])
                 if "volume_ratio" in latest_row
                 else 1.0
-            )
-
-            # Smart Money & Visual Pattern Analysis
-            sm_data = calculate_smart_money_zones(price_df)
-            mtf_data = evaluate_multi_timeframe_confluence(ticker, price_df)
-            detected_patterns = detect_classical_chart_patterns(price_df)
-            chart_twin = match_historical_chart_twins(price_df)
-            chart_story = generate_ai_chart_explanation(
-                ticker, price_df, detected_patterns, chart_twin, sm_data
             )
 
         except Exception as e:

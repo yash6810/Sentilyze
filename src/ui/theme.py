@@ -51,9 +51,9 @@ THEMES = {
 }
 
 
-def inject_custom_theme(theme_name: str = "🌌 Obsidian Terminal"):
+def inject_custom_theme(theme_name: str = "🏛️ Goldman Slate"):
     """Injects high-performance, bespoke CSS styling into the Streamlit app."""
-    t = THEMES.get(theme_name, THEMES["🌌 Obsidian Terminal"])
+    t = THEMES.get(theme_name, THEMES["🏛️ Goldman Slate"])
 
     css = f"""
     <style>

@@ -1,0 +1,71 @@
+{
+  "title": "AWS Serverless API",
+  "type": "architecture",
+  "theme": "light",
+  "containers": [],
+  "nodes": [
+    {
+      "id": "user",
+      "label": "Clients",
+      "type": "user",
+      "parentId": "1"
+    },
+    {
+      "id": "route53",
+      "label": "Route 53",
+      "type": "route53",
+      "parentId": "1"
+    },
+    {
+      "id": "waf",
+      "label": "WAF Protection",
+      "type": "waf",
+      "parentId": "1"
+    },
+    {
+      "id": "apigw",
+      "label": "API Gateway",
+      "type": "apigateway",
+      "parentId": "1"
+    },
+    {
+      "id": "handler",
+      "label": "Lambda Handler",
+      "type": "lambda",
+      "parentId": "1"
+    },
+    {
+      "id": "db",
+      "label": "DynamoDB Table",
+      "type": "dynamodb",
+      "parentId": "1"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "user",
+      "targetId": "route53",
+      "label": "DNS Lookup"
+    },
+    {
+      "sourceId": "user",
+      "targetId": "waf",
+      "label": "HTTP Request"
+    },
+    {
+      "sourceId": "waf",
+      "targetId": "apigw",
+      "label": "Forward Clean Traffic"
+    },
+    {
+      "sourceId": "apigw",
+      "targetId": "handler",
+      "label": "Trigger Lambda"
+    },
+    {
+      "sourceId": "handler",
+      "targetId": "db",
+      "label": "Query/Put Item"
+    }
+  ]
+}

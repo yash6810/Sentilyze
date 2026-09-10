@@ -8,7 +8,6 @@ import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 from src.ui.components import render_workspace_header
-import train
 
 
 def render_backtesting_workspace(selected_ticker: str):
@@ -37,6 +36,8 @@ def render_backtesting_workspace(selected_ticker: str):
                 f"Training Walk-Forward Model & generating tearsheet for {selected_ticker}..."
             ):
                 try:
+                    import train
+
                     train.main(selected_ticker, use_cache=True)
                     st.success(
                         f"✅ Model training and backtesting complete for {selected_ticker}!"
@@ -52,7 +53,7 @@ def render_backtesting_workspace(selected_ticker: str):
         )
         return
 
-    with open(metrics_file, "r") as f:
+    with open(metrics_file, "r", encoding="utf-8") as f:
         metrics = json.load(f)
 
     strat_ret = float(
@@ -77,6 +78,43 @@ def render_backtesting_workspace(selected_ticker: str):
     b2.metric("⚡ Sharpe Ratio", f"{sharpe:.2f}")
     b3.metric("🛡️ Max Drawdown", f"{max_dd*100:.2f}%")
     b4.metric("🎯 Win Rate", f"{win_rate*100:.1f}%")
+
+    # Model Classification & Directional Accuracy KPIs
+    acc = metrics.get("accuracy")
+    roc_auc = metrics.get("roc_auc")
+    prec = metrics.get("precision")
+    rec = metrics.get("recall")
+    f1 = metrics.get("f1")
+    base_acc = metrics.get("baseline_logistic_accuracy")
+
+    if acc is not None:
+        st.markdown(
+            f"<div style='margin-top: 14px; margin-bottom: 6px; font-weight: 700; color: #94A3B8; font-size: 0.82rem; letter-spacing: 0.05em; text-transform: uppercase;'>🧠 Machine Learning Validation Metrics ({selected_ticker}) — 5-Fold Purged CPCV</div>",
+            unsafe_allow_html=True,
+        )
+        c1, c2, c3, c4, c5 = st.columns(5)
+        c1.metric(
+            "🎯 Model Accuracy",
+            f"{float(acc)*100:.2f}%",
+            delta=(
+                f"vs Baseline: {float(base_acc)*100:.2f}%"
+                if base_acc is not None
+                else None
+            ),
+        )
+        c2.metric(
+            "📊 ROC-AUC",
+            f"{float(roc_auc):.4f}" if roc_auc is not None else "N/A",
+        )
+        c3.metric(
+            "🎯 Precision",
+            f"{float(prec)*100:.2f}%" if prec is not None else "N/A",
+        )
+        c4.metric(
+            "🔄 Recall",
+            f"{float(rec)*100:.2f}%" if rec is not None else "N/A",
+        )
+        c5.metric("⚖️ F1 Score", f"{float(f1):.4f}" if f1 is not None else "N/A")
 
     # Cumulative Return Chart
     if os.path.exists(portfolio_file):
@@ -150,3 +188,96 @@ def render_backtesting_workspace(selected_ticker: str):
         if os.path.exists(heatmap_path):
             st.markdown("### 🗓️ Monthly Returns Distribution Heatmap")
             st.image(heatmap_path, use_container_width=True)
+
+    # Universe-Wide Accuracy & Model Performance Leaderboard
+    with st.expander(
+        "📊 Universe-Wide Model Accuracy & Performance Leaderboard (All 535 Tickers)",
+        expanded=False,
+    ):
+        import glob
+
+        @st.cache_data(ttl=600)
+        def _get_universe_leaderboard():
+            summary_path = os.path.join("results", "universe_summary.json")
+            if os.path.exists(summary_path):
+                try:
+                    with open(summary_path, "r", encoding="utf-8") as sf:
+                        data = json.load(sf)
+                    df_lead = pd.DataFrame(data)
+                    df_lead.rename(
+                        columns={
+                            "ticker": "Ticker",
+                            "accuracy": "Accuracy (%)",
+                            "roc_auc": "ROC-AUC",
+                            "sharpe": "Sharpe Ratio",
+                            "return": "Strategy Return (%)",
+                            "precision": "Precision (%)",
+                            "recall": "Recall (%)",
+                            "f1": "F1 Score",
+                        },
+                        inplace=True,
+                    )
+                    return df_lead
+                except Exception:
+                    pass
+
+            rows = []
+            for f in glob.glob("results/*_metrics.json"):
+                t = os.path.basename(f).replace("_metrics.json", "")
+                try:
+                    with open(f, "r", encoding="utf-8") as jf:
+                        d = json.load(jf)
+                        if "accuracy" in d and d["accuracy"] is not None:
+                            rows.append(
+                                {
+                                    "Ticker": t,
+                                    "Accuracy (%)": round(
+                                        float(d.get("accuracy", 0)) * 100, 2
+                                    ),
+                                    "ROC-AUC": round(float(d.get("roc_auc", 0)), 4),
+                                    "Sharpe Ratio": round(
+                                        float(d.get("sharpe_ratio", 0)), 2
+                                    ),
+                                    "Strategy Return (%)": round(
+                                        float(d.get("strategy_total_return", 0)) * 100,
+                                        2,
+                                    ),
+                                    "Precision (%)": round(
+                                        float(d.get("precision", 0)) * 100, 2
+                                    ),
+                                    "Recall (%)": round(
+                                        float(d.get("recall", 0)) * 100, 2
+                                    ),
+                                    "F1 Score": round(float(d.get("f1", 0)), 4),
+                                }
+                            )
+                except Exception:
+                    pass
+            df_lead = pd.DataFrame(rows)
+            if not df_lead.empty:
+                df_lead = df_lead.sort_values(by="Accuracy (%)", ascending=False)
+            return df_lead
+
+        df_leaderboard = _get_universe_leaderboard()
+        if not df_leaderboard.empty:
+            l_col1, l_col2, l_col3, l_col4 = st.columns(4)
+            l_col1.metric("🌐 Universe Evaluated", f"{len(df_leaderboard)} Tickers")
+            l_col2.metric(
+                "🎯 Mean Accuracy",
+                f"{df_leaderboard['Accuracy (%)'].mean():.2f}%",
+            )
+            l_col3.metric(
+                "⚡ Mean Sharpe Ratio",
+                f"{df_leaderboard['Sharpe Ratio'].mean():.2f}",
+            )
+            l_col4.metric(
+                "🏆 Top Accuracy Asset",
+                f"{df_leaderboard.iloc[0]['Ticker']} ({df_leaderboard.iloc[0]['Accuracy (%)']}%)",
+            )
+
+            st.dataframe(
+                df_leaderboard,
+                use_container_width=True,
+                height=350,
+                hide_index=True,
+            )

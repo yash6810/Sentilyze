@@ -1,0 +1,60 @@
+{
+  "title": "Gas Compression Station PFD",
+  "type": "pfd",
+  "theme": "light",
+  "containers": [],
+  "nodes": [
+    {
+      "id": "ko_drum",
+      "label": "Knockout Drum",
+      "type": "vessel",
+      "parentId": "1"
+    },
+    {
+      "id": "compressor",
+      "label": "Centrifugal Compressor",
+      "type": "compressor",
+      "parentId": "1"
+    },
+    {
+      "id": "cooler",
+      "label": "Gas Cooler",
+      "type": "heat_exchanger",
+      "parentId": "1"
+    },
+    {
+      "id": "separator",
+      "label": "Discharge Separator",
+      "type": "vessel",
+      "parentId": "1"
+    },
+    {
+      "id": "pump",
+      "label": "Condensate Pump",
+      "type": "pump",
+      "parentId": "1"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "ko_drum",
+      "targetId": "compressor",
+      "label": "Wet Gas Stream"
+    },
+    {
+      "sourceId": "compressor",
+      "targetId": "cooler",
+      "label": "Compressed Hot Gas"
+    },
+    {
+      "sourceId": "cooler",
+      "targetId": "separator",
+      "label": "Cool Gas/Liquid"
+    },
+    {
+      "sourceId": "separator",
+      "targetId": "pump",
+      "label": "Separated Condensate"
+    }
+  ]
+}

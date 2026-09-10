@@ -1,0 +1,92 @@
+[
+  {
+    "id": "aws_3tier_vpc",
+    "description": "Multi-AZ 3-tier AWS architecture with Public, App, and Data subnets, ALB, EC2, and RDS",
+    "file": "aws_3tier_vpc.json",
+    "category": "architecture"
+  },
+  {
+    "id": "aws_serverless_api",
+    "description": "AWS Serverless API using Route53, WAF, API Gateway, Lambda handler, and DynamoDB",
+    "file": "aws_serverless_api.json",
+    "category": "architecture"
+  },
+  {
+    "id": "aws_ecs_fargate",
+    "description": "ECS Fargate services running behind ALB in private subnets with CloudWatch Monitoring",
+    "file": "aws_ecs_fargate.json",
+    "category": "architecture"
+  },
+  {
+    "id": "aws_event_driven",
+    "description": "Event-driven architecture with EventBridge router, SQS queues, SNS topics, and Lambdas",
+    "file": "aws_event_driven.json",
+    "category": "architecture"
+  },
+  {
+    "id": "aws_data_pipeline",
+    "description": "Data ingestion and analytics pipeline using Kinesis streams, Lambda parser, S3, and Redshift",
+    "file": "aws_data_pipeline.json",
+    "category": "architecture"
+  },
+  {
+    "id": "gcp_3tier_vpc",
+    "description": "3-tier GCP architecture with Global HTTP Load Balancing, Compute Engine VMs, and Cloud SQL",
+    "file": "gcp_3tier_vpc.json",
+    "category": "architecture"
+  },
+  {
+    "id": "gcp_serverless_run",
+    "description": "GCP Serverless stack with Cloud Run microservices, Cloud Pub/Sub queue, and Cloud Firestore DB",
+    "file": "gcp_serverless_run.json",
+    "category": "architecture"
+  },
+  {
+    "id": "gcp_data_lakehouse",
+    "description": "GCP Data Analytics Lakehouse using Cloud Storage, Dataflow ETL, BigQuery, and Looker BI",
+    "file": "gcp_data_lakehouse.json",
+    "category": "architecture"
+  },
+  {
+    "id": "net_office_lan",
+    "description": "Office LAN topology with Firewall, Core Switches, Access Switches, and VLANs",
+    "file": "net_office_lan.json",
+    "category": "network"
+  },
+  {
+    "id": "net_dmz_network",
+    "description": "Network DMZ structure protecting internal services with External/Internal Firewalls",
+    "file": "net_dmz_network.json",
+    "category": "network"
+  },
+  {
+    "id": "erd_ecom_schema",
+    "description": "Relational ERD schema for E-Commerce: users, products, orders, order_items, and payments",
+    "file": "erd_ecom_schema.json",
+    "category": "erd"
+  },
+  {
+    "id": "erd_billing_schema",
+    "description": "Relational ERD schema for Subscription Billing: customers, subscriptions, invoices, and plans",
+    "file": "erd_billing_schema.json",
+    "category": "erd"
+  },
+  {
+    "id": "pfd_gas_compressor",
+    "description": "PFD gas compression system with knock-out vessel, compressor, cooler, and separators",
+    "file": "pfd_gas_compressor.json",
+    "category": "pfd"
+  },
+  {
+    "id": "pfd_copper_separation",
+    "description": "PFD copper processing circuit with crushing mill, flotation cells, and thickening tank",
+    "file": "pfd_copper_separation.json",
+    "category": "pfd"
+  },
+  {
+    "id": "aws_gke_kubernetes",
+    "description": "AWS EKS / GKE Kubernetes cluster architecture with pods, services, and ingress controller",
+    "file": "aws_gke_kubernetes.json",
+    "category": "architecture"
+  }
+]

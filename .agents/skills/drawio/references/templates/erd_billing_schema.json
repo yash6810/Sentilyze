@@ -1,0 +1,89 @@
+{
+  "title": "Subscription Billing Schema",
+  "type": "erd",
+  "theme": "light",
+  "containers": [],
+  "nodes": [
+    {
+      "id": "tbl_customers",
+      "label": "customers",
+      "type": "table",
+      "parentId": "1",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INT",
+          "pk": true
+        },
+        {
+          "name": "stripe_id",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(255)"
+        }
+      ]
+    },
+    {
+      "id": "tbl_subscriptions",
+      "label": "subscriptions",
+      "type": "table",
+      "parentId": "1",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INT",
+          "pk": true
+        },
+        {
+          "name": "customer_id",
+          "type": "INT",
+          "fk": true
+        },
+        {
+          "name": "plan_id",
+          "type": "INT",
+          "fk": true
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)"
+        }
+      ]
+    },
+    {
+      "id": "tbl_plans",
+      "label": "plans",
+      "type": "table",
+      "parentId": "1",
+      "columns": [
+        {
+          "name": "id",
+          "type": "INT",
+          "pk": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(255)"
+        },
+        {
+          "name": "monthly_price",
+          "type": "DECIMAL(10,2)"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "tbl_customers",
+      "targetId": "tbl_subscriptions",
+      "label": "1 to many"
+    },
+    {
+      "sourceId": "tbl_plans",
+      "targetId": "tbl_subscriptions",
+      "label": "1 to many"
+    }
+  ]
+}

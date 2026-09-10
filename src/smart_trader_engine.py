@@ -188,10 +188,17 @@ def calculate_structural_trailing_stop(
     new_sl = current_sl
     action = "MAINTAIN_STOP"
 
-    # Rule A: Breakeven Lock at +1.5% profit
-    if gain_pct >= 1.5 and new_sl < entry_price:
-        new_sl = round(entry_price * 1.001, 2)  # Entry + commission cushion
-        action = "RATCHET_TO_BREAKEVEN (Risk-Free)"
+    # Rule A1: Zero-Giveback Micro-Profit Breakeven Lock at +0.50% (Covers friction, guarantees risk-free)
+    if gain_pct >= 0.50 and new_sl < entry_price * 1.002:
+        new_sl = round(
+            entry_price * 1.002, 2
+        )  # Entry + 0.2% commission/slippage cushion
+        action = "ZERO_GIVEBACK_BREAKEVEN_LOCKED (Risk-Free)"
+
+    # Rule A2: Tier-1 Profit Bank Floor at +1.00% (Guarantees at least +0.50% banked)
+    if gain_pct >= 1.00 and new_sl < entry_price * 1.005:
+        new_sl = round(entry_price * 1.005, 2)
+        action = "TIER1_PROFIT_BANK_LOCKED (+0.50% Secured)"
 
     # Rule B: Structural Swing Low Trailing
     if not df_history.empty and len(df_history) >= 15:
@@ -209,12 +216,12 @@ def calculate_structural_trailing_stop(
                     new_sl = candidate_sl
                     action = f"STRUCTURAL_TRAIL_SWING_LOW (${new_sl:,.2f})"
 
-    # Rule C: Profit Lock at +10%+ (Never give back more than 30% of peak gains)
+    # Rule C: Profit Lock at +10%+ (Never give back more than 20% of peak gains)
     if gain_pct >= 10.0:
-        profit_lock_floor = round(entry_price + (current_price - entry_price) * 0.70, 2)
+        profit_lock_floor = round(entry_price + (current_price - entry_price) * 0.80, 2)
         if profit_lock_floor > new_sl:
             new_sl = profit_lock_floor
-            action = f"MEGA_RUNNER_PROFIT_LOCK (${new_sl:,.2f} - 70% Banked)"
+            action = f"MEGA_RUNNER_PROFIT_LOCK (${new_sl:,.2f} - 80% Banked)"
 
     return new_sl, action
 
@@ -224,12 +231,12 @@ def apply_high_watermark_profit_lock(
     entry_price: float,
     highest_price_seen: float,
     current_sl: float,
-    min_profit_threshold_pct: float = 1.5,
-    lock_fraction: float = 0.75,
+    min_profit_threshold_pct: float = 1.2,
+    lock_fraction: float = 0.80,
 ) -> Tuple[float, float, str]:
     """
-    Guarantees that once a trade reaches peak profit, the bot NEVER gives back > 25% of gains.
-    Locks in at least 75% of peak gains into a hard stop floor.
+    Guarantees that once a trade reaches peak profit, the bot NEVER gives back > 20% of gains.
+    Locks in at least 80% of peak gains into a hard stop floor.
     """
     if current_price <= 0 or entry_price <= 0:
         return current_sl, highest_price_seen, "MAINTAIN_INITIAL_STOP"
@@ -240,14 +247,46 @@ def apply_high_watermark_profit_lock(
     new_sl = current_sl
     action = "MAINTAIN_STOP"
 
+    # Micro-breakeven lock if peak reached >= +0.50%
+    if peak_gain_pct >= 0.50 and new_sl < entry_price * 1.002:
+        new_sl = round(entry_price * 1.002, 2)
+        action = "ZERO_GIVEBACK_PEAK_BREAKEVEN_LOCKED"
+
+    # Tier-1 profit lock if peak reached >= +1.00%
+    if peak_gain_pct >= 1.00 and new_sl < entry_price * 1.005:
+        new_sl = round(entry_price * 1.005, 2)
+        action = "TIER1_PEAK_PROFIT_LOCKED (+0.50%)"
+
+    # Institutional 80% peak gain retention for moves >= min_profit_threshold_pct (default 1.2%)
     if peak_gain_pct >= min_profit_threshold_pct:
         locked_profit_per_share = (peak_price - entry_price) * lock_fraction
         candidate_sl = round(entry_price + locked_profit_per_share, 2)
         if candidate_sl > new_sl:
             new_sl = candidate_sl
-            action = f"HIGH_WATERMARK_75PCT_LOCK (Peak: ${peak_price:.2f} | Protected SL Floor: ${new_sl:.2f})"
+            action = f"HIGH_WATERMARK_80PCT_LOCK (Peak: ${peak_price:.2f} | Protected SL Floor: ${new_sl:.2f})"
 
     return new_sl, peak_price, action
+
+
+def enforce_capital_shield_stop_floor(
+    entry_price: float,
+    current_sl: float,
+    max_loss_pct: float = 2.50,
+) -> Tuple[float, str]:
+    """
+    Enforces a strict downside capital shield ceiling (max 2.50% loss from entry).
+    Prevents any position from ever sinking into severe drawdowns.
+    """
+    if entry_price <= 0:
+        return current_sl, "INVALID_ENTRY"
+
+    hard_floor = round(entry_price * (1.0 - (max_loss_pct / 100.0)), 2)
+    if current_sl < hard_floor:
+        return (
+            hard_floor,
+            f"CAPITAL_SHIELD_FLOOR_ENFORCED (${hard_floor:.2f} max -{max_loss_pct:.1f}%)",
+        )
+    return current_sl, "MAINTAIN_PROTECTIVE_STOP"
 
 
 def evaluate_multi_timeframe_confluence(

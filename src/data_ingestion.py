@@ -243,6 +243,22 @@ def _fetch_polygon_news_feed(
     return pd.DataFrame()
 
 
+def _fetch_reddit_financial_news(ticker: str) -> pd.DataFrame:
+    """Fetches social intelligence and market discussions across 8 financial subreddits."""
+    try:
+        from src.reddit_premarket_station import fetch_all_reddit_headlines_for_ticker
+
+        df = fetch_all_reddit_headlines_for_ticker(ticker)
+        if not df.empty:
+            logger.info(
+                f"Successfully fetched {len(df)} Reddit social headlines for {ticker}"
+            )
+            return df
+    except Exception as e:
+        logger.debug(f"Reddit financial news fetch notice for {ticker}: {e}")
+    return pd.DataFrame()
+
+
 def get_news(
     ticker: str,
     api_key: str = None,
@@ -253,7 +269,7 @@ def get_news(
 ) -> pd.DataFrame:
     """
     Enterprise Multi-Source News Router:
-    Cascades through Google News RSS -> Yahoo Finance -> Finnhub -> Marketaux -> Polygon -> NewsAPI -> Local Cache.
+    Cascades through Google News RSS -> Yahoo Finance -> Finnhub -> Marketaux -> Polygon -> NewsAPI -> Reddit 8-Station Stream -> Local Cache.
     """
     clean_ticker = sanitize_filename(ticker)
     cache_path = safe_path_join(DATA_DIR, f"{clean_ticker}_news.csv")
@@ -316,7 +332,20 @@ def get_news(
                 except Exception as e:
                     logger.debug(f"NewsAPI query notice for {ticker}: {e}")
 
-        # 7. Fallback: Existing Cache or Synthetic Generation
+        # 7. Tier 7: Reddit 9-Station Financial Intelligence Stream
+        if articles_df.empty:
+            articles_df = _fetch_reddit_financial_news(ticker)
+
+        # 8. Tier 8: Multi-Hub Web News & SEC 8-K Scraper (Finviz, SEC EDGAR 8-K, Web Portals)
+        if articles_df.empty:
+            try:
+                from src.universal_web_scraper import scrape_ticker_news_from_web
+
+                articles_df = scrape_ticker_news_from_web(ticker)
+            except Exception as e:
+                logger.debug(f"Web scraper live news notice for {ticker}: {e}")
+
+        # 9. Fallback: Existing Cache or Synthetic Generation
         if articles_df.empty:
             if os.path.exists(cache_path):
                 logger.warning(f"Using existing cached news for {ticker} as fallback.")
@@ -682,6 +711,7 @@ def get_price_history(
     Enterprise Data Router: Fetches historical price data up to today using the best available provider.
     Priority: Alpaca Data API v2 -> Polygon.io -> FMP -> EODHD -> Yahoo Direct Chart -> yfinance -> Cache
     """
+    ticker = ticker.strip().replace(" ", "")
     clean_ticker = sanitize_filename(ticker)
     cache_path = safe_path_join(DATA_DIR, f"{clean_ticker}_price_history.csv")
     os.makedirs(DATA_DIR, exist_ok=True)

@@ -105,12 +105,20 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
             logger.warning(f"MLflow model log notice: {e}")
             mlflow.log_artifact(f"models/{ticker}_model.json")
 
-        # Save the heatmap
-        heatmap_fig.savefig(f"results/{ticker}_monthly_returns_heatmap.png")
-        mlflow.log_artifact(f"results/{ticker}_monthly_returns_heatmap.png")
-        logger.info(
-            f"Saved monthly returns heatmap to results/{ticker}_monthly_returns_heatmap.png"
-        )
+        # Save the heatmap and immediately release matplotlib memory
+        try:
+            if heatmap_fig is not None:
+                heatmap_fig.savefig(f"results/{ticker}_monthly_returns_heatmap.png")
+                mlflow.log_artifact(f"results/{ticker}_monthly_returns_heatmap.png")
+                logger.info(
+                    f"Saved monthly returns heatmap to results/{ticker}_monthly_returns_heatmap.png"
+                )
+        finally:
+            import matplotlib.pyplot as plt
+
+            if heatmap_fig is not None:
+                plt.close(heatmap_fig)
+            plt.close("all")
 
         # Save combined metrics to a JSON file
         combined_metrics = {**metrics, **backtest_metrics}
@@ -201,9 +209,17 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
         mlflow.log_artifact(f"results/{ticker}_X_test.csv")
         logger.info(f"Saved X_test to results/{ticker}_X_test.csv")
 
+        # Explicit garbage collection to prevent memory accumulation in batch runs
+        import gc
+
+        gc.collect()
+
 
 def train_sector_pooled_models(
-    tickers: list[str], leverage: float = 1.5, use_cache: bool = True
+    tickers: list[str],
+    leverage: float = 1.5,
+    use_cache: bool = True,
+    max_workers: int = 8,
 ) -> None:
     """
     Trains institutional ACPM Sector-Pooled Multi-Task models across the universe.
@@ -229,12 +245,12 @@ def train_sector_pooled_models(
         f"📊 Formed {len(sector_groups)} GICS Sector Clusters: {list(sector_groups.keys())}"
     )
 
-    # 2. Train assets with high-throughput worker pool
-    max_workers = min(os.cpu_count() or 4, 8)
+    # 2. Train assets with high-throughput worker pool using specified CPU cores (default 8)
+    workers_count = max_workers or 8
     logger.info(
-        f"🚀 Executing parallel sector-pooled booster training across {max_workers} threads..."
+        f"🚀 Executing parallel sector-pooled booster training across {workers_count} CPU threads..."
     )
-    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=workers_count) as executor:
         futures = {executor.submit(main, t, leverage, use_cache): t for t in tickers}
         for future in concurrent.futures.as_completed(futures):
             t = futures[future]
@@ -277,6 +293,12 @@ if __name__ == "__main__":
         action="store_true",
         help="Train models in parallel across CPU cores using ProcessPoolExecutor",
     )
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=8,
+        help="Number of CPU worker threads to use for parallel training (default: 8)",
+    )
     args = parser.parse_args()
 
     if args.all or args.acpm_pool:
@@ -293,7 +315,10 @@ if __name__ == "__main__":
             )
             if args.acpm_pool or args.parallel:
                 train_sector_pooled_models(
-                    tickers, leverage=args.leverage, use_cache=args.use_cache
+                    tickers,
+                    leverage=args.leverage,
+                    use_cache=args.use_cache,
+                    max_workers=args.workers,
                 )
             else:
                 for ticker in tickers:

@@ -1,0 +1,31 @@
+{
+  "memory_type": "SEMANTIC_QUANT_RULES",
+  "last_updated": "2026-09-06T14:17:00.851361+00:00",
+  "rules": [
+    {
+      "rule_id": "RULE_01_REGIME_LEVERAGE",
+      "category": "Capital Allocation",
+      "heuristic": "In verified macro bull regimes (Price > 200 EMA & Fast > Slow EMA), scale leverage to 1.8x-2.8x. In bear regimes, immediately de-leverage to 0.0x (100% Cash)."
+    },
+    {
+      "rule_id": "RULE_02_MEGA_CAP_COMPOUNDERS",
+      "category": "Indicator Sensitivity",
+      "heuristic": "Low-beta mega-caps (AAPL, MSFT, LLY) do not crash into RSI < 35 oversold territory during bull runs; use mild 12/16-day EMA pullback tolerance (1.5-4.5%) to eliminate cash drag."
+    },
+    {
+      "rule_id": "RULE_03_NEWS_SHOCK_SHIELD",
+      "category": "Tail-Risk Protection",
+      "heuristic": "When FinBERT news sentiment drops below -0.50 on material regulatory/earnings headlines, liquidate immediately without waiting for moving average technical breakdown (saves +28% drawdown)."
+    },
+    {
+      "rule_id": "RULE_04_ALMGREN_CHRISS_FRICTION",
+      "category": "Execution",
+      "heuristic": "For block orders > $250,000, execute via closed-form hyperbolic Almgren-Chriss slicing to minimize temporary and permanent market impact shortfall."
+    },
+    {
+      "rule_id": "RULE_05_HIGH_WATERMARK_RATCHET",
+      "category": "Profit Taking",
+      "heuristic": "Once a position gains +1.5x ATR, move stop-loss to entry price + 0.5x ATR; continuously lock 65-80% of peak gains as the trade trends upward."
+    }
+  ]
+}

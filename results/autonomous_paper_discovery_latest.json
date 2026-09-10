@@ -1,0 +1,214 @@
+{
+  "timestamp": "2026-09-06T12:01:29.360491+00:00",
+  "academic_paper_rankings": [
+    {
+      "name": "12. Buy & Hold Benchmark (Equal Weight)",
+      "type": "Unhedged Passive",
+      "cagr": 34.24848433749217,
+      "sharpe": 0.880475310960347,
+      "max_dd": -50.91220195170845,
+      "win_rate": 53.30294984146741
+    },
+    {
+      "name": "9. Gu, Kelly & Xiu (2020): Machine Learning in Asset Pricing",
+      "type": "Non-Linear Interaction Trees (XGBoost)",
+      "cagr": 31.463694594633516,
+      "sharpe": 0.6753524929094772,
+      "max_dd": -51.90818766038335,
+      "win_rate": 52.99371850373637
+    },
+    {
+      "name": "2. Jegadeesh & Titman (1993): Relative Strength Momentum",
+      "type": "Cross-Sectional Momentum",
+      "cagr": 18.80184359993833,
+      "sharpe": 0.6675827287911138,
+      "max_dd": -39.170068814998345,
+      "win_rate": 53.06705439393458
+    },
+    {
+      "name": "6. Kelly (1956) / MacLean (2010): Regime Fractional Kelly",
+      "type": "Information-Theoretic Capital Growth",
+      "cagr": 32.01455634987686,
+      "sharpe": 0.5808011728383466,
+      "max_dd": -62.84940992600587,
+      "win_rate": 52.80048978577195
+    },
+    {
+      "name": "3. Moskowitz, Ooi, Pedersen (2012): Time Series Momentum",
+      "type": "Trend Following & Volatility Scaling",
+      "cagr": 23.117801608033027,
+      "sharpe": 0.5611344673565494,
+      "max_dd": -53.850156866065085,
+      "win_rate": 53.293444205826276
+    },
+    {
+      "name": "7. Fama & French (2015): Multi-Factor Quality & Profitability",
+      "type": "Factor Regime Filtering",
+      "cagr": 18.917148204606487,
+      "sharpe": 0.4467142910044178,
+      "max_dd": -51.47122625492845,
+      "win_rate": 52.57706403504525
+    },
+    {
+      "name": "8. Boyd et al. (Stanford 2017): Multi-Period Convex Trading",
+      "type": "Quadratic Programming with Frictions",
+      "cagr": 20.75839461543821,
+      "sharpe": 0.4438324102279475,
+      "max_dd": -61.08306775286498,
+      "win_rate": 53.189279146913044
+    },
+    {
+      "name": "10. Engle (1982) / Bollerslev (1986): GARCH Volatility Squeeze",
+      "type": "Autoregressive Conditional Heteroskedasticity",
+      "cagr": 9.572321555541395,
+      "sharpe": 0.39818278998766793,
+      "max_dd": -50.69745344088128,
+      "win_rate": 52.94535035478571
+    },
+    {
+      "name": "4. De Bondt & Thaler (1985): Does the Stock Market Overreact?",
+      "type": "Overreaction Mean-Reversion",
+      "cagr": 5.696548264751941,
+      "sharpe": 0.3487369862597797,
+      "max_dd": -31.596063242598103,
+      "win_rate": 54.77084509225362
+    },
+    {
+      "name": "11. Araci (2019) / Yang (2020): FinBERT Financial Sentiment",
+      "type": "Transformer Semantic Sentiment Momentum",
+      "cagr": 5.760280284995977,
+      "sharpe": 0.26492628951720343,
+      "max_dd": -43.30745626962628,
+      "win_rate": 53.592363011599545
+    },
+    {
+      "name": "1. Lopez de Prado (2018): Triple-Barrier Dynamic Horizon",
+      "type": "Dynamic Volatility Exits",
+      "cagr": 3.5659413265923376,
+      "sharpe": 0.1559570854170965,
+      "max_dd": -40.87303441211788,
+      "win_rate": 53.4868685535108
+    },
+    {
+      "name": "5. Almgren & Chriss (2000): Optimal Friction Execution",
+      "type": "Microstructure & Liquidity Minimization",
+      "cagr": 1.89380288232376,
+      "sharpe": 0.09217927524594113,
+      "max_dd": -37.24255211178404,
+      "win_rate": 52.49688438966983
+    }
+  ],
+  "total_synthetic_strategies_tested": 48,
+  "top_10_discovered_strategies": [
+    {
+      "name": "SYNTH_Fast EMA C+ADX/Slop_1.5x_65%",
+      "signal": "Fast EMA Cross (12/26)",
+      "regime": "ADX/Slope Trend Acceleration",
+      "leverage": 1.5,
+      "ratchet": 0.65,
+      "avg_cagr": 17.439267640078935,
+      "avg_sharpe": 0.5301969376892842,
+      "avg_max_dd": -38.824389538107205
+    },
+    {
+      "name": "SYNTH_Fast EMA C+ADX/Slop_1.5x_80%",
+      "signal": "Fast EMA Cross (12/26)",
+      "regime": "ADX/Slope Trend Acceleration",
+      "leverage": 1.5,
+      "ratchet": 0.8,
+      "avg_cagr": 17.439267640078935,
+      "avg_sharpe": 0.5301969376892842,
+      "avg_max_dd": -38.824389538107205
+    },
+    {
+      "name": "SYNTH_Volatility+ADX/Slop_1.5x_65%",
+      "signal": "Volatility Squeeze Expansion",
+      "regime": "ADX/Slope Trend Acceleration",
+      "leverage": 1.5,
+      "ratchet": 0.65,
+      "avg_cagr": 14.692169633556224,
+      "avg_sharpe": 0.5166731244254128,
+      "avg_max_dd": -34.790815189687095
+    },
+    {
+      "name": "SYNTH_Volatility+ADX/Slop_1.5x_80%",
+      "signal": "Volatility Squeeze Expansion",
+      "regime": "ADX/Slope Trend Acceleration",
+      "leverage": 1.5,
+      "ratchet": 0.8,
+      "avg_cagr": 14.692169633556224,
+      "avg_sharpe": 0.5166731244254128,
+      "avg_max_dd": -34.790815189687095
+    },
+    {
+      "name": "SYNTH_RSI Overso+200-day _1.5x_65%",
+      "signal": "RSI Oversold Momentum (<42 & bounce)",
+      "regime": "200-day Macro Trend Filter",
+      "leverage": 1.5,
+      "ratchet": 0.65,
+      "avg_cagr": 11.155227045358187,
+      "avg_sharpe": 0.5074640134872493,
+      "avg_max_dd": -35.6648426203828
+    },
+    {
+      "name": "SYNTH_RSI Overso+200-day _1.5x_80%",
+      "signal": "RSI Oversold Momentum (<42 & bounce)",
+      "regime": "200-day Macro Trend Filter",
+      "leverage": 1.5,
+      "ratchet": 0.8,
+      "avg_cagr": 11.155227045358187,
+      "avg_sharpe": 0.5074640134872493,
+      "avg_max_dd": -35.6648426203828
+    },
+    {
+      "name": "SYNTH_Fast EMA C+200-day _1.5x_65%",
+      "signal": "Fast EMA Cross (12/26)",
+      "regime": "200-day Macro Trend Filter",
+      "leverage": 1.5,
+      "ratchet": 0.65,
+      "avg_cagr": 19.107494426778437,
+      "avg_sharpe": 0.5031420875028413,
+      "avg_max_dd": -48.02362474805743
+    },
+    {
+      "name": "SYNTH_Fast EMA C+200-day _1.5x_80%",
+      "signal": "Fast EMA Cross (12/26)",
+      "regime": "200-day Macro Trend Filter",
+      "leverage": 1.5,
+      "ratchet": 0.8,
+      "avg_cagr": 19.107494426778437,
+      "avg_sharpe": 0.5031420875028413,
+      "avg_max_dd": -48.02362474805743
+    },
+    {
+      "name": "SYNTH_Volatility+200-day _1.5x_65%",
+      "signal": "Volatility Squeeze Expansion",
+      "regime": "200-day Macro Trend Filter",
+      "leverage": 1.5,
+      "ratchet": 0.65,
+      "avg_cagr": 16.14127657224589,
+      "avg_sharpe": 0.48658969025479315,
+      "avg_max_dd": -44.053304193921726
+    },
+    {
+      "name": "SYNTH_Volatility+200-day _1.5x_80%",
+      "signal": "Volatility Squeeze Expansion",
+      "regime": "200-day Macro Trend Filter",
+      "leverage": 1.5,
+      "ratchet": 0.8,
+      "avg_cagr": 16.14127657224589,
+      "avg_sharpe": 0.48658969025479315,
+      "avg_max_dd": -44.053304193921726
+    }
+  ],
+  "production_champion": {
+    "name": "SYNTH_Fast EMA C+ADX/Slop_1.5x_65%",
+    "signal": "Fast EMA Cross (12/26)",
+    "regime": "ADX/Slope Trend Acceleration",
+    "leverage": 1.5,
+    "ratchet": 0.65,
+    "avg_cagr": 17.439267640078935,
+    "avg_sharpe": 0.5301969376892842,
+    "avg_max_dd": -38.824389538107205
+  }
+}

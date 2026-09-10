@@ -1,0 +1,65 @@
+{
+  "title": "AWS ECS Fargate Stack",
+  "type": "architecture",
+  "theme": "light",
+  "containers": [
+    {
+      "id": "reg",
+      "label": "eu-west-1",
+      "type": "region",
+      "parentId": "1"
+    },
+    {
+      "id": "vpc",
+      "label": "Main VPC",
+      "type": "vpc",
+      "parentId": "reg"
+    },
+    {
+      "id": "az_a",
+      "label": "AZ-A",
+      "type": "az",
+      "parentId": "vpc"
+    },
+    {
+      "id": "sub_app",
+      "label": "Private App Subnet",
+      "type": "subnet",
+      "parentId": "az_a",
+      "tier": "app"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "alb",
+      "label": "Application Load Balancer",
+      "type": "alb",
+      "parentId": "vpc"
+    },
+    {
+      "id": "fargate_task",
+      "label": "ECS Fargate Task",
+      "type": "ecs",
+      "parentId": "sub_app"
+    },
+    {
+      "id": "cloudwatch",
+      "label": "CloudWatch Logs",
+      "type": "operations_suite",
+      "parentId": "reg"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "alb",
+      "targetId": "fargate_task",
+      "label": "Forward Request"
+    },
+    {
+      "sourceId": "fargate_task",
+      "targetId": "cloudwatch",
+      "label": "Ship Logs",
+      "style": "dashed"
+    }
+  ]
+}

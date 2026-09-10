@@ -1,0 +1,140 @@
+{
+  "timestamp": "2026-09-06T11:53:05.932091+00:00",
+  "gnn_spillover": {
+    "origin_ticker": "TSM",
+    "input_shock_pct": -25.0,
+    "total_impacted_nodes": 9,
+    "downstream_impacts": [
+      {
+        "origin": "TSM",
+        "target": "AAPL",
+        "predicted_spillover_pct": -39.38,
+        "relationship": "Foundry: Sole manufacturer of A-series and M-series silicon",
+        "sensitivity": "\ud83d\udd34 HIGH EXPOSURE (> 3.0%)"
+      },
+      {
+        "origin": "TSM",
+        "target": "NVDA",
+        "predicted_spillover_pct": -32.94,
+        "relationship": "Foundry: Advanced 3nm/4nm CoWoS packaging for Blackwell/Hopper GPUs",
+        "sensitivity": "\ud83d\udd34 HIGH EXPOSURE (> 3.0%)"
+      },
+      {
+        "origin": "TSM",
+        "target": "AMD",
+        "predicted_spillover_pct": -31.0,
+        "relationship": "Foundry: Sole manufacturer of EPYC and Instinct MI300 accelerators",
+        "sensitivity": "\ud83d\udd34 HIGH EXPOSURE (> 3.0%)"
+      },
+      {
+        "origin": "TSM",
+        "target": "AVGO",
+        "predicted_spillover_pct": -29.06,
+        "relationship": "Foundry: Custom ASIC networking and TPU manufacturing partner",
+        "sensitivity": "\ud83d\udd34 HIGH EXPOSURE (> 3.0%)"
+      },
+      {
+        "origin": "TSM",
+        "target": "GOOGL",
+        "predicted_spillover_pct": -10.77,
+        "relationship": "2-Hop indirect supply spillover via tech ecosystem",
+        "sensitivity": "\ud83d\udd34 HIGH EXPOSURE (> 3.0%)"
+      },
+      {
+        "origin": "TSM",
+        "target": "META",
+        "predicted_spillover_pct": -6.8,
+        "relationship": "2-Hop indirect supply spillover via tech ecosystem",
+        "sensitivity": "\ud83d\udd34 HIGH EXPOSURE (> 3.0%)"
+      },
+      {
+        "origin": "TSM",
+        "target": "MSFT",
+        "predicted_spillover_pct": -6.38,
+        "relationship": "2-Hop indirect supply spillover via tech ecosystem",
+        "sensitivity": "\ud83d\udd34 HIGH EXPOSURE (> 3.0%)"
+      },
+      {
+        "origin": "TSM",
+        "target": "AMZN",
+        "predicted_spillover_pct": -5.95,
+        "relationship": "2-Hop indirect supply spillover via tech ecosystem",
+        "sensitivity": "\ud83d\udd34 HIGH EXPOSURE (> 3.0%)"
+      },
+      {
+        "origin": "TSM",
+        "target": "COST",
+        "predicted_spillover_pct": -3.6,
+        "relationship": "2-Hop indirect supply spillover via tech ecosystem",
+        "sensitivity": "\ud83d\udd34 HIGH EXPOSURE (> 3.0%)"
+      }
+    ]
+  },
+  "red_team_audit": {
+    "agent_name": "Adversarial Red-Team Specialist",
+    "role": "Pillar 6: Devil's Advocate & Tail-Risk Stress Tester",
+    "academic_grounding": [
+      "Paper 18: Grossman & Zhou (1993) Optimal Drawdown Constraint",
+      "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)",
+      "Paper 16: Page (1954) CUSUM Change-Point Surveillance"
+    ],
+    "vote": "CAUTION",
+    "severity_score": 40.0,
+    "conviction_score": 60.0,
+    "risk_factors": [
+      "Severe breakdown: Trading -37.9% below 200-day SMA ($399.52) \u2014 falling knife regime."
+    ],
+    "key_metrics": {
+      "vulnerabilities_detected": 1,
+      "severity_score": 40.0,
+      "tail_risk_status": "MODERATE"
+    },
+    "thesis": "RED-TEAM CAUTION: Moderate downside risks identified (1 risk factors). Strict position sizing and tight stops advised."
+  },
+  "almgren_chriss": {
+    "total_shares": 10000.0,
+    "intervals": 10,
+    "holdings_trajectory": [
+      10000.0,
+      8930.08,
+      7882.48,
+      6854.6,
+      5843.85,
+      4847.72,
+      3863.71,
+      2889.36,
+      1922.23,
+      959.92,
+      0.0
+    ],
+    "trade_sizes": [
+      1069.92,
+      1047.6,
+      1027.88,
+      1010.74,
+      996.13,
+      984.01,
+      974.35,
+      967.12,
+      962.32,
+      959.92
+    ],
+    "expected_shortfall_dollars": 37.53,
+    "shortfall_variance": 171505.76,
+    "almgren_kappa": 0.05
+  },
+  "self_improvement": {
+    "ticker": "NVDA",
+    "timestamp": "2026-09-06T11:52:52.506153+00:00",
+    "elapsed_seconds": 13.42,
+    "dataset_rows": 1535,
+    "features_used": 26,
+    "champion_accuracy": 0.6,
+    "challenger_accuracy": 0.5055,
+    "accuracy_delta_pct": -9.45,
+    "challenger_roc_auc": 0.489,
+    "challenger_precision": 0.5327,
+    "deployment_verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)",
+    "is_promoted": false
+  }
+}

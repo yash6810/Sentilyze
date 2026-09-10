@@ -1,0 +1,49 @@
+{
+  "title": "GCP Analytics Lakehouse",
+  "type": "architecture",
+  "theme": "light",
+  "containers": [],
+  "nodes": [
+    {
+      "id": "gcs",
+      "label": "Cloud Storage Raw",
+      "type": "cloud_storage",
+      "parentId": "1"
+    },
+    {
+      "id": "dataflow",
+      "label": "Dataflow ETL",
+      "type": "compute_engine",
+      "parentId": "1"
+    },
+    {
+      "id": "bq",
+      "label": "BigQuery Data Warehouse",
+      "type": "cloud_sql",
+      "parentId": "1"
+    },
+    {
+      "id": "looker",
+      "label": "Looker BI Dashboard",
+      "type": "user",
+      "parentId": "1"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "gcs",
+      "targetId": "dataflow",
+      "label": "Read Raw"
+    },
+    {
+      "sourceId": "dataflow",
+      "targetId": "bq",
+      "label": "Insert Cleansed"
+    },
+    {
+      "sourceId": "looker",
+      "targetId": "bq",
+      "label": "Query Reports"
+    }
+  ]
+}

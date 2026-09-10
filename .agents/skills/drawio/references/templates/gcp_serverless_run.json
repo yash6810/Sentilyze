@@ -1,0 +1,50 @@
+{
+  "title": "GCP Serverless microservice stack",
+  "type": "architecture",
+  "theme": "light",
+  "containers": [],
+  "nodes": [
+    {
+      "id": "ingress",
+      "label": "Cloud Run Gateway",
+      "type": "cloud_run",
+      "parentId": "1"
+    },
+    {
+      "id": "queue",
+      "label": "Pub/Sub Topic",
+      "type": "pubsub",
+      "parentId": "1"
+    },
+    {
+      "id": "backend",
+      "label": "Cloud Run Worker",
+      "type": "cloud_run",
+      "parentId": "1"
+    },
+    {
+      "id": "firestore",
+      "label": "Firestore DB",
+      "type": "cloud_spanner",
+      "parentId": "1"
+    }
+  ],
+  "edges": [
+    {
+      "sourceId": "ingress",
+      "targetId": "queue",
+      "label": "Publish Event"
+    },
+    {
+      "sourceId": "queue",
+      "targetId": "backend",
+      "label": "Push Subscription",
+      "style": "dashed"
+    },
+    {
+      "sourceId": "backend",
+      "targetId": "firestore",
+      "label": "Save Document"
+    }
+  ]
+}

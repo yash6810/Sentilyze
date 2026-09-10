@@ -20,6 +20,11 @@ from src.paper_broker import PaperBroker
 from src.config import COMPANY_NAMES
 
 
+@st.cache_data(ttl=300)
+def _get_cached_insider_data(ticker: str, days_back: int):
+    return calculate_insider_conviction_score(ticker, days_back=days_back)
+
+
 def render_insider_radar_workspace(selected_ticker: str = "NVDA"):
     st.markdown("### 🏛️ Smart-Money Executive & Institutional Insider Radar")
     st.caption(
@@ -47,7 +52,7 @@ def render_insider_radar_workspace(selected_ticker: str = "NVDA"):
             days_lookback = st.selectbox("Lookback Window:", [30, 60, 90, 180], index=2)
 
         with st.spinner(f"Ingesting SEC Form 4 filings for {selected_ticker}..."):
-            insider_data = calculate_insider_conviction_score(
+            insider_data = _get_cached_insider_data(
                 selected_ticker, days_back=days_lookback
             )
 

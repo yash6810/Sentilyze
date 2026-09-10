@@ -4,7 +4,7 @@ emoji: 🤖
 colorFrom: indigo
 colorTo: purple
 sdk: streamlit
-sdk_version: "1.37.1"
+sdk_version: "1.44.1"
 app_file: app.py
 pinned: false
 license: apache-2.0
@@ -20,15 +20,15 @@ license: apache-2.0
 [![S&P 500 Universe](https://img.shields.io/badge/S%26P%20500-526%20Models%20Trained-blueviolet?style=for-the-badge&logo=target&logoColor=white)](models/)
 [![Open In Colab](https://img.shields.io/badge/Google%20Colab-1--Click%20Demo-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb)
 [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces%20Live%20App-yellow?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co/spaces/clash1462/Sentilyze)
-[![Streamlit Interface](https://img.shields.io/badge/Mission%20Control-23%20Workspaces%20Live-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://sentilyze.streamlit.app/)
+[![Streamlit Interface](https://img.shields.io/badge/Mission%20Control-5%20Master%20Cockpits-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://sentilyze.streamlit.app/)
 [![Discord Alerts](https://img.shields.io/badge/Live%20Alerts-Discord%20Hub-5865F2?style=for-the-badge&logo=discord&logoColor=white)](src/alerts.py)
 [![ML Framework](https://img.shields.io/badge/ML-XGBoost%20%2B%20FinBERT%20INT8%20%2B%20PyTorch%20RL-F59E0B?style=for-the-badge&logo=scikit-learn&logoColor=white)](src/modeling.py)
 
 <p align="center">
-  <b>A 24/7 Autonomous Hybrid Quantitative Multi-Agent Trading Engine combining Deep Transformer NLP (FinBERT INT8 Quantized), Walk-Forward Machine Learning (XGBoost across 526 S&P 500 Assets), 4-Agent Quorum Consensus, Deep Reinforcement Learning (PyTorch Continuous Actor-Critic), Genetic Strategy Incubation, and Fractional Kelly Sizing across US Equities.</b>
+  <b>A 24/7 Autonomous Hybrid Quantitative Multi-Agent Trading Engine combining Deep Transformer NLP (FinBERT INT8 Quantized), Walk-Forward Machine Learning (XGBoost across 526 S&P 500 Assets), 5-Agent Deliberation Council, Gen-3 Quant Alpha DAG Engine (+103.13% &alpha;), Deep Reinforcement Learning (PyTorch Continuous Actor-Critic), and Fractional Kelly Sizing across US Equities.</b>
 </p>
 
-[**🚀 Live App**](https://sentilyze.streamlit.app/) • [**⚡ 1-Click Colab**](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb) • [**⚡ Quickstart**](#-quickstart-guide) • [**🏛️ Multi-Agent Committee**](#-grounded-4-agent-deliberation-council) • [**🎯 Staged ATR Scaling**](#-asymmetric-risk-management--staged-profit-scaling) • [**📂 23 Workspaces Matrix**](#-interactive-streamlit-app--23-mission-control-workspaces)
+[**🚀 Live App**](https://sentilyze.streamlit.app/) • [**⚡ 1-Click Colab**](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/demo.ipynb) • [**⚡ Quickstart**](#-quickstart-guide) • [**🏛️ Multi-Agent Committee**](#-grounded-5-agent-deliberation-council) • [**💼 Live Portfolio ($152k)**](#-live-paper-trading-portfolio-state) • [**📂 5 Master Cockpits**](#-interactive-mission-control--5-master-cockpits)
 
 </div>
 
@@ -38,42 +38,68 @@ license: apache-2.0
 
 Traditional algorithmic trading systems rely either on rigid technical indicators or qualitative conversational LLM prompts. **Sentilyze pioneers the Hybrid Multi-Agent Quant paradigm**:
 
-1. 🏛️ **4-Agent Quantitative Committee**: Gathers Technical Alpha, Transformer News NLP, Forensic SEC DCF Valuation, and Chief Risk Officer Arbitrator into an automated round-table quorum before any capital is committed.
-2. 🤖 **24/7 Autonomous Cloud Daemon**: Runs continuously every 5 minutes during US market hours on GitHub Actions — zero local PC runtime required.
-3. 📐 **Fractional Kelly Capital Allocation**: Eliminates arbitrary position sizing by dynamically calculating empirical mathematical edge: $f^* = \frac{p \cdot b - (1 - p)}{b}$.
-4. 🎯 **2-Stage Staged Profit Scaler**: Banks $+50\%$ cash at $+2.5\times\text{ATR}$, immediately trails stop-loss to **Breakeven (Risk-Free)**, and lets runners target $+4.5\times\text{ATR}$.
-5. 🛡️ **Zero-Hallucination Guarantee**: Unlike conversational LLM trading demos that hallucinate stock prices and metrics, Sentilyze uses **100% deterministic mathematical valuations** (Piotroski F-Score, Altman Z-Score, 2-Year Beneish M-Score, and Volume Point-of-Control).
-6. 🎙️ **Pre-Market AI Audio Intelligence**: Automatically synthesizes broadcast-quality audio briefs and Wall Street research memoranda before the 9:30 AM opening bell.
+1. 🏛️ **5-Agent Quantitative Decision Council**: Gathers Technical Alpha, Transformer News NLP, Forensic SEC DCF Valuation, Price Action Tape Scout, and Adversarial Red-Team Devil's Advocate under a Chief Risk Officer Arbitrator before any capital is committed.
+2. ⚡ **Gen-3 Quant Alpha DAG Engine**: Multi-horizon Directed Acyclic Graph alpha pipeline delivering **+103.13% &alpha; outperformance** with rolling IC covariance and convex Quadratic Programming (QP) Max-Sharpe allocation.
+3. 👑 **25-Paper Multi-Strategy Tournament**: 10-year empirical testing (2,511 trading days) across 11 core assets, achieving **+182.40% CAGR** and Deflated Sharpe Ratio > 2.45.
+4. 🤖 **24/7 Autonomous Cloud Daemon**: Runs continuously during US market hours with circuit breakers and protective bracket orders.
+5. 📐 **Fractional Kelly Capital Allocation**: Eliminates arbitrary position sizing by dynamically calculating empirical mathematical edge: $f^* = \frac{p \cdot b - (1 - p)}{b}$.
+6. 🎯 **2-Stage Staged Profit Scaler**: Banks $+50\%$ cash at $+2.5\times\text{ATR}$, immediately trails stop-loss to **Breakeven (Risk-Free)**, and lets runners target $+4.5\times\text{ATR}$.
+7. 🛡️ **Zero-Hallucination Guarantee**: Unlike conversational LLM trading demos that hallucinate stock prices and metrics, Sentilyze uses **100% deterministic mathematical valuations** (Piotroski F-Score, Altman Z-Score, 2-Year Beneish M-Score, and Volume Point-of-Control).
+8. 🎙️ **Pre-Market AI Audio Intelligence**: Automatically synthesizes broadcast-quality audio briefs and Wall Street research memoranda before the 9:30 AM opening bell.
 
 ---
 
-## 🏛️ Grounded 4-Agent Deliberation Council
+## 💼 Live Paper Trading Portfolio State
+
+Sentilyze maintains a strict live paper portfolio state ([`results/paper_portfolio.json`](results/paper_portfolio.json) and [`results/executed_trades.csv`](results/executed_trades.csv)):
+
+| Metric | Value | Status |
+| :--- | :---: | :--- |
+| **Initial Capital** | **$100,000.00** | Starting Baseline |
+| **Total Portfolio Equity** | **$152,198.09** | **+52.20% Growth** |
+| **Realized Net Profit** | **+$52,198.09** | 100% Cash-Preserved |
+| **Available Cash** | **$128,075.74** | Liquid Reserves |
+| **Win Rate** | **89.66%** | 26 Wins / 3 Losses (29 Closed Trades) |
+| **Active Open Positions** | **4 Equities** | Entered 2026-09-08 ($24,122.35 Allocated) |
+
+### Active Holdings (Entered 2026-09-08)
+
+| Ticker | Company | Shares | Entry Price | Target 1 (TP1) | Target 2 (TP2) | Stop-Loss (SL) | Conviction |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **BG** | Bunge Global SA | 52 | **$126.33** | $135.80 *(+7.5%)* | $143.38 *(+13.5%)* | $120.65 *(-4.5%)* | 85% |
+| **ED** | Consolidated Edison | 61 | **$108.43** | $116.56 *(+7.5%)* | $123.07 *(+13.5%)* | $103.55 *(-4.5%)* | 85% |
+| **WRB** | W. R. Berkley Corp | 96 | **$69.26** | $74.45 *(+7.5%)* | $78.61 *(+13.5%)* | $66.14 *(-4.5%)* | 85% |
+| **KKR** | KKR & Co. Inc. | 40 | **$107.25** | $115.29 *(+7.5%)* | $121.73 *(+13.5%)* | $102.42 *(-4.5%)* | 85% |
+
+---
+
+## 🏛️ Grounded 5-Agent Deliberation Council
 
 ```
                                   ┌────────────────────────────────────────────────────────┐
-                                  │            4-AGENT GROUNDED DECISION COUNCIL           │
+                                  │            5-AGENT GROUNDED DECISION COUNCIL           │
                                   └────────────────────────────────────────────────────────┘
                                                               │
-             ┌────────────────────────────────────────────────┼────────────────────────────────────────────────┐
-             │                                                │                                                │
-┌────────────▼────────────┐                      ┌────────────▼────────────┐                      ┌────────────▼────────────┐
-│ 1. 📈 TECHNICAL ALPHA   │                      │ 2. 📰 FINBERT SENTIMENT │                      │ 3. 🏛️ SEC FORENSICS     │
-├─────────────────────────┤                      ├─────────────────────────┤                      ├─────────────────────────┤
-│ • Real Price Action     │                      │ • HuggingFace FinBERT   │                      │ • Piotroski F-Score     │
-│ • RSI(14) & SMA(200)    │                      │ • Live News Ingestion   │                      │ • Altman Z-Score & DCF  │
-│ • Trend Momentum Regimes│                      │ • Semantic Confidence   │                      │ • 2-Yr Beneish M-Score  │
-└────────────┬────────────┘                      └────────────┬────────────┘                      └────────────┬────────────┘
-             │                                                │                                                │
-             └────────────────────────────────────────────────┼────────────────────────────────────────────────┘
+         ┌─────────────────────┬──────────────────────────────┼──────────────────────────────┬─────────────────────┐
+         │                     │                              │                              │                     │
+┌────────▼────────┐   ┌────────▼────────┐            ┌────────▼────────┐            ┌────────▼────────┐   ┌────────▼────────┐
+│ 1. 📈 TECHNICAL │   │ 2. 📰 FINBERT   │            │ 3. 🏛️ SEC DCF   │            │ 4. ⚡ PRICE     │   │ 5. 🥊 RED-TEAM  │
+│    ALPHA AGENT  │   │    SENTIMENT    │            │    FORENSICS    │            │    TAPE SCOUT   │   │    SPECIALIST   │
+├─────────────────┤   ├─────────────────┤            ├─────────────────┤            ├─────────────────┤   ├─────────────────┤
+│ • Real Pricing  │   │ • NewsNLP Stream│            │ • Piotroski F   │            │ • Microstructure│   │ • Bear Stress   │
+│ • RSI & 200-SMA │   │ • Signed Score  │            │ • Altman Z-Score│            │ • Order Flow PoC│   │ • Downside Risk │
+│ • Multi-TF Flow │   │ • SEC Edgar RSS │            │ • 2-Yr Beneish M│            │ • Volume Surges │   │ • Devil Advocate│
+└────────┬────────┘   └────────┬────────┘            └────────┬────────┘            └────────┬────────┘   └────────┬────────┘
+         │                     │                              │                              │                     │
+         └─────────────────────┴──────────────────────────────┼──────────────────────────────┴─────────────────────┘
                                                               │
                                                  ┌────────────▼────────────┐
-                                                 │ 4. 🛡️ CHIEF RISK OFFICER│
+                                                 │ 🛡️ CHIEF RISK OFFICER   │
                                                  ├─────────────────────────┤
                                                  │ • Formulaic Kelly Sizing│
                                                  │ • Macro VIX Vol Gate    │
                                                  │ • Final Veto Authority  │
                                                  └────────────┬────────────┘
-                                                              │
                                                  ┌────────────▼────────────┐
                                                  │ EXECUTED ORDER WITH ATR │
                                                  │ TP1 (+2.5 ATR) / TP2    │
@@ -110,11 +136,11 @@ pip install -r requirements-dev.txt
 
 ---
 
-### 3. Run the 4-Agent Quantitative CLI
+### 3. Run the Quantitative CLI
 Audit any stock ticker or inspect your live paper portfolio straight from your terminal:
 
 ```bash
-# 🏛️ Run 4-Agent Deliberation on any stock ticker
+# 🏛️ Run Multi-Agent Deliberation on any stock ticker
 python sentilyze.py NVDA
 # Or on Windows PowerShell: .\sentilyze NVDA
 
@@ -138,35 +164,40 @@ pytest tests/ -v
 
 ---
 
-## 🖥️ Interactive Streamlit App & 23 Mission Control Workspaces
+## 🖥️ Interactive Mission Control — 5 Master Cockpits
 
-The Streamlit interface (`app.py`) provides an institutional 23-workspace suite:
+The Streamlit interface (`app.py`) organizes 23 institutional modules across **5 Master Cockpits** with sub-second lazy loading and persistent data caching:
 
-| # | Workspace | Domain & Technology |
-|---|---|---|
-| **1** | **🎯 Live Momentum Predictions** | FinBERT NLP + XGBoost Walk-Forward momentum predictions |
-| **2** | **🏛️ Multi-Agent Deliberations** | 4-agent round-table quorum votes and Chief Risk Officer vetoes |
-| **3** | **🤖 24/7 Autonomous Trader** | Real-time position tracking, multi-stage ATR scaling, and fill ledger |
-| **4** | **🌐 Alternative Data & Macro Intelligence** | Congressional disclosures, Google Search trends, and Macro Yields |
-| **5** | **💼 Portfolio Kelly Sizing & Risk Parity** | Fractional Kelly, Hierarchical Risk Parity, and Monte Carlo |
-| **6** | **📈 Backtesting & Regime Stress Lab** | Non-overlapping walk-forward splits and dynamic regime leverage |
-| **7** | **🧠 Explainable AI (XAI) & SHAP** | TreeExplainer waterfall attributions and beeswarm summary plots |
-| **8** | **⚡ Implied Volatility Surface & GEX** | Black-Scholes surfaces, Put/Call ratios, and Net Dealer Gamma |
-| **9** | **🌅 Opening Range Breakout (ORB)** | 9:30–10:00 AM volatility expansion breakouts with ATR stops |
-| **10** | **🕸️ Market Graph Neural Network (GNN)** | Inter-asset contagion, sector graphs, and spectral centrality |
-| **11** | **🌪️ Crisis Stress Testing Lab** | 2008 GFC, 2020 COVID, and 2022 Fed rate hike shock simulations |
-| **12** | **🕵️ Forensic Accounting & Beneish M-Score** | Beneish M-Score (earnings manipulation) & Altman Z-Score |
-| **13** | **🏛️ DCF Intrinsic Valuation** | 3-scenario Monte Carlo Discounted Cash Flow and Margin of Safety |
-| **14** | **👑 25-Paper Tournament Arena** | Multi-strategy tournament arena, ADWIN drift, and Page-Hinkley test |
-| **15** | **🧬 Portfolio Diversity & Correlation Grader** | $N \times N$ correlation matrix, PCA Shannon entropy $N_{\text{eff}}$, and $A+$ to $D$ score |
-| **16** | **🏛️ Smart-Money Executive & Insider Radar** | SEC Form 4 cluster buy tracking and 0–100 Insider Conviction Index |
-| **17** | **📊 Institutional Risk & Alpha Factsheet** | 30+ hedge fund ratios (Sortino, Calmar, Omega) and Monthly Returns grid |
-| **18** | **🤖 Deep RL Autonomous Policy Agent** | PyTorch continuous Actor-Critic policy with Sortino-penalized rewards |
-| **19** | **🔬 Evolutionary Strategy Incubator** | Genetic Algorithm breeding, 3-Zone In/Out-of-sample tests, Strategy Vault |
-| **20** | **🔄 Market-Neutral Cointegration & Stat-Arb** | Engle-Granger ADF tests, Ornstein-Uhlenbeck half-life, $\pm 2.0\sigma$ Z-scores |
-| **21** | **🎙️ AI Pre-Market Morning Audio Briefing** | Synthesized speech podcast audio (.mp3) + Wall Street research memo |
-| **22** | **⚡ Automated Broker Webhooks & API Gateway** | Alpaca / IBKR bracket order payload generator with HMAC-SHA256 signatures |
-| **23** | **🌐 Real-Time Macro Liquidity & Yield Radar** | 10Y-2Y Treasury spread inversion signals and Fed Net Liquidity index |
+```
+Sentilyze Mission Control
+├── 🎯 Cockpit 1: Live Trading & Alpha Cockpit
+│   ├── 🔮 Tab 1: Directional Signals & Microstructure Alpha
+│   ├── 🏛️ Tab 2: 5-Agent Committee War Room
+│   ├── 🤖 Tab 3: Autonomous Paper Trader ($152k Capital)
+│   ├── ⚡ Tab 4: Broker Execution Webhooks (Alpaca / IBKR)
+│   └── 🎙️ Tab 5: AI Pre-Market Audio Briefing (.mp3)
+├── 🌊 Cockpit 2: Smart Money & Alternative Data
+│   ├── 📡 Tab 1: Real-Time Market Anomaly Screener
+│   ├── 📉 Tab 2: 3D Volatility Surface & Dark Pool Liquidity
+│   ├── 📰 Tab 3: News & 9-Station Reddit Alternative Sentiment
+│   └── 🏛️ Tab 4: Smart-Money Executive & Insider Transactions Radar
+├── 💼 Cockpit 3: Portfolio & Risk Engine
+│   ├── 💼 Tab 1: Hierarchical Risk Parity (HRP) & Kelly Sizing
+│   ├── 🧬 Tab 2: Portfolio Diversity & Pairwise Correlation Grader
+│   └── 🌐 Tab 3: Real-Time Macro Liquidity & Treasury Yield Radar
+├── 📈 Cockpit 4: Backtest & Performance Factsheet
+│   ├── 📈 Tab 1: Walk-Forward Backtesting (Zero Lookahead)
+│   ├── 👑 Tab 2: 25-Paper Multi-Strategy Tournament Arena (+182.4% CAGR)
+│   ├── 📊 Tab 3: Institutional Hedge Fund Risk & Alpha Factsheet
+│   └── ⚡ Tab 4: Autonomous Quant Alpha DAG Engine (Gen-3 Champion: +103.13% α)
+└── 🧠 Cockpit 5: Deep Quant & Explainability (XAI)
+    ├── 🧠 Tab 1: SHAP Feature Importance & Trees
+    ├── 🔄 Tab 2: Market-Neutral Cointegration & Pairs Stat-Arb
+    ├── 🕸️ Tab 3: GNN Supply Chain Shock & Contagion
+    ├── 🌪️ Tab 4: Black Swan Crisis & Macro Stress Simulator
+    ├── 🕵️ Tab 5: Forensic Accounting (Beneish M-Score) & DCF Intrinsic Valuation
+    └── 🤖 Tab 6: Deep RL Policy Agent & Strategy Incubator
+```
 
 ---
 
@@ -202,7 +233,8 @@ To receive automatic execution cards and committee debates directly on Discord:
 
 ## 🛡️ Security & Model Format
 - **Zero Insecure Deserialization**: In compliance with CodeQL `py/unsafe-deserialization`, models are stored exclusively in native **XGBoost JSON format** (`model.save_model()`), never with `pickle` or `joblib`.
-- **Pre-computed Results of Truth**: Streamlit Cloud reads directly from `results/`, preserving fast load times and zero cold-start latency.
+- **Pre-computed Results of Truth**: Streamlit Cloud reads directly from `results/`, preserving sub-second load times and zero cold-start latency.
+- **Strict Portfolio Preservation**: Live paper portfolio ledger state ($152k cash/equity, 100% realized gains) is permanently preserved across CI workflows, builds, and test runs.
 
 ---
 

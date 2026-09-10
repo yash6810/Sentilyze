@@ -1,0 +1,86 @@
+{
+  "Combo_E_Quad_Hybrid": {
+    "name": "\ud83c\udfc6 Quad-Hybrid Champion (Qlib + EconML + PyPortfolioOpt + OpenAlice)",
+    "combo_desc": "AI Ranking + Causal DML + HRP Allocation + Dynamic Vol Scaling",
+    "total_return_pct": 255.22,
+    "cagr_pct": 23.17,
+    "sharpe": 1.05,
+    "sortino": 1.64,
+    "max_dd_pct": -32.32,
+    "calmar": 0.72,
+    "win_rate_pct": 52.55,
+    "sample_days": 1533
+  },
+  "Combo_C_Qlib_OpenAlice": {
+    "name": "\u26a1 Qlib + OpenAlice (Momentum + Dynamic Risk)",
+    "combo_desc": "AI Factor Momentum + Dynamic Vol Sizing & Drawdown Brake",
+    "total_return_pct": 433.59,
+    "cagr_pct": 31.69,
+    "sharpe": 1.15,
+    "sortino": 1.67,
+    "max_dd_pct": -38.03,
+    "calmar": 0.83,
+    "win_rate_pct": 53.16,
+    "sample_days": 1533
+  },
+  "Combo_F_FinRL_Qlib": {
+    "name": "\ud83e\udde0 FinRL + Qlib (DRL Dynamic Sizing + AI Factors)",
+    "combo_desc": "Deep Reinforcement Learning Policy + Cross-Sectional Factors",
+    "total_return_pct": 623.76,
+    "cagr_pct": 38.45,
+    "sharpe": 1.14,
+    "sortino": 1.61,
+    "max_dd_pct": -37.52,
+    "calmar": 1.02,
+    "win_rate_pct": 53.16,
+    "sample_days": 1533
+  },
+  "Combo_A_Qlib_EconML": {
+    "name": "\ud83c\udfdb\ufe0f Qlib + EconML (Causal AI Factor Machine)",
+    "combo_desc": "ML Factor Momentum + Project ALICE Causal Beta Residualization",
+    "total_return_pct": 744.76,
+    "cagr_pct": 42.02,
+    "sharpe": 1.14,
+    "sortino": 1.69,
+    "max_dd_pct": -63.23,
+    "calmar": 0.66,
+    "win_rate_pct": 53.43,
+    "sample_days": 1533
+  },
+  "Combo_B_Qlib_PyPortfolioOpt": {
+    "name": "\ud83d\udee1\ufe0f Qlib + PyPortfolioOpt (HRP-Gated Machine Learning)",
+    "combo_desc": "Qlib Factor Selection + Hierarchical Risk Parity Allocation",
+    "total_return_pct": 234.41,
+    "cagr_pct": 21.95,
+    "sharpe": 0.86,
+    "sortino": 1.26,
+    "max_dd_pct": -45.5,
+    "calmar": 0.48,
+    "win_rate_pct": 52.55,
+    "sample_days": 1533
+  },
+  "Combo_D_EconML_OpenAlice": {
+    "name": "\ud83d\udd2c EconML + OpenAlice (Causal Alpha + Trend Risk Gating)",
+    "combo_desc": "Project ALICE Residual Alpha + Macro Trend Gating",
+    "total_return_pct": 512.84,
+    "cagr_pct": 34.72,
+    "sharpe": 0.97,
+    "sortino": 1.51,
+    "max_dd_pct": -48.15,
+    "calmar": 0.72,
+    "win_rate_pct": 51.6,
+    "sample_days": 1533
+  },
+  "Passive_Buy_and_Hold": {
+    "name": "\ud83d\udcc8 Passive Buy & Hold Benchmark (Equal-Weight)",
+    "combo_desc": "Equal-Weight Index of All 11 Assets",
+    "total_return_pct": 510.44,
+    "cagr_pct": 34.63,
+    "sharpe": 1.13,
+    "sortino": 1.65,
+    "max_dd_pct": -47.21,
+    "calmar": 0.73,
+    "win_rate_pct": 55.97,
+    "sample_days": 1533
+  }
+}

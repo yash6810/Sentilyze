@@ -40,10 +40,12 @@ def synthesize_morning_audio(
     signals_list: Optional[List[Dict[str, Any]]] = None,
     total_equity: float = 100000.0,
     output_path: str = "results/morning_briefing.mp3",
+    voice: str = "en-US-ChristopherNeural",
 ) -> Optional[str]:
     """
     Synthesizes the morning briefing audio MP3 file.
-    Uses gTTS if available, or returns script.
+    Uses Microsoft Edge Neural TTS (edge-tts) for studio-grade voice by default,
+    with automatic fallback to gTTS.
     """
     signals_list = signals_list or []
     if not signals_list:
@@ -58,14 +60,46 @@ def synthesize_morning_audio(
                 logger.debug(f"Could not load {sig_file}: {e}")
 
     script = generate_audio_script(signals_list, total_equity=total_equity)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
+    # 1. Try High-Fidelity Edge-TTS
+    try:
+        import asyncio
+        import edge_tts
+
+        async def _run_edge_tts():
+            communicate = edge_tts.Communicate(script, voice=voice)
+            await communicate.save(output_path)
+
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                # In nested event loop (e.g. within certain async runners)
+                import concurrent.futures
+
+                with concurrent.futures.ThreadPoolExecutor() as pool:
+                    pool.submit(lambda: asyncio.run(_run_edge_tts())).result()
+            else:
+                loop.run_until_complete(_run_edge_tts())
+        except RuntimeError:
+            asyncio.run(_run_edge_tts())
+
+        logger.info(
+            f"🎙️ Studio-grade Edge-TTS neural briefing synthesized to {output_path}"
+        )
+        return output_path
+    except Exception as e:
+        logger.debug(f"Edge-TTS synthesis fallback: {e}")
+
+    # 2. Fallback to gTTS
     try:
         from gtts import gTTS
 
-        os.makedirs(os.path.dirname(output_path), exist_ok=True)
         tts = gTTS(text=script, lang="en", tld="com", slow=False)
         tts.save(output_path)
-        logger.info(f"🎙️ Morning AI audio briefing synthesized to {output_path}")
+        logger.info(
+            f"🎙️ Morning AI audio briefing synthesized via gTTS to {output_path}"
+        )
         return output_path
     except ImportError:
         logger.info("gTTS not installed. Audio script generated in text format.")

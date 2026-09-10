@@ -23,6 +23,7 @@ except Exception:
         return datetime.now(timezone.utc).strftime("%b %d, %Y • %I:%M %p UTC")
 
 
+@st.cache_data(ttl=600)
 def load_tournament_results() -> Dict[str, Any]:
     path = os.path.join("results", "mega_tournament_25_papers.json")
     if os.path.exists(path):
@@ -34,6 +35,7 @@ def load_tournament_results() -> Dict[str, Any]:
     return {}
 
 
+@st.cache_data(ttl=600)
 def load_safety_benchmarks() -> Dict[str, Any]:
     path = os.path.join("results", "papers_15_24_benchmark.json")
     if os.path.exists(path):

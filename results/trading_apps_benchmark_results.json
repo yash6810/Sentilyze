@@ -1,0 +1,110 @@
+{
+  "Institutional_Terminal_Fusion": {
+    "name": "\ud83c\udfc6 Institutional Terminal Fusion (Bloomberg+FlowAlgo+TrendSpider+LiveVol)",
+    "app_category": "Multi-Terminal Institutional Fusion",
+    "total_return_pct": 446.2,
+    "cagr_pct": 32.19,
+    "sharpe": 0.9,
+    "sortino": 1.3,
+    "max_dd_pct": -57.91,
+    "calmar": 0.56,
+    "win_rate_pct": 51.83,
+    "sample_days": 1533
+  },
+  "Smart_Money_App_Fusion": {
+    "name": "\u26a1 Smart Money App Fusion (FlowAlgo+TrendSpider+Koyfin)",
+    "app_category": "Dark Pool & Anchor VWAP Relative Strength",
+    "total_return_pct": 802.89,
+    "cagr_pct": 43.58,
+    "sharpe": 1.11,
+    "sortino": 1.69,
+    "max_dd_pct": -48.73,
+    "calmar": 0.89,
+    "win_rate_pct": 53.03,
+    "sample_days": 1533
+  },
+  "Bloomberg_PORT_Standalone": {
+    "name": "\ud83c\udfdb\ufe0f Bloomberg PORT / Axioma Standalone",
+    "app_category": "Multi-Factor Momentum / Quality / Volatility",
+    "total_return_pct": 259.56,
+    "cagr_pct": 23.41,
+    "sharpe": 0.78,
+    "sortino": 1.1,
+    "max_dd_pct": -58.23,
+    "calmar": 0.4,
+    "win_rate_pct": 52.07,
+    "sample_days": 1533
+  },
+  "Koyfin_Standalone": {
+    "name": "\ud83d\udcca Koyfin Standalone",
+    "app_category": "Cross-Asset Relative Strength vs Benchmark",
+    "total_return_pct": 464.89,
+    "cagr_pct": 32.93,
+    "sharpe": 0.92,
+    "sortino": 1.33,
+    "max_dd_pct": -49.24,
+    "calmar": 0.67,
+    "win_rate_pct": 52.89,
+    "sample_days": 1533
+  },
+  "TrendSpider_Standalone": {
+    "name": "\ud83d\udcc8 TrendSpider / TradingView Standalone",
+    "app_category": "Multi-Timeframe Anchored VWAP & Volume Profile",
+    "total_return_pct": 638.14,
+    "cagr_pct": 38.9,
+    "sharpe": 1.04,
+    "sortino": 1.57,
+    "max_dd_pct": -54.22,
+    "calmar": 0.72,
+    "win_rate_pct": 52.72,
+    "sample_days": 1533
+  },
+  "FlowAlgo_Standalone": {
+    "name": "\ud83d\udc0b FlowAlgo / Cheddar Flow Standalone",
+    "app_category": "Dark Pool Prints & Block Volume Accumulation",
+    "total_return_pct": 214.0,
+    "cagr_pct": 20.69,
+    "sharpe": 0.66,
+    "sortino": 1.03,
+    "max_dd_pct": -57.65,
+    "calmar": 0.36,
+    "win_rate_pct": 50.53,
+    "sample_days": 1533
+  },
+  "Cboe_LiveVol_Standalone": {
+    "name": "\u26a1 Cboe LiveVol / Trade Alert Standalone",
+    "app_category": "Options IV Expansion & Gamma Flow Momentum",
+    "total_return_pct": 349.69,
+    "cagr_pct": 28.04,
+    "sharpe": 0.82,
+    "sortino": 1.2,
+    "max_dd_pct": -60.96,
+    "calmar": 0.46,
+    "win_rate_pct": 52.14,
+    "sample_days": 1533
+  },
+  "OpenBB_Standalone": {
+    "name": "\ud83d\udcbb OpenBB Terminal Standalone",
+    "app_category": "Alternative Multi-Source Sentiment & Volume Screener",
+    "total_return_pct": 986.63,
+    "cagr_pct": 48.02,
+    "sharpe": 1.18,
+    "sortino": 1.89,
+    "max_dd_pct": -55.65,
+    "calmar": 0.86,
+    "win_rate_pct": 52.19,
+    "sample_days": 1533
+  },
+  "Passive_Buy_and_Hold": {
+    "name": "\ud83d\udcc8 Passive Buy & Hold Benchmark (Equal-Weight)",
+    "app_category": "Equal-Weight Index Baseline",
+    "total_return_pct": 510.44,
+    "cagr_pct": 34.63,
+    "sharpe": 1.13,
+    "sortino": 1.65,
+    "max_dd_pct": -47.21,
+    "calmar": 0.73,
+    "win_rate_pct": 55.97,
+    "sample_days": 1533
+  }
+}

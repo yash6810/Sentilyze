@@ -31,19 +31,31 @@ class PaperBroker:
         self.state = self._load_or_initialize()
 
     def _load_or_initialize(self) -> Dict[str, Any]:
-        """Loads existing portfolio state from JSON or initializes a fresh $100k account."""
+        """Loads existing portfolio state from JSON or initializes a fresh account if file does not exist."""
         if os.path.exists(self.portfolio_path):
             try:
-                with open(self.portfolio_path, "r") as f:
+                with open(self.portfolio_path, "r", encoding="utf-8") as f:
                     data = json.load(f)
-                    logger.info(
-                        f"Loaded paper portfolio from {self.portfolio_path} (Total Equity: ${data.get('total_equity', self.initial_cash):,.2f})"
-                    )
-                    return data
+                    if isinstance(data, dict) and "total_equity" in data:
+                        logger.info(
+                            f"Loaded paper portfolio from {self.portfolio_path} (Total Equity: ${data.get('total_equity', self.initial_cash):,.2f})"
+                        )
+                        return data
             except Exception as e:
                 logger.error(
-                    f"Error loading portfolio state ({e}). Re-initializing fresh account."
+                    f"Error loading portfolio state ({e}) with utf-8, trying replace mode..."
                 )
+                try:
+                    with open(
+                        self.portfolio_path, "r", encoding="utf-8", errors="replace"
+                    ) as f:
+                        data = json.load(f)
+                        if isinstance(data, dict) and "total_equity" in data:
+                            return data
+                except Exception as e2:
+                    logger.critical(
+                        f"FATAL: Preserving existing portfolio file at {self.portfolio_path}. Could not parse: {e2}"
+                    )
 
         now_str = datetime.now(timezone.utc).isoformat()
         initial_state = {
@@ -74,12 +86,53 @@ class PaperBroker:
         return initial_state
 
     def _save(self, state: Optional[Dict[str, Any]] = None):
-        """Persists portfolio ledger to disk and exports executed_trades.csv."""
+        """Persists portfolio ledger to disk atomically and exports executed_trades.csv."""
+        import shutil
+
         save_data = state or self.state
+
+        # Financial State Integrity Guard: Never save empty or corrupted state
+        if not isinstance(save_data, dict):
+            logger.error("Refusing to save non-dict portfolio state!")
+            return
+        if save_data.get("cash") is None or save_data.get("total_equity") is None:
+            logger.error(
+                "Refusing to save corrupted portfolio state missing cash or equity!"
+            )
+            return
+        if not isinstance(save_data.get("open_positions"), dict):
+            logger.error("Refusing to save corrupted open_positions state!")
+            return
+
         save_data["last_updated"] = datetime.now(timezone.utc).isoformat()
-        os.makedirs(os.path.dirname(self.portfolio_path), exist_ok=True)
-        with open(self.portfolio_path, "w") as f:
-            json.dump(save_data, f, indent=2)
+        target_dir = os.path.dirname(self.portfolio_path)
+        os.makedirs(target_dir, exist_ok=True)
+
+        tmp_path = f"{self.portfolio_path}.tmp"
+        bak_path = f"{self.portfolio_path}.bak"
+
+        try:
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(save_data, f, indent=2)
+                f.flush()
+                os.fsync(f.fileno())
+
+            # Maintain safe backup copy if original exists
+            if os.path.exists(self.portfolio_path):
+                try:
+                    shutil.copyfile(self.portfolio_path, bak_path)
+                except Exception:
+                    pass
+
+            os.replace(tmp_path, self.portfolio_path)
+        except Exception as e:
+            logger.error(f"Error saving portfolio atomically: {e}")
+            if os.path.exists(tmp_path):
+                try:
+                    os.remove(tmp_path)
+                except Exception:
+                    pass
+            return
 
         # Sync executed_trades.csv
         try:
@@ -103,7 +156,7 @@ class PaperBroker:
             trades_csv_path = os.path.join(
                 os.path.dirname(self.portfolio_path), "executed_trades.csv"
             )
-            df_trades.to_csv(trades_csv_path, index=False)
+            df_trades.to_csv(trades_csv_path, index=False, encoding="utf-8")
         except Exception as e:
             logger.debug(f"Notice exporting executed_trades.csv: {e}")
 
@@ -148,8 +201,43 @@ class PaperBroker:
             entry_price = pos["entry_price"]
             tp1_target = pos["tp1_target"]
             tp2_target = pos["tp2_target"]
-            sl_target = pos["sl_target"]
             scaled_out = pos.get("scaled_out", False)
+
+            # Smart Money Zero-Giveback Ratchet & High-Watermark 80% Profit Lock
+            try:
+                from src.smart_trader_engine import (
+                    apply_high_watermark_profit_lock,
+                    enforce_capital_shield_stop_floor,
+                )
+
+                # 1. Capital Shield (-2.50% max risk ceiling)
+                shielded_sl, _ = enforce_capital_shield_stop_floor(
+                    entry_price=entry_price,
+                    current_sl=sl_target,
+                    max_loss_pct=2.50,
+                )
+                if shielded_sl > sl_target:
+                    pos["sl_target"] = shielded_sl
+                    sl_target = shielded_sl
+
+                # 2. High-Watermark 80% Retention Ratchet
+                highest_seen = float(
+                    pos.get("highest_price_seen", max(entry_price, curr_price))
+                )
+                hwm_sl, new_peak, _ = apply_high_watermark_profit_lock(
+                    current_price=curr_price,
+                    entry_price=entry_price,
+                    highest_price_seen=highest_seen,
+                    current_sl=sl_target,
+                    min_profit_threshold_pct=1.20,
+                    lock_fraction=0.80,
+                )
+                pos["highest_price_seen"] = new_peak
+                if hwm_sl > sl_target:
+                    pos["sl_target"] = hwm_sl
+                    sl_target = hwm_sl
+            except Exception as e:
+                logger.debug(f"Notice applying zero-giveback in daily signals: {e}")
 
             # Check Stage 1 Scale-Out (+2.5 ATR)
             if not scaled_out and curr_price >= tp1_target:
@@ -430,8 +518,20 @@ class PaperBroker:
                 }
             )
 
+    def reload_from_disk(self) -> None:
+        """Reloads latest state from disk if file exists."""
+        if os.path.exists(self.portfolio_path):
+            try:
+                with open(self.portfolio_path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    if isinstance(data, dict) and "total_equity" in data:
+                        self.state = data
+            except Exception as e:
+                logger.debug(f"PaperBroker reload notice: {e}")
+
     def get_portfolio_summary(self) -> Dict[str, Any]:
         """Returns high-level KPI metrics for the portfolio dashboard."""
+        self.reload_from_disk()
         invested = max(0.0, self.state["total_equity"] - self.state["cash"])
         unrealized_pnl_pct = (
             round((self.state["unrealized_pnl"] / invested) * 100.0, 2)

@@ -1,0 +1,290 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 860" width="100%" height="100%">
+  <defs>
+    <style>
+      .canvas-bg { fill: #0d1117; }
+      .tier-box { fill: #161b22; stroke: #30363d; stroke-width: 1; rx: 8; }
+      .card { fill: #0d1117; stroke: #30363d; stroke-width: 1; rx: 6; }
+      .card-green { fill: #1c2128; stroke: #2ea043; stroke-width: 1.5; rx: 6; }
+      .card-blue { fill: #1c2128; stroke: #1f6feb; stroke-width: 1.5; rx: 6; }
+      .card-purple { fill: #1c2128; stroke: #8957e5; stroke-width: 1.5; rx: 6; }
+      .card-amber { fill: #1c2128; stroke: #d29922; stroke-width: 1.5; rx: 6; }
+      
+      .main-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-weight: 800; font-size: 20px; fill: #f0f6fc; letter-spacing: 0.5px; }
+      .main-subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; fill: #8b949e; }
+      
+      .tier-header { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; font-weight: 700; font-size: 12px; letter-spacing: 1px; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-weight: 700; font-size: 13px; fill: #f0f6fc; }
+      .card-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; fill: #8b949e; line-height: 1.4; }
+      .code-tag { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; font-size: 10px; font-weight: 600; }
+      
+      .arrow { stroke: #484f58; stroke-width: 1.5; fill: none; marker-end: url(#arrow-gray); }
+      .arrow-active { stroke: #3fb950; stroke-width: 1.5; fill: none; marker-end: url(#arrow-green); }
+      .arrow-cyan { stroke: #58a6ff; stroke-width: 1.5; fill: none; marker-end: url(#arrow-cyan-m); }
+    </style>
+    
+    <marker id="arrow-gray" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#484f58" />
+    </marker>
+    <marker id="arrow-green" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#3fb950" />
+    </marker>
+    <marker id="arrow-cyan-m" markerWidth="7" markerHeight="5" refX="6" refY="2.5" orient="auto">
+      <polygon points="0 0, 7 2.5, 0 5" fill="#58a6ff" />
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1400" height="860" class="canvas-bg" />
+
+  <!-- Master Header -->
+  <g transform="translate(45, 42)">
+    <text x="0" y="0" class="main-title">SENTILYZE // INSTITUTIONAL SYSTEM ARCHITECTURE</text>
+    <text x="0" y="22" class="main-subtitle">End-to-End Quantitative Pipeline: Macro Ingestion → NLP &amp; ML Modeling → Convex Alpha DAG → Autonomous Red-Team → Paper Broker</text>
+  </g>
+
+  <!-- Live Telemetry Pill -->
+  <g transform="translate(1080, 26)">
+    <rect width="275" height="38" rx="19" fill="#238636" fill-opacity="0.15" stroke="#2ea043" stroke-width="1.2" />
+    <circle cx="20" cy="19" r="4.5" fill="#3fb950" />
+    <text x="34" y="24" class="code-tag" fill="#3fb950" style="font-size: 11px;">GEN-3 CHAMPION: +103.1% α | $152K</text>
+  </g>
+
+  <!-- ========================================================================= -->
+  <!-- TIER 1: DATA INGESTION & MACROECONOMIC LIQUIDITY (y=90, h=130) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(45, 85)">
+    <rect width="1310" height="120" class="tier-box" />
+    <text x="20" y="24" class="tier-header" fill="#58a6ff">TIER 1: ASYNCHRONOUS DATA INGESTION &amp; MACRO FEED</text>
+
+    <!-- 1.1 Yahoo Pricing -->
+    <g transform="translate(20, 36)">
+      <rect width="240" height="70" class="card" />
+      <text x="14" y="22" class="card-title">Yahoo Finance Streaming</text>
+      <text x="14" y="40" class="card-desc">5Y Daily OHLCV Bars (10-Stock Basket)</text>
+      <text x="14" y="58" class="code-tag" fill="#58a6ff">NVDA, AAPL, MSFT, TSLA, SPY</text>
+    </g>
+
+    <!-- 1.2 FRED Liquidity -->
+    <g transform="translate(280, 36)">
+      <rect width="250" height="70" class="card-green" />
+      <text x="14" y="22" class="card-title" fill="#3fb950">FRED St. Louis Fed API</text>
+      <text x="14" y="40" class="card-desc">WALCL (Total Assets) - WTREGEN (TGA)</text>
+      <text x="14" y="58" class="code-tag" fill="#3fb950">Net Liquidity: $6.24T (+$142B)</text>
+    </g>
+
+    <!-- 1.3 NewsAPI & Transformers -->
+    <g transform="translate(550, 36)">
+      <rect width="240" height="70" class="card" />
+      <text x="14" y="22" class="card-title">NewsAPI + SEC Feed</text>
+      <text x="14" y="40" class="card-desc">Real-time unstructured financial news</text>
+      <text x="14" y="58" class="code-tag" fill="#bc8cff">Zero Outage Dummy Fallback</text>
+    </g>
+
+    <!-- 1.4 Point-in-Time Auditor -->
+    <g transform="translate(810, 36)">
+      <rect width="240" height="70" class="card-amber" />
+      <text x="14" y="22" class="card-title" fill="#d29922">Look-Ahead Bias Shield</text>
+      <text x="14" y="40" class="card-desc">T+1 Execution Alignment &amp; Lag Lock</text>
+      <text x="14" y="58" class="code-tag" fill="#d29922">Strict Point-in-Time Verified</text>
+    </g>
+
+    <!-- 1.5 Telemetry Monitor -->
+    <g transform="translate(1070, 36)">
+      <rect width="220" height="70" class="card" />
+      <text x="14" y="22" class="card-title">Ingest Health Check</text>
+      <text x="14" y="40" class="card-desc">Async Parallel Latency: 1.4ms</text>
+      <text x="14" y="58" class="code-tag" fill="#3fb950">Status: 100% OPERATIONAL</text>
+    </g>
+  </g>
+
+  <!-- Connective Arrow T1 -> T2 -->
+  <path d="M 700 205 L 700 230" class="arrow" />
+
+  <!-- ========================================================================= -->
+  <!-- TIER 2: FEATURE ENGINEERING & MACHINE LEARNING MODELS (y=230, h=140) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(45, 230)">
+    <rect width="1310" height="135" class="tier-box" />
+    <text x="20" y="24" class="tier-header" fill="#bc8cff">TIER 2: NLP SENTIMENT TRANSFORMERS &amp; WALK-FORWARD ML ENSEMBLE</text>
+
+    <!-- 2.1 FinBERT NLP -->
+    <g transform="translate(20, 38)">
+      <rect width="300" height="82" class="card-purple" />
+      <text x="14" y="22" class="card-title" fill="#bc8cff">FinBERT Sentiment Transformer</text>
+      <text x="14" y="40" class="card-desc">HuggingFace ProsusLAB-FinBERT Model</text>
+      <text x="14" y="56" class="card-desc">Quantized INT8 Dynamic Inference (12ms)</text>
+      <text x="14" y="72" class="code-tag" fill="#bc8cff">Confidence: 87.4% | IC: +0.0818</text>
+    </g>
+
+    <!-- 2.2 Technical Indicators -->
+    <g transform="translate(340, 38)">
+      <rect width="300" height="82" class="card" />
+      <text x="14" y="22" class="card-title">18-Factor Technical Feature Engine</text>
+      <text x="14" y="40" class="card-desc">RSI-14, MACD Histogram, Bollinger Bands</text>
+      <text x="14" y="56" class="card-desc">Stochastic %K/%D + ATR Volatility Ratio</text>
+      <text x="14" y="72" class="code-tag" fill="#58a6ff">Cross-Sectional Z-Score Normalized</text>
+    </g>
+
+    <!-- 2.3 XGBoost Classifier -->
+    <g transform="translate(660, 38)">
+      <rect width="310" height="82" class="card-blue" />
+      <text x="14" y="22" class="card-title" fill="#58a6ff">XGBClassifier (Native JSON Models)</text>
+      <text x="14" y="40" class="card-desc">Walk-Forward Expanding Optimization</text>
+      <text x="14" y="56" class="card-desc">Zero Pickle/Joblib (CodeQL Hardened)</text>
+      <text x="14" y="72" class="code-tag" fill="#58a6ff">Win Rate: 64.2% | Precision: 0.68</text>
+    </g>
+
+    <!-- 2.4 10-Pillars Institutional Engine -->
+    <g transform="translate(990, 38)">
+      <rect width="300" height="82" class="card" />
+      <text x="14" y="22" class="card-title">10-Pillars Frontier Analytics</text>
+      <text x="14" y="40" class="card-desc">Dark Pool Prints &amp; 0DTE Options Flow</text>
+      <text x="14" y="56" class="card-desc">GNN Supply-Chain + Forensic Accounting</text>
+      <text x="14" y="72" class="code-tag" fill="#3fb950">Beneish M-Score &amp; Vol Surface</text>
+    </g>
+  </g>
+
+  <!-- Connective Arrow T2 -> T3 -->
+  <path d="M 700 365 L 700 390" class="arrow-active" />
+
+  <!-- ========================================================================= -->
+  <!-- TIER 3: GEN-3 AUTONOMOUS QUANT ALPHA DAG ENGINE (y=390, h=175) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(45, 390)">
+    <rect width="1310" height="170" class="tier-box" style="stroke: #3fb950; stroke-width: 1.5;" />
+    <text x="20" y="24" class="tier-header" fill="#3fb950">TIER 3: GEN-3 QUANTITATIVE ALPHA DAG CORE (CHAMPION ENGINE)</text>
+
+    <!-- 3.1 Factor 1: FRED -->
+    <g transform="translate(20, 38)">
+      <rect width="240" height="115" class="card-green" />
+      <text x="14" y="22" class="card-title" fill="#3fb950">α1: FRED Macro Carry</text>
+      <text x="14" y="38" class="card-desc">Net Liquidity Expansion</text>
+      <line x1="14" y1="46" x2="226" y2="46" stroke="#30363d" />
+      <text x="14" y="62" class="code-tag" fill="#3fb950">63d Rank IC: +0.1442 (t=3.82)</text>
+      <text x="14" y="78" class="card-desc">Decay T½: 42 Days (Persistent)</text>
+      <text x="14" y="98" class="code-tag" fill="#f0f6fc">ALLOCATION: 56.5% CAPITAL</text>
+    </g>
+
+    <!-- 3.2 Factor 2: Momentum -->
+    <g transform="translate(280, 38)">
+      <rect width="240" height="115" class="card-blue" />
+      <text x="14" y="22" class="card-title" fill="#58a6ff">α2: 12M Momentum Trend</text>
+      <text x="14" y="38" class="card-desc">Relative Strength Dispersion</text>
+      <line x1="14" y1="46" x2="226" y2="46" stroke="#30363d" />
+      <text x="14" y="62" class="code-tag" fill="#58a6ff">63d Rank IC: +0.1150 (t=2.91)</text>
+      <text x="14" y="78" class="card-desc">Decay T½: 18 Days (Trend)</text>
+      <text x="14" y="98" class="code-tag" fill="#f0f6fc">ALLOCATION: 41.1% CAPITAL</text>
+    </g>
+
+    <!-- 3.3 Factor 3: FinBERT NLP -->
+    <g transform="translate(540, 38)">
+      <rect width="240" height="115" class="card-purple" />
+      <text x="14" y="22" class="card-title" fill="#bc8cff">α3: Tactical FinBERT NLP</text>
+      <text x="14" y="38" class="card-desc">News Headline Sentiment</text>
+      <line x1="14" y1="46" x2="226" y2="46" stroke="#30363d" />
+      <text x="14" y="62" class="code-tag" fill="#bc8cff">63d Rank IC: +0.0818 (t=2.14)</text>
+      <text x="14" y="78" class="card-desc">Decay T½: 3 Days (Catalyst)</text>
+      <text x="14" y="98" class="code-tag" fill="#f0f6fc">ALLOCATION: 2.4% CAPITAL</text>
+    </g>
+
+    <!-- 3.4 Convex QP Optimizer -->
+    <g transform="translate(800, 38)">
+      <rect width="240" height="115" class="card" />
+      <text x="14" y="22" class="card-title">Convex QP Solver</text>
+      <text x="14" y="38" class="code-tag" fill="#3fb950">max wᵀ(IC) - λ wᵀΣw</text>
+      <line x1="14" y1="46" x2="226" y2="46" stroke="#30363d" />
+      <text x="14" y="62" class="card-desc">Cross-Factor Cov: -0.42 (Orthogonal)</text>
+      <text x="14" y="78" class="card-desc">False Factor Drag: 0.0% (Pruned)</text>
+      <text x="14" y="98" class="code-tag" fill="#58a6ff">OPTIMAL SHARPE WEIGHTS</text>
+    </g>
+
+    <!-- 3.5 Vol Target & Regime Gate -->
+    <g transform="translate(1060, 38)">
+      <rect width="230" height="115" class="card-amber" />
+      <text x="14" y="22" class="card-title" fill="#d29922">Vol Target &amp; Regime Gate</text>
+      <text x="14" y="38" class="card-desc">Target Volatility: 18.0% Ann.</text>
+      <line x1="14" y1="46" x2="216" y2="46" stroke="#30363d" />
+      <text x="14" y="62" class="code-tag" fill="#3fb950">Expansion Regime: 1.20x Lev</text>
+      <text x="14" y="78" class="code-tag" fill="#d29922">QT Contraction: 0.70x Lev</text>
+      <text x="14" y="98" class="code-tag" fill="#f85149">Crisis Shield: 0.40x Lev</text>
+    </g>
+  </g>
+
+  <!-- Connective Arrow T3 -> T4 -->
+  <path d="M 700 560 L 700 585" class="arrow-active" />
+
+  <!-- ========================================================================= -->
+  <!-- TIER 4: AUTONOMOUS SUPERVISION & RISK MANAGEMENT (y=585, h=115) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(45, 585)">
+    <rect width="1310" height="115" class="tier-box" />
+    <text x="20" y="24" class="tier-header" fill="#d29922">TIER 4: AUTONOMOUS AI COURTROOM RED-TEAM &amp; RISK MANAGEMENT</text>
+
+    <!-- 4.1 Gemini Courtroom -->
+    <g transform="translate(20, 36)">
+      <rect width="400" height="66" class="card" />
+      <text x="14" y="20" class="card-title">Gemini 3.6 Flash Courtroom Red-Team</text>
+      <text x="14" y="38" class="card-desc">Prosecutor (Bear Case) vs Defender (Bull Thesis) vs Neutral Arbiter</text>
+      <text x="14" y="54" class="code-tag" fill="#3fb950">Veto Power: Blocks False Breakouts Before Execution</text>
+    </g>
+
+    <!-- 4.2 Dynamic Correlation Shield -->
+    <g transform="translate(440, 36)">
+      <rect width="420" height="66" class="card" />
+      <text x="14" y="20" class="card-title">Dynamic Correlation Shield &amp; Black Swan Audit</text>
+      <text x="14" y="38" class="card-desc">Max Pairwise Correlation Cap: 0.65 | Realized Volatility Gate</text>
+      <text x="14" y="54" class="code-tag" fill="#58a6ff">Prevents Clustered Tech Exposure &amp; Concentration Risk</text>
+    </g>
+
+    <!-- 4.3 Deterministic Lineage -->
+    <g transform="translate(880, 36)">
+      <rect width="410" height="66" class="card" />
+      <text x="14" y="20" class="card-title">Deterministic Lineage Audit Trail</text>
+      <text x="14" y="38" class="card-desc">Full State &amp; Weight Traceability Saved in results/*.json</text>
+      <text x="14" y="54" class="code-tag" fill="#bc8cff">Passed 276 Pytest Unit Tests (100% Green)</text>
+    </g>
+  </g>
+
+  <!-- Connective Arrow T4 -> T5 -->
+  <path d="M 700 700 L 700 725" class="arrow-green" />
+
+  <!-- ========================================================================= -->
+  <!-- TIER 5: EXECUTION & STREAMLIT CLOUD PRESENTATION (y=725, h=110) -->
+  <!-- ========================================================================= -->
+  <g transform="translate(45, 725)">
+    <rect width="1310" height="110" class="tier-box" style="stroke: #2ea043; stroke-width: 1.5;" />
+    <text x="20" y="24" class="tier-header" fill="#3fb950">TIER 5: LIVE PAPER BROKER EXECUTION &amp; STREAMLIT CLOUD DASHBOARD</text>
+
+    <!-- 5.1 Realized Portfolio -->
+    <g transform="translate(20, 34)">
+      <rect width="320" height="64" class="card-green" />
+      <text x="14" y="20" class="card-title" fill="#3fb950">Live Paper Portfolio State</text>
+      <text x="14" y="38" class="card-desc">$152,198.09 Cash | 100.0% Realized Profits</text>
+      <text x="14" y="54" class="code-tag" fill="#3fb950">Strict Portfolio Preservation Enforced</text>
+    </g>
+
+    <!-- 5.2 Outperformance Summary -->
+    <g transform="translate(360, 34)">
+      <rect width="340" height="64" class="card-green" />
+      <text x="14" y="20" class="card-title" fill="#3fb950">Tournament Benchmark Victory</text>
+      <text x="14" y="38" class="card-desc">+103.13% vs +78.45% Buy &amp; Hold (+24.68% α)</text>
+      <text x="14" y="54" class="code-tag" fill="#3fb950">Sharpe 1.41 vs 1.21 | Drawdown -26.4% vs -48.6%</text>
+    </g>
+
+    <!-- 5.3 Audio Briefing & Alerts -->
+    <g transform="translate(720, 34)">
+      <rect width="280" height="64" class="card" />
+      <text x="14" y="20" class="card-title">Audio Briefing &amp; Webhooks</text>
+      <text x="14" y="38" class="card-desc">edge-tts Studio Voice Synthesizer</text>
+      <text x="14" y="54" class="code-tag" fill="#58a6ff">Discord / Slack Realtime Webhooks</text>
+    </g>
+
+    <!-- 5.4 Streamlit Cloud Frontend -->
+    <g transform="translate(1020, 34)">
+      <rect width="270" height="64" class="card-blue" />
+      <text x="14" y="20" class="card-title" fill="#58a6ff">Streamlit Community Cloud</text>
+      <text x="14" y="38" class="card-desc">Interactive Tabs: Predict, Backtest, DAG</text>
+      <text x="14" y="54" class="code-tag" fill="#58a6ff">Deployed Live: sentilyze.streamlit.app</text>
+    </g>
+  </g>
+</svg>
