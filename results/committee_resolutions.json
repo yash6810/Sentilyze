@@ -1194,17 +1194,17 @@
     }
   },
   "AAPL": {
-    "timestamp": "2026-09-09T07:14:51.949998+00:00",
+    "timestamp": "2026-09-10T07:11:06.260558+00:00",
     "ticker": "AAPL",
-    "spot_price": 316.22,
-    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "action_code": "HOLD",
-    "consensus_conviction_pct": 64.7,
-    "approved_leverage": 0.0,
-    "kelly_allocation_pct": 0.0,
-    "tp1_target": 339.94,
-    "tp2_target": 358.91,
-    "stop_loss_target": 301.99,
+    "spot_price": 315.34,
+    "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "action_code": "SCALE_IN",
+    "consensus_conviction_pct": 67.7,
+    "approved_leverage": 1.0,
+    "kelly_allocation_pct": 2.97,
+    "tp1_target": 338.99,
+    "tp2_target": 357.91,
+    "stop_loss_target": 301.15,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
@@ -1216,14 +1216,14 @@
         "vote": "BUY",
         "conviction_score": 82.0,
         "key_metrics": {
-          "estimated_rsi": 55.9,
-          "sma_200": 284.11,
-          "ma_21": 313.29,
-          "return_5d_pct": -0.2,
+          "estimated_rsi": 48.4,
+          "sma_200": 284.35,
+          "ma_21": 313.62,
+          "return_5d_pct": -3.01,
           "trend_status": "BULLISH_MOMENTUM_EXPANSION",
-          "acpm_calibrated_prob": 0.492
+          "acpm_calibrated_prob": 0.4517
         },
-        "thesis": "Asset is in structural uptrend above 200 SMA ($284.11) with optimal pullback RSI (55.9)."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($284.35) with optimal pullback RSI (48.4)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -1235,10 +1235,10 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": -0.12,
+          "finbert_polarity": 0.074,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (-0.12 polarity across 100 headlines)."
+        "thesis": "Balanced sentiment environment (+0.07 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -1248,165 +1248,30 @@
           "Paper 13: Chen et al. (2020) Supply Chain Contagion Graph Neural Networks"
         ],
         "vote": "HOLD",
-        "conviction_score": 31.3,
+        "conviction_score": 31.4,
         "key_metrics": {
           "data_available": true,
           "piotroski_f_score": 5,
           "altman_z_score": 25.0,
           "dcf_fair_value": 171.86,
-          "dcf_margin_of_safety_pct": -45.7
+          "dcf_margin_of_safety_pct": -45.5
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $171.86 (Margin of Safety: -45.7%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $171.86 (Margin of Safety: -45.5%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "AAPL",
-        "spot_price": 316.22,
-        "day_high": 320.7,
-        "day_low": 314.92,
-        "change_pct": -1.17,
-        "range_position_pct": 22.5,
-        "rvol": 0.9,
-        "momentum_velocity_pct": -2.74,
-        "conviction_score": 60.0,
-        "vote": "HOLD",
-        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 22%, RVOL 0.9x, 5D Vel -2.7%)",
-        "timestamp": "2026-09-09T07:14:51.945114+00:00"
-      },
-      {
-        "agent_name": "Adversarial Red-Team Specialist",
-        "role": "Pillar 6: Devil's Advocate & Tail-Risk Stress Tester",
-        "academic_grounding": [
-          "Paper 18: Grossman & Zhou (1993) Optimal Drawdown Constraint",
-          "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)",
-          "Paper 16: Page (1954) CUSUM Change-Point Surveillance"
-        ],
-        "vote": "CLEAR",
-        "severity_score": 0.0,
-        "conviction_score": 100.0,
-        "risk_factors": [],
-        "key_metrics": {
-          "vulnerabilities_detected": 0,
-          "severity_score": 0.0,
-          "tail_risk_status": "LOW"
-        },
-        "thesis": "RED-TEAM CLEAR: No critical failure vectors, tail risks, or overextension anomalies detected."
-      }
-    ],
-    "cro_signoff": {
-      "cro_name": "Chief Risk Officer (Arbitrator)",
-      "academic_grounding": [
-        "Paper 18: Grossman & Zhou (1993) Optimal Drawdown Constraint",
-        "Paper 23: Busseti, Ryu, Boyd (Stanford 2016) Risk-Constrained Kelly Gambling",
-        "Paper 11: L\u00f3pez de Prado (2018) Triple-Barrier ATR Corridors",
-        "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
-        "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
-      ],
-      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-      "action_code": "HOLD",
-      "buy_votes": 1,
-      "total_specialist_votes": 5,
-      "consensus_conviction_pct": 64.7,
-      "approved_leverage": 0.0,
-      "kelly_allocation_pct": 0.0,
-      "kelly_details": {
-        "full_kelly_pct": 18.29,
-        "fractional_kelly_pct": 4.57,
-        "edge": 0.32,
-        "kelly_fraction": 0.25,
-        "win_rate": 0.48,
-        "payoff_ratio": 1.75,
-        "status": "POSITIVE_EXPECTANCY"
-      },
-      "tp1_target": 339.94,
-      "tp2_target": 358.91,
-      "stop_loss_target": 301.99,
-      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 64.7%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
-      "vix_level": 16.5,
-      "vix_veto_triggered": false,
-      "red_team_veto_triggered": false
-    }
-  },
-  "last_deliberated_at": "2026-08-29T14:26:12.354905+00:00",
-  "MSFT": {
-    "timestamp": "2026-09-09T07:14:53.772530+00:00",
-    "ticker": "MSFT",
-    "spot_price": 493.95,
-    "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
-    "action_code": "SCALE_IN",
-    "consensus_conviction_pct": 66.2,
-    "approved_leverage": 1.0,
-    "kelly_allocation_pct": 2.97,
-    "tp1_target": 531.0,
-    "tp2_target": 560.63,
-    "stop_loss_target": 471.72,
-    "agent_testimonies": [
-      {
-        "agent_name": "Technical Momentum Specialist",
-        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
-        "academic_grounding": [
-          "Paper 25: Zarattini, Barbon, Aziz (2024) 5-Min Opening Range Breakout (ORB)",
-          "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)"
-        ],
-        "vote": "BUY",
-        "conviction_score": 82.0,
-        "key_metrics": {
-          "estimated_rsi": 57.3,
-          "sma_200": 431.05,
-          "ma_21": 495.63,
-          "return_5d_pct": -2.63,
-          "trend_status": "BULLISH_MOMENTUM_EXPANSION",
-          "acpm_calibrated_prob": 0.4777
-        },
-        "thesis": "Asset is in structural uptrend above 200 SMA ($431.05) with optimal pullback RSI (57.3)."
-      },
-      {
-        "agent_name": "Sentiment & Alternative Data Specialist",
-        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
-        "academic_grounding": [
-          "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
-          "Paper 21: Bifet & Gavald\u00e0 (2007) ADWIN Adaptive Concept Drift Tracking"
-        ],
-        "vote": "HOLD",
-        "conviction_score": 50.0,
-        "key_metrics": {
-          "finbert_polarity": 0.04,
-          "headlines_analyzed": 100
-        },
-        "thesis": "Balanced sentiment environment (+0.04 polarity across 100 headlines)."
-      },
-      {
-        "agent_name": "Forensic & Valuation Auditor",
-        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
-        "academic_grounding": [
-          "Paper 05: Bellman-Ford Fundamental Arbitrage Graph Theory",
-          "Paper 13: Chen et al. (2020) Supply Chain Contagion Graph Neural Networks"
-        ],
-        "vote": "HOLD",
-        "conviction_score": 24.0,
-        "key_metrics": {
-          "data_available": true,
-          "piotroski_f_score": 5,
-          "altman_z_score": 18.87,
-          "dcf_fair_value": 148.18500366210938,
-          "dcf_margin_of_safety_pct": -70.0
-        },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $148.19 (Margin of Safety: -70.0%)."
-      },
-      {
-        "agent_name": "Real-Time Price & Tape Scout",
-        "ticker": "MSFT",
-        "spot_price": 493.95,
-        "day_high": 495.19,
-        "day_low": 490.15,
-        "change_pct": -1.15,
-        "range_position_pct": 75.4,
-        "rvol": 0.84,
-        "momentum_velocity_pct": -1.41,
+        "spot_price": 315.34,
+        "day_high": 319.15,
+        "day_low": 309.9,
+        "change_pct": -0.28,
+        "range_position_pct": 58.8,
+        "rvol": 1.61,
+        "momentum_velocity_pct": -2.96,
         "conviction_score": 75.0,
         "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 0.84x, Range 75%, 5D Vel -1.4%)",
-        "timestamp": "2026-09-09T07:14:53.767754+00:00"
+        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.61x, Range 59%, 5D Vel -3.0%)",
+        "timestamp": "2026-09-10T07:11:06.254289+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -1441,7 +1306,7 @@
       "action_code": "SCALE_IN",
       "buy_votes": 2,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 66.2,
+      "consensus_conviction_pct": 67.7,
       "approved_leverage": 1.0,
       "kelly_allocation_pct": 2.97,
       "kelly_details": {
@@ -1453,27 +1318,28 @@
         "payoff_ratio": 1.75,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "tp1_target": 531.0,
-      "tp2_target": 560.63,
-      "stop_loss_target": 471.72,
-      "cro_thesis": "Committee Consensus: 2/5 specialist agents voted BUY (Average Conviction: 66.2%). VIX is 16.5 (NORMAL). Fractional Kelly: 2.97%. Trade signed off for execution.",
+      "tp1_target": 338.99,
+      "tp2_target": 357.91,
+      "stop_loss_target": 301.15,
+      "cro_thesis": "Committee Consensus: 2/5 specialist agents voted BUY (Average Conviction: 67.7%). VIX is 16.5 (NORMAL). Fractional Kelly: 2.97%. Trade signed off for execution.",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false
     }
   },
-  "NVDA": {
-    "timestamp": "2026-09-09T07:14:50.196194+00:00",
-    "ticker": "NVDA",
-    "spot_price": 225.73,
+  "last_deliberated_at": "2026-08-29T14:26:12.354905+00:00",
+  "MSFT": {
+    "timestamp": "2026-09-10T07:11:08.020289+00:00",
+    "ticker": "MSFT",
+    "spot_price": 491.65,
     "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
     "action_code": "HOLD",
-    "consensus_conviction_pct": 59.2,
+    "consensus_conviction_pct": 61.2,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 242.66,
-    "tp2_target": 256.2,
-    "stop_loss_target": 215.57,
+    "tp1_target": 528.52,
+    "tp2_target": 558.02,
+    "stop_loss_target": 469.53,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
@@ -1485,14 +1351,14 @@
         "vote": "BUY",
         "conviction_score": 82.0,
         "key_metrics": {
-          "estimated_rsi": 54.2,
-          "sma_200": 196.9,
-          "ma_21": 220.35,
-          "return_5d_pct": 2.24,
+          "estimated_rsi": 54.4,
+          "sma_200": 431.07,
+          "ma_21": 494.94,
+          "return_5d_pct": -1.87,
           "trend_status": "BULLISH_MOMENTUM_EXPANSION",
-          "acpm_calibrated_prob": 0.4454
+          "acpm_calibrated_prob": 0.478
         },
-        "thesis": "Asset is in structural uptrend above 200 SMA ($196.90) with optimal pullback RSI (54.2)."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($431.07) with optimal pullback RSI (54.4)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -1504,10 +1370,10 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.015,
+          "finbert_polarity": 0.033,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (+0.01 polarity across 100 headlines)."
+        "thesis": "Balanced sentiment environment (+0.03 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -1521,26 +1387,26 @@
         "key_metrics": {
           "data_available": true,
           "piotroski_f_score": 5,
-          "altman_z_score": 25.0,
-          "dcf_fair_value": 67.71899871826172,
+          "altman_z_score": 18.8,
+          "dcf_fair_value": 147.4949981689453,
           "dcf_margin_of_safety_pct": -70.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $67.72 (Margin of Safety: -70.0%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $147.49 (Margin of Safety: -70.0%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
-        "ticker": "NVDA",
-        "spot_price": 225.73,
-        "day_high": 233.71,
-        "day_low": 224.85,
-        "change_pct": -2.01,
-        "range_position_pct": 9.9,
-        "rvol": 0.95,
-        "momentum_velocity_pct": 3.81,
-        "conviction_score": 40.0,
+        "ticker": "MSFT",
+        "spot_price": 491.65,
+        "day_high": 494.39,
+        "day_low": 489.8,
+        "change_pct": -0.47,
+        "range_position_pct": 40.3,
+        "rvol": 0.59,
+        "momentum_velocity_pct": -1.04,
+        "conviction_score": 50.0,
         "vote": "HOLD",
-        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 10%, RVOL 0.95x, 5D Vel +3.8%)",
-        "timestamp": "2026-09-09T07:14:50.191168+00:00"
+        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 40%, RVOL 0.59x, 5D Vel -1.0%)",
+        "timestamp": "2026-09-10T07:11:08.013984+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -1575,7 +1441,7 @@
       "action_code": "HOLD",
       "buy_votes": 1,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 59.2,
+      "consensus_conviction_pct": 61.2,
       "approved_leverage": 0.0,
       "kelly_allocation_pct": 0.0,
       "kelly_details": {
@@ -1587,10 +1453,144 @@
         "payoff_ratio": 1.75,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "tp1_target": 242.66,
-      "tp2_target": 256.2,
-      "stop_loss_target": 215.57,
-      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 59.2%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "tp1_target": 528.52,
+      "tp2_target": 558.02,
+      "stop_loss_target": 469.53,
+      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 61.2%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false,
+      "red_team_veto_triggered": false
+    }
+  },
+  "NVDA": {
+    "timestamp": "2026-09-10T07:11:04.299545+00:00",
+    "ticker": "NVDA",
+    "spot_price": 223.67,
+    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "action_code": "HOLD",
+    "consensus_conviction_pct": 61.2,
+    "approved_leverage": 0.0,
+    "kelly_allocation_pct": 0.0,
+    "tp1_target": 240.45,
+    "tp2_target": 253.87,
+    "stop_loss_target": 213.6,
+    "agent_testimonies": [
+      {
+        "agent_name": "Technical Momentum Specialist",
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
+        "academic_grounding": [
+          "Paper 25: Zarattini, Barbon, Aziz (2024) 5-Min Opening Range Breakout (ORB)",
+          "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)"
+        ],
+        "vote": "BUY",
+        "conviction_score": 82.0,
+        "key_metrics": {
+          "estimated_rsi": 54.2,
+          "sma_200": 197.09,
+          "ma_21": 220.64,
+          "return_5d_pct": 2.87,
+          "trend_status": "BULLISH_MOMENTUM_EXPANSION",
+          "acpm_calibrated_prob": 0.441
+        },
+        "thesis": "Asset is in structural uptrend above 200 SMA ($197.09) with optimal pullback RSI (54.2)."
+      },
+      {
+        "agent_name": "Sentiment & Alternative Data Specialist",
+        "role": "Pillar 2: FinBERT Transformer NLP Sentiment",
+        "academic_grounding": [
+          "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
+          "Paper 21: Bifet & Gavald\u00e0 (2007) ADWIN Adaptive Concept Drift Tracking"
+        ],
+        "vote": "HOLD",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "finbert_polarity": -0.036,
+          "headlines_analyzed": 100
+        },
+        "thesis": "Balanced sentiment environment (-0.04 polarity across 100 headlines)."
+      },
+      {
+        "agent_name": "Forensic & Valuation Auditor",
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "academic_grounding": [
+          "Paper 05: Bellman-Ford Fundamental Arbitrage Graph Theory",
+          "Paper 13: Chen et al. (2020) Supply Chain Contagion Graph Neural Networks"
+        ],
+        "vote": "HOLD",
+        "conviction_score": 24.0,
+        "key_metrics": {
+          "data_available": true,
+          "piotroski_f_score": 5,
+          "altman_z_score": 25.0,
+          "dcf_fair_value": 67.10099945068359,
+          "dcf_margin_of_safety_pct": -70.0
+        },
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $67.10 (Margin of Safety: -70.0%)."
+      },
+      {
+        "agent_name": "Real-Time Price & Tape Scout",
+        "ticker": "NVDA",
+        "spot_price": 223.67,
+        "day_high": 226.18,
+        "day_low": 223.46,
+        "change_pct": -0.91,
+        "range_position_pct": 7.7,
+        "rvol": 0.64,
+        "momentum_velocity_pct": -0.33,
+        "conviction_score": 50.0,
+        "vote": "HOLD",
+        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 8%, RVOL 0.64x, 5D Vel -0.3%)",
+        "timestamp": "2026-09-10T07:11:04.293829+00:00"
+      },
+      {
+        "agent_name": "Adversarial Red-Team Specialist",
+        "role": "Pillar 6: Devil's Advocate & Tail-Risk Stress Tester",
+        "academic_grounding": [
+          "Paper 18: Grossman & Zhou (1993) Optimal Drawdown Constraint",
+          "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)",
+          "Paper 16: Page (1954) CUSUM Change-Point Surveillance"
+        ],
+        "vote": "CLEAR",
+        "severity_score": 0.0,
+        "conviction_score": 100.0,
+        "risk_factors": [],
+        "key_metrics": {
+          "vulnerabilities_detected": 0,
+          "severity_score": 0.0,
+          "tail_risk_status": "LOW"
+        },
+        "thesis": "RED-TEAM CLEAR: No critical failure vectors, tail risks, or overextension anomalies detected."
+      }
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "academic_grounding": [
+        "Paper 18: Grossman & Zhou (1993) Optimal Drawdown Constraint",
+        "Paper 23: Busseti, Ryu, Boyd (Stanford 2016) Risk-Constrained Kelly Gambling",
+        "Paper 11: L\u00f3pez de Prado (2018) Triple-Barrier ATR Corridors",
+        "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
+        "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
+      ],
+      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "action_code": "HOLD",
+      "buy_votes": 1,
+      "total_specialist_votes": 5,
+      "consensus_conviction_pct": 61.2,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 4.57,
+        "edge": 0.32,
+        "kelly_fraction": 0.25,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "tp1_target": 240.45,
+      "tp2_target": 253.87,
+      "stop_loss_target": 213.6,
+      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 61.2%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false
@@ -3083,17 +3083,17 @@
     ]
   },
   "GOOGL": {
-    "timestamp": "2026-09-09T07:14:55.893655+00:00",
+    "timestamp": "2026-09-10T07:11:10.004091+00:00",
     "ticker": "GOOGL",
-    "spot_price": 338.36,
-    "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
-    "action_code": "SCALE_IN",
-    "consensus_conviction_pct": 66.2,
-    "approved_leverage": 1.0,
-    "kelly_allocation_pct": 2.97,
-    "tp1_target": 363.74,
-    "tp2_target": 384.04,
-    "stop_loss_target": 323.13,
+    "spot_price": 330.65,
+    "final_resolution": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "action_code": "VETO",
+    "consensus_conviction_pct": 56.0,
+    "approved_leverage": 0.0,
+    "kelly_allocation_pct": 0.0,
+    "tp1_target": 355.45,
+    "tp2_target": 375.29,
+    "stop_loss_target": 315.77,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
@@ -3102,17 +3102,17 @@
           "Paper 25: Zarattini, Barbon, Aziz (2024) 5-Min Opening Range Breakout (ORB)",
           "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)"
         ],
-        "vote": "BUY",
-        "conviction_score": 82.0,
+        "vote": "HOLD",
+        "conviction_score": 38.0,
         "key_metrics": {
-          "estimated_rsi": 44.0,
-          "sma_200": 336.21,
-          "ma_21": 343.36,
-          "return_5d_pct": -0.29,
-          "trend_status": "BULLISH_MOMENTUM_EXPANSION",
-          "acpm_calibrated_prob": 0.4769
+          "estimated_rsi": 37.4,
+          "sma_200": 336.4,
+          "ma_21": 342.08,
+          "return_5d_pct": -1.3,
+          "trend_status": "BEARISH_BELOW_SMA200",
+          "acpm_calibrated_prob": 0.4593
         },
-        "thesis": "Asset is in structural uptrend above 200 SMA ($336.21) with optimal pullback RSI (44.0)."
+        "thesis": "Asset is trading below its 200-day SMA ($336.40), signaling prevailing macro downtrend."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -3124,10 +3124,10 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.047,
+          "finbert_polarity": -0.065,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (+0.05 polarity across 100 headlines)."
+        "thesis": "Balanced sentiment environment (-0.07 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -3141,26 +3141,26 @@
         "key_metrics": {
           "data_available": true,
           "piotroski_f_score": 5,
-          "altman_z_score": 22.54,
-          "dcf_fair_value": 101.50799560546875,
+          "altman_z_score": 22.1,
+          "dcf_fair_value": 99.1949981689453,
           "dcf_margin_of_safety_pct": -70.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $101.51 (Margin of Safety: -70.0%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $99.19 (Margin of Safety: -70.0%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "GOOGL",
-        "spot_price": 338.36,
-        "day_high": 339.67,
-        "day_low": 333.22,
-        "change_pct": -0.03,
-        "range_position_pct": 79.7,
-        "rvol": 1.02,
-        "momentum_velocity_pct": 1.0,
-        "conviction_score": 75.0,
+        "spot_price": 330.65,
+        "day_high": 331.85,
+        "day_low": 327.9,
+        "change_pct": -2.28,
+        "range_position_pct": 69.6,
+        "rvol": 1.46,
+        "momentum_velocity_pct": -1.92,
+        "conviction_score": 68.0,
         "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.02x, Range 80%, 5D Vel +1.0%)",
-        "timestamp": "2026-09-09T07:14:55.888843+00:00"
+        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.46x, Range 70%, 5D Vel -1.9%)",
+        "timestamp": "2026-09-10T07:11:09.997786+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -3191,13 +3191,13 @@
         "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
         "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
       ],
-      "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
-      "action_code": "SCALE_IN",
-      "buy_votes": 2,
+      "final_resolution": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+      "action_code": "VETO",
+      "buy_votes": 1,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 66.2,
-      "approved_leverage": 1.0,
-      "kelly_allocation_pct": 2.97,
+      "consensus_conviction_pct": 56.0,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
       "kelly_details": {
         "full_kelly_pct": 18.29,
         "fractional_kelly_pct": 4.57,
@@ -3207,10 +3207,10 @@
         "payoff_ratio": 1.75,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "tp1_target": 363.74,
-      "tp2_target": 384.04,
-      "stop_loss_target": 323.13,
-      "cro_thesis": "Committee Consensus: 2/5 specialist agents voted BUY (Average Conviction: 66.2%). VIX is 16.5 (NORMAL). Fractional Kelly: 2.97%. Trade signed off for execution.",
+      "tp1_target": 355.45,
+      "tp2_target": 375.29,
+      "stop_loss_target": 315.77,
+      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 56.0%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200).",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false
@@ -3427,17 +3427,17 @@
     ]
   },
   "AMZN": {
-    "timestamp": "2026-09-09T07:14:57.681041+00:00",
+    "timestamp": "2026-09-10T07:11:12.754395+00:00",
     "ticker": "AMZN",
-    "spot_price": 256.97,
+    "spot_price": 252.4,
     "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
     "action_code": "HOLD",
-    "consensus_conviction_pct": 56.4,
+    "consensus_conviction_pct": 57.2,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 276.24,
-    "tp2_target": 291.66,
-    "stop_loss_target": 245.41,
+    "tp1_target": 271.33,
+    "tp2_target": 286.47,
+    "stop_loss_target": 241.04,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
@@ -3446,17 +3446,17 @@
           "Paper 25: Zarattini, Barbon, Aziz (2024) 5-Min Opening Range Breakout (ORB)",
           "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)"
         ],
-        "vote": "HOLD",
-        "conviction_score": 48.0,
+        "vote": "NEUTRAL",
+        "conviction_score": 52.0,
         "key_metrics": {
-          "estimated_rsi": 47.5,
-          "sma_200": 239.29,
-          "ma_21": 261.95,
-          "return_5d_pct": -1.08,
-          "trend_status": "BULLISH_MOMENTUM_EXPANSION",
-          "acpm_calibrated_prob": 0.348
+          "estimated_rsi": 36.2,
+          "sma_200": 239.44,
+          "ma_21": 260.72,
+          "return_5d_pct": -0.99,
+          "trend_status": "SIDEWAYS_CONSOLIDATION",
+          "acpm_calibrated_prob": 0.3462
         },
-        "thesis": "Asset is in structural uptrend above 200 SMA ($239.29) with optimal pullback RSI (47.5). ACPM Conformal Model signals caution (34.8% probability)."
+        "thesis": "Momentum neutral (RSI: 36.2). 21-day MA at $260.72. ACPM Conformal Model signals caution (34.6% probability)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -3468,10 +3468,10 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.078,
+          "finbert_polarity": 0.015,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (+0.08 polarity across 100 headlines)."
+        "thesis": "Balanced sentiment environment (+0.01 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -3485,26 +3485,26 @@
         "key_metrics": {
           "data_available": true,
           "piotroski_f_score": 5,
-          "altman_z_score": 9.15,
-          "dcf_fair_value": 77.09100036621093,
+          "altman_z_score": 9.03,
+          "dcf_fair_value": 75.71999816894531,
           "dcf_margin_of_safety_pct": -70.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $77.09 (Margin of Safety: -70.0%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $75.72 (Margin of Safety: -70.0%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "AMZN",
-        "spot_price": 256.97,
-        "day_high": 257.99,
-        "day_low": 254.75,
-        "change_pct": -0.6,
-        "range_position_pct": 68.5,
-        "rvol": 0.91,
-        "momentum_velocity_pct": 0.8,
+        "spot_price": 252.4,
+        "day_high": 254.62,
+        "day_low": 250.65,
+        "change_pct": -1.78,
+        "range_position_pct": 44.1,
+        "rvol": 1.02,
+        "momentum_velocity_pct": -1.01,
         "conviction_score": 60.0,
         "vote": "HOLD",
-        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 69%, RVOL 0.91x, 5D Vel +0.8%)",
-        "timestamp": "2026-09-09T07:14:57.676374+00:00"
+        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 44%, RVOL 1.02x, 5D Vel -1.0%)",
+        "timestamp": "2026-09-10T07:11:12.748707+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -3539,7 +3539,7 @@
       "action_code": "HOLD",
       "buy_votes": 0,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 56.4,
+      "consensus_conviction_pct": 57.2,
       "approved_leverage": 0.0,
       "kelly_allocation_pct": 0.0,
       "kelly_details": {
@@ -3551,27 +3551,27 @@
         "payoff_ratio": 1.75,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "tp1_target": 276.24,
-      "tp2_target": 291.66,
-      "stop_loss_target": 245.41,
-      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 56.4%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "tp1_target": 271.33,
+      "tp2_target": 286.47,
+      "stop_loss_target": 241.04,
+      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 57.2%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false
     }
   },
   "TSLA": {
-    "timestamp": "2026-09-09T07:15:01.007316+00:00",
+    "timestamp": "2026-09-10T07:11:16.209170+00:00",
     "ticker": "TSLA",
-    "spot_price": 368.16,
+    "spot_price": 367.81,
     "final_resolution": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
     "action_code": "VETO",
-    "consensus_conviction_pct": 64.9,
+    "consensus_conviction_pct": 56.4,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 395.77,
-    "tp2_target": 417.86,
-    "stop_loss_target": 351.59,
+    "tp1_target": 395.4,
+    "tp2_target": 417.46,
+    "stop_loss_target": 351.26,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
@@ -3583,14 +3583,14 @@
         "vote": "HOLD",
         "conviction_score": 38.0,
         "key_metrics": {
-          "estimated_rsi": 59.8,
-          "sma_200": 399.39,
-          "ma_21": 349.38,
-          "return_5d_pct": 0.06,
+          "estimated_rsi": 55.7,
+          "sma_200": 399.21,
+          "ma_21": 351.14,
+          "return_5d_pct": 3.29,
           "trend_status": "BEARISH_BELOW_SMA200",
-          "acpm_calibrated_prob": 0.533
+          "acpm_calibrated_prob": 0.5186
         },
-        "thesis": "Asset is trading below its 200-day SMA ($399.39), signaling prevailing macro downtrend."
+        "thesis": "Asset is trading below its 200-day SMA ($399.21), signaling prevailing macro downtrend."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -3599,13 +3599,13 @@
           "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
           "Paper 21: Bifet & Gavald\u00e0 (2007) ADWIN Adaptive Concept Drift Tracking"
         ],
-        "vote": "BUY",
-        "conviction_score": 69.5,
+        "vote": "HOLD",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.238,
+          "finbert_polarity": 0.069,
           "headlines_analyzed": 100
         },
-        "thesis": "Strong bullish news flow (++0.24 FinBERT score across 100 live headlines)."
+        "thesis": "Balanced sentiment environment (+0.07 polarity across 100 headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -3620,25 +3620,25 @@
           "data_available": true,
           "piotroski_f_score": 5,
           "altman_z_score": 25.0,
-          "dcf_fair_value": 110.44800109863282,
+          "dcf_fair_value": 110.34299926757812,
           "dcf_margin_of_safety_pct": -70.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $110.45 (Margin of Safety: -70.0%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $110.34 (Margin of Safety: -70.0%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "TSLA",
-        "spot_price": 368.16,
-        "day_high": 370.0,
-        "day_low": 355.8,
-        "change_pct": 3.98,
-        "range_position_pct": 87.0,
-        "rvol": 1.3,
-        "momentum_velocity_pct": 3.39,
-        "conviction_score": 93.0,
+        "spot_price": 367.81,
+        "day_high": 375.44,
+        "day_low": 367.25,
+        "change_pct": -0.1,
+        "range_position_pct": 6.8,
+        "rvol": 0.82,
+        "momentum_velocity_pct": 3.03,
+        "conviction_score": 70.0,
         "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.3x, Range 87%, 5D Vel +3.4%)",
-        "timestamp": "2026-09-09T07:15:01.002453+00:00"
+        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 0.82x, Range 7%, 5D Vel +3.0%)",
+        "timestamp": "2026-09-10T07:11:16.202995+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -3671,9 +3671,9 @@
       ],
       "final_resolution": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
       "action_code": "VETO",
-      "buy_votes": 2,
+      "buy_votes": 1,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 64.9,
+      "consensus_conviction_pct": 56.4,
       "approved_leverage": 0.0,
       "kelly_allocation_pct": 0.0,
       "kelly_details": {
@@ -3685,10 +3685,10 @@
         "payoff_ratio": 1.75,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "tp1_target": 395.77,
-      "tp2_target": 417.86,
-      "stop_loss_target": 351.59,
-      "cro_thesis": "Committee Consensus: 2/5 specialist agents voted BUY (Average Conviction: 64.9%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200).",
+      "tp1_target": 395.4,
+      "tp2_target": 417.46,
+      "stop_loss_target": 351.26,
+      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 56.4%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200).",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false
@@ -8813,17 +8813,17 @@
     ]
   },
   "META": {
-    "timestamp": "2026-09-09T07:14:59.383669+00:00",
+    "timestamp": "2026-09-10T07:11:14.510349+00:00",
     "ticker": "META",
-    "spot_price": 613.48,
-    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "action_code": "HOLD",
-    "consensus_conviction_pct": 52.9,
-    "approved_leverage": 0.0,
-    "kelly_allocation_pct": 0.0,
-    "tp1_target": 659.49,
-    "tp2_target": 696.3,
-    "stop_loss_target": 585.87,
+    "spot_price": 653.69,
+    "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+    "action_code": "SCALE_IN",
+    "consensus_conviction_pct": 59.8,
+    "approved_leverage": 1.0,
+    "kelly_allocation_pct": 1.93,
+    "tp1_target": 702.72,
+    "tp2_target": 741.94,
+    "stop_loss_target": 624.27,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
@@ -8835,14 +8835,14 @@
         "vote": "HOLD",
         "conviction_score": 42.0,
         "key_metrics": {
-          "estimated_rsi": 85.5,
-          "sma_200": 622.37,
-          "ma_21": 578.62,
-          "return_5d_pct": 7.19,
+          "estimated_rsi": 89.6,
+          "sma_200": 622.69,
+          "ma_21": 581.42,
+          "return_5d_pct": 12.99,
           "trend_status": "OVERBOUGHT_EXTENDED",
-          "acpm_calibrated_prob": 0.5173
+          "acpm_calibrated_prob": 0.4985
         },
-        "thesis": "Asset RSI is overbought (85.5 > 70), indicating high probability of short-term consolidation."
+        "thesis": "Asset RSI is overbought (89.6 > 70), indicating high probability of short-term consolidation."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -8851,13 +8851,13 @@
           "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
           "Paper 21: Bifet & Gavald\u00e0 (2007) ADWIN Adaptive Concept Drift Tracking"
         ],
-        "vote": "HOLD",
-        "conviction_score": 50.0,
+        "vote": "BUY",
+        "conviction_score": 68.2,
         "key_metrics": {
-          "finbert_polarity": 0.017,
+          "finbert_polarity": 0.204,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (+0.02 polarity across 100 headlines)."
+        "thesis": "Strong bullish news flow (++0.20 FinBERT score across 100 live headlines)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -8867,30 +8867,30 @@
           "Paper 13: Chen et al. (2020) Supply Chain Contagion Graph Neural Networks"
         ],
         "vote": "HOLD",
-        "conviction_score": 24.3,
+        "conviction_score": 24.0,
         "key_metrics": {
           "data_available": true,
           "piotroski_f_score": 5,
-          "altman_z_score": 10.75,
-          "dcf_fair_value": 190.06,
-          "dcf_margin_of_safety_pct": -69.0
+          "altman_z_score": 11.19,
+          "dcf_fair_value": 196.10700073242188,
+          "dcf_margin_of_safety_pct": -70.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $190.06 (Margin of Safety: -69.0%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $196.11 (Margin of Safety: -70.0%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "META",
-        "spot_price": 613.48,
-        "day_high": 624.8,
-        "day_low": 609.74,
-        "change_pct": -0.53,
-        "range_position_pct": 24.8,
-        "rvol": 1.16,
-        "momentum_velocity_pct": 6.04,
-        "conviction_score": 78.0,
+        "spot_price": 653.69,
+        "day_high": 657.86,
+        "day_low": 638.56,
+        "change_pct": 6.55,
+        "range_position_pct": 78.4,
+        "rvol": 2.07,
+        "momentum_velocity_pct": 10.26,
+        "conviction_score": 95.0,
         "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.16x, Range 25%, 5D Vel +6.0%)",
-        "timestamp": "2026-09-09T07:14:59.379018+00:00"
+        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 2.07x, Range 78%, 5D Vel +10.3%)",
+        "timestamp": "2026-09-10T07:11:14.504672+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -8904,7 +8904,7 @@
         "severity_score": 30.0,
         "conviction_score": 70.0,
         "risk_factors": [
-          "RSI extreme overbought (85.5 > 78) \u2014 institutional distribution / profit-taking imminent."
+          "RSI extreme overbought (89.6 > 78) \u2014 institutional distribution / profit-taking imminent."
         ],
         "key_metrics": {
           "vulnerabilities_detected": 1,
@@ -8923,13 +8923,13 @@
         "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
         "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
       ],
-      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-      "action_code": "HOLD",
-      "buy_votes": 1,
+      "final_resolution": "\ud83d\udfe1 CAUTIOUS SCALE-IN (Quorum Approved)",
+      "action_code": "SCALE_IN",
+      "buy_votes": 2,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 52.9,
-      "approved_leverage": 0.0,
-      "kelly_allocation_pct": 0.0,
+      "consensus_conviction_pct": 59.8,
+      "approved_leverage": 1.0,
+      "kelly_allocation_pct": 1.93,
       "kelly_details": {
         "full_kelly_pct": 18.29,
         "fractional_kelly_pct": 4.57,
@@ -8939,10 +8939,10 @@
         "payoff_ratio": 1.75,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "tp1_target": 659.49,
-      "tp2_target": 696.3,
-      "stop_loss_target": 585.87,
-      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 52.9%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "tp1_target": 702.72,
+      "tp2_target": 741.94,
+      "stop_loss_target": 624.27,
+      "cro_thesis": "Committee Consensus: 2/5 specialist agents voted BUY (Average Conviction: 59.8%). VIX is 16.5 (NORMAL). Fractional Kelly: 1.93%. Trade signed off for execution.",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false
