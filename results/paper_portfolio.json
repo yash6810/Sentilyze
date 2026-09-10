@@ -1,19 +1,19 @@
 {
   "initial_capital": 100000.0,
-  "cash": 49688.17068511963,
+  "cash": 12241.199432678222,
   "total_equity": 103057.32,
-  "unrealized_pnl": 1601.82,
-  "realized_pnl": 1455.4989797973622,
-  "win_rate": 50.0,
-  "total_trades": 2,
+  "unrealized_pnl": 1743.71,
+  "realized_pnl": 1313.6088259887683,
+  "win_rate": 33.3,
+  "total_trades": 3,
   "winning_trades": 1,
-  "losing_trades": 1,
+  "losing_trades": 2,
   "open_positions": {
     "TSLA": {
       "shares": 127,
       "initial_shares": 127,
       "entry_price": 354.0799865722656,
-      "current_price": 367.81,
+      "current_price": 367.80999755859375,
       "entry_date": "2026-09-07",
       "tp1_target": 389.37,
       "tp2_target": 417.61,
@@ -23,20 +23,18 @@
       "regime": "\u25bc BEARISH (Below SMA200)",
       "highest_price_seen": 368.92
     },
-    "GEV": {
-      "ticker": "GEV",
-      "shares": 7,
-      "initial_shares": 7,
-      "entry_price": 971.31,
-      "current_price": 951.04,
-      "entry_date": "2026-09-08",
-      "tp1_target": 1044.16,
-      "tp2_target": 1102.44,
-      "sl_target": 927.6,
+    "SNDK": {
+      "shares": 25,
+      "initial_shares": 25,
+      "entry_price": 1764.1700439453125,
+      "current_price": 1764.1700439453125,
+      "entry_date": "2026-09-10",
+      "tp1_target": 2018.55,
+      "tp2_target": 2222.05,
+      "sl_target": 1611.54,
       "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly",
-      "highest_price_seen": 971.31
+      "confidence": 0.7132037281990051,
+      "regime": "\u25b2 BULLISH (Above SMA200)"
     }
   },
   "closed_trades": [
@@ -61,6 +59,17 @@
       "pnl": 1455.5,
       "return_pct": 3.24,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "GEV",
+      "shares": 7,
+      "entry_price": 971.31,
+      "exit_price": 951.0399780273438,
+      "entry_date": "2026-09-08",
+      "exit_date": "2026-09-10",
+      "pnl": -141.89,
+      "return_pct": -2.09,
+      "reason": "MODEL_SELL"
     }
   ],
   "equity_history": [
@@ -95,7 +104,15 @@
       "cash": 49688.17,
       "invested": 53369.15,
       "daily_return": -0.14
+    },
+    {
+      "date": "2026-09-10",
+      "timestamp": "2026-09-10T08:08:35.956528+00:00",
+      "total_equity": 103057.32,
+      "cash": 12241.2,
+      "invested": 90816.12,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-09T22:02:29.026436+00:00"
+  "last_updated": "2026-09-10T08:08:35.957066+00:00"
 }
