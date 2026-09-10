@@ -56,8 +56,12 @@ class FastFinBERTEngine:
         t0 = time.perf_counter()
 
         try:
-            self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-            base_model = AutoModelForSequenceClassification.from_pretrained(model_name)
+            self.tokenizer = AutoTokenizer.from_pretrained(
+                model_name, revision="main"
+            )  # nosec B615
+            base_model = AutoModelForSequenceClassification.from_pretrained(
+                model_name, revision="main"
+            )  # nosec B615
 
             if self.device == "cpu" and use_int8_quantization:
                 # Dynamic INT8 Quantization for Linear layers
