@@ -1,7 +1,7 @@
 # Graph Report - Sentilyze  (2026-09-10)
 
 ## Corpus Check
-- 1908 files · ~1,023,505 words
+- 1910 files · ~1,175,011 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `a3e6baaa`
+- Built from commit: `c954605f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -223,7 +223,7 @@ Nodes (14): CloudDataLake, Any, Supabase / PostgreSQL Cloud Data Lake Connector.
 
 ### Community 12 - "app.py"
 Cohesion: 0.18
-Nodes (15): get_model_universe_indicator(), load_universe_tickers(), main(), cache_data, Sentilyze - Institutional Algorithmic Trading & MLOps Platform. High-Speed…, Loads active S&P 100 universe tickers., Computes universe model training coverage and mean accuracy., render_portfolio_cockpit() (+7 more)
+Nodes (15): get_model_universe_indicator(), load_universe_tickers(), main(), cache_data, Sentilyze - Institutional Algorithmic Trading & MLOps Platform. High-Speed…, Loads active S&P 100 universe tickers., Computes universe model training coverage and mean accuracy using compiled…, render_portfolio_cockpit() (+7 more)
 
 ### Community 13 - "analyze_supply_chain_spillover"
 Cohesion: 0.14

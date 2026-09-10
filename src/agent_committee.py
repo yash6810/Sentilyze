@@ -498,17 +498,17 @@ class ChiefRiskOfficerAgent:
             action_code = "VETO"
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
-        elif buy_votes >= 3 and avg_conviction >= 70.0:
-            final_resolution = "🚀 HIGH CONVICTION UNANIMOUS COMMITTEE BUY"
+        elif buy_votes >= 2 and avg_conviction >= 50.0:
+            final_resolution = "🚀 HIGH CONVICTION COMMITTEE BUY"
             action_code = "EXECUTE_BUY"
             approved_leverage = 1.25
-            kelly_allocation_pct = calculated_kelly_pct
-        elif buy_votes >= 2 and avg_conviction >= 55.0:
-            final_resolution = "🟡 CAUTIOUS SCALE-IN (Quorum Approved)"
+            kelly_allocation_pct = max(calculated_kelly_pct, 5.0)
+        elif buy_votes >= 1 and avg_conviction >= 42.0:
+            final_resolution = "🟡 AGILE SCALE-IN (Quorum Approved)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
-            kelly_allocation_pct = round(calculated_kelly_pct * 0.65, 2)
-        elif buy_votes == 1 or avg_conviction >= 45.0:
+            kelly_allocation_pct = max(round(calculated_kelly_pct * 0.65, 2), 3.5)
+        elif buy_votes >= 1 or avg_conviction >= 38.0:
             final_resolution = "⏸️ NEUTRAL HOLD / NO ACTION"
             action_code = "HOLD"
             approved_leverage = 0.0

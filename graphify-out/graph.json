@@ -1132,7 +1132,7 @@
       "file_type": "code",
       "norm_label": "get_vix_data()",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L799"
+      "source_location": "L800"
     },
     {
       "id": "src_data_sync_sync_all_market_data",
@@ -2176,7 +2176,7 @@
       "file_type": "code",
       "norm_label": "main()",
       "source_file": "app.py",
-      "source_location": "L74"
+      "source_location": "L94"
     },
     {
       "id": "src_ui_cockpit_portfolio_render_portfolio_cockpit",
@@ -2416,7 +2416,7 @@
       "file_type": "code",
       "norm_label": "._hash_text()",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L85"
+      "source_location": "L89"
     },
     {
       "id": "src_fast_finbert_fastfinbertengine_init",
@@ -2452,7 +2452,7 @@
       "file_type": "code",
       "norm_label": ".predict_batch()",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L172"
+      "source_location": "L176"
     },
     {
       "id": "src_fast_finbert_fastfinbertengine_predict_single",
@@ -2464,7 +2464,7 @@
       "file_type": "code",
       "norm_label": ".predict_single()",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L88"
+      "source_location": "L92"
     },
     {
       "id": "src_ui_components_render_conviction_gauge",
@@ -3472,7 +3472,7 @@
       "file_type": "code",
       "norm_label": ".run_premarket_briefing()",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L843"
+      "source_location": "L860"
     },
     {
       "id": "src_autonomous_trader_autonomoustradingengine_run_self_improvement_feedback_loop",
@@ -3484,7 +3484,7 @@
       "file_type": "code",
       "norm_label": "._run_self_improvement_feedback_loop()",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L690"
+      "source_location": "L707"
     },
     {
       "id": "src_autonomous_trader_check_daily_loss_circuit_breaker",
@@ -3508,7 +3508,7 @@
       "file_type": "code",
       "norm_label": "ensure_background_daemon_thread_running()",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L918"
+      "source_location": "L935"
     },
     {
       "id": "src_autonomous_trader_get_daemon_status",
@@ -3520,7 +3520,7 @@
       "file_type": "code",
       "norm_label": "get_daemon_status()",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L907"
+      "source_location": "L924"
     },
     {
       "id": "src_autonomous_trader_is_kill_switch_active",
@@ -3556,7 +3556,7 @@
       "file_type": "code",
       "norm_label": "run_autonomous_daemon()",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1014"
+      "source_location": "L1031"
     },
     {
       "id": "src_ui_ws_autonomous_trader_get_cached_chart_data",
@@ -6424,7 +6424,7 @@
       "file_type": "code",
       "norm_label": "train_sector_pooled_models()",
       "source_file": "train.py",
-      "source_location": "L216"
+      "source_location": "L218"
     },
     {
       "id": "src_ticker_sentinel_detect_peak_crest_exhaustion",
@@ -10516,7 +10516,7 @@
       "file_type": "code",
       "norm_label": "get_fast_finbert_engine()",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L179"
+      "source_location": "L183"
     },
     {
       "id": "tests_test_tri_model_pipeline_test_bull_trap_veto_logic",
@@ -11942,7 +11942,7 @@
       "source_location": "L77"
     },
     {
-      "id": "src_data_ingestion_rationale_806",
+      "id": "src_data_ingestion_rationale_807",
       "label": "Fetches historical data for the CBOE Volatility Index (VIX). Args: period\u2026",
       "_origin": "ast",
       "community": 1,
@@ -11950,7 +11950,7 @@
       "file_type": "rationale",
       "norm_label": "fetches historical data for the cboe volatility index (vix). args: period...",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L806"
+      "source_location": "L807"
     },
     {
       "id": "src_data_sync_rationale_11",
@@ -14180,12 +14180,12 @@
     },
     {
       "id": "app_rationale_45",
-      "label": "Computes universe model training coverage and mean accuracy.",
+      "label": "Computes universe model training coverage and mean accuracy using compiled\u2026",
       "_origin": "ast",
       "community": 12,
       "community_name": "app.py",
       "file_type": "rationale",
-      "norm_label": "computes universe model training coverage and mean accuracy.",
+      "norm_label": "computes universe model training coverage and mean accuracy using compiled...",
       "source_file": "app.py",
       "source_location": "L45"
     },
@@ -14432,7 +14432,7 @@
       "source_location": ""
     },
     {
-      "id": "src_fast_finbert_rationale_175",
+      "id": "src_fast_finbert_rationale_179",
       "label": "Vectorized micro-batch inference for multiple headlines.",
       "_origin": "ast",
       "community": 126,
@@ -14440,7 +14440,7 @@
       "file_type": "rationale",
       "norm_label": "vectorized micro-batch inference for multiple headlines.",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L175"
+      "source_location": "L179"
     },
     {
       "id": "src_fast_finbert_rationale_26",
@@ -14454,7 +14454,7 @@
       "source_location": "L26"
     },
     {
-      "id": "src_fast_finbert_rationale_89",
+      "id": "src_fast_finbert_rationale_93",
       "label": "Runs accelerated sentiment scoring on a single headline. Includes Companion\u2026",
       "_origin": "ast",
       "community": 126,
@@ -14462,7 +14462,7 @@
       "file_type": "rationale",
       "norm_label": "runs accelerated sentiment scoring on a single headline. includes companion...",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L89"
+      "source_location": "L93"
     },
     {
       "id": "src_ui_ws_alpha_dag",
@@ -15719,7 +15719,7 @@
       "source_location": "L1"
     },
     {
-      "id": "src_autonomous_trader_rationale_1015",
+      "id": "src_autonomous_trader_rationale_1032",
       "label": "Runs the Autonomous Trading Engine continuously on an interval.",
       "_origin": "ast",
       "community": 16,
@@ -15727,7 +15727,7 @@
       "file_type": "rationale",
       "norm_label": "runs the autonomous trading engine continuously on an interval.",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1015"
+      "source_location": "L1032"
     },
     {
       "id": "src_autonomous_trader_rationale_114",
@@ -15796,7 +15796,7 @@
       "source_location": "L57"
     },
     {
-      "id": "src_autonomous_trader_rationale_693",
+      "id": "src_autonomous_trader_rationale_710",
       "label": "Executes the Self-Improving Feedback Loop: 1. Analyzes trade autopsies on\u2026",
       "_origin": "ast",
       "community": 16,
@@ -15804,7 +15804,7 @@
       "file_type": "rationale",
       "norm_label": "executes the self-improving feedback loop: 1. analyzes trade autopsies on...",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L693"
+      "source_location": "L710"
     },
     {
       "id": "src_autonomous_trader_rationale_82",
@@ -15818,7 +15818,7 @@
       "source_location": "L82"
     },
     {
-      "id": "src_autonomous_trader_rationale_844",
+      "id": "src_autonomous_trader_rationale_861",
       "label": "Gathers overnight macro VIX volatility regime, paper portfolio balance, and top\u2026",
       "_origin": "ast",
       "community": 16,
@@ -15826,10 +15826,10 @@
       "file_type": "rationale",
       "norm_label": "gathers overnight macro vix volatility regime, paper portfolio balance, and top...",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L844"
+      "source_location": "L861"
     },
     {
-      "id": "src_autonomous_trader_rationale_908",
+      "id": "src_autonomous_trader_rationale_925",
       "label": "Returns current live daemon running state and last pulse timestamp.",
       "_origin": "ast",
       "community": 16,
@@ -15837,10 +15837,10 @@
       "file_type": "rationale",
       "norm_label": "returns current live daemon running state and last pulse timestamp.",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L908"
+      "source_location": "L925"
     },
     {
-      "id": "src_autonomous_trader_rationale_919",
+      "id": "src_autonomous_trader_rationale_936",
       "label": "Ensures a single background autonomous trading daemon thread is permanently\u2026",
       "_origin": "ast",
       "community": 16,
@@ -15848,7 +15848,7 @@
       "file_type": "rationale",
       "norm_label": "ensures a single background autonomous trading daemon thread is permanently...",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L919"
+      "source_location": "L936"
     },
     {
       "id": "src_ui_ws_autonomous_trader_rationale_1",
@@ -20746,7 +20746,7 @@
       "source_location": "L88"
     },
     {
-      "id": "train_rationale_222",
+      "id": "train_rationale_224",
       "label": "Trains institutional ACPM Sector-Pooled Multi-Task models across the universe.\u2026",
       "_origin": "ast",
       "community": 4,
@@ -20754,7 +20754,7 @@
       "file_type": "rationale",
       "norm_label": "trains institutional acpm sector-pooled multi-task models across the universe....",
       "source_file": "train.py",
-      "source_location": "L222"
+      "source_location": "L224"
     },
     {
       "id": "train_rationale_23",
@@ -26672,7 +26672,7 @@
       "source_location": "L1"
     },
     {
-      "id": "src_fast_finbert_rationale_180",
+      "id": "src_fast_finbert_rationale_184",
       "label": "Singleton getter for FastFinBERTEngine.",
       "_origin": "ast",
       "community": 85,
@@ -26680,7 +26680,7 @@
       "file_type": "rationale",
       "norm_label": "singleton getter for fastfinbertengine.",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L180"
+      "source_location": "L184"
     },
     {
       "id": "src_neural_gating_network_rationale_1",
@@ -27922,102 +27922,6 @@
     },
     {
       "source": "app_main",
-      "target": "app_get_model_universe_indicator",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "app.py",
-      "source_location": "L117",
-      "weight": 1.0
-    },
-    {
-      "source": "app_main",
-      "target": "src_ui_theme_inject_custom_theme",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "app.py",
-      "source_location": "L140",
-      "weight": 1.0
-    },
-    {
-      "source": "app_main",
-      "target": "app_load_universe_tickers",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "app.py",
-      "source_location": "L143",
-      "weight": 1.0
-    },
-    {
-      "source": "app_main",
-      "target": "src_ui_cockpit_trading_render_trading_cockpit",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "app.py",
-      "source_location": "L188",
-      "weight": 1.0
-    },
-    {
-      "source": "app_main",
-      "target": "src_ui_cockpit_smart_money_render_smart_money_cockpit",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "app.py",
-      "source_location": "L192",
-      "weight": 1.0
-    },
-    {
-      "source": "app_main",
-      "target": "src_ui_cockpit_portfolio_render_portfolio_cockpit",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "app.py",
-      "source_location": "L196",
-      "weight": 1.0
-    },
-    {
-      "source": "app_main",
-      "target": "src_ui_cockpit_backtest_render_backtest_cockpit",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "app.py",
-      "source_location": "L200",
-      "weight": 1.0
-    },
-    {
-      "source": "app_main",
-      "target": "src_ui_cockpit_deep_quant_render_deep_quant_cockpit",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "app.py",
-      "source_location": "L204",
-      "weight": 1.0
-    },
-    {
-      "source": "app_main",
       "target": "src_autonomous_trader_ensure_background_daemon_thread_running",
       "relation": "calls",
       "_origin": "ast",
@@ -28025,7 +27929,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.py",
-      "source_location": "L81",
+      "source_location": "L101",
       "weight": 1.0
     },
     {
@@ -28037,7 +27941,103 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "app.py",
-      "source_location": "L97",
+      "source_location": "L117",
+      "weight": 1.0
+    },
+    {
+      "source": "app_main",
+      "target": "app_get_model_universe_indicator",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.py",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "app_main",
+      "target": "src_ui_theme_inject_custom_theme",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.py",
+      "source_location": "L160",
+      "weight": 1.0
+    },
+    {
+      "source": "app_main",
+      "target": "app_load_universe_tickers",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.py",
+      "source_location": "L163",
+      "weight": 1.0
+    },
+    {
+      "source": "app_main",
+      "target": "src_ui_cockpit_trading_render_trading_cockpit",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.py",
+      "source_location": "L208",
+      "weight": 1.0
+    },
+    {
+      "source": "app_main",
+      "target": "src_ui_cockpit_smart_money_render_smart_money_cockpit",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.py",
+      "source_location": "L212",
+      "weight": 1.0
+    },
+    {
+      "source": "app_main",
+      "target": "src_ui_cockpit_portfolio_render_portfolio_cockpit",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.py",
+      "source_location": "L216",
+      "weight": 1.0
+    },
+    {
+      "source": "app_main",
+      "target": "src_ui_cockpit_backtest_render_backtest_cockpit",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.py",
+      "source_location": "L220",
+      "weight": 1.0
+    },
+    {
+      "source": "app_main",
+      "target": "src_ui_cockpit_deep_quant_render_deep_quant_cockpit",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "app.py",
+      "source_location": "L224",
       "weight": 1.0
     },
     {
@@ -29921,7 +29921,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L548",
+      "source_location": "L565",
       "weight": 1.0
     },
     {
@@ -29933,7 +29933,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L611",
+      "source_location": "L628",
       "weight": 1.0
     },
     {
@@ -29945,7 +29945,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L636",
+      "source_location": "L653",
       "weight": 1.0
     },
     {
@@ -29957,7 +29957,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L662",
+      "source_location": "L679",
       "weight": 1.0
     },
     {
@@ -29969,7 +29969,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L669",
+      "source_location": "L686",
       "weight": 1.0
     },
     {
@@ -30029,7 +30029,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L853",
+      "source_location": "L870",
       "weight": 1.0
     },
     {
@@ -30041,7 +30041,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L864",
+      "source_location": "L881",
       "weight": 1.0
     },
     {
@@ -30053,7 +30053,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L884",
+      "source_location": "L901",
       "weight": 1.0
     },
     {
@@ -30065,7 +30065,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L793",
+      "source_location": "L810",
       "weight": 1.0
     },
     {
@@ -30077,7 +30077,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L937",
+      "source_location": "L954",
       "weight": 1.0
     },
     {
@@ -30089,7 +30089,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L944",
+      "source_location": "L961",
       "weight": 1.0
     },
     {
@@ -30101,7 +30101,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1016",
+      "source_location": "L1033",
       "weight": 1.0
     },
     {
@@ -30905,7 +30905,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L714",
+      "source_location": "L715",
       "weight": 1.0
     },
     {
@@ -30917,7 +30917,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L715",
+      "source_location": "L716",
       "weight": 1.0
     },
     {
@@ -30929,7 +30929,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L743",
+      "source_location": "L744",
       "weight": 1.0
     },
     {
@@ -30941,7 +30941,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L747",
+      "source_location": "L748",
       "weight": 1.0
     },
     {
@@ -30953,7 +30953,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L751",
+      "source_location": "L752",
       "weight": 1.0
     },
     {
@@ -30965,7 +30965,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L755",
+      "source_location": "L756",
       "weight": 1.0
     },
     {
@@ -30977,7 +30977,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L759",
+      "source_location": "L760",
       "weight": 1.0
     },
     {
@@ -30989,7 +30989,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L764",
+      "source_location": "L765",
       "weight": 1.0
     },
     {
@@ -31001,7 +31001,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L852",
+      "source_location": "L853",
       "weight": 1.0
     },
     {
@@ -31013,7 +31013,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L856",
+      "source_location": "L857",
       "weight": 1.0
     },
     {
@@ -31541,7 +31541,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L176",
+      "source_location": "L180",
       "weight": 1.0
     },
     {
@@ -31553,7 +31553,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L111",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -31565,7 +31565,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L181",
+      "source_location": "L185",
       "weight": 1.0
     },
     {
@@ -40109,7 +40109,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "train.py",
-      "source_location": "L239",
+      "source_location": "L241",
       "weight": 1.0
     },
     {
@@ -41597,7 +41597,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L843",
+      "source_location": "L860",
       "weight": 1.0
     },
     {
@@ -41609,7 +41609,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L690",
+      "source_location": "L707",
       "weight": 1.0
     },
     {
@@ -41633,7 +41633,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L907",
+      "source_location": "L924",
       "weight": 1.0
     },
     {
@@ -42809,7 +42809,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L172",
+      "source_location": "L176",
       "weight": 1.0
     },
     {
@@ -42821,7 +42821,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/fast_finbert.py",
-      "source_location": "L88",
+      "source_location": "L92",
       "weight": 1.0
     },
     {
@@ -44849,55 +44849,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "app.py",
-      "source_location": "L186",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "src_ui_cockpit_smart_money_render_smart_money_cockpit",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "app.py",
-      "source_location": "L190",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "src_ui_cockpit_portfolio_render_portfolio_cockpit",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "app.py",
-      "source_location": "L194",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "src_ui_cockpit_backtest_render_backtest_cockpit",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "app.py",
-      "source_location": "L198",
-      "weight": 1.0
-    },
-    {
-      "source": "app",
-      "target": "src_ui_cockpit_deep_quant_render_deep_quant_cockpit",
-      "relation": "imports",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "import",
-      "source_file": "app.py",
-      "source_location": "L202",
+      "source_location": "L206",
       "weight": 1.0
     },
     {
@@ -44914,6 +44866,42 @@
     },
     {
       "source": "app",
+      "target": "src_ui_cockpit_smart_money_render_smart_money_cockpit",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "app.py",
+      "source_location": "L210",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "src_ui_cockpit_portfolio_render_portfolio_cockpit",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "app.py",
+      "source_location": "L214",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
+      "target": "src_ui_cockpit_backtest_render_backtest_cockpit",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "app.py",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
       "target": "src_ui_components_get_market_status",
       "relation": "imports",
       "_origin": "ast",
@@ -44926,6 +44914,18 @@
     },
     {
       "source": "app",
+      "target": "src_ui_cockpit_deep_quant_render_deep_quant_cockpit",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "app.py",
+      "source_location": "L222",
+      "weight": 1.0
+    },
+    {
+      "source": "app",
       "target": "src_autonomous_trader_ensure_background_daemon_thread_running",
       "relation": "imports",
       "_origin": "ast",
@@ -44933,7 +44933,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "app.py",
-      "source_location": "L77",
+      "source_location": "L97",
       "weight": 1.0
     },
     {
@@ -46469,7 +46469,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L546",
+      "source_location": "L563",
       "weight": 1.0
     },
     {
@@ -46481,7 +46481,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L609",
+      "source_location": "L626",
       "weight": 1.0
     },
     {
@@ -46493,7 +46493,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L789",
+      "source_location": "L806",
       "weight": 1.0
     },
     {
@@ -46505,7 +46505,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L940",
+      "source_location": "L957",
       "weight": 1.0
     },
     {
@@ -54077,7 +54077,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "train.py",
-      "source_location": "L228",
+      "source_location": "L230",
       "weight": 1.0
     },
     {
@@ -60989,7 +60989,7 @@
       "confidence_score": 1.0,
       "context": "return_type",
       "source_file": "src/data_ingestion.py",
-      "source_location": "L799",
+      "source_location": "L800",
       "weight": 1.0
     },
     {
@@ -63887,7 +63887,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "app.py",
-      "source_location": "L74",
+      "source_location": "L94",
       "weight": 1.0
     },
     {
@@ -65361,7 +65361,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1014",
+      "source_location": "L1031",
       "weight": 1.0
     },
     {
@@ -65416,7 +65416,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L907",
+      "source_location": "L924",
       "weight": 1.0
     },
     {
@@ -65427,7 +65427,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L918",
+      "source_location": "L935",
       "weight": 1.0
     },
     {
@@ -66472,7 +66472,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/data_ingestion.py",
-      "source_location": "L799",
+      "source_location": "L800",
       "weight": 1.0
     },
     {
@@ -66736,7 +66736,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/fast_finbert.py",
-      "source_location": "L179",
+      "source_location": "L183",
       "weight": 1.0
     },
     {
@@ -72720,7 +72720,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "train.py",
-      "source_location": "L216",
+      "source_location": "L218",
       "weight": 1.0
     },
     {
@@ -73237,7 +73237,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L690",
+      "source_location": "L707",
       "weight": 1.0
     },
     {
@@ -73248,7 +73248,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L843",
+      "source_location": "L860",
       "weight": 1.0
     },
     {
@@ -73776,7 +73776,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/fast_finbert.py",
-      "source_location": "L172",
+      "source_location": "L176",
       "weight": 1.0
     },
     {
@@ -73809,7 +73809,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/fast_finbert.py",
-      "source_location": "L85",
+      "source_location": "L89",
       "weight": 1.0
     },
     {
@@ -73820,7 +73820,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/fast_finbert.py",
-      "source_location": "L88",
+      "source_location": "L92",
       "weight": 1.0
     },
     {
@@ -76222,14 +76222,14 @@
       "weight": 1.0
     },
     {
-      "source": "src_autonomous_trader_rationale_1015",
+      "source": "src_autonomous_trader_rationale_1032",
       "target": "src_autonomous_trader_run_autonomous_daemon",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1015",
+      "source_location": "L1032",
       "weight": 1.0
     },
     {
@@ -76299,14 +76299,14 @@
       "weight": 1.0
     },
     {
-      "source": "src_autonomous_trader_rationale_693",
+      "source": "src_autonomous_trader_rationale_710",
       "target": "src_autonomous_trader_autonomoustradingengine_run_self_improvement_feedback_loop",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L693",
+      "source_location": "L710",
       "weight": 1.0
     },
     {
@@ -76321,36 +76321,36 @@
       "weight": 1.0
     },
     {
-      "source": "src_autonomous_trader_rationale_844",
+      "source": "src_autonomous_trader_rationale_861",
       "target": "src_autonomous_trader_autonomoustradingengine_run_premarket_briefing",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L844",
+      "source_location": "L861",
       "weight": 1.0
     },
     {
-      "source": "src_autonomous_trader_rationale_908",
+      "source": "src_autonomous_trader_rationale_925",
       "target": "src_autonomous_trader_get_daemon_status",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L908",
+      "source_location": "L925",
       "weight": 1.0
     },
     {
-      "source": "src_autonomous_trader_rationale_919",
+      "source": "src_autonomous_trader_rationale_936",
       "target": "src_autonomous_trader_ensure_background_daemon_thread_running",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L919",
+      "source_location": "L936",
       "weight": 1.0
     },
     {
@@ -77410,14 +77410,14 @@
       "weight": 1.0
     },
     {
-      "source": "src_data_ingestion_rationale_806",
+      "source": "src_data_ingestion_rationale_807",
       "target": "src_data_ingestion_get_vix_data",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/data_ingestion.py",
-      "source_location": "L806",
+      "source_location": "L807",
       "weight": 1.0
     },
     {
@@ -77938,25 +77938,25 @@
       "weight": 1.0
     },
     {
-      "source": "src_fast_finbert_rationale_175",
+      "source": "src_fast_finbert_rationale_179",
       "target": "src_fast_finbert_fastfinbertengine_predict_batch",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/fast_finbert.py",
-      "source_location": "L175",
+      "source_location": "L179",
       "weight": 1.0
     },
     {
-      "source": "src_fast_finbert_rationale_180",
+      "source": "src_fast_finbert_rationale_184",
       "target": "src_fast_finbert_get_fast_finbert_engine",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/fast_finbert.py",
-      "source_location": "L180",
+      "source_location": "L184",
       "weight": 1.0
     },
     {
@@ -77971,14 +77971,14 @@
       "weight": 1.0
     },
     {
-      "source": "src_fast_finbert_rationale_89",
+      "source": "src_fast_finbert_rationale_93",
       "target": "src_fast_finbert_fastfinbertengine_predict_single",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/fast_finbert.py",
-      "source_location": "L89",
+      "source_location": "L93",
       "weight": 1.0
     },
     {
@@ -82371,14 +82371,14 @@
       "weight": 1.0
     },
     {
-      "source": "train_rationale_222",
+      "source": "train_rationale_224",
       "target": "train_train_sector_pooled_models",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "train.py",
-      "source_location": "L222",
+      "source_location": "L224",
       "weight": 1.0
     },
     {
@@ -82485,7 +82485,7 @@
       "confidence_score": 0.85,
       "context": "argument",
       "source_file": "train.py",
-      "source_location": "L252",
+      "source_location": "L254",
       "weight": 1.0
     },
     {
@@ -82799,5 +82799,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "a3e6baaa505323d8e530eed3d11046652ffffe6b"
+  "built_at_commit": "c954605f10a87ab2c1120b72727d74641fdabe97"
 }

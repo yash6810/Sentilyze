@@ -549,9 +549,9 @@ class AutonomousTradingEngine:
 
             scored_candidates.sort(key=lambda x: x[1], reverse=True)
             top_candidates = (
-                [t for t, _ in scored_candidates[:15]]
+                [t for t, _ in scored_candidates[:30]]
                 if scored_candidates
-                else unheld_tickers[:15]
+                else unheld_tickers[:30]
             )
 
             logger.info(
