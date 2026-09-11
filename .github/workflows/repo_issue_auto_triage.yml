@@ -85,3 +85,43 @@ jobs:
               });
               console.log(`Appended comment to existing issue #${existingIssue.number}`);
             }
+
+  auto-resolve-issue:
+    name: Auto-Close GitHub Issue on Pipeline Resolution
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Auto-Close Resolved Issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const wfName = context.payload.workflow_run ? context.payload.workflow_run.name : "AI Trading Pipeline (CI/CD)";
+            const commitSha = context.payload.workflow_run ? context.payload.workflow_run.head_sha.substring(0, 7) : context.sha.substring(0, 7);
+            const runUrl = context.payload.workflow_run ? context.payload.workflow_run.html_url : `https://github.com/${context.repo.owner}/${context.repo.repo}/actions`;
+
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+            });
+
+            const openIssues = issues.data.filter(i => i.title.includes(wfName) || (i.body && i.body.includes(wfName)));
+
+            for (const openIssue of openIssues) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: openIssue.number,
+                body: `✅ **Pipeline Resolved**: The workflow \`${wfName}\` passed successfully on commit \`${commitSha}\`!\n[View Successful Run](${runUrl})\n\nClosing issue automatically.`
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: openIssue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+              console.log(`Successfully closed issue #${openIssue.number}`);
+            }
