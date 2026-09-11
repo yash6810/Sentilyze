@@ -1,45 +1,77 @@
 {
-  "session_time": "Sep 10, 2026 \u2022 10:41 PM IST (01:11 PM EDT)",
+  "session_time": "Sep 11, 2026 \u2022 10:43 PM IST (01:13 PM EDT)",
   "stocks_in_play": [
     "AXON",
+    "CPRT",
     "BLDR",
     "FDXF",
-    "EFX",
     "FIX"
   ],
-  "signals_count": 1,
+  "signals_count": 3,
   "signals": [
+    {
+      "ticker": "BLDR",
+      "signal": "BUY",
+      "current_price": 60.71,
+      "confidence": 0.68,
+      "take_profit": 66.13,
+      "stop_loss": 58.0
+    },
+    {
+      "ticker": "FDXF",
+      "signal": "BUY",
+      "current_price": 126.82,
+      "confidence": 0.5956,
+      "take_profit": 136.82,
+      "stop_loss": 121.82
+    },
     {
       "ticker": "FIX",
       "signal": "BUY",
-      "current_price": 1589.36,
-      "confidence": 0.1556,
-      "take_profit": 1718.1,
-      "stop_loss": 1524.99
+      "current_price": 1674.72,
+      "confidence": 0.8115,
+      "take_profit": 1807.6,
+      "stop_loss": 1608.28
     }
   ],
   "executed_paper_trades": [
     {
+      "ticker": "BLDR",
+      "signal": "BUY",
+      "current_price": 60.71,
+      "confidence": 0.68,
+      "take_profit": 66.13,
+      "stop_loss": 58.0
+    },
+    {
+      "ticker": "FDXF",
+      "signal": "BUY",
+      "current_price": 126.82,
+      "confidence": 0.5956,
+      "take_profit": 136.82,
+      "stop_loss": 121.82
+    },
+    {
       "ticker": "FIX",
       "signal": "BUY",
-      "current_price": 1589.36,
-      "confidence": 0.1556,
-      "take_profit": 1718.1,
-      "stop_loss": 1524.99
+      "current_price": 1674.72,
+      "confidence": 0.8115,
+      "take_profit": 1807.6,
+      "stop_loss": 1608.28
     }
   ],
   "portfolio_summary": {
-    "total_equity": 151792.53,
+    "total_equity": 152934.07,
     "cash": 78366.10000000002,
-    "invested": 73426.42999999998,
-    "start_of_day_equity": 151885.37,
-    "daily_pnl": -92.84,
-    "daily_return_pct": -0.06,
-    "unrealized_pnl": -231.8,
-    "unrealized_pnl_pct": -0.32,
+    "invested": 74567.96999999999,
+    "start_of_day_equity": 151716.13,
+    "daily_pnl": 1217.94,
+    "daily_return_pct": 0.8,
+    "unrealized_pnl": 909.74,
+    "unrealized_pnl_pct": 1.22,
     "realized_pnl": 52024.33,
-    "total_pnl": 51792.53,
-    "total_return_pct": 51.79,
+    "total_pnl": 52934.07,
+    "total_return_pct": 52.93,
     "win_rate": 84.8,
     "open_positions_count": 10,
     "total_trades": 33,
