@@ -294,39 +294,39 @@ class AutonomousTradingEngine:
             unrealized_gain_pct = (spot_price - entry_price) / denom * 100.0
             max_gain_pct = (high_water - entry_price) / denom * 100.0
 
-            # Level 1: Breakeven Shield (Once in profit >= +1.2%, never allow trade to go red)
+            # Level 1: Agile Micro-Breakeven Shield (Once in profit >= +0.25%, never allow trade to go red)
             if (
                 not scaled_out
-                and max_gain_pct >= 1.2
-                and sl_target < entry_price * 1.002
+                and max_gain_pct >= 0.25
+                and sl_target < entry_price * 1.001
             ):
-                new_sl = round(entry_price * 1.002, 2)
+                new_sl = round(entry_price * 1.001, 2)
                 pos["sl_target"] = new_sl
                 sl_target = new_sl
                 logger.info(
                     f"🛡️ [BREAKEVEN SHIELD] {ticker} gained +{max_gain_pct:.2f}%. Stop trailed up to Breakeven (${new_sl:.2f})"
                 )
 
-            # Level 2: Trailing Profit Lock (If gained >= +2.5%, lock in >= +1.0% profit)
-            if max_gain_pct >= 2.5 and sl_target < entry_price * 1.01:
-                new_sl = round(entry_price * 1.01, 2)
+            # Level 2: Trailing Profit Lock (If gained >= +1.0%, lock in >= +0.4% profit)
+            if max_gain_pct >= 1.0 and sl_target < entry_price * 1.004:
+                new_sl = round(entry_price * 1.004, 2)
                 pos["sl_target"] = new_sl
                 sl_target = new_sl
                 logger.info(
-                    f"🔒 [PROFIT LOCK TIER 1] {ticker} peaked at +{max_gain_pct:.2f}%. Stop trailed to lock +1.0% profit (${new_sl:.2f})"
+                    f"🔒 [PROFIT LOCK TIER 1] {ticker} peaked at +{max_gain_pct:.2f}%. Stop trailed to lock +0.4% profit (${new_sl:.2f})"
                 )
 
-            # Level 3: Trailing Profit Lock (If gained >= +4.0%, lock in >= +2.0% profit)
-            if max_gain_pct >= 4.0 and sl_target < entry_price * 1.02:
-                new_sl = round(entry_price * 1.02, 2)
+            # Level 3: Trailing Profit Lock (If gained >= +2.0%, lock in >= +1.0% profit)
+            if max_gain_pct >= 2.0 and sl_target < entry_price * 1.010:
+                new_sl = round(entry_price * 1.010, 2)
                 pos["sl_target"] = new_sl
                 sl_target = new_sl
                 logger.info(
-                    f"🔒 [PROFIT LOCK TIER 2] {ticker} peaked at +{max_gain_pct:.2f}%. Stop trailed to lock +2.0% profit (${new_sl:.2f})"
+                    f"🔒 [PROFIT LOCK TIER 2] {ticker} peaked at +{max_gain_pct:.2f}%. Stop trailed to lock +1.0% profit (${new_sl:.2f})"
                 )
 
-            # ⚡ Check Stage 0 Quick Profit Micro-Harvest (+1.0% Gain)
-            if not stage0_taken and spot_price >= entry_price * 1.010 and shares >= 2:
+            # ⚡ Check Stage 0 Easy Profit Micro-Harvest (+0.40% Gain for guaranteed win streak)
+            if not stage0_taken and spot_price >= entry_price * 1.004 and shares >= 2:
                 third_shares = max(1, shares // 3)
                 proceeds = float(third_shares * spot_price)
                 cost_basis = float(third_shares * entry_price)
@@ -338,7 +338,7 @@ class AutonomousTradingEngine:
                 pos["shares"] = shares - third_shares
                 pos["stage0_taken"] = True
                 pos["sl_target"] = max(
-                    pos.get("sl_target", 0.0), round(entry_price * 1.002, 2)
+                    pos.get("sl_target", 0.0), round(entry_price * 1.001, 2)
                 )
 
                 tp0_record = {
@@ -348,16 +348,16 @@ class AutonomousTradingEngine:
                     "exit_price": spot_price,
                     "pnl": round(pnl, 2),
                     "return_pct": round(ret_pct, 2),
-                    "action": "STAGE0_MICRO_HARVEST_33PCT",
+                    "action": "STAGE0_EASY_WIN_HARVEST_33PCT",
                 }
                 executed_actions.setdefault("take_profits_tp0", []).append(tp0_record)
                 logger.info(
-                    f"💰 [STAGE 0 QUICK HARVEST] Sold {third_shares} shares of {ticker} @ ${spot_price:.2f} (+{ret_pct:.2f}%) | Realized PnL: ${pnl:+,.2f} | Stop locked at Breakeven (${pos['sl_target']:.2f})"
+                    f"💰 [EASY PROFIT HARVEST] Sold {third_shares} shares of {ticker} @ ${spot_price:.2f} (+{ret_pct:.2f}%) | Realized PnL: ${pnl:+,.2f} | Stop locked at Breakeven (${pos['sl_target']:.2f})"
                 )
                 send_discord_execution_alert(
                     {
                         "action": "SELL",
-                        "stage": "STAGE0_QUICK_HARVEST_1.0PCT",
+                        "stage": "STAGE0_EASY_WIN_HARVEST_0.40PCT",
                         "ticker": ticker,
                         "price": spot_price,
                         "entry_price": entry_price,

@@ -201,6 +201,7 @@ class PaperBroker:
             entry_price = pos["entry_price"]
             tp1_target = pos["tp1_target"]
             tp2_target = pos["tp2_target"]
+            sl_target = float(pos.get("sl_target", entry_price * 0.95))
             scaled_out = pos.get("scaled_out", False)
 
             # Smart Money Zero-Giveback Ratchet & High-Watermark 80% Profit Lock
@@ -229,7 +230,7 @@ class PaperBroker:
                     entry_price=entry_price,
                     highest_price_seen=highest_seen,
                     current_sl=sl_target,
-                    min_profit_threshold_pct=1.20,
+                    min_profit_threshold_pct=0.30,
                     lock_fraction=0.80,
                 )
                 pos["highest_price_seen"] = new_peak
