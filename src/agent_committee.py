@@ -290,9 +290,46 @@ class SentimentCatalystAgent:
                     p_res = fast_finbert.predict_single(t, ticker=ticker)
                     sent_scores.append(p_res["sentiment_score"])
 
-                net_polarity = (
-                    round(float(np.mean(sent_scores)), 3) if sent_scores else 0.0
-                )
+                if sent_scores:
+                    time_col = None
+                    if isinstance(news_raw, pd.DataFrame):
+                        for c in [
+                            "date",
+                            "publishedAt",
+                            "Date",
+                            "published_date",
+                            "time",
+                        ]:
+                            if c in news_raw.columns:
+                                time_col = c
+                                break
+
+                    if (
+                        time_col
+                        and isinstance(news_raw, pd.DataFrame)
+                        and len(news_raw) >= len(sent_scores)
+                    ):
+                        from src.sentiment_decay import (
+                            compute_exponential_decay_weights,
+                        )
+
+                        try:
+                            weights = compute_exponential_decay_weights(
+                                news_raw[time_col].iloc[: len(sent_scores)],
+                                half_life_hours=4.0,
+                            )
+                            net_polarity = round(float(np.dot(weights, sent_scores)), 3)
+                        except Exception:
+                            raw_w = np.exp(-np.arange(len(sent_scores)) * 0.35)
+                            weights = raw_w / np.sum(raw_w)
+                            net_polarity = round(float(np.dot(weights, sent_scores)), 3)
+                    else:
+                        # Rank-based exponential decay for reverse chronological news
+                        raw_w = np.exp(-np.arange(len(sent_scores)) * 0.35)
+                        weights = raw_w / np.sum(raw_w)
+                        net_polarity = round(float(np.dot(weights, sent_scores)), 3)
+                else:
+                    net_polarity = 0.0
         except Exception as e:
             logger.debug(f"Sentiment evaluation notice for {ticker}: {e}")
             net_polarity = 0.0
@@ -519,11 +556,37 @@ class ChiefRiskOfficerAgent:
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
 
-        # ATR Risk Targets (+2.5 ATR TP1, +4.5 ATR TP2, -1.5 ATR SL) - Paper 11
-        atr_est = max(spot_price * 0.03, 1.0)
-        tp1 = round(spot_price + (2.5 * atr_est), 2)
-        tp2 = round(spot_price + (4.5 * atr_est), 2)
-        sl = round(max(spot_price - (1.5 * atr_est), spot_price * 0.85), 2)
+        # Empirical 14-Day ATR Volatility Corridors (+2.5 ATR TP1, +4.5 ATR TP2, -1.5 ATR SL) - Paper 11
+        atr_val = None
+        try:
+            hist_df = get_price_history(ticker, period="6mo", use_cache=True)
+            if (
+                isinstance(hist_df, pd.DataFrame)
+                and len(hist_df) >= 15
+                and "High" in hist_df.columns
+                and "Low" in hist_df.columns
+                and "Close" in hist_df.columns
+            ):
+                h = hist_df["High"]
+                l = hist_df["Low"]
+                c = hist_df["Close"]
+                tr1 = h - l
+                tr2 = (h - c.shift(1)).abs()
+                tr3 = (l - c.shift(1)).abs()
+                tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+                atr_14 = float(tr.rolling(14).mean().dropna().iloc[-1])
+                if not np.isnan(atr_14) and atr_14 > 0:
+                    atr_val = round(atr_14, 2)
+        except Exception as ae:
+            logger.debug(f"Empirical ATR calculation notice for {ticker}: {ae}")
+
+        if atr_val is None or atr_val <= 0:
+            atr_val = round(max(spot_price * 0.03, 1.0), 2)
+
+        tp1 = round(spot_price + (2.5 * atr_val), 2)
+        tp2 = round(spot_price + (4.5 * atr_val), 2)
+        sl = round(max(spot_price - (1.5 * atr_val), spot_price * 0.85), 2)
+        atr_pct = round((atr_val / spot_price) * 100.0, 2)
 
         reason_str = veto_reason if veto_reason else "Insufficient consensus."
         action_msg = (
@@ -535,7 +598,7 @@ class ChiefRiskOfficerAgent:
 
         cro_thesis = (
             f"Committee Consensus: {buy_votes}/{len(agent_reports)} specialist agents voted BUY (Average Conviction: {avg_conviction:.1f}%). "
-            f"VIX is {vix_level:.1f} ({vix_status}). Fractional Kelly: {kelly_allocation_pct}%. {action_msg}"
+            f"ATR14 is ${atr_val:.2f} ({atr_pct:.1f}% vol). VIX is {vix_level:.1f} ({vix_status}). Fractional Kelly: {kelly_allocation_pct}%. {action_msg}"
         )
 
         return {
@@ -555,6 +618,8 @@ class ChiefRiskOfficerAgent:
             "approved_leverage": approved_leverage,
             "kelly_allocation_pct": kelly_allocation_pct,
             "kelly_details": kelly_result,
+            "atr_14": atr_val,
+            "atr_pct": atr_pct,
             "tp1_target": tp1,
             "tp2_target": tp2,
             "stop_loss_target": sl,
@@ -631,6 +696,8 @@ def convene_trading_committee(
         "tp1_target": cro_signoff["tp1_target"],
         "tp2_target": cro_signoff["tp2_target"],
         "stop_loss_target": cro_signoff["stop_loss_target"],
+        "atr_14": cro_signoff.get("atr_14", 0.0),
+        "atr_pct": cro_signoff.get("atr_pct", 0.0),
         "agent_testimonies": specialist_reports,
         "cro_signoff": cro_signoff,
     }

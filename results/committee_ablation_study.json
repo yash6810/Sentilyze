@@ -58,51 +58,51 @@
     "configurations": {
       "full_committee": {
         "name": "1. Full 4-Agent Committee (Tech + Sent + Forensics + CRO)",
-        "total_return_pct": 2.19,
-        "sharpe_ratio": 0.27,
-        "win_rate_pct": 53.33,
+        "total_return_pct": -1.66,
+        "sharpe_ratio": 0.01,
+        "win_rate_pct": 56.25,
         "max_drawdown_pct": -15.34,
-        "total_trades": 15
+        "total_trades": 16
       },
       "minus_forensic": {
         "name": "2. Committee Minus Forensic Auditor",
-        "total_return_pct": 12.39,
-        "sharpe_ratio": 1.25,
+        "total_return_pct": 11.93,
+        "sharpe_ratio": 1.21,
         "win_rate_pct": 75.0,
         "max_drawdown_pct": -7.73,
         "total_trades": 8
       },
       "minus_sentiment": {
         "name": "3. Committee Minus Sentiment (FinBERT)",
-        "total_return_pct": -2.01,
-        "sharpe_ratio": -0.01,
-        "win_rate_pct": 56.25,
+        "total_return_pct": -5.7,
+        "sharpe_ratio": -0.27,
+        "win_rate_pct": 52.94,
         "max_drawdown_pct": -15.34,
-        "total_trades": 16
+        "total_trades": 17
       },
       "minus_cro": {
         "name": "4. Committee Minus CRO (Fixed Allocation, No ATR Sizing)",
-        "total_return_pct": -0.52,
-        "sharpe_ratio": 0.1,
-        "win_rate_pct": 61.9,
-        "max_drawdown_pct": -16.7,
+        "total_return_pct": -3.22,
+        "sharpe_ratio": -0.08,
+        "win_rate_pct": 57.14,
+        "max_drawdown_pct": -16.3,
         "total_trades": 21
       },
       "technical_only": {
         "name": "5. Technical Alpha Agent Only",
-        "total_return_pct": 12.39,
-        "sharpe_ratio": 1.25,
+        "total_return_pct": 11.93,
+        "sharpe_ratio": 1.21,
         "win_rate_pct": 75.0,
         "max_drawdown_pct": -7.73,
         "total_trades": 8
       }
     },
     "sensitivity_attribution": {
-      "forensic_auditor_delta_sharpe": -0.98,
+      "forensic_auditor_delta_sharpe": -1.2,
       "sentiment_catalyst_delta_sharpe": 0.28,
-      "cro_risk_manager_delta_sharpe": 0.17,
-      "technical_only_delta_sharpe": -0.98,
-      "summary": "Ablation testing reveals that the Chief Risk Officer (CRO ATR brackets/Kelly sizing) and Technical Alpha specialist provide the primary risk-adjusted stability (\u0394Sharpe +0.17), while Sentiment and Forensics act as secondary regime filters with modest single-asset delta."
+      "cro_risk_manager_delta_sharpe": 0.09,
+      "technical_only_delta_sharpe": -1.2,
+      "summary": "Ablation testing reveals that the Chief Risk Officer (CRO ATR brackets/Kelly sizing) and Technical Alpha specialist provide the primary risk-adjusted stability (\u0394Sharpe +0.09), while Sentiment and Forensics act as secondary regime filters with modest single-asset delta."
     }
   },
   "MSFT": {

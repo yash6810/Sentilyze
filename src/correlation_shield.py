@@ -42,7 +42,7 @@ def calculate_portfolio_correlation_matrix(
         return pd.DataFrame(index=tickers, columns=tickers).fillna(0.0)
 
     combined_df = pd.DataFrame(closes_dict).dropna(how="all")
-    returns_df = combined_df.pct_change().dropna(how="all")
+    returns_df = combined_df.pct_change(fill_method=None).dropna(how="all")
     corr_matrix = returns_df.corr().fillna(0.0)
     return corr_matrix
 
