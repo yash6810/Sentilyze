@@ -13,6 +13,11 @@ from src.feature_engineering import (
 from functools import lru_cache
 import threading
 from typing import Any
+from transformers import (
+    pipeline,
+    AutoTokenizer,
+    AutoModelForSequenceClassification,
+)
 
 logger = get_logger(__name__)
 
@@ -34,11 +39,6 @@ def _load_sentiment_analyzer() -> Any:
             return _SENTIMENT_ANALYZER_INSTANCE
 
         import torch
-        from transformers import (
-            pipeline,
-            AutoTokenizer,
-            AutoModelForSequenceClassification,
-        )
 
         try:
             torch.set_num_threads(2)

@@ -157,12 +157,22 @@ def test_preprocess_data_orchestrates_correctly(mocker):
 
 
 def test_load_sentiment_analyzer_caches(mocker):
-    mock_pipe = MagicMock()
-    mocker.patch("src.preprocessing.AutoTokenizer.from_pretrained")
-    mocker.patch("src.preprocessing.AutoModelForSequenceClassification.from_pretrained")
-    mocker.patch("src.preprocessing.pipeline", return_value=mock_pipe)
+    import src.preprocessing
 
-    # Call it twice to ensure caching works
-    analyzer1 = _load_sentiment_analyzer()
-    analyzer2 = _load_sentiment_analyzer()
-    assert analyzer1 is analyzer2  # Should be the same object due to lru_cache
+    old_instance = src.preprocessing._SENTIMENT_ANALYZER_INSTANCE
+    try:
+        src.preprocessing._SENTIMENT_ANALYZER_INSTANCE = None
+        mock_pipe = MagicMock()
+        mocker.patch("src.preprocessing.AutoTokenizer.from_pretrained")
+        mocker.patch(
+            "src.preprocessing.AutoModelForSequenceClassification.from_pretrained"
+        )
+        mocker.patch("src.preprocessing.pipeline", return_value=mock_pipe)
+
+        # Call it twice to ensure caching works
+        analyzer1 = _load_sentiment_analyzer()
+        analyzer2 = _load_sentiment_analyzer()
+        assert analyzer1 is analyzer2
+        assert analyzer1 is mock_pipe
+    finally:
+        src.preprocessing._SENTIMENT_ANALYZER_INSTANCE = old_instance

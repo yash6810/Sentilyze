@@ -4204,7 +4204,7 @@
       "file_type": "code",
       "norm_label": "_load_sentiment_analyzer()",
       "source_file": "src/preprocessing.py",
-      "source_location": "L23"
+      "source_location": "L28"
     },
     {
       "id": "src_preprocessing_preprocess_data",
@@ -4852,7 +4852,7 @@
       "file_type": "code",
       "norm_label": "enforce_capital_shield_stop_floor()",
       "source_file": "src/smart_trader_engine.py",
-      "source_location": "L271"
+      "source_location": "L272"
     },
     {
       "id": "tests_test_opening_range_runner_test_run_opening_range_session",
@@ -6304,7 +6304,7 @@
       "file_type": "code",
       "norm_label": "evaluate_multi_timeframe_confluence()",
       "source_file": "src/smart_trader_engine.py",
-      "source_location": "L292"
+      "source_location": "L293"
     },
     {
       "id": "src_smart_trader_engine_find_swing_pivots",
@@ -16952,7 +16952,7 @@
       "source_location": "L220"
     },
     {
-      "id": "src_preprocessing_rationale_24",
+      "id": "src_preprocessing_rationale_29",
       "label": "Thread-safely loads the FinBERT sentiment analysis model and tokenizer once\u2026",
       "_origin": "ast",
       "community": 24,
@@ -16960,7 +16960,7 @@
       "file_type": "rationale",
       "norm_label": "thread-safely loads the finbert sentiment analysis model and tokenizer once...",
       "source_file": "src/preprocessing.py",
-      "source_location": "L24"
+      "source_location": "L29"
     },
     {
       "id": "src_utils_rationale_121",
@@ -17832,7 +17832,7 @@
       "source_location": "L1"
     },
     {
-      "id": "src_smart_trader_engine_rationale_276",
+      "id": "src_smart_trader_engine_rationale_277",
       "label": "Enforces a strict downside capital shield ceiling (max 2.50% loss from entry).\u2026",
       "_origin": "ast",
       "community": 29,
@@ -17840,7 +17840,7 @@
       "file_type": "rationale",
       "norm_label": "enforces a strict downside capital shield ceiling (max 2.50% loss from entry)....",
       "source_file": "src/smart_trader_engine.py",
-      "source_location": "L276"
+      "source_location": "L277"
     },
     {
       "id": "tests_test_opening_range_runner_rationale_9",
@@ -20543,7 +20543,7 @@
       "source_location": "L25"
     },
     {
-      "id": "src_smart_trader_engine_rationale_296",
+      "id": "src_smart_trader_engine_rationale_297",
       "label": "Computes Multi-Timeframe Alignment: - Weekly Macro Trend (50 EMA vs 200 EMA) -\u2026",
       "_origin": "ast",
       "community": 41,
@@ -20551,7 +20551,7 @@
       "file_type": "rationale",
       "norm_label": "computes multi-timeframe alignment: - weekly macro trend (50 ema vs 200 ema) -...",
       "source_file": "src/smart_trader_engine.py",
-      "source_location": "L296"
+      "source_location": "L297"
     },
     {
       "id": "src_smart_trader_engine_rationale_78",
@@ -38933,7 +38933,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "tests/test_preprocessing.py",
-      "source_location": "L166",
+      "source_location": "L173",
       "weight": 1.0
     },
     {
@@ -44093,7 +44093,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/smart_trader_engine.py",
-      "source_location": "L292",
+      "source_location": "L293",
       "weight": 1.0
     },
     {
@@ -60557,7 +60557,7 @@
       "confidence_score": 1.0,
       "context": "parameter_type",
       "source_file": "src/smart_trader_engine.py",
-      "source_location": "L292",
+      "source_location": "L293",
       "weight": 1.0
     },
     {
@@ -61421,7 +61421,7 @@
       "confidence_score": 1.0,
       "context": "return_type",
       "source_file": "src/preprocessing.py",
-      "source_location": "L23",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -67740,7 +67740,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/preprocessing.py",
-      "source_location": "L23",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -68169,7 +68169,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/smart_trader_engine.py",
-      "source_location": "L271",
+      "source_location": "L272",
       "weight": 1.0
     },
     {
@@ -68180,7 +68180,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/smart_trader_engine.py",
-      "source_location": "L292",
+      "source_location": "L293",
       "weight": 1.0
     },
     {
@@ -79679,14 +79679,14 @@
       "weight": 1.0
     },
     {
-      "source": "src_preprocessing_rationale_24",
+      "source": "src_preprocessing_rationale_29",
       "target": "src_preprocessing_load_sentiment_analyzer",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/preprocessing.py",
-      "source_location": "L24",
+      "source_location": "L29",
       "weight": 1.0
     },
     {
@@ -80251,25 +80251,25 @@
       "weight": 1.0
     },
     {
-      "source": "src_smart_trader_engine_rationale_276",
+      "source": "src_smart_trader_engine_rationale_277",
       "target": "src_smart_trader_engine_enforce_capital_shield_stop_floor",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/smart_trader_engine.py",
-      "source_location": "L276",
+      "source_location": "L277",
       "weight": 1.0
     },
     {
-      "source": "src_smart_trader_engine_rationale_296",
+      "source": "src_smart_trader_engine_rationale_297",
       "target": "src_smart_trader_engine_evaluate_multi_timeframe_confluence",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/smart_trader_engine.py",
-      "source_location": "L296",
+      "source_location": "L297",
       "weight": 1.0
     },
     {
@@ -82835,5 +82835,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "88e9780b3ca671a02e91391cd17d5a1fbc394d9c"
+  "built_at_commit": "a758ce19bd28069fc9ab0e46f442e2595a99ef84"
 }

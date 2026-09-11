@@ -263,7 +263,8 @@ def apply_high_watermark_profit_lock(
         candidate_sl = round(entry_price + locked_profit_per_share, 2)
         if candidate_sl > new_sl:
             new_sl = candidate_sl
-            action = f"HIGH_WATERMARK_80PCT_LOCK (Peak: ${peak_price:.2f} | Protected SL Floor: ${new_sl:.2f})"
+            lock_pct = int(round(lock_fraction * 100))
+            action = f"HIGH_WATERMARK_{lock_pct}PCT_LOCK (Peak: ${peak_price:.2f} | Protected SL Floor: ${new_sl:.2f})"
 
     return new_sl, peak_price, action
 
