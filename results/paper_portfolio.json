@@ -1,45 +1,14 @@
 {
   "initial_capital": 100000.0,
-  "cash": 97866.81085693362,
+  "cash": 152965.35031616213,
   "total_equity": 152965.35,
-  "unrealized_pnl": 114.48,
-  "realized_pnl": 52850.86999267578,
-  "win_rate": 85.7,
-  "total_trades": 42,
-  "winning_trades": 36,
-  "losing_trades": 6,
-  "open_positions": {
-    "EXPD": {
-      "ticker": "EXPD",
-      "shares": 53,
-      "initial_shares": 53,
-      "entry_price": 190.44,
-      "current_price": 192.60000610351562,
-      "entry_date": "2026-09-10",
-      "tp1_target": 204.72,
-      "tp2_target": 216.15,
-      "sl_target": 192.17,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly",
-      "high_water_mark": 190.57,
-      "highest_price_seen": 192.60000610351562,
-      "profit_lock_status": "\ud83d\udd12 TIER-1 SECURED (+0.5%)"
-    },
-    "NEM": {
-      "shares": 354,
-      "initial_shares": 354,
-      "entry_price": 126.80999755859375,
-      "current_price": 126.80999755859375,
-      "entry_date": "2026-09-12",
-      "tp1_target": 137.82,
-      "tp2_target": 146.62,
-      "sl_target": 120.21,
-      "scaled_out": false,
-      "confidence": 0.7237213253974915,
-      "regime": "\u25b2 BULLISH (Above SMA200)"
-    }
-  },
+  "unrealized_pnl": 0,
+  "realized_pnl": 52965.35031616211,
+  "win_rate": 84.1,
+  "total_trades": 44,
+  "winning_trades": 37,
+  "losing_trades": 7,
+  "open_positions": {},
   "closed_trades": [
     {
       "ticker": "FIX",
@@ -502,6 +471,28 @@
       "pnl": 4.8,
       "return_pct": 0.06,
       "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "EXPD",
+      "shares": 53,
+      "entry_price": 190.44,
+      "exit_price": 192.60000610351562,
+      "entry_date": "2026-09-10",
+      "exit_date": "2026-09-12",
+      "pnl": 114.48,
+      "return_pct": 1.13,
+      "reason": "MANUAL_PROFIT_TAKE_ALL"
+    },
+    {
+      "ticker": "NEM",
+      "shares": 354,
+      "entry_price": 126.80999755859375,
+      "exit_price": 126.80999755859375,
+      "entry_date": "2026-09-12",
+      "exit_date": "2026-09-12",
+      "pnl": 0.0,
+      "return_pct": 0.0,
+      "reason": "MANUAL_PROFIT_TAKE_ALL"
     }
   ],
   "equity_history": [
@@ -573,10 +564,10 @@
       "date": "2026-09-12",
       "timestamp": "2026-09-12T07:57:25.371027+00:00",
       "total_equity": 152965.35,
-      "cash": 97866.81,
-      "invested": 55098.54,
+      "cash": 152965.35,
+      "invested": 0,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-12T07:57:25.372219+00:00"
+  "last_updated": "2026-09-12T08:54:58.530944+00:00"
 }
