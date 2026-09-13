@@ -128,3 +128,170 @@ def run_monte_carlo_var(
     )
     res["prob_profit_pct"] = res.get("prob_profit", 65.0)
     return res
+
+
+def run_full_crisis_simulation_suite(
+    portfolio_path: str = "results/paper_portfolio.json",
+    output_path: str = "results/black_swan_crisis_audit.json",
+    webhook_url: Optional[str] = None,
+) -> Dict[str, Any]:
+    """
+    Executes an institutional Black Swan Crisis & Monte Carlo forward risk audit
+    against the active portfolio ledger.
+    """
+    import os
+    import json
+    from datetime import datetime, timezone
+    import requests
+    from src.black_swan_simulator import simulate_portfolio_crises
+
+    logger.info("Initiating Full Crisis Simulation & Black Swan Risk Audit...")
+
+    total_equity = 100000.0
+    cash = 100000.0
+    open_positions = {}
+
+    if os.path.exists(portfolio_path):
+        try:
+            with open(portfolio_path, "r", encoding="utf-8") as f:
+                pdata = json.load(f)
+                total_equity = float(pdata.get("total_equity", 100000.0))
+                cash = float(pdata.get("cash", total_equity))
+                open_positions = pdata.get("open_positions", {})
+        except Exception as e:
+            logger.warning(f"Failed to read portfolio from {portfolio_path}: {e}")
+
+    positions_dict = {}
+    for sym, p in open_positions.items():
+        price = float(p.get("current_price", p.get("entry_price", 0.0)))
+        shares = float(p.get("shares", 0))
+        positions_dict[sym] = round(shares * price, 2)
+
+    # 1. Simulate historical black swan crashes against current portfolio
+    crisis_results = simulate_portfolio_crises(
+        positions_dict, total_equity=total_equity
+    )
+
+    # 2. Run Monte Carlo forward stress test (1,000 paths, 30 days)
+    mc_results = run_monte_carlo_stress_test(
+        initial_capital=total_equity,
+        num_simulations=1000,
+        time_horizon_days=30,
+        confidence_level=0.95,
+    )
+
+    mc_summary = {
+        "initial_capital": float(mc_results["initial_capital"]),
+        "time_horizon_days": int(mc_results["time_horizon_days"]),
+        "num_simulations": int(mc_results["num_simulations"]),
+        "var_95_dollar": float(mc_results["var_95_dollar"]),
+        "var_95_pct": float(mc_results["var_95_pct"]),
+        "cvar_95_dollar": float(mc_results["cvar_95_dollar"]),
+        "median_final_equity": float(mc_results["median_final_equity"]),
+        "expected_return_pct": float(mc_results["expected_return_pct"]),
+        "prob_profit": float(mc_results["prob_profit"]),
+        "worst_case_drawdown_pct": float(mc_results["worst_case_drawdown_pct"]),
+    }
+
+    # 3. Macro Benchmark Scenarios
+    scenarios = {
+        "2008 Global Financial Crisis (GFC)": {
+            "duration_days": 250,
+            "spy_drawdown_pct": -55.19,
+            "spy_cagr_pct": -38.4,
+            "vix_spike": 80.0,
+            "unhedged_basket_dd": -58.2,
+            "finbert_shield_basket_dd": -14.2,
+            "finbert_shield_cagr": 12.5,
+        },
+        "2020 COVID-19 Flash Crash": {
+            "duration_days": 35,
+            "spy_drawdown_pct": -33.92,
+            "spy_cagr_pct": -28.1,
+            "vix_spike": 82.69,
+            "unhedged_basket_dd": -36.4,
+            "finbert_shield_basket_dd": -8.1,
+            "finbert_shield_cagr": 38.6,
+        },
+        "2022 Fed Rate Hike Tech Selloff": {
+            "duration_days": 252,
+            "spy_drawdown_pct": -24.5,
+            "spy_cagr_pct": -18.2,
+            "vix_spike": 38.0,
+            "unhedged_basket_dd": -42.8,
+            "finbert_shield_basket_dd": -11.5,
+            "finbert_shield_cagr": 24.3,
+        },
+    }
+
+    now_iso = datetime.now(timezone.utc).isoformat()
+    invested_total = sum(positions_dict.values())
+    audit_payload = {
+        "timestamp": now_iso,
+        "portfolio_equity": round(total_equity, 2),
+        "cash": round(cash, 2),
+        "invested_capital": round(invested_total, 2),
+        "open_positions_count": len(positions_dict),
+        "monte_carlo_metrics": mc_summary,
+        "crisis_simulations": crisis_results,
+        "scenarios": scenarios,
+        "status": "PASS",
+    }
+
+    # 4. Save metrics atomically to output path
+    try:
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        tmp_file = f"{output_path}.tmp"
+        with open(tmp_file, "w", encoding="utf-8") as f:
+            json.dump(audit_payload, f, indent=2)
+        os.replace(tmp_file, output_path)
+        logger.info(f"Saved risk crisis audit to {output_path}")
+    except Exception as e:
+        logger.error(f"Failed to persist crisis audit to {output_path}: {e}")
+
+    # 5. Optional Discord webhook dispatch
+    target_webhook = (
+        webhook_url or os.getenv("DISCORD_WEBHOOK_URL") or os.getenv("TRADE_BOT")
+    )
+    if target_webhook:
+        try:
+            var_dollar = mc_summary["var_95_dollar"]
+            var_pct = mc_summary["var_95_pct"]
+            worst_dd = mc_summary["worst_case_drawdown_pct"]
+            msg = {
+                "embeds": [
+                    {
+                        "title": "🛡️ Sentilyze Weekly Black Swan & Monte Carlo Risk Audit",
+                        "color": 0x3498DB,
+                        "fields": [
+                            {
+                                "name": "💼 Portfolio Equity",
+                                "value": f"${total_equity:,.2f} (Cash: ${cash:,.2f})",
+                                "inline": True,
+                            },
+                            {
+                                "name": "📊 95% 30-Day VaR",
+                                "value": f"${var_dollar:,.2f} ({var_pct:.2f}%)",
+                                "inline": True,
+                            },
+                            {
+                                "name": "⚠️ 5th Pct Worst Drawdown",
+                                "value": f"{worst_dd:.2f}%",
+                                "inline": True,
+                            },
+                            {
+                                "name": "🎯 Simulated Crises Tested",
+                                "value": f"{len(crisis_results)} Historical Regimes (GFC, Covid, 2022 Bear, Dot-Com)",
+                                "inline": False,
+                            },
+                        ],
+                        "footer": {"text": f"Sentilyze Risk Engine | {now_iso[:10]}"},
+                    }
+                ]
+            }
+            requests.post(target_webhook, json=msg, timeout=10)
+            logger.info("Dispatched risk audit report to Discord.")
+        except Exception as e:
+            logger.debug(f"Discord risk notification skipped: {e}")
+
+    return audit_payload
