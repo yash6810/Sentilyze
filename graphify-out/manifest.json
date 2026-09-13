@@ -432,9 +432,9 @@
     "semantic_hash": ""
   },
   "models/NVDA_model.json": {
-    "mtime": 1789314423.8396184,
-    "seen": 1789315390.2998872,
-    "ast_hash": "b59496c2ced8bb4f2231e1eac250faa8",
+    "mtime": 1789318518.6102097,
+    "seen": 1789321833.070899,
+    "ast_hash": "9b69b09abab5c6f9dccec8f833adeaac",
     "semantic_hash": ""
   },
   "models/ORCL_model.json": {
@@ -1500,15 +1500,15 @@
     "semantic_hash": ""
   },
   "results/NVDA_metrics.json": {
-    "mtime": 1789314433.3698864,
-    "seen": 1789315390.316982,
-    "ast_hash": "45d8fc65630db3fecded28cc29312dce",
+    "mtime": 1789318524.317391,
+    "seen": 1789321833.2645857,
+    "ast_hash": "6a1c84dbde55b894fa7c5efb21124648",
     "semantic_hash": ""
   },
   "results/NVDA_significance.json": {
-    "mtime": 1789314433.3774745,
-    "seen": 1789315390.317274,
-    "ast_hash": "28aa26bf0f4cdde3e3dad62c5584c0f9",
+    "mtime": 1789318524.3195164,
+    "seen": 1789321833.2647893,
+    "ast_hash": "1abe4f0290f5248c91b63cf6a0b34c17",
     "semantic_hash": ""
   },
   "results/ORCL_metrics.json": {
@@ -1920,15 +1920,15 @@
     "semantic_hash": ""
   },
   "results/autonomous_execution_log.json": {
-    "mtime": 1789150332.4910405,
-    "seen": 1789315390.3281016,
+    "mtime": 1789321600.0131497,
+    "seen": 1789321833.3420632,
     "ast_hash": "89b5405dab66e5f710d91b5e85b879b1",
     "semantic_hash": ""
   },
   "results/committee_resolutions.json": {
-    "mtime": 1789113717.400005,
-    "seen": 1789141242.2931547,
-    "ast_hash": "01bb8d2550a97df5afecb7e7a0a38634",
+    "mtime": 1789318345.1461928,
+    "seen": 1789321833.3427536,
+    "ast_hash": "4356faf98fca5561adcea31900931cae",
     "semantic_hash": ""
   },
   "results/daily_signals_latest.json": {
@@ -1938,9 +1938,9 @@
     "semantic_hash": ""
   },
   "results/paper_portfolio.json": {
-    "mtime": 1789203298.5319319,
-    "seen": 1789315390.3307793,
-    "ast_hash": "c209a2583315834c65a3a6f6e687886e",
+    "mtime": 1789321592.67856,
+    "seen": 1789321833.3448634,
+    "ast_hash": "94664df8c3cc44118551274450daae2c",
     "semantic_hash": ""
   },
   "run_batch_training.py": {
@@ -2142,9 +2142,9 @@
     "semantic_hash": "ca9056de11dbecd4bff2296e65f5782f"
   },
   "src/paper_broker.py": {
-    "mtime": 1789138850.332312,
-    "seen": 1789141242.3184779,
-    "ast_hash": "8da8d494c9af75128c9fa4dcabaf0edb",
+    "mtime": 1789321683.526862,
+    "seen": 1789321833.3643637,
+    "ast_hash": "819e639c01dad8eb8a0c1ed808223ba7",
     "semantic_hash": ""
   },
   "src/portfolio.py": {
@@ -2280,10 +2280,10 @@
     "semantic_hash": ""
   },
   "src/ui/ws_options_surface.py": {
-    "mtime": 1787894638.1005962,
-    "seen": 1787924687.8470852,
-    "ast_hash": "65c3efaaef2c27190752019af253374b",
-    "semantic_hash": "65c3efaaef2c27190752019af253374b"
+    "mtime": 1789321451.4153197,
+    "seen": 1789321833.3750563,
+    "ast_hash": "5b4f95cc6776d52c98312448931bd5cc",
+    "semantic_hash": ""
   },
   "src/ui/ws_portfolio.py": {
     "mtime": 1788931967.8154953,
@@ -2604,8 +2604,8 @@
     "semantic_hash": ""
   },
   "results/agent_learning_memory.json": {
-    "mtime": 1789150332.487956,
-    "seen": 1789315390.3272777,
+    "mtime": 1789321600.010632,
+    "seen": 1789321833.3413088,
     "ast_hash": "b47f9049fb90189f1e568c5197f21c6f",
     "semantic_hash": ""
   },
@@ -3246,9 +3246,9 @@
     "semantic_hash": ""
   },
   "results/NVDA_classification_report.txt": {
-    "mtime": 1789314433.368203,
-    "seen": 1789315390.3912523,
-    "ast_hash": "16579fbf3b0c346e5945a15f74c5aec3",
+    "mtime": 1789318518.5085359,
+    "seen": 1789321833.4858503,
+    "ast_hash": "0fe3b467a6de38f2187591869c4ca4d2",
     "semantic_hash": ""
   },
   "results/ORCL_classification_report.txt": {
@@ -3906,9 +3906,9 @@
     "semantic_hash": ""
   },
   "results/NVDA_monthly_returns_heatmap.png": {
-    "mtime": 1789314433.3715343,
-    "seen": 1789315390.4004846,
-    "ast_hash": "366055a923d21f7ab3cc0799e810d4c1",
+    "mtime": 1789318524.3144126,
+    "seen": 1789321833.6077156,
+    "ast_hash": "c9b9c292182180f33dcf9685e903eb35",
     "semantic_hash": ""
   },
   "results/ORCL_monthly_returns_heatmap.png": {
@@ -4116,8 +4116,8 @@
     "semantic_hash": ""
   },
   "results/committee_ablation_study.json": {
-    "mtime": 1789150332.4930575,
-    "seen": 1789315390.328782,
+    "mtime": 1789321600.0156562,
+    "seen": 1789321833.342749,
     "ast_hash": "7061abde189cddbe474898f681c897f0",
     "semantic_hash": ""
   },
@@ -4278,14 +4278,14 @@
     "semantic_hash": ""
   },
   "results/morning_briefing_latest.json": {
-    "mtime": 1789150332.499564,
-    "seen": 1789315390.3307736,
+    "mtime": 1789321600.0207896,
+    "seen": 1789321833.3448567,
     "ast_hash": "a8a394c3443584ccd49494845722a4cf",
     "semantic_hash": ""
   },
   "results/opening_range_latest.json": {
-    "mtime": 1789150332.5010774,
-    "seen": 1789315390.330777,
+    "mtime": 1789321600.0243971,
+    "seen": 1789321833.3448606,
     "ast_hash": "94d9cf317b55f4a9ef3f87bbd28e9866",
     "semantic_hash": ""
   },
@@ -4476,9 +4476,9 @@
     "semantic_hash": ""
   },
   "src/ui/ws_performance_factsheet.py": {
-    "mtime": 1788971936.6972795,
-    "seen": 1788972214.1686492,
-    "ast_hash": "e9e81571b567839cf551a65b954c5c3c",
+    "mtime": 1789321471.1978645,
+    "seen": 1789321833.3750603,
+    "ast_hash": "2c5b3062a4c28f7b8c082bc391c7b69b",
     "semantic_hash": ""
   },
   "src/ui/ws_portfolio_diversity.py": {
@@ -6552,8 +6552,8 @@
     "semantic_hash": ""
   },
   "results/price_scout_alerts.json": {
-    "mtime": 1789150332.505879,
-    "seen": 1789315390.3309834,
+    "mtime": 1789321600.0264204,
+    "seen": 1789321833.34507,
     "ast_hash": "a17cdc2a37c1a79fd55565cac96ae412",
     "semantic_hash": ""
   },
@@ -17478,9 +17478,9 @@
     "semantic_hash": ""
   },
   "results/black_swan_crisis_audit.json": {
-    "mtime": 1789314712.4227278,
-    "seen": 1789315390.3285866,
-    "ast_hash": "ac42353ca102eebb589ca259e5afe234",
+    "mtime": 1789318251.6419978,
+    "seen": 1789321833.342531,
+    "ast_hash": "a3cd5c51271b884ba12971fbe6834773",
     "semantic_hash": ""
   },
   "results/institutional_4pillars_latest.json": {
@@ -17910,8 +17910,8 @@
     "semantic_hash": ""
   },
   "results/discord_alert_ledger.json": {
-    "mtime": 1789150332.4950585,
-    "seen": 1789315390.3291564,
+    "mtime": 1789321600.0180583,
+    "seen": 1789321833.3434076,
     "ast_hash": "de464f5464cd629104e3db9c2a97b88e",
     "semantic_hash": ""
   },
@@ -17997,6 +17997,48 @@
     "mtime": 1789314425.9954126,
     "seen": 1789315390.3953023,
     "ast_hash": "a85be94543ad5d761d0442b0f2d792d7",
+    "semantic_hash": ""
+  },
+  "results/institutional_factsheet_NVDA.json": {
+    "mtime": 1789320635.7215185,
+    "seen": 1789321833.3442388,
+    "ast_hash": "f4be00176407881fd8a2ac1970409019",
+    "semantic_hash": ""
+  },
+  "src/factor_attribution.py": {
+    "mtime": 1789321430.9025695,
+    "seen": 1789321833.357298,
+    "ast_hash": "077770748c7fe88d5163d241b20b68ae",
+    "semantic_hash": ""
+  },
+  "src/options_gex.py": {
+    "mtime": 1789321418.058957,
+    "seen": 1789321833.3637393,
+    "ast_hash": "4b3e0c6d3716617abb96fcc7b01de2c0",
+    "semantic_hash": ""
+  },
+  "src/regime_allocator.py": {
+    "mtime": 1789321426.1913004,
+    "seen": 1789321833.3663123,
+    "ast_hash": "52f323d904405ca56d137c8ee8a8333f",
+    "semantic_hash": ""
+  },
+  "tests/test_factor_attribution.py": {
+    "mtime": 1789321483.8071291,
+    "seen": 1789321833.3854358,
+    "ast_hash": "28ef4ee12cf8fea3b004caae300ef0d1",
+    "semantic_hash": ""
+  },
+  "tests/test_options_gex.py": {
+    "mtime": 1789321475.1347182,
+    "seen": 1789321833.3904293,
+    "ast_hash": "e004595a31e6abeabe599311e29c67c8",
+    "semantic_hash": ""
+  },
+  "tests/test_regime_allocator.py": {
+    "mtime": 1789321478.852722,
+    "seen": 1789321833.3940318,
+    "ast_hash": "ede8c66cdabacadebef8e4bfd014d39d",
     "semantic_hash": ""
   }
 }

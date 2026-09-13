@@ -89,6 +89,16 @@ class PaperBroker:
         """Persists portfolio ledger to disk atomically and exports executed_trades.csv."""
         import shutil
 
+        # STRICT PORTFOLIO PRESERVATION RULE: Never overwrite production portfolio during tests
+        if os.environ.get("PYTEST_CURRENT_TEST") and os.path.abspath(
+            self.portfolio_path
+        ) == os.path.abspath(PORTFOLIO_FILE):
+            logger.warning(
+                "Test environment detected. Refusing to write to production portfolio file: %s",
+                self.portfolio_path,
+            )
+            return
+
         save_data = state or self.state
 
         # Financial State Integrity Guard: Never save empty or corrupted state
