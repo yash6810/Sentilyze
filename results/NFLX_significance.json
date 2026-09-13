@@ -1,10 +1,10 @@
 {
-    "strategy_sharpe": 0.3204,
-    "random_sharpe_mean": 0.2793,
-    "p_value": 0.443,
+    "strategy_sharpe": 0.5358,
+    "random_sharpe_mean": 0.4703,
+    "p_value": 0.403,
     "confidence_interval_95": [
-        -0.3682,
-        0.95
+        -0.0431,
+        0.9488
     ],
     "is_statistically_significant": false,
     "n_simulations": 1000

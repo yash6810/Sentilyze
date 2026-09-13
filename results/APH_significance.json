@@ -1,9 +1,9 @@
 {
-    "strategy_sharpe": 0.9645,
-    "random_sharpe_mean": 0.5991,
+    "strategy_sharpe": 0.9636,
+    "random_sharpe_mean": 0.5994,
     "p_value": 0.0,
     "confidence_interval_95": [
-        0.3692,
+        0.3696,
         0.8943
     ],
     "is_statistically_significant": true,
