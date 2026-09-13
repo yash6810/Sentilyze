@@ -1469,17 +1469,19 @@
     }
   },
   "NVDA": {
-    "timestamp": "2026-09-11T07:11:10.694562+00:00",
+    "timestamp": "2026-09-13T16:52:25.117102+00:00",
     "ticker": "NVDA",
-    "spot_price": 218.36,
+    "spot_price": 218.29,
     "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
     "action_code": "HOLD",
-    "consensus_conviction_pct": 54.4,
+    "consensus_conviction_pct": 59.6,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 234.74,
-    "tp2_target": 247.84,
-    "stop_loss_target": 208.53,
+    "tp1_target": 237.01,
+    "tp2_target": 252.0,
+    "stop_loss_target": 207.06,
+    "atr_14": 7.49,
+    "atr_pct": 3.43,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
@@ -1491,14 +1493,14 @@
         "vote": "HOLD",
         "conviction_score": 48.0,
         "key_metrics": {
-          "estimated_rsi": 51.0,
-          "sma_200": 197.28,
-          "ma_21": 220.68,
-          "return_5d_pct": -2.7,
-          "trend_status": "BULLISH_MOMENTUM_EXPANSION",
-          "acpm_calibrated_prob": 0.311
+          "estimated_rsi": 54.3,
+          "sma_200": 196.71,
+          "ma_21": 220.43,
+          "return_5d_pct": 2.89,
+          "trend_status": "ORB_BEARISH_BREAKDOWN",
+          "acpm_calibrated_prob": 0.2587
         },
-        "thesis": "Asset is in structural uptrend above 200 SMA ($197.28) with optimal pullback RSI (51.0). ACPM Conformal Model signals caution (31.1% probability)."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($196.71) with optimal pullback RSI (54.3). \u26a0\ufe0f Below 15-Min Opening Low ($223.15); downward momentum dominant. ACPM Conformal Model signals caution (25.9% probability)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -1510,13 +1512,13 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": -0.08,
+          "finbert_polarity": 0.104,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (-0.08 polarity across 100 headlines; Event: GENERAL_MARKET_FLOW)."
+        "thesis": "Balanced sentiment environment (+0.10 polarity across 100 headlines; Event: GENERAL_MARKET_FLOW)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -1525,31 +1527,30 @@
           "Paper 05: Bellman-Ford Fundamental Arbitrage Graph Theory",
           "Paper 13: Chen et al. (2020) Supply Chain Contagion Graph Neural Networks"
         ],
-        "vote": "HOLD",
-        "conviction_score": 24.0,
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "data_available": true,
+          "data_available": false,
           "piotroski_f_score": 5,
-          "altman_z_score": 25.0,
-          "dcf_fair_value": 65.50800018310547,
-          "dcf_margin_of_safety_pct": -70.0
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $65.51 (Margin of Safety: -70.0%)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "NVDA",
-        "spot_price": 218.36,
-        "day_high": 220.99,
-        "day_low": 217.2,
-        "change_pct": -2.37,
-        "range_position_pct": 30.6,
-        "rvol": 0.82,
-        "momentum_velocity_pct": -4.42,
+        "spot_price": 218.29,
+        "day_high": 222.0,
+        "day_low": 218.15,
+        "change_pct": -0.03,
+        "range_position_pct": 3.6,
+        "rvol": 0.6,
+        "momentum_velocity_pct": -2.63,
         "conviction_score": 50.0,
         "vote": "HOLD",
-        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 31%, RVOL 0.82x, 5D Vel -4.4%)",
-        "timestamp": "2026-09-11T07:11:10.689666+00:00"
+        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 4%, RVOL 0.6x, 5D Vel -2.6%)",
+        "timestamp": "2026-09-13T16:52:25.088585+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -1584,7 +1585,7 @@
       "action_code": "HOLD",
       "buy_votes": 0,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 54.4,
+      "consensus_conviction_pct": 59.6,
       "approved_leverage": 0.0,
       "kelly_allocation_pct": 0.0,
       "kelly_details": {
@@ -1596,10 +1597,12 @@
         "payoff_ratio": 1.75,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "tp1_target": 234.74,
-      "tp2_target": 247.84,
-      "stop_loss_target": 208.53,
-      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 54.4%). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "atr_14": 7.49,
+      "atr_pct": 3.43,
+      "tp1_target": 237.01,
+      "tp2_target": 252.0,
+      "stop_loss_target": 207.06,
+      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 59.6%). ATR14 is $7.49 (3.4% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false
