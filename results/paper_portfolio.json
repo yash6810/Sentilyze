@@ -1,14 +1,41 @@
 {
   "initial_capital": 100000.0,
-  "cash": 155718.22943603518,
+  "cash": 66350.2298327637,
   "total_equity": 155718.23,
-  "unrealized_pnl": 0,
+  "unrealized_pnl": 0.0,
   "realized_pnl": 55718.22943603516,
   "win_rate": 84.8,
   "total_trades": 46,
   "winning_trades": 39,
   "losing_trades": 7,
-  "open_positions": {},
+  "open_positions": {
+    "Q": {
+      "shares": 402,
+      "initial_shares": 402,
+      "entry_price": 111.83000183105469,
+      "current_price": 111.83000183105469,
+      "entry_date": "2026-09-15",
+      "tp1_target": 123.73,
+      "tp2_target": 133.26,
+      "sl_target": 104.69,
+      "scaled_out": false,
+      "confidence": 0.763283371925354,
+      "regime": "\u25bc BEARISH (Below SMA200)"
+    },
+    "SNDK": {
+      "shares": 29,
+      "initial_shares": 29,
+      "entry_price": 1531.4599609375,
+      "current_price": 1531.4599609375,
+      "entry_date": "2026-09-15",
+      "tp1_target": 1775.78,
+      "tp2_target": 1971.23,
+      "sl_target": 1384.87,
+      "scaled_out": false,
+      "confidence": 0.7121493816375732,
+      "regime": "\u25b2 BULLISH (Above SMA200)"
+    }
+  },
   "closed_trades": [
     {
       "ticker": "FIX",
@@ -602,10 +629,10 @@
       "date": "2026-09-15",
       "timestamp": "2026-09-15T08:38:28.087991+00:00",
       "total_equity": 155718.23,
-      "cash": 155718.23,
-      "invested": 0,
+      "cash": 66350.23,
+      "invested": 89368.0,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-15T14:31:39.769303+00:00"
+  "last_updated": "2026-09-15T17:32:19.551493+00:00"
 }
