@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 66350.2298327637,
-  "total_equity": 155943.21,
-  "unrealized_pnl": 224.98,
+  "total_equity": 156811.22,
+  "unrealized_pnl": 1092.99,
   "realized_pnl": 55718.22943603516,
   "win_rate": 84.8,
   "total_trades": 46,
@@ -13,22 +13,22 @@
       "shares": 402,
       "initial_shares": 402,
       "entry_price": 111.83000183105469,
-      "current_price": 111.99,
+      "current_price": 114.59,
       "entry_date": "2026-09-15",
       "tp1_target": 123.73,
       "tp2_target": 133.26,
-      "sl_target": 109.03,
+      "sl_target": 114.04,
       "scaled_out": false,
       "confidence": 0.763283371925354,
       "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 111.99,
-      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE"
+      "highest_price_seen": 114.59,
+      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
     "SNDK": {
       "shares": 29,
       "initial_shares": 29,
       "entry_price": 1531.4599609375,
-      "current_price": 1537.0,
+      "current_price": 1530.89,
       "entry_date": "2026-09-15",
       "tp1_target": 1775.78,
       "tp2_target": 1971.23,
@@ -37,7 +37,7 @@
       "confidence": 0.7121493816375732,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "highest_price_seen": 1537.0,
-      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE"
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     }
   },
   "closed_trades": [
@@ -632,11 +632,11 @@
     {
       "date": "2026-09-15",
       "timestamp": "2026-09-15T08:38:28.087991+00:00",
-      "total_equity": 155943.21,
+      "total_equity": 156811.22,
       "cash": 66350.23,
-      "invested": 89592.98,
-      "daily_return": 0.14
+      "invested": 90460.99,
+      "daily_return": 0.56
     }
   ],
-  "last_updated": "2026-09-15T17:37:01.794540+00:00"
+  "last_updated": "2026-09-15T20:28:30.920828+00:00"
 }
