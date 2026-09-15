@@ -1,113 +1,31 @@
 {
-  "session_time": "Sep 15, 2026 \u2022 12:24 AM IST (02:54 PM EDT)",
+  "session_time": "Sep 15, 2026 \u2022 11:18 PM IST (01:48 PM EDT)",
   "stocks_in_play": [
     "AXON",
-    "FIX",
-    "ETN",
     "BLDR",
-    "FDXF"
+    "FDXF",
+    "FIX",
+    "EFX"
   ],
-  "signals_count": 5,
-  "signals": [
-    {
-      "ticker": "AXON",
-      "signal": "BUY",
-      "current_price": 493.46,
-      "confidence": 0.788,
-      "take_profit": 543.02,
-      "stop_loss": 468.68
-    },
-    {
-      "ticker": "FIX",
-      "signal": "BUY",
-      "current_price": 1594.57,
-      "confidence": 0.6036,
-      "take_profit": 1737.21,
-      "stop_loss": 1523.25
-    },
-    {
-      "ticker": "ETN",
-      "signal": "BUY",
-      "current_price": 394.85,
-      "confidence": 0.2793,
-      "take_profit": 424.33,
-      "stop_loss": 380.11
-    },
-    {
-      "ticker": "BLDR",
-      "signal": "BUY",
-      "current_price": 60.74,
-      "confidence": 0.6193,
-      "take_profit": 66.08,
-      "stop_loss": 58.07
-    },
-    {
-      "ticker": "FDXF",
-      "signal": "BUY",
-      "current_price": 130.35,
-      "confidence": 0.6375,
-      "take_profit": 140.01,
-      "stop_loss": 125.52
-    }
-  ],
-  "executed_paper_trades": [
-    {
-      "ticker": "AXON",
-      "signal": "BUY",
-      "current_price": 493.46,
-      "confidence": 0.788,
-      "take_profit": 543.02,
-      "stop_loss": 468.68
-    },
-    {
-      "ticker": "FIX",
-      "signal": "BUY",
-      "current_price": 1594.57,
-      "confidence": 0.6036,
-      "take_profit": 1737.21,
-      "stop_loss": 1523.25
-    },
-    {
-      "ticker": "ETN",
-      "signal": "BUY",
-      "current_price": 394.85,
-      "confidence": 0.2793,
-      "take_profit": 424.33,
-      "stop_loss": 380.11
-    },
-    {
-      "ticker": "BLDR",
-      "signal": "BUY",
-      "current_price": 60.74,
-      "confidence": 0.6193,
-      "take_profit": 66.08,
-      "stop_loss": 58.07
-    },
-    {
-      "ticker": "FDXF",
-      "signal": "BUY",
-      "current_price": 130.35,
-      "confidence": 0.6375,
-      "take_profit": 140.01,
-      "stop_loss": 125.52
-    }
-  ],
+  "signals_count": 0,
+  "signals": [],
+  "executed_paper_trades": [],
   "portfolio_summary": {
-    "total_equity": 155788.19,
-    "cash": 63007.35089599612,
-    "invested": 92780.83910400388,
-    "start_of_day_equity": 152965.35,
-    "daily_pnl": 2822.84,
-    "daily_return_pct": 1.85,
-    "unrealized_pnl": 2822.84,
-    "unrealized_pnl_pct": 3.04,
-    "realized_pnl": 52965.35031616211,
-    "total_pnl": 55788.19,
-    "total_return_pct": 55.79,
-    "win_rate": 84.1,
+    "total_equity": 155943.21,
+    "cash": 66350.2298327637,
+    "invested": 89592.9801672363,
+    "start_of_day_equity": 155718.23,
+    "daily_pnl": 224.98,
+    "daily_return_pct": 0.14,
+    "unrealized_pnl": 224.98,
+    "unrealized_pnl_pct": 0.25,
+    "realized_pnl": 55718.22943603516,
+    "total_pnl": 55943.21,
+    "total_return_pct": 55.94,
+    "win_rate": 84.8,
     "open_positions_count": 2,
-    "total_trades": 44,
-    "winning_trades": 37,
+    "total_trades": 46,
+    "winning_trades": 39,
     "losing_trades": 7
   }
 }
