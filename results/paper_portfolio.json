@@ -1,45 +1,14 @@
 {
   "initial_capital": 100000.0,
-  "cash": 63007.35089599612,
+  "cash": 155718.22943603518,
   "total_equity": 155718.23,
-  "unrealized_pnl": 2752.88,
-  "realized_pnl": 52965.35031616211,
-  "win_rate": 84.1,
-  "total_trades": 44,
-  "winning_trades": 37,
+  "unrealized_pnl": 0,
+  "realized_pnl": 55718.22943603516,
+  "win_rate": 84.8,
+  "total_trades": 46,
+  "winning_trades": 39,
   "losing_trades": 7,
-  "open_positions": {
-    "ORLY": {
-      "shares": 524,
-      "initial_shares": 524,
-      "entry_price": 85.81999969482422,
-      "current_price": 87.22000122070312,
-      "entry_date": "2026-09-14",
-      "tp1_target": 91.18,
-      "tp2_target": 95.47,
-      "sl_target": 86.94,
-      "scaled_out": false,
-      "confidence": 0.5987516045570374,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 87.22000122070312,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
-    },
-    "PTC": {
-      "shares": 344,
-      "initial_shares": 344,
-      "entry_price": 130.77999877929688,
-      "current_price": 136.64999389648438,
-      "entry_date": "2026-09-14",
-      "tp1_target": 143.34,
-      "tp2_target": 153.4,
-      "sl_target": 135.72,
-      "scaled_out": false,
-      "confidence": 0.5942003726959229,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 136.96,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
-    }
-  },
+  "open_positions": {},
   "closed_trades": [
     {
       "ticker": "FIX",
@@ -524,6 +493,28 @@
       "pnl": 0.0,
       "return_pct": 0.0,
       "reason": "MANUAL_PROFIT_TAKE_ALL"
+    },
+    {
+      "ticker": "ORLY",
+      "shares": 524,
+      "entry_price": 85.81999969482422,
+      "exit_price": 87.22000122070312,
+      "entry_date": "2026-09-14",
+      "exit_date": "2026-09-15",
+      "pnl": 733.6,
+      "return_pct": 1.63,
+      "reason": "MANUAL_PROFIT_TAKE_ALL"
+    },
+    {
+      "ticker": "PTC",
+      "shares": 344,
+      "entry_price": 130.77999877929688,
+      "exit_price": 136.64999389648438,
+      "entry_date": "2026-09-14",
+      "exit_date": "2026-09-15",
+      "pnl": 2019.28,
+      "return_pct": 4.49,
+      "reason": "MANUAL_PROFIT_TAKE_ALL"
     }
   ],
   "equity_history": [
@@ -611,10 +602,10 @@
       "date": "2026-09-15",
       "timestamp": "2026-09-15T08:38:28.087991+00:00",
       "total_equity": 155718.23,
-      "cash": 63007.35,
-      "invested": 92710.88,
+      "cash": 155718.23,
+      "invested": 0,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-15T08:38:28.088361+00:00"
+  "last_updated": "2026-09-15T14:31:39.769303+00:00"
 }

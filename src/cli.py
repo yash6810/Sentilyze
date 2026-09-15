@@ -173,17 +173,28 @@ def cmd_briefing():
     )
 
 
+def cmd_trades():
+    """Displays instant trade telemetry, recent executions, and daily profits."""
+    from src.trade_telemetry import print_formatted_trade_report
+
+    print_banner()
+    print_formatted_trade_report()
+
+
 def main():
     # Smart argument handling: allow direct ticker inputs like `python sentilyze.py NVDA`
     args = sys.argv[1:]
     if not args:
         print_banner()
-        print(f"Usage examples:")
+        print("Usage examples:")
         print(
             f"  {CYAN}python sentilyze.py NVDA{RESET}          (Audit stock ticker NVDA)"
         )
         print(
             f"  {CYAN}python sentilyze.py audit AAPL{RESET}    (Audit stock ticker AAPL)"
+        )
+        print(
+            f"  {CYAN}python sentilyze.py trades{RESET}        (Instant trade results & profits)"
         )
         print(
             f"  {CYAN}python sentilyze.py portfolio{RESET}     (View active portfolio and ledger)"
@@ -196,7 +207,9 @@ def main():
 
     first_arg = args[0].strip()
 
-    if first_arg.lower() in ["portfolio", "p", "--portfolio", "-p"]:
+    if first_arg.lower() in ["trades", "results", "t", "r", "--trades", "--results"]:
+        cmd_trades()
+    elif first_arg.lower() in ["portfolio", "p", "--portfolio", "-p"]:
         cmd_portfolio()
     elif first_arg.lower() in ["briefing", "premarket", "--briefing", "-b"]:
         cmd_briefing()
@@ -205,7 +218,7 @@ def main():
         cmd_audit(ticker)
     elif first_arg.startswith("-"):
         print_banner()
-        print(f"Usage: python sentilyze.py [TICKER | portfolio | briefing]")
+        print("Usage: python sentilyze.py [TICKER | trades | portfolio | briefing]")
     else:
         # Default: treat any plain text argument as a stock ticker!
         cmd_audit(first_arg)
