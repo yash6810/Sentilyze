@@ -2826,9 +2826,9 @@
     "semantic_hash": ""
   },
   "requirements.txt": {
-    "mtime": 1789314799.305107,
-    "seen": 1789315390.3892367,
-    "ast_hash": "8aabf12796fba12c49c6fbe935fa5a17",
+    "mtime": 1789526196.3494034,
+    "seen": 1789526393.321985,
+    "ast_hash": "fd98080ad65fef9580988a532ba775d5",
     "semantic_hash": ""
   },
   "results/AAPL_classification_report.txt": {
@@ -4176,9 +4176,9 @@
     "semantic_hash": ""
   },
   "src/cli.py": {
-    "mtime": 1789483621.029819,
-    "seen": 1789486245.7159424,
-    "ast_hash": "2b2e15f5b1c753a575695c0a88e99387",
+    "mtime": 1789526304.8481786,
+    "seen": 1789526393.2670147,
+    "ast_hash": "7ff756032b41534611ac2c87f7b72d47",
     "semantic_hash": ""
   },
   "tests/test_alpaca_broker.py": {
@@ -18051,6 +18051,18 @@
     "mtime": 1789485887.0049236,
     "seen": 1789486245.7700822,
     "ast_hash": "163776ba6f7d880e62df6a9590c1af9d",
+    "semantic_hash": ""
+  },
+  "src/duckdb_engine.py": {
+    "mtime": 1789526304.8030055,
+    "seen": 1789526393.271501,
+    "ast_hash": "ecabdd7eb7ff584d68fb9c8f3d9166b3",
+    "semantic_hash": ""
+  },
+  "tests/test_duckdb_engine.py": {
+    "mtime": 1789526314.4692469,
+    "seen": 1789526393.300596,
+    "ast_hash": "5fd9b58cc69d4da5ca69dd326b220fca",
     "semantic_hash": ""
   }
 }

@@ -29,4 +29,5 @@ catboost>=1.2.0
 tzdata>=2024.1
 tornado>=6.5.8
 urllib3>=2.7.0
+duckdb>=1.1.0
 

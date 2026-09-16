@@ -177,8 +177,34 @@ def cmd_trades():
     """Displays instant trade telemetry, recent executions, and daily profits."""
     from src.trade_telemetry import print_formatted_trade_report
 
+
+def cmd_scan():
+    """Runs a sub-second DuckDB columnar market scan."""
+    from src.duckdb_engine import DuckDBMarketEngine
+
     print_banner()
-    print_formatted_trade_report()
+    print(f"\n{BOLD}⚡ RUNNING SUB-SECOND DUCKDB COLUMNAR MARKET SCAN...{RESET}\n")
+    engine = DuckDBMarketEngine()
+    summary = engine.get_coverage_summary()
+    print(
+        f"  📊 DuckDB Lake: {summary['total_tickers']} Tickers | "
+        f"{summary['total_bars']:,} Bars | Date: {summary['latest_date']}"
+    )
+    print("─" * 68)
+
+    breakouts = engine.scan_momentum_breakouts(limit=10)
+    print(f"\n{BOLD}🚀 TOP MOMENTUM BREAKOUTS (RSI 50-72 & Above SMA200):{RESET}")
+    if not breakouts.empty:
+        for _, row in breakouts.iterrows():
+            sym = row["ticker"]
+            close = row["close"]
+            rsi = row["rsi"]
+            print(f"  • {BOLD}{sym:<6}{RESET} Close: ${close:,.2f} | RSI: {rsi:.1f}")
+    else:
+        print("  (No breakouts detected)")
+
+    print()
+    engine.close()
 
 
 def main():
@@ -194,6 +220,9 @@ def main():
             f"  {CYAN}python sentilyze.py audit AAPL{RESET}    (Audit stock ticker AAPL)"
         )
         print(
+            f"  {CYAN}python sentilyze.py scan{RESET}          (Sub-second DuckDB market-wide scan)"
+        )
+        print(
             f"  {CYAN}python sentilyze.py trades{RESET}        (Instant trade results & profits)"
         )
         print(
@@ -207,7 +236,9 @@ def main():
 
     first_arg = args[0].strip()
 
-    if first_arg.lower() in ["trades", "results", "t", "r", "--trades", "--results"]:
+    if first_arg.lower() in ["scan", "screener", "s", "--scan"]:
+        cmd_scan()
+    elif first_arg.lower() in ["trades", "results", "t", "r", "--trades", "--results"]:
         cmd_trades()
     elif first_arg.lower() in ["portfolio", "p", "--portfolio", "-p"]:
         cmd_portfolio()
@@ -218,7 +249,9 @@ def main():
         cmd_audit(ticker)
     elif first_arg.startswith("-"):
         print_banner()
-        print("Usage: python sentilyze.py [TICKER | trades | portfolio | briefing]")
+        print(
+            "Usage: python sentilyze.py [TICKER | scan | trades | portfolio | briefing]"
+        )
     else:
         # Default: treat any plain text argument as a stock ticker!
         cmd_audit(first_arg)
