@@ -1,19 +1,19 @@
 {
   "initial_capital": 100000.0,
-  "cash": 66350.2298327637,
-  "total_equity": 156811.22,
-  "unrealized_pnl": 1092.99,
-  "realized_pnl": 55718.22943603516,
-  "win_rate": 84.8,
-  "total_trades": 46,
+  "cash": 66605.68552124026,
+  "total_equity": 156811.36,
+  "unrealized_pnl": 1109.52,
+  "realized_pnl": 55701.84613525391,
+  "win_rate": 83.0,
+  "total_trades": 47,
   "winning_trades": 39,
-  "losing_trades": 7,
+  "losing_trades": 8,
   "open_positions": {
     "Q": {
       "shares": 402,
       "initial_shares": 402,
       "entry_price": 111.83000183105469,
-      "current_price": 114.59,
+      "current_price": 114.58999633789062,
       "entry_date": "2026-09-15",
       "tp1_target": 123.73,
       "tp2_target": 133.26,
@@ -24,20 +24,18 @@
       "highest_price_seen": 114.59,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
-    "SNDK": {
-      "shares": 29,
-      "initial_shares": 29,
-      "entry_price": 1531.4599609375,
-      "current_price": 1530.89,
-      "entry_date": "2026-09-15",
-      "tp1_target": 1775.78,
-      "tp2_target": 1971.23,
-      "sl_target": 1493.17,
+    "GEV": {
+      "shares": 50,
+      "initial_shares": 50,
+      "entry_price": 882.8099975585938,
+      "current_price": 882.8099975585938,
+      "entry_date": "2026-09-16",
+      "tp1_target": 981.61,
+      "tp2_target": 1060.64,
+      "sl_target": 823.53,
       "scaled_out": false,
-      "confidence": 0.7121493816375732,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "highest_price_seen": 1537.0,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
+      "confidence": 0.6777085065841675,
+      "regime": "\u25bc BEARISH (Below SMA200)"
     }
   },
   "closed_trades": [
@@ -546,6 +544,17 @@
       "pnl": 2019.28,
       "return_pct": 4.49,
       "reason": "MANUAL_PROFIT_TAKE_ALL"
+    },
+    {
+      "ticker": "SNDK",
+      "shares": 29,
+      "entry_price": 1531.4599609375,
+      "exit_price": 1530.89501953125,
+      "entry_date": "2026-09-15",
+      "exit_date": "2026-09-16",
+      "pnl": -16.38,
+      "return_pct": -0.04,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -636,7 +645,15 @@
       "cash": 66350.23,
       "invested": 90460.99,
       "daily_return": 0.0
+    },
+    {
+      "date": "2026-09-16",
+      "timestamp": "2026-09-16T08:30:21.034338+00:00",
+      "total_equity": 156811.36,
+      "cash": 66605.69,
+      "invested": 90205.68,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-15T23:08:33.330058+00:00"
+  "last_updated": "2026-09-16T08:30:21.034911+00:00"
 }
