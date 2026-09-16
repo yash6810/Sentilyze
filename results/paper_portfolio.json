@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 66605.68552124026,
-  "total_equity": 156811.36,
-  "unrealized_pnl": 1109.52,
+  "total_equity": 159895.33,
+  "unrealized_pnl": 4193.48,
   "realized_pnl": 55701.84613525391,
   "win_rate": 83.0,
   "total_trades": 47,
@@ -13,29 +13,31 @@
       "shares": 402,
       "initial_shares": 402,
       "entry_price": 111.83000183105469,
-      "current_price": 114.58999633789062,
+      "current_price": 116.57,
       "entry_date": "2026-09-15",
       "tp1_target": 123.73,
       "tp2_target": 133.26,
-      "sl_target": 114.04,
+      "sl_target": 115.62,
       "scaled_out": false,
       "confidence": 0.763283371925354,
       "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 114.59,
+      "highest_price_seen": 116.57,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
     "GEV": {
       "shares": 50,
       "initial_shares": 50,
       "entry_price": 882.8099975585938,
-      "current_price": 882.8099975585938,
+      "current_price": 928.57,
       "entry_date": "2026-09-16",
       "tp1_target": 981.61,
       "tp2_target": 1060.64,
-      "sl_target": 823.53,
+      "sl_target": 919.42,
       "scaled_out": false,
       "confidence": 0.6777085065841675,
-      "regime": "\u25bc BEARISH (Below SMA200)"
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "highest_price_seen": 928.57,
+      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     }
   },
   "closed_trades": [
@@ -649,11 +651,11 @@
     {
       "date": "2026-09-16",
       "timestamp": "2026-09-16T08:30:21.034338+00:00",
-      "total_equity": 156811.36,
+      "total_equity": 159895.33,
       "cash": 66605.69,
-      "invested": 90205.68,
-      "daily_return": 0.0
+      "invested": 93289.64,
+      "daily_return": 1.97
     }
   ],
-  "last_updated": "2026-09-16T08:30:21.034911+00:00"
+  "last_updated": "2026-09-16T17:36:04.956952+00:00"
 }
