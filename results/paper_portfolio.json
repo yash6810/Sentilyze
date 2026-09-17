@@ -1,19 +1,19 @@
 {
   "initial_capital": 100000.0,
-  "cash": 67792.48536285403,
-  "total_equity": 159789.07,
-  "unrealized_pnl": 2869.16,
-  "realized_pnl": 56919.905399169926,
-  "win_rate": 83.3,
-  "total_trades": 48,
-  "winning_trades": 40,
+  "cash": 113070.04536285403,
+  "total_equity": 159316.55,
+  "unrealized_pnl": 2106.0,
+  "realized_pnl": 57210.54524078369,
+  "win_rate": 83.7,
+  "total_trades": 49,
+  "winning_trades": 41,
   "losing_trades": 8,
   "open_positions": {
     "GEV": {
       "shares": 50,
       "initial_shares": 50,
       "entry_price": 882.8099975585938,
-      "current_price": 928.36,
+      "current_price": 924.93,
       "entry_date": "2026-09-16",
       "tp1_target": 981.61,
       "tp2_target": 1060.64,
@@ -22,21 +22,6 @@
       "confidence": 0.6777085065841675,
       "regime": "\u25bc BEARISH (Below SMA200)",
       "highest_price_seen": 928.57,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
-    },
-    "APTV": {
-      "shares": 1038,
-      "initial_shares": 1038,
-      "entry_price": 43.34000015258789,
-      "current_price": 43.91,
-      "entry_date": "2026-09-17",
-      "tp1_target": 46.98,
-      "tp2_target": 49.88,
-      "sl_target": 43.8,
-      "scaled_out": false,
-      "confidence": 0.6713278889656067,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 43.91,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     }
   },
@@ -568,6 +553,17 @@
       "pnl": 1218.06,
       "return_pct": 2.71,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "APTV",
+      "shares": 1038,
+      "entry_price": 43.34000015258789,
+      "exit_price": 43.62,
+      "entry_date": "2026-09-17",
+      "exit_date": "2026-09-17",
+      "pnl": 290.64,
+      "return_pct": 0.65,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -670,11 +666,11 @@
     {
       "date": "2026-09-17",
       "timestamp": "2026-09-17T08:36:12.333068+00:00",
-      "total_equity": 159789.07,
-      "cash": 67792.49,
-      "invested": 91996.58,
-      "daily_return": 0.47
+      "total_equity": 159316.55,
+      "cash": 113070.05,
+      "invested": 46246.5,
+      "daily_return": -0.3
     }
   ],
-  "last_updated": "2026-09-17T17:35:47.682874+00:00"
+  "last_updated": "2026-09-17T20:34:59.404528+00:00"
 }
