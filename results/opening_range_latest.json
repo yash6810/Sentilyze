@@ -1,65 +1,31 @@
 {
-  "session_time": "Sep 16, 2026 \u2022 11:18 PM IST (01:48 PM EDT)",
+  "session_time": "Sep 17, 2026 \u2022 11:17 PM IST (01:47 PM EDT)",
   "stocks_in_play": [
     "AXON",
-    "FDXF",
+    "BLDR",
     "FIX",
     "EFX",
-    "BLDR"
+    "ETN"
   ],
-  "signals_count": 2,
-  "signals": [
-    {
-      "ticker": "AXON",
-      "signal": "BUY",
-      "current_price": 464.69,
-      "confidence": 1.0,
-      "take_profit": 520.13,
-      "stop_loss": 436.97
-    },
-    {
-      "ticker": "BLDR",
-      "signal": "BUY",
-      "current_price": 61.28,
-      "confidence": 0.3912,
-      "take_profit": 66.38,
-      "stop_loss": 58.73
-    }
-  ],
-  "executed_paper_trades": [
-    {
-      "ticker": "AXON",
-      "signal": "BUY",
-      "current_price": 464.69,
-      "confidence": 1.0,
-      "take_profit": 520.13,
-      "stop_loss": 436.97
-    },
-    {
-      "ticker": "BLDR",
-      "signal": "BUY",
-      "current_price": 61.28,
-      "confidence": 0.3912,
-      "take_profit": 66.38,
-      "stop_loss": 58.73
-    }
-  ],
+  "signals_count": 0,
+  "signals": [],
+  "executed_paper_trades": [],
   "portfolio_summary": {
-    "total_equity": 159895.33,
-    "cash": 66605.68552124026,
-    "invested": 93289.64447875973,
-    "start_of_day_equity": 156811.22,
-    "daily_pnl": 3084.11,
-    "daily_return_pct": 1.97,
-    "unrealized_pnl": 4193.48,
-    "unrealized_pnl_pct": 4.5,
-    "realized_pnl": 55701.84613525391,
-    "total_pnl": 59895.33,
-    "total_return_pct": 59.9,
-    "win_rate": 83.0,
+    "total_equity": 159789.07,
+    "cash": 67792.48536285403,
+    "invested": 91996.58463714598,
+    "start_of_day_equity": 159033.91,
+    "daily_pnl": 755.16,
+    "daily_return_pct": 0.47,
+    "unrealized_pnl": 2869.16,
+    "unrealized_pnl_pct": 3.12,
+    "realized_pnl": 56919.905399169926,
+    "total_pnl": 59789.07,
+    "total_return_pct": 59.79,
+    "win_rate": 83.3,
     "open_positions_count": 2,
-    "total_trades": 47,
-    "winning_trades": 39,
+    "total_trades": 48,
+    "winning_trades": 40,
     "losing_trades": 8
   }
 }
