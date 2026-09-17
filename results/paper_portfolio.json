@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 67792.48536285403,
-  "total_equity": 159033.91,
-  "unrealized_pnl": 2114.0,
+  "total_equity": 159789.07,
+  "unrealized_pnl": 2869.16,
   "realized_pnl": 56919.905399169926,
   "win_rate": 83.3,
   "total_trades": 48,
@@ -13,7 +13,7 @@
       "shares": 50,
       "initial_shares": 50,
       "entry_price": 882.8099975585938,
-      "current_price": 925.0900268554688,
+      "current_price": 928.36,
       "entry_date": "2026-09-16",
       "tp1_target": 981.61,
       "tp2_target": 1060.64,
@@ -28,14 +28,16 @@
       "shares": 1038,
       "initial_shares": 1038,
       "entry_price": 43.34000015258789,
-      "current_price": 43.34000015258789,
+      "current_price": 43.91,
       "entry_date": "2026-09-17",
       "tp1_target": 46.98,
       "tp2_target": 49.88,
-      "sl_target": 41.16,
+      "sl_target": 43.8,
       "scaled_out": false,
       "confidence": 0.6713278889656067,
-      "regime": "\u25bc BEARISH (Below SMA200)"
+      "regime": "\u25bc BEARISH (Below SMA200)",
+      "highest_price_seen": 43.91,
+      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     }
   },
   "closed_trades": [
@@ -668,11 +670,11 @@
     {
       "date": "2026-09-17",
       "timestamp": "2026-09-17T08:36:12.333068+00:00",
-      "total_equity": 159033.91,
+      "total_equity": 159789.07,
       "cash": 67792.49,
-      "invested": 91241.42,
-      "daily_return": 0.0
+      "invested": 91996.58,
+      "daily_return": 0.47
     }
   ],
-  "last_updated": "2026-09-17T08:36:12.333551+00:00"
+  "last_updated": "2026-09-17T17:35:47.682874+00:00"
 }
