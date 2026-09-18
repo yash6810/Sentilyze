@@ -51,8 +51,9 @@ def test_send_discord_alert(mock_post):
     assert mock_post.called
 
 
+@patch("src.alerts._is_duplicate_alert", return_value=False)
 @patch("requests.post")
-def test_send_discord_execution_alert(mock_post):
+def test_send_discord_execution_alert(mock_post, mock_dup):
     mock_response = MagicMock()
     mock_response.status_code = 204
     mock_post.return_value = mock_response
@@ -71,7 +72,7 @@ def test_send_discord_execution_alert(mock_post):
     )
     assert res_buy is True
 
-    # TP1 Exit
+    # TP1 Exit with equity tracking
     res_tp1 = send_discord_execution_alert(
         {
             "action": "SELL",
@@ -80,10 +81,20 @@ def test_send_discord_execution_alert(mock_post):
             "price": 138.0,
             "shares": 25,
             "realized_pnl": 200.0,
+            "portfolio_equity": 159561.38,
+            "portfolio_cash": 66550.23,
+            "win_rate": 85.0,
+            "total_realized_pnl": 55918.23,
         },
         webhook_url="https://discord.com/api/webhooks/mock",
     )
     assert res_tp1 is True
+
+    # Verify that the posted embed payload contains the updated portfolio equity field
+    posted_json = mock_post.call_args[1]["json"]
+    embed = posted_json["embeds"][0]
+    field_names = [f["name"] for f in embed["fields"]]
+    assert any("Updated Portfolio Equity" in name for name in field_names)
 
 
 @patch("requests.post")
