@@ -75,6 +75,7 @@ def render_live_prediction_workspace(ticker: str):
         subtitle="3-Way Super-Ensemble + AI Visual Chart Learning & Smart Money Structure",
         badge_text="CHART VISION & PATTERN AI ACTIVE",
         badge_color="#10B981",
+        ticker=ticker,
     )
 
     with st.spinner(f"Running high-speed feature inference for {ticker}..."):
@@ -267,87 +268,153 @@ def render_live_prediction_workspace(ticker: str):
         )
 
     # =========================================================================
-    # INTERACTIVE CANDLESTICK CHART WITH SMART MONEY DEMAND & SUPPLY ZONES
+    # INTERACTIVE CANDLESTICK & INSTITUTIONAL ORDER FLOW ENGINE
     # =========================================================================
-    st.markdown("### 📈 Smart Money Candlestick & Institutional Zone Overlays")
-    st.caption(
-        f"**Structure:** {sm_data.get('market_structure', 'BULLISH')} | "
-        f"**Volume Point of Control (PoC):** `${sm_data.get('volume_poc', base_price):,.2f}`"
+    st.markdown("### 📈 Interactive Candlestick & Institutional Order Flow")
+
+    chart_mode = st.radio(
+        "📊 Chart Engine Mode",
+        [
+            "🌊 Institutional Order Flow & Volume Profile (TradingView)",
+            "📈 Standard Smart Money Overlays",
+        ],
+        horizontal=True,
+        index=0,
+        key=f"chart_mode_{ticker}",
     )
 
-    fig = go.Figure()
-    fig.add_trace(
-        go.Candlestick(
-            x=price_df.index[-90:],
-            open=price_df["Open"].iloc[-90:],
-            high=price_df["High"].iloc[-90:],
-            low=price_df["Low"].iloc[-90:],
-            close=price_df["Close"].iloc[-90:],
-            name="Price Action",
+    if "Order Flow" in chart_mode:
+        from src.orderflow_chart import build_orderflow_candlestick_chart
+
+        try:
+            from src.opening_range_engine import calculate_15min_opening_range
+
+            or_res = calculate_15min_opening_range(ticker, price_df)
+            orb_levels = (
+                {
+                    "orb_high": or_res.get("or_high", 0.0),
+                    "orb_low": or_res.get("or_low", 0.0),
+                }
+                if or_res.get("has_opening_range")
+                else None
+            )
+        except Exception:
+            orb_levels = None
+
+        of_fig = build_orderflow_candlestick_chart(
+            price_df=price_df.tail(90),
+            ticker=ticker,
+            sm_data=sm_data,
+            orb_levels=orb_levels,
+            height=540,
         )
-    )
 
-    # Volume Point of Control (PoC)
-    poc_val = sm_data.get("volume_poc", base_price)
-    fig.add_hline(
-        y=poc_val,
-        line_dash="dot",
-        line_color="#06B6D4",
-        annotation_text=f"Volume PoC: ${poc_val:.2f}",
-        annotation_position="bottom right",
-    )
+        # Target & Stop lines on primary pane
+        of_fig.add_hline(
+            y=tp1,
+            line_dash="dash",
+            line_color="#10B981",
+            annotation_text=f"TP1 (+2.5 ATR): ${tp1:.2f}",
+            row=1,
+            col=1,
+        )
+        of_fig.add_hline(
+            y=tp2,
+            line_dash="dash",
+            line_color="#8B5CF6",
+            annotation_text=f"TP2 Runner (+4.5 ATR): ${tp2:.2f}",
+            row=1,
+            col=1,
+        )
+        of_fig.add_hline(
+            y=stop_loss,
+            line_dash="dash",
+            line_color="#EF4444",
+            annotation_text=f"SL Floor: ${stop_loss:.2f}",
+            row=1,
+            col=1,
+        )
 
-    # 15-Minute Opening Range High & Low Overlays
-    try:
-        from src.opening_range_engine import calculate_15min_opening_range
+        st.plotly_chart(of_fig, use_container_width=True)
+    else:
+        st.caption(
+            f"**Structure:** {sm_data.get('market_structure', 'BULLISH')} | "
+            f"**Volume Point of Control (PoC):** `${sm_data.get('volume_poc', base_price):,.2f}`"
+        )
 
-        or_res = calculate_15min_opening_range(ticker, price_df)
-        if or_res.get("has_opening_range"):
-            fig.add_hline(
-                y=or_res["or_low"],
-                line_dash="dot",
-                line_color="#F59E0B",
-                annotation_text=f"15-Min Low (Dip Floor): ${or_res['or_low']:.2f}",
-                annotation_position="bottom left",
+        fig = go.Figure()
+        fig.add_trace(
+            go.Candlestick(
+                x=price_df.index[-90:],
+                open=price_df["Open"].iloc[-90:],
+                high=price_df["High"].iloc[-90:],
+                low=price_df["Low"].iloc[-90:],
+                close=price_df["Close"].iloc[-90:],
+                name="Price Action",
             )
-            fig.add_hline(
-                y=or_res["or_high"],
-                line_dash="dot",
-                line_color="#38BDF8",
-                annotation_text=f"15-Min High: ${or_res['or_high']:.2f}",
-                annotation_position="top left",
-            )
-    except Exception:
-        pass
+        )
 
-    # Target & Stop Lines
-    fig.add_hline(
-        y=tp1,
-        line_dash="dash",
-        line_color="#10B981",
-        annotation_text=f"TP1 (+2.5 ATR): ${tp1:.2f}",
-    )
-    fig.add_hline(
-        y=tp2,
-        line_dash="dash",
-        line_color="#8B5CF6",
-        annotation_text=f"TP2 Runner (+4.5 ATR): ${tp2:.2f}",
-    )
-    fig.add_hline(
-        y=stop_loss,
-        line_dash="dash",
-        line_color="#EF4444",
-        annotation_text=f"SL Floor: ${stop_loss:.2f}",
-    )
+        # Volume Point of Control (PoC)
+        poc_val = sm_data.get("volume_poc", base_price)
+        fig.add_hline(
+            y=poc_val,
+            line_dash="dot",
+            line_color="#06B6D4",
+            annotation_text=f"Volume PoC: ${poc_val:.2f}",
+            annotation_position="bottom right",
+        )
 
-    fig.update_layout(
-        template="plotly_dark",
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        height=480,
-        margin=dict(l=20, r=20, t=30, b=20),
-    )
-    st.plotly_chart(fig, use_container_width=True)
+        # 15-Minute Opening Range High & Low Overlays
+        try:
+            from src.opening_range_engine import calculate_15min_opening_range
+
+            or_res = calculate_15min_opening_range(ticker, price_df)
+            if or_res.get("has_opening_range"):
+                fig.add_hline(
+                    y=or_res["or_low"],
+                    line_dash="dot",
+                    line_color="#F59E0B",
+                    annotation_text=f"15-Min Low (Dip Floor): ${or_res['or_low']:.2f}",
+                    annotation_position="bottom left",
+                )
+                fig.add_hline(
+                    y=or_res["or_high"],
+                    line_dash="dot",
+                    line_color="#38BDF8",
+                    annotation_text=f"15-Min High: ${or_res['or_high']:.2f}",
+                    annotation_position="top left",
+                )
+        except Exception:
+            pass
+
+        # Target & Stop Lines
+        fig.add_hline(
+            y=tp1,
+            line_dash="dash",
+            line_color="#10B981",
+            annotation_text=f"TP1 (+2.5 ATR): ${tp1:.2f}",
+        )
+        fig.add_hline(
+            y=tp2,
+            line_dash="dash",
+            line_color="#8B5CF6",
+            annotation_text=f"TP2 Runner (+4.5 ATR): ${tp2:.2f}",
+        )
+        fig.add_hline(
+            y=stop_loss,
+            line_dash="dash",
+            line_color="#EF4444",
+            annotation_text=f"SL Floor: ${stop_loss:.2f}",
+        )
+
+        fig.update_layout(
+            template="plotly_dark",
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            height=480,
+            margin=dict(l=20, r=20, t=30, b=20),
+        )
+        st.plotly_chart(fig, use_container_width=True)
 
     # =========================================================================
     # AI VISUAL CHART STORY & NATURAL LANGUAGE EXPLAINER

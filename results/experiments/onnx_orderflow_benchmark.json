@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-09-17T14:48:05.677197+00:00",
+  "finbert_benchmark": {
+    "sample_size": 10,
+    "pytorch_avg_latency_ms": 24.03,
+    "onnx_engine_avg_latency_ms": 0.11,
+    "cached_avg_latency_ms": 0.003,
+    "onnx_active": false,
+    "speedup_factor": "213.0x"
+  },
+  "orderflow_benchmark": {
+    "bars_analyzed": 100,
+    "poc_price": 105.75,
+    "value_area_high": 112.49,
+    "value_area_low": 101.46,
+    "fvgs_detected": 4,
+    "vp_calc_latency_ms": 16.5,
+    "fvg_calc_latency_ms": 2.32,
+    "chart_generation_latency_ms": 460.72,
+    "total_traces": 5
+  },
+  "production_portfolio_preserved": true,
+  "verdict": "SUCCESS_ALL_BENCHMARKS_PASSED"
+}

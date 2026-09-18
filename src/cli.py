@@ -207,6 +207,13 @@ def cmd_scan():
     engine.close()
 
 
+def cmd_experiment():
+    """Runs the Full US Market quantitative experiment & benchmark harness."""
+    from experiments.full_market_experiment import run_full_experiment_suite
+
+    run_full_experiment_suite()
+
+
 def main():
     # Smart argument handling: allow direct ticker inputs like `python sentilyze.py NVDA`
     args = sys.argv[1:]
@@ -231,6 +238,9 @@ def main():
         print(
             f"  {CYAN}python sentilyze.py briefing{RESET}      (Run morning pre-market briefing)"
         )
+        print(
+            f"  {CYAN}python sentilyze.py experiment{RESET}    (Run Full US Market quantitative benchmarks)"
+        )
         print()
         return
 
@@ -244,6 +254,14 @@ def main():
         cmd_portfolio()
     elif first_arg.lower() in ["briefing", "premarket", "--briefing", "-b"]:
         cmd_briefing()
+    elif first_arg.lower() in [
+        "experiment",
+        "exp",
+        "test-market",
+        "--experiment",
+        "-e",
+    ]:
+        cmd_experiment()
     elif first_arg.lower() in ["audit", "a", "--audit", "-a"]:
         ticker = args[1] if len(args) > 1 else "NVDA"
         cmd_audit(ticker)

@@ -321,21 +321,76 @@ def get_sentiment(
     return enriched_articles
 
 
+class ONNXFinBERTPipelineAdapter:
+    """Lightweight pipeline adapter wrapping FastFinBERTEngine to provide pipeline-compatible outputs."""
+
+    def __init__(self, engine=None):
+        if engine is None:
+            from src.onnx_finbert import FastFinBERTEngine
+
+            self.engine = FastFinBERTEngine()
+        else:
+            self.engine = engine
+
+    def __call__(self, texts, **kwargs):
+        if isinstance(texts, str):
+            texts = [texts]
+        outputs = []
+        for text in texts:
+            res = self.engine.predict_single(text)
+            lbl = res.get("sentiment_label", "neutral")
+            conf = float(res.get("confidence", 0.5))
+            score = float(res.get("sentiment_score", 0.0))
+            if lbl == "positive":
+                p_pos = conf
+                p_neg = max(0.0, conf - score) if score > 0 else 0.0
+                p_neu = max(0.0, 1.0 - (p_pos + p_neg))
+            elif lbl == "negative":
+                p_neg = conf
+                p_pos = max(0.0, conf + score) if score < 0 else 0.0
+                p_neu = max(0.0, 1.0 - (p_pos + p_neg))
+            else:
+                p_neu = conf
+                p_pos = max(0.0, (1.0 - conf) / 2.0)
+                p_neg = max(0.0, (1.0 - conf) / 2.0)
+            outputs.append(
+                [
+                    {"label": "positive", "score": p_pos},
+                    {"label": "negative", "score": p_neg},
+                    {"label": "neutral", "score": p_neu},
+                ]
+            )
+        return outputs
+
+
 def analyze_sentiment(
     articles: pd.DataFrame,
     ticker: str | None = None,
     use_cache: bool = True,
 ) -> pd.DataFrame:
-    """Convenience wrapper for sentiment scoring using the cached FinBERT pipeline."""
+    """Convenience wrapper for sentiment scoring using the cached ONNX/FinBERT pipeline."""
     if articles is None or articles.empty:
         return pd.DataFrame()
-    from src.preprocessing import _load_sentiment_analyzer
-
-    analyzer = _load_sentiment_analyzer()
     cache_dur = 24 if use_cache else 0
-    return get_sentiment(
-        articles,
-        sentiment_analyzer=analyzer,
-        ticker=ticker,
-        cache_duration_hours=cache_dur,
-    )
+    try:
+        from src.onnx_finbert import FastFinBERTEngine
+
+        engine = FastFinBERTEngine()
+        adapter = ONNXFinBERTPipelineAdapter(engine)
+        return get_sentiment(
+            articles,
+            sentiment_analyzer=adapter,
+            ticker=ticker,
+            cache_duration_hours=cache_dur,
+        )
+    except Exception as e:
+        logger.warning(f"Fast ONNX sentiment adapter fallback to PyTorch ({e})")
+        from src.preprocessing import _load_sentiment_analyzer
+
+        analyzer = _load_sentiment_analyzer()
+        return get_sentiment(
+            articles,
+            sentiment_analyzer=analyzer,
+            ticker=ticker,
+            cache_duration_hours=cache_dur,
+        )

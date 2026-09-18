@@ -249,6 +249,99 @@ class DuckDBMarketEngine:
         """
         return self.query(sql, [limit])
 
+    def scan_oversold_dips(
+        self,
+        min_rsi: float = 30.0,
+        max_rsi: float = 48.0,
+        limit: int = 25,
+    ) -> pd.DataFrame:
+        """
+        Screens for oversold mean-reversion dip opportunities during crisis/pullback regimes.
+        """
+        sql = """
+            WITH ranked_bars AS (
+                SELECT *,
+                       ROW_NUMBER() OVER(PARTITION BY ticker ORDER BY date DESC) as rn
+                FROM daily_bars
+            )
+            SELECT ticker, date, close, rsi, sma50, sma200, volume
+            FROM ranked_bars
+            WHERE rn = 1
+              AND rsi >= ? AND rsi <= ?
+            ORDER BY rsi ASC LIMIT ?;
+        """
+        return self.query(sql, [min_rsi, max_rsi, limit])
+
+    def get_full_market_candidates(
+        self, limit: int = 25, regime: Optional[str] = None
+    ) -> List[str]:
+        """
+        Stage 1 Broad Screener: Returns top ranked candidates conditioned on Macro Regime:
+          - BULL_EXPANSION: Momentum breakouts (RSI 50-75, above SMA200) + Golden Crosses.
+          - RANGEBOUND_CHOP: Tightened breakouts (RSI 55-68) + Prioritizes Golden Crosses to eliminate fakeouts.
+          - HIGH_VOL_CRISIS: Oversold mean-reversion dips (RSI 30-48) + Strongest Golden Crosses.
+        """
+        candidates = []
+        regime_upper = (regime or "BULL_EXPANSION").upper()
+
+        if "CRISIS" in regime_upper:
+            # 1. In high vol / crisis: look for oversold bounce setups
+            df_dips = self.scan_oversold_dips(min_rsi=30.0, max_rsi=48.0, limit=limit)
+            if not df_dips.empty:
+                candidates.extend(df_dips["ticker"].tolist())
+
+            # Supplement with Golden Crosses (structural bull support)
+            if len(candidates) < limit:
+                df_cross = self.scan_golden_crosses(limit=limit - len(candidates))
+                if not df_cross.empty:
+                    for t in df_cross["ticker"].tolist():
+                        if t not in candidates:
+                            candidates.append(t)
+
+        elif "CHOP" in regime_upper:
+            # 1. In chop / consolidation: prioritize Golden Crosses first to prevent fake breakouts
+            df_cross = self.scan_golden_crosses(limit=limit // 2 + 1)
+            if not df_cross.empty:
+                candidates.extend(df_cross["ticker"].tolist())
+
+            # 2. Tightened momentum breakout (RSI 55 to 68)
+            df = self.scan_momentum_breakouts(
+                min_rsi=55.0,
+                max_rsi=68.0,
+                above_sma200=True,
+                limit=limit - len(candidates),
+            )
+            if not df.empty:
+                for t in df["ticker"].tolist():
+                    if t not in candidates:
+                        candidates.append(t)
+
+        else:
+            # Default: BULL_EXPANSION standard momentum breakouts
+            df = self.scan_momentum_breakouts(
+                min_rsi=50.0, max_rsi=75.0, above_sma200=True, limit=limit
+            )
+            if not df.empty:
+                candidates.extend(df["ticker"].tolist())
+
+            # 2. Golden Crosses
+            if len(candidates) < limit:
+                df_cross = self.scan_golden_crosses(limit=limit - len(candidates))
+                if not df_cross.empty:
+                    for t in df_cross["ticker"].tolist():
+                        if t not in candidates:
+                            candidates.append(t)
+
+        # 3. Fallback to active tickers in daily_bars if needed
+        if len(candidates) < 5:
+            df_active = self.query("SELECT DISTINCT ticker FROM daily_bars LIMIT 25;")
+            if not df_active.empty:
+                for t in df_active["ticker"].tolist():
+                    if t not in candidates:
+                        candidates.append(t)
+
+        return candidates[:limit]
+
     def get_coverage_summary(self) -> Dict[str, Any]:
         """
         Returns summary diagnostics of the market data lake.

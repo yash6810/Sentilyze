@@ -189,12 +189,26 @@ def main():
     # Quick Status in Sidebar
     comp_name = COMPANY_NAMES.get(selected_ticker, selected_ticker)
     st.sidebar.markdown("---")
+    try:
+        from src.stock_image_provider import get_asset_avatar_html
+
+        avatar_html = get_asset_avatar_html(
+            selected_ticker, size=38, border_radius="8px"
+        )
+    except Exception:
+        avatar_html = ""
+
     st.sidebar.markdown(
         f"""
+        <div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 8px; margin-bottom: 8px;">
+            {avatar_html}
+            <div>
+                <div style="font-size: 0.88rem; font-weight: 800; color: #F8FAFC; font-family: 'JetBrains Mono', monospace;">{selected_ticker}</div>
+                <div style="font-size: 0.72rem; color: #94A3B8; max-width: 170px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{comp_name}</div>
+            </div>
+        </div>
         <div style="font-size: 0.75rem; color: #64748B; font-family: 'JetBrains Mono', monospace;">
             ● Model Universe: {len(tickers)} S&P Assets<br>
-            ● Active Asset: <b>{selected_ticker}</b><br>
-            ● Company: {comp_name}<br>
             ● Status: 🟢 5 Cockpits Operational
         </div>
         """,

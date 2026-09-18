@@ -1,25 +1,66 @@
 {
-  "timestamp": "2026-09-10T17:00:37.846757+00:00",
+  "timestamp": "2026-09-17T14:12:17.579644+00:00",
   "buys": [],
-  "take_profits_tp1": [],
+  "take_profits_tp1": [
+    {
+      "ticker": "NVDA",
+      "shares_sold": 3,
+      "remaining_shares": 4,
+      "exit_price": 219.34,
+      "pnl": 298.02,
+      "return_pct": 82.78,
+      "action": "TP1_PROFIT_LOCK_50PCT"
+    },
+    {
+      "ticker": "AAPL",
+      "shares_sold": 5,
+      "remaining_shares": 5,
+      "exit_price": 333.19,
+      "pnl": 665.95,
+      "return_pct": 66.59,
+      "action": "TP1_PROFIT_LOCK_50PCT"
+    }
+  ],
   "take_profits_tp2": [],
   "stop_losses": [],
   "veto_exits": [],
-  "committee_resolutions": {},
-  "portfolio_equity": 152024.33,
-  "cash_balance": 78366.10000000002,
+  "committee_resolutions": {
+    "MSFT": "\ud83d\ude80 CONVICTION INSTITUTIONAL BUY"
+  },
+  "portfolio_equity": 100000.0,
+  "cash_balance": 100000.0,
   "unrealized_pnl": 0.0,
   "kill_switch_active": false,
-  "self_improvement": {
-    "total_cycles": 25,
-    "agent_weights": {
-      "technicals_weight": 0.3,
-      "sentiment_weight": 0.35,
-      "valuation_weight": 0.15,
-      "cro_weight": 0.2
+  "take_profits_tp0": [
+    {
+      "ticker": "NVDA",
+      "shares_sold": 3,
+      "remaining_shares": 7,
+      "exit_price": 219.34,
+      "pnl": 298.02,
+      "return_pct": 82.78,
+      "action": "STAGE0_EASY_WIN_HARVEST_33PCT"
     },
-    "kelly_multiplier": 1.0,
-    "new_autopsies_count": 0
+    {
+      "ticker": "AAPL",
+      "shares_sold": 5,
+      "remaining_shares": 10,
+      "exit_price": 333.19,
+      "pnl": 665.95,
+      "return_pct": 66.59,
+      "action": "STAGE0_EASY_WIN_HARVEST_33PCT"
+    }
+  ],
+  "self_improvement": {
+    "total_cycles": 49,
+    "agent_weights": {
+      "technicals_weight": 0.27,
+      "sentiment_weight": 0.418,
+      "valuation_weight": 0.134,
+      "cro_weight": 0.178
+    },
+    "kelly_multiplier": 1.22,
+    "new_autopsies_count": 2
   },
-  "elapsed_seconds": 0.39
+  "elapsed_seconds": 0.13
 }

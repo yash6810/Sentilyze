@@ -1,0 +1,95 @@
+{
+  "initial_capital": 100000.0,
+  "cash": 532.7800000000134,
+  "total_equity": 50266.39,
+  "unrealized_pnl": 0.0,
+  "realized_pnl": 0.0,
+  "win_rate": 0.0,
+  "total_trades": 0,
+  "winning_trades": 0,
+  "losing_trades": 0,
+  "open_positions": {
+    "ADM": {
+      "ticker": "ADM",
+      "shares": 115,
+      "initial_shares": 115,
+      "entry_price": 86.72,
+      "current_price": 86.72,
+      "entry_date": "2026-09-16",
+      "tp1_target": 91.06,
+      "tp2_target": 95.39,
+      "sl_target": 83.25,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "FullMarket_Momentum_Funnel"
+    },
+    "ARKK": {
+      "ticker": "ARKK",
+      "shares": 118,
+      "initial_shares": 118,
+      "entry_price": 84.49,
+      "current_price": 84.49,
+      "entry_date": "2026-09-16",
+      "tp1_target": 88.71,
+      "tp2_target": 92.94,
+      "sl_target": 81.11,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "FullMarket_Momentum_Funnel"
+    },
+    "APH": {
+      "ticker": "APH",
+      "shares": 119,
+      "initial_shares": 119,
+      "entry_price": 83.92,
+      "current_price": 83.92,
+      "entry_date": "2026-09-16",
+      "tp1_target": 88.12,
+      "tp2_target": 92.31,
+      "sl_target": 80.56,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "FullMarket_Momentum_Funnel"
+    },
+    "AMD": {
+      "ticker": "AMD",
+      "shares": 19,
+      "initial_shares": 19,
+      "entry_price": 516.13,
+      "current_price": 516.13,
+      "entry_date": "2026-09-16",
+      "tp1_target": 541.94,
+      "tp2_target": 567.74,
+      "sl_target": 495.48,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "FullMarket_Momentum_Funnel"
+    },
+    "AES": {
+      "ticker": "AES",
+      "shares": 676,
+      "initial_shares": 676,
+      "entry_price": 14.79,
+      "current_price": 14.79,
+      "entry_date": "2026-09-16",
+      "tp1_target": 15.53,
+      "tp2_target": 16.27,
+      "sl_target": 14.2,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "FullMarket_Momentum_Funnel"
+    }
+  },
+  "closed_trades": [],
+  "equity_history": [
+    {
+      "date": "2026-09-16",
+      "timestamp": "2026-09-16T17:21:17.029547+00:00",
+      "total_equity": 50266.39,
+      "cash": 532.78,
+      "invested": 49733.61,
+      "daily_return": -16.59
+    }
+  ],
+  "last_updated": "2026-09-16T17:37:33.458994+00:00"
+}

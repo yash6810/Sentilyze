@@ -90,10 +90,11 @@ def render_committee_workspace(ticker: str):
                 st.error(f"Committee deliberation error: {e}")
                 return
 
-    tab_war_room, tab_canvas, tab_chart = st.tabs(
+    tab_war_room, tab_memory, tab_canvas, tab_chart = st.tabs(
         [
             "🏛️ 5-Agent Deliberation Chamber",
-            "🌐 Interactive Pipeline & Agent Flow Canvas",
+            "🧠 Council Memory & Calibration",
+            "🌐 Interactive Pipeline & Flow Canvas",
             "📈 Dynamic Pivot S/R & ATR Charting",
         ]
     )
@@ -103,6 +104,92 @@ def render_committee_workspace(ticker: str):
         render_multi_agent_war_room(
             ticker=ticker, resolution=delib, spot_price=spot_price
         )
+
+    with tab_memory:
+        st.markdown(
+            "### 🧠 5-Agent Committee Persistent Memory & Dynamic Voter Calibration"
+        )
+        st.caption(
+            "Multi-session episodic learning engine (agent-memory). Agent voting power is dynamically calibrated based on empirical trailing win rates across historical trade autopsies."
+        )
+
+        try:
+            from src.agent_memory import AgentMemoryStore
+
+            mem_store = AgentMemoryStore()
+            calibrated_weights = mem_store.get_calibrated_weights()
+            recent_postmortems = mem_store.get_recent_postmortems(limit=10)
+            semantic_rules = mem_store.get_semantic_rules()
+
+            # Dynamic Voter Weights Cards
+            st.markdown(
+                "#### ⚖️ Dynamic Committee Voting Weights (Empirical Calibration)"
+            )
+            w_cols = st.columns(len(calibrated_weights))
+            for col, (agent_name, weight) in zip(w_cols, calibrated_weights.items()):
+                with col:
+                    pct = weight * 100.0
+                    st.metric(
+                        label=agent_name, value=f"{pct:.1f}%", delta="Calibrated Weight"
+                    )
+
+            st.markdown("---")
+
+            # Semantic Rules & Market Heuristics
+            st.markdown("#### 📜 Persistent Semantic Trading Rules")
+            for r in semantic_rules:
+                regime = r.get("regime", "GENERAL")
+                desc = r.get("description", "")
+                conf = r.get("confidence", 0.85) * 100.0
+                st.markdown(
+                    f"""
+                    <div class="glass-card" style="padding: 12px 16px; margin-bottom: 8px; border-left: 3px solid #38BDF8;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-weight: 700; color: #38BDF8; font-size: 0.85rem;">{r.get('rule_id', 'RULE')} • [{regime}]</span>
+                            <span style="color: #10B981; font-weight: 600; font-size: 0.8rem;">{conf:.0f}% Confidence</span>
+                        </div>
+                        <div style="color: #F1F5F9; font-size: 0.88rem; margin-top: 4px;">{desc}</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+            st.markdown("---")
+
+            # Recent Episodic Post-Mortems
+            st.markdown("#### 📓 Recent Episodic Trade Post-Mortems")
+            if recent_postmortems:
+                for pm in recent_postmortems[:6]:
+                    t_sym = pm.get("ticker", "ASSET")
+                    outcome = pm.get("outcome", "WIN")
+                    r_mult = pm.get("r_multiple", 0.0)
+                    pnl_ret = pm.get("pnl_pct", 0.0)
+                    notes = pm.get("notes", "No notes recorded.")
+                    ts = pm.get("timestamp", "")[:10]
+                    is_w = outcome == "WIN" or pnl_ret > 0
+                    badge_color = "#10B981" if is_w else "#EF4444"
+                    badge_text = (
+                        f"WIN (+{pnl_ret:.2f}%)" if is_w else f"LOSS ({pnl_ret:.2f}%)"
+                    )
+
+                    st.markdown(
+                        f"""
+                        <div class="glass-card" style="padding: 12px 16px; margin-bottom: 8px; border-left: 3px solid {badge_color};">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-weight: 700; color: #F8FAFC;">{t_sym} • <span style="color: {badge_color};">{badge_text}</span></span>
+                                <span style="color: #64748B; font-size: 0.78rem;">{ts} • {r_mult:+.2f}R</span>
+                            </div>
+                            <div style="color: #94A3B8; font-size: 0.84rem; margin-top: 4px;">{notes}</div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+            else:
+                st.info(
+                    "No trade post-mortems logged yet. Post-mortems are recorded automatically as paper trades close."
+                )
+        except Exception as e:
+            st.warning(f"Notice loading agent memory: {e}")
 
     with tab_canvas:
         st.markdown("### 🌐 Live Multi-Agent & Pipeline Architecture Flow Canvas")

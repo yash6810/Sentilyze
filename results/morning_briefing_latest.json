@@ -1,68 +1,71 @@
 {
-  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Tuesday, September 08, 2026",
+  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Thursday, September 17, 2026",
   "mode": "SINGLE_TICKER",
-  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.4**. Top algorithmic focus is on **CAT, CARR, BA** with **CAT** leading at 78% conviction. The fund holds **$100,000.00** in 100% liquid cash reserves, ready for morning opening range opportunities.",
+  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.7**. Top algorithmic focus is on **CHRW, CAT, CTAS** with **CHRW** leading at 78% conviction. The fund holds **$66,350.23** in 100% liquid cash reserves, ready for morning opening range opportunities.",
   "macro_posture": {
     "regime": "BULLISH_EXPANSION",
-    "vix_level": 15.390000343322754,
+    "vix_level": 15.65999984741211,
     "10y_treasury": "4.25%",
     "fed_liquidity": "$6.05 Trillion"
   },
   "top_stocks_in_play": [
     {
-      "ticker": "CAT",
-      "last_price": 813.8,
-      "day_change_pct": 1.74,
-      "momentum_5d_pct": 2.01,
-      "atr": 18.05,
-      "tp1_target": 858.91,
-      "tp2_target": 895.01,
-      "sl_target": 786.73,
+      "ticker": "CHRW",
+      "last_price": 150.49,
+      "day_change_pct": 0.18,
+      "momentum_5d_pct": 4.11,
+      "atr": 3.19,
+      "tp1_target": 158.47,
+      "tp2_target": 164.85,
+      "sl_target": 145.7,
       "conviction_pct": 76.5,
+      "headline_catalyst": "Solid institutional institutional order flow observed in CHRW.",
+      "sentiment_buzz": "Bullish Momentum"
+    },
+    {
+      "ticker": "CAT",
+      "last_price": 815.55,
+      "day_change_pct": -0.86,
+      "momentum_5d_pct": 2.99,
+      "atr": 17.47,
+      "tp1_target": 859.24,
+      "tp2_target": 894.18,
+      "sl_target": 789.35,
+      "conviction_pct": 72.8,
       "headline_catalyst": "Solid institutional institutional order flow observed in CAT.",
       "sentiment_buzz": "Bullish Momentum"
     },
     {
-      "ticker": "CARR",
-      "last_price": 59.71,
-      "day_change_pct": 1.08,
-      "momentum_5d_pct": 2.57,
-      "atr": 1.2,
-      "tp1_target": 62.71,
-      "tp2_target": 65.11,
-      "sl_target": 57.91,
-      "conviction_pct": 76.0,
-      "headline_catalyst": "Solid institutional institutional order flow observed in CARR.",
-      "sentiment_buzz": "Bullish Momentum"
-    },
-    {
-      "ticker": "BA",
-      "last_price": 212.19,
-      "day_change_pct": 0.79,
-      "momentum_5d_pct": 2.14,
-      "atr": 4.24,
-      "tp1_target": 222.8,
-      "tp2_target": 231.29,
-      "sl_target": 205.83,
-      "conviction_pct": 74.8,
-      "headline_catalyst": "Solid institutional institutional order flow observed in BA.",
+      "ticker": "CTAS",
+      "last_price": 200.09,
+      "day_change_pct": -0.23,
+      "momentum_5d_pct": 1.02,
+      "atr": 4.0,
+      "tp1_target": 210.09,
+      "tp2_target": 218.1,
+      "sl_target": 194.09,
+      "conviction_pct": 71.1,
+      "headline_catalyst": "Solid institutional institutional order flow observed in CTAS.",
       "sentiment_buzz": "Bullish Momentum"
     }
   ],
   "primary_focus": {
-    "ticker": "CAT",
+    "ticker": "CHRW",
     "committee_decision": "APPROVED",
     "confidence_pct": 78.0,
     "rationale": "Strong momentum catalyst and disciplined risk-reward ratio."
   },
   "portfolio_status": {
-    "total_equity": 100000.0,
-    "cash_reserves": 100000.0,
-    "realized_gain": 0.0,
-    "win_rate_pct": 0.0,
-    "open_positions": 0,
-    "active_tickers": []
+    "total_equity": 159361.38,
+    "cash_reserves": 66350.2298327637,
+    "realized_gain": 55718.22943603516,
+    "win_rate_pct": 84.8,
+    "open_positions": 2,
+    "active_tickers": [
+      "Q",
+      "SNDK"
+    ]
   },
-  "audio_script": "Good morning. This is your Sentilyze Deep Dive Analyst Briefing on NVDA for Tuesday, September 08, 2026. The macroeconomic volatility regime is Bullish Expansion with VIX at 15.4. The Multi-Agent Quantitative Committee has delivered a APPROVED verdict on NVDA with 78 percent conviction. Our portfolio holds 100,000.00 dollars in liquid cash, ready to allocate fractional Kelly sizing upon market open.",
-  "generated_at": "08:16 AM UTC"
+  "audio_script": "Good morning. This is your Sentilyze Deep Dive Analyst Briefing on NVDA for Thursday, September 17, 2026. The macroeconomic volatility regime is Bullish Expansion with VIX at 15.7. The Multi-Agent Quantitative Committee has delivered a APPROVED verdict on NVDA with 78 percent conviction. Our portfolio holds 66,350.23 dollars in liquid cash, ready to allocate fractional Kelly sizing upon market open.",
+  "generated_at": "02:10 PM UTC"
 }

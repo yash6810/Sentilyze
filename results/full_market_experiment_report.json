@@ -1,0 +1,122 @@
+{
+  "timestamp": "2026-09-17T01:53:22.658781+00:00",
+  "phase1_duckdb_benchmark": {
+    "total_bars_scanned": 116209,
+    "total_tickers": 50,
+    "duckdb_momentum_scan_sec": 0.0339,
+    "duckdb_golden_cross_scan_sec": 0.0017,
+    "pandas_baseline_scan_sec": 0.0573,
+    "vectorized_speedup_factor": "1.7x faster",
+    "candidates_discovered": 12,
+    "sample_momentum_tickers": [
+      "ADM",
+      "ARKK",
+      "APH",
+      "AMD",
+      "AES",
+      "AAPL",
+      "ASML",
+      "ANET",
+      "AMP",
+      "AIZ"
+    ]
+  },
+  "phase2_security_master": {
+    "total_exchange_symbols": 12756,
+    "tradable_clean_universe": 12756,
+    "tier_distribution": {
+      "TIER_2_MID": 12748,
+      "TIER_1_MEGA": 8
+    },
+    "synthetic_tiering_tests_passed": "5/5",
+    "penny_stock_rejection_rate": "100% (Hard Veto on Price < $5 or ADV < $2M)"
+  },
+  "phase3_sec_crawler": {
+    "total_ciks_mapped": 10422,
+    "sample_tickers_resolved": {
+      "NVDA": "0001045810",
+      "AAPL": "0000320193",
+      "MSFT": "0000789019",
+      "AMZN": "0001018724",
+      "GOOGL": "0001652044",
+      "META": "0001326801",
+      "TSLA": "0001318605"
+    },
+    "catalyst_sentiment_tests": [
+      {
+        "filing": "Item 1.01 Entry into Material Definitive License a...",
+        "score": 0.25,
+        "is_risk": false,
+        "is_positive": true
+      },
+      {
+        "filing": "Item 2.02 Results of Operations: Q2 Record Revenue...",
+        "score": 0.95,
+        "is_risk": false,
+        "is_positive": true
+      },
+      {
+        "filing": "Item 3.01 Notice of Delisting and SEC Investigatio...",
+        "score": -1.0,
+        "is_risk": true,
+        "is_positive": false
+      }
+    ],
+    "adverse_risk_detection_status": "OPERATIONAL (Immediate CRO Veto)"
+  },
+  "phase4_sandbox_funnel": {
+    "stage1_screened_candidates": [
+      "ADM",
+      "ARKK",
+      "APH",
+      "AMD",
+      "AES",
+      "AAPL",
+      "ASML",
+      "ANET",
+      "AMP",
+      "AIZ",
+      "ARM",
+      "APA"
+    ],
+    "stage1_crisis_oversold_dips": [
+      "ABNB",
+      "ARE",
+      "ARES",
+      "AMAT",
+      "ATO"
+    ],
+    "stage2_sandbox_executed_orders": [],
+    "sector_shield_vetoes": [
+      {
+        "ticker": "APH",
+        "sector": "Information Technology",
+        "count": 2
+      },
+      {
+        "ticker": "AMD",
+        "sector": "Information Technology",
+        "count": 2
+      },
+      {
+        "ticker": "AAPL",
+        "sector": "Information Technology",
+        "count": 2
+      },
+      {
+        "ticker": "ANET",
+        "sector": "Information Technology",
+        "count": 2
+      },
+      {
+        "ticker": "ARM",
+        "sector": "Information Technology",
+        "count": 2
+      }
+    ],
+    "sandbox_portfolio_equity": 50266.39,
+    "sandbox_open_positions": 0,
+    "production_portfolio_preserved": true
+  },
+  "overall_verdict": "PASSED_ALL_BENCHMARKS"
+}
