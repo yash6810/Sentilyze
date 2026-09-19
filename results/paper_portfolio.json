@@ -1,43 +1,39 @@
 {
   "initial_capital": 100000.0,
-  "cash": 68160.25435485842,
+  "cash": 69459.0850204468,
   "total_equity": 159264.46,
-  "unrealized_pnl": 2053.92,
-  "realized_pnl": 57210.54524078369,
-  "win_rate": 83.7,
-  "total_trades": 49,
-  "winning_trades": 41,
-  "losing_trades": 8,
+  "unrealized_pnl": 0.0,
+  "realized_pnl": 59264.46420135498,
+  "win_rate": 82.4,
+  "total_trades": 51,
+  "winning_trades": 42,
+  "losing_trades": 9,
   "open_positions": {
-    "GEV": {
-      "shares": 50,
-      "initial_shares": 50,
-      "entry_price": 882.8099975585938,
-      "current_price": 940.33,
-      "entry_date": "2026-09-16",
-      "tp1_target": 981.61,
-      "tp2_target": 1060.64,
-      "sl_target": 929.06,
+    "BNY": {
+      "shares": 292,
+      "initial_shares": 292,
+      "entry_price": 153.7899932861328,
+      "current_price": 153.7899932861328,
+      "entry_date": "2026-09-19",
+      "tp1_target": 163.4,
+      "tp2_target": 171.09,
+      "sl_target": 148.02,
       "scaled_out": false,
-      "confidence": 0.6777085065841675,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 940.62,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
+      "confidence": 0.6732739210128784,
+      "regime": "\u25b2 BULLISH (Above SMA200)"
     },
-    "FDXF": {
-      "shares": 367,
-      "initial_shares": 367,
-      "entry_price": 122.37000274658203,
-      "current_price": 120.13,
-      "entry_date": "2026-09-18",
-      "tp1_target": 134.84,
-      "tp2_target": 144.81,
-      "sl_target": 119.31,
+    "Q": {
+      "shares": 374,
+      "initial_shares": 374,
+      "entry_price": 120.05000305175781,
+      "current_price": 120.05000305175781,
+      "entry_date": "2026-09-19",
+      "tp1_target": 133.2,
+      "tp2_target": 143.72,
+      "sl_target": 112.16,
       "scaled_out": false,
-      "confidence": 0.7735485434532166,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 122.37000274658203,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
+      "confidence": 0.6704150438308716,
+      "regime": "\u25bc BEARISH (Below SMA200)"
     }
   },
   "closed_trades": [
@@ -579,6 +575,28 @@
       "pnl": 290.64,
       "return_pct": 0.65,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "GEV",
+      "shares": 50,
+      "entry_price": 882.8099975585938,
+      "exit_price": 940.3300170898438,
+      "entry_date": "2026-09-16",
+      "exit_date": "2026-09-19",
+      "pnl": 2876.0,
+      "return_pct": 6.52,
+      "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "FDXF",
+      "shares": 367,
+      "entry_price": 122.37000274658203,
+      "exit_price": 120.12999725341797,
+      "entry_date": "2026-09-18",
+      "exit_date": "2026-09-19",
+      "pnl": -822.08,
+      "return_pct": -1.83,
+      "reason": "MODEL_SELL"
     }
   ],
   "equity_history": [
@@ -693,7 +711,15 @@
       "cash": 68160.25,
       "invested": 91104.21,
       "daily_return": 0.0
+    },
+    {
+      "date": "2026-09-19",
+      "timestamp": "2026-09-19T08:10:23.913125+00:00",
+      "total_equity": 159264.46,
+      "cash": 69459.09,
+      "invested": 89805.38,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-18T23:47:12.857378+00:00"
+  "last_updated": "2026-09-19T08:10:23.913892+00:00"
 }
