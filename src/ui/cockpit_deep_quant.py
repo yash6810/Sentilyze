@@ -15,34 +15,29 @@ from src.ui.ws_xai_shap import render_xai_workspace
 from src.ui.ws_market_neutral_statarb import render_market_neutral_statarb_workspace
 from src.ui.ws_deep_quant import render_deep_quant_workspace
 from src.ui.ws_drl_agent import render_drl_agent_workspace
-from src.ui.ws_strategy_incubator import render_strategy_incubator_workspace
+from src.ui.ws_strategy_incubator import (
+    render_strategy_incubator_workspace,
+    render_cloud_market_simulator_workspace,
+)
+from src.ui.ws_understand_anything import render_understand_anything_workspace
 
 
 def render_deep_quant_cockpit(selected_ticker: str):
-    st.markdown(
-        """
-        <div style="margin-bottom: 16px;">
-            <h1 style="margin: 0; font-size: 2rem; font-weight: 800; letter-spacing: -0.02em;">
-                🧠 Deep Quant & Explainability (XAI) Cockpit
-            </h1>
-            <p style="margin: 4px 0 0 0; color: #94A3B8; font-size: 0.95rem;">
-                SHAP attribution trees, causal beta residualization, supply chain graph networks, and crisis stress testing.
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    t1, t2, t3, t4, t5, t6 = st.tabs(
+    t0, t1, t2, t3, t4, t5, t6, t7 = st.tabs(
         [
+            "🌊 MiroFish Market Simulator",
             "🧠 SHAP Explainability",
             "🔄 Market-Neutral Stat-Arb",
             "🕸️ GNN Supply Chain Shock",
             "🌪️ Black Swan Stress Test",
             "🕵️ Forensic & DCF Valuation",
             "🤖 DRL Policy & Incubator",
+            "🧭 Codebase Architecture & Knowledge Graph",
         ]
     )
+
+    with t0:
+        render_cloud_market_simulator_workspace(selected_ticker)
 
     with t1:
         render_xai_workspace(selected_ticker)
@@ -73,3 +68,6 @@ def render_deep_quant_cockpit(selected_ticker: str):
             render_drl_agent_workspace(selected_ticker)
         with drl_tab2:
             render_strategy_incubator_workspace(selected_ticker)
+
+    with t7:
+        render_understand_anything_workspace()

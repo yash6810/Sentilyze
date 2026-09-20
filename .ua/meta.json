@@ -1,0 +1,10 @@
+{
+  "version": "2.9.7",
+  "analyzedAt": "2026-09-20T07:01:28.594049+00:00",
+  "gitCommitHash": "3db0f9000cf94bfc965746e6257fe6e172f05d2f",
+  "projectRoot": "D:\\Sentilyze",
+  "totalNodes": 3739,
+  "totalEdges": 7005,
+  "layersCount": 6,
+  "tourStepsCount": 5
+}
