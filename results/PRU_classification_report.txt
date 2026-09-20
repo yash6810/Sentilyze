@@ -5,4 +5,4 @@
 
     accuracy                           0.51      2514
    macro avg       0.47      0.49      0.40      2514
-weighted avg       0.47      0.51      0.42      2514
+weighted avg       0.47      0.51      0.41      2514
