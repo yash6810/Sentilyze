@@ -589,6 +589,7 @@ def _send_intraday_discord_flash(trade: Dict[str, Any], webhook_url: str):
 
 def update_live_holdings_prices_and_alert_discord(
     notify_discord: bool = True,
+    broker: Optional[PaperBroker] = None,
 ) -> Dict[str, Any]:
     """
     Sub-second live spot price poller for active holdings.
@@ -600,7 +601,8 @@ def update_live_holdings_prices_and_alert_discord(
         send_discord_execution_alert,
     )
 
-    broker = PaperBroker()
+    if broker is None:
+        broker = PaperBroker()
     open_pos = broker.state.get("open_positions", {})
     if not open_pos:
         logger.info("No active open positions to poll.")

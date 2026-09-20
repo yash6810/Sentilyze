@@ -487,6 +487,11 @@ class PaperBroker:
             for pos in self.state["open_positions"].values()
         )
         self.state["unrealized_pnl"] = round(invested_val - cost_basis, 2)
+        self.state["unrealized_pnl_pct"] = (
+            round(((invested_val - cost_basis) / cost_basis) * 100.0, 2)
+            if cost_basis > 0
+            else 0.0
+        )
         total_equity = round(self.state["cash"] + invested_val, 2)
         prev_equity = (
             self.state["equity_history"][-1]["total_equity"]

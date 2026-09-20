@@ -106,44 +106,11 @@ def render_workspace_header(
     badge_color: str = "#10B981",
     ticker: Optional[str] = None,
 ):
-    """Renders an executive header banner with live status badge, market clock, and optional stock logo."""
-    mkt = get_market_status()
-    logo_html = ""
-    if ticker:
-        try:
-            from src.stock_image_provider import get_asset_avatar_html
-
-            logo_html = get_asset_avatar_html(
-                ticker,
-                size=46,
-                border_radius="10px",
-                extra_style="margin-right: 14px; flex-shrink: 0;",
-            )
-        except Exception:
-            logo_html = ""
-
-    html = f"""
-    <div class="glass-card" style="margin-bottom: 24px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-            <div style="display: flex; align-items: center;">
-                {logo_html}
-                <div>
-                    <h1 style="margin: 0; font-size: 1.85rem; font-weight: 800; letter-spacing: -0.02em;">{title}</h1>
-                    <p style="margin: 4px 0 0 0; color: #94A3B8; font-size: 0.95rem;">{subtitle}</p>
-                </div>
-            </div>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                <span style="background: rgba(255, 255, 255, 0.05); color: {mkt['badge_color']}; border: 1px solid {mkt['badge_color']}; padding: 6px 12px; border-radius: 20px; font-weight: 700; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;">
-                    {mkt['icon']} {mkt['status']} ({mkt['time_str']})
-                </span>
-                <span style="background: rgba(16, 185, 129, 0.15); color: {badge_color}; border: 1px solid {badge_color}; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.05em; font-family: 'JetBrains Mono', monospace;">
-                    ● {badge_text}
-                </span>
-            </div>
-        </div>
-    </div>
     """
-    st.markdown(html, unsafe_allow_html=True)
+    Clean institutional pass-through to eliminate redundant workspace header cards.
+    The global top ribbon in app.py now provides unified institutional status.
+    """
+    return
 
 
 def render_glass_card(content_html: str):

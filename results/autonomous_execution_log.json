@@ -1,23 +1,23 @@
 {
-  "timestamp": "2026-09-17T14:12:17.579644+00:00",
+  "timestamp": "2026-09-19T08:25:39.925000+00:00",
   "buys": [],
   "take_profits_tp1": [
     {
       "ticker": "NVDA",
       "shares_sold": 3,
       "remaining_shares": 4,
-      "exit_price": 219.34,
-      "pnl": 298.02,
-      "return_pct": 82.78,
+      "exit_price": 222.27,
+      "pnl": 306.81,
+      "return_pct": 85.23,
       "action": "TP1_PROFIT_LOCK_50PCT"
     },
     {
       "ticker": "AAPL",
       "shares_sold": 5,
       "remaining_shares": 5,
-      "exit_price": 333.19,
-      "pnl": 665.95,
-      "return_pct": 66.59,
+      "exit_price": 336.13,
+      "pnl": 680.65,
+      "return_pct": 68.06,
       "action": "TP1_PROFIT_LOCK_50PCT"
     }
   ],
@@ -36,31 +36,31 @@
       "ticker": "NVDA",
       "shares_sold": 3,
       "remaining_shares": 7,
-      "exit_price": 219.34,
-      "pnl": 298.02,
-      "return_pct": 82.78,
+      "exit_price": 222.27,
+      "pnl": 306.81,
+      "return_pct": 85.23,
       "action": "STAGE0_EASY_WIN_HARVEST_33PCT"
     },
     {
       "ticker": "AAPL",
       "shares_sold": 5,
       "remaining_shares": 10,
-      "exit_price": 333.19,
-      "pnl": 665.95,
-      "return_pct": 66.59,
+      "exit_price": 336.13,
+      "pnl": 680.65,
+      "return_pct": 68.06,
       "action": "STAGE0_EASY_WIN_HARVEST_33PCT"
     }
   ],
   "self_improvement": {
-    "total_cycles": 49,
+    "total_cycles": 59,
     "agent_weights": {
-      "technicals_weight": 0.27,
-      "sentiment_weight": 0.418,
-      "valuation_weight": 0.134,
-      "cro_weight": 0.178
+      "technicals_weight": 0.265,
+      "sentiment_weight": 0.429,
+      "valuation_weight": 0.131,
+      "cro_weight": 0.175
     },
-    "kelly_multiplier": 1.22,
+    "kelly_multiplier": 1.25,
     "new_autopsies_count": 2
   },
-  "elapsed_seconds": 0.13
+  "elapsed_seconds": 0.04
 }

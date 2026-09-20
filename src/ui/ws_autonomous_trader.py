@@ -30,7 +30,7 @@ def render_autonomous_trader_workspace(selected_ticker: str):
 
     render_workspace_header(
         title="🤖 24/7 Autonomous Live Trading & News Agent",
-        subtitle="Multi-Source News Ingestion + 4-Agent Committee + Kelly Allocation + 2-Stage Staged Profit Scaler",
+        subtitle="Multi-Source News Ingestion + 8-Agent Council + Quarter-Kelly Allocation + 2-Stage Staged Profit Scaler",
         badge_text=(
             "24/7 DAEMON ACTIVE" if daemon_info["is_active"] else "DAEMON INITIALIZING"
         ),
@@ -39,6 +39,7 @@ def render_autonomous_trader_workspace(selected_ticker: str):
 
     auto_engine = AutonomousTradingEngine()
     broker_instance = auto_engine.broker
+    broker_instance.reload_from_disk()
     portfolio_summary = broker_instance.get_portfolio_summary()
 
     # Direct fallback read from paper_portfolio.json to guarantee 100% fresh disk values
@@ -56,15 +57,19 @@ def render_autonomous_trader_workspace(selected_ticker: str):
     m1, m2, m3, m4 = st.columns(4)
     m1.metric(
         "💰 Total Equity",
-        f"${portfolio_summary.get('total_equity', 152198.09):,.2f}",
+        f"${float(portfolio_summary.get('total_equity') or 152198.09):,.2f}",
     )
-    m2.metric("💵 Cash Balance", f"${portfolio_summary.get('cash', 128062.59):,.2f}")
+    m2.metric(
+        "💵 Cash Balance", f"${float(portfolio_summary.get('cash') or 128062.59):,.2f}"
+    )
+    unrealized_pnl_val = float(portfolio_summary.get("unrealized_pnl") or 0.0)
+    unrealized_pnl_pct_val = float(portfolio_summary.get("unrealized_pnl_pct") or 0.0)
     m3.metric(
         "📈 Unrealized PnL",
-        f"${portfolio_summary.get('unrealized_pnl', 0.0):+,.2f}",
-        delta=f"{portfolio_summary.get('unrealized_pnl_pct', 0.0):+.2f}%",
+        f"${unrealized_pnl_val:+,.2f}",
+        delta=f"{unrealized_pnl_pct_val:+.2f}%",
     )
-    m4.metric("🏆 Win Rate", f"{portfolio_summary.get('win_rate', 89.7):.1f}%")
+    m4.metric("🏆 Win Rate", f"{float(portfolio_summary.get('win_rate') or 89.7):.1f}%")
 
     # =========================================================================
     # TARGET +100% ACCOUNT DOUBLING RADAR ($200,000 MILESTONE TRACKER)
@@ -102,6 +107,57 @@ def render_autonomous_trader_workspace(selected_ticker: str):
         text=f"🚀 Doubling Trajectory: {progress_data['progress_pct']:.2f}% of $100k Profit Target Achieved",
     )
 
+    # =========================================================================
+    # MASTER AUTONOMOUS DAILY OPERATING LOOP (4-PHASE LIFECYCLE)
+    # =========================================================================
+    from src.master_loop import get_master_trading_loop
+
+    master_loop = get_master_trading_loop(portfolio_path=portfolio_file)
+    cycle_status = master_loop.get_cycle_status()
+
+    st.markdown("#### 🔄 Master Autonomous Daily Operating Lifecycle (24/7 Engine)")
+    lc1, lc2, lc3, lc4 = st.columns([2, 1, 1, 1])
+    lc1.info(f"🧭 **Current Phase:** `{cycle_status['current_phase']}`")
+    alp_status = (
+        "🟢 Connected" if cycle_status.get("alpaca_connected") else "⚪ Standby"
+    )
+    lc2.metric("🦙 Alpaca Broker", alp_status)
+    lc3.metric("💼 Active Positions", f"{cycle_status.get('open_positions_count', 0)}")
+    with lc4:
+        st.markdown("<div style='height: 4px;'></div>", unsafe_allow_html=True)
+        if st.button(
+            "⚡ Full Cycle (Dry Run)",
+            use_container_width=True,
+            help="Executes Phase 1 -> 2 -> 3 -> 4 safely in dry-run mode without modifying production portfolio",
+        ):
+            with st.spinner("Executing Master Autonomous 4-Phase Operating Cycle..."):
+                cycle_summary = master_loop.run_full_daily_cycle(
+                    dry_run=True, ignore_market_hours=True
+                )
+                st.session_state["last_master_cycle"] = cycle_summary
+                st.success("✅ Full 4-Phase Operating Cycle Complete!")
+
+    if "last_master_cycle" in st.session_state:
+        lmc = st.session_state["last_master_cycle"]
+        with st.expander("📋 Master Cycle Execution Factsheet", expanded=False):
+            fc1, fc2, fc3, fc4 = st.columns(4)
+            p1 = lmc.get("phase_1_premarket", {})
+            p2 = lmc.get("phase_2_opening_shield", {})
+            p3 = lmc.get("phase_3_intraday", {})
+            p4 = lmc.get("phase_4_postmarket", {})
+            fc1.markdown(
+                f"**Phase 1: Pre-Market**\n- Regime: `{p1.get('macro_regime', {}).get('regime', 'N/A')}`\n- Blackout: `{p1.get('volatility_blackout', {}).get('is_blackout_active', False)}`"
+            )
+            fc2.markdown(
+                f"**Phase 2: Open Shield**\n- Shield Active: `{p2.get('shield_active', False)}`\n- Guarded: `{p2.get('holdings_guarded_count', 0)}`"
+            )
+            fc3.markdown(
+                f"**Phase 3: Intraday**\n- Candidates: `{p3.get('candidates_evaluated', 0)}`\n- Orders: `{len(p3.get('executed_orders', []))}`"
+            )
+            fc4.markdown(
+                f"**Phase 4: Post-Market**\n- Win Rate: `{p4.get('win_rate_pct', 0.0):.1f}%`\n- Equity: `${p4.get('final_equity', 100000.0):,.2f}`"
+            )
+
     # Controls Row
     universe_count = (
         len(auto_engine.universe_tickers)
@@ -116,7 +172,7 @@ def render_autonomous_trader_workspace(selected_ticker: str):
             <div class="glass-card">
                 <b>{universe_count}-Universe Capital Engine:</b>
                 <ul>
-                    <li><b>Alpha Discovery:</b> Scans all {universe_count} S&P stocks, ranking by 4-Agent Committee Quorum (>60%).</li>
+                    <li><b>Alpha Discovery:</b> Scans all {universe_count} S&P stocks, ranking by 8-Agent Council Quorum (>60%).</li>
                     <li><b>Kelly Distribution:</b> Allocates available capital proportionally to probability & reward/risk.</li>
                     <li><b>2-Stage Profit Scaling:</b> Takes +50% profit at +2.5 ATR, locks stop at Breakeven, and lets runners target +4.5 ATR.</li>
                 </ul>
@@ -193,7 +249,7 @@ def render_autonomous_trader_workspace(selected_ticker: str):
                             )
                         else:
                             st.info(
-                                f"🛡️ Scanned {universe_count} assets in {elapsed}s. 4-Agent Committee preserved capital (No high-conviction setup passed the 2-vote quorum on this candle)."
+                                f"🛡️ Scanned {universe_count} assets in {elapsed}s. 8-Agent Council preserved capital (No high-conviction setup passed the quorum threshold on this candle)."
                             )
                     st.rerun()
         with btn_col_b:
@@ -210,8 +266,10 @@ def render_autonomous_trader_workspace(selected_ticker: str):
                     )
 
                     guard_res = update_live_holdings_prices_and_alert_discord(
-                        notify_discord=True
+                        notify_discord=True,
+                        broker=broker_instance,
                     )
+                    broker_instance.reload_from_disk()
                     st.success(
                         f"✅ Updated {guard_res.get('updated_positions', 0)} holdings! (Discord alert sent: {guard_res.get('discord_alert_dispatched', False)})"
                     )

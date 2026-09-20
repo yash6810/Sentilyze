@@ -40,6 +40,25 @@ def test_get_price_history_fetches_and_caches_data(mocker, temp_data_dir):
     mocker.patch(
         "src.data_ingestion._fetch_direct_yahoo_chart", return_value=pd.DataFrame()
     )
+    mocker.patch(
+        "src.data_ingestion._fetch_alpaca_price_history", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_polygon_price_history", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_fmp_price_history", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_tiingo_price_history", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_eodhd_price_history", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_alpha_vantage_price_history",
+        return_value=pd.DataFrame(),
+    )
     mock_ticker = MagicMock()
     mock_ticker.history.return_value = mock_history
     mocker.patch("yfinance.Ticker", return_value=mock_ticker)
@@ -126,7 +145,14 @@ def test_get_price_history_refetches_stale_cache(mocker, temp_data_dir):
         "src.data_ingestion._fetch_fmp_price_history", return_value=pd.DataFrame()
     )
     mocker.patch(
+        "src.data_ingestion._fetch_tiingo_price_history", return_value=pd.DataFrame()
+    )
+    mocker.patch(
         "src.data_ingestion._fetch_eodhd_price_history", return_value=pd.DataFrame()
+    )
+    mocker.patch(
+        "src.data_ingestion._fetch_alpha_vantage_price_history",
+        return_value=pd.DataFrame(),
     )
     mock_ticker = MagicMock()
     mock_ticker.history.return_value = mock_fresh_data
@@ -138,6 +164,59 @@ def test_get_price_history_refetches_stale_cache(mocker, temp_data_dir):
     # Assert
     assert not history.empty
     mock_ticker.history.assert_called_once()
+
+
+def test_fetch_tiingo_price_history(mocker):
+    """Test Tiingo price history parsing."""
+    from src.data_ingestion import _fetch_tiingo_price_history
+
+    mocker.patch("os.getenv", return_value="mock_tiingo_key")
+    mock_resp = MagicMock()
+    mock_resp.status_code = 200
+    mock_resp.json.return_value = [
+        {
+            "date": "2024-01-02T00:00:00.000Z",
+            "adjOpen": 180.0,
+            "adjHigh": 185.0,
+            "adjLow": 179.0,
+            "adjClose": 184.0,
+            "adjVolume": 1000000,
+            "divCash": 0.0,
+            "splitFactor": 1.0,
+        }
+    ]
+    mocker.patch("requests.get", return_value=mock_resp)
+
+    df = _fetch_tiingo_price_history("AAPL", period="1y")
+    assert not df.empty
+    assert "Close" in df.columns
+    assert df.iloc[0]["Close"] == 184.0
+
+
+def test_fetch_alpha_vantage_price_history(mocker):
+    """Test Alpha Vantage price history parsing."""
+    from src.data_ingestion import _fetch_alpha_vantage_price_history
+
+    mocker.patch("os.getenv", return_value="mock_av_key")
+    mock_resp = MagicMock()
+    mock_resp.status_code = 200
+    mock_resp.json.return_value = {
+        "Time Series (Daily)": {
+            "2024-01-02": {
+                "1. open": "180.0",
+                "2. high": "185.0",
+                "3. low": "179.0",
+                "4. close": "184.0",
+                "5. volume": "1000000",
+            }
+        }
+    }
+    mocker.patch("requests.get", return_value=mock_resp)
+
+    df = _fetch_alpha_vantage_price_history("AAPL", period="1y")
+    assert not df.empty
+    assert "Close" in df.columns
+    assert df.iloc[0]["Close"] == 184.0
 
 
 def test_get_news_fetches_and_caches_data(mocker, temp_data_dir):

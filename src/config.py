@@ -37,6 +37,26 @@ FEATURES = [
     "Close_FFD",
 ]
 
+
+def _get_optimal_cpu_threads() -> int:
+    """
+    Intelligently allocates CPU threads:
+    - Respects SENTILYZE_NUM_CORES env var if explicitly set.
+    - On CI / GitHub Actions (CI=true), strictly caps at 2 cores (matches standard 2-vCPU runner).
+    - On local laptop, caps at 4 cores and leaves at least 2 cores free for OS/Streamlit/IDE.
+    """
+    env_cores = os.getenv("SENTILYZE_NUM_CORES")
+    if env_cores:
+        try:
+            return max(1, int(env_cores))
+        except ValueError:
+            pass
+    if os.getenv("CI") or os.getenv("GITHUB_ACTIONS"):
+        return 2
+    total_cores = os.cpu_count() or 2
+    return max(1, min(4, total_cores - 2))
+
+
 # Hyperparameters for the XGBoost Classifier (regularized for low-noise time series)
 XGB_MODEL_PARAMS = {
     "n_estimators": 150,
@@ -48,6 +68,8 @@ XGB_MODEL_PARAMS = {
     "reg_lambda": 1.0,
     "random_state": 42,
     "eval_metric": "logloss",
+    "tree_method": "hist",
+    "n_jobs": _get_optimal_cpu_threads(),
 }
 
 # S&P 100 Corporate Company Names Mapping

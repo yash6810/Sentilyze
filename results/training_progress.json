@@ -1,0 +1,11 @@
+{
+  "status": "COMPLETED",
+  "completed_count": 526,
+  "total_count": 526,
+  "pct_done": 100.0,
+  "elapsed_minutes": 26.11,
+  "eta_minutes": 0.0,
+  "success_count": 526,
+  "failure_count": 0,
+  "timestamp": "2026-09-20T17:15:24.970184+00:00"
+}

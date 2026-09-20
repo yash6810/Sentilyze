@@ -1,7 +1,7 @@
 {
-  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Thursday, September 17, 2026",
+  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Saturday, September 19, 2026",
   "mode": "SINGLE_TICKER",
-  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.7**. Top algorithmic focus is on **CHRW, CAT, CTAS** with **CHRW** leading at 78% conviction. The fund holds **$66,350.23** in 100% liquid cash reserves, ready for morning opening range opportunities.",
+  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.7**. Top algorithmic focus is on **CHRW, CAT, CTAS** with **CHRW** leading at 78% conviction. The fund holds **$159,199.62** in 100% liquid cash reserves, ready for morning opening range opportunities.",
   "macro_posture": {
     "regime": "BULLISH_EXPANSION",
     "vix_level": 15.65999984741211,
@@ -56,16 +56,13 @@
     "rationale": "Strong momentum catalyst and disciplined risk-reward ratio."
   },
   "portfolio_status": {
-    "total_equity": 159361.38,
-    "cash_reserves": 66350.2298327637,
-    "realized_gain": 55718.22943603516,
-    "win_rate_pct": 84.8,
-    "open_positions": 2,
-    "active_tickers": [
-      "Q",
-      "SNDK"
-    ]
+    "total_equity": 159199.62,
+    "cash_reserves": 159199.62435485842,
+    "realized_gain": 59199.624354858395,
+    "win_rate_pct": 83.0,
+    "open_positions": 0,
+    "active_tickers": []
   },
-  "audio_script": "Good morning. This is your Sentilyze Deep Dive Analyst Briefing on NVDA for Thursday, September 17, 2026. The macroeconomic volatility regime is Bullish Expansion with VIX at 15.7. The Multi-Agent Quantitative Committee has delivered a APPROVED verdict on NVDA with 78 percent conviction. Our portfolio holds 66,350.23 dollars in liquid cash, ready to allocate fractional Kelly sizing upon market open.",
-  "generated_at": "02:10 PM UTC"
+  "audio_script": "Good morning. This is your Sentilyze Deep Dive Analyst Briefing on NVDA for Saturday, September 19, 2026. The macroeconomic volatility regime is Bullish Expansion with VIX at 15.7. The Multi-Agent Quantitative Committee has delivered a APPROVED verdict on NVDA with 78 percent conviction. Our portfolio holds 159,199.62 dollars in liquid cash, ready to allocate fractional Kelly sizing upon market open.",
+  "generated_at": "08:24 AM UTC"
 }

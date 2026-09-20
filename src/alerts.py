@@ -507,33 +507,53 @@ def send_discord_committee_alert(
         f"• Target 1: `${cro.get('tp1_target', 0):.2f}` | Target 2: `${cro.get('tp2_target', 0):.2f}` | Stop: `${cro.get('stop_loss_target', 0):.2f}`"
     )
 
-    fields = [
-        {
-            "name": "📈 1. Technical Alpha Specialist",
-            "value": tech_val,
-            "inline": False,
-        },
-        {
-            "name": "🧠 2. FinBERT Sentiment Specialist",
-            "value": sent_val,
-            "inline": False,
-        },
-        {"name": "🏛️ 3. Forensic Fundamentalist", "value": fund_val, "inline": False},
-        {
-            "name": "🛡️ 4. Chief Risk Officer (CRO) Clearance",
-            "value": cro_val,
-            "inline": False,
-        },
-    ]
+    if "agent_testimonies" in deliberation and deliberation["agent_testimonies"]:
+        fields = []
+        for i, t in enumerate(deliberation["agent_testimonies"], 1):
+            fields.append(
+                {
+                    "name": f"🏛️ {i}. {t.get('agent_name', 'Specialist')}",
+                    "value": f"**{t.get('stance', 'NEUTRAL')}** ({t.get('confidence_pct', 50.0):.1f}%)\n_{t.get('key_rationale', '')[:140]}_",
+                    "inline": False,
+                }
+            )
+        fields.append(
+            {
+                "name": "🛡️ 9. Chief Risk Officer (CRO) Arbitrator",
+                "value": cro_val,
+                "inline": False,
+            }
+        )
+    else:
+        fields = [
+            {
+                "name": "📈 1. Technical Alpha Specialist",
+                "value": tech_val,
+                "inline": False,
+            },
+            {
+                "name": "🧠 2. FinBERT Sentiment Specialist",
+                "value": sent_val,
+                "inline": False,
+            },
+            {
+                "name": "🏛️ 3. Forensic Fundamentalist",
+                "value": fund_val,
+                "inline": False,
+            },
+            {
+                "name": "🛡️ 4. Chief Risk Officer (CRO) Clearance",
+                "value": cro_val,
+                "inline": False,
+            },
+        ]
 
     embed = {
-        "title": f"🏛️ [4-AGENT COMMITTEE DELIBERATION] {ticker} • {verdict}",
+        "title": f"🏛️ [8-AGENT COUNCIL DELIBERATION] {ticker} • {verdict}",
         "description": f"The Sentilyze AI Multi-Agent Council concluded round-table deliberation on **{ticker}**.",
         "color": color,
         "fields": fields,
-        "footer": {
-            "text": f"Sentilyze Multi-Agent Committee • {get_market_timestamp()}"
-        },
+        "footer": {"text": f"Sentilyze Multi-Agent Council • {get_market_timestamp()}"},
     }
     try:
         from src.stock_image_provider import resolve_asset_image_url

@@ -1,14 +1,14 @@
 {
-    "accuracy": 0.5074918566775244,
-    "precision": 0.5267050123253904,
-    "recall": 0.7807551766138855,
-    "f1": 0.6290480863591756,
-    "roc_auc": 0.5108104142997028,
-    "strategy_sharpe": 0.4953627751652578,
-    "deflated_sharpe_ratio": 2.869991799320067e-30,
+    "accuracy": 0.5257328990228013,
+    "precision": 0.5355776587605203,
+    "recall": 0.8526187576126675,
+    "f1": 0.6578947368421053,
+    "roc_auc": 0.48761928644783126,
+    "strategy_sharpe": 0.9451599300744414,
+    "deflated_sharpe_ratio": 0.9999981584265936,
     "baseline_logistic_accuracy": 0.4716612377850163,
     "baseline_logistic_roc_auc": 0.4670023916996763,
-    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.43      0.19      0.27       714\n           1       0.53      0.78      0.63       821\n\n    accuracy                           0.51      1535\n   macro avg       0.48      0.49      0.45      1535\nweighted avg       0.48      0.51      0.46      1535\n",
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.47      0.15      0.23       714\n           1       0.54      0.85      0.66       821\n\n    accuracy                           0.53      1535\n   macro avg       0.50      0.50      0.44      1535\nweighted avg       0.50      0.53      0.46      1535\n",
     "best_params": {
         "n_estimators": 150,
         "learning_rate": 0.03,
@@ -18,7 +18,9 @@
         "reg_alpha": 0.1,
         "reg_lambda": 1.0,
         "random_state": 42,
-        "eval_metric": "logloss"
+        "eval_metric": "logloss",
+        "tree_method": "hist",
+        "n_jobs": 4
     },
     "total_test_samples": 1535,
     "strategy_total_return": 3.0339264351263706,

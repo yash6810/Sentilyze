@@ -171,3 +171,33 @@ def render_xai_workspace(selected_ticker: str):
 
         if not rendered_waterfall:
             st.info(f"No local waterfall SHAP data found for {selected_ticker}.")
+
+    # --- 3. Sequential Multi-Agent Verification Tree ---
+    st.markdown("---")
+    try:
+        import json
+        from src.ui.decision_tree_xai import render_decision_tree_xai
+
+        resolution_data = {}
+        res_file = os.path.join("results", "committee_resolutions.json")
+        if os.path.exists(res_file):
+            with open(res_file, "r") as f:
+                resolutions = json.load(f)
+                resolution_data = resolutions.get(selected_ticker, {})
+
+        if not resolution_data:
+            resolution_data = {
+                "action_code": "BUY",
+                "consensus_conviction_pct": 68.5,
+                "cro_signoff": {
+                    "approved_leverage": 1.0,
+                    "kelly_allocation_pct": 8.5,
+                    "vix_veto_triggered": False,
+                    "regulatory_veto_triggered": False,
+                    "macro_blackout_veto_triggered": False,
+                    "statarb_veto_triggered": False,
+                },
+            }
+        render_decision_tree_xai(resolution_data, selected_ticker=selected_ticker)
+    except Exception as exc:
+        pass

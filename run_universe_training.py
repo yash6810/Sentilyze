@@ -14,11 +14,14 @@ import time
 import argparse
 from datetime import datetime, timezone
 import concurrent.futures
+import json
 from typing import List, Dict, Any
 import train
 from src.utils import get_logger
 
 logger = get_logger("universe_trainer")
+
+PROGRESS_FILE = os.path.join("results", "training_progress.json")
 
 
 def load_universe_from_file(file_path: str = "stocks.txt") -> List[str]:
@@ -147,6 +150,35 @@ def run_parallel_universe_training(
                 flush=True,
             )
 
+            # Persist real-time progress for external monitors & dashboards
+            try:
+                os.makedirs(os.path.dirname(PROGRESS_FILE), exist_ok=True)
+                with open(PROGRESS_FILE, "w", encoding="utf-8") as pf:
+                    json.dump(
+                        {
+                            "status": "RUNNING",
+                            "completed_count": completed_count,
+                            "total_count": total_count,
+                            "pct_done": round(pct_done, 1),
+                            "last_ticker": res["ticker"],
+                            "last_status": res["status"],
+                            "last_duration_sec": res["duration_sec"],
+                            "elapsed_minutes": round(elapsed_so_far / 60.0, 2),
+                            "eta_minutes": round(est_remaining_min, 2),
+                            "success_count": sum(
+                                1 for r in results if r["status"] == "SUCCESS"
+                            ),
+                            "failure_count": sum(
+                                1 for r in results if r["status"] == "FAILED"
+                            ),
+                            "timestamp": datetime.now(timezone.utc).isoformat(),
+                        },
+                        pf,
+                        indent=2,
+                    )
+            except Exception:
+                pass
+
     total_elapsed = time.perf_counter() - overall_start
     end_timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     successes = sum(1 for r in results if r["status"] == "SUCCESS")
@@ -168,6 +200,26 @@ def run_parallel_universe_training(
         )
     print("=" * 75 + "\n", flush=True)
 
+    try:
+        with open(PROGRESS_FILE, "w", encoding="utf-8") as pf:
+            json.dump(
+                {
+                    "status": "COMPLETED",
+                    "completed_count": total_count,
+                    "total_count": total_count,
+                    "pct_done": 100.0,
+                    "elapsed_minutes": round(total_elapsed / 60.0, 2),
+                    "eta_minutes": 0.0,
+                    "success_count": successes,
+                    "failure_count": failures,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                },
+                pf,
+                indent=2,
+            )
+    except Exception:
+        pass
+
     return {
         "start_timestamp": start_timestamp,
         "end_timestamp": end_timestamp,
@@ -178,6 +230,7 @@ def run_parallel_universe_training(
 
 
 def main():
+    safe_default_workers = max(1, min(4, (os.cpu_count() or 2) - 2))
     parser = argparse.ArgumentParser(description="Parallel Universe Model Training")
     parser.add_argument(
         "--all",
@@ -193,8 +246,8 @@ def main():
     parser.add_argument(
         "--workers",
         type=int,
-        default=8,
-        help="Number of parallel CPU worker processes (default: 8)",
+        default=safe_default_workers,
+        help=f"Number of parallel CPU worker processes (default: {safe_default_workers})",
     )
     parser.add_argument(
         "--leverage",

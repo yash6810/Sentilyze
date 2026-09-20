@@ -1,43 +1,14 @@
 {
   "initial_capital": 100000.0,
-  "cash": 68160.25435485842,
-  "total_equity": 159316.54,
-  "unrealized_pnl": 2106.0,
-  "realized_pnl": 57210.54524078369,
-  "win_rate": 83.7,
-  "total_trades": 49,
-  "winning_trades": 41,
-  "losing_trades": 8,
-  "open_positions": {
-    "GEV": {
-      "shares": 50,
-      "initial_shares": 50,
-      "entry_price": 882.8099975585938,
-      "current_price": 924.9299926757812,
-      "entry_date": "2026-09-16",
-      "tp1_target": 981.61,
-      "tp2_target": 1060.64,
-      "sl_target": 919.42,
-      "scaled_out": false,
-      "confidence": 0.6777085065841675,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 928.57,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
-    },
-    "FDXF": {
-      "shares": 367,
-      "initial_shares": 367,
-      "entry_price": 122.37000274658203,
-      "current_price": 122.37000274658203,
-      "entry_date": "2026-09-18",
-      "tp1_target": 134.84,
-      "tp2_target": 144.81,
-      "sl_target": 114.89,
-      "scaled_out": false,
-      "confidence": 0.7735485434532166,
-      "regime": "\u25bc BEARISH (Below SMA200)"
-    }
-  },
+  "cash": 159199.62435485842,
+  "total_equity": 159199.62,
+  "unrealized_pnl": 0,
+  "realized_pnl": 59199.624354858395,
+  "win_rate": 83.0,
+  "total_trades": 53,
+  "winning_trades": 44,
+  "losing_trades": 9,
+  "open_positions": {},
   "closed_trades": [
     {
       "ticker": "FIX",
@@ -577,6 +548,50 @@
       "pnl": 290.64,
       "return_pct": 0.65,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "GEV",
+      "shares": 34,
+      "entry_price": 882.8099975585938,
+      "exit_price": 940.33,
+      "entry_date": "2026-09-16",
+      "exit_date": "2026-09-18",
+      "pnl": 1955.68,
+      "return_pct": 6.52,
+      "reason": "MANUAL_UI_EXIT"
+    },
+    {
+      "ticker": "FDXF",
+      "shares": 367,
+      "entry_price": 122.37000274658203,
+      "exit_price": 120.13,
+      "entry_date": "2026-09-18",
+      "exit_date": "2026-09-18",
+      "pnl": -822.08,
+      "return_pct": -1.83,
+      "reason": "MANUAL_UI_EXIT"
+    },
+    {
+      "ticker": "ETN",
+      "shares": 18,
+      "entry_price": 420.67,
+      "exit_price": 424.77,
+      "entry_date": "2026-09-18",
+      "exit_date": "2026-09-18",
+      "pnl": 73.8,
+      "return_pct": 0.97,
+      "reason": "MANUAL_UI_EXIT"
+    },
+    {
+      "ticker": "BA",
+      "shares": 40,
+      "entry_price": 197.59,
+      "exit_price": 198.2,
+      "entry_date": "2026-09-18",
+      "exit_date": "2026-09-18",
+      "pnl": 24.4,
+      "return_pct": 0.31,
+      "reason": "MANUAL_UI_EXIT"
     }
   ],
   "equity_history": [
@@ -687,11 +702,12 @@
     {
       "date": "2026-09-18",
       "timestamp": "2026-09-18T08:13:29.819041+00:00",
-      "total_equity": 159316.54,
-      "cash": 68160.25,
-      "invested": 91156.29,
-      "daily_return": -0.0
+      "total_equity": 159199.62,
+      "cash": 159199.62,
+      "invested": 0,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-18T08:13:29.819544+00:00"
+  "last_updated": "2026-09-18T20:43:03.811078+00:00",
+  "unrealized_pnl_pct": 0.0
 }

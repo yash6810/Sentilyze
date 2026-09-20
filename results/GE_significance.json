@@ -1,7 +1,7 @@
 {
-    "strategy_sharpe": 1.3357,
+    "strategy_sharpe": 1.0498,
     "random_sharpe_mean": 1.0927,
-    "p_value": 0.272,
+    "p_value": 0.484,
     "confidence_interval_95": [
         0.603,
         1.6897

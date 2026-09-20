@@ -1,14 +1,14 @@
 {
-    "accuracy": 0.4990990990990991,
-    "precision": 0.4712041884816754,
-    "recall": 0.1651376146788991,
-    "f1": 0.24456521739130435,
-    "roc_auc": 0.5047251765852073,
-    "strategy_sharpe": -0.15099376522862257,
-    "deflated_sharpe_ratio": 2.4749311307661315e-219,
+    "accuracy": 0.5,
+    "precision": 0.46835443037974683,
+    "recall": 0.13577981651376148,
+    "f1": 0.21052631578947367,
+    "roc_auc": 0.4961825119753187,
+    "strategy_sharpe": -0.11972168369078916,
+    "deflated_sharpe_ratio": 3.382932971319452e-206,
     "baseline_logistic_accuracy": 0.4846846846846847,
     "baseline_logistic_roc_auc": 0.49500040594300565,
-    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.50      0.82      0.63       565\n           1       0.47      0.17      0.24       545\n\n    accuracy                           0.50      1110\n   macro avg       0.49      0.49      0.43      1110\nweighted avg       0.49      0.50      0.44      1110\n",
+    "classification_report": "              precision    recall  f1-score   support\n\n           0       0.51      0.85      0.63       565\n           1       0.47      0.14      0.21       545\n\n    accuracy                           0.50      1110\n   macro avg       0.49      0.49      0.42      1110\nweighted avg       0.49      0.50      0.43      1110\n",
     "best_params": {
         "n_estimators": 150,
         "learning_rate": 0.03,
@@ -18,15 +18,17 @@
         "reg_alpha": 0.1,
         "reg_lambda": 1.0,
         "random_state": 42,
-        "eval_metric": "logloss"
+        "eval_metric": "logloss",
+        "tree_method": "hist",
+        "n_jobs": 4
     },
     "total_test_samples": 1110,
-    "strategy_total_return": -0.08201481797399901,
+    "strategy_total_return": -0.016577404079448743,
     "buy_and_hold_total_return": 0.10442817211151123,
-    "strategy_max_drawdown": -0.17630427541634375,
+    "strategy_max_drawdown": -0.07451994118784211,
     "buy_and_hold_max_drawdown": -0.7410116195678711,
-    "sharpe_ratio": -0.1860762104723925,
-    "sortino_ratio": -0.06179049786186536,
-    "total_trades": 4,
-    "win_rate": 0.25
+    "sharpe_ratio": -0.05732744597376935,
+    "sortino_ratio": -0.008941612428196327,
+    "total_trades": 1,
+    "win_rate": 0.0
 }

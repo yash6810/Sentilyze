@@ -1,0 +1,27 @@
+{
+  "total_trades": 53,
+  "wins": 44,
+  "losses": 9,
+  "win_rate_pct": 83.02,
+  "total_realized_pnl": 59199.62,
+  "profit_factor": 15.27,
+  "payoff_ratio": 3.12,
+  "avg_win_dollars": 1247.39,
+  "avg_loss_dollars": 399.33,
+  "max_drawdown_pct": 0.32,
+  "calmar_ratio": 186.95,
+  "annualized_sharpe": 4.82,
+  "annualized_sortino": 857.83,
+  "top_winner": {
+    "ticker": "PLTR",
+    "pnl": 8457.6,
+    "return_pct": 494.6,
+    "reason": "TP2_RUNNER_EXIT"
+  },
+  "largest_loser": {
+    "ticker": "CRWD",
+    "pnl": -1614.6,
+    "return_pct": -34.68,
+    "reason": "STOP_LOSS"
+  }
+}

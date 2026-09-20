@@ -1,0 +1,20 @@
+{
+  "cycle_timestamp": "2026-09-20T19:24:51.961329+00:00",
+  "dry_run": true,
+  "portfolio_preserved": true,
+  "portfolio_path": "results\\paper_portfolio.json",
+  "phase_1_premarket": {
+    "phase": "PRE_MARKET_RECONNAISSANCE"
+  },
+  "phase_2_opening_shield": {
+    "phase": "MARKET_OPEN_WHIPSAW_SHIELD"
+  },
+  "phase_3_intraday": {
+    "phase": "INTRADAY_EXECUTION"
+  },
+  "phase_4_postmarket": {
+    "phase": "POST_MARKET_AUTOPSY",
+    "final_equity": 100000.0
+  },
+  "closing_equity": 100000.0
+}

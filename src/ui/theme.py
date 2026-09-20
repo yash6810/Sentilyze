@@ -165,23 +165,44 @@ def inject_custom_theme(theme_name: str = "🏛️ Goldman Slate"):
         display: inline-block;
     }}
 
-    /* Tabs Custom Styling */
+    /* Tabs Institutional Trading Terminal Styling */
     .stTabs [data-baseweb="tab-list"] {{
         gap: 8px !important;
-        background: transparent !important;
+        background: rgba(15, 23, 42, 0.45) !important;
+        padding: 6px 8px !important;
+        border-radius: 10px !important;
+        border: 1px solid {t['border_color']} !important;
+        margin-bottom: 16px !important;
     }}
     .stTabs [data-baseweb="tab"] {{
-        background: {t['card_bg']} !important;
-        border: 1px solid {t['border_color']} !important;
+        background: transparent !important;
+        border: 1px solid transparent !important;
         border-radius: 8px !important;
         color: {t['text_muted']} !important;
-        font-weight: 600 !important;
-        padding: 8px 16px !important;
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 0.84rem !important;
+        padding: 8px 18px !important;
+        transition: all 0.2s ease !important;
+    }}
+    .stTabs [data-baseweb="tab"]:hover {{
+        background: rgba(255, 255, 255, 0.05) !important;
+        color: #F8FAFC !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
     }}
     .stTabs [aria-selected="true"] {{
-        background: {t['accent_color']} !important;
+        background: linear-gradient(135deg, {t['accent_color']} 0%, {t['accent_secondary']} 100%) !important;
         color: #FFFFFF !important;
+        font-weight: 800 !important;
         border-color: {t['accent_color']} !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), {t['glow']} !important;
+        transform: translateY(-1px);
+    }}
+    .stTabs [data-baseweb="tab-border"] {{
+        display: none !important;
+    }}
+    .stTabs [data-baseweb="tab-highlight"] {{
+        display: none !important;
     }}
     </style>
     """

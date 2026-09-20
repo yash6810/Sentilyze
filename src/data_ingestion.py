@@ -3,9 +3,9 @@ import requests
 import pandas as pd
 from newsapi import NewsApiClient
 import yfinance as yf
-from src.utils import get_logger, sanitize_filename, safe_path_join
 import time
-from typing import Dict
+from typing import Dict, Tuple, Any, Optional
+from src.utils import get_logger, sanitize_filename, safe_path_join
 
 logger = get_logger(__name__)
 
@@ -590,6 +590,116 @@ def _fetch_fmp_price_history(ticker: str, period: str = "10y") -> pd.DataFrame:
     return pd.DataFrame()
 
 
+def _fetch_tiingo_price_history(ticker: str, period: str = "10y") -> pd.DataFrame:
+    """Fetches daily historical bars from Tiingo Stock API."""
+    api_key = os.getenv("TIINGO_API_KEY")
+    if not api_key:
+        return pd.DataFrame()
+
+    try:
+        start_str = (
+            "2015-01-01"
+            if "10y" in period
+            else ("2020-01-01" if "5y" in period else "2023-01-01")
+        )
+        url = f"https://api.tiingo.com/tiingo/daily/{ticker}/prices"
+        params = {
+            "startDate": start_str,
+            "token": api_key,
+        }
+        res = requests.get(url, params=params, timeout=12)
+        if res.status_code == 200:
+            data = res.json()
+            if not isinstance(data, list) or not data:
+                return pd.DataFrame()
+            df = pd.DataFrame(data)
+            df.rename(
+                columns={
+                    "date": "Date",
+                    "adjOpen": "Open",
+                    "adjHigh": "High",
+                    "adjLow": "Low",
+                    "adjClose": "Close",
+                    "adjVolume": "Volume",
+                },
+                inplace=True,
+            )
+            for col, fallback in [
+                ("Open", "open"),
+                ("High", "high"),
+                ("Low", "low"),
+                ("Close", "close"),
+                ("Volume", "volume"),
+            ]:
+                if col not in df.columns or df[col].isnull().all():
+                    if fallback in df.columns:
+                        df[col] = df[fallback]
+            df["Date"] = pd.to_datetime(df["Date"], utc=True).dt.normalize()
+            df.set_index("Date", inplace=True)
+            df.sort_index(inplace=True)
+            df["Dividends"] = df.get("divCash", 0.0)
+            df["Stock Splits"] = df.get("splitFactor", 0.0)
+            df = df[
+                ["Open", "High", "Low", "Close", "Volume", "Dividends", "Stock Splits"]
+            ].dropna()
+            logger.info(
+                f"[Tiingo API] Successfully fetched {len(df)} bars for {ticker} up to {df.index[-1].strftime('%Y-%m-%d')}"
+            )
+            return df
+    except Exception as e:
+        logger.warning(f"Tiingo data fetch failed for {ticker}: {e}")
+    return pd.DataFrame()
+
+
+def _fetch_alpha_vantage_price_history(
+    ticker: str, period: str = "10y"
+) -> pd.DataFrame:
+    """Fetches daily historical bars from Alpha Vantage API."""
+    api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
+    if not api_key:
+        return pd.DataFrame()
+
+    try:
+        output_size = "full" if "10y" in period or "5y" in period else "compact"
+        url = "https://www.alphavantage.co/query"
+        params = {
+            "function": "TIME_SERIES_DAILY",
+            "symbol": ticker,
+            "outputsize": output_size,
+            "apikey": api_key,
+        }
+        res = requests.get(url, params=params, timeout=12)
+        if res.status_code == 200:
+            data = res.json().get("Time Series (Daily)", {})
+            if not data:
+                return pd.DataFrame()
+            rows = []
+            for dt_str, vals in data.items():
+                rows.append(
+                    {
+                        "Date": dt_str,
+                        "Open": float(vals.get("1. open", 0)),
+                        "High": float(vals.get("2. high", 0)),
+                        "Low": float(vals.get("3. low", 0)),
+                        "Close": float(vals.get("4. close", 0)),
+                        "Volume": float(vals.get("5. volume", 0)),
+                        "Dividends": 0.0,
+                        "Stock Splits": 0.0,
+                    }
+                )
+            df = pd.DataFrame(rows)
+            df["Date"] = pd.to_datetime(df["Date"], utc=True).dt.normalize()
+            df.set_index("Date", inplace=True)
+            df.sort_index(inplace=True)
+            logger.info(
+                f"[Alpha Vantage] Successfully fetched {len(df)} bars for {ticker} up to {df.index[-1].strftime('%Y-%m-%d')}"
+            )
+            return df
+    except Exception as e:
+        logger.warning(f"Alpha Vantage data fetch failed for {ticker}: {e}")
+    return pd.DataFrame()
+
+
 def _fetch_alpaca_news(ticker: str) -> pd.DataFrame:
     """Fetches latest financial news articles from Alpaca News API."""
     api_key = os.getenv("ALPACA_API_KEY") or os.getenv("APCA_API_KEY_ID")
@@ -699,6 +809,10 @@ def _fetch_direct_yahoo_chart(ticker: str, period: str = "10y") -> pd.DataFrame:
     return pd.DataFrame()
 
 
+# High-speed in-memory RAM cache for parsed price history DataFrames (sub-millisecond lookups)
+_PRICE_HISTORY_RAM_CACHE: Dict[str, Tuple[float, pd.DataFrame]] = {}
+
+
 def get_price_history(
     ticker: str,
     period: str = "10y",
@@ -709,7 +823,7 @@ def get_price_history(
 ) -> pd.DataFrame:
     """
     Enterprise Data Router: Fetches historical price data up to today using the best available provider.
-    Priority: Alpaca Data API v2 -> Polygon.io -> FMP -> EODHD -> Yahoo Direct Chart -> yfinance -> Cache
+    Priority: RAM Cache -> Alpaca Data API v2 -> Polygon.io -> FMP -> Tiingo -> EODHD -> Alpha Vantage -> Yahoo Direct Chart -> yfinance -> Disk Cache
     """
     ticker = ticker.strip().replace(" ", "")
     clean_ticker = sanitize_filename(ticker)
@@ -732,12 +846,19 @@ def get_price_history(
                 )
 
     if should_load_cache:
+        mtime = os.path.getmtime(cache_path)
+        if clean_ticker in _PRICE_HISTORY_RAM_CACHE:
+            cached_mtime, cached_df = _PRICE_HISTORY_RAM_CACHE[clean_ticker]
+            if cached_mtime == mtime:
+                return cached_df.copy()
+
         logger.info(f"Loading price history for {ticker} from cache...")
         history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
         if history.index.tz is None:
             history.index = history.index.tz_localize("UTC").normalize()
         else:
             history.index = history.index.tz_convert("UTC").normalize()
+        _PRICE_HISTORY_RAM_CACHE[clean_ticker] = (mtime, history)
     else:
         logger.info(f"Routing live price history fetch for {ticker}...")
         # 1. Alpaca Markets Data API v2
@@ -751,15 +872,23 @@ def get_price_history(
         if history.empty:
             history = _fetch_fmp_price_history(ticker, period=period)
 
-        # 4. EODHD (EOD Historical Data)
+        # 4. Tiingo Stock API
+        if history.empty:
+            history = _fetch_tiingo_price_history(ticker, period=period)
+
+        # 5. EODHD (EOD Historical Data)
         if history.empty:
             history = _fetch_eodhd_price_history(ticker, period=period)
 
-        # 5. Direct Yahoo Finance Chart API (zero-key fallback)
+        # 6. Alpha Vantage API
+        if history.empty:
+            history = _fetch_alpha_vantage_price_history(ticker, period=period)
+
+        # 7. Direct Yahoo Finance Chart API (zero-key fallback)
         if history.empty:
             history = _fetch_direct_yahoo_chart(ticker, period=period)
 
-        # 6. yfinance library
+        # 8. yfinance library
         if history.empty:
             try:
                 session = _get_browser_session()

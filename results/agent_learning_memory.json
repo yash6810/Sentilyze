@@ -1,13 +1,13 @@
 {
-  "total_learning_cycles": 49,
-  "last_updated": "2026-09-17T14:12:17.711808+00:00",
+  "total_learning_cycles": 59,
+  "last_updated": "2026-09-19T08:25:39.943969+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.27,
-    "sentiment_weight": 0.418,
-    "valuation_weight": 0.134,
-    "cro_weight": 0.178
+    "technicals_weight": 0.265,
+    "sentiment_weight": 0.429,
+    "valuation_weight": 0.131,
+    "cro_weight": 0.175
   },
-  "adaptive_kelly_multiplier": 1.22,
+  "adaptive_kelly_multiplier": 1.25,
   "recent_trade_autopsies": [
     {
       "ticker": "NVDA",
@@ -96,6 +96,22 @@
       "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
       "lesson": "Committee conviction on AAPL succeeded with +66.59% gain.",
       "timestamp": "2026-09-17T14:12:17.711846+00:00"
+    },
+    {
+      "ticker": "NVDA",
+      "pnl": 306.81,
+      "return_pct": 85.23,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on NVDA succeeded with +85.23% gain.",
+      "timestamp": "2026-09-19T08:25:39.944004+00:00"
+    },
+    {
+      "ticker": "AAPL",
+      "pnl": 680.65,
+      "return_pct": 68.06,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on AAPL succeeded with +68.06% gain.",
+      "timestamp": "2026-09-19T08:25:39.954312+00:00"
     }
   ],
   "retrained_models": []

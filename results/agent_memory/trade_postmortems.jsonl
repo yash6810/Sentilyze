@@ -1,0 +1,4 @@
+{"timestamp": "2026-09-18T15:39:56.967694+00:00", "ticker": "NVDA", "direction": "LONG", "agent_votes": {}, "outcome": "WIN", "r_multiple": 33.2, "pnl_pct": 83.01, "notes": "Committee conviction on NVDA succeeded with +83.01% gain."}
+{"timestamp": "2026-09-18T15:39:56.979903+00:00", "ticker": "AAPL", "direction": "LONG", "agent_votes": {}, "outcome": "WIN", "r_multiple": 26.91, "pnl_pct": 67.28, "notes": "Committee conviction on AAPL succeeded with +67.28% gain."}
+{"timestamp": "2026-09-19T08:25:39.944330+00:00", "ticker": "NVDA", "direction": "LONG", "agent_votes": {}, "outcome": "WIN", "r_multiple": 34.09, "pnl_pct": 85.23, "notes": "Committee conviction on NVDA succeeded with +85.23% gain."}
+{"timestamp": "2026-09-19T08:25:39.954645+00:00", "ticker": "AAPL", "direction": "LONG", "agent_votes": {}, "outcome": "WIN", "r_multiple": 27.22, "pnl_pct": 68.06, "notes": "Committee conviction on AAPL succeeded with +68.06% gain."}

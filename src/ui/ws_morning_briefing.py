@@ -233,3 +233,47 @@ def render_morning_briefing_workspace(selected_ticker: str = "NVDA"):
     # Full Spoken Script Expander
     with st.expander("📜 View Complete Spoken Podcast Transcript", expanded=False):
         st.markdown(f"*{memo.get('audio_script', '')}*")
+
+    st.markdown("---")
+
+    # 5. Interactive 2-Way Spoken Audio Voice Desk
+    st.markdown("### 🎙️ 2-Way Spoken Audio Trading Desk (Zero-Latency)")
+    st.caption(
+        "Ask questions about portfolio capital, macro event countdowns, VPIN toxicity, or committee decisions. "
+        "Audio responses are synthesized in real time via browser-native speech synthesis."
+    )
+
+    from src.voice_desk import answer_voice_inquiry
+    from components.audio_squawk import render_audio_squawk_button
+
+    quick_prompts = [
+        "What is our current cash buffer and total equity?",
+        "When is the next FOMC interest rate meeting?",
+        f"What is the VPIN order flow toxicity for {selected_ticker}?",
+        f"How did the committee vote on {selected_ticker}?",
+    ]
+
+    selected_prompt = st.selectbox("💡 Quick Desk Inquiries:", quick_prompts, index=0)
+    custom_inquiry = st.text_input(
+        "Or enter custom voice inquiry:", value=selected_prompt
+    )
+
+    if st.button(
+        "🎙️ Speak with Trading Desk", type="secondary", use_container_width=True
+    ):
+        with st.spinner("Synthesizing trading desk response..."):
+            ans = answer_voice_inquiry(custom_inquiry, selected_ticker=selected_ticker)
+            spoken = ans.get("spoken_response", "")
+
+            st.markdown(
+                f"""
+                <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid #10B981; border-radius: 8px; padding: 14px; margin: 12px 0;">
+                    <b style="color: #10B981;">🎧 Trading Desk Audio Response:</b>
+                    <div style="color: #F8FAFC; margin-top: 6px; font-size: 0.95rem;">{spoken}</div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+            render_audio_squawk_button(
+                spoken, button_label="🔊 Play Spoken Audio", auto_play=True
+            )

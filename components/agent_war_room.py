@@ -18,9 +18,10 @@ def render_multi_agent_war_room(
     """
     Renders the complete 5-Agent War Room Council deliberation chamber.
     """
-    st.markdown("### 🏛️ 5-Agent Quantitative War Room Deliberation Council")
+    st.markdown("### 🏛️ 8-Agent Quantitative War Room Deliberation Council")
     st.caption(
-        "Round-table multi-agent consensus synthesizing Technicals, FinBERT NLP, Forensic Fundamentals, Real-Time Tape, and Adversarial Stress-Testing."
+        "Round-table multi-agent consensus synthesizing Technicals, FinBERT NLP, Forensic Fundamentals, "
+        "Real-Time Tape, Adversarial Stress-Testing, Regulatory 8-K/FDA, Macro Volatility Blackouts, and Stat-Arb."
     )
 
     if not resolution or not isinstance(resolution, dict):
@@ -59,9 +60,11 @@ def render_multi_agent_war_room(
         <div style="background: {banner_bg}; border: 1.5px solid {border_color}; border-radius: 10px; padding: 16px 20px; margin-bottom: 20px;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div>
-                    <span style="font-size: 11px; font-weight: 700; color: {badge_color}; text-transform: uppercase; letter-spacing: 1px;">CHIEF RISK OFFICER (CRO) OFFICIAL VERDICT</span>
-                    <h3 style="margin: 4px 0px 8px 0px; color: #f0f6fc;">{final_res}</h3>
-                    <p style="margin: 0; color: #8b949e; font-size: 13px;">{cro_info.get('cro_thesis', 'Consensus reached across specialist agents.')}</p>
+                    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #8b949e; font-weight: 700;">CRO Decision Engine</span>
+                    <h3 style="margin: 4px 0 0 0; color: #f0f6fc; font-size: 20px;">{final_res}</h3>
+                </div>
+                <div style="text-align: right;">
+                    <span style="background: {badge_color}22; color: {badge_color}; border: 1px solid {badge_color}44; padding: 4px 10px; border-radius: 20px; font-weight: 700; font-size: 12px;">{action_code}</span>
                 </div>
             </div>
         </div>
@@ -69,7 +72,7 @@ def render_multi_agent_war_room(
         unsafe_allow_html=True,
     )
 
-    # 2. Key Metrics Row
+    # 2. Risk Metrics Row
     m_col1, m_col2, m_col3, m_col4, m_col5 = st.columns(5)
     with m_col1:
         st.metric("Consensus Conviction", f"{conviction:.1f}%")
@@ -94,11 +97,9 @@ def render_multi_agent_war_room(
 
     st.markdown("---")
 
-    # 3. Specialist Agent Deliberation Cards
+    # 3. Specialist Agent Deliberation Cards in 4-Column Responsive Grid
     testimonies = resolution.get("agent_testimonies", [])
-    st.markdown("#### 🗣️ Specialist Agent Testimonies & Audit Trail")
-
-    card_cols = st.columns(len(testimonies) if testimonies else 1)
+    st.markdown("#### 🗣️ 8 Specialist Agent Testimonies & Audit Trail")
 
     agent_icons = {
         "Technical Momentum Specialist": "📈",
@@ -106,36 +107,44 @@ def render_multi_agent_war_room(
         "Forensic & Valuation Auditor": "🔍",
         "Real-Time Price & Tape Scout": "⏱️",
         "Adversarial Red-Team Specialist": "🛑",
+        "Regulatory & Catalyst Specialist": "⚖️",
+        "Macro Economic & Central Bank Specialist": "🌐",
+        "Statistical Arbitrage & Cointegration Specialist": "📐",
     }
 
-    for idx, report in enumerate(testimonies):
-        with card_cols[idx % len(card_cols)]:
-            name = report.get("agent_name", "Specialist Agent")
-            role = report.get("role", "Domain Auditor")
-            vote = report.get("vote", "NEUTRAL")
-            c_score = float(report.get("conviction_score", 50.0))
-            thesis = report.get("thesis", "No testimony provided.")
-            icon = agent_icons.get(name, "🤖")
+    # Render in rows of 4 columns
+    n_cols = 4
+    for row_start in range(0, len(testimonies), n_cols):
+        row_slice = testimonies[row_start : row_start + n_cols]
+        cols = st.columns(len(row_slice))
+        for col, report in zip(cols, row_slice):
+            with col:
+                name = report.get("agent_name", "Specialist Agent")
+                role = report.get("role", "Domain Auditor")
+                vote = report.get("vote", "NEUTRAL")
+                c_score = float(report.get("conviction_score", 50.0))
+                thesis = report.get("thesis", "No testimony provided.")
+                icon = agent_icons.get(name, "🤖")
 
-            if vote in ["BUY", "CLEAR"]:
-                v_color = "#00D4AA"
-            elif vote in ["VETO", "SELL"]:
-                v_color = "#EF4444"
-            else:
-                v_color = "#EAB308"
+                if vote in ["BUY", "CLEAR"]:
+                    v_color = "#00D4AA"
+                elif vote in ["VETO", "SELL"]:
+                    v_color = "#EF4444"
+                else:
+                    v_color = "#EAB308"
 
-            st.markdown(
-                f"""
-                <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px; height: 100%; min-height: 220px;">
-                    <div style="font-size: 20px; margin-bottom: 4px;">{icon}</div>
-                    <div style="font-size: 13px; font-weight: 700; color: #f0f6fc;">{name}</div>
-                    <div style="font-size: 11px; color: #8b949e; margin-bottom: 8px;">{role}</div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span style="background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; font-size: 11px; color: {v_color}; font-weight: 700;">{vote}</span>
-                        <span style="font-size: 11px; color: #8b949e;">Conviction: <strong style="color: #f0f6fc;">{c_score:.0f}%</strong></span>
+                st.markdown(
+                    f"""
+                    <div style="background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px; margin-bottom: 12px; min-height: 230px;">
+                        <div style="font-size: 20px; margin-bottom: 4px;">{icon}</div>
+                        <div style="font-size: 13px; font-weight: 700; color: #f0f6fc;">{name}</div>
+                        <div style="font-size: 11px; color: #8b949e; margin-bottom: 8px;">{role}</div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span style="background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; font-size: 11px; color: {v_color}; font-weight: 700;">{vote}</span>
+                            <span style="font-size: 11px; color: #8b949e;">Conviction: <strong style="color: #f0f6fc;">{c_score:.0f}%</strong></span>
+                        </div>
+                        <p style="font-size: 11px; color: #c9d1d9; line-height: 1.4; margin: 0;">{thesis}</p>
                     </div>
-                    <p style="font-size: 11px; color: #c9d1d9; line-height: 1.4; margin: 0;">{thesis}</p>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
+                    """,
+                    unsafe_allow_html=True,
+                )

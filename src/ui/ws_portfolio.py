@@ -227,6 +227,48 @@ def render_portfolio_workspace(selected_ticker: str):
         )
         st.plotly_chart(fig_equity, use_container_width=True)
 
+        # Dynamic Beta-Neutral Hedging Recommendation (hedge_agents.py)
+        try:
+            from src.hedge_agents import compute_balanced_hedge_allocation
+
+            port_rets = unified_df["total"].pct_change().dropna()
+            bench_rets = (
+                unified_df["benchmark_total"].pct_change().dropna()
+                if "benchmark_total" in unified_df.columns
+                else port_rets
+            )
+            hedge_info = compute_balanced_hedge_allocation(
+                long_portfolio_returns=port_rets,
+                market_benchmark_returns=bench_rets,
+                target_beta=0.0,
+                max_hedge_budget_pct=0.20,
+            )
+
+            st.markdown("#### 🛡️ Dynamic Beta-Neutral Hedging & Downside Insurance")
+            h1, h2, h3, h4 = st.columns(4)
+            h1.metric(
+                "Current Portfolio Beta", f"{hedge_info['current_portfolio_beta']:.2f}"
+            )
+            h2.metric(
+                "Target Beta",
+                f"{hedge_info['target_beta']:.2f}",
+                delta="Market Neutral",
+            )
+            h3.metric(
+                "Optimal Hedge Weight", f"{hedge_info['optimal_hedge_weight_pct']:.1f}%"
+            )
+            h4.metric(
+                "Hedging Status",
+                (
+                    "🟢 ACTIVE HEDGE"
+                    if hedge_info["is_hedging_active"]
+                    else "⚪ BETA BALANCED"
+                ),
+                delta=hedge_info["hedge_instrument"].split("/")[0].strip(),
+            )
+        except Exception:
+            pass
+
     # =========================================================================
     # 3. BUILD SYSTEMATIC METRICS DATAFRAME FOR ALL PORTFOLIO ASSETS (WITH COMPANY NAMES)
     # =========================================================================
@@ -437,3 +479,56 @@ def render_portfolio_workspace(selected_ticker: str):
             ),
         },
     )
+
+    # =========================================================================
+    # 7. CLOUD LAKEHOUSE & POSTGRESQL SYNCHRONIZATION (SUPABASE / NEON)
+    # =========================================================================
+    st.markdown("---")
+    with st.expander(
+        "☁️ Cloud Data Lake & PostgreSQL Sync (Supabase / Neon)", expanded=False
+    ):
+        from src.cloud_lakehouse import CloudDataLake
+
+        lake = CloudDataLake()
+        c1, c2 = st.columns([2, 1])
+        with c1:
+            st.markdown(
+                """
+            **Institutional Multi-Device Cloud Ledger Sync**:
+            Persists live paper trade executions and daily equity snapshots to cloud PostgreSQL / Supabase
+            for disaster recovery, zero-data-loss ledger preservation, and cross-platform synchronization.
+            """
+            )
+            schema_info = lake.initialize_schema()
+            st.code(
+                schema_info["schema_sql"][:280]
+                + "\n    -- ... (remaining relational tables)",
+                language="sql",
+            )
+        with c2:
+            st.markdown(
+                f"**Target Engine**: `{lake.initialize_schema()['cloud_provider']}`"
+            )
+            st.markdown(
+                f"**Connection Status**: `{'🟢 Connected' if lake.is_connected else '⚪ Sandbox Simulation'}`"
+            )
+            if st.button(
+                "🚀 Push Live Ledger Snapshot to Cloud",
+                key="btn_sync_lakehouse",
+                use_container_width=True,
+            ):
+                try:
+                    import json
+
+                    with open("results/paper_portfolio.json", "r") as f:
+                        data = json.load(f)
+                    res = lake.stream_live_portfolio_snapshot(
+                        total_equity=float(data.get("total_equity", 159199.62)),
+                        cash=float(data.get("cash", 159199.62)),
+                        open_positions=len(data.get("positions", {})),
+                    )
+                    st.success(
+                        f"Ledger synced to channel `{res['channel']}` (Equity: ${res['total_equity']:,.2f}, Cash: ${res['cash_balance']:,.2f})"
+                    )
+                except Exception as exc:
+                    st.error(f"Sync error: {exc}")

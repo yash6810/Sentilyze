@@ -7,6 +7,7 @@ import json
 import streamlit as st
 from src.ui.components import render_workspace_header, render_conviction_gauge
 from src.agent_committee import convene_trading_committee
+from src.ui.decision_tree_xai import render_decision_tree_xai
 from components.agent_war_room import render_multi_agent_war_room
 from components.charting import create_candlestick_sr_chart
 from components.pipeline_canvas import render_pipeline_topology_canvas
@@ -50,10 +51,10 @@ def _get_cached_sr_chart(
 
 
 def render_committee_workspace(ticker: str):
-    """Renders the 5-Agent Trading Committee deliberation panel, dynamic S/R charting, and interactive pipeline canvas."""
+    """Renders the 8-Agent Trading Committee deliberation panel, dynamic S/R charting, and interactive pipeline canvas."""
     render_workspace_header(
-        title=f"🏛️ 5-Agent Quantitative War Room Council ({ticker})",
-        subtitle="Specialized AI Agents: Technical Momentum, FinBERT NLP, Forensic DCF, Tape Scout, Adversarial Red-Team, and Chief Risk Officer",
+        title=f"🏛️ 8-Agent Quantitative War Room Council ({ticker})",
+        subtitle="Specialized AI Agents: Technical Momentum, FinBERT NLP, Forensic DCF, Tape Scout, Adversarial Red-Team, Regulatory 8-K/FDA, Macroeconomic Blackout, Stat-Arb Cointegration, and Chief Risk Officer",
         badge_text="WAR ROOM CONSENSUS",
         badge_color="#3B82F6",
     )
@@ -80,7 +81,7 @@ def render_committee_workspace(ticker: str):
             recompute = True
 
     if delib is None or recompute:
-        with st.spinner(f"Convening 5-Agent War Room Council for {ticker}..."):
+        with st.spinner(f"Convening 8-Agent War Room Council for {ticker}..."):
             try:
                 delib = convene_trading_committee(
                     ticker, spot_price=spot_price, save_resolution=True
@@ -90,10 +91,11 @@ def render_committee_workspace(ticker: str):
                 st.error(f"Committee deliberation error: {e}")
                 return
 
-    tab_war_room, tab_memory, tab_canvas, tab_chart = st.tabs(
+    tab_war_room, tab_memory, tab_tree, tab_canvas, tab_chart = st.tabs(
         [
-            "🏛️ 5-Agent Deliberation Chamber",
+            "🏛️ 8-Agent Deliberation Chamber",
             "🧠 Council Memory & Calibration",
+            "🌲 Decision Tree XAI Flow",
             "🌐 Interactive Pipeline & Flow Canvas",
             "📈 Dynamic Pivot S/R & ATR Charting",
         ]
@@ -104,6 +106,9 @@ def render_committee_workspace(ticker: str):
         render_multi_agent_war_room(
             ticker=ticker, resolution=delib, spot_price=spot_price
         )
+
+    with tab_tree:
+        render_decision_tree_xai(delib, selected_ticker=ticker)
 
     with tab_memory:
         st.markdown(

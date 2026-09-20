@@ -2,7 +2,7 @@
 Autonomous Live Trading & News Intelligence Engine for Sentilyze.
 Institutional 24/7 Autonomous Execution:
 1. Multi-Source Live News Ingestion (Google RSS + Finnhub + Marketaux + Yahoo)
-2. 4-Agent Trading Committee Deliberation (Technicals, FinBERT, Valuation, Risk Officer)
+2. 8-Agent Council Deliberation (Technicals, FinBERT, Valuation, Tape, Adversarial, SEC/FDA, Macro, Stat-Arb + CRO)
 3. Kelly Criterion Capital Allocation & Dynamic Leverage
 4. 2-Stage Staged Profit Scale-Out (50% @ TP1, Trailing Breakeven Stop, 50% @ TP2)
 5. Capital Preservation & Emergency Macro Volatility / Forensic Vetoes
@@ -112,7 +112,7 @@ def load_universe_tickers() -> List[str]:
 class AutonomousTradingEngine:
     """
     Autonomous Execution Engine that integrates Live News Ingestion,
-    4-Agent Committee Deliberation, and 2-Stage Profit Scaling.
+    8-Agent Council Deliberation, and 2-Stage Profit Scaling.
     """
 
     def __init__(self, broker: Optional[PaperBroker] = None):
@@ -667,11 +667,11 @@ class AutonomousTradingEngine:
                 reverse=True,
             )
 
-            # Task 8 Max Position Size Hard Constraint: Max 10% of total portfolio equity for 8-10 position dynamic model
+            # Max Position Size: 10% standard, expanded dynamically to 14% for exceptional unanimous 8-Agent Council setups (conviction >= 78%)
             total_eq = max(
                 float(portfolio_summary.get("total_equity") or 100000.0), 1.0
             )
-            max_position_dollars = total_eq * 0.10
+            max_position_dollars = total_eq * 0.14
 
             # Execute entries into Top candidate setups up to available slots
             for t, delib in buy_candidates[:available_slots]:

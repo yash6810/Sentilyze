@@ -1,31 +1,100 @@
 {
-  "session_time": "Sep 17, 2026 \u2022 11:17 PM IST (01:47 PM EDT)",
+  "session_time": "Sep 19, 2026 \u2022 01:55 PM IST (04:25 AM EDT)",
   "stocks_in_play": [
-    "AXON",
-    "BLDR",
-    "FIX",
-    "EFX",
-    "ETN"
+    "ADP",
+    "ALLE",
+    "AME",
+    "AOS",
+    "AXON"
   ],
-  "signals_count": 0,
-  "signals": [],
-  "executed_paper_trades": [],
+  "signals_count": 5,
+  "signals": [
+    {
+      "ticker": "ADP",
+      "signal": "BUY",
+      "current_price": 271.22,
+      "confidence": 0.4833,
+      "take_profit": 277.22,
+      "stop_loss": 268.22
+    },
+    {
+      "ticker": "ALLE",
+      "signal": "BUY",
+      "current_price": 152.28,
+      "confidence": 0.4833,
+      "take_profit": 158.28,
+      "stop_loss": 149.28
+    },
+    {
+      "ticker": "AME",
+      "signal": "BUY",
+      "current_price": 237.64,
+      "confidence": 0.4833,
+      "take_profit": 243.64,
+      "stop_loss": 234.64
+    },
+    {
+      "ticker": "AOS",
+      "signal": "BUY",
+      "current_price": 56.95,
+      "confidence": 0.4833,
+      "take_profit": 62.95,
+      "stop_loss": 53.95
+    },
+    {
+      "ticker": "AXON",
+      "signal": "BUY",
+      "current_price": 447.76,
+      "confidence": 0.4833,
+      "take_profit": 453.76,
+      "stop_loss": 444.76
+    }
+  ],
+  "executed_paper_trades": [
+    {
+      "ticker": "ADP",
+      "signal": "BUY",
+      "current_price": 271.22,
+      "confidence": 0.4833,
+      "take_profit": 277.22,
+      "stop_loss": 268.22
+    },
+    {
+      "ticker": "ALLE",
+      "signal": "BUY",
+      "current_price": 152.28,
+      "confidence": 0.4833,
+      "take_profit": 158.28,
+      "stop_loss": 149.28
+    },
+    {
+      "ticker": "AME",
+      "signal": "BUY",
+      "current_price": 237.64,
+      "confidence": 0.4833,
+      "take_profit": 243.64,
+      "stop_loss": 234.64
+    },
+    {
+      "ticker": "AOS",
+      "signal": "BUY",
+      "current_price": 56.95,
+      "confidence": 0.4833,
+      "take_profit": 62.95,
+      "stop_loss": 53.95
+    },
+    {
+      "ticker": "AXON",
+      "signal": "BUY",
+      "current_price": 447.76,
+      "confidence": 0.4833,
+      "take_profit": 453.76,
+      "stop_loss": 444.76
+    }
+  ],
   "portfolio_summary": {
-    "total_equity": 159789.07,
-    "cash": 67792.48536285403,
-    "invested": 91996.58463714598,
-    "start_of_day_equity": 159033.91,
-    "daily_pnl": 755.16,
-    "daily_return_pct": 0.47,
-    "unrealized_pnl": 2869.16,
-    "unrealized_pnl_pct": 3.12,
-    "realized_pnl": 56919.905399169926,
-    "total_pnl": 59789.07,
-    "total_return_pct": 59.79,
-    "win_rate": 83.3,
-    "open_positions_count": 2,
-    "total_trades": 48,
-    "winning_trades": 40,
-    "losing_trades": 8
+    "total_equity": 151872.25,
+    "cash": 140982.95,
+    "win_rate": 83.9
   }
 }

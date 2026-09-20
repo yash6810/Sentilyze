@@ -3,10 +3,37 @@ from src.agent_committee import (
     SentimentCatalystAgent,
     ForensicFundamentalAgent,
     ChiefRiskOfficerAgent,
+    RegulatoryCatalystAgent,
+    MacroEconomicAgent,
+    StatArbSpecialist,
     compute_fractional_kelly_sizing,
     convene_trading_committee,
     audit_full_universe_committee,
 )
+
+
+def test_regulatory_catalyst_agent():
+    agent = RegulatoryCatalystAgent()
+    rep = agent.evaluate("NVDA")
+    assert rep["agent_name"] == "Regulatory & Catalyst Specialist"
+    assert rep["vote"] in ["BUY", "NEUTRAL", "HOLD", "VETO"]
+    assert 0.0 <= rep["conviction_score"] <= 100.0
+
+
+def test_macro_economic_agent():
+    agent = MacroEconomicAgent()
+    rep = agent.evaluate("NVDA")
+    assert rep["agent_name"] == "Macro Economic & Central Bank Specialist"
+    assert rep["vote"] in ["BUY", "NEUTRAL", "HOLD", "CAUTION", "VETO"]
+    assert "is_blackout_active" in rep["key_metrics"]
+
+
+def test_stat_arb_specialist():
+    agent = StatArbSpecialist()
+    rep = agent.evaluate("NVDA", spot_price=220.0)
+    assert rep["agent_name"] == "Statistical Arbitrage & Cointegration Specialist"
+    assert rep["vote"] in ["BUY", "NEUTRAL", "HOLD", "VETO"]
+    assert "spread_zscore" in rep["key_metrics"] or "status" in rep["key_metrics"]
 
 
 def test_fractional_kelly_sizing():
@@ -89,6 +116,29 @@ def test_cro_agent_approval_and_veto():
     assert signoff_panic["vix_veto_triggered"] is True
 
 
+def test_cro_agent_regulatory_veto():
+    cro = ChiefRiskOfficerAgent()
+    mock_reports = [
+        {
+            "agent_name": "Regulatory & Catalyst Specialist",
+            "vote": "VETO",
+            "conviction_score": 0.0,
+            "key_metrics": {"material_risk": "DELISTING_OR_FRAUD"},
+            "thesis": "Delisting Notice filed under SEC Form 8-K Item 3.01.",
+        },
+        {
+            "agent_name": "Technical Momentum Specialist",
+            "vote": "BUY",
+            "conviction_score": 85.0,
+            "key_metrics": {},
+        },
+    ]
+    signoff = cro.evaluate_and_sign_off("MOCK_FAIL", 10.0, mock_reports, vix_level=16.0)
+    assert signoff["action_code"] == "VETO"
+    assert signoff["approved_leverage"] == 0.0
+    assert "Regulatory Hard Veto" in signoff["veto_reason"]
+
+
 def test_convene_trading_committee(tmp_path, mocker):
     mocker.patch(
         "src.agent_committee.COMMITTEE_FILE", str(tmp_path / "test_resolutions.json")
@@ -96,7 +146,7 @@ def test_convene_trading_committee(tmp_path, mocker):
     res = convene_trading_committee("NVDA", vix_level=16.0)
     assert res["ticker"] == "NVDA"
     assert "final_resolution" in res
-    assert len(res["agent_testimonies"]) == 5
+    assert len(res["agent_testimonies"]) == 8
     assert "cro_signoff" in res
 
 

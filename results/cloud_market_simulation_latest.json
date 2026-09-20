@@ -1,0 +1,194 @@
+{
+  "ticker": "SPY",
+  "scenario": "Earnings Beat Surprise",
+  "rounds_count": 3,
+  "snapshot": {
+    "ticker": "SPY",
+    "current_price": 762.42,
+    "atr_14": 5.43,
+    "rsi_14": 43.48,
+    "sma_20": 768.25,
+    "sma_50": 757.99,
+    "recent_trend": "sideways"
+  },
+  "price_path": [
+    762.42,
+    770.42,
+    775.11,
+    776.13
+  ],
+  "total_price_change_pct": 1.8,
+  "rounds_detail": [
+    {
+      "round": 1,
+      "headline": "Round 1: Order Book Clearance at $770.42",
+      "market_event": "Net order imbalance of +2110 shares cleared with liquidity depth.",
+      "clearing_price": 770.42,
+      "net_order_imbalance_shares": 2110,
+      "agents": {
+        "Institutional Smart Money": {
+          "action": "BUY",
+          "shares": 678,
+          "confidence": 0.72,
+          "thesis": "Positioning near liquidity pool with buy bias."
+        },
+        "Market Maker / HFT": {
+          "action": "SELL",
+          "shares": 542,
+          "confidence": 0.98,
+          "thesis": "Quoting spread; balancing inventory through sell orders."
+        },
+        "Retail Momentum / FOMO": {
+          "action": "BUY",
+          "shares": 1228,
+          "confidence": 0.8,
+          "thesis": "Chasing technical price action and scenario momentum."
+        },
+        "Contrarian Short-Seller": {
+          "action": "BUY",
+          "shares": 746,
+          "confidence": 0.85,
+          "thesis": "Fading extreme moves; counter-trend positioning."
+        },
+        "Chief Risk Officer & Arbitrator": {
+          "action": "HOLD",
+          "shares": 0,
+          "confidence": 1.0,
+          "thesis": "Market cleared. Kyle lambda impact: +8.00 USD."
+        }
+      }
+    },
+    {
+      "round": 2,
+      "headline": "Round 2: Order Book Clearance at $775.11",
+      "market_event": "Net order imbalance of +991 shares cleared with liquidity depth.",
+      "clearing_price": 775.11,
+      "net_order_imbalance_shares": 991,
+      "agents": {
+        "Institutional Smart Money": {
+          "action": "BUY",
+          "shares": 2217,
+          "confidence": 0.93,
+          "thesis": "Positioning near liquidity pool with buy bias."
+        },
+        "Market Maker / HFT": {
+          "action": "SELL",
+          "shares": 1773,
+          "confidence": 0.92,
+          "thesis": "Quoting spread; balancing inventory through sell orders."
+        },
+        "Retail Momentum / FOMO": {
+          "action": "BUY",
+          "shares": 1307,
+          "confidence": 0.82,
+          "thesis": "Chasing technical price action and scenario momentum."
+        },
+        "Contrarian Short-Seller": {
+          "action": "SELL",
+          "shares": 760,
+          "confidence": 0.76,
+          "thesis": "Fading extreme moves; counter-trend positioning."
+        },
+        "Chief Risk Officer & Arbitrator": {
+          "action": "HOLD",
+          "shares": 0,
+          "confidence": 1.0,
+          "thesis": "Market cleared. Kyle lambda impact: +4.69 USD."
+        }
+      }
+    },
+    {
+      "round": 3,
+      "headline": "Round 3: Order Book Clearance at $776.13",
+      "market_event": "Net order imbalance of -258 shares cleared with liquidity depth.",
+      "clearing_price": 776.13,
+      "net_order_imbalance_shares": -258,
+      "agents": {
+        "Institutional Smart Money": {
+          "action": "BUY",
+          "shares": 1400,
+          "confidence": 0.86,
+          "thesis": "Positioning near liquidity pool with buy bias."
+        },
+        "Market Maker / HFT": {
+          "action": "SELL",
+          "shares": 1120,
+          "confidence": 0.94,
+          "thesis": "Quoting spread; balancing inventory through sell orders."
+        },
+        "Retail Momentum / FOMO": {
+          "action": "BUY",
+          "shares": 572,
+          "confidence": 0.67,
+          "thesis": "Chasing technical price action and scenario momentum."
+        },
+        "Contrarian Short-Seller": {
+          "action": "SELL",
+          "shares": 1110,
+          "confidence": 0.89,
+          "thesis": "Fading extreme moves; counter-trend positioning."
+        },
+        "Chief Risk Officer & Arbitrator": {
+          "action": "HOLD",
+          "shares": 0,
+          "confidence": 1.0,
+          "thesis": "Market cleared. Kyle lambda impact: +1.02 USD."
+        }
+      }
+    }
+  ],
+  "strategy_benchmarks": {
+    "Buy_and_Hold_SPY": {
+      "name": "Buy & Hold Benchmark",
+      "paper": "Passive S&P 100 Market Return",
+      "return_pct": 1.8,
+      "max_drawdown_pct": 0.0,
+      "alpha_vs_benchmark_pct": 0.0
+    },
+    "Hazan_Online_Newton_Step": {
+      "name": "Online Newton Step (ONS)",
+      "paper": "Agarwal, Hazan, Kale (Machine Learning)",
+      "return_pct": 0.9,
+      "max_drawdown_pct": 0.0,
+      "alpha_vs_benchmark_pct": -0.9
+    },
+    "Boyd_Stanford_Convex_SOCP": {
+      "name": "Convex Friction Engine",
+      "paper": "Boyd et al. (Stanford)",
+      "return_pct": 1.62,
+      "max_drawdown_pct": 0.0,
+      "alpha_vs_benchmark_pct": -0.18
+    },
+    "Triple_Barrier_ATR": {
+      "name": "Triple-Barrier Volatility Guard",
+      "paper": "Marcos Lopez de Prado (Advances in FinML)",
+      "return_pct": 1.66,
+      "max_drawdown_pct": 0.0,
+      "alpha_vs_benchmark_pct": -0.13
+    },
+    "Fractional_Kelly_Growth": {
+      "name": "Fractional Kelly Capital Growth",
+      "paper": "MacLean, Thorp, Ziemba (World Scientific)",
+      "return_pct": 0.63,
+      "max_drawdown_pct": 0.0,
+      "alpha_vs_benchmark_pct": -1.17
+    },
+    "Sentilyze_Unified_Master": {
+      "name": "Sentilyze Unified Master Pipeline",
+      "paper": "Sentilyze Institutional Multi-Model Pipeline",
+      "return_pct": 1.42,
+      "max_drawdown_pct": 0.0,
+      "alpha_vs_benchmark_pct": -0.38
+    }
+  },
+  "agent_personas": [
+    "Institutional Smart Money",
+    "Market Maker / HFT",
+    "Retail Momentum / FOMO",
+    "Contrarian Short-Seller",
+    "Chief Risk Officer & Arbitrator"
+  ],
+  "execution_mode": "deterministic_matching_engine",
+  "latency_ms": 1523.13,
+  "timestamp": "2026-09-20 19:00:03"
+}
