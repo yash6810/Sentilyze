@@ -454,27 +454,27 @@ class ForensicFundamentalAgent:
                 f"DCF Fair Value ${dcf.get('fair_value_price', spot_price):,.2f} (Margin of Safety: {dcf_mos:+.1f}%)."
             )
 
-        # OpenBB Form 4 Insider Flow Integration
+        # Executive Insider Flow Integration
         insider_score = 0.0
         insider_verdict = "NEUTRAL"
         try:
-            from src.openbb_bridge import OpenBBBridge
+            from src.institutional_gateway import InstitutionalDataGateway
 
-            bridge = OpenBBBridge()
+            bridge = InstitutionalDataGateway()
             insider = bridge.get_insider_transactions(ticker)
             insider_score = insider.net_insider_score
             insider_verdict = insider.sentiment_verdict
             if insider.sentiment_verdict == "BULLISH_ACCUMULATION":
                 conviction = min(conviction + 5.0, 95.0)
-                thesis += f" 👔 OpenBB Insider Flow: Net accumulation score {insider.net_insider_score:+.2f}."
+                thesis += f" 👔 Executive Insider Flow: Net accumulation score {insider.net_insider_score:+.2f}."
             elif (
                 insider.sentiment_verdict == "BEARISH_DUMPING"
                 and insider.transaction_count >= 3
             ):
                 conviction = max(conviction - 6.0, 15.0)
-                thesis += f" ⚠️ OpenBB Insider Alert: Significant executive selling (Net {insider.net_insider_score:+.2f})."
+                thesis += f" ⚠️ Executive Insider Alert: Significant executive selling (Net {insider.net_insider_score:+.2f})."
         except Exception as ie:
-            logger.debug(f"OpenBB insider transactions check notice for {ticker}: {ie}")
+            logger.debug(f"Insider transactions check notice for {ticker}: {ie}")
 
         return {
             "agent_name": "Forensic & Valuation Auditor",
@@ -613,14 +613,14 @@ class MacroEconomicAgent:
                 vote = "VETO"
                 conviction = 10.0
                 thesis = f"🔴 MACRO EVENT BLACKOUT: {blackout_res.get('reason', 'High-impact release imminent')}."
-            # OpenBB Macro Regime & FRED Yield Curve Integration
+            # Macro Regime & Treasury Yield Curve Integration
             macro_regime = "NORMAL_EXPANSION"
             yield_spread = 0.0
             credit_spread = 0.0
             try:
-                from src.openbb_bridge import OpenBBBridge
+                from src.institutional_gateway import InstitutionalDataGateway
 
-                bridge = OpenBBBridge()
+                bridge = InstitutionalDataGateway()
                 snap = bridge.get_macro_regime()
                 macro_regime = snap.regime_classification
                 yield_spread = snap.yield_curve_spread
@@ -635,7 +635,7 @@ class MacroEconomicAgent:
                 else:
                     thesis += f" 🏛️ Macro Expansion: Yield spread {snap.yield_curve_spread:+.2f}%, Credit spread {snap.high_yield_spread:.2f}%."
             except Exception as obe:
-                logger.debug(f"OpenBB macro regime check notice for {ticker}: {obe}")
+                logger.debug(f"Macro regime check notice for {ticker}: {obe}")
 
             return {
                 "agent_name": self.name,

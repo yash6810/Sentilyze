@@ -1,19 +1,19 @@
 """
-Unit tests for OpenBB Institutional Data Bridge (src/openbb_bridge.py).
+Unit tests for Institutional Market Data Gateway (src/institutional_gateway.py).
 Verifies FRED macro regime classification, SEC Form 4 insider flow, and options fallback.
 """
 
 import pytest
-from src.openbb_bridge import (
-    OpenBBBridge,
+from src.institutional_gateway import (
+    InstitutionalDataGateway,
     MacroRegimeSnapshot,
     InsiderFlowSnapshot,
     OptionsSentimentSnapshot,
 )
 
 
-def test_openbb_bridge_macro_classification():
-    bridge = OpenBBBridge()
+def test_institutional_gateway_macro_classification():
+    bridge = InstitutionalDataGateway()
 
     # Inverted yield curve
     regime, mult = bridge._classify_macro_regime(
@@ -37,8 +37,8 @@ def test_openbb_bridge_macro_classification():
     assert mult >= 1.1
 
 
-def test_openbb_bridge_live_or_fallback_macro():
-    bridge = OpenBBBridge()
+def test_institutional_gateway_live_or_fallback_macro():
+    bridge = InstitutionalDataGateway()
     macro = bridge.get_macro_regime()
     assert isinstance(macro, MacroRegimeSnapshot)
     assert macro.yield_10y > 0
@@ -46,16 +46,16 @@ def test_openbb_bridge_live_or_fallback_macro():
     assert macro.risk_on_multiplier > 0
 
 
-def test_openbb_bridge_insider_flow():
-    bridge = OpenBBBridge()
+def test_institutional_gateway_insider_flow():
+    bridge = InstitutionalDataGateway()
     insider = bridge.get_insider_transactions("NVDA")
     assert isinstance(insider, InsiderFlowSnapshot)
     assert insider.ticker == "NVDA"
     assert -1.0 <= insider.net_insider_score <= 1.0
 
 
-def test_openbb_bridge_options_sentiment():
-    bridge = OpenBBBridge()
+def test_institutional_gateway_options_sentiment():
+    bridge = InstitutionalDataGateway()
     opts = bridge.get_options_sentiment("AAPL")
     assert isinstance(opts, OptionsSentimentSnapshot)
     assert opts.ticker == "AAPL"

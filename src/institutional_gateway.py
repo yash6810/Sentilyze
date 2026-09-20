@@ -1,7 +1,7 @@
 """
-OpenBB-Inspired Institutional Data Bridge for Sentilyze.
-========================================================
-Acts as the unified "Free Bloomberg Terminal" data layer unifying:
+Institutional Multi-Provider Market Data Gateway for Sentilyze.
+================================================================
+Acts as the unified institutional data layer unifying:
 1. Federal Reserve Macro Liquidity & Yield Curves (FRED API)
 2. Corporate Fundamentals, Balance Sheet Health & Ratios (FMP / Finnhub / yfinance)
 3. SEC Form 4 Executive Insider Flow & Sentiment (Finnhub / FMP)
@@ -87,10 +87,10 @@ class OptionsSentimentSnapshot:
     options_bias: str  # "BULLISH", "NEUTRAL", "BEARISH"
 
 
-class OpenBBBridge:
+class InstitutionalDataGateway:
     """
     Unified institutional data gateway for Sentilyze.
-    Emulates OpenBB Platform across FRED, FMP, Finnhub, Polygon, and yfinance.
+    Integrates FRED, FMP, Finnhub, Polygon, and yfinance.
     """
 
     def __init__(self):
@@ -402,5 +402,7 @@ class OpenBBBridge:
             return snapshot
 
 
-# Singleton Instance
-openbb_bridge = OpenBBBridge()
+# Singleton Instance & Compatibility Alias
+institutional_gateway = InstitutionalDataGateway()
+OpenBBBridge = InstitutionalDataGateway
+openbb_bridge = institutional_gateway

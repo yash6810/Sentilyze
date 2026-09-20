@@ -1,17 +1,15 @@
 """
-MiroFish-Inspired Cloud Multi-Agent Market Simulator.
+Multi-Agent Swarm Cloud Market Simulator for Sentilyze.
 
-Simulates emergent market dynamics on S&P 100 / SPY equities using a lightweight,
-focused 5-agent market participant committee:
+Simulates emergent market dynamics on equities using a lightweight,
+focused market participant swarm:
 1. Institutional Smart Money (Value / Fundamentals / Volume Profile PoC)
 2. Market Maker / HFT (Bid-Ask spread capture, order book liquidity, inventory risk)
 3. Retail Momentum / FOMO (Breakout technicals, RSI/MACD, sentiment headlines)
 4. Contrarian Short-Seller (Overvaluation, red-teams rallies, negative 8-K risk)
 5. Chief Risk Officer & Market Arbitrator (Kyle's Lambda price impact, Kelly capital bounds, equilibrium)
 
-Benchmarks how Sentilyze academic paper strategies (Hazan ONS, Boyd Convex SOCP,
-Lopez de Prado Triple-Barrier, HRP, Fractional Kelly, XGBoost) perform under
-emergent multi-agent order flow.
+Benchmarks how quantitative strategies perform under emergent multi-agent order flow.
 
 100% offloaded to Google Gemini Cloud API (gemini-2.5-flash) for zero local GPU load
 and minimal RAM (< 15 MB).
@@ -194,7 +192,7 @@ class CloudMarketSimulator:
         scenario = SCENARIOS.get(scenario_name, SCENARIOS["Normal Drift"])
 
         logger.info(
-            f"🌊 [CLOUD SIMULATOR] Initiating MiroFish simulation for {ticker} | "
+            f"🌊 [CLOUD SIMULATOR] Initiating multi-agent swarm simulation for {ticker} | "
             f"Scenario: {scenario_name} | Spot: ${snapshot['current_price']:.2f}"
         )
 
@@ -282,7 +280,7 @@ class CloudMarketSimulator:
         )
 
         prompt = f"""
-You are the MiroFish Financial Multi-Agent Market Simulator engine.
+You are the Autonomous Multi-Agent Swarm Market Simulator engine for Sentilyze.
 Simulate a realistic {rounds}-round trading session on {ticker}.
 
 Market Context:

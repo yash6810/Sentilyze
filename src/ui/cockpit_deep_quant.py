@@ -25,7 +25,7 @@ from src.ui.ws_understand_anything import render_understand_anything_workspace
 def render_deep_quant_cockpit(selected_ticker: str):
     t0, t1, t2, t3, t4, t5, t6, t7 = st.tabs(
         [
-            "🌊 MiroFish Market Simulator",
+            "🌊 Swarm Market Simulator",
             "🧠 SHAP Explainability",
             "🔄 Market-Neutral Stat-Arb",
             "🕸️ GNN Supply Chain Shock",

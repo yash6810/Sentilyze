@@ -1,7 +1,7 @@
 """
-Unit tests for MiroFish Cloud Multi-Agent Market Simulator.
+Unit tests for Cloud Multi-Agent Swarm Market Simulator.
 Verifies agent committee order book matching, deterministic fallback,
-academic paper strategy benchmarks, and strict portfolio preservation.
+quantitative strategy benchmarks, and strict portfolio preservation.
 """
 
 import os
