@@ -1,34 +1,19 @@
 {
   "initial_capital": 100000.0,
-  "cash": 69452.65558471682,
-  "total_equity": 158675.18,
-  "unrealized_pnl": -589.29,
-  "realized_pnl": 59264.46420135498,
-  "win_rate": 79.2,
-  "total_trades": 53,
+  "cash": 113461.93558471682,
+  "total_equity": 158032.34,
+  "unrealized_pnl": -260.4,
+  "realized_pnl": 58292.7346875,
+  "win_rate": 77.8,
+  "total_trades": 54,
   "winning_trades": 42,
-  "losing_trades": 11,
+  "losing_trades": 12,
   "open_positions": {
-    "ORLY": {
-      "shares": 531,
-      "initial_shares": 531,
-      "entry_price": 84.70999908447266,
-      "current_price": 83.62,
-      "entry_date": "2026-09-21",
-      "tp1_target": 90.0,
-      "tp2_target": 94.24,
-      "sl_target": 83.02,
-      "scaled_out": false,
-      "confidence": 0.6101754307746887,
-      "regime": "\u25bc BEARISH (Below SMA200)",
-      "highest_price_seen": 84.70999908447266,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
-    },
     "PGR": {
       "shares": 210,
       "initial_shares": 210,
       "entry_price": 213.47999572753906,
-      "current_price": 213.43,
+      "current_price": 212.24,
       "entry_date": "2026-09-21",
       "tp1_target": 226.82,
       "tp2_target": 237.5,
@@ -623,6 +608,17 @@
       "pnl": 0.0,
       "return_pct": 0.0,
       "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "ORLY",
+      "shares": 531,
+      "entry_price": 84.70999908447266,
+      "exit_price": 82.88,
+      "entry_date": "2026-09-21",
+      "exit_date": "2026-09-21",
+      "pnl": -971.73,
+      "return_pct": -2.16,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -749,11 +745,11 @@
     {
       "date": "2026-09-21",
       "timestamp": "2026-09-21T08:49:04.425234+00:00",
-      "total_equity": 158675.18,
-      "cash": 69452.66,
-      "invested": 89222.52,
-      "daily_return": -0.37
+      "total_equity": 158032.34,
+      "cash": 113461.94,
+      "invested": 44570.4,
+      "daily_return": -0.41
     }
   ],
-  "last_updated": "2026-09-21T18:36:35.829090+00:00"
+  "last_updated": "2026-09-21T22:14:16.736563+00:00"
 }
