@@ -1,31 +1,31 @@
 {
-  "session_time": "Sep 18, 2026 \u2022 10:44 PM IST (01:14 PM EDT)",
+  "session_time": "Sep 22, 2026 \u2022 12:27 AM IST (02:57 PM EDT)",
   "stocks_in_play": [
     "AXON",
     "BLDR",
-    "EFX",
+    "FIX",
     "FDXF",
-    "FIX"
+    "EFX"
   ],
   "signals_count": 0,
   "signals": [],
   "executed_paper_trades": [],
   "portfolio_summary": {
-    "total_equity": 159598.36,
-    "cash": 68160.25435485842,
-    "invested": 91438.10564514156,
-    "start_of_day_equity": 159316.55,
-    "daily_pnl": 281.81,
-    "daily_return_pct": 0.18,
-    "unrealized_pnl": 2387.82,
-    "unrealized_pnl_pct": 2.61,
-    "realized_pnl": 57210.54524078369,
-    "total_pnl": 59598.36,
-    "total_return_pct": 59.6,
-    "win_rate": 83.7,
+    "total_equity": 158675.18,
+    "cash": 69452.65558471682,
+    "invested": 89222.52441528317,
+    "start_of_day_equity": 159264.46,
+    "daily_pnl": -589.28,
+    "daily_return_pct": -0.37,
+    "unrealized_pnl": -589.29,
+    "unrealized_pnl_pct": -0.66,
+    "realized_pnl": 59264.46420135498,
+    "total_pnl": 58675.18,
+    "total_return_pct": 58.68,
+    "win_rate": 79.2,
     "open_positions_count": 2,
-    "total_trades": 49,
-    "winning_trades": 41,
-    "losing_trades": 8
+    "total_trades": 53,
+    "winning_trades": 42,
+    "losing_trades": 11
   }
 }
