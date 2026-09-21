@@ -1,39 +1,39 @@
 {
   "initial_capital": 100000.0,
-  "cash": 69459.0850204468,
+  "cash": 69452.65558471682,
   "total_equity": 159264.46,
   "unrealized_pnl": 0.0,
   "realized_pnl": 59264.46420135498,
-  "win_rate": 82.4,
-  "total_trades": 51,
+  "win_rate": 79.2,
+  "total_trades": 53,
   "winning_trades": 42,
-  "losing_trades": 9,
+  "losing_trades": 11,
   "open_positions": {
-    "BNY": {
-      "shares": 292,
-      "initial_shares": 292,
-      "entry_price": 153.7899932861328,
-      "current_price": 153.7899932861328,
-      "entry_date": "2026-09-19",
-      "tp1_target": 163.4,
-      "tp2_target": 171.09,
-      "sl_target": 148.02,
+    "ORLY": {
+      "shares": 531,
+      "initial_shares": 531,
+      "entry_price": 84.70999908447266,
+      "current_price": 84.70999908447266,
+      "entry_date": "2026-09-21",
+      "tp1_target": 90.0,
+      "tp2_target": 94.24,
+      "sl_target": 81.53,
       "scaled_out": false,
-      "confidence": 0.6732739210128784,
-      "regime": "\u25b2 BULLISH (Above SMA200)"
-    },
-    "Q": {
-      "shares": 374,
-      "initial_shares": 374,
-      "entry_price": 120.05000305175781,
-      "current_price": 120.05000305175781,
-      "entry_date": "2026-09-19",
-      "tp1_target": 133.2,
-      "tp2_target": 143.72,
-      "sl_target": 112.16,
-      "scaled_out": false,
-      "confidence": 0.6704150438308716,
+      "confidence": 0.6101754307746887,
       "regime": "\u25bc BEARISH (Below SMA200)"
+    },
+    "PGR": {
+      "shares": 210,
+      "initial_shares": 210,
+      "entry_price": 213.47999572753906,
+      "current_price": 213.47999572753906,
+      "entry_date": "2026-09-21",
+      "tp1_target": 226.82,
+      "tp2_target": 237.5,
+      "sl_target": 205.47,
+      "scaled_out": false,
+      "confidence": 0.5926889181137085,
+      "regime": "\u25b2 BULLISH (Above SMA200)"
     }
   },
   "closed_trades": [
@@ -597,6 +597,28 @@
       "pnl": -822.08,
       "return_pct": -1.83,
       "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "BNY",
+      "shares": 292,
+      "entry_price": 153.7899932861328,
+      "exit_price": 153.7899932861328,
+      "entry_date": "2026-09-19",
+      "exit_date": "2026-09-21",
+      "pnl": 0.0,
+      "return_pct": 0.0,
+      "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "Q",
+      "shares": 374,
+      "entry_price": 120.05000305175781,
+      "exit_price": 120.05000305175781,
+      "entry_date": "2026-09-19",
+      "exit_date": "2026-09-21",
+      "pnl": 0.0,
+      "return_pct": 0.0,
+      "reason": "MODEL_SELL"
     }
   ],
   "equity_history": [
@@ -719,7 +741,15 @@
       "cash": 69459.09,
       "invested": 89805.38,
       "daily_return": 0.0
+    },
+    {
+      "date": "2026-09-21",
+      "timestamp": "2026-09-21T08:49:04.425234+00:00",
+      "total_equity": 159264.46,
+      "cash": 69452.66,
+      "invested": 89811.81,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-19T08:10:23.913892+00:00"
+  "last_updated": "2026-09-21T08:49:04.425925+00:00"
 }
