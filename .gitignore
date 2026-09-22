@@ -74,8 +74,13 @@ graphify-out/2026-*/
 SKILL.md
 skills/
 
-# Ignore heavy raw debug test predictions and SHAP arrays (keep repo lightweight)
+# Ignore heavy raw debug test predictions, evaluation reports, and local backtests
 results/*_X_test.csv
 results/*_predictions.csv
 results/*_shap_values.npy
 results/*_monthly_returns_heatmap.png
+results/*_portfolio.csv
+results/*_classification_report.txt
+results/*_feature_importances.csv
+results/*_metrics.json
+results/*_significance.json
