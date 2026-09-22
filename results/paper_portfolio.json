@@ -1,41 +1,28 @@
 {
   "initial_capital": 100000.0,
-  "cash": 68604.94457214358,
-  "total_equity": 158032.34,
-  "unrealized_pnl": -260.4,
-  "realized_pnl": 58292.7346875,
-  "win_rate": 77.8,
-  "total_trades": 54,
+  "cash": 111948.94457214358,
+  "total_equity": 156294.01,
+  "unrealized_pnl": -511.92,
+  "realized_pnl": 56805.9355847168,
+  "win_rate": 76.4,
+  "total_trades": 55,
   "winning_trades": 42,
-  "losing_trades": 12,
+  "losing_trades": 13,
   "open_positions": {
-    "PGR": {
-      "shares": 210,
-      "initial_shares": 210,
-      "entry_price": 213.47999572753906,
-      "current_price": 212.24000549316406,
-      "entry_date": "2026-09-21",
-      "tp1_target": 226.82,
-      "tp2_target": 237.5,
-      "sl_target": 211.57,
-      "scaled_out": false,
-      "confidence": 0.5926889181137085,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "highest_price_seen": 213.47999572753906,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
-    },
     "FANG": {
       "shares": 237,
       "initial_shares": 237,
       "entry_price": 189.27000427246094,
-      "current_price": 189.27000427246094,
+      "current_price": 187.11,
       "entry_date": "2026-09-22",
       "tp1_target": 206.02,
       "tp2_target": 219.41,
-      "sl_target": 179.22,
+      "sl_target": 184.54,
       "scaled_out": false,
       "confidence": 0.7325080037117004,
-      "regime": "\u25b2 BULLISH (Above SMA200)"
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "highest_price_seen": 189.27000427246094,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     }
   },
   "closed_trades": [
@@ -632,6 +619,17 @@
       "pnl": -971.73,
       "return_pct": -2.16,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "PGR",
+      "shares": 210,
+      "entry_price": 213.47999572753906,
+      "exit_price": 206.4,
+      "entry_date": "2026-09-21",
+      "exit_date": "2026-09-22",
+      "pnl": -1486.8,
+      "return_pct": -3.32,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -766,11 +764,11 @@
     {
       "date": "2026-09-22",
       "timestamp": "2026-09-22T08:35:56.928998+00:00",
-      "total_equity": 158032.34,
-      "cash": 68604.94,
-      "invested": 89427.39,
-      "daily_return": 0.0
+      "total_equity": 156294.01,
+      "cash": 111948.94,
+      "invested": 44345.07,
+      "daily_return": -1.1
     }
   ],
-  "last_updated": "2026-09-22T08:35:56.929595+00:00"
+  "last_updated": "2026-09-22T17:37:48.558329+00:00"
 }
