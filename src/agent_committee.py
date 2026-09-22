@@ -227,7 +227,9 @@ class TechnicalAlphaAgent:
         try:
             from src.options_gex import calculate_options_gex_profile
 
-            gex_profile = calculate_options_gex_profile(ticker=ticker, spot_price=spot_price)
+            gex_profile = calculate_options_gex_profile(
+                ticker=ticker, spot_price=spot_price
+            )
             if gex_profile.get("is_real_data", False):
                 call_wall = gex_profile.get("call_wall", spot_price * 1.05)
                 put_wall = gex_profile.get("put_wall", spot_price * 0.95)

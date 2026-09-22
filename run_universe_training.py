@@ -45,7 +45,9 @@ def prevent_windows_sleep() -> bool:
             ctypes.windll.kernel32.SetThreadExecutionState(
                 ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED
             )
-            logger.info("🛡️ Windows Sleep Prevention active (system will stay awake while training).")
+            logger.info(
+                "🛡️ Windows Sleep Prevention active (system will stay awake while training)."
+            )
             return True
         except Exception as e:
             logger.debug(f"Could not set Windows execution state: {e}")
@@ -154,7 +156,9 @@ def run_parallel_universe_training(
     print(
         f"⚡ Parallel Workers: {max_workers} CPU Cores | Batch Size: {batch_size} assets/pool"
     )
-    print(f"⚙️ Cache Mode: {'ENABLED' if use_cache else 'ZERO-CACHE LIVE'} | Leverage: {leverage}x")
+    print(
+        f"⚙️ Cache Mode: {'ENABLED' if use_cache else 'ZERO-CACHE LIVE'} | Leverage: {leverage}x"
+    )
     print("=" * 75 + "\n", flush=True)
 
     results = []
@@ -164,18 +168,23 @@ def run_parallel_universe_training(
     # Chunk universe into resilient batches to isolate crashes and release C++ memory
     for batch_idx in range(0, total_count, batch_size):
         chunk_tickers = tickers[batch_idx : batch_idx + batch_size]
-        
+
         # Batch-level prefetch (avoids Yahoo rate limits)
         if prefetch:
-            prefetch_universe_data(chunk_tickers, max_workers=min(8, len(chunk_tickers)))
+            prefetch_universe_data(
+                chunk_tickers, max_workers=min(8, len(chunk_tickers))
+            )
 
         chunk_args = [(t, leverage, use_cache) for t in chunk_tickers]
         batch_completed = set()
 
         try:
-            with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+            with concurrent.futures.ProcessPoolExecutor(
+                max_workers=max_workers
+            ) as executor:
                 future_to_ticker = {
-                    executor.submit(train_single_asset, arg): arg[0] for arg in chunk_args
+                    executor.submit(train_single_asset, arg): arg[0]
+                    for arg in chunk_args
                 }
 
                 for future in concurrent.futures.as_completed(future_to_ticker):
@@ -189,7 +198,7 @@ def run_parallel_universe_training(
                             "duration_sec": 0.0,
                             "error": str(err),
                         }
-                    
+
                     batch_completed.add(t_sym)
                     results.append(res)
                     completed_count += 1
@@ -247,15 +256,20 @@ def run_parallel_universe_training(
             # Mark uncompleted tickers in this batch as failed so progress continues
             for t_sym, _, _ in chunk_args:
                 if t_sym not in batch_completed:
-                    results.append({
-                        "ticker": t_sym,
-                        "status": "FAILED",
-                        "duration_sec": 0.0,
-                        "error": f"Worker crashed abruptly: {pool_err}",
-                    })
+                    results.append(
+                        {
+                            "ticker": t_sym,
+                            "status": "FAILED",
+                            "duration_sec": 0.0,
+                            "error": f"Worker crashed abruptly: {pool_err}",
+                        }
+                    )
                     completed_count += 1
                     batch_completed.add(t_sym)
-                    print(f"❌ {t_sym:<5} marked FAILED (Auto-healed). Resuming next batch...\n", flush=True)
+                    print(
+                        f"❌ {t_sym:<5} marked FAILED (Auto-healed). Resuming next batch...\n",
+                        flush=True,
+                    )
 
     total_elapsed = time.perf_counter() - overall_start
     end_timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")

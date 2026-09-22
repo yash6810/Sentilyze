@@ -273,7 +273,14 @@ class MasterTradingLoop:
 
                 # Execute only high-conviction un-vetoed BUY signals
                 action_code = delib.get("action_code", "")
-                is_buy_signal = (action_code in ["EXECUTE_BUY", "SCALE_IN"] or "BUY" in str(res).upper()) and conv >= 58.0 and not cro_veto
+                is_buy_signal = (
+                    (
+                        action_code in ["EXECUTE_BUY", "SCALE_IN"]
+                        or "BUY" in str(res).upper()
+                    )
+                    and conv >= 58.0
+                    and not cro_veto
+                )
                 if is_buy_signal or force_execution:
                     exec_record = execute_committee_order(delib, broker=self.broker)
                     if exec_record and exec_record.get("status") == "EXECUTED":
@@ -475,7 +482,9 @@ def get_master_trading_loop(portfolio_path: Optional[str] = None) -> MasterTradi
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Sentilyze Master Autonomous Daily Trading Loop")
+    parser = argparse.ArgumentParser(
+        description="Sentilyze Master Autonomous Daily Trading Loop"
+    )
     parser.add_argument(
         "--watchlist",
         nargs="+",
@@ -497,14 +506,25 @@ if __name__ == "__main__":
 
     loop = get_master_trading_loop()
     watchlist = args.watchlist
-    if watchlist and len(watchlist) == 1 and watchlist[0].endswith(".txt") and os.path.exists(watchlist[0]):
+    if (
+        watchlist
+        and len(watchlist) == 1
+        and watchlist[0].endswith(".txt")
+        and os.path.exists(watchlist[0])
+    ):
         with open(watchlist[0], "r", encoding="utf-8") as f:
-            watchlist = [l.strip().upper() for l in f if l.strip() and not l.startswith("#")]
+            watchlist = [
+                l.strip().upper() for l in f if l.strip() and not l.startswith("#")
+            ]
 
     if not watchlist:
         try:
             full_univ = load_universe_tickers()
-            watchlist = full_univ[:10] if full_univ else ["NVDA", "AAPL", "MSFT", "TSLA", "AMZN"]
+            watchlist = (
+                full_univ[:10]
+                if full_univ
+                else ["NVDA", "AAPL", "MSFT", "TSLA", "AMZN"]
+            )
         except Exception:
             watchlist = ["NVDA", "AAPL", "MSFT", "TSLA", "AMZN"]
 
