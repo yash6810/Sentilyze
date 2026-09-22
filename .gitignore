@@ -69,4 +69,13 @@ graphify-out/2026-*/
 *.bak
 *.tmp
 
+# Proprietary agent skills, prompt runbooks, and internal instructions (keep private)
+.agents/
+SKILL.md
+skills/
 
+# Ignore heavy raw debug test predictions and SHAP arrays (keep repo lightweight)
+results/*_X_test.csv
+results/*_predictions.csv
+results/*_shap_values.npy
+results/*_monthly_returns_heatmap.png
