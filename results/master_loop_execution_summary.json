@@ -1,20 +1,179 @@
 {
-  "cycle_timestamp": "2026-09-20T19:24:51.961329+00:00",
-  "dry_run": true,
+  "cycle_timestamp": "2026-09-21T14:22:12.379162+00:00",
+  "dry_run": false,
   "portfolio_preserved": true,
   "portfolio_path": "results\\paper_portfolio.json",
   "phase_1_premarket": {
-    "phase": "PRE_MARKET_RECONNAISSANCE"
+    "phase": "PRE_MARKET_RECONNAISSANCE",
+    "timestamp": "2026-09-21T14:22:12.379341+00:00",
+    "macro_regime": "MacroRegimeSnapshot(timestamp='2026-09-21T14:22:16Z', yield_10y=4.94, yield_2y=4.67, yield_curve_spread=0.25, fed_funds_rate=3.88, high_yield_spread=2.68, regime_classification='TIGHT_MONETARY_RESTRICTION (High Discount Rate)', risk_on_multiplier=0.85, source='FRED (Federal Reserve St. Louis)')",
+    "volatility_blackout": {
+      "is_blackout_active": false,
+      "status": "NORMAL_LIQUIDITY",
+      "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -116.4h",
+      "nearest_event_name": "FOMC Rate Decision & Dot Plot Projections",
+      "minutes_to_event": -6982.3,
+      "tier": "TIER_1_CRITICAL",
+      "expected_spy_dispersion_pct": 0.85,
+      "expected_qqq_dispersion_pct": 1.25,
+      "stop_tightening_factor": 1.0,
+      "max_kelly_cap_pct": 15.0,
+      "min_cash_reserve_pct": 20.0
+    },
+    "catalysts_scanned": {
+      "NVDA": {
+        "sec_filings_count": 0,
+        "material_risk": false,
+        "biotech_risk": "HIGH_BINARY_EVENT_RISK"
+      },
+      "AAPL": {
+        "sec_filings_count": 0,
+        "material_risk": false,
+        "biotech_risk": "HIGH_BINARY_EVENT_RISK"
+      },
+      "MSFT": {
+        "sec_filings_count": 0,
+        "material_risk": false,
+        "biotech_risk": "HIGH_BINARY_EVENT_RISK"
+      }
+    },
+    "morning_briefing": {
+      "status": "success",
+      "timestamp": "2026-09-21T14:25:50.699090+00:00",
+      "discord_dispatched": true,
+      "macro_vix": 14.8,
+      "total_equity": 159199.62,
+      "watchlist_evaluated": 5
+    },
+    "portfolio_equity": 159199.62
   },
   "phase_2_opening_shield": {
-    "phase": "MARKET_OPEN_WHIPSAW_SHIELD"
+    "phase": "MARKET_OPEN_WHIPSAW_SHIELD",
+    "timestamp": "2026-09-21T14:25:50.700779+00:00",
+    "shield_active": true,
+    "is_opening_range_session": false,
+    "holdings_guarded_count": 0,
+    "protected_holdings": [],
+    "new_entries_allowed": false
   },
   "phase_3_intraday": {
-    "phase": "INTRADAY_EXECUTION"
+    "phase": "INTRADAY_EXECUTION",
+    "timestamp": "2026-09-21T14:25:50.700945+00:00",
+    "status": "COMPLETED",
+    "candidates_evaluated": 3,
+    "deliberations": [
+      {
+        "ticker": "NVDA",
+        "resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+        "conviction": 65.2,
+        "cro_veto": false
+      },
+      {
+        "ticker": "AAPL",
+        "resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+        "conviction": 62.8,
+        "cro_veto": false
+      },
+      {
+        "ticker": "MSFT",
+        "resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+        "conviction": 61.9,
+        "cro_veto": false
+      }
+    ],
+    "executed_orders": [],
+    "alpaca_orders": [],
+    "position_management": {},
+    "cash_remaining": 159199.62435485842,
+    "total_equity": 159199.62
   },
   "phase_4_postmarket": {
     "phase": "POST_MARKET_AUTOPSY",
-    "final_equity": 100000.0
+    "timestamp": "2026-09-21T14:25:51.280815+00:00",
+    "status": "COMPLETED",
+    "trade_autopsy": {
+      "status": "AUTOPSY_COMPLETE",
+      "total_trades": 53,
+      "winning_trades": 44,
+      "losing_trades": 9,
+      "win_rate_pct": 83.0,
+      "total_realized_pnl": 51291.33,
+      "avg_win_dollars": 1247.39,
+      "avg_loss_dollars": 399.33,
+      "payoff_ratio": 3.12,
+      "profit_factor": 15.27,
+      "exit_reason_breakdown": {
+        "TP1_SCALE_OUT_50%": 12,
+        "TP2_RUNNER_EXIT": 12,
+        "STOP_LOSS": 11,
+        "MODEL_SELL": 6,
+        "MANUAL_UI_EXIT": 4,
+        "MANUAL_PROFIT_TAKE_ALL": 4,
+        "MANUAL_DISCRETIONARY_EXIT": 2,
+        "Protective Stop-Loss": 1,
+        "Target 1 Take-Profit Harvest": 1
+      },
+      "top_ticker_contributors": {
+        "PLTR": 16850.4,
+        "AMD": 12551.939999999999,
+        "EXPE": 4669.280000000001,
+        "STLD": 3511.05,
+        "CVS": 2369.4,
+        "WFC": 2282.7,
+        "GEV": 2167.12,
+        "PTC": 2019.28,
+        "VRTX": 1352.2,
+        "Q": 1218.06,
+        "UNP": 880.3199999999999,
+        "QCOM": 778.22,
+        "ORLY": 733.6,
+        "FDX": 718.51,
+        "DE": 553.08,
+        "DIS": 489.06,
+        "MDT": 484.18,
+        "ETN": 312.84,
+        "APTV": 290.64,
+        "EMR": 261.8,
+        "EXPD": 114.48,
+        "DAL": 109.88,
+        "CL": 46.2,
+        "AOS": 42.78,
+        "FERG": 25.65,
+        "BA": 24.4,
+        "BG": 17.68,
+        "WRB": 5.76,
+        "DOV": 4.8,
+        "NEM": 0.0,
+        "SNDK": -16.38,
+        "LHX": -71.4,
+        "ED": -73.2,
+        "KKR": -124.0,
+        "FIX": -183.28,
+        "UNH": -689.04,
+        "FDXF": -822.08,
+        "CRWD": -1614.6
+      },
+      "episodic_lessons": [
+        "\ud83c\udfc6 Exceptional execution precision (83.0% win rate across 53 trades). 50/50 scale-out methodology successfully captured multi-R runners.",
+        "\ud83d\udcc8 High payoff asymmetry (3.12x win/loss ratio): Average winner $1,247.39 vs average loser -$399.33.",
+        "\ud83d\udee1\ufe0f CRO Risk Discipline verified: 12 trades hit stop-loss cleanly without emotional hold."
+      ]
+    },
+    "committee_learning": {
+      "total_cycles": 61,
+      "agent_weights": {
+        "technicals_weight": 0.265,
+        "sentiment_weight": 0.429,
+        "valuation_weight": 0.131,
+        "cro_weight": 0.175
+      },
+      "kelly_multiplier": 1.25,
+      "new_autopsies_count": 0
+    },
+    "final_equity": 159199.62,
+    "total_realized_pnl": 0.0,
+    "win_rate_pct": 0.0,
+    "total_trades": 53
   },
-  "closing_equity": 100000.0
+  "closing_equity": 159199.62
 }

@@ -10752,19 +10752,19 @@
     }
   },
   "NVDA": {
-    "timestamp": "2026-09-19T08:26:11.877050+00:00",
+    "timestamp": "2026-09-21T14:25:50.865517+00:00",
     "ticker": "NVDA",
-    "spot_price": 222.27,
-    "final_resolution": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
-    "action_code": "SCALE_IN",
-    "consensus_conviction_pct": 56.5,
-    "approved_leverage": 1.0,
-    "kelly_allocation_pct": 3.5,
-    "tp1_target": 241.0,
-    "tp2_target": 255.98,
-    "stop_loss_target": 211.04,
-    "atr_14": 7.49,
-    "atr_pct": 3.37,
+    "spot_price": 223.53,
+    "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+    "action_code": "EXECUTE_BUY",
+    "consensus_conviction_pct": 65.2,
+    "approved_leverage": 1.25,
+    "kelly_allocation_pct": 5.0,
+    "tp1_target": 238.23,
+    "tp2_target": 249.99,
+    "stop_loss_target": 214.71,
+    "atr_14": 5.88,
+    "atr_pct": 2.63,
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
@@ -10773,17 +10773,17 @@
           "Paper 25: Zarattini, Barbon, Aziz (2024) 5-Min Opening Range Breakout (ORB)",
           "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)"
         ],
-        "vote": "HOLD",
-        "conviction_score": 48.0,
+        "vote": "BUY",
+        "conviction_score": 91.0,
         "key_metrics": {
-          "estimated_rsi": 54.3,
-          "sma_200": 196.71,
-          "ma_21": 220.43,
-          "return_5d_pct": 2.89,
-          "trend_status": "ORB_BEARISH_BREAKDOWN",
-          "acpm_calibrated_prob": 0.32
+          "estimated_rsi": 54.8,
+          "sma_200": 198.01,
+          "ma_21": 218.63,
+          "return_5d_pct": 1.77,
+          "trend_status": "ORB_BULLISH_BREAKOUT",
+          "acpm_calibrated_prob": 0.5025
         },
-        "thesis": "Asset is in structural uptrend above 200 SMA ($196.71) with optimal pullback RSI (54.3). \u26a0\ufe0f Below 15-Min Opening Low ($223.15); downward momentum dominant. \ud83d\udce6 Value Area Expansion: Price $222.27 > VAH $47.79 (PoC: $14.86). ACPM Conformal Model signals caution (32.0% probability)."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($198.01) with optimal pullback RSI (54.8). \ud83c\udfaf 15-Min Opening Range Breakout verified (Price $223.53 > OR_High $222.69). \ud83d\udce6 Value Area Expansion: Price $223.53 > VAH $47.79 (PoC: $14.86)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -10795,13 +10795,13 @@
         "vote": "HOLD",
         "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.104,
+          "finbert_polarity": -0.025,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
           "headlines_analyzed": 100
         },
-        "thesis": "Balanced sentiment environment (+0.10 polarity across 100 headlines; Event: GENERAL_MARKET_FLOW)."
+        "thesis": "Balanced sentiment environment (-0.03 polarity across 100 headlines; Event: GENERAL_MARKET_FLOW)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -10823,17 +10823,17 @@
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "NVDA",
-        "spot_price": 222.27,
-        "day_high": 222.73,
-        "day_low": 218.04,
-        "change_pct": 1.34,
-        "range_position_pct": 90.2,
-        "rvol": 0.6,
-        "momentum_velocity_pct": -0.85,
-        "conviction_score": 65.0,
+        "spot_price": 223.53,
+        "day_high": 224.93,
+        "day_low": 221.56,
+        "change_pct": 0.57,
+        "range_position_pct": 58.5,
+        "rvol": 0.85,
+        "momentum_velocity_pct": 5.94,
+        "conviction_score": 70.0,
         "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 0.6x, Range 90%, 5D Vel -0.8%)",
-        "timestamp": "2026-09-19T08:26:11.844721+00:00"
+        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 0.85x, Range 58%, 5D Vel +5.9%)",
+        "timestamp": "2026-09-21T14:25:50.843063+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -10873,21 +10873,13 @@
       {
         "agent_name": "Macro Economic & Central Bank Specialist",
         "role": "Pillar 6: Central Bank Schedules & Volatility Blackouts",
-        "academic_grounding": [
-          "Fleming & Remolona (1999) Price Discovery Around Macro Announcements",
-          "Bernanke & Kuttner (2005) Monetary Policy Impact on Equity Markets"
-        ],
         "vote": "NEUTRAL",
-        "conviction_score": 55.0,
+        "conviction_score": 50.0,
         "key_metrics": {
           "is_blackout_active": false,
-          "macro_status": "NORMAL_LIQUIDITY",
-          "nearest_event": "FOMC Rate Decision & Dot Plot Projections",
-          "minutes_to_event": -3746.2,
-          "stop_tightening_factor": 1.0,
-          "max_kelly_cap_pct": 15.0
+          "macro_status": "NORMAL_LIQUIDITY"
         },
-        "thesis": "Macro liquidity normal. Next major catalyst: FOMC Rate Decision & Dot Plot Projections in -62.4h."
+        "thesis": "Macroeconomic calendar operating with standard liquidity profile."
       },
       {
         "agent_name": "Statistical Arbitrage & Cointegration Specialist",
@@ -10910,14 +10902,14 @@
         "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
         "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
       ],
-      "final_resolution": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
-      "action_code": "SCALE_IN",
-      "buy_votes": 1,
+      "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+      "action_code": "EXECUTE_BUY",
+      "buy_votes": 2,
       "total_specialist_votes": 8,
-      "consensus_conviction_pct": 56.5,
-      "buy_weight_fraction": 0.1,
-      "approved_leverage": 1.0,
-      "kelly_allocation_pct": 3.5,
+      "consensus_conviction_pct": 65.2,
+      "buy_weight_fraction": 0.3,
+      "approved_leverage": 1.25,
+      "kelly_allocation_pct": 5.0,
       "kelly_details": {
         "full_kelly_pct": 18.29,
         "fractional_kelly_pct": 3.66,
@@ -10927,12 +10919,12 @@
         "payoff_ratio": 1.75,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "atr_14": 7.49,
-      "atr_pct": 3.37,
-      "tp1_target": 241.0,
-      "tp2_target": 255.98,
-      "stop_loss_target": 211.04,
-      "cro_thesis": "Committee Consensus: 1/8 specialist agents voted BUY (Weighted Conviction: 56.5%, Buy Weight: 10.0%). ATR14 is $7.49 (3.4% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 3.5%. Trade signed off for execution.",
+      "atr_14": 5.88,
+      "atr_pct": 2.63,
+      "tp1_target": 238.23,
+      "tp2_target": 249.99,
+      "stop_loss_target": 214.71,
+      "cro_thesis": "Committee Consensus: 2/8 specialist agents voted BUY (Weighted Conviction: 65.2%, Buy Weight: 30.0%). ATR14 is $5.88 (2.6% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 5.0%. Trade signed off for execution.",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false,
@@ -10943,16 +10935,16 @@
       "microstructure_audit": {
         "ticker": "NVDA",
         "status": "AUDIT_COMPLETE",
-        "microstructure_score": 84.7,
+        "microstructure_score": 100.0,
         "vpin": 0.056,
         "vpin_regime": "CLEAN_FLOW",
         "is_toxic_flow": false,
-        "buyer_ratio": 0.508,
-        "corwin_schultz_spread_bps": 25.2,
-        "roll_spread_bps": 352.5,
+        "buyer_ratio": 0.5081,
+        "corwin_schultz_spread_bps": 0.0,
+        "roll_spread_bps": 347.6,
         "amihud_illiquidity": 2e-05,
-        "execution_recommendation": "ELEVATED_SPREAD_SCALE_IN_SLOWLY",
-        "action_penalty_multiplier": 0.75
+        "execution_recommendation": "EXECUTION_OPTIMAL",
+        "action_penalty_multiplier": 1.0
       }
     }
   },
@@ -11160,6 +11152,400 @@
         "corwin_schultz_spread_bps": 0.0,
         "roll_spread_bps": 0.0,
         "amihud_illiquidity": 0.00055,
+        "execution_recommendation": "EXECUTION_OPTIMAL",
+        "action_penalty_multiplier": 1.0
+      }
+    }
+  },
+  "AAPL": {
+    "timestamp": "2026-09-21T14:25:51.038658+00:00",
+    "ticker": "AAPL",
+    "spot_price": 337.03,
+    "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+    "action_code": "EXECUTE_BUY",
+    "consensus_conviction_pct": 62.8,
+    "approved_leverage": 1.25,
+    "kelly_allocation_pct": 5.0,
+    "tp1_target": 356.08,
+    "tp2_target": 371.32,
+    "stop_loss_target": 325.6,
+    "atr_14": 7.62,
+    "atr_pct": 2.26,
+    "agent_testimonies": [
+      {
+        "agent_name": "Technical Momentum Specialist",
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
+        "academic_grounding": [
+          "Paper 25: Zarattini, Barbon, Aziz (2024) 5-Min Opening Range Breakout (ORB)",
+          "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)"
+        ],
+        "vote": "HOLD",
+        "conviction_score": 55.0,
+        "key_metrics": {
+          "estimated_rsi": 65.2,
+          "sma_200": 285.92,
+          "ma_21": 322.11,
+          "return_5d_pct": 1.05,
+          "trend_status": "NEUTRAL_CONSOLIDATION",
+          "acpm_calibrated_prob": 0.5452
+        },
+        "thesis": "Asset is consolidating within trend (RSI 65.2, SMA200 $285.92). \ud83d\udce6 Value Area Expansion: Price $337.03 > VAH $227.84 (PoC: $148.46)."
+      },
+      {
+        "agent_name": "Sentiment & Alternative Data Specialist",
+        "role": "Pillar 2: Tri-Brain FinBERT + Event Classifier NLP",
+        "academic_grounding": [
+          "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
+          "Paper 21: Bifet & Gavald\u00e0 (2007) ADWIN Adaptive Concept Drift Tracking"
+        ],
+        "vote": "BUY",
+        "conviction_score": 71.3,
+        "key_metrics": {
+          "finbert_polarity": 0.282,
+          "event_type": "GENERAL_MARKET_FLOW",
+          "urgency_score": 0.2,
+          "is_material": false,
+          "headlines_analyzed": 100
+        },
+        "thesis": "Strong bullish news flow (++0.28 FinBERT score across 100 live headlines; Event: GENERAL_MARKET_FLOW)."
+      },
+      {
+        "agent_name": "Forensic & Valuation Auditor",
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "academic_grounding": [
+          "Paper 05: Bellman-Ford Fundamental Arbitrage Graph Theory",
+          "Paper 13: Chen et al. (2020) Supply Chain Contagion Graph Neural Networks"
+        ],
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
+        },
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
+      },
+      {
+        "agent_name": "Real-Time Price & Tape Scout",
+        "ticker": "AAPL",
+        "spot_price": 337.03,
+        "day_high": 337.8,
+        "day_low": 333.05,
+        "change_pct": 0.27,
+        "range_position_pct": 83.8,
+        "rvol": 0.94,
+        "momentum_velocity_pct": 1.21,
+        "conviction_score": 75.0,
+        "vote": "BUY",
+        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 0.94x, Range 84%, 5D Vel +1.2%)",
+        "timestamp": "2026-09-21T14:25:51.014813+00:00"
+      },
+      {
+        "agent_name": "Adversarial Red-Team Specialist",
+        "role": "Pillar 6: Devil's Advocate & Tail-Risk Stress Tester",
+        "academic_grounding": [
+          "Paper 18: Grossman & Zhou (1993) Optimal Drawdown Constraint",
+          "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)",
+          "Paper 16: Page (1954) CUSUM Change-Point Surveillance"
+        ],
+        "vote": "CLEAR",
+        "severity_score": 0.0,
+        "conviction_score": 100.0,
+        "risk_factors": [],
+        "key_metrics": {
+          "vulnerabilities_detected": 0,
+          "severity_score": 0.0,
+          "tail_risk_status": "LOW"
+        },
+        "thesis": "RED-TEAM CLEAR: No critical failure vectors, tail risks, or overextension anomalies detected."
+      },
+      {
+        "agent_name": "Regulatory & Catalyst Specialist",
+        "role": "Pillar 5: Regulatory 8-K Filings & FDA BioTech Catalysts",
+        "academic_grounding": [
+          "SEC EDGAR Real-Time Disclosure Mandate (Regulation FD)",
+          "PDUFA FDA Binary Event Asymmetry Modeling"
+        ],
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "material_risk": "NONE",
+          "risk_profile": "STANDARD_EQUITY",
+          "catalysts_found": 0
+        },
+        "thesis": "Monitoring SEC 8-K filings and clinical trial catalysts for AAPL."
+      },
+      {
+        "agent_name": "Macro Economic & Central Bank Specialist",
+        "role": "Pillar 6: Central Bank Schedules & Volatility Blackouts",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "is_blackout_active": false,
+          "macro_status": "NORMAL_LIQUIDITY"
+        },
+        "thesis": "Macroeconomic calendar operating with standard liquidity profile."
+      },
+      {
+        "agent_name": "Statistical Arbitrage & Cointegration Specialist",
+        "role": "Pillar 7: Cointegration, OU Mean-Reversion & Relative Value Alpha",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "status": "EVALUATION_FALLBACK",
+          "is_extended": false
+        },
+        "thesis": "Relative value spread balanced within normal parameters."
+      }
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "academic_grounding": [
+        "Paper 18: Grossman & Zhou (1993) Optimal Drawdown Constraint",
+        "Paper 23: Busseti, Ryu, Boyd (Stanford 2016) Risk-Constrained Kelly Gambling",
+        "Paper 11: L\u00f3pez de Prado (2018) Triple-Barrier ATR Corridors",
+        "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
+        "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
+      ],
+      "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+      "action_code": "EXECUTE_BUY",
+      "buy_votes": 2,
+      "total_specialist_votes": 8,
+      "consensus_conviction_pct": 62.8,
+      "buy_weight_fraction": 0.3,
+      "approved_leverage": 1.25,
+      "kelly_allocation_pct": 5.0,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 3.66,
+        "edge": 0.32,
+        "kelly_fraction": 0.2,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "atr_14": 7.62,
+      "atr_pct": 2.26,
+      "tp1_target": 356.08,
+      "tp2_target": 371.32,
+      "stop_loss_target": 325.6,
+      "cro_thesis": "Committee Consensus: 2/8 specialist agents voted BUY (Weighted Conviction: 62.8%, Buy Weight: 30.0%). ATR14 is $7.62 (2.3% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 5.0%. Trade signed off for execution.",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false,
+      "red_team_veto_triggered": false,
+      "regulatory_veto_triggered": false,
+      "macro_blackout_veto_triggered": false,
+      "statarb_veto_triggered": false,
+      "veto_reason": null,
+      "microstructure_audit": {
+        "ticker": "AAPL",
+        "status": "AUDIT_COMPLETE",
+        "microstructure_score": 100.0,
+        "vpin": 0.1125,
+        "vpin_regime": "CLEAN_FLOW",
+        "is_toxic_flow": false,
+        "buyer_ratio": 0.509,
+        "corwin_schultz_spread_bps": 3.5,
+        "roll_spread_bps": 0.0,
+        "amihud_illiquidity": 2e-05,
+        "execution_recommendation": "EXECUTION_OPTIMAL",
+        "action_penalty_multiplier": 1.0
+      }
+    }
+  },
+  "MSFT": {
+    "timestamp": "2026-09-21T14:25:51.240945+00:00",
+    "ticker": "MSFT",
+    "spot_price": 494.01,
+    "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+    "action_code": "EXECUTE_BUY",
+    "consensus_conviction_pct": 61.9,
+    "approved_leverage": 1.25,
+    "kelly_allocation_pct": 5.0,
+    "tp1_target": 518.21,
+    "tp2_target": 537.57,
+    "stop_loss_target": 479.49,
+    "atr_14": 9.68,
+    "atr_pct": 1.96,
+    "agent_testimonies": [
+      {
+        "agent_name": "Technical Momentum Specialist",
+        "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
+        "academic_grounding": [
+          "Paper 25: Zarattini, Barbon, Aziz (2024) 5-Min Opening Range Breakout (ORB)",
+          "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)"
+        ],
+        "vote": "HOLD",
+        "conviction_score": 55.0,
+        "key_metrics": {
+          "estimated_rsi": 38.6,
+          "sma_200": 430.05,
+          "ma_21": 496.7,
+          "return_5d_pct": -0.5,
+          "trend_status": "NEUTRAL_CONSOLIDATION",
+          "acpm_calibrated_prob": 0.5489
+        },
+        "thesis": "Asset is consolidating within trend (RSI 38.6, SMA200 $430.05). \ud83d\udce6 Value Area Expansion: Price $494.01 > VAH $398.53 (PoC: $239.72)."
+      },
+      {
+        "agent_name": "Sentiment & Alternative Data Specialist",
+        "role": "Pillar 2: Tri-Brain FinBERT + Event Classifier NLP",
+        "academic_grounding": [
+          "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
+          "Paper 21: Bifet & Gavald\u00e0 (2007) ADWIN Adaptive Concept Drift Tracking"
+        ],
+        "vote": "BUY",
+        "conviction_score": 70.5,
+        "key_metrics": {
+          "finbert_polarity": 0.262,
+          "event_type": "GENERAL_MARKET_FLOW",
+          "urgency_score": 0.2,
+          "is_material": false,
+          "headlines_analyzed": 100
+        },
+        "thesis": "Strong bullish news flow (++0.26 FinBERT score across 100 live headlines; Event: GENERAL_MARKET_FLOW)."
+      },
+      {
+        "agent_name": "Forensic & Valuation Auditor",
+        "role": "Pillar 8: Fundamental Health & Forensic Valuation",
+        "academic_grounding": [
+          "Paper 05: Bellman-Ford Fundamental Arbitrage Graph Theory",
+          "Paper 13: Chen et al. (2020) Supply Chain Contagion Graph Neural Networks"
+        ],
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "data_available": false,
+          "piotroski_f_score": 5,
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
+        },
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
+      },
+      {
+        "agent_name": "Real-Time Price & Tape Scout",
+        "ticker": "MSFT",
+        "spot_price": 494.01,
+        "day_high": 497.39,
+        "day_low": 491.5,
+        "change_pct": 0.05,
+        "range_position_pct": 42.6,
+        "rvol": 1.16,
+        "momentum_velocity_pct": -2.32,
+        "conviction_score": 68.0,
+        "vote": "BUY",
+        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.16x, Range 43%, 5D Vel -2.3%)",
+        "timestamp": "2026-09-21T14:25:51.217594+00:00"
+      },
+      {
+        "agent_name": "Adversarial Red-Team Specialist",
+        "role": "Pillar 6: Devil's Advocate & Tail-Risk Stress Tester",
+        "academic_grounding": [
+          "Paper 18: Grossman & Zhou (1993) Optimal Drawdown Constraint",
+          "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)",
+          "Paper 16: Page (1954) CUSUM Change-Point Surveillance"
+        ],
+        "vote": "CLEAR",
+        "severity_score": 0.0,
+        "conviction_score": 100.0,
+        "risk_factors": [],
+        "key_metrics": {
+          "vulnerabilities_detected": 0,
+          "severity_score": 0.0,
+          "tail_risk_status": "LOW"
+        },
+        "thesis": "RED-TEAM CLEAR: No critical failure vectors, tail risks, or overextension anomalies detected."
+      },
+      {
+        "agent_name": "Regulatory & Catalyst Specialist",
+        "role": "Pillar 5: Regulatory 8-K Filings & FDA BioTech Catalysts",
+        "academic_grounding": [
+          "SEC EDGAR Real-Time Disclosure Mandate (Regulation FD)",
+          "PDUFA FDA Binary Event Asymmetry Modeling"
+        ],
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "material_risk": "NONE",
+          "risk_profile": "STANDARD_EQUITY",
+          "catalysts_found": 0
+        },
+        "thesis": "Monitoring SEC 8-K filings and clinical trial catalysts for MSFT."
+      },
+      {
+        "agent_name": "Macro Economic & Central Bank Specialist",
+        "role": "Pillar 6: Central Bank Schedules & Volatility Blackouts",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "is_blackout_active": false,
+          "macro_status": "NORMAL_LIQUIDITY"
+        },
+        "thesis": "Macroeconomic calendar operating with standard liquidity profile."
+      },
+      {
+        "agent_name": "Statistical Arbitrage & Cointegration Specialist",
+        "role": "Pillar 7: Cointegration, OU Mean-Reversion & Relative Value Alpha",
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
+        "key_metrics": {
+          "status": "EVALUATION_FALLBACK",
+          "is_extended": false
+        },
+        "thesis": "Relative value spread balanced within normal parameters."
+      }
+    ],
+    "cro_signoff": {
+      "cro_name": "Chief Risk Officer (Arbitrator)",
+      "academic_grounding": [
+        "Paper 18: Grossman & Zhou (1993) Optimal Drawdown Constraint",
+        "Paper 23: Busseti, Ryu, Boyd (Stanford 2016) Risk-Constrained Kelly Gambling",
+        "Paper 11: L\u00f3pez de Prado (2018) Triple-Barrier ATR Corridors",
+        "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
+        "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
+      ],
+      "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+      "action_code": "EXECUTE_BUY",
+      "buy_votes": 2,
+      "total_specialist_votes": 8,
+      "consensus_conviction_pct": 61.9,
+      "buy_weight_fraction": 0.3,
+      "approved_leverage": 1.25,
+      "kelly_allocation_pct": 5.0,
+      "kelly_details": {
+        "full_kelly_pct": 18.29,
+        "fractional_kelly_pct": 3.66,
+        "edge": 0.32,
+        "kelly_fraction": 0.2,
+        "win_rate": 0.48,
+        "payoff_ratio": 1.75,
+        "status": "POSITIVE_EXPECTANCY"
+      },
+      "atr_14": 9.68,
+      "atr_pct": 1.96,
+      "tp1_target": 518.21,
+      "tp2_target": 537.57,
+      "stop_loss_target": 479.49,
+      "cro_thesis": "Committee Consensus: 2/8 specialist agents voted BUY (Weighted Conviction: 61.9%, Buy Weight: 30.0%). ATR14 is $9.68 (2.0% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 5.0%. Trade signed off for execution.",
+      "vix_level": 16.5,
+      "vix_veto_triggered": false,
+      "red_team_veto_triggered": false,
+      "regulatory_veto_triggered": false,
+      "macro_blackout_veto_triggered": false,
+      "statarb_veto_triggered": false,
+      "veto_reason": null,
+      "microstructure_audit": {
+        "ticker": "MSFT",
+        "status": "AUDIT_COMPLETE",
+        "microstructure_score": 100.0,
+        "vpin": 0.1081,
+        "vpin_regime": "CLEAN_FLOW",
+        "is_toxic_flow": false,
+        "buyer_ratio": 0.5044,
+        "corwin_schultz_spread_bps": 0.0,
+        "roll_spread_bps": 68.3,
+        "amihud_illiquidity": 4e-05,
         "execution_recommendation": "EXECUTION_OPTIMAL",
         "action_penalty_multiplier": 1.0
       }
