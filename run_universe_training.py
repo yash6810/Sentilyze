@@ -10,11 +10,22 @@ Functions:
 
 import os
 import sys
+
+# Prevent OpenMP runtime clashes and child process aborts on Windows
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+
 import time
 import argparse
 from datetime import datetime, timezone
 import concurrent.futures
+import concurrent.futures.process
 import json
+import ctypes
 from typing import List, Dict, Any
 import train
 from src.utils import get_logger
@@ -22,6 +33,33 @@ from src.utils import get_logger
 logger = get_logger("universe_trainer")
 
 PROGRESS_FILE = os.path.join("results", "training_progress.json")
+
+
+def prevent_windows_sleep() -> bool:
+    """Tells Windows kernel to prevent system sleep / idle standby during training."""
+    if sys.platform == "win32":
+        try:
+            ES_CONTINUOUS = 0x80000000
+            ES_SYSTEM_REQUIRED = 0x00000001
+            ES_AWAYMODE_REQUIRED = 0x00000040
+            ctypes.windll.kernel32.SetThreadExecutionState(
+                ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_AWAYMODE_REQUIRED
+            )
+            logger.info("🛡️ Windows Sleep Prevention active (system will stay awake while training).")
+            return True
+        except Exception as e:
+            logger.debug(f"Could not set Windows execution state: {e}")
+    return False
+
+
+def restore_windows_sleep() -> None:
+    """Restores default Windows sleep behavior."""
+    if sys.platform == "win32":
+        try:
+            ES_CONTINUOUS = 0x80000000
+            ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS)
+        except Exception:
+            pass
 
 
 def load_universe_from_file(file_path: str = "stocks.txt") -> List[str]:
@@ -94,90 +132,130 @@ def prefetch_universe_data(tickers: List[str], max_workers: int = 16):
 
 def run_parallel_universe_training(
     tickers: List[str],
-    max_workers: int = 8,
+    max_workers: int = 6,
     leverage: float = 1.5,
     use_cache: bool = False,
     prefetch: bool = True,
+    batch_size: int = 25,
 ) -> Dict[str, Any]:
     """
-    Executes parallel multi-core model training across universe with real-time ETA tracking.
+    Executes parallel multi-core model training across universe with real-time ETA tracking
+    and resilient batch-level auto-recovery from BrokenProcessPool exceptions.
     """
-    if prefetch:
-        prefetch_universe_data(tickers, max_workers=16)
-
     overall_start = time.perf_counter()
     start_timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
 
+    prevent_windows_sleep()
+
     print("\n" + "=" * 75)
-    print("🚀 STARTING UNIVERSAL PARALLEL MODEL TRAINING (S&P 500 UNIVERSE)")
+    print("🚀 STARTING UNIVERSAL RESILIENT PARALLEL MODEL TRAINING")
     print(f"🕒 Start Timestamp: {start_timestamp}")
     print(f"📊 Target Universe: {len(tickers)} Equities")
     print(
-        f"⚡ Parallel Workers: {max_workers} CPU Cores | Cache Mode: {'ENABLED' if use_cache else 'ZERO-CACHE LIVE'}"
+        f"⚡ Parallel Workers: {max_workers} CPU Cores | Batch Size: {batch_size} assets/pool"
     )
-    print(f"⚙️ Backtest Leverage: {leverage}x")
+    print(f"⚙️ Cache Mode: {'ENABLED' if use_cache else 'ZERO-CACHE LIVE'} | Leverage: {leverage}x")
     print("=" * 75 + "\n", flush=True)
 
     results = []
     completed_count = 0
     total_count = len(tickers)
 
-    task_args = [(t, leverage, use_cache) for t in tickers]
+    # Chunk universe into resilient batches to isolate crashes and release C++ memory
+    for batch_idx in range(0, total_count, batch_size):
+        chunk_tickers = tickers[batch_idx : batch_idx + batch_size]
+        
+        # Batch-level prefetch (avoids Yahoo rate limits)
+        if prefetch:
+            prefetch_universe_data(chunk_tickers, max_workers=min(8, len(chunk_tickers)))
 
-    with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
-        future_to_ticker = {
-            executor.submit(train_single_asset, arg): arg[0] for arg in task_args
-        }
+        chunk_args = [(t, leverage, use_cache) for t in chunk_tickers]
+        batch_completed = set()
 
-        for future in concurrent.futures.as_completed(future_to_ticker):
-            completed_count += 1
-            res = future.result()
-            results.append(res)
+        try:
+            with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+                future_to_ticker = {
+                    executor.submit(train_single_asset, arg): arg[0] for arg in chunk_args
+                }
 
-            elapsed_so_far = time.perf_counter() - overall_start
-            avg_per_item = elapsed_so_far / completed_count
-            remaining_items = total_count - completed_count
-            est_remaining_sec = avg_per_item * remaining_items
-            est_remaining_min = est_remaining_sec / 60.0
+                for future in concurrent.futures.as_completed(future_to_ticker):
+                    t_sym = future_to_ticker[future]
+                    try:
+                        res = future.result()
+                    except Exception as err:
+                        res = {
+                            "ticker": t_sym,
+                            "status": "FAILED",
+                            "duration_sec": 0.0,
+                            "error": str(err),
+                        }
+                    
+                    batch_completed.add(t_sym)
+                    results.append(res)
+                    completed_count += 1
 
-            pct_done = (completed_count / total_count) * 100.0
-            status_icon = "✅" if res["status"] == "SUCCESS" else "❌"
+                    elapsed_so_far = time.perf_counter() - overall_start
+                    avg_per_item = elapsed_so_far / completed_count
+                    remaining_items = total_count - completed_count
+                    est_remaining_sec = avg_per_item * remaining_items
+                    est_remaining_min = est_remaining_sec / 60.0
 
+                    pct_done = (completed_count / total_count) * 100.0
+                    status_icon = "✅" if res["status"] == "SUCCESS" else "❌"
+
+                    print(
+                        f"[{completed_count:04d}/{total_count:04d}] {pct_done:5.1f}% | "
+                        f"{status_icon} {res['ticker']:<5} ({res['duration_sec']:5.1f}s) | "
+                        f"Elapsed: {elapsed_so_far/60:4.1f}m | ETA: ~{est_remaining_min:4.1f}m",
+                        flush=True,
+                    )
+
+                    # Persist real-time progress for external monitors & dashboards
+                    try:
+                        os.makedirs(os.path.dirname(PROGRESS_FILE), exist_ok=True)
+                        with open(PROGRESS_FILE, "w", encoding="utf-8") as pf:
+                            json.dump(
+                                {
+                                    "status": "RUNNING",
+                                    "completed_count": completed_count,
+                                    "total_count": total_count,
+                                    "pct_done": round(pct_done, 1),
+                                    "last_ticker": res["ticker"],
+                                    "last_status": res["status"],
+                                    "last_duration_sec": res["duration_sec"],
+                                    "elapsed_minutes": round(elapsed_so_far / 60.0, 2),
+                                    "eta_minutes": round(est_remaining_min, 2),
+                                    "success_count": sum(
+                                        1 for r in results if r["status"] == "SUCCESS"
+                                    ),
+                                    "failure_count": sum(
+                                        1 for r in results if r["status"] == "FAILED"
+                                    ),
+                                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                                },
+                                pf,
+                                indent=2,
+                            )
+                    except Exception:
+                        pass
+
+        except (concurrent.futures.process.BrokenProcessPool, Exception) as pool_err:
             print(
-                f"[{completed_count:03d}/{total_count:03d}] {pct_done:5.1f}% | "
-                f"{status_icon} {res['ticker']:<5} ({res['duration_sec']:5.1f}s) | "
-                f"Elapsed: {elapsed_so_far/60:4.1f}m | ETA: ~{est_remaining_min:4.1f}m",
+                f"\n⚠️ ProcessPool crashed in batch {batch_idx//batch_size + 1} ({type(pool_err).__name__}). Auto-recovering...",
                 flush=True,
             )
-
-            # Persist real-time progress for external monitors & dashboards
-            try:
-                os.makedirs(os.path.dirname(PROGRESS_FILE), exist_ok=True)
-                with open(PROGRESS_FILE, "w", encoding="utf-8") as pf:
-                    json.dump(
-                        {
-                            "status": "RUNNING",
-                            "completed_count": completed_count,
-                            "total_count": total_count,
-                            "pct_done": round(pct_done, 1),
-                            "last_ticker": res["ticker"],
-                            "last_status": res["status"],
-                            "last_duration_sec": res["duration_sec"],
-                            "elapsed_minutes": round(elapsed_so_far / 60.0, 2),
-                            "eta_minutes": round(est_remaining_min, 2),
-                            "success_count": sum(
-                                1 for r in results if r["status"] == "SUCCESS"
-                            ),
-                            "failure_count": sum(
-                                1 for r in results if r["status"] == "FAILED"
-                            ),
-                            "timestamp": datetime.now(timezone.utc).isoformat(),
-                        },
-                        pf,
-                        indent=2,
-                    )
-            except Exception:
-                pass
+            # Mark uncompleted tickers in this batch as failed so progress continues
+            for t_sym, _, _ in chunk_args:
+                if t_sym not in batch_completed:
+                    results.append({
+                        "ticker": t_sym,
+                        "status": "FAILED",
+                        "duration_sec": 0.0,
+                        "error": f"Worker crashed abruptly: {pool_err}",
+                    })
+                    completed_count += 1
+                    batch_completed.add(t_sym)
+                    print(f"❌ {t_sym:<5} marked FAILED (Auto-healed). Resuming next batch...\n", flush=True)
 
     total_elapsed = time.perf_counter() - overall_start
     end_timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
@@ -220,6 +298,8 @@ def run_parallel_universe_training(
     except Exception:
         pass
 
+    restore_windows_sleep()
+
     return {
         "start_timestamp": start_timestamp,
         "end_timestamp": end_timestamp,
@@ -236,6 +316,17 @@ def main():
         "--all",
         action="store_true",
         help="Train the entire 538-stock universe from stocks.txt",
+    )
+    parser.add_argument(
+        "--all-us",
+        action="store_true",
+        help="Train the full US equity market (~6,259 stocks) from stocks_us_all.txt",
+    )
+    parser.add_argument(
+        "--file",
+        type=str,
+        default=None,
+        help="Path to custom ticker universe file (e.g. stocks.txt, stocks_us_all.txt)",
     )
     parser.add_argument(
         "--tickers",
@@ -272,16 +363,26 @@ def main():
         help="Enable cache reuse for maximum throughput",
     )
     parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=25,
+        help="Number of assets per worker pool batch before recycling (default: 25)",
+    )
+    parser.add_argument(
         "--no-prefetch",
         action="store_true",
         help="Disable concurrent fast I/O data prefetching",
     )
     args = parser.parse_args()
 
-    if args.all or not args.tickers:
-        tickers = load_universe_from_file("stocks.txt")
-    else:
+    if args.tickers:
         tickers = args.tickers
+    elif args.file:
+        tickers = load_universe_from_file(args.file)
+    elif args.all_us:
+        tickers = load_universe_from_file("stocks_us_all.txt")
+    else:
+        tickers = load_universe_from_file("stocks.txt")
 
     if args.resume and not args.force:
         existing_models = set(
@@ -305,6 +406,7 @@ def main():
         leverage=args.leverage,
         use_cache=args.use_cache,
         prefetch=not args.no_prefetch,
+        batch_size=args.batch_size,
     )
 
 

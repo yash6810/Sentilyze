@@ -50,8 +50,6 @@ from src.black_swan_simulator import (
 )
 from experimental.rl_allocator import optimize_rl_position_allocation
 from src.order_routing import generate_vwap_order_schedule
-from src.smartwatch_api import generate_smartwatch_glance_payload
-from src.whatsapp_alerts import format_whatsapp_trade_alert
 
 logger = get_logger(__name__)
 
@@ -161,16 +159,6 @@ def run_unified_institutional_pipeline(
     vwap_schedule = generate_vwap_order_schedule(
         ticker, total_shares=vwap_shares, current_price=spot_price
     )
-    smartwatch_payload = generate_smartwatch_glance_payload(
-        total_equity=account_equity, daily_pnl_pct=2.4, top_active_ticker=ticker
-    )
-    whatsapp_text = format_whatsapp_trade_alert(
-        ticker=ticker,
-        action="MASTER_ALPHA_EXECUTE",
-        price=spot_price,
-        shares=vwap_schedule["total_shares"],
-        stage="Unified Auto-Fill",
-    )
 
     # ==========================================================================
     # 🎯 ARBITRATION & COMPOSITE SCORING ENGINE (Zero Clashing)
@@ -267,10 +255,8 @@ def run_unified_institutional_pipeline(
                 ],
             },
             "p7_omnichannel_mobile": {
-                "watchos_payload_ready": True,
-                "watchos_glance": smartwatch_payload,
-                "whatsapp_alert_formatted": True,
-                "whatsapp_preview": whatsapp_text[:80] + "...",
+                "discord_dispatch_ready": True,
+                "voice_qa_available": True,
             },
             "p8_forensics_valuation": {
                 "piotroski_f_score": piotroski_res["f_score"],

@@ -272,7 +272,9 @@ class MasterTradingLoop:
                 )
 
                 # Execute only high-conviction un-vetoed BUY signals
-                if (res == "BUY" and conv >= 58.0 and not cro_veto) or force_execution:
+                action_code = delib.get("action_code", "")
+                is_buy_signal = (action_code in ["EXECUTE_BUY", "SCALE_IN"] or "BUY" in str(res).upper()) and conv >= 58.0 and not cro_veto
+                if is_buy_signal or force_execution:
                     exec_record = execute_committee_order(delib, broker=self.broker)
                     if exec_record and exec_record.get("status") == "EXECUTED":
                         executed_orders.append(exec_record)
@@ -421,7 +423,7 @@ class MasterTradingLoop:
         try:
             os.makedirs(os.path.dirname(MASTER_SUMMARY_FILE), exist_ok=True)
             with open(MASTER_SUMMARY_FILE, "w", encoding="utf-8") as f:
-                json.dump(full_cycle_summary, f, indent=2)
+                json.dump(full_cycle_summary, f, indent=2, default=str)
             logger.info(f"Saved master loop cycle summary to {MASTER_SUMMARY_FILE}")
         except Exception as e:
             logger.warning(f"Could not persist cycle summary: {e}")
@@ -468,3 +470,54 @@ def get_master_trading_loop(portfolio_path: Optional[str] = None) -> MasterTradi
     ):
         _GLOBAL_MASTER_LOOP = MasterTradingLoop(portfolio_path=portfolio_path)
     return _GLOBAL_MASTER_LOOP
+
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Sentilyze Master Autonomous Daily Trading Loop")
+    parser.add_argument(
+        "--watchlist",
+        nargs="+",
+        default=None,
+        help="List of tickers to evaluate (defaults to active universe)",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Run without dispatching broker orders",
+    )
+    parser.add_argument(
+        "--ignore-hours",
+        action="store_true",
+        default=True,
+        help="Bypass strict time-of-day market hour restrictions (default: True)",
+    )
+    args = parser.parse_args()
+
+    loop = get_master_trading_loop()
+    watchlist = args.watchlist
+    if not watchlist:
+        try:
+            full_univ = load_universe_tickers()
+            watchlist = full_univ[:10] if full_univ else ["NVDA", "AAPL", "MSFT", "TSLA", "AMZN"]
+        except Exception:
+            watchlist = ["NVDA", "AAPL", "MSFT", "TSLA", "AMZN"]
+
+    print("\n" + "=" * 75)
+    print("🤖 LAUNCHING SENTILYZE MASTER AUTONOMOUS TRADING CYCLE")
+    print(f"🎯 Watchlist: {', '.join(watchlist)}")
+    print(f"🛡️ Dry Run: {args.dry_run} | Ignore Hours: {args.ignore_hours}")
+    print("=" * 75 + "\n", flush=True)
+
+    summary = loop.run_full_daily_cycle(
+        watchlist=watchlist,
+        dry_run=args.dry_run,
+        ignore_market_hours=args.ignore_hours,
+    )
+
+    print("\n" + "=" * 75)
+    print("🏁 MASTER TRADING CYCLE COMPLETED")
+    print(f"💰 Closing Equity: ${summary.get('closing_equity', 0.0):,.2f}")
+    print(f"📊 Summary File: {MASTER_SUMMARY_FILE}")
+    print("=" * 75 + "\n", flush=True)

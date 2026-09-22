@@ -1,14 +1,30 @@
 {
   "initial_capital": 100000.0,
-  "cash": 159199.62435485842,
-  "total_equity": 159199.62,
-  "unrealized_pnl": 0,
-  "realized_pnl": 59199.624354858395,
-  "win_rate": 83.0,
-  "total_trades": 53,
-  "winning_trades": 44,
-  "losing_trades": 9,
-  "open_positions": {},
+  "cash": 113461.93558471682,
+  "total_equity": 158032.34,
+  "unrealized_pnl": -260.4,
+  "realized_pnl": 58292.7346875,
+  "win_rate": 77.8,
+  "total_trades": 54,
+  "winning_trades": 42,
+  "losing_trades": 12,
+  "open_positions": {
+    "PGR": {
+      "shares": 210,
+      "initial_shares": 210,
+      "entry_price": 213.47999572753906,
+      "current_price": 212.24,
+      "entry_date": "2026-09-21",
+      "tp1_target": 226.82,
+      "tp2_target": 237.5,
+      "sl_target": 211.57,
+      "scaled_out": false,
+      "confidence": 0.5926889181137085,
+      "regime": "\u25b2 BULLISH (Above SMA200)",
+      "highest_price_seen": 213.47999572753906,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
+    }
+  },
   "closed_trades": [
     {
       "ticker": "FIX",
@@ -551,47 +567,58 @@
     },
     {
       "ticker": "GEV",
-      "shares": 34,
+      "shares": 50,
       "entry_price": 882.8099975585938,
-      "exit_price": 940.33,
+      "exit_price": 940.3300170898438,
       "entry_date": "2026-09-16",
-      "exit_date": "2026-09-18",
-      "pnl": 1955.68,
+      "exit_date": "2026-09-19",
+      "pnl": 2876.0,
       "return_pct": 6.52,
-      "reason": "MANUAL_UI_EXIT"
+      "reason": "MODEL_SELL"
     },
     {
       "ticker": "FDXF",
       "shares": 367,
       "entry_price": 122.37000274658203,
-      "exit_price": 120.13,
+      "exit_price": 120.12999725341797,
       "entry_date": "2026-09-18",
-      "exit_date": "2026-09-18",
+      "exit_date": "2026-09-19",
       "pnl": -822.08,
       "return_pct": -1.83,
-      "reason": "MANUAL_UI_EXIT"
+      "reason": "MODEL_SELL"
     },
     {
-      "ticker": "ETN",
-      "shares": 18,
-      "entry_price": 420.67,
-      "exit_price": 424.77,
-      "entry_date": "2026-09-18",
-      "exit_date": "2026-09-18",
-      "pnl": 73.8,
-      "return_pct": 0.97,
-      "reason": "MANUAL_UI_EXIT"
+      "ticker": "BNY",
+      "shares": 292,
+      "entry_price": 153.7899932861328,
+      "exit_price": 153.7899932861328,
+      "entry_date": "2026-09-19",
+      "exit_date": "2026-09-21",
+      "pnl": 0.0,
+      "return_pct": 0.0,
+      "reason": "MODEL_SELL"
     },
     {
-      "ticker": "BA",
-      "shares": 40,
-      "entry_price": 197.59,
-      "exit_price": 198.2,
-      "entry_date": "2026-09-18",
-      "exit_date": "2026-09-18",
-      "pnl": 24.4,
-      "return_pct": 0.31,
-      "reason": "MANUAL_UI_EXIT"
+      "ticker": "Q",
+      "shares": 374,
+      "entry_price": 120.05000305175781,
+      "exit_price": 120.05000305175781,
+      "entry_date": "2026-09-19",
+      "exit_date": "2026-09-21",
+      "pnl": 0.0,
+      "return_pct": 0.0,
+      "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "ORLY",
+      "shares": 531,
+      "entry_price": 84.70999908447266,
+      "exit_price": 82.88,
+      "entry_date": "2026-09-21",
+      "exit_date": "2026-09-21",
+      "pnl": -971.73,
+      "return_pct": -2.16,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -702,12 +729,27 @@
     {
       "date": "2026-09-18",
       "timestamp": "2026-09-18T08:13:29.819041+00:00",
-      "total_equity": 159199.62,
-      "cash": 159199.62,
-      "invested": 0,
+      "total_equity": 159264.46,
+      "cash": 68160.25,
+      "invested": 91104.21,
       "daily_return": 0.0
+    },
+    {
+      "date": "2026-09-19",
+      "timestamp": "2026-09-19T08:10:23.913125+00:00",
+      "total_equity": 159264.46,
+      "cash": 69459.09,
+      "invested": 89805.38,
+      "daily_return": 0.0
+    },
+    {
+      "date": "2026-09-21",
+      "timestamp": "2026-09-21T08:49:04.425234+00:00",
+      "total_equity": 158032.34,
+      "cash": 113461.94,
+      "invested": 44570.4,
+      "daily_return": -0.41
     }
   ],
-  "last_updated": "2026-09-18T20:43:03.811078+00:00",
-  "unrealized_pnl_pct": 0.0
+  "last_updated": "2026-09-21T22:14:16.736563+00:00"
 }
