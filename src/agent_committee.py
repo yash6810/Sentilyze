@@ -218,17 +218,49 @@ class TechnicalAlphaAgent:
             sma200 = spot_price
             ma21 = spot_price
             ret_5d = 0.0
-            calibrated_prob = None
             thesis = (
                 "Insufficient historical price series; neutral technical vote cast."
             )
 
+        # Check Options Market Maker Gamma Exposure (GEX) & Strike Walls
+        gex_metrics = {}
+        try:
+            from src.options_gex import calculate_options_gex_profile
+
+            gex_profile = calculate_options_gex_profile(ticker=ticker, spot_price=spot_price)
+            if gex_profile.get("is_real_data", False):
+                call_wall = gex_profile.get("call_wall", spot_price * 1.05)
+                put_wall = gex_profile.get("put_wall", spot_price * 0.95)
+                flip_level = gex_profile.get("gamma_flip", spot_price)
+                net_gex = gex_profile.get("total_net_gex_m", 0.0)
+                mm_regime = gex_profile.get("mm_regime", "NEUTRAL")
+
+                gex_metrics = {
+                    "call_wall": round(call_wall, 2),
+                    "put_wall": round(put_wall, 2),
+                    "gamma_flip": round(flip_level, 2),
+                    "total_net_gex_m": round(net_gex, 2),
+                    "mm_regime": mm_regime,
+                }
+
+                # If above gamma flip in negative gamma -> momentum explosive acceleration
+                if spot_price > flip_level and net_gex < -2.0:
+                    conviction = min(95.0, conviction + 6.0)
+                    thesis += f" ⚡ Negative GEX Regime (${net_gex:+.1f}M): MM short gamma accelerates momentum above Flip ${flip_level:.2f}."
+                elif spot_price < put_wall:
+                    thesis += f" 🛡️ Approaching Put Wall support (${put_wall:.2f})."
+                elif spot_price > call_wall:
+                    thesis += f" ⚠️ Approaching Call Wall ceiling resistance (${call_wall:.2f})."
+        except Exception as ge:
+            logger.debug(f"Options GEX calculation notice for {ticker}: {ge}")
+
         return {
             "agent_name": "Technical Momentum Specialist",
-            "role": "Pillar 1: Market Structure, Moving Averages & RSI Oscillator",
+            "role": "Pillar 1: Market Structure, Moving Averages, RSI & Options GEX",
             "academic_grounding": [
                 "Paper 25: Zarattini, Barbon, Aziz (2024) 5-Min Opening Range Breakout (ORB)",
                 "Paper 10: Bailey & López de Prado (2014) Deflated Sharpe Ratio (DSR)",
+                "Institutional Market Microstructure: SqueezeMetrics Gamma Exposure (GEX)",
             ],
             "vote": vote,
             "conviction_score": conviction,
@@ -239,6 +271,7 @@ class TechnicalAlphaAgent:
                 "return_5d_pct": round(ret_5d, 2),
                 "trend_status": trend_status,
                 "acpm_calibrated_prob": calibrated_prob,
+                **gex_metrics,
             },
             "thesis": thesis,
         }

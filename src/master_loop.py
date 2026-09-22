@@ -497,6 +497,10 @@ if __name__ == "__main__":
 
     loop = get_master_trading_loop()
     watchlist = args.watchlist
+    if watchlist and len(watchlist) == 1 and watchlist[0].endswith(".txt") and os.path.exists(watchlist[0]):
+        with open(watchlist[0], "r", encoding="utf-8") as f:
+            watchlist = [l.strip().upper() for l in f if l.strip() and not l.startswith("#")]
+
     if not watchlist:
         try:
             full_univ = load_universe_tickers()
