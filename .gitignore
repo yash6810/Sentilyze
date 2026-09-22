@@ -58,6 +58,8 @@ Sentilyze_Research_Paper.md
 
 # Local agent memory and scratch experiments
 memory.md
+results/agent_memory/
+results/master_loop_execution_summary.json
 /experiments/
 .gemini/
 /data/raw/
