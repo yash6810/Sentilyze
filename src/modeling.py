@@ -69,6 +69,10 @@ def train_model(
         )
         raise ValueError("Insufficient data for requested training window.")
 
+    if len(np.unique(y)) < 2:
+        logger.error("Target series has only 1 unique class (zero price variance).")
+        raise ValueError("Insufficient variance: target has only one class.")
+
     if use_purged_cv and total_samples >= 80:
         logger.info(
             f"Executing Combinatorial Purged & Embargoed Cross-Validation ({n_splits} folds)..."
@@ -93,6 +97,9 @@ def train_model(
             )
 
             # 1. Train Fold XGBoost Model
+            if len(np.unique(y_est)) < 2:
+                continue
+
             fold_model = xgb.XGBClassifier(**model_params)
             fold_model.fit(X_est, y_est)
             raw_cal_probs = fold_model.predict_proba(X_cal)[:, 1]
