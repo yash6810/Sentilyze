@@ -393,6 +393,26 @@ class SentimentCatalystAgent:
             conviction = 50.0
             thesis = f"Balanced sentiment environment ({net_polarity:+.2f} polarity across {head_count} headlines; Event: {event_type})."
 
+        # Integrate Post-Earnings Announcement Drift (PEAD) & SUE Earnings Surprise
+        pead_metrics = {}
+        try:
+            from src.earnings_whisper import analyze_earnings_surprises
+
+            pead_report = analyze_earnings_surprises(ticker)
+            pead_boost = float(pead_report.get("catalyst_conviction_boost", 0.0))
+            if pead_boost != 0.0:
+                conviction = round(
+                    float(np.clip(conviction + pead_boost, 15.0, 95.0)), 1
+                )
+                thesis += f" PEAD Catalyst ({pead_report.get('pead_momentum_signal')}): {pead_report.get('eps_surprise_pct'):+.1f}% EPS Surprise."
+            pead_metrics = {
+                "pead_signal": pead_report.get("pead_momentum_signal"),
+                "sue_score": pead_report.get("sue_score"),
+                "eps_surprise_pct": pead_report.get("eps_surprise_pct"),
+            }
+        except Exception as pe:
+            logger.debug(f"PEAD earnings analysis notice for {ticker}: {pe}")
+
         return {
             "agent_name": "Sentiment & Alternative Data Specialist",
             "role": "Pillar 2: Tri-Brain FinBERT + Event Classifier NLP",
@@ -502,7 +522,7 @@ class ChiefRiskOfficerAgent:
         vix_level: float = 16.5,
         vix_change_pct: float = -1.2,
     ) -> Dict[str, Any]:
-        # Tally Votes across the 3 specialist domain agents safely
+        # Tally Votes across the specialist domain agents safely
         buy_votes = sum(
             1 for r in agent_reports if isinstance(r, dict) and r.get("vote") == "BUY"
         )
@@ -512,12 +532,79 @@ class ChiefRiskOfficerAgent:
             if isinstance(r, dict)
         ) / max(len(agent_reports), 1)
 
-        # 1. Check Macro Volatility Gate (VIX Panic Check)
+        # Load calibrated specialist weights from Bayesian Post-Mortem Learner
+        weights_file = os.path.join("results", "agent_memory", "committee_weights.json")
+        agent_weights = {
+            "Technical Momentum Specialist": 0.25,
+            "Sentiment & Alternative Data Specialist": 0.25,
+            "Fundamental Valuation Specialist": 0.20,
+            "Adversarial Red-Team Specialist": 0.15,
+            "Chief Risk Officer": 0.15,
+        }
+        if os.path.exists(weights_file):
+            try:
+                with open(weights_file, "r", encoding="utf-8") as f:
+                    wdata = json.load(f)
+                    if isinstance(wdata, dict):
+                        agent_weights["Technical Momentum Specialist"] = float(
+                            wdata.get("Technical Momentum", 0.25)
+                        )
+                        agent_weights["Sentiment & Alternative Data Specialist"] = (
+                            float(wdata.get("FinBERT Sentiment", 0.25))
+                        )
+                        agent_weights["Fundamental Valuation Specialist"] = float(
+                            wdata.get("Fundamental Valuation", 0.20)
+                        )
+                        agent_weights["Adversarial Red-Team Specialist"] = float(
+                            wdata.get("Adversarial Red-Team", 0.15)
+                        )
+            except Exception:
+                pass
+
+        total_weight = sum(
+            agent_weights.get(r.get("agent_name", ""), 0.25)
+            for r in agent_reports
+            if isinstance(r, dict)
+        )
+        if total_weight > 0:
+            weighted_conviction = (
+                sum(
+                    float(r.get("conviction_score", 50.0))
+                    * agent_weights.get(r.get("agent_name", ""), 0.25)
+                    for r in agent_reports
+                    if isinstance(r, dict)
+                )
+                / total_weight
+            )
+        else:
+            weighted_conviction = avg_conviction
+
+        effective_conviction = round(
+            0.5 * avg_conviction + 0.5 * weighted_conviction, 1
+        )
+
+        # 1. Check Macro Volatility Gate (VIX Panic Check) & VPIN Toxicity Shield
         vix_veto = False
         trend_veto = False
         red_team_veto = False
         red_team_caution = False
+        vpin_veto = False
         veto_reason = None
+
+        # Check VPIN Order Flow Toxicity (Easley, Lopez de Prado & O'Hara)
+        vpin_metrics = {}
+        try:
+            from src.vpin_toxicity import evaluate_ticker_toxicity
+
+            vpin_report = evaluate_ticker_toxicity(ticker)
+            vpin_val = float(vpin_report.get("vpin", 0.35))
+            vpin_reg = vpin_report.get("toxicity_regime", "NORMAL_LIQUIDITY")
+            vpin_metrics = {"vpin": vpin_val, "toxicity_regime": vpin_reg}
+            if vpin_report.get("cro_veto_recommended", False):
+                vpin_veto = True
+                veto_reason = f"VPIN Order Flow Toxicity Critical ({vpin_val:.2f}) — Informed institutional dumping detected."
+        except Exception as ve:
+            logger.debug(f"VPIN toxicity check notice for {ticker}: {ve}")
 
         # Check Red-Team Adversarial Veto
         for r in agent_reports:
@@ -532,7 +619,9 @@ class ChiefRiskOfficerAgent:
                 elif r.get("vote") == "CAUTION":
                     red_team_caution = True
 
-        if vix_level > 26.0 or vix_change_pct > 8.0:
+        if vpin_veto:
+            pass  # VPIN veto already set
+        elif vix_level > 26.0 or vix_change_pct > 8.0:
             vix_veto = True
             veto_reason = f"VIX elevated at {vix_level:.1f} (+{vix_change_pct:+.1f}% spike) — macro volatility gate activated."
         elif not red_team_veto:
@@ -548,7 +637,7 @@ class ChiefRiskOfficerAgent:
                     break
 
         # 2. Dynamic Mathematical Fractional Kelly Sizing (Paper 23 & Paper 14)
-        empirical_win_rate = 0.533 if avg_conviction >= 70.0 else 0.48
+        empirical_win_rate = 0.533 if effective_conviction >= 70.0 else 0.48
         kelly_result = compute_fractional_kelly_sizing(
             win_rate=empirical_win_rate,
             payoff_ratio=1.75,
@@ -560,8 +649,10 @@ class ChiefRiskOfficerAgent:
             calculated_kelly_pct = round(calculated_kelly_pct * 0.65, 2)
 
         # Determine Final Committee Resolution
-        if vix_veto or trend_veto or red_team_veto:
-            if vix_veto:
+        if vpin_veto or vix_veto or trend_veto or red_team_veto:
+            if vpin_veto:
+                final_resolution = "🔴 VETO / TOXIC LIQUIDITY DUMPING (VPIN SPIKE)"
+            elif vix_veto:
                 final_resolution = "🔴 VETO / CAPITAL PRESERVATION"
             elif red_team_veto:
                 final_resolution = "🔴 VETO / RED-TEAM VULNERABILITY"
@@ -570,17 +661,17 @@ class ChiefRiskOfficerAgent:
             action_code = "VETO"
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
-        elif buy_votes >= 2 and avg_conviction >= 50.0:
+        elif buy_votes >= 2 and effective_conviction >= 50.0:
             final_resolution = "🚀 HIGH CONVICTION COMMITTEE BUY"
             action_code = "EXECUTE_BUY"
             approved_leverage = 1.25
             kelly_allocation_pct = max(calculated_kelly_pct, 5.0)
-        elif buy_votes >= 1 and avg_conviction >= 42.0:
+        elif buy_votes >= 1 and effective_conviction >= 42.0:
             final_resolution = "🟡 AGILE SCALE-IN (Quorum Approved)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
             kelly_allocation_pct = max(round(calculated_kelly_pct * 0.65, 2), 3.5)
-        elif buy_votes >= 1 or avg_conviction >= 38.0:
+        elif buy_votes >= 1 or effective_conviction >= 38.0:
             final_resolution = "⏸️ NEUTRAL HOLD / NO ACTION"
             action_code = "HOLD"
             approved_leverage = 0.0
@@ -649,7 +740,9 @@ class ChiefRiskOfficerAgent:
             "action_code": action_code,
             "buy_votes": buy_votes,
             "total_specialist_votes": len(agent_reports),
-            "consensus_conviction_pct": round(avg_conviction, 1),
+            "consensus_conviction_pct": round(effective_conviction, 1),
+            "unweighted_conviction_pct": round(avg_conviction, 1),
+            "weighted_conviction_pct": round(weighted_conviction, 1),
             "approved_leverage": approved_leverage,
             "kelly_allocation_pct": kelly_allocation_pct,
             "kelly_details": kelly_result,
@@ -662,6 +755,8 @@ class ChiefRiskOfficerAgent:
             "vix_level": vix_level,
             "vix_veto_triggered": vix_veto,
             "red_team_veto_triggered": red_team_veto,
+            "vpin_veto_triggered": vpin_veto,
+            **vpin_metrics,
         }
 
 
