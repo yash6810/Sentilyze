@@ -295,8 +295,7 @@ def render_performance_factsheet_workspace():
             st.info("Trade-level logs not detected for this specific model run.")
 
     with t4:
-        st.markdown(
-            r"""
+        st.markdown(r"""
             * **CAPM Alpha (\(\alpha\)):** Excess return generated beyond benchmark risk:
               \(R_p - [R_f + \beta(R_m - R_f)]\).
             * **Beta (\(\beta\)):** Portfolio sensitivity to benchmark market:
@@ -306,5 +305,4 @@ def render_performance_factsheet_workspace():
             * **Omega Ratio:** Probability-weighted ratio of gains versus losses above hurdle rate.
             * **Information Ratio (IR):** Excess return per unit of tracking error.
             * **Conditional VaR (CVaR 95%):** Expected loss on days within worst 5% tail.
-            """
-        )
+            """)

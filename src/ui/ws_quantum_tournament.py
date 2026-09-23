@@ -169,8 +169,7 @@ def render_quantum_tournament_workspace(selected_ticker: str = "NVDA"):
         st.subheader("👑 The 9-Paper Quantum Omni-Hybrid Engine (Winning System)")
         col_a, col_b = st.columns(2)
         with col_a:
-            st.markdown(
-                """
+            st.markdown("""
                 #### ⚡ 1. Alpha & Entry Corridors
                 * **Paper 25: Opening Range Breakout (ORB)** *(Zarattini et al. 2024)*
                   * Extracts 5-min High/Low volatility range at 09:35 AM EST on top *Stocks in Play*.
@@ -184,12 +183,10 @@ def render_quantum_tournament_workspace(selected_ticker: str = "NVDA"):
                   * Uncorrelated tree clustering without unstable matrix inversion.
                 * **Paper 02: Boyd Convex Multi-Period SOCP** *(Stanford 2017)*
                   * Deducts 5 bps bid-ask spreads and market impact before submitting orders.
-                """
-            )
+                """)
 
         with col_b:
-            st.markdown(
-                """
+            st.markdown("""
                 #### 🛡️ 3. Capital Floor & Sizing
                 * **Paper 18: Grossman-Zhou Drawdown Ceiling** *(1993)*
                   * Closed-form rule guaranteeing account equity stays above floor (W_t >= alpha * M_t).
@@ -201,8 +198,7 @@ def render_quantum_tournament_workspace(selected_ticker: str = "NVDA"):
                   * 2.4 microsecond per-observation mean-shift surveillance.
                 * **Paper 17: EWMA Dynamic Correlation Monitor** *(RiskMetrics 1996)*
                   * Auto-derisks to cash if market contagion pushes correlation > 0.75.
-                """
-            )
+                """)
 
     with tab3:
         st.subheader("🛡️ Live Risk Shield & Watchdog Status")

@@ -11,7 +11,6 @@ import numpy as np
 import streamlit as st
 from src.alpha_dag_engine import QuantAlphaDAGEngine
 
-
 RESULTS_FILE = "results/gen3_master_tournament_results.json"
 SVG_DIAGRAM_FILE = "results/sentilyze_full_system_editorial_diagram.svg"
 CLEAN_DAG_SVG = "results/sentilyze_clean_dag_architecture.svg"

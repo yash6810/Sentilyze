@@ -159,7 +159,9 @@ def render_alternative_data_workspace(selected_ticker: str):
                         f"✅ {new_ticker} successfully registered into `stocks.txt`!"
                     )
                 else:
-                    st.info(f"ℹ️ {new_ticker} registration complete or already present.")
+                    st.info(
+                        f"ℹ️ {new_ticker} registration complete or already present."
+                    )
 
     with t3:
         st.markdown("### 🌐 Universal Web Scraper & Intelligence Extractor")

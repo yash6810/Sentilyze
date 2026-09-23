@@ -178,8 +178,7 @@ def render_portfolio_diversity_workspace():
     with st.expander(
         "📘 Understanding Institutional Diversity Grading (Meucci & Risk Parity)"
     ):
-        st.markdown(
-            """
+        st.markdown("""
             * **Why Low Correlation Matters:** In modern portfolio theory, holding assets with correlations below 0.20 mathematically reduces total portfolio volatility without reducing aggregate returns.
             * **Effective Number of Bets (N_eff):** Derived from Shannon entropy over principal component eigenvalues. A portfolio of 15 stocks with high correlation may only offer 4 *effective* bets.
             * **Grade Thresholds:**
@@ -187,5 +186,4 @@ def render_portfolio_diversity_workspace():
               * **Grade A- (0.15 <= r < 0.25):** Strong cross-sector breadth.
               * **Grade B+ (0.25 <= r < 0.40):** Healthy institutional balance.
               * **Grade C/D (r >= 0.55):** Heavy cluster risk — assets move together during market sell-offs.
-            """
-        )
+            """)

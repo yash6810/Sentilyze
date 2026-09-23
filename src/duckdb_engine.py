@@ -42,8 +42,7 @@ class DuckDBMarketEngine:
             return
 
         # 1. Daily Bar Lake
-        self.con.execute(
-            """
+        self.con.execute("""
             CREATE TABLE IF NOT EXISTS daily_bars (
                 ticker VARCHAR,
                 date DATE,
@@ -59,12 +58,10 @@ class DuckDBMarketEngine:
                 vwap DOUBLE,
                 PRIMARY KEY (ticker, date)
             );
-        """
-        )
+        """)
 
         # 2. Universe Security Master & Liquidity Tiers
-        self.con.execute(
-            """
+        self.con.execute("""
             CREATE TABLE IF NOT EXISTS universe_registry (
                 ticker VARCHAR PRIMARY KEY,
                 company_name VARCHAR,
@@ -75,12 +72,10 @@ class DuckDBMarketEngine:
                 liquidity_tier VARCHAR,
                 last_updated TIMESTAMP
             );
-        """
-        )
+        """)
 
         # 3. SEC EDGAR Material Catalyst Ledger
-        self.con.execute(
-            """
+        self.con.execute("""
             CREATE TABLE IF NOT EXISTS sec_catalysts (
                 ticker VARCHAR,
                 filing_date TIMESTAMP,
@@ -89,8 +84,7 @@ class DuckDBMarketEngine:
                 sentiment_score DOUBLE,
                 PRIMARY KEY (ticker, filing_date, form_type)
             );
-        """
-        )
+        """)
 
     def query(self, sql: str, params: Optional[List[Any]] = None) -> pd.DataFrame:
         """Executes arbitrary SQL query and returns result as a Pandas DataFrame."""
@@ -160,12 +154,10 @@ class DuckDBMarketEngine:
 
         # Upsert using DuckDB
         self.con.register("tmp_bars", sub_df)
-        self.con.execute(
-            """
+        self.con.execute("""
             INSERT OR REPLACE INTO daily_bars
             SELECT * FROM tmp_bars;
-        """
-        )
+        """)
         self.con.unregister("tmp_bars")
         return len(sub_df)
 
@@ -253,16 +245,14 @@ class DuckDBMarketEngine:
         """
         Returns summary diagnostics of the market data lake.
         """
-        res = self.con.execute(
-            """
+        res = self.con.execute("""
             SELECT
                 count(DISTINCT ticker) as total_tickers,
                 count(*) as total_bars,
                 min(date) as earliest_date,
                 max(date) as latest_date
             FROM daily_bars;
-        """
-        ).fetchone()
+        """).fetchone()
 
         db_size_mb = 0.0
         if self.db_path != ":memory:" and os.path.exists(self.db_path):
