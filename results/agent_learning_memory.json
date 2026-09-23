@@ -1,13 +1,22 @@
 {
-  "total_learning_cycles": 26,
-  "last_updated": "2026-09-22T23:18:16.976200+00:00",
+  "total_learning_cycles": 27,
+  "last_updated": "2026-09-23T19:42:03.301658+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.3,
-    "sentiment_weight": 0.35,
-    "valuation_weight": 0.15,
-    "cro_weight": 0.2
+    "technicals_weight": 0.297,
+    "sentiment_weight": 0.356,
+    "valuation_weight": 0.149,
+    "cro_weight": 0.198
   },
-  "adaptive_kelly_multiplier": 1.0,
-  "recent_trade_autopsies": [],
+  "adaptive_kelly_multiplier": 1.02,
+  "recent_trade_autopsies": [
+    {
+      "ticker": "EXPD",
+      "pnl": 35.75,
+      "return_pct": 0.35,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on EXPD succeeded with +0.35% gain.",
+      "timestamp": "2026-09-23T19:42:03.301674+00:00"
+    }
+  ],
   "retrained_models": []
 }
