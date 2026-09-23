@@ -648,6 +648,20 @@ class ChiefRiskOfficerAgent:
         if red_team_caution:
             calculated_kelly_pct = round(calculated_kelly_pct * 0.65, 2)
 
+        # 3. Check Options Market Maker Gamma Exposure (GEX) Regime
+        gex_haircut_applied = False
+        try:
+            from src.options_gex import compute_gamma_exposure_profile
+
+            gex_data = compute_gamma_exposure_profile(
+                ticker, spot_price=spot_price, max_expiries=2
+            )
+            if gex_data.get("gamma_regime") == "NEGATIVE_GAMMA_VOLATILITY_EXPANSION":
+                gex_haircut_applied = True
+                calculated_kelly_pct = round(calculated_kelly_pct * 0.50, 2)
+        except Exception as ge:
+            logger.debug(f"GEX check notice for {ticker}: {ge}")
+
         # Determine Final Committee Resolution
         if vpin_veto or vix_veto or trend_veto or red_team_veto:
             if vpin_veto:

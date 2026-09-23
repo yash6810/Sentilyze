@@ -437,3 +437,60 @@ def render_portfolio_workspace(selected_ticker: str):
             ),
         },
     )
+
+    # =========================================================================
+    # 4. BLACK SWAN HISTORICAL CRISIS STRESS-TEST ENGINE (PILLAR 5)
+    # =========================================================================
+    st.markdown("---")
+    with st.expander(
+        "🦅 Black Swan Historical Crisis Stress-Test Engine", expanded=True
+    ):
+        st.markdown(
+            "Replays historical macroeconomic shocks (2008 Lehman, 2020 COVID, 2022 Fed Rate Shock, 2000 Dot-Com) "
+            "against active portfolio holdings and evaluates capital preservation buffers."
+        )
+
+        try:
+            from src.paper_broker import PaperBroker
+            from src.black_swan_simulator import simulate_crisis_stress_test
+
+            broker = PaperBroker()
+            p_summary = broker.get_portfolio_summary()
+            open_pos = broker.state.get("open_positions", {})
+            total_eq = float(p_summary.get("total_equity", 100000.0))
+            cash_bal = float(p_summary.get("cash", 100000.0))
+
+            if open_pos:
+                crisis_results = simulate_crisis_stress_test(
+                    open_positions=open_pos,
+                    total_equity=total_eq,
+                    cash=cash_bal,
+                )
+                df_crisis = pd.DataFrame(
+                    [
+                        {
+                            "Historical Crisis": c["crisis_name"],
+                            "Timeline": c["date_range"],
+                            "Peak VIX": f"{c['vix_peak']:.1f}",
+                            "Portfolio Drawdown": f"-{c['portfolio_drawdown_pct']:.1f}%",
+                            "Projected Loss ($)": f"-${c['projected_dollar_loss']:,.2f}",
+                            "Surviving Equity ($)": f"${c['simulated_equity_after']:,.2f}",
+                            "Cash Buffer Retained": f"${c['cash_buffer_retained']:,.2f}",
+                        }
+                        for c in crisis_results
+                    ]
+                )
+                st.dataframe(df_crisis, use_container_width=True, hide_index=True)
+                invested = sum(
+                    p["shares"] * p["current_price"] for p in open_pos.values()
+                )
+                st.caption(
+                    f"🛡️ Active Protection: {len(open_pos)} open positions holding ${invested:,.2f}. "
+                    f"Cash moat of ${cash_bal:,.2f} ({cash_bal / (total_eq + 1e-9):.1%}) provides immediate downside shielding."
+                )
+            else:
+                st.info(
+                    f"No open positions currently at risk. Portfolio is 100% in cash (${cash_bal:,.2f}) — zero drawdown exposure to historical shock scenarios."
+                )
+        except Exception as cs_err:
+            st.warning(f"Notice generating Black Swan simulation: {cs_err}")

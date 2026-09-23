@@ -110,3 +110,34 @@ def test_alpaca_broker_live_connection_integration():
     assert "cash" in summary
     assert "buying_power" in summary
     assert summary["mode"] == "ALPACA PAPER"
+
+
+@patch("src.alpaca_broker.requests.delete")
+@patch("src.alpaca_broker.requests.get")
+def test_alpaca_broker_close_position(mock_get, mock_delete):
+    mock_get.return_value.status_code = 200
+    mock_delete.return_value.status_code = 200
+
+    broker = AlpacaBrokerBridge(
+        api_key="TEST_KEY",
+        secret_key="TEST_SECRET",
+        base_url="https://paper-api.alpaca.markets",
+    )
+    res = broker.close_position("NVDA")
+    assert res["status"] == "CLOSED"
+    assert res["ticker"] == "NVDA"
+
+
+@patch("src.alpaca_broker.requests.delete")
+@patch("src.alpaca_broker.requests.get")
+def test_alpaca_broker_close_all_positions(mock_get, mock_delete):
+    mock_get.return_value.status_code = 200
+    mock_delete.return_value.status_code = 200
+
+    broker = AlpacaBrokerBridge(
+        api_key="TEST_KEY",
+        secret_key="TEST_SECRET",
+        base_url="https://paper-api.alpaca.markets",
+    )
+    res = broker.close_all_positions()
+    assert res["status"] == "LIQUIDATED_ALL"

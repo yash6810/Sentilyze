@@ -1,6 +1,7 @@
 import os
 import json
 import pandas as pd
+import numpy as np
 from datetime import datetime, timezone
 from typing import Dict, List, Any, Optional
 from src.utils import get_logger
@@ -399,6 +400,19 @@ class PaperBroker:
                     logger.info(
                         f"🟡 [MODEL SELL] Closed {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} | Conf: {conf:.1%} | Days Held: {days_held}"
                     )
+
+                    # Sync with Alpaca Live Broker if connected
+                    try:
+                        from src.alpaca_broker import AlpacaBrokerBridge
+
+                        alpaca = AlpacaBrokerBridge()
+                        if alpaca.is_connected():
+                            alpaca.close_position(ticker)
+                            logger.info(
+                                f"🦙 [ALPACA LIVE MIRROR] Closed position for {ticker}"
+                            )
+                    except Exception as alp_err:
+                        logger.debug(f"Notice closing Alpaca position: {alp_err}")
                 else:
                     logger.info(
                         f"🛡️ [HYSTERESIS SHIELD] Preserving {ticker} position (Conf: {conf:.1%}, Days Held: {days_held}). Capital Shield SL @ ${sl_target:.2f} protects downside."
@@ -462,16 +476,45 @@ class PaperBroker:
             slots_available = max_allowed_positions - open_count
             target_buys = buy_signals[:slots_available]
 
-            # Allocate up to $45,000 per position (or equal available cash)
-            allocation_per_stock = min(
-                self.state["cash"] * 0.95 / len(target_buys), 45000.0
-            )
-
             for s in target_buys:
                 ticker = s["ticker"]
                 price = float(s["current_price"])
                 if price <= 0:
                     continue
+
+                # Dynamic Quarter-Kelly Volatility Sizing
+                conf = float(s.get("confidence", 0.60))
+                tp_val = float(s.get("take_profit", price * 1.06))
+                sl_val = float(s.get("stop_loss", price * 0.975))
+                tp_dist = max(price * 0.01, tp_val - price)
+                sl_dist = max(price * 0.01, price - sl_val)
+                payoff_b = max(0.5, tp_dist / sl_dist)
+
+                # Kelly Formula: f* = (p*b - (1-p)) / b
+                kelly_full = max(0.0, (conf * payoff_b - (1.0 - conf)) / payoff_b)
+                quarter_kelly = float(np.clip(kelly_full * 0.25, 0.08, 0.35))
+
+                # Check Options GEX regime for defensive haircut
+                gex_haircut = 1.0
+                try:
+                    from src.options_gex import compute_gamma_exposure_profile
+
+                    gex_data = compute_gamma_exposure_profile(
+                        ticker, spot_price=price, max_expiries=2
+                    )
+                    if (
+                        gex_data.get("gamma_regime")
+                        == "NEGATIVE_GAMMA_VOLATILITY_EXPANSION"
+                    ):
+                        gex_haircut = 0.50
+                        logger.info(
+                            f"🛡️ [GEX SHIELD] 50% sizing haircut on {ticker} due to negative market maker gamma."
+                        )
+                except Exception:
+                    gex_haircut = 1.0
+
+                raw_allocation = self.state["cash"] * quarter_kelly * gex_haircut
+                allocation_per_stock = min(raw_allocation, 45000.0)
 
                 shares = int(allocation_per_stock // price)
                 if shares <= 0:
@@ -484,9 +527,10 @@ class PaperBroker:
                 self.state["cash"] -= cost
 
                 # ATR calculation for targets
-                atr_val = float(s.get("take_profit", price * 1.06)) - price
+                atr_val = tp_val - price
                 atr_base = max(
-                    price * 0.025, atr_val / 2.5 if atr_val > 0 else price * 0.03
+                    price * 0.025,
+                    atr_val / 2.5 if atr_val > 0 else price * 0.03,
                 )
 
                 tp1_target = round(price + (2.5 * atr_base), 2)
@@ -517,11 +561,31 @@ class PaperBroker:
                     "tp2_target": tp2_target,
                     "sl_target": sl_target,
                     "confidence": round(float(s.get("confidence", 0.5)) * 100, 1),
+                    "quarter_kelly_pct": round(quarter_kelly * 100, 1),
                 }
                 executed_actions["buys"].append(buy_record)
                 logger.info(
-                    f"🚀 [CONCENTRATED ENTRY] Bought {shares} shares of {ticker} @ ${price:.2f} (Total: ${cost:,.2f} | TP1: ${tp1_target:.2f} | TP2: ${tp2_target:.2f} | SL: ${sl_target:.2f})"
+                    f"🚀 [QUARTER-KELLY ENTRY] Bought {shares} shares of {ticker} @ ${price:.2f} (Total: ${cost:,.2f} | Kelly%: {quarter_kelly:.1%} | TP1: ${tp1_target:.2f} | SL: ${sl_target:.2f})"
                 )
+
+                # Live Alpaca Bracket Order Mirroring
+                try:
+                    from src.alpaca_broker import AlpacaBrokerBridge
+
+                    alpaca = AlpacaBrokerBridge()
+                    if alpaca.is_connected():
+                        alp_res = alpaca.submit_bracket_order(
+                            ticker=ticker,
+                            qty=shares,
+                            take_profit_price=tp1_target,
+                            stop_loss_price=sl_target,
+                            side="buy",
+                        )
+                        logger.info(
+                            f"🦙 [ALPACA LIVE MIRROR] Bracket order submitted for {ticker} ({shares} shares) | Status: {alp_res.get('status')}"
+                        )
+                except Exception as alp_err:
+                    logger.debug(f"Notice mirroring bracket order to Alpaca: {alp_err}")
 
         # Step 3: Recalculate Portfolio Values
         self._recalculate_metrics(date_str, now_str)

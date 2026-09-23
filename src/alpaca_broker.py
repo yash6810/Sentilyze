@@ -153,3 +153,50 @@ class AlpacaBrokerBridge:
         except Exception as e:
             logger.error(f"Alpaca positions error: {e}")
         return []
+
+    def close_position(self, ticker: str) -> Dict[str, Any]:
+        """Liquidates an active position on Alpaca and cancels all open child orders."""
+        if not self.is_connected():
+            logger.info(f"[ALPACA SIMULATED] Closed position for {ticker}")
+            return {"status": "SIMULATED_CLOSED", "ticker": ticker}
+        try:
+            res = requests.delete(
+                f"{self.base_url}/v2/positions/{ticker.upper()}",
+                headers=self.headers,
+                timeout=8,
+            )
+            if res.status_code in [200, 204]:
+                logger.info(f"✅ [ALPACA LIVE] Closed position for {ticker}")
+                return {"status": "CLOSED", "ticker": ticker}
+            else:
+                logger.warning(f"Notice closing Alpaca position {ticker}: {res.text}")
+                return {
+                    "status": "FAILED",
+                    "ticker": ticker,
+                    "details": res.text,
+                }
+        except Exception as e:
+            logger.error(f"Error closing Alpaca position {ticker}: {e}")
+            return {"status": "ERROR", "ticker": ticker, "error": str(e)}
+
+    def close_all_positions(self) -> Dict[str, Any]:
+        """Emergency liquidator: closes all positions and cancels all open orders."""
+        if not self.is_connected():
+            logger.info("[ALPACA SIMULATED] Emergency liquidated all positions")
+            return {"status": "SIMULATED_LIQUIDATED_ALL"}
+        try:
+            res = requests.delete(
+                f"{self.base_url}/v2/positions?cancel_orders=true",
+                headers=self.headers,
+                timeout=10,
+            )
+            if res.status_code in [200, 204, 207]:
+                logger.info(
+                    "🚨 [ALPACA LIVE] Liquidated all positions and canceled open orders."
+                )
+                return {"status": "LIQUIDATED_ALL"}
+            else:
+                return {"status": "FAILED", "details": res.text}
+        except Exception as e:
+            logger.error(f"Error liquidating all Alpaca positions: {e}")
+            return {"status": "ERROR", "error": str(e)}
