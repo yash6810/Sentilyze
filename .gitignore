@@ -4,9 +4,12 @@
 # Environment variables
 .env
 
-# Python cache
+# Python cache & test coverage
 __pycache__/
 *.pyc
+.coverage
+.coverage.*
+htmlcov/
 
 # IDE settings
 .vscode/
