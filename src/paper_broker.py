@@ -353,39 +353,56 @@ class PaperBroker:
                     f"🛑 [{reason}] Exited {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
                 )
 
-            # Check Model Exit
+            # Check Model Exit with Asymmetric Hysteresis & Anti-Churn Protection
             elif signal_data and signal_data.get("signal") == "SELL":
-                proceeds = float(pos["shares"] * curr_price)
-                cost_basis = float(pos["shares"] * entry_price)
-                pnl = float(proceeds - cost_basis)
-                ret_pct = float((curr_price - entry_price) / entry_price * 100.0)
+                conf = float(signal_data.get("confidence", 0.50))
+                entry_date = pos.get("entry_date", date_str)
+                # Check holding duration to prevent premature whipsaw
+                try:
+                    d_entry = datetime.fromisoformat(str(entry_date)[:10])
+                    d_now = datetime.fromisoformat(str(date_str)[:10])
+                    days_held = max(0, (d_now - d_entry).days)
+                except Exception:
+                    days_held = 2
 
-                self.state["cash"] += proceeds
-                self.state["realized_pnl"] += pnl
-                self.state["total_trades"] += 1
-                if pnl > 0:
-                    self.state["winning_trades"] += 1
+                # Only exit on MODEL_SELL if severe breakdown (< 0.40) or (held >= 2 days and conf < 0.45)
+                is_severe_breakdown = conf < 0.40
+                if is_severe_breakdown or (days_held >= 2 and conf < 0.45):
+                    proceeds = float(pos["shares"] * curr_price)
+                    cost_basis = float(pos["shares"] * entry_price)
+                    pnl = float(proceeds - cost_basis)
+                    ret_pct = float((curr_price - entry_price) / entry_price * 100.0)
+
+                    self.state["cash"] += proceeds
+                    self.state["realized_pnl"] += pnl
+                    self.state["total_trades"] += 1
+                    if pnl > 0:
+                        self.state["winning_trades"] += 1
+                    else:
+                        self.state["losing_trades"] += 1
+
+                    trade_record = {
+                        "ticker": ticker,
+                        "shares": pos["shares"],
+                        "entry_price": entry_price,
+                        "exit_price": curr_price,
+                        "entry_date": pos["entry_date"],
+                        "exit_date": date_str,
+                        "pnl": round(pnl, 2),
+                        "return_pct": round(ret_pct, 2),
+                        "reason": "MODEL_SELL",
+                    }
+                    self.state["closed_trades"].append(trade_record)
+                    del self.state["open_positions"][ticker]
+                    closed_today_tickers.add(ticker)
+                    executed_actions["sells"].append(trade_record)
+                    logger.info(
+                        f"🟡 [MODEL SELL] Closed {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} | Conf: {conf:.1%} | Days Held: {days_held}"
+                    )
                 else:
-                    self.state["losing_trades"] += 1
-
-                trade_record = {
-                    "ticker": ticker,
-                    "shares": pos["shares"],
-                    "entry_price": entry_price,
-                    "exit_price": curr_price,
-                    "entry_date": pos["entry_date"],
-                    "exit_date": date_str,
-                    "pnl": round(pnl, 2),
-                    "return_pct": round(ret_pct, 2),
-                    "reason": "MODEL_SELL",
-                }
-                self.state["closed_trades"].append(trade_record)
-                del self.state["open_positions"][ticker]
-                closed_today_tickers.add(ticker)
-                executed_actions["sells"].append(trade_record)
-                logger.info(
-                    f"🟡 [MODEL SELL] Closed {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f}"
-                )
+                    logger.info(
+                        f"🛡️ [HYSTERESIS SHIELD] Preserving {ticker} position (Conf: {conf:.1%}, Days Held: {days_held}). Capital Shield SL @ ${sl_target:.2f} protects downside."
+                    )
 
         # Step 2: Open New Positions (Top-2 Concentrated Sizing, ~$45k each)
         buy_signals = [
@@ -398,6 +415,41 @@ class PaperBroker:
         buy_signals = sorted(
             buy_signals, key=lambda x: x.get("confidence", 0), reverse=True
         )
+
+        # Apply Sector and Correlation Shield Diversification Filter
+        try:
+            from src.cross_asset_pooling import get_sector_for_ticker
+            from src.correlation_shield import check_correlation_shield
+
+            existing_sectors = {
+                get_sector_for_ticker(t) for t in self.state["open_positions"].keys()
+            }
+            diversified_buys = []
+            for s in buy_signals:
+                t = s["ticker"]
+                cand_sec = get_sector_for_ticker(t)
+                if cand_sec in existing_sectors and cand_sec not in (
+                    "General",
+                    "Unknown",
+                    "General S&P 100",
+                ):
+                    logger.info(
+                        f"🛡️ [SECTOR SHIELD] Skipping {t} - Sector '{cand_sec}' already occupied in portfolio."
+                    )
+                    continue
+                corr_eval = check_correlation_shield(
+                    t, self.state["open_positions"], max_corr_threshold=0.70
+                )
+                if not corr_eval.get("allowed", True):
+                    logger.info(
+                        f"🛡️ [CORRELATION SHIELD] Skipping {t} - {corr_eval.get('reason')}"
+                    )
+                    continue
+                diversified_buys.append(s)
+                existing_sectors.add(cand_sec)
+            buy_signals = diversified_buys
+        except Exception as div_err:
+            logger.debug(f"Diversification shield notice: {div_err}")
 
         max_allowed_positions = 2  # Focus capital into Top-2 highest conviction
         open_count = len(self.state["open_positions"])

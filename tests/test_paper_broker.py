@@ -165,3 +165,78 @@ def test_paper_broker_dataframes(temp_portfolio_file):
     eq_df = broker.get_equity_curve_df()
     assert not eq_df.empty
     assert "total_equity" in eq_df.columns
+
+
+def test_hysteresis_shield_prevents_premature_exit(temp_portfolio_file):
+    """
+    Test that a signal=SELL with confidence=0.50 does NOT prematurely exit
+    a fresh position, preserving trades against daily churn.
+    """
+    broker = PaperBroker(portfolio_path=temp_portfolio_file, initial_cash=100000.0)
+
+    # Day 1: Buy
+    broker.execute_daily_signals(
+        [
+            {
+                "ticker": "NVDA",
+                "signal": "BUY",
+                "confidence": 0.65,
+                "current_price": 100.0,
+                "take_profit": 115.0,
+                "stop_loss": 95.0,
+            }
+        ]
+    )
+    assert "NVDA" in broker.state["open_positions"]
+
+    # Day 2: Noise SELL (confidence 0.50, price still above stop loss)
+    noise_signals = [
+        {
+            "ticker": "NVDA",
+            "signal": "SELL",
+            "confidence": 0.50,
+            "current_price": 99.0,
+            "take_profit": 115.0,
+            "stop_loss": 95.0,
+        }
+    ]
+    actions = broker.execute_daily_signals(noise_signals)
+    assert len(actions["sells"]) == 0
+    assert "NVDA" in broker.state["open_positions"]
+
+
+def test_hysteresis_severe_breakdown_exits(temp_portfolio_file):
+    """
+    Test that a signal=SELL with confidence < 0.40 triggers MODEL_SELL exit.
+    """
+    broker = PaperBroker(portfolio_path=temp_portfolio_file, initial_cash=100000.0)
+
+    # Buy
+    broker.execute_daily_signals(
+        [
+            {
+                "ticker": "NVDA",
+                "signal": "BUY",
+                "confidence": 0.65,
+                "current_price": 100.0,
+                "take_profit": 115.0,
+                "stop_loss": 95.0,
+            }
+        ]
+    )
+
+    # Severe breakdown (< 0.40)
+    breakdown_signals = [
+        {
+            "ticker": "NVDA",
+            "signal": "SELL",
+            "confidence": 0.35,
+            "current_price": 98.0,
+            "take_profit": 115.0,
+            "stop_loss": 95.0,
+        }
+    ]
+    actions = broker.execute_daily_signals(breakdown_signals)
+    assert len(actions["sells"]) == 1
+    assert "NVDA" not in broker.state["open_positions"]
+    assert actions["sells"][0]["reason"] == "MODEL_SELL"

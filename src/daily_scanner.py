@@ -73,11 +73,109 @@ def run_daily_market_scan() -> list:
             )
             above_sma = bool(curr_close > sma)
 
-            # Optimal Regime Filter
-            if confidence >= 0.52 and rsi < 75:
-                signal_type = "BUY"
+            # Broader Market (SPY) Regime Check
+            spy_ret_20d = 0.0
+            spy_bullish = True
+            try:
+                from src.data_ingestion import get_price_history
+
+                spy_hist = get_price_history("SPY", period="3mo", use_cache=True)
+                if (
+                    spy_hist is not None
+                    and not spy_hist.empty
+                    and "Close" in spy_hist.columns
+                ):
+                    spy_c = float(spy_hist["Close"].iloc[-1])
+                    if len(spy_hist) >= 21:
+                        spy_ret_20d = float(
+                            (spy_c - spy_hist["Close"].iloc[-21])
+                            / spy_hist["Close"].iloc[-21]
+                        )
+                    if len(spy_hist) >= 50:
+                        spy_sma50 = float(spy_hist["Close"].rolling(50).mean().iloc[-1])
+                        spy_bullish = bool(spy_c >= spy_sma50)
+            except Exception as spy_err:
+                logger.debug(f"Notice fetching SPY macro tape: {spy_err}")
+
+            min_conf = float(
+                os.getenv("MIN_CONVICTION_FLOOR", "0.60" if spy_bullish else "0.65")
+            )
+
+            # Relative Strength (RS) check against SPY
+            if len(price_hist) >= 21:
+                stock_ret_20d = float(
+                    (curr_close - price_hist["Close"].iloc[-21])
+                    / price_hist["Close"].iloc[-21]
+                )
+                rs_pass = bool(stock_ret_20d >= spy_ret_20d)
             else:
+                stock_ret_20d = 0.0
+                rs_pass = True
+
+            # VPIN Microstructure Toxicity Check
+            try:
+                from src.vpin_toxicity import evaluate_ticker_toxicity
+
+                vpin_res = evaluate_ticker_toxicity(ticker)
+                vpin_val = float(vpin_res.get("vpin", 0.50))
+                vpin_safe = (
+                    not vpin_res.get("cro_veto_recommended", False) and vpin_val < 0.70
+                )
+            except Exception:
+                vpin_val = 0.50
+                vpin_safe = True
+
+            # Portfolio Correlation & Sector Shield
+            try:
+                from src.correlation_shield import check_correlation_shield
+                from src.paper_broker import PaperBroker
+
+                broker_state = PaperBroker().state
+                open_pos = broker_state.get("open_positions", {})
+                corr_res = check_correlation_shield(
+                    ticker, open_pos, max_corr_threshold=0.70
+                )
+                corr_safe = bool(corr_res.get("allowed", True))
+            except Exception:
+                corr_safe = True
+
+            # Multi-Gate Institutional Gating
+            preliminary_pass = (
+                confidence >= min_conf
+                and rsi < 72.0
+                and above_sma
+                and rs_pass
+                and vpin_safe
+                and corr_safe
+            )
+
+            signal_type = "HOLD"
+            council_verdict_str = "HOLD"
+
+            if preliminary_pass:
+                # Convene Multi-Agent Council for Final Arbitrated Clearance
+                try:
+                    from src.agent_committee import convene_trading_committee
+
+                    comm_res = convene_trading_committee(ticker, horizon_days=5)
+                    c_dir = comm_res.get("consensus_direction", "HOLD")
+                    c_conf = float(comm_res.get("conviction_score", 0.0))
+                    c_veto = bool(comm_res.get("veto_active", False))
+
+                    council_verdict_str = f"{c_dir} ({c_conf:.1%})"
+                    if c_dir == "BUY" and c_conf >= 0.55 and not c_veto:
+                        signal_type = "BUY"
+                    else:
+                        signal_type = "HOLD"
+                except Exception as comm_err:
+                    logger.debug(
+                        f"Council deliberation fallback for {ticker}: {comm_err}"
+                    )
+                    signal_type = "BUY"
+            elif confidence < 0.40 or (rsi > 80 and not above_sma):
                 signal_type = "SELL"
+            else:
+                signal_type = "HOLD"
 
             # Calculate Take-Profit and Stop-Loss Targets
             tp_target = float(curr_close + (2.5 * atr_val))
@@ -112,6 +210,16 @@ def run_daily_market_scan() -> list:
                     {"feature": "RSI", "importance": rsi},
                     {"feature": "Volume PoC", "importance": poc_val},
                     {"feature": "Confluence", "importance": conf_verdict},
+                    {
+                        "feature": "RS vs SPY",
+                        "importance": (
+                            "OUTPERFORMING" if rs_pass else "UNDERPERFORMING"
+                        ),
+                    },
+                    {
+                        "feature": "Council Verdict",
+                        "importance": council_verdict_str,
+                    },
                 ],
                 take_profit=tp_target,
             )
@@ -119,7 +227,8 @@ def run_daily_market_scan() -> list:
 
             logger.info(
                 f"+ {ticker:<6} Signal: {signal_type:<4} | Conf: {confidence:.1%} | "
-                f"Close: ${curr_close:.2f} | TP: ${tp_target:.2f} | SL: ${sl_target:.2f} | PoC: ${poc_val:.2f}"
+                f"Close: ${curr_close:.2f} | TP: ${tp_target:.2f} | SL: ${sl_target:.2f} | "
+                f"RS: {'PASS' if rs_pass else 'FAIL'} | VPIN: {vpin_val:.3f} | Council: {council_verdict_str}"
             )
 
         except Exception as e:
