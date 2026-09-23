@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 70366.86405578618,
-  "total_equity": 144485.54,
-  "unrealized_pnl": -173.53,
+  "total_equity": 144622.14,
+  "unrealized_pnl": -36.93,
   "realized_pnl": 54972.12405578613,
   "win_rate": 67.7,
   "total_trades": 62,
@@ -18,137 +18,156 @@
       "entry_date": "2026-09-23",
       "tp1_target": 197.6,
       "tp2_target": 205.26,
-      "sl_target": 182.28,
+      "sl_target": 185.79,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 188.03,
+      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE"
     },
     "ALLE": {
       "ticker": "ALLE",
       "shares": 67,
       "initial_shares": 67,
       "entry_price": 153.95,
-      "current_price": 151.36000061035156,
+      "current_price": 154.09,
       "entry_date": "2026-09-22",
       "tp1_target": 162.07,
       "tp2_target": 168.57,
-      "sl_target": 150.1,
+      "sl_target": 150.47,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_MultiAgent_Kelly",
-      "highest_price_seen": 153.95
+      "highest_price_seen": 154.09,
+      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE"
     },
     "ADP": {
       "ticker": "ADP",
       "shares": 38,
       "initial_shares": 38,
       "entry_price": 264.56,
-      "current_price": 264.56,
+      "current_price": 263.68,
       "entry_date": "2026-09-23",
       "tp1_target": 278.08,
       "tp2_target": 288.9,
-      "sl_target": 256.44,
+      "sl_target": 257.95,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 264.56,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "IEX": {
       "ticker": "IEX",
       "shares": 33,
       "initial_shares": 33,
       "entry_price": 229.88,
-      "current_price": 229.88,
+      "current_price": 229.67,
       "entry_date": "2026-09-23",
       "tp1_target": 241.06,
       "tp2_target": 250.0,
-      "sl_target": 223.17,
+      "sl_target": 227.44,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 229.88,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "ITW": {
       "ticker": "ITW",
       "shares": 28,
       "initial_shares": 28,
       "entry_price": 273.68,
-      "current_price": 273.68,
+      "current_price": 273.42,
       "entry_date": "2026-09-23",
       "tp1_target": 285.38,
       "tp2_target": 294.74,
-      "sl_target": 266.66,
+      "sl_target": 266.84,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 273.68,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "DE": {
       "ticker": "DE",
       "shares": 10,
       "initial_shares": 10,
       "entry_price": 710.15,
-      "current_price": 710.15,
+      "current_price": 709.48,
       "entry_date": "2026-09-23",
       "tp1_target": 749.98,
       "tp2_target": 781.84,
-      "sl_target": 686.25,
+      "sl_target": 692.4,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 710.15,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "J": {
       "ticker": "J",
       "shares": 38,
       "initial_shares": 38,
       "entry_price": 141.14,
-      "current_price": 141.14,
+      "current_price": 141.12,
       "entry_date": "2026-09-23",
       "tp1_target": 148.64,
       "tp2_target": 154.64,
-      "sl_target": 136.64,
+      "sl_target": 139.47,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 141.14,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "ETN": {
       "ticker": "ETN",
       "shares": 12,
       "initial_shares": 12,
       "entry_price": 438.49,
-      "current_price": 438.49,
+      "current_price": 438.76,
       "entry_date": "2026-09-23",
       "tp1_target": 476.72,
       "tp2_target": 507.3,
-      "sl_target": 415.56,
+      "sl_target": 427.53,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 438.76,
+      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE"
     },
     "DAL": {
       "ticker": "DAL",
       "shares": 66,
       "initial_shares": 66,
       "entry_price": 81.73,
-      "current_price": 81.73,
+      "current_price": 81.75,
       "entry_date": "2026-09-23",
       "tp1_target": 87.08,
       "tp2_target": 91.36,
-      "sl_target": 78.52,
+      "sl_target": 79.69,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 81.75,
+      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE"
     },
     "FAST": {
       "ticker": "FAST",
       "shares": 106,
       "initial_shares": 106,
       "entry_price": 50.95,
-      "current_price": 50.95,
+      "current_price": 50.99,
       "entry_date": "2026-09-23",
       "tp1_target": 53.62,
       "tp2_target": 55.77,
-      "sl_target": 49.35,
+      "sl_target": 49.68,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 50.99,
+      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE"
     }
   },
   "closed_trades": [
@@ -975,11 +994,11 @@
     {
       "date": "2026-09-23",
       "timestamp": "2026-09-23T08:36:29.960875+00:00",
-      "total_equity": 144485.54,
+      "total_equity": 144622.14,
       "cash": 70366.86,
-      "invested": 74118.68,
-      "daily_return": 0.0
+      "invested": 74255.28,
+      "daily_return": 0.09
     }
   ],
-  "last_updated": "2026-09-23T20:47:37.422952+00:00"
+  "last_updated": "2026-09-23T23:16:33.194885+00:00"
 }
