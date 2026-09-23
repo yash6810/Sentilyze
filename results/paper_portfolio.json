@@ -1,125 +1,43 @@
 {
   "initial_capital": 100000.0,
-  "cash": 91562.48457214358,
-  "total_equity": 155675.44,
-  "unrealized_pnl": 0.0,
-  "realized_pnl": 55675.444572143555,
-  "win_rate": 75.0,
-  "total_trades": 56,
+  "cash": 134344.42405578616,
+  "total_equity": 155053.79,
+  "unrealized_pnl": 81.67,
+  "realized_pnl": 54972.12405578613,
+  "win_rate": 67.7,
+  "total_trades": 62,
   "winning_trades": 42,
-  "losing_trades": 14,
+  "losing_trades": 20,
   "open_positions": {
-    "EMR": {
-      "ticker": "EMR",
-      "shares": 67,
-      "initial_shares": 67,
-      "entry_price": 154.19,
-      "current_price": 154.19,
-      "entry_date": "2026-09-22",
-      "tp1_target": 163.16,
-      "tp2_target": 170.34,
-      "sl_target": 148.81,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
-    },
     "EXPD": {
       "ticker": "EXPD",
       "shares": 55,
       "initial_shares": 55,
       "entry_price": 187.51,
-      "current_price": 187.51,
+      "current_price": 192.14999389648438,
       "entry_date": "2026-09-22",
       "tp1_target": 197.13,
       "tp2_target": 204.83,
-      "sl_target": 181.73,
+      "sl_target": 191.22,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 192.14999389648438
     },
     "ALLE": {
       "ticker": "ALLE",
       "shares": 67,
       "initial_shares": 67,
       "entry_price": 153.95,
-      "current_price": 153.95,
+      "current_price": 151.36000061035156,
       "entry_date": "2026-09-22",
       "tp1_target": 162.07,
       "tp2_target": 168.57,
-      "sl_target": 149.07,
+      "sl_target": 150.1,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
-    },
-    "DAL": {
-      "ticker": "DAL",
-      "shares": 92,
-      "initial_shares": 92,
-      "entry_price": 83.92,
-      "current_price": 83.92,
-      "entry_date": "2026-09-22",
-      "tp1_target": 89.42,
-      "tp2_target": 93.82,
-      "sl_target": 80.62,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
-    },
-    "ETN": {
-      "ticker": "ETN",
-      "shares": 17,
-      "initial_shares": 17,
-      "entry_price": 442.49,
-      "current_price": 442.49,
-      "entry_date": "2026-09-22",
-      "tp1_target": 480.49,
-      "tp2_target": 510.89,
-      "sl_target": 419.69,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
-    },
-    "ITW": {
-      "ticker": "ITW",
-      "shares": 28,
-      "initial_shares": 28,
-      "entry_price": 270.47,
-      "current_price": 270.47,
-      "entry_date": "2026-09-22",
-      "tp1_target": 281.6,
-      "tp2_target": 290.5,
-      "sl_target": 263.8,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
-    },
-    "IEX": {
-      "ticker": "IEX",
-      "shares": 24,
-      "initial_shares": 24,
-      "entry_price": 225.69,
-      "current_price": 225.69,
-      "entry_date": "2026-09-22",
-      "tp1_target": 236.54,
-      "tp2_target": 245.22,
-      "sl_target": 219.18,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
-    },
-    "DE": {
-      "ticker": "DE",
-      "shares": 7,
-      "initial_shares": 7,
-      "entry_price": 703.12,
-      "current_price": 703.12,
-      "entry_date": "2026-09-22",
-      "tp1_target": 742.45,
-      "tp2_target": 773.9,
-      "sl_target": 679.52,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly"
+      "regime": "Committee_MultiAgent_Kelly",
+      "highest_price_seen": 153.95
     }
   },
   "closed_trades": [
@@ -738,6 +656,72 @@
       "pnl": -1130.49,
       "return_pct": -2.52,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "EMR",
+      "shares": 67,
+      "entry_price": 154.19,
+      "exit_price": 151.72000122070312,
+      "entry_date": "2026-09-22",
+      "exit_date": "2026-09-23",
+      "pnl": -165.49,
+      "return_pct": -1.6,
+      "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "DAL",
+      "shares": 92,
+      "entry_price": 83.92,
+      "exit_price": 82.5,
+      "entry_date": "2026-09-22",
+      "exit_date": "2026-09-23",
+      "pnl": -130.64,
+      "return_pct": -1.69,
+      "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "ETN",
+      "shares": 17,
+      "entry_price": 442.49,
+      "exit_price": 435.42999267578125,
+      "entry_date": "2026-09-22",
+      "exit_date": "2026-09-23",
+      "pnl": -120.02,
+      "return_pct": -1.6,
+      "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "ITW",
+      "shares": 28,
+      "entry_price": 270.47,
+      "exit_price": 267.5199890136719,
+      "entry_date": "2026-09-22",
+      "exit_date": "2026-09-23",
+      "pnl": -82.6,
+      "return_pct": -1.09,
+      "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "IEX",
+      "shares": 24,
+      "entry_price": 225.69,
+      "exit_price": 222.52999877929688,
+      "entry_date": "2026-09-22",
+      "exit_date": "2026-09-23",
+      "pnl": -75.84,
+      "return_pct": -1.4,
+      "reason": "MODEL_SELL"
+    },
+    {
+      "ticker": "DE",
+      "shares": 7,
+      "entry_price": 703.12,
+      "exit_price": 684.72998046875,
+      "entry_date": "2026-09-22",
+      "exit_date": "2026-09-23",
+      "pnl": -128.73,
+      "return_pct": -2.62,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -876,7 +860,15 @@
       "cash": 91562.48,
       "invested": 64112.96,
       "daily_return": 0.0
+    },
+    {
+      "date": "2026-09-23",
+      "timestamp": "2026-09-23T08:36:29.960875+00:00",
+      "total_equity": 155053.79,
+      "cash": 134344.42,
+      "invested": 20709.37,
+      "daily_return": -0.4
     }
   ],
-  "last_updated": "2026-09-22T23:18:16.972625+00:00"
+  "last_updated": "2026-09-23T08:36:29.961857+00:00"
 }
