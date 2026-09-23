@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
-  "cash": 80520.48405578618,
-  "total_equity": 155053.79,
-  "unrealized_pnl": 81.67,
+  "cash": 70366.86405578618,
+  "total_equity": 144485.54,
+  "unrealized_pnl": -173.53,
   "realized_pnl": 54972.12405578613,
   "win_rate": 67.7,
   "total_trades": 62,
@@ -11,18 +11,17 @@
   "open_positions": {
     "EXPD": {
       "ticker": "EXPD",
-      "shares": 55,
-      "initial_shares": 55,
-      "entry_price": 187.51,
-      "current_price": 192.14999389648438,
-      "entry_date": "2026-09-22",
-      "tp1_target": 197.13,
-      "tp2_target": 204.83,
-      "sl_target": 191.22,
+      "shares": 54,
+      "initial_shares": 54,
+      "entry_price": 188.03,
+      "current_price": 188.03,
+      "entry_date": "2026-09-23",
+      "tp1_target": 197.6,
+      "tp2_target": 205.26,
+      "sl_target": 182.28,
       "scaled_out": false,
       "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly",
-      "highest_price_seen": 192.14999389648438
+      "regime": "Committee_MultiAgent_Kelly"
     },
     "ALLE": {
       "ticker": "ALLE",
@@ -976,11 +975,11 @@
     {
       "date": "2026-09-23",
       "timestamp": "2026-09-23T08:36:29.960875+00:00",
-      "total_equity": 155053.79,
-      "cash": 80520.48,
-      "invested": 74533.31,
+      "total_equity": 144485.54,
+      "cash": 70366.86,
+      "invested": 74118.68,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-23T19:42:03.297857+00:00"
+  "last_updated": "2026-09-23T20:47:37.422952+00:00"
 }
