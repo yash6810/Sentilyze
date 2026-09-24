@@ -128,6 +128,7 @@ def run_daily_market_scan() -> list:
             # Portfolio Correlation & Sector Shield
             try:
                 from src.correlation_shield import check_correlation_shield
+                from src.cross_asset_pooling import get_sector_for_ticker
                 from src.paper_broker import PaperBroker
 
                 broker_state = PaperBroker().state
@@ -136,8 +137,36 @@ def run_daily_market_scan() -> list:
                     ticker, open_pos, max_corr_threshold=0.70
                 )
                 corr_safe = bool(corr_res.get("allowed", True))
+
+                # Sector Shield Check
+                cand_sec = get_sector_for_ticker(ticker)
+                occupied_secs = {get_sector_for_ticker(h) for h in open_pos.keys()}
+                sector_safe = cand_sec not in occupied_secs or cand_sec in (
+                    "General",
+                    "Unknown",
+                    "General_Market",
+                )
+
+                # 3-Day Anti-Whipsaw Cooldown Quarantine Check
+                is_quarantined = False
+                for ct in broker_state.get("closed_trades", []):
+                    if ct.get("ticker") == ticker:
+                        exit_d = ct.get("exit_date", "")
+                        if exit_d:
+                            try:
+                                d_exit = datetime.fromisoformat(str(exit_d)[:10])
+                                d_now = datetime.now(timezone.utc)
+                                if (
+                                    d_now - d_exit.replace(tzinfo=timezone.utc)
+                                ).days < 3:
+                                    is_quarantined = True
+                                    break
+                            except Exception:
+                                pass
             except Exception:
                 corr_safe = True
+                sector_safe = True
+                is_quarantined = False
 
             # Multi-Gate Institutional Gating
             preliminary_pass = (
@@ -147,6 +176,8 @@ def run_daily_market_scan() -> list:
                 and rs_pass
                 and vpin_safe
                 and corr_safe
+                and sector_safe
+                and not is_quarantined
             )
 
             signal_type = "HOLD"

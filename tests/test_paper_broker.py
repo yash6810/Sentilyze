@@ -240,3 +240,90 @@ def test_hysteresis_severe_breakdown_exits(temp_portfolio_file):
     assert len(actions["sells"]) == 1
     assert "NVDA" not in broker.state["open_positions"]
     assert actions["sells"][0]["reason"] == "MODEL_SELL"
+
+
+def test_quarantine_prevents_recent_exit_rebuy(temp_portfolio_file):
+    """
+    Test that a ticker closed within the last 3 days is quarantined from immediate re-entry.
+    """
+    broker = PaperBroker(portfolio_path=temp_portfolio_file, initial_cash=100000.0)
+
+    # Manually add a trade closed yesterday
+    broker.state["closed_trades"].append(
+        {
+            "ticker": "DE",
+            "shares": 10,
+            "entry_price": 700.0,
+            "exit_price": 685.0,
+            "entry_date": "2026-09-23",
+            "exit_date": "2026-09-24",
+            "pnl": -150.0,
+            "reason": "STOP_LOSS",
+        }
+    )
+
+    # Try to buy DE on 2026-09-25 (1 day later)
+    buy_signals = [
+        {
+            "ticker": "DE",
+            "signal": "BUY",
+            "confidence": 0.85,
+            "current_price": 690.0,
+            "take_profit": 740.0,
+            "stop_loss": 670.0,
+        },
+        {
+            "ticker": "AAPL",
+            "signal": "BUY",
+            "confidence": 0.80,
+            "current_price": 220.0,
+            "take_profit": 240.0,
+            "stop_loss": 210.0,
+        },
+    ]
+
+    actions = broker.execute_daily_signals(buy_signals, date_str="2026-09-25")
+    # DE should be quarantined; AAPL should be entered
+    assert "DE" not in broker.state["open_positions"]
+    assert "AAPL" in broker.state["open_positions"]
+
+
+def test_chandelier_trailing_ratchet_locks_profit(temp_portfolio_file):
+    """
+    Test that an asset up +3% ratchets stop loss to lock in +1% profit.
+    """
+    broker = PaperBroker(portfolio_path=temp_portfolio_file, initial_cash=100000.0)
+
+    # Buy at $100 with initial stop at $95
+    broker.execute_daily_signals(
+        [
+            {
+                "ticker": "MSFT",
+                "signal": "BUY",
+                "confidence": 0.70,
+                "current_price": 100.0,
+                "take_profit": 115.0,
+                "stop_loss": 95.0,
+            }
+        ],
+        date_str="2026-09-20",
+    )
+
+    # Price surges to $104 (+4% gain)
+    broker.execute_daily_signals(
+        [
+            {
+                "ticker": "MSFT",
+                "signal": "HOLD",
+                "confidence": 0.50,
+                "current_price": 104.0,
+                "take_profit": 115.0,
+                "stop_loss": 95.0,
+            }
+        ],
+        date_str="2026-09-21",
+    )
+
+    pos = broker.state["open_positions"]["MSFT"]
+    # Stop should be ratcheted to at least $101.00 (+1% profit locked in)
+    assert pos["sl_target"] >= 101.0

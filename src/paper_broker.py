@@ -172,7 +172,9 @@ class PaperBroker:
             logger.debug(f"Notice exporting executed_trades.csv: {e}")
 
     def execute_daily_signals(
-        self, signals_list: List[Dict[str, Any]]
+        self,
+        signals_list: List[Dict[str, Any]],
+        date_str: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         Executes daily quantitative scan results using the Concentrated Top-2 + Scale-Out Model:
@@ -182,7 +184,8 @@ class PaperBroker:
         """
         now_utc = datetime.now(timezone.utc)
         now_str = now_utc.isoformat()
-        date_str = now_str[:10]
+        if date_str is None:
+            date_str = now_str[:10]
 
         executed_actions = {
             "buys": [],
@@ -250,6 +253,20 @@ class PaperBroker:
                     sl_target = hwm_sl
             except Exception as e:
                 logger.debug(f"Notice applying zero-giveback in daily signals: {e}")
+
+            # Dynamic Chandelier Trailing Ratchet for Runners and Winners
+            if scaled_out:
+                chandelier_sl = round(
+                    pos.get("highest_price_seen", curr_price) * 0.965, 2
+                )
+                if chandelier_sl > sl_target:
+                    pos["sl_target"] = chandelier_sl
+                    sl_target = chandelier_sl
+            elif curr_price >= entry_price * 1.03:
+                lock_sl = round(entry_price * 1.01, 2)
+                if lock_sl > sl_target:
+                    pos["sl_target"] = lock_sl
+                    sl_target = lock_sl
 
             # Check Stage 1 Scale-Out (+2.5 ATR)
             if not scaled_out and curr_price >= tp1_target:
@@ -429,6 +446,24 @@ class PaperBroker:
         buy_signals = sorted(
             buy_signals, key=lambda x: x.get("confidence", 0), reverse=True
         )
+
+        # Anti-Whipsaw Cooldown: Quarantine any ticker closed within the last 3 days
+        quarantined_tickers = set()
+        for ct in self.state.get("closed_trades", []):
+            exit_d = ct.get("exit_date", "")
+            if exit_d:
+                try:
+                    d_exit = datetime.fromisoformat(str(exit_d)[:10])
+                    d_now = datetime.fromisoformat(str(date_str)[:10])
+                    if (d_now - d_exit).days < 3:
+                        quarantined_tickers.add(ct.get("ticker"))
+                except Exception:
+                    pass
+
+        if quarantined_tickers:
+            buy_signals = [
+                s for s in buy_signals if s.get("ticker") not in quarantined_tickers
+            ]
 
         # Apply Sector and Correlation Shield Diversification Filter
         try:

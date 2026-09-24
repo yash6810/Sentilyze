@@ -325,6 +325,18 @@ class AutonomousTradingEngine:
                     f"🔒 [PROFIT LOCK TIER 2] {ticker} peaked at +{max_gain_pct:.2f}%. Stop trailed to lock +1.0% profit (${new_sl:.2f})"
                 )
 
+            # Level 4: Chandelier Trailing Stop for Runners (trail 3.5% from peak)
+            if scaled_out:
+                chandelier_sl = round(
+                    pos.get("highest_price_seen", spot_price) * 0.965, 2
+                )
+                if chandelier_sl > sl_target:
+                    pos["sl_target"] = chandelier_sl
+                    sl_target = chandelier_sl
+                    logger.info(
+                        f"🏆 [CHANDELIER RUNNER TRAIL] {ticker} runner stop ratcheted to ${chandelier_sl:.2f} (Peak: ${pos.get('highest_price_seen'):.2f})"
+                    )
+
             # ⚡ Check Stage 0 Easy Profit Micro-Harvest (+0.40% Gain for guaranteed win streak)
             if not stage0_taken and spot_price >= entry_price * 1.004 and shares >= 2:
                 third_shares = max(1, shares // 3)
@@ -527,13 +539,51 @@ class AutonomousTradingEngine:
             )
             available_slots = 0
 
+        # Macro Breadth Gate: Check VIX
+        try:
+            vix_val = float(quotes_map.get("^VIX", {}).get("price", 0.0))
+            if vix_val > 24.0:
+                logger.warning(
+                    f"🛡️ [MACRO BREADTH GATE] Pausing new entries: VIX is elevated at {vix_val:.1f} (> 24.0). Preserving cash."
+                )
+                available_slots = 0
+        except Exception:
+            pass
+
         cash_available = self.broker.state.get("cash", 0.0)
 
         if available_slots > 0 and cash_available > 5000.0:
+            # 3-Day Anti-Whipsaw Cooldown: Quarantine recently closed tickers
+            quarantined_tickers = set()
+            for ct in self.broker.state.get("closed_trades", []):
+                exit_d = ct.get("exit_date", "")
+                if exit_d:
+                    try:
+                        d_exit = datetime.fromisoformat(str(exit_d)[:10])
+                        d_now = datetime.fromisoformat(str(date_str)[:10])
+                        if (d_now - d_exit).days < 3:
+                            quarantined_tickers.add(ct.get("ticker"))
+                    except Exception:
+                        pass
+
+            # Sector Shield: identify occupied sectors
+            from src.cross_asset_pooling import get_sector_for_ticker
+
+            occupied_sectors = {
+                get_sector_for_ticker(h)
+                for h in self.broker.state.get("open_positions", {}).keys()
+            }
+
             unheld_tickers = [
                 t
                 for t in tickers_to_scan
                 if t not in self.broker.state.get("open_positions", {})
+                and t not in quarantined_tickers
+                and (
+                    get_sector_for_ticker(t) not in occupied_sectors
+                    or get_sector_for_ticker(t)
+                    in ("General", "Unknown", "General_Market")
+                )
             ]
 
             # Lightweight Pre-Screening: Filter to top 15 active/liquid assets
@@ -620,6 +670,24 @@ class AutonomousTradingEngine:
             for t, delib in buy_candidates[:available_slots]:
                 spot_price = float(delib.get("spot_price", 0))
                 if spot_price <= 0:
+                    continue
+
+                # Sector Shield Check: prevent multi-asset clustering in one GICS sector
+                from src.cross_asset_pooling import get_sector_for_ticker
+
+                cand_sector = get_sector_for_ticker(t)
+                current_occupied = {
+                    get_sector_for_ticker(h)
+                    for h in self.broker.state.get("open_positions", {}).keys()
+                }
+                if cand_sector in current_occupied and cand_sector not in (
+                    "General",
+                    "Unknown",
+                    "General_Market",
+                ):
+                    logger.warning(
+                        f"🛡️ [SECTOR SHIELD VETO] Candidate {t} rejected: Sector '{cand_sector}' already occupied in active portfolio."
+                    )
                     continue
 
                 # Portfolio Correlation Matrix Shield Check (Markowitz Diversification)
