@@ -1,6 +1,6 @@
 {
   "initial_capital": 100000.0,
-  "cash": 85569.32405578619,
+  "cash": 76074.67405578619,
   "total_equity": 143883.97,
   "unrealized_pnl": -460.62,
   "realized_pnl": 54657.64405578613,
@@ -136,6 +136,20 @@
       "regime": "Committee_MultiAgent_Kelly",
       "highest_price_seen": 50.99,
       "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
+    },
+    "EMR": {
+      "ticker": "EMR",
+      "shares": 61,
+      "initial_shares": 61,
+      "entry_price": 155.65,
+      "current_price": 155.65,
+      "entry_date": "2026-09-24",
+      "tp1_target": 164.43,
+      "tp2_target": 171.44,
+      "sl_target": 150.39,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_MultiAgent_Kelly"
     }
   },
   "closed_trades": [
@@ -993,10 +1007,10 @@
       "date": "2026-09-24",
       "timestamp": "2026-09-24T17:50:44.968078+00:00",
       "total_equity": 143883.97,
-      "cash": 85569.32,
-      "invested": 58314.65,
-      "daily_return": -0.51
+      "cash": 76074.67,
+      "invested": 67809.3,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-24T17:50:47.706851+00:00"
+  "last_updated": "2026-09-24T18:51:57.678993+00:00"
 }
