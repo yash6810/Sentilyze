@@ -1,12 +1,12 @@
 {
   "initial_capital": 100000.0,
-  "cash": 82925.87405578619,
-  "total_equity": 144632.22,
-  "unrealized_pnl": 537.93,
-  "realized_pnl": 54407.344055786125,
-  "win_rate": 64.6,
-  "total_trades": 65,
-  "winning_trades": 42,
+  "cash": 85002.37405578619,
+  "total_equity": 144580.65,
+  "unrealized_pnl": 475.44,
+  "realized_pnl": 54418.26405578612,
+  "win_rate": 65.2,
+  "total_trades": 66,
+  "winning_trades": 43,
   "losing_trades": 23,
   "open_positions": {
     "ALLE": {
@@ -14,7 +14,7 @@
       "shares": 67,
       "initial_shares": 67,
       "entry_price": 153.95,
-      "current_price": 155.33999633789062,
+      "current_price": 155.23,
       "entry_date": "2026-09-22",
       "tp1_target": 162.07,
       "tp2_target": 168.57,
@@ -24,15 +24,15 @@
       "regime": "Committee_MultiAgent_Kelly",
       "highest_price_seen": 155.33999633789062,
       "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
-      "high_water_mark": 153.95,
-      "last_eval_price": 153.89
+      "high_water_mark": 155.23,
+      "last_eval_price": 155.23
     },
     "ADP": {
       "ticker": "ADP",
       "shares": 38,
       "initial_shares": 38,
       "entry_price": 264.56,
-      "current_price": 264.42999267578125,
+      "current_price": 263.86,
       "entry_date": "2026-09-23",
       "tp1_target": 278.08,
       "tp2_target": 288.9,
@@ -43,14 +43,14 @@
       "highest_price_seen": 264.56,
       "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
       "high_water_mark": 264.56,
-      "last_eval_price": 264.2
+      "last_eval_price": 263.86
     },
     "IEX": {
       "ticker": "IEX",
       "shares": 33,
       "initial_shares": 33,
       "entry_price": 229.88,
-      "current_price": 230.8699951171875,
+      "current_price": 231.03,
       "entry_date": "2026-09-23",
       "tp1_target": 241.06,
       "tp2_target": 250.0,
@@ -58,35 +58,17 @@
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_MultiAgent_Kelly",
-      "highest_price_seen": 230.8699951171875,
+      "highest_price_seen": 231.03,
       "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
-      "high_water_mark": 229.88,
-      "last_eval_price": 229.76
-    },
-    "ITW": {
-      "ticker": "ITW",
-      "shares": 28,
-      "initial_shares": 28,
-      "entry_price": 273.68,
-      "current_price": 274.55999755859375,
-      "entry_date": "2026-09-23",
-      "tp1_target": 285.38,
-      "tp2_target": 294.74,
-      "sl_target": 274.38,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly",
-      "highest_price_seen": 274.55999755859375,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
-      "high_water_mark": 273.93,
-      "last_eval_price": 273.93
+      "high_water_mark": 231.03,
+      "last_eval_price": 231.03
     },
     "ETN": {
       "ticker": "ETN",
       "shares": 12,
       "initial_shares": 12,
       "entry_price": 438.49,
-      "current_price": 439.5400085449219,
+      "current_price": 438.2,
       "entry_date": "2026-09-23",
       "tp1_target": 476.72,
       "tp2_target": 507.3,
@@ -97,14 +79,14 @@
       "highest_price_seen": 439.5400085449219,
       "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
       "high_water_mark": 438.58,
-      "last_eval_price": 438.58
+      "last_eval_price": 438.2
     },
     "DAL": {
       "ticker": "DAL",
-      "shares": 66,
+      "shares": 132,
       "initial_shares": 66,
-      "entry_price": 81.73,
-      "current_price": 84.77999877929688,
+      "entry_price": 83.27,
+      "current_price": 84.81,
       "entry_date": "2026-09-23",
       "tp1_target": 87.08,
       "tp2_target": 91.36,
@@ -112,10 +94,11 @@
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_MultiAgent_Kelly",
-      "highest_price_seen": 84.77999877929688,
+      "highest_price_seen": 84.81,
       "profit_lock_status": "\ud83d\udd12 TIER-1 SECURED (+0.5%)",
-      "high_water_mark": 83.06,
-      "last_eval_price": 83.06
+      "high_water_mark": 84.81,
+      "last_eval_price": 84.81,
+      "pyramid_units_filled": 2
     },
     "FAST": {
       "ticker": "FAST",
@@ -868,6 +851,17 @@
       "pnl": -250.3,
       "return_pct": -3.52,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "ITW",
+      "shares": 28,
+      "entry_price": 273.68,
+      "exit_price": 274.07,
+      "entry_date": "2026-09-23",
+      "exit_date": "2026-09-25",
+      "pnl": 10.92,
+      "return_pct": 0.14,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -1026,11 +1020,11 @@
     {
       "date": "2026-09-25",
       "timestamp": "2026-09-25T11:13:39.527954+00:00",
-      "total_equity": 144632.22,
-      "cash": 82925.87,
-      "invested": 61706.35,
-      "daily_return": 0.23
+      "total_equity": 144580.65,
+      "cash": 85002.37,
+      "invested": 59578.28,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-25T17:51:39.171216+00:00"
+  "last_updated": "2026-09-25T17:56:34.990549+00:00"
 }

@@ -1,13 +1,13 @@
 {
-  "total_learning_cycles": 3,
-  "last_updated": "2026-09-25T15:33:18.067598+00:00",
+  "total_learning_cycles": 4,
+  "last_updated": "2026-09-25T17:56:34.995083+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.294,
-    "sentiment_weight": 0.343,
-    "valuation_weight": 0.147,
-    "cro_weight": 0.216
+    "technicals_weight": 0.291,
+    "sentiment_weight": 0.35,
+    "valuation_weight": 0.146,
+    "cro_weight": 0.214
   },
-  "adaptive_kelly_multiplier": 0.94,
+  "adaptive_kelly_multiplier": 0.96,
   "recent_trade_autopsies": [
     {
       "ticker": "DE",
@@ -24,6 +24,14 @@
       "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
       "lesson": "Stop loss on DE triggered at -3.52%. Protecting capital.",
       "timestamp": "2026-09-25T15:33:20.021578+00:00"
+    },
+    {
+      "ticker": "ITW",
+      "pnl": 10.92,
+      "return_pct": 0.14,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on ITW succeeded with +0.14% gain.",
+      "timestamp": "2026-09-25T17:56:34.995100+00:00"
     }
   ],
   "retrained_models": [
@@ -121,10 +129,10 @@
     "Harvested 35 high-conviction momentum runs with 54.69% win rate."
   ],
   "bayesian_council_calibration": {
-    "Technical Momentum": 0.1307,
-    "FinBERT Sentiment": 0.1798,
-    "Fundamental Valuation": 0.1543,
-    "Chief Risk Officer": 0.2204,
-    "Adversarial Red-Team": 0.3148
+    "Technical Momentum": 0.2522,
+    "FinBERT Sentiment": 0.2523,
+    "Fundamental Valuation": 0.1985,
+    "Chief Risk Officer": 0.1495,
+    "Adversarial Red-Team": 0.1475
   }
 }
