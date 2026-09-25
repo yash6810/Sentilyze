@@ -256,10 +256,38 @@ class TechnicalAlphaAgent:
         except Exception as ge:
             logger.debug(f"Options GEX calculation notice for {ticker}: {ge}")
 
+        # Check Microsoft Qlib Alpha158 Top 25 Orthogonal Factors
+        alpha158_metrics = {}
+        try:
+            from src.ultra_quant_engine import get_ultra_quant_engine
+
+            uq = get_ultra_quant_engine()
+            a158 = uq.evaluate_alpha158_factors(ticker, df)
+            if a158:
+                alpha158_metrics = {
+                    "kmid": a158.get("KMID", 0.0),
+                    "klen": a158.get("KLEN", 0.0),
+                    "corr5": a158.get("CORR5", 0.0),
+                    "wvma10": a158.get("WVMA10", 0.0),
+                }
+                kmid = a158.get("KMID", 0.0)
+                corr5 = a158.get("CORR5", 0.0)
+                if kmid > 0.008 and corr5 > 0.35 and vote in ["BUY", "NEUTRAL"]:
+                    conviction = min(95.0, conviction + 4.0)
+                    thesis += f" Qlib Alpha158 confirms real-body expansion (KMID: {kmid:+.4f}, CORR5: {corr5:.2f})."
+                elif kmid < -0.012:
+                    conviction = max(25.0, conviction - 5.0)
+                    thesis += (
+                        f" Qlib Alpha158 warns of body rejection (KMID: {kmid:+.4f})."
+                    )
+        except Exception as a_err:
+            logger.debug(f"Alpha158 check notice for {ticker}: {a_err}")
+
         return {
             "agent_name": "Technical Momentum Specialist",
-            "role": "Pillar 1: Market Structure, Moving Averages, RSI & Options GEX",
+            "role": "Pillar 1: Market Structure, Moving Averages, RSI, Options GEX & Alpha158",
             "academic_grounding": [
+                "Microsoft Qlib: Alpha158 Orthogonal Price-Volume Factors",
                 "Paper 25: Zarattini, Barbon, Aziz (2024) 5-Min Opening Range Breakout (ORB)",
                 "Paper 10: Bailey & López de Prado (2014) Deflated Sharpe Ratio (DSR)",
                 "Institutional Market Microstructure: SqueezeMetrics Gamma Exposure (GEX)",
@@ -274,6 +302,7 @@ class TechnicalAlphaAgent:
                 "trend_status": trend_status,
                 "acpm_calibrated_prob": calibrated_prob,
                 **gex_metrics,
+                **alpha158_metrics,
             },
             "thesis": thesis,
         }
@@ -413,10 +442,69 @@ class SentimentCatalystAgent:
         except Exception as pe:
             logger.debug(f"PEAD earnings analysis notice for {ticker}: {pe}")
 
+        # Integrate Alternative Data: SEC Form 8-K, Insider Form 4, Social Buzz, Biotech Radar
+        alt_data_metrics = {}
+        try:
+            from src.ultra_quant_engine import get_ultra_quant_engine
+
+            uq = get_ultra_quant_engine()
+            # 1. SEC Form 8-K Filings
+            sec_filings = uq.evaluate_sec_catalysts(ticker)
+            if sec_filings:
+                for sf in sec_filings[:3]:
+                    tags = sf.get("tags", [])
+                    item_str = ", ".join(tags)
+                    if any("DELISTING" in t or "WEAKNESS" in t for t in tags):
+                        vote = "SELL"
+                        conviction = 95.0
+                        thesis += f" 🚨 CRITICAL SEC 8-K: Delisting/material weakness warning ({item_str})."
+                        break
+                    elif any(
+                        "MATERIAL_AGREEMENT" in t or "EARNINGS" in t for t in tags
+                    ):
+                        conviction = min(95.0, conviction + 6.0)
+                        thesis += f" 📄 SEC Form 8-K Filing: {item_str}."
+
+            # 2. SEC Form 4 Insider Conviction & Cluster Buys
+            insider = uq.evaluate_insider_signals(ticker)
+            if insider.get("cluster_buy_detected", False):
+                conviction = min(95.0, conviction + 7.0)
+                thesis += (
+                    f" 👔 EXECUTIVE CLUSTER BUY: Multiple officers buying shares "
+                    f"(Score: {insider.get('conviction_score')}/100)."
+                )
+            elif insider.get("conviction_score", 50.0) < 30.0:
+                conviction = max(20.0, conviction - 5.0)
+                thesis += " ⚠️ INSIDER DISTRIBUTION: Heavy insider selling recorded."
+
+            # 3. Social Sentiment Velocity
+            social = uq.evaluate_social_sentiment(ticker)
+            soc_vel = float(social.get("mention_velocity_ratio", 1.0))
+            if soc_vel >= 2.0:
+                thesis += f" ⚡ Social Buzz ({soc_vel:.1f}x velocity): {social.get('regime')}."
+
+            # 4. Biotech FDA Radar
+            biotech = uq.evaluate_biotech_radar(ticker)
+            if biotech.get("is_biotech", False):
+                thesis += (
+                    f" 🧬 BioTech Catalyst Profile: {biotech.get('risk_profile')}."
+                )
+
+            alt_data_metrics = {
+                "sec_8k_count": len(sec_filings),
+                "insider_score": insider.get("conviction_score", 50.0),
+                "insider_cluster_buy": insider.get("cluster_buy_detected", False),
+                "social_velocity": soc_vel,
+                "is_biotech": biotech.get("is_biotech", False),
+            }
+        except Exception as alt_err:
+            logger.debug(f"Alternative data integration notice for {ticker}: {alt_err}")
+
         return {
             "agent_name": "Sentiment & Alternative Data Specialist",
-            "role": "Pillar 2: Tri-Brain FinBERT + Event Classifier NLP",
+            "role": "Pillar 2: Tri-Brain FinBERT, SEC 8-K, Insider Form 4 & Social Velocity",
             "academic_grounding": [
+                "SEC EDGAR Real-Time Form 8-K & Form 4 Microstructure",
                 "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
                 "Paper 21: Bifet & Gavaldà (2007) ADWIN Adaptive Concept Drift Tracking",
             ],
@@ -428,6 +516,8 @@ class SentimentCatalystAgent:
                 "urgency_score": urgency,
                 "is_material": is_material,
                 "headlines_analyzed": head_count,
+                **pead_metrics,
+                **alt_data_metrics,
             },
             "thesis": thesis,
         }
@@ -619,7 +709,39 @@ class ChiefRiskOfficerAgent:
                 elif r.get("vote") == "CAUTION":
                     red_team_caution = True
 
-        if vpin_veto:
+        # Check Ultra-Low-Latency Quantum Core (HMM Regime, CUSUM Structural Break, PoC Magnet)
+        cusum_veto = False
+        hmm_veto = False
+        quantum_telemetry = {}
+        try:
+            from src.ultra_quant_engine import get_ultra_quant_engine
+
+            ultra_engine = get_ultra_quant_engine()
+            quantum_telemetry = ultra_engine.evaluate_asset_full_quantum(
+                ticker=ticker, spot_price=spot_price
+            )
+            if (
+                quantum_telemetry.get("cusum_alarm")
+                and quantum_telemetry.get("cusum_direction") == "DOWN"
+            ):
+                cusum_veto = True
+                veto_reason = "CUSUM Structural Break VETO (Page 1954): Acute downward changepoint detected in price series."
+            elif quantum_telemetry.get("hmm_regime") == "Crisis":
+                hmm_veto = True
+                veto_reason = "HMM Regime VETO (Hamilton 1989): High-volatility crisis regime detected with high probability."
+        except Exception as qe:
+            logger.debug(f"Ultra-quant check notice for {ticker}: {qe}")
+
+        # Check Macro Blackout Gate (FOMC / CPI / NFP releases)
+        macro_blackout_veto = False
+        m_blackout = quantum_telemetry.get("macro_blackout", {})
+        if m_blackout.get("is_blackout_active", False):
+            macro_blackout_veto = True
+            veto_reason = f"Macro Blackout VETO: {m_blackout.get('reason')}"
+
+        if macro_blackout_veto or cusum_veto or hmm_veto:
+            pass
+        elif vpin_veto:
             pass  # VPIN veto already set
         elif vix_level > 26.0 or vix_change_pct > 8.0:
             vix_veto = True
@@ -648,6 +770,11 @@ class ChiefRiskOfficerAgent:
         if red_team_caution:
             calculated_kelly_pct = round(calculated_kelly_pct * 0.65, 2)
 
+        # Scale by Quantum Core Risk Multiplier (Credit spread radar / Value area adjustment)
+        q_scalar = float(quantum_telemetry.get("risk_multiplier", 1.0))
+        if q_scalar != 1.0:
+            calculated_kelly_pct = round(calculated_kelly_pct * q_scalar, 2)
+
         # 3. Check Options Market Maker Gamma Exposure (GEX) Regime
         gex_haircut_applied = False
         try:
@@ -662,9 +789,88 @@ class ChiefRiskOfficerAgent:
         except Exception as ge:
             logger.debug(f"GEX check notice for {ticker}: {ge}")
 
-        # Determine Final Committee Resolution
-        if vpin_veto or vix_veto or trend_veto or red_team_veto:
-            if vpin_veto:
+        # 4. Integrate Episodic Memory Risk Brain & Ticker Reputation
+        mem_adjustment = {}
+        require_supermajority = False
+        try:
+            from src.agent_memory import AgentMemoryStore
+
+            mem_store = AgentMemoryStore()
+            mem_adjustment = mem_store.get_memory_risk_adjustment(ticker)
+            mem_conviction_delta = float(mem_adjustment.get("conviction_delta", 0.0))
+            if mem_conviction_delta != 0.0:
+                effective_conviction = float(
+                    np.clip(effective_conviction + mem_conviction_delta, 10.0, 95.0)
+                )
+            mem_kelly_scale = float(mem_adjustment.get("kelly_scale", 1.0))
+            calculated_kelly_pct = round(calculated_kelly_pct * mem_kelly_scale, 2)
+            require_supermajority = bool(
+                mem_adjustment.get("require_supermajority", False)
+            )
+        except Exception as me:
+            logger.debug(f"Episodic memory risk check notice for {ticker}: {me}")
+
+        # 5. Check Portfolio Diversity & Effective Bets (src/portfolio_diversity.py)
+        diversity_grade = "A"
+        try:
+            from src.portfolio_diversity import calculate_portfolio_diversity_grade
+
+            portfolio_file = os.path.join("results", "paper_portfolio.json")
+            if os.path.exists(portfolio_file):
+                with open(portfolio_file, "r", encoding="utf-8") as pf:
+                    p_state = json.load(pf)
+                open_tickers = list(p_state.get("open_positions", {}).keys())
+                if len(open_tickers) >= 2:
+                    div_report = calculate_portfolio_diversity_grade(
+                        open_tickers + [ticker]
+                    )
+                    diversity_grade = div_report.get("grade", "A")
+                    if diversity_grade in ["C", "D"]:
+                        calculated_kelly_pct = round(calculated_kelly_pct * 0.75, 2)
+                        logger.info(
+                            f"🛡️ [PORTFOLIO DIVERSITY THROTTLE] Diversity Grade '{diversity_grade}'. Sizing throttled by 25% to protect effective bets."
+                        )
+        except Exception as de:
+            logger.debug(f"Portfolio diversity check notice for {ticker}: {de}")
+
+        # Check Grossman-Zhou Stochastic Drawdown Floor (Paper 18)
+        try:
+            from src.ultra_quant_engine import get_ultra_quant_engine
+
+            uq_engine = get_ultra_quant_engine()
+            portfolio_file = os.path.join("results", "paper_portfolio.json")
+            if os.path.exists(portfolio_file):
+                with open(portfolio_file, "r", encoding="utf-8") as pf:
+                    p_state = json.load(pf)
+                curr_eq = float(p_state.get("total_equity", 100000.0))
+                gz_alloc = uq_engine.evaluate_grossman_zhou_allocation(
+                    current_wealth=curr_eq, peak_wealth=159316.0
+                )
+                if gz_alloc.get("at_floor", False):
+                    calculated_kelly_pct = 0.0
+                    logger.warning(
+                        "🛡️ [GROSSMAN-ZHOU FLOOR] At capital preservation floor. New risk halted."
+                    )
+        except Exception as gz_err:
+            logger.debug(f"Grossman-Zhou check notice: {gz_err}")
+
+        # Determine Final Committee Resolution with Tightened Consensus Thresholds
+        if (
+            macro_blackout_veto
+            or cusum_veto
+            or hmm_veto
+            or vpin_veto
+            or vix_veto
+            or trend_veto
+            or red_team_veto
+        ):
+            if macro_blackout_veto:
+                final_resolution = "🔴 VETO / MACRO EVENT BLACKOUT (FOMC/CPI/NFP)"
+            elif cusum_veto:
+                final_resolution = "🔴 VETO / CUSUM STRUCTURAL BREAKDOWN"
+            elif hmm_veto:
+                final_resolution = "🔴 VETO / HMM CRISIS REGIME"
+            elif vpin_veto:
                 final_resolution = "🔴 VETO / TOXIC LIQUIDITY DUMPING (VPIN SPIKE)"
             elif vix_veto:
                 final_resolution = "🔴 VETO / CAPITAL PRESERVATION"
@@ -675,12 +881,23 @@ class ChiefRiskOfficerAgent:
             action_code = "VETO"
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
-        elif buy_votes >= 2 and effective_conviction >= 50.0:
+        elif (
+            buy_votes >= 3
+            and effective_conviction >= (65.0 if require_supermajority else 58.0)
+        ) or (
+            not require_supermajority
+            and buy_votes >= 2
+            and effective_conviction >= 72.0
+        ):
             final_resolution = "🚀 HIGH CONVICTION COMMITTEE BUY"
             action_code = "EXECUTE_BUY"
             approved_leverage = 1.25
             kelly_allocation_pct = max(calculated_kelly_pct, 5.0)
-        elif buy_votes >= 1 and effective_conviction >= 42.0:
+        elif (
+            not require_supermajority
+            and buy_votes >= 2
+            and effective_conviction >= 55.0
+        ):
             final_resolution = "🟡 AGILE SCALE-IN (Quorum Approved)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
@@ -741,6 +958,11 @@ class ChiefRiskOfficerAgent:
             f"ATR14 is ${atr_val:.2f} ({atr_pct:.1f}% vol). VIX is {vix_level:.1f} ({vix_status}). Fractional Kelly: {kelly_allocation_pct}%. {action_msg}"
         )
 
+        # Conformal Prediction 95% Statistical Boundary
+        conf_low = quantum_telemetry.get("conformal_lower_bound")
+        if conf_low and conf_low > 0:
+            sl = round(max(sl, conf_low), 2)
+
         return {
             "cro_name": "Chief Risk Officer (Arbitrator)",
             "academic_grounding": [
@@ -765,11 +987,19 @@ class ChiefRiskOfficerAgent:
             "tp1_target": tp1,
             "tp2_target": tp2,
             "stop_loss_target": sl,
+            "portfolio_diversity_grade": diversity_grade,
+            "conformal_lower_bound": quantum_telemetry.get("conformal_lower_bound"),
+            "conformal_upper_bound": quantum_telemetry.get("conformal_upper_bound"),
             "cro_thesis": cro_thesis,
             "vix_level": vix_level,
             "vix_veto_triggered": vix_veto,
             "red_team_veto_triggered": red_team_veto,
             "vpin_veto_triggered": vpin_veto,
+            "cusum_veto_triggered": cusum_veto,
+            "hmm_veto_triggered": hmm_veto,
+            "quantum_telemetry": quantum_telemetry,
+            "memory_risk_adjustment": mem_adjustment,
+            "require_supermajority": require_supermajority,
             **vpin_metrics,
         }
 
@@ -842,6 +1072,7 @@ def convene_trading_committee(
         "stop_loss_target": cro_signoff["stop_loss_target"],
         "atr_14": cro_signoff.get("atr_14", 0.0),
         "atr_pct": cro_signoff.get("atr_pct", 0.0),
+        "quantum_telemetry": cro_signoff.get("quantum_telemetry", {}),
         "agent_testimonies": specialist_reports,
         "cro_signoff": cro_signoff,
     }
@@ -917,11 +1148,46 @@ def execute_committee_order(
         total_equity = float(portfolio_summary.get("total_equity", 100000.0))
         cash_avail = float(portfolio_summary.get("cash", 0.0))
 
-        # Size dollar allocation based on fractional Kelly allocation
-        target_allocation_dollars = total_equity * (kelly_alloc_pct / 100.0)
-        invest_amount = min(target_allocation_dollars, cash_avail * 0.90)
+        # 🛡️ CPPI Dynamic Cushion Scaling (Black & Jones 1987, Chekhlov 2005 CDaR)
+        cppi_factor = 1.0
+        try:
+            from src.cppi_insurance import get_cppi_cushion_multiplier
 
-        if invest_amount < 500.0:
+            equity_hist = [
+                h.get("total_equity", 100000.0)
+                for h in broker.state.get("equity_history", [])
+            ]
+            peak_eq = max(equity_hist + [total_equity])
+            cppi_eval = get_cppi_cushion_multiplier(
+                portfolio_value=total_equity,
+                peak_equity=peak_eq,
+                floor_pct=0.95,
+                multiplier=2.85,
+            )
+            cppi_factor = float(cppi_eval.get("allocation_factor", 1.0))
+        except Exception:
+            cppi_factor = 1.0
+
+        if cppi_factor <= 0.0:
+            return {
+                "success": False,
+                "reason": "CPPI Capital Preservation Floor Active (No new equity risk permitted)",
+            }
+
+        # Size dollar allocation based on fractional Kelly allocation scaled by CPPI cushion
+        target_allocation_dollars = (
+            total_equity * (kelly_alloc_pct / 100.0) * cppi_factor
+        )
+
+        # 🐢 Turtle 0.5N Pyramiding: Initial entry is 1/3 Seed Unit to truncate left-tail breakout risk
+        seed_allocation = target_allocation_dollars / 3.0
+        invest_amount = min(seed_allocation, cash_avail * 0.90)
+
+        # Fallback for small portfolios: ensure at least 1 whole share if target allocation is valid
+        if invest_amount < spot_price and target_allocation_dollars >= spot_price:
+            invest_amount = min(target_allocation_dollars, cash_avail * 0.90)
+
+        if invest_amount < 200.0:
             return {
                 "success": False,
                 "reason": "Insufficient cash for minimum position size",
@@ -934,15 +1200,28 @@ def execute_committee_order(
                 "reason": "Position size too small for 1 whole share",
             }
 
+        atr_val = deliberation.get("atr_14")
         order_res = broker.execute_buy(
             ticker=ticker,
             shares=shares,
             price=spot_price,
-            strategy_name="Committee_MultiAgent_Kelly",
+            strategy_name="Committee_Turtle_Pyramid_Kelly",
             tp1_target=deliberation.get("tp1_target", spot_price * 1.05),
             tp2_target=deliberation.get("tp2_target", spot_price * 1.10),
             stop_loss=deliberation.get("stop_loss_target", spot_price * 0.96),
+            atr=atr_val,
         )
+        if order_res.get("success") and ticker in broker.state.get(
+            "open_positions", {}
+        ):
+            pos_dict = broker.state["open_positions"][ticker]
+            pos_dict["pyramid_units_filled"] = 1
+            pos_dict["target_units"] = 3
+            pos_dict["unit_shares"] = shares
+            pos_dict["atr_14"] = atr_val
+            pos_dict["highest_price_seen"] = spot_price
+            broker._save()
+
         return order_res
     except Exception as e:
         logger.error(f"Error executing committee order for {ticker}: {e}")

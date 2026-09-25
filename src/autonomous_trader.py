@@ -232,6 +232,7 @@ class AutonomousTradingEngine:
     ) -> Dict[str, Any]:
         """Core cycle execution body."""
         start_time = time.time()
+        cycle_t0_ns = time.perf_counter_ns()
         tickers_to_scan = candidate_tickers or self.tickers
         now_str = datetime.now(timezone.utc).isoformat()
         date_str = now_str[:10]
@@ -337,48 +338,110 @@ class AutonomousTradingEngine:
                         f"🏆 [CHANDELIER RUNNER TRAIL] {ticker} runner stop ratcheted to ${chandelier_sl:.2f} (Peak: ${pos.get('highest_price_seen'):.2f})"
                     )
 
-            # ⚡ Check Stage 0 Easy Profit Micro-Harvest (+0.40% Gain for guaranteed win streak)
-            if not stage0_taken and spot_price >= entry_price * 1.004 and shares >= 2:
-                third_shares = max(1, shares // 3)
-                proceeds = float(third_shares * spot_price)
-                cost_basis = float(third_shares * entry_price)
-                pnl = float(proceeds - cost_basis)
-                ret_pct = float((spot_price - entry_price) / denom * 100.0)
+            # Level 5: CUSUM Structural Break Early Warning (Page 1954)
+            try:
+                from src.ultra_quant_engine import get_ultra_quant_engine
 
-                self.broker.state["cash"] += proceeds
-                self.broker.state["realized_pnl"] += pnl
-                pos["shares"] = shares - third_shares
-                pos["stage0_taken"] = True
-                pos["sl_target"] = max(
-                    pos.get("sl_target", 0.0), round(entry_price * 1.001, 2)
-                )
+                u_engine = get_ultra_quant_engine()
+                cusum_det = u_engine.get_or_create_cusum(ticker)
+                last_p = float(pos.get("last_eval_price", entry_price))
+                ret_step = (spot_price - last_p) / (last_p + 1e-9)
+                pos["last_eval_price"] = spot_price
+                c_info = cusum_det.update(ret_step)
+                if c_info.get("alarm") and c_info.get("direction") == "DOWN":
+                    tight_sl = max(sl_target, round(spot_price * 0.99, 2))
+                    if tight_sl > sl_target:
+                        pos["sl_target"] = tight_sl
+                        sl_target = tight_sl
+                        logger.warning(
+                            f"⚡ [CUSUM CHANGE-POINT ALERT] {ticker} downward structural break detected! Ratcheted stop loss to ${tight_sl:.2f}."
+                        )
 
-                tp0_record = {
-                    "ticker": ticker,
-                    "shares_sold": third_shares,
-                    "remaining_shares": pos["shares"],
-                    "exit_price": spot_price,
-                    "pnl": round(pnl, 2),
-                    "return_pct": round(ret_pct, 2),
-                    "action": "STAGE0_EASY_WIN_HARVEST_33PCT",
-                }
-                executed_actions.setdefault("take_profits_tp0", []).append(tp0_record)
-                logger.info(
-                    f"💰 [EASY PROFIT HARVEST] Sold {third_shares} shares of {ticker} @ ${spot_price:.2f} (+{ret_pct:.2f}%) | Realized PnL: ${pnl:+,.2f} | Stop locked at Breakeven (${pos['sl_target']:.2f})"
-                )
-                send_discord_execution_alert(
-                    {
-                        "action": "SELL",
-                        "stage": "STAGE0_EASY_WIN_HARVEST_0.40PCT",
-                        "ticker": ticker,
-                        "price": spot_price,
-                        "entry_price": entry_price,
-                        "shares": pos["shares"],
-                        "realized_pnl": pnl,
-                        "return_pct": ret_pct,
-                    }
-                )
-                shares = pos["shares"]
+                # ADWIN & Page-Hinkley Streaming Concept Drift Detection (Paper 21 & Paper 22)
+                adwin_det = u_engine.get_or_create_adwin(ticker)
+                ph_det = u_engine.get_or_create_page_hinkley(ticker)
+                adwin_res = adwin_det.update(ret_step)
+                ph_res = ph_det.update(ret_step)
+                if (
+                    adwin_res.get("drift_detected") or ph_res.get("drift_detected")
+                ) and ret_step < 0:
+                    tight_sl = max(sl_target, round(spot_price * 0.992, 2))
+                    if tight_sl > sl_target:
+                        pos["sl_target"] = tight_sl
+                        sl_target = tight_sl
+                        logger.warning(
+                            f"⚡ [ADWIN/PAGE-HINKLEY DRIFT] Statistical distribution break for {ticker}! Trailed SL to ${tight_sl:.2f}."
+                        )
+            except Exception as ce:
+                logger.debug(f"Drift surveillance notice for {ticker}: {ce}")
+
+            # 🐢 Turtle 0.5N ATR Pyramiding & Runner Scaling Engine
+            # (Ed Seykota, Michael Covel, Leung & Zhang 2017 arXiv:1701.03960)
+            from src.compound_engine import evaluate_pyramiding_step
+
+            # Update highest price seen for dynamic Chandelier stops
+            pos["highest_price_seen"] = max(
+                float(pos.get("highest_price_seen", entry_price)), spot_price
+            )
+            pos_atr = float(pos.get("atr_14", entry_price * 0.025))
+            if pos_atr <= 0:
+                pos_atr = max(entry_price * 0.025, 1.0)
+
+            pyramid_eval = evaluate_pyramiding_step(
+                current_price=spot_price,
+                position_state=pos,
+                atr=pos_atr,
+            )
+
+            if pyramid_eval.get("trigger_met"):
+                p_action = pyramid_eval.get("action")
+                new_sl_val = float(pyramid_eval.get("new_sl", sl_target))
+
+                if (
+                    p_action == "ADD_UNIT_1"
+                    and self.broker.state.get("cash", 0) > 1000.0
+                ):
+                    add_shares = int(pos.get("unit_shares", shares))
+                    pyr_res = self.broker.execute_pyramid_unit(
+                        ticker=ticker,
+                        unit_num=2,
+                        shares=add_shares,
+                        price=spot_price,
+                        new_sl=new_sl_val,
+                        reason="TURTLE_PYRAMID_UNIT_2_BREAKEVEN_LOCKED",
+                    )
+                    if pyr_res.get("success"):
+                        executed_actions.setdefault("pyramid_adds", []).append(pyr_res)
+                        sl_target = new_sl_val
+                        shares = int(pos["shares"])
+                        logger.info(
+                            f"🐢 [PYRAMID UNIT 2 ADDED] {ticker} @ ${spot_price:.2f} | Basis: ${pyr_res['blended_entry']:.2f} | Stop Ratcheted to Breakeven (${new_sl_val:.2f})"
+                        )
+
+                elif (
+                    p_action == "ADD_UNIT_2"
+                    and self.broker.state.get("cash", 0) > 1000.0
+                ):
+                    add_shares = int(pos.get("unit_shares", max(1, shares // 2)))
+                    pyr_res = self.broker.execute_pyramid_unit(
+                        ticker=ticker,
+                        unit_num=3,
+                        shares=add_shares,
+                        price=spot_price,
+                        new_sl=new_sl_val,
+                        reason="TURTLE_PYRAMID_UNIT_3_RUNNER_LOADED",
+                    )
+                    if pyr_res.get("success"):
+                        executed_actions.setdefault("pyramid_adds", []).append(pyr_res)
+                        sl_target = new_sl_val
+                        shares = int(pos["shares"])
+                        logger.info(
+                            f"🏆 [PYRAMID UNIT 3 ADDED] {ticker} @ ${spot_price:.2f} | Basis: ${pyr_res['blended_entry']:.2f} | Full Runner Loaded | Chandelier SL: ${new_sl_val:.2f})"
+                        )
+
+                elif p_action == "RATCHET_STOP":
+                    pos["sl_target"] = max(float(pos.get("sl_target", 0.0)), new_sl_val)
+                    sl_target = pos["sl_target"]
 
             # Check Stage 1 Scale-Out (+2.5 ATR)
             if not scaled_out and spot_price >= tp1_target:
@@ -444,7 +507,7 @@ class AutonomousTradingEngine:
                     "return_pct": round(ret_pct, 2),
                     "reason": "TP2_RUNNER_EXIT",
                 }
-                self.broker.state["closed_trades"].append(trade_record)
+                self.broker._record_trade_closure(trade_record)
                 del self.broker.state["open_positions"][ticker]
                 executed_actions["take_profits_tp2"].append(trade_record)
                 logger.info(
@@ -489,7 +552,7 @@ class AutonomousTradingEngine:
                     "return_pct": round(ret_pct, 2),
                     "reason": reason,
                 }
-                self.broker.state["closed_trades"].append(trade_record)
+                self.broker._record_trade_closure(trade_record)
                 del self.broker.state["open_positions"][ticker]
                 executed_actions["stop_losses"].append(trade_record)
                 logger.info(
@@ -549,6 +612,20 @@ class AutonomousTradingEngine:
                 available_slots = 0
         except Exception:
             pass
+
+        # Macro Pre-Event Blackout Gate (FOMC / CPI / NFP releases)
+        try:
+            from src.ultra_quant_engine import get_ultra_quant_engine
+
+            uq = get_ultra_quant_engine()
+            m_blackout = uq.evaluate_macro_blackout()
+            if m_blackout.get("is_blackout_active", False):
+                logger.warning(
+                    f"🚨 [MACRO EVENT BLACKOUT GATE] Pausing new entries: {m_blackout.get('reason')}"
+                )
+                available_slots = 0
+        except Exception as mb_err:
+            logger.debug(f"Macro blackout gate notice: {mb_err}")
 
         cash_available = self.broker.state.get("cash", 0.0)
 
@@ -724,6 +801,30 @@ class AutonomousTradingEngine:
                 if order_res.get("success"):
                     executed_actions["buys"].append(order_res)
                     resolution_text = delib.get("final_resolution", "APPROVED")
+
+                    # Almgren-Chriss Optimal Execution Schedule (Paper 3)
+                    try:
+                        from src.ultra_quant_engine import get_ultra_quant_engine
+
+                        ac_plan = (
+                            get_ultra_quant_engine().evaluate_almgren_chriss_execution(
+                                total_shares=float(order_res.get("shares", 10)),
+                                price=spot_price,
+                            )
+                        )
+                        order_res["almgren_chriss_schedule"] = ac_plan.get(
+                            "trade_sizes", []
+                        )
+                        order_res["expected_shortfall"] = ac_plan.get(
+                            "expected_shortfall_dollars", 0.0
+                        )
+                        logger.info(
+                            f"📐 [ALMGREN-CHRISS] Sliced order into {len(ac_plan.get('trade_sizes', []))} slices | "
+                            f"Expected Shortfall: ${ac_plan.get('expected_shortfall_dollars', 0.0):.2f}"
+                        )
+                    except Exception as ac_err:
+                        logger.debug(f"Almgren-Chriss notice for {t}: {ac_err}")
+
                     logger.info(
                         f"🚀 [AUTONOMOUS BUY] Executed {order_res.get('shares')} shares of {t} @ ${spot_price:.2f} (Verdict: {resolution_text})"
                     )
@@ -756,10 +857,39 @@ class AutonomousTradingEngine:
         )
         executed_actions["self_improvement"] = self_improvement_summary
 
+        # Compute Advanced Autopsy Performance Ratios (Calmar, Sortino, Omega)
+        try:
+            from src.backtest_autopsy import compute_advanced_performance_ratios
+
+            trades_df = self.broker.get_executed_trades_df()
+            if (
+                isinstance(trades_df, pd.DataFrame)
+                and not trades_df.empty
+                and "pnl" in trades_df.columns
+            ):
+                sim_equity = pd.Series(100000.0 + trades_df["pnl"].cumsum().values)
+                ratios = compute_advanced_performance_ratios(sim_equity)
+                executed_actions["autopsy_ratios"] = ratios
+                logger.info(
+                    f"📊 [AUTONOMOUS AUTOPSY] Calmar: {ratios.get('calmar_ratio'):.2f} | "
+                    f"Sortino: {ratios.get('sortino_ratio'):.2f} | Omega: {ratios.get('omega_ratio'):.2f}"
+                )
+        except Exception as aut_err:
+            logger.debug(f"Autopsy ratio calculation notice: {aut_err}")
+
         elapsed = round(time.time() - start_time, 2)
+        cycle_elapsed_ns = time.perf_counter_ns() - cycle_t0_ns
+        cycle_elapsed_us = round(cycle_elapsed_ns / 1000.0, 2)
+        cycle_elapsed_ms = round(cycle_elapsed_ns / 1_000_000.0, 3)
+
         executed_actions["elapsed_seconds"] = elapsed
+        executed_actions["execution_telemetry"] = {
+            "cycle_latency_ns": cycle_elapsed_ns,
+            "cycle_latency_us": cycle_elapsed_us,
+            "cycle_latency_ms": cycle_elapsed_ms,
+        }
         logger.info(
-            f"✅ [AUTONOMOUS TRADER] Completed cycle in {elapsed}s. Buys: {len(executed_actions['buys'])}, Exits: {len(executed_actions['take_profits_tp1']) + len(executed_actions['take_profits_tp2']) + len(executed_actions['stop_losses'])}"
+            f"⚡ [QUANTUM EXECUTION CYCLE COMPLETE] Latency: {cycle_elapsed_us:,.1f} μs ({cycle_elapsed_ms:.2f} ms | {cycle_elapsed_ns:,} ns) | Total: {elapsed}s. Buys: {len(executed_actions['buys'])}, Exits: {len(executed_actions['take_profits_tp1']) + len(executed_actions['take_profits_tp2']) + len(executed_actions['stop_losses'])}"
         )
 
         # Save cycle log safely with default=str serialization
@@ -912,6 +1042,21 @@ class AutonomousTradingEngine:
             learning_state["agent_voting_weights"] = {
                 k: round(v / tot_w, 3) for k, v in w_dict.items()
             }
+
+        # Trigger Bayesian Post-Mortem Learner across all closed positions
+        try:
+            from src.post_mortem_learner import TradePostMortemLearner
+
+            learner = TradePostMortemLearner()
+            post_mortem_res = learner.run_post_mortem_cycle()
+            learning_state["bayesian_council_calibration"] = post_mortem_res.get(
+                "calibrated_weights", {}
+            )
+            logger.info(
+                f"🧠 [BAYESIAN POST-MORTEM LEARNER] Analyzed {post_mortem_res.get('trades_analyzed', 0)} closed trades. Calibrated Council weights: {post_mortem_res.get('calibrated_weights')}"
+            )
+        except Exception as le:
+            logger.debug(f"Bayesian post-mortem learning notice: {le}")
 
         # Persist learning memory
         os.makedirs(os.path.dirname(memory_file), exist_ok=True)

@@ -89,3 +89,4 @@ results/*_classification_report.txt
 results/*_feature_importances.csv
 results/*_metrics.json
 results/*_significance.json
+scratch/

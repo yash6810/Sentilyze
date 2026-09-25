@@ -1,6 +1,6 @@
 {
   "memory_type": "SEMANTIC_QUANT_RULES",
-  "last_updated": "2026-09-06T14:17:00.851361+00:00",
+  "last_updated": "2026-09-25T06:25:00.000000+00:00",
   "rules": [
     {
       "rule_id": "RULE_01_REGIME_LEVERAGE",
@@ -26,6 +26,31 @@
       "rule_id": "RULE_05_HIGH_WATERMARK_RATCHET",
       "category": "Profit Taking",
       "heuristic": "Once a position gains +1.5x ATR, move stop-loss to entry price + 0.5x ATR; continuously lock 65-80% of peak gains as the trade trends upward."
+    },
+    {
+      "rule_id": "RULE_06_ANTI_WHIPSAW_EMBARGO",
+      "category": "Execution & Churn Prevention",
+      "heuristic": "After closing any position on MODEL_SELL or STOP_LOSS, enforce a strict 72-hour quarantine embargo [t_exit, t_exit + 3 days]. Prevents ping-pong wash-sales and frictional whipsaw churn."
+    },
+    {
+      "rule_id": "RULE_07_SECTOR_CLUSTER_IMMUNITY",
+      "category": "Portfolio Diversification",
+      "heuristic": "Limit open portfolio allocation to max 1 asset per GICS sector. Prevents simultaneous multi-asset failure cascades (e.g. holding 8 industrial stocks concurrently)."
+    },
+    {
+      "rule_id": "RULE_08_CHANDELIER_RUNNER_RATCHET",
+      "category": "Profit Maximization",
+      "heuristic": "For winning trades, enforce escalating multi-tier ratchets: +1% locked at +3% gain, +2.5% locked at +5% gain, +5% locked at +8% gain. Bank 50% at TP1 (+2.5 ATR), and trail runner stop at max(P_entry * 1.02, P_max * 0.965)."
+    },
+    {
+      "rule_id": "RULE_09_COMMITTEE_SUPER_MAJORITY",
+      "category": "Consensus Arbitration",
+      "heuristic": "Require at least 3 out of 5 specialist buy votes and >= 58.0% effective conviction to execute an entry. For assets with recent stop-outs or sector caution, demand Super-Majority (>= 3/5 votes and >= 65% conviction)."
+    },
+    {
+      "rule_id": "RULE_10_MACRO_VOLATILITY_GATE",
+      "category": "Tail-Risk Protection",
+      "heuristic": "When market-wide VIX > 24.0 or VPIN Order Flow Toxicity triggers critical dumping signals, pause all new long allocations and preserve 100% cash dry powder."
     }
   ]
 }

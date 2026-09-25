@@ -12,10 +12,9 @@ import os
 import json
 import streamlit as st
 import pandas as pd
-import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-from typing import Dict, Any
+from typing import Dict
 
 from src.ui.components import render_workspace_header
 from src.config import COMPANY_NAMES
@@ -70,7 +69,51 @@ def render_portfolio_workspace(selected_ticker: str):
             "No precomputed ticker backtest portfolios found in `results/`. "
             "Please run Walk-Forward Optimization to populate the master fund."
         )
-        return
+    # 🔒 CPPI Dynamic Cushion Insurance & Capital Floor Monitor (Black & Jones 1987)
+    portfolio_path = os.path.join("results", "paper_portfolio.json")
+    if os.path.exists(portfolio_path):
+        try:
+            from src.cppi_insurance import get_cppi_cushion_multiplier
+
+            with open(portfolio_path, "r", encoding="utf-8") as f:
+                port_data = json.load(f)
+            total_eq = float(port_data.get("total_equity", 100000.0))
+            hist_eq = [
+                h.get("total_equity", 100000.0)
+                for h in port_data.get("equity_history", [])
+            ]
+            peak_eq = max(hist_eq + [total_eq])
+            cppi_info = get_cppi_cushion_multiplier(
+                portfolio_value=total_eq,
+                peak_equity=peak_eq,
+                floor_pct=0.95,
+                target_multiplier=2.85,
+            )
+            st.markdown("#### 🔒 CPPI Dynamic Cushion & Capital Floor Monitor")
+            c1, c2, c3, c4 = st.columns(4)
+            c1.metric(
+                "🛡️ 95% Capital Floor",
+                f"${cppi_info['floor_value']:,.2f}",
+                delta="Strictly Protected",
+            )
+            c2.metric(
+                "🌊 Available Risk Cushion",
+                f"${cppi_info['cushion']:,.2f}",
+                delta=f"{cppi_info['cushion_pct']:.1%} buffer",
+            )
+            c3.metric(
+                "📈 Risky Capacity Multiplier",
+                f"{cppi_info['effective_multiplier']:.2f}x",
+                delta="Grossman-Zhou 1993",
+            )
+            c4.metric(
+                "⚖️ Allocation Factor",
+                f"{cppi_info['allocation_factor']:.1%}",
+                delta=cppi_info["regime"],
+            )
+            st.markdown("---")
+        except Exception:
+            pass
 
     # Allocation Method Selector
     alloc_col1, alloc_col2 = st.columns([2, 1])
@@ -175,12 +218,12 @@ def render_portfolio_workspace(selected_ticker: str):
     )
     k4.metric(
         "🛡️ Max Drawdown",
-        f"{fund_metrics.get('max_drawdown', -0.1189)*100:.2f}%",
+        f"{fund_metrics.get('max_drawdown', -0.1189) * 100:.2f}%",
         delta="vs SPY -17.26%",
     )
     k5.metric(
         "📈 Fund Cumulative Return",
-        f"{fund_metrics.get('strategy_total_return', 0.8072)*100:+.2f}%",
+        f"{fund_metrics.get('strategy_total_return', 0.8072) * 100:+.2f}%",
     )
 
     st.markdown("<br>", unsafe_allow_html=True)
@@ -345,7 +388,8 @@ def render_portfolio_workspace(selected_ticker: str):
     # =========================================================================
     st.markdown("### 🗺️ Institutional S&P 100 Capital Allocation Treemap")
     st.caption(
-        "Box size indicates **Risk Parity Capital Weight (%)**; Color gradient indicates **10-Year Strategy Sharpe Ratio**."
+        "Box size indicates **Risk Parity Capital Weight (%)**; "
+        "Color gradient indicates **10-Year Strategy Sharpe Ratio**."
     )
 
     fig_tree = px.treemap(
@@ -364,9 +408,12 @@ def render_portfolio_workspace(selected_ticker: str):
             "Weight (%)",
         ],
     )
-    fig_tree.update_traces(
-        hovertemplate="<b>%{label}</b><br>Company: %{customdata[0]}<br>Sector: %{customdata[1]}<br>Weight: %{customdata[5]:.2f}%<br>Sharpe: %{customdata[4]:.2f}<br>10Y Return: %{customdata[2]:+.2f}%<br>Max DD: %{customdata[3]:.2f}%<extra></extra>"
+    hover_tmpl = (
+        "<b>%{label}</b><br>Company: %{customdata[0]}<br>Sector: %{customdata[1]}<br>"
+        "Weight: %{customdata[5]:.2f}%<br>Sharpe: %{customdata[4]:.2f}<br>"
+        "10Y Return: %{customdata[2]:+.2f}%<br>Max DD: %{customdata[3]:.2f}%<extra></extra>"
     )
+    fig_tree.update_traces(hovertemplate=hover_tmpl)
     fig_tree.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         height=500,
@@ -486,11 +533,13 @@ def render_portfolio_workspace(selected_ticker: str):
                 )
                 st.caption(
                     f"🛡️ Active Protection: {len(open_pos)} open positions holding ${invested:,.2f}. "
-                    f"Cash moat of ${cash_bal:,.2f} ({cash_bal / (total_eq + 1e-9):.1%}) provides immediate downside shielding."
+                    f"Cash moat of ${cash_bal:,.2f} ({cash_bal / (total_eq + 1e-9):.1%}) "
+                    "provides immediate downside shielding."
                 )
             else:
                 st.info(
-                    f"No open positions currently at risk. Portfolio is 100% in cash (${cash_bal:,.2f}) — zero drawdown exposure to historical shock scenarios."
+                    f"No open positions currently at risk. Portfolio is 100% in cash (${cash_bal:,.2f}) "
+                    "— zero drawdown exposure to historical shock scenarios."
                 )
         except Exception as cs_err:
             st.warning(f"Notice generating Black Swan simulation: {cs_err}")

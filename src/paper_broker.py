@@ -26,8 +26,14 @@ class PaperBroker:
         self,
         portfolio_path: str = PORTFOLIO_FILE,
         initial_cash: float = INITIAL_CAPITAL,
+        portfolio_file: Optional[str] = None,
+        trades_file: Optional[str] = None,
+        trades_path: Optional[str] = None,
     ):
+        if portfolio_file is not None:
+            portfolio_path = portfolio_file
         self.portfolio_path = portfolio_path
+        self.trades_path = trades_file or trades_path
         self.initial_cash = initial_cash
         self.state = self._load_or_initialize()
 
@@ -171,6 +177,46 @@ class PaperBroker:
         except Exception as e:
             logger.debug(f"Notice exporting executed_trades.csv: {e}")
 
+    def _record_trade_closure(self, trade_record: Dict[str, Any]) -> None:
+        """Appends trade to closed_trades and records an episodic post-mortem in AgentMemoryStore."""
+        self.state["closed_trades"].append(trade_record)
+        try:
+            from src.agent_memory import AgentMemoryStore
+
+            target_dir = os.path.dirname(self.portfolio_path)
+            memory_dir = (
+                os.path.join(target_dir, "agent_memory")
+                if target_dir
+                else "results/agent_memory"
+            )
+            mem_store = AgentMemoryStore(memory_dir=memory_dir)
+            shares = float(trade_record.get("shares", 1))
+            entry_p = float(trade_record.get("entry_price", 1.0))
+            cost_basis = max(1.0, shares * entry_p)
+            pnl_val = float(trade_record.get("pnl", 0.0))
+            r_mult = pnl_val / (cost_basis * 0.025)
+
+            outcome = "WIN" if pnl_val > 0 else ("SCRATCH" if pnl_val == 0 else "LOSS")
+            reason = str(trade_record.get("reason", "EXIT"))
+            notes = f"Auto-recorded exit ({reason}) on {trade_record.get('exit_date')}. PnL: ${pnl_val:+,.2f} ({trade_record.get('return_pct', 0.0):+.2f}%)."
+            if pnl_val < -500:
+                notes += " High dollar drawdown event; tighten memory friction."
+
+            mem_store.record_postmortem(
+                ticker=trade_record.get("ticker", ""),
+                direction="LONG",
+                outcome=outcome,
+                r_multiple=round(r_mult, 2),
+                pnl_pct=float(trade_record.get("return_pct", 0.0)),
+                pnl_dollars=round(pnl_val, 2),
+                exit_reason=reason,
+                entry_date=str(trade_record.get("entry_date", "")),
+                exit_date=str(trade_record.get("exit_date", "")),
+                notes=notes,
+            )
+        except Exception as e:
+            logger.debug(f"Notice auto-recording trade postmortem in broker: {e}")
+
     def execute_daily_signals(
         self,
         signals_list: List[Dict[str, Any]],
@@ -254,19 +300,42 @@ class PaperBroker:
             except Exception as e:
                 logger.debug(f"Notice applying zero-giveback in daily signals: {e}")
 
-            # Dynamic Chandelier Trailing Ratchet for Runners and Winners
+            # Progressive Multi-Tier Profit Lock & Chandelier Compounder Ratchet
             if scaled_out:
+                floor_runner_sl = round(entry_price * 1.02, 2)
                 chandelier_sl = round(
                     pos.get("highest_price_seen", curr_price) * 0.965, 2
                 )
-                if chandelier_sl > sl_target:
-                    pos["sl_target"] = chandelier_sl
-                    sl_target = chandelier_sl
-            elif curr_price >= entry_price * 1.03:
-                lock_sl = round(entry_price * 1.01, 2)
-                if lock_sl > sl_target:
-                    pos["sl_target"] = lock_sl
-                    sl_target = lock_sl
+                target_sl = max(floor_runner_sl, chandelier_sl)
+                if target_sl > sl_target:
+                    pos["sl_target"] = target_sl
+                    sl_target = target_sl
+                    pos["profit_lock_status"] = f"🏆 RUNNER RATCHET (${target_sl:.2f})"
+            else:
+                if curr_price >= entry_price * 1.08:
+                    tier3_sl = round(entry_price * 1.05, 2)
+                    if tier3_sl > sl_target:
+                        pos["sl_target"] = tier3_sl
+                        sl_target = tier3_sl
+                        pos["profit_lock_status"] = (
+                            f"🔒 TIER-3 COMPOUNDER (+5.0% @ ${tier3_sl:.2f})"
+                        )
+                elif curr_price >= entry_price * 1.05:
+                    tier2_sl = round(entry_price * 1.025, 2)
+                    if tier2_sl > sl_target:
+                        pos["sl_target"] = tier2_sl
+                        sl_target = tier2_sl
+                        pos["profit_lock_status"] = (
+                            f"🔒 TIER-2 SECURED (+2.5% @ ${tier2_sl:.2f})"
+                        )
+                elif curr_price >= entry_price * 1.03:
+                    tier1_sl = round(entry_price * 1.010, 2)
+                    if tier1_sl > sl_target:
+                        pos["sl_target"] = tier1_sl
+                        sl_target = tier1_sl
+                        pos["profit_lock_status"] = (
+                            f"🔒 TIER-1 SECURED (+1.0% @ ${tier1_sl:.2f})"
+                        )
 
             # Check Stage 1 Scale-Out (+2.5 ATR)
             if not scaled_out and curr_price >= tp1_target:
@@ -296,7 +365,7 @@ class PaperBroker:
                     "scale_stage": "STAGE_1_50PCT",
                     "status": "RISK_FREE_RUNNER",
                 }
-                self.state["closed_trades"].append(trade_record)
+                self._record_trade_closure(trade_record)
                 executed_actions["take_profits_tp1"].append(trade_record)
                 executed_actions["take_profits"].append(trade_record)
                 logger.info(
@@ -327,7 +396,7 @@ class PaperBroker:
                     "reason": "TAKE_PROFIT",
                     "scale_stage": "STAGE_2_RUNNER",
                 }
-                self.state["closed_trades"].append(trade_record)
+                self._record_trade_closure(trade_record)
                 del self.state["open_positions"][ticker]
                 closed_today_tickers.add(ticker)
                 executed_actions["take_profits_tp2"].append(trade_record)
@@ -363,7 +432,7 @@ class PaperBroker:
                     "return_pct": round(ret_pct, 2),
                     "reason": reason,
                 }
-                self.state["closed_trades"].append(trade_record)
+                self._record_trade_closure(trade_record)
                 del self.state["open_positions"][ticker]
                 closed_today_tickers.add(ticker)
                 executed_actions["stop_losses"].append(trade_record)
@@ -410,7 +479,7 @@ class PaperBroker:
                         "return_pct": round(ret_pct, 2),
                         "reason": "MODEL_SELL",
                     }
-                    self.state["closed_trades"].append(trade_record)
+                    self._record_trade_closure(trade_record)
                     del self.state["open_positions"][ticker]
                     closed_today_tickers.add(ticker)
                     executed_actions["sells"].append(trade_record)
@@ -546,9 +615,35 @@ class PaperBroker:
                             f"🛡️ [GEX SHIELD] 50% sizing haircut on {ticker} due to negative market maker gamma."
                         )
                 except Exception:
-                    gex_haircut = 1.0
+                    pass
 
-                raw_allocation = self.state["cash"] * quarter_kelly * gex_haircut
+                # CPPI (Constant Proportion Portfolio Insurance) Dynamic Cushion Scaling
+                cppi_factor = 1.0
+                try:
+                    from src.cppi_insurance import get_cppi_cushion_multiplier
+
+                    equity_hist = [
+                        h.get("total_equity", 100000.0)
+                        for h in self.state.get("equity_history", [])
+                    ]
+                    peak_eq = max(equity_hist + [self.state["total_equity"]])
+                    cppi_eval = get_cppi_cushion_multiplier(
+                        portfolio_value=self.state["total_equity"],
+                        peak_equity=peak_eq,
+                        floor_pct=0.95,
+                        multiplier=2.85,
+                    )
+                    cppi_factor = float(cppi_eval.get("allocation_factor", 1.0))
+                    if cppi_factor < 1.0:
+                        logger.info(
+                            f"🛡️ [CPPI SHIELD] Scaled buy allocation by {cppi_factor:.1%} (Cushion: ${cppi_eval['cushion']:,.2f}, Floor: ${cppi_eval['floor_value']:,.2f}, Regime: {cppi_eval['regime']})"
+                        )
+                except Exception as cppi_err:
+                    logger.debug(f"CPPI calculation notice: {cppi_err}")
+
+                raw_allocation = (
+                    self.state["cash"] * quarter_kelly * gex_haircut * cppi_factor
+                )
                 allocation_per_stock = min(raw_allocation, 45000.0)
 
                 shares = int(allocation_per_stock // price)
@@ -922,6 +1017,70 @@ class PaperBroker:
             confidence=confidence,
         )
 
+    def execute_pyramid_unit(
+        self,
+        ticker: str,
+        unit_num: int,
+        shares: int,
+        price: float,
+        new_sl: float,
+        reason: str = "TURTLE_PYRAMID_ADD",
+    ) -> Dict[str, Any]:
+        """
+        Executes a 0.5N ATR Turtle Pyramiding scale-in order (Unit 2 or Unit 3).
+        Recalculates blended average cost basis and updates unified stop-loss.
+        """
+        if ticker not in self.state["open_positions"]:
+            return {"success": False, "error": f"No open position for {ticker}"}
+
+        if price <= 0 or shares <= 0:
+            return {"success": False, "error": "Invalid price or shares"}
+
+        cost = float(shares * price)
+        if cost > self.state["cash"]:
+            return {
+                "success": False,
+                "error": f"Insufficient cash (${self.state['cash']:,.2f} available, required ${cost:,.2f})",
+            }
+
+        pos = self.state["open_positions"][ticker]
+        old_shares = int(pos["shares"])
+        old_entry = float(pos["entry_price"])
+
+        # Recalculate blended average cost basis
+        total_shares = old_shares + shares
+        blended_entry = (old_shares * old_entry + shares * price) / total_shares
+
+        self.state["cash"] -= cost
+        pos["shares"] = total_shares
+        pos["entry_price"] = round(blended_entry, 2)
+        pos["current_price"] = price
+        pos["pyramid_units_filled"] = unit_num
+        pos["sl_target"] = max(float(pos.get("sl_target", 0.0)), float(new_sl))
+
+        now_utc = datetime.now(timezone.utc)
+        date_str = now_utc.strftime("%Y-%m-%d")
+        now_str = now_utc.isoformat()
+
+        self._recalculate_metrics(date_str, now_str)
+        self._save()
+
+        logger.info(
+            f"🎯 [TURTLE PYRAMID UNIT {unit_num}] Added {shares} shares of {ticker} @ ${price:.2f} "
+            f"(Total: {total_shares} shares, New Avg Basis: ${blended_entry:.2f}, SL: ${pos['sl_target']:.2f})"
+        )
+        return {
+            "success": True,
+            "ticker": ticker,
+            "unit_num": unit_num,
+            "added_shares": shares,
+            "total_shares": total_shares,
+            "blended_entry": round(blended_entry, 2),
+            "new_sl": pos["sl_target"],
+            "cost": round(cost, 2),
+            "reason": reason,
+        }
+
     def _save_state(self):
         """Alias for _save to ensure 100% backward compatibility."""
         return self._save()
@@ -977,7 +1136,7 @@ class PaperBroker:
             "return_pct": round(ret_pct, 2),
             "reason": reason,
         }
-        self.state["closed_trades"].append(trade_record)
+        self._record_trade_closure(trade_record)
         del self.state["open_positions"][ticker]
 
         self._recalculate_metrics(date_str, now_str)
@@ -1041,7 +1200,7 @@ class PaperBroker:
             "scale_stage": "STAGE_1_50PCT",
             "status": "RISK_FREE_RUNNER",
         }
-        self.state["closed_trades"].append(trade_record)
+        self._record_trade_closure(trade_record)
 
         self._recalculate_metrics(date_str, now_str)
         self._save()

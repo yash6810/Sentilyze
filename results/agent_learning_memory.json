@@ -1,30 +1,130 @@
 {
-  "total_learning_cycles": 30,
-  "last_updated": "2026-09-24T23:50:20.416557+00:00",
+  "total_learning_cycles": 3,
+  "last_updated": "2026-09-25T15:33:18.067598+00:00",
   "agent_voting_weights": {
     "technicals_weight": 0.294,
-    "sentiment_weight": 0.362,
-    "valuation_weight": 0.148,
-    "cro_weight": 0.196
+    "sentiment_weight": 0.343,
+    "valuation_weight": 0.147,
+    "cro_weight": 0.216
   },
-  "adaptive_kelly_multiplier": 1.04,
+  "adaptive_kelly_multiplier": 0.94,
   "recent_trade_autopsies": [
     {
-      "ticker": "EXPD",
-      "pnl": 35.75,
-      "return_pct": 0.35,
-      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
-      "lesson": "Committee conviction on EXPD succeeded with +0.35% gain.",
-      "timestamp": "2026-09-23T19:42:03.301674+00:00"
+      "ticker": "DE",
+      "pnl": -265.3,
+      "return_pct": -3.74,
+      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
+      "lesson": "Stop loss on DE triggered at -3.74%. Protecting capital.",
+      "timestamp": "2026-09-25T14:58:27.717382+00:00"
     },
     {
-      "ticker": "EXPD",
-      "pnl": 28.6,
-      "return_pct": 0.28,
-      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
-      "lesson": "Committee conviction on EXPD succeeded with +0.28% gain.",
-      "timestamp": "2026-09-23T20:47:37.426529+00:00"
+      "ticker": "DE",
+      "pnl": -250.3,
+      "return_pct": -3.52,
+      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
+      "lesson": "Stop loss on DE triggered at -3.52%. Protecting capital.",
+      "timestamp": "2026-09-25T15:33:20.021578+00:00"
     }
   ],
-  "retrained_models": []
+  "retrained_models": [
+    {
+      "ticker": "DE",
+      "timestamp": "2026-09-25T14:58:27.717368+00:00",
+      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
+    },
+    {
+      "ticker": "DE",
+      "timestamp": "2026-09-25T15:33:20.021562+00:00",
+      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
+    }
+  ],
+  "timestamp": "2026-09-25T11:06:51.023793+00:00",
+  "total_trades_analyzed": 64,
+  "trades_analyzed": 64,
+  "win_rate_pct": 54.69,
+  "total_realized_pnl": 47506.63,
+  "winners_count": 35,
+  "controlled_losses_count": 13,
+  "severe_losses_count": 3,
+  "prior_weights": {
+    "Technical Momentum": 0.2546,
+    "FinBERT Sentiment": 0.2545,
+    "Fundamental Valuation": 0.1981,
+    "Chief Risk Officer": 0.1481,
+    "Adversarial Red-Team": 0.1447
+  },
+  "posterior_calibrated_weights": {
+    "Technical Momentum": 0.2574,
+    "FinBERT Sentiment": 0.2573,
+    "Fundamental Valuation": 0.1965,
+    "Chief Risk Officer": 0.1473,
+    "Adversarial Red-Team": 0.1415
+  },
+  "calibrated_weights": {
+    "Technical Momentum": 0.2574,
+    "FinBERT Sentiment": 0.2573,
+    "Fundamental Valuation": 0.1965,
+    "Chief Risk Officer": 0.1473,
+    "Adversarial Red-Team": 0.1415
+  },
+  "agent_performance_deltas": {
+    "Technical Momentum": 0.3138,
+    "FinBERT Sentiment": 0.3138,
+    "Fundamental Valuation": 0.1874,
+    "Chief Risk Officer": 0.2078,
+    "Adversarial Red-Team": 0.0937
+  },
+  "recent_top_wins": [
+    {
+      "ticker": "PLTR",
+      "pnl": 8457.6,
+      "return_pct": 494.6,
+      "classification": "ALPHA_HARVEST",
+      "quality": "WINNER",
+      "exit_reason": "TP2_RUNNER_EXIT"
+    },
+    {
+      "ticker": "PLTR",
+      "pnl": 8392.8,
+      "return_pct": 490.81,
+      "classification": "ALPHA_HARVEST",
+      "quality": "WINNER",
+      "exit_reason": "TP1_SCALE_OUT_50%"
+    },
+    {
+      "ticker": "AMD",
+      "pnl": 6459.48,
+      "return_pct": 365.44,
+      "classification": "ALPHA_HARVEST",
+      "quality": "WINNER",
+      "exit_reason": "TP2_RUNNER_EXIT"
+    },
+    {
+      "ticker": "AMD",
+      "pnl": 6092.46,
+      "return_pct": 364.95,
+      "classification": "ALPHA_HARVEST",
+      "quality": "WINNER",
+      "exit_reason": "TP1_SCALE_OUT_50%"
+    },
+    {
+      "ticker": "GEV",
+      "pnl": 2876.0,
+      "return_pct": 6.52,
+      "classification": "ALPHA_HARVEST",
+      "quality": "WINNER",
+      "exit_reason": "MODEL_SELL"
+    }
+  ],
+  "recent_lessons": [
+    "Controlled 13 stop-loss events via Capital Shield.",
+    "Harvested 35 high-conviction momentum runs with 54.69% win rate."
+  ],
+  "bayesian_council_calibration": {
+    "Technical Momentum": 0.1307,
+    "FinBERT Sentiment": 0.1798,
+    "Fundamental Valuation": 0.1543,
+    "Chief Risk Officer": 0.2204,
+    "Adversarial Red-Team": 0.3148
+  }
 }

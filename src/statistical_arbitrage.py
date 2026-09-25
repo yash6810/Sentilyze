@@ -387,3 +387,98 @@ def backtest_pairs_strategy(
         "final_equity": round(capital, 2),
         "equity_curve": equity_series,
     }
+
+
+def calibrate_avellaneda_lee_stat_arb(
+    series_a: pd.Series,
+    series_b: pd.Series,
+    ticker_a: str,
+    ticker_b: str,
+) -> Dict[str, Any]:
+    """
+    Calibrates continuous Ornstein-Uhlenbeck (OU) mean-reverting process and
+    computes the dimensionless S-Score following Avellaneda & Lee (2010).
+
+    Args:
+        series_a: Price series of Asset A
+        series_b: Price series of Asset B
+        ticker_a: Symbol for Asset A
+        ticker_b: Symbol for Asset B
+
+    Returns:
+        Dict with hedge ratio, cointegration p-value, OU half-life, S-score, and signal.
+    """
+    df = pd.DataFrame({"A": series_a, "B": series_b}).dropna()
+    if len(df) < 30:
+        return {
+            "pair": f"{ticker_a}/{ticker_b}",
+            "is_cointegrated": False,
+            "signal": "INSUFFICIENT_DATA",
+            "half_life_days": 0.0,
+            "s_score": 0.0,
+        }
+
+    log_a = np.log(df["A"].astype(float))
+    log_b = np.log(df["B"].astype(float))
+
+    # Step 1: OLS Log-Price Hedge Ratio
+    slope, intercept, _, _, _ = stats.linregress(log_b, log_a)
+    beta = float(slope)
+    alpha = float(intercept)
+
+    spread = log_a - (alpha + beta * log_b)
+
+    # Step 2: ADF Cointegration Test
+    adf_res = evaluate_cointegration_adf(spread)
+    p_val = float(adf_res.get("p_value", 1.0))
+
+    # Step 3: AR(1) OU Process Parameter Calibration
+    s_curr = spread.values[:-1]
+    s_next = spread.values[1:]
+
+    slope_ar, intercept_ar, _, _, _ = stats.linregress(s_curr, s_next)
+    b = float(slope_ar)
+    a = float(intercept_ar)
+
+    residuals = s_next - (a + b * s_curr)
+    sigma_eps = float(np.std(residuals))
+
+    if b >= 0.999 or b <= 0.0:
+        theta = 1e-4
+        half_life = 999.0
+        mu = float(spread.mean())
+        sigma_eq = float(spread.std())
+    else:
+        theta = -np.log(b)
+        half_life = float(np.log(2.0) / theta)
+        mu = float(a / (1.0 - b))
+        sigma_eq = float(sigma_eps / np.sqrt(1.0 - b**2))
+
+    current_s_score = float((spread.iloc[-1] - mu) / (sigma_eq + 1e-8))
+
+    is_valid_pair = (p_val < 0.10) and (3.0 <= half_life <= 45.0)
+
+    if not is_valid_pair:
+        signal = "INACTIVE_NOT_COINTEGRATED"
+    elif abs(current_s_score) >= 3.0:
+        signal = "EMERGENCY_STOP_LOSS: Structural spread divergence"
+    elif current_s_score <= -1.25:
+        signal = f"ENTER_LONG_SPREAD: Long {ticker_a} / Short {beta:.2f}x {ticker_b}"
+    elif current_s_score >= 1.25:
+        signal = f"ENTER_SHORT_SPREAD: Short {ticker_a} / Long {beta:.2f}x {ticker_b}"
+    elif abs(current_s_score) <= 0.50:
+        signal = "EXIT_TARGET_REACHED: Spread in equilibrium"
+    else:
+        signal = "HOLD_CURRENT_POSITION"
+
+    return {
+        "pair": f"{ticker_a}/{ticker_b}",
+        "beta_hedge_ratio": round(beta, 4),
+        "intercept": round(alpha, 4),
+        "adf_pvalue": round(p_val, 4),
+        "is_cointegrated": is_valid_pair,
+        "half_life_days": round(float(half_life), 1),
+        "mean_reversion_speed_theta": round(float(theta), 4),
+        "s_score": round(float(current_s_score), 2),
+        "signal": signal,
+    }

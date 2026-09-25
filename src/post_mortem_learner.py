@@ -16,7 +16,7 @@ Analyzes historical executed trades from results/executed_trades.csv and results
 import os
 import json
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List
 import numpy as np
 import pandas as pd
 from src.utils import get_logger
@@ -254,6 +254,7 @@ class TradePostMortemLearner:
         episodic_memory = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "total_trades_analyzed": len(analyzed_trades),
+            "trades_analyzed": len(analyzed_trades),
             "win_rate_pct": win_rate_pct,
             "total_realized_pnl": total_realized_pnl,
             "winners_count": len(winners),
@@ -261,6 +262,7 @@ class TradePostMortemLearner:
             "severe_losses_count": len(severe_losses),
             "prior_weights": current_weights,
             "posterior_calibrated_weights": calibrated_weights,
+            "calibrated_weights": calibrated_weights,
             "agent_performance_deltas": deltas,
             "recent_top_wins": sorted(winners, key=lambda x: x["pnl"], reverse=True)[
                 :5

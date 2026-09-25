@@ -1,0 +1,14 @@
+{
+  "ticker": "DE",
+  "timestamp": "2026-09-25T15:33:18.071811+00:00",
+  "elapsed_seconds": 1.95,
+  "dataset_rows": 1546,
+  "features_used": 26,
+  "champion_accuracy": 0.55,
+  "challenger_accuracy": 0.5194,
+  "accuracy_delta_pct": -3.06,
+  "challenger_roc_auc": 0.5197,
+  "challenger_precision": 0.5262,
+  "deployment_verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)",
+  "is_promoted": false
+}

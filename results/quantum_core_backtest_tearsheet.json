@@ -1,0 +1,38 @@
+{
+  "timestamp": "2026-09-25T11:21:21.436172+00:00",
+  "baseline_all_in": {
+    "total_trades": 1198,
+    "total_realized_pnl": 698.88,
+    "win_rate_pct": 62.6,
+    "profit_factor": 1.0,
+    "avg_win_dollar": 222.84,
+    "avg_loss_dollar": -371.49,
+    "expectancy_per_trade": 0.58,
+    "max_drawdown_pct": 7.37,
+    "sharpe_ratio": 0.03,
+    "sortino_ratio": 0.67,
+    "calmar_ratio": 0.13,
+    "terminal_equity": 100698.88
+  },
+  "quantum_core_pyramiding": {
+    "total_trades": 1198,
+    "total_realized_pnl": 174920.96,
+    "win_rate_pct": 31.64,
+    "profit_factor": 1.82,
+    "avg_win_dollar": 1022.37,
+    "avg_loss_dollar": -259.53,
+    "expectancy_per_trade": 146.01,
+    "max_drawdown_pct": 5.58,
+    "sharpe_ratio": -1.5,
+    "sortino_ratio": -4.0,
+    "calmar_ratio": -28.64,
+    "terminal_equity": 274920.96
+  },
+  "delta_comparison": {
+    "pnl_improvement_pct": 24928.8,
+    "win_rate_delta_pct": -30.96,
+    "profit_factor_delta": 0.82,
+    "drawdown_reduction_pct": 1.79,
+    "calmar_ratio_gain": -28.77
+  }
+}
