@@ -122,6 +122,21 @@ def _get_local_cached_price(ticker: str) -> float:
         from src.utils import sanitize_filename, safe_path_join
 
         clean = sanitize_filename(ticker)
+        # Check open positions in paper portfolio first
+        port_p = safe_path_join("results", "paper_portfolio.json")
+        if os.path.exists(port_p):
+            with open(port_p, "r", encoding="utf-8") as f:
+                p_data = json.load(f)
+            open_pos = p_data.get("open_positions", {})
+            if ticker in open_pos:
+                p_val = float(
+                    open_pos[ticker].get("current_price")
+                    or open_pos[ticker].get("entry_price")
+                    or 0.0
+                )
+                if p_val > 0:
+                    return round(p_val, 2)
+
         # Check raw prices
         p_path = safe_path_join("data", "raw", f"{clean}_prices.csv")
         if os.path.exists(p_path):
@@ -136,7 +151,7 @@ def _get_local_cached_price(ticker: str) -> float:
                 return round(float(df["Price"].dropna().iloc[-1]), 2)
     except Exception:
         pass
-    # Approximate base price
+    # Approximate base price for mega-caps only; never invent synthetic prices for unknown tickers
     base_defaults = {
         "NVDA": 122.50,
         "AAPL": 227.50,
@@ -147,7 +162,7 @@ def _get_local_cached_price(ticker: str) -> float:
         "PLTR": 172.25,
         "META": 580.00,
     }
-    return base_defaults.get(ticker.upper(), 100.00)
+    return base_defaults.get(ticker.upper(), 0.0)
 
 
 def fetch_live_quote(ticker: str) -> Dict[str, Any]:
@@ -235,6 +250,21 @@ def fetch_live_quote(ticker: str) -> Dict[str, Any]:
 
     # 4. Instant Local Fallback (<0.1ms)
     local_p = _get_local_cached_price(ticker)
+    if local_p <= 0:
+        logger.warning(
+            f"⚠️ [QUOTE UNAVAILABLE] Could not resolve live price for {ticker}. Returning UNAVAILABLE status."
+        )
+        return {
+            "ticker": ticker,
+            "price": 0.0,
+            "prev_close": 0.0,
+            "day_high": 0.0,
+            "day_low": 0.0,
+            "change_pct": 0.0,
+            "status": "UNAVAILABLE",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+
     fallback_quote = {
         "ticker": ticker,
         "price": local_p,

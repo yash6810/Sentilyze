@@ -276,8 +276,23 @@ class AutonomousTradingEngine:
 
             q = quotes_map.get(ticker) or fetch_live_quote(ticker)
             spot_price = float(q.get("price", 0))
-            if spot_price <= 0:
+            if spot_price <= 0 or q.get("status") == "UNAVAILABLE":
+                logger.warning(
+                    f"⚠️ [POSITION EVALUATION] Price unavailable for {ticker}. Skipping execution checks."
+                )
                 continue
+
+            last_known = float(
+                pos.get("current_price") or pos.get("entry_price") or spot_price
+            )
+            if last_known > 0 and q.get("status") != "LIVE":
+                pct_diff = abs(spot_price - last_known) / last_known
+                if pct_diff > 0.20:
+                    logger.warning(
+                        f"🛡️ [PRICE SANITY VETO] Cached price for {ticker} (${spot_price:.2f}) "
+                        f"differs >20% from last known (${last_known:.2f}). Rejecting unverified price shock."
+                    )
+                    continue
 
             pos["current_price"] = spot_price
             shares = int(pos.get("shares", 0))
