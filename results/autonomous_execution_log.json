@@ -1,73 +1,48 @@
 {
-  "timestamp": "2026-09-25T17:55:39.966730+00:00",
+  "timestamp": "2026-09-25T21:08:11.177979+00:00",
   "buys": [],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
-  "stop_losses": [
-    {
-      "ticker": "ITW",
-      "shares": 28,
-      "entry_price": 273.68,
-      "exit_price": 274.07,
-      "entry_date": "2026-09-23",
-      "exit_date": "2026-09-25",
-      "pnl": 10.92,
-      "return_pct": 0.14,
-      "reason": "STOP_LOSS"
-    }
-  ],
+  "stop_losses": [],
   "veto_exits": [],
   "committee_resolutions": {
     "GNRC": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+    "AXON": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
     "JCI": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
     "GWW": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
-    "IR": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
     "CARR": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
-    "AXON": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
-    "DOV": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+    "GE": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
     "FDX": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
-    "LII": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+    "DOV": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+    "CAT": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+    "IR": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
     "AOS": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+    "LII": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+    "JBHT": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+    "CPRT": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
     "BLDR": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
-    "FTV": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
-    "BR": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
-    "AME": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "EME": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
     "HWM": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "JBHT": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "EME": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CPRT": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "FDXF": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CTAS": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
+    "AME": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
     "FERG": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "FTV": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
     "DD": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "HII": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "LDOS": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "HONA": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "GD": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CMI": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "HUBB": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "CTAS": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
     "FIX": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "CSX": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION"
+    "LMT": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "CMI": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "HII": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "BR": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "BA": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "CHRW": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "FDXF": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)"
   },
-  "portfolio_equity": 144632.22,
-  "cash_balance": 82925.87405578619,
-  "unrealized_pnl": 537.93,
+  "portfolio_equity": 144453.41,
+  "cash_balance": 102944.5040557862,
+  "unrealized_pnl": 306.76,
   "kill_switch_active": false,
-  "pyramid_adds": [
-    {
-      "success": true,
-      "ticker": "DAL",
-      "unit_num": 2,
-      "added_shares": 66,
-      "total_shares": 132,
-      "blended_entry": 83.27,
-      "new_sl": 84.17,
-      "cost": 5597.46,
-      "reason": "TURTLE_PYRAMID_UNIT_2_BREAKEVEN_LOCKED"
-    }
-  ],
   "self_improvement": {
-    "total_cycles": 4,
+    "total_cycles": 5,
     "agent_weights": {
       "technicals_weight": 0.291,
       "sentiment_weight": 0.35,
@@ -75,12 +50,12 @@
       "cro_weight": 0.214
     },
     "kelly_multiplier": 0.96,
-    "new_autopsies_count": 1
+    "new_autopsies_count": 0
   },
-  "elapsed_seconds": 55.04,
+  "elapsed_seconds": 52.25,
   "execution_telemetry": {
-    "cycle_latency_ns": 55037758269,
-    "cycle_latency_us": 55037758.27,
-    "cycle_latency_ms": 55037.758
+    "cycle_latency_ns": 52246036379,
+    "cycle_latency_us": 52246036.38,
+    "cycle_latency_ms": 52246.036
   }
 }
