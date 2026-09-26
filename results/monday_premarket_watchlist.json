@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-09-26 23:22:00 UTC",
+  "macro_vix": 16.5,
+  "portfolio_equity": 144453.41,
+  "cash": 102944.5040557862,
+  "watchlist": [
+    {
+      "ticker": "MSFT",
+      "resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+      "conviction_pct": 80.6,
+      "thesis": "",
+      "cro_veto": false,
+      "votes": {}
+    },
+    {
+      "ticker": "AAPL",
+      "resolution": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+      "conviction_pct": 79.1,
+      "thesis": "",
+      "cro_veto": false,
+      "votes": {}
+    },
+    {
+      "ticker": "NVDA",
+      "resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+      "conviction_pct": 76.7,
+      "thesis": "",
+      "cro_veto": false,
+      "votes": {}
+    },
+    {
+      "ticker": "GOOGL",
+      "resolution": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+      "conviction_pct": 76.3,
+      "thesis": "",
+      "cro_veto": false,
+      "votes": {}
+    },
+    {
+      "ticker": "PLTR",
+      "resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+      "conviction_pct": 75.1,
+      "thesis": "",
+      "cro_veto": false,
+      "votes": {}
+    },
+    {
+      "ticker": "GEV",
+      "resolution": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+      "conviction_pct": 74.6,
+      "thesis": "",
+      "cro_veto": false,
+      "votes": {}
+    },
+    {
+      "ticker": "XOM",
+      "resolution": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+      "conviction_pct": 74.5,
+      "thesis": "",
+      "cro_veto": false,
+      "votes": {}
+    },
+    {
+      "ticker": "CAT",
+      "resolution": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+      "conviction_pct": 73.3,
+      "thesis": "",
+      "cro_veto": false,
+      "votes": {}
+    },
+    {
+      "ticker": "AMZN",
+      "resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "conviction_pct": 70.9,
+      "thesis": "",
+      "cro_veto": false,
+      "votes": {}
+    },
+    {
+      "ticker": "AMD",
+      "resolution": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+      "conviction_pct": 65.3,
+      "thesis": "",
+      "cro_veto": false,
+      "votes": {}
+    },
+    {
+      "ticker": "META",
+      "resolution": "\ud83d\udd34 VETO / HMM CRISIS REGIME",
+      "conviction_pct": 62.3,
+      "thesis": "",
+      "cro_veto": false,
+      "votes": {}
+    }
+  ]
+}
