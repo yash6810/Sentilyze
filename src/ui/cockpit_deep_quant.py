@@ -33,30 +33,37 @@ def render_deep_quant_cockpit(selected_ticker: str):
         unsafe_allow_html=True,
     )
 
-    t1, t2, t3, t4, t5, t6 = st.tabs(
-        [
-            "🧠 SHAP Explainability",
-            "🔄 Market-Neutral Stat-Arb",
-            "🕸️ GNN Supply Chain Shock",
-            "🌪️ Black Swan Stress Test",
-            "🕵️ Forensic & DCF Valuation",
-            "🤖 DRL Policy & Incubator",
-        ]
+    tabs = [
+        "🧠 SHAP Explainability",
+        "🔄 Market-Neutral Stat-Arb",
+        "🕸️ GNN Supply Chain Shock",
+        "🌪️ Black Swan Stress Test",
+        "🕵️ Forensic & DCF Valuation",
+        "🤖 DRL Policy & Incubator",
+    ]
+
+    selected_tab = (
+        st.segmented_control(
+            "Deep Quant Navigation",
+            options=tabs,
+            default=tabs[0],
+            label_visibility="collapsed",
+            key=f"deep_quant_subnav_{selected_ticker}",
+        )
+        or tabs[0]
     )
 
-    with t1:
+    st.markdown("<div style='margin-bottom: 14px;'></div>", unsafe_allow_html=True)
+
+    if selected_tab == "🧠 SHAP Explainability":
         render_xai_workspace(selected_ticker)
-
-    with t2:
+    elif selected_tab == "🔄 Market-Neutral Stat-Arb":
         render_market_neutral_statarb_workspace(selected_ticker)
-
-    with t3:
+    elif selected_tab == "🕸️ GNN Supply Chain Shock":
         render_deep_quant_workspace(selected_ticker, mode="gnn")
-
-    with t4:
+    elif selected_tab == "🌪️ Black Swan Stress Test":
         render_deep_quant_workspace(selected_ticker, mode="stress")
-
-    with t5:
+    elif selected_tab == "🕵️ Forensic & DCF Valuation":
         st.subheader("🕵️ Forensic Accounting & Intrinsic Valuation")
         sub_col1, sub_col2 = st.columns(2)
         with sub_col1:
@@ -65,11 +72,19 @@ def render_deep_quant_cockpit(selected_ticker: str):
         with sub_col2:
             st.markdown("#### DCF Intrinsic Valuation Model")
             render_deep_quant_workspace(selected_ticker, mode="dcf")
-
-    with t6:
+    elif selected_tab == "🤖 DRL Policy & Incubator":
         st.subheader("🤖 Deep Reinforcement Learning & Evolutionary Incubator")
-        drl_tab1, drl_tab2 = st.tabs(["DRL Policy Agent", "Strategy Incubator"])
-        with drl_tab1:
+        sub_pills = (
+            st.pills(
+                "DRL Mode",
+                ["DRL Policy Agent", "Strategy Incubator"],
+                default="DRL Policy Agent",
+                label_visibility="collapsed",
+                key=f"drl_submode_{selected_ticker}",
+            )
+            or "DRL Policy Agent"
+        )
+        if sub_pills == "DRL Policy Agent":
             render_drl_agent_workspace(selected_ticker)
-        with drl_tab2:
+        else:
             render_strategy_incubator_workspace(selected_ticker)

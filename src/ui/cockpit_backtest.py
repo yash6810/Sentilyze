@@ -30,23 +30,31 @@ def render_backtest_cockpit(selected_ticker: str):
         unsafe_allow_html=True,
     )
 
-    t1, t2, t3, t4 = st.tabs(
-        [
-            "📈 Walk-Forward Backtest",
-            "👑 300-Resource Master Benchmark",
-            "📊 Institutional Factsheet",
-            "⚡ Quant Alpha DAG Engine",
-        ]
+    tabs = [
+        "📈 Walk-Forward Backtest",
+        "👑 300-Resource Master Benchmark",
+        "📊 Institutional Factsheet",
+        "⚡ Quant Alpha DAG Engine",
+    ]
+
+    selected_tab = (
+        st.segmented_control(
+            "Backtest Navigation",
+            options=tabs,
+            default=tabs[0],
+            label_visibility="collapsed",
+            key=f"backtest_subnav_{selected_ticker}",
+        )
+        or tabs[0]
     )
 
-    with t1:
+    st.markdown("<div style='margin-bottom: 14px;'></div>", unsafe_allow_html=True)
+
+    if selected_tab == "📈 Walk-Forward Backtest":
         render_backtesting_workspace(selected_ticker)
-
-    with t2:
+    elif selected_tab == "👑 300-Resource Master Benchmark":
         render_quantum_tournament_workspace(selected_ticker)
-
-    with t3:
+    elif selected_tab == "📊 Institutional Factsheet":
         render_performance_factsheet_workspace()
-
-    with t4:
+    elif selected_tab == "⚡ Quant Alpha DAG Engine":
         render_alpha_dag_workspace(selected_ticker)

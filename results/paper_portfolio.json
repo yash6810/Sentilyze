@@ -41,7 +41,7 @@
       "confidence": 0.85,
       "regime": "Committee_MultiAgent_Kelly",
       "highest_price_seen": 439.9800109863281,
-      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE",
+      "profit_lock_status": "\ud83d\udee1\ufe0f RISK-FREE BREAKEVEN",
       "high_water_mark": 438.58,
       "last_eval_price": 438.2
     },
@@ -1021,5 +1021,5 @@
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-26T08:36:53.437261+00:00"
+  "last_updated": "2026-09-26T20:33:15.301356+00:00"
 }

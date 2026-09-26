@@ -28,19 +28,28 @@ def render_portfolio_cockpit(selected_ticker: str):
         unsafe_allow_html=True,
     )
 
-    t1, t2, t3 = st.tabs(
-        [
-            "💼 HRP & Kelly Allocation",
-            "🧬 Correlation & Diversity Grader",
-            "🌐 Macro Liquidity & Yields",
-        ]
+    tabs = [
+        "💼 HRP & Kelly Allocation",
+        "🧬 Correlation & Diversity Grader",
+        "🌐 Macro Liquidity & Yields",
+    ]
+
+    selected_tab = (
+        st.segmented_control(
+            "Portfolio Navigation",
+            options=tabs,
+            default=tabs[0],
+            label_visibility="collapsed",
+            key=f"portfolio_subnav_{selected_ticker}",
+        )
+        or tabs[0]
     )
 
-    with t1:
+    st.markdown("<div style='margin-bottom: 14px;'></div>", unsafe_allow_html=True)
+
+    if selected_tab == "💼 HRP & Kelly Allocation":
         render_portfolio_workspace(selected_ticker)
-
-    with t2:
+    elif selected_tab == "🧬 Correlation & Diversity Grader":
         render_portfolio_diversity_workspace()
-
-    with t3:
+    elif selected_tab == "🌐 Macro Liquidity & Yields":
         render_macro_liquidity_workspace()

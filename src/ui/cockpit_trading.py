@@ -32,27 +32,34 @@ def render_trading_cockpit(selected_ticker: str):
         unsafe_allow_html=True,
     )
 
-    t1, t2, t3, t4, t5 = st.tabs(
-        [
-            "🔮 Directional Signals",
-            "🏛️ 5-Agent Committee War Room",
-            "🤖 Autonomous Paper Trader",
-            "⚡ Broker Execution Webhooks",
-            "🎙️ Morning AI Audio Briefing",
-        ]
+    tabs = [
+        "🔮 Directional Signals",
+        "🏛️ 5-Agent Committee War Room",
+        "🤖 Autonomous Paper Trader",
+        "⚡ Broker Execution Webhooks",
+        "🎙️ Morning AI Audio Briefing",
+    ]
+
+    selected_tab = (
+        st.segmented_control(
+            "Trading Workspace Navigation",
+            options=tabs,
+            default=tabs[0],
+            label_visibility="collapsed",
+            key=f"trade_cockpit_subnav_{selected_ticker}",
+        )
+        or tabs[0]
     )
 
-    with t1:
+    st.markdown("<div style='margin-bottom: 14px;'></div>", unsafe_allow_html=True)
+
+    if selected_tab == "🔮 Directional Signals":
         render_live_prediction_workspace(selected_ticker)
-
-    with t2:
+    elif selected_tab == "🏛️ 5-Agent Committee War Room":
         render_committee_workspace(selected_ticker)
-
-    with t3:
+    elif selected_tab == "🤖 Autonomous Paper Trader":
         render_autonomous_trader_workspace(selected_ticker)
-
-    with t4:
+    elif selected_tab == "⚡ Broker Execution Webhooks":
         render_broker_webhooks_workspace(selected_ticker)
-
-    with t5:
+    elif selected_tab == "🎙️ Morning AI Audio Briefing":
         render_morning_briefing_workspace(selected_ticker)

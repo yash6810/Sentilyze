@@ -30,23 +30,31 @@ def render_smart_money_cockpit(selected_ticker: str):
         unsafe_allow_html=True,
     )
 
-    t1, t2, t3, t4 = st.tabs(
-        [
-            "📡 Market Anomaly Screener",
-            "📉 Dark Pools & Options Surface",
-            "📰 News & Alternative Sentiment",
-            "🏛️ Insider Transactions Radar",
-        ]
+    tabs = [
+        "📡 Market Anomaly Screener",
+        "📉 Dark Pools & Options Surface",
+        "📰 News & Alternative Sentiment",
+        "🏛️ Insider Transactions Radar",
+    ]
+
+    selected_tab = (
+        st.segmented_control(
+            "Smart Money Navigation",
+            options=tabs,
+            default=tabs[0],
+            label_visibility="collapsed",
+            key=f"smart_money_subnav_{selected_ticker}",
+        )
+        or tabs[0]
     )
 
-    with t1:
+    st.markdown("<div style='margin-bottom: 14px;'></div>", unsafe_allow_html=True)
+
+    if selected_tab == "📡 Market Anomaly Screener":
         render_screener_workspace()
-
-    with t2:
+    elif selected_tab == "📉 Dark Pools & Options Surface":
         render_options_surface_workspace(selected_ticker)
-
-    with t3:
+    elif selected_tab == "📰 News & Alternative Sentiment":
         render_alternative_data_workspace(selected_ticker)
-
-    with t4:
+    elif selected_tab == "🏛️ Insider Transactions Radar":
         render_insider_radar_workspace(selected_ticker)
