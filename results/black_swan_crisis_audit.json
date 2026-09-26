@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-09-22T17:46:49.579161+00:00",
-  "portfolio_equity": 158032.34,
-  "cash": 68604.94,
-  "invested_capital": 89427.39,
-  "open_positions_count": 2,
+  "timestamp": "2026-09-26T14:06:47.256952+00:00",
+  "portfolio_equity": 144453.41,
+  "cash": 102944.5,
+  "invested_capital": 41508.91,
+  "open_positions_count": 5,
   "monte_carlo_metrics": {
-    "initial_capital": 158032.34,
+    "initial_capital": 144453.41,
     "time_horizon_days": 30,
     "num_simulations": 1000,
-    "var_95_dollar": 12703.6,
+    "var_95_dollar": 11612.04,
     "var_95_pct": 8.04,
-    "cvar_95_dollar": 16637.89,
-    "median_final_equity": 161612.19,
+    "cvar_95_dollar": 15208.28,
+    "median_final_equity": 147725.67,
     "expected_return_pct": 2.41,
     "prob_profit": 62.9,
     "worst_case_drawdown_pct": -11.4
@@ -22,20 +22,35 @@
       "date_range": "2007 - 2009",
       "vix_peak": 80.86,
       "catalyst": "Subprime mortgage collapse, interbank liquidity freeze, Lehman bankruptcy.",
-      "portfolio_drawdown_pct": 32.1,
-      "projected_dollar_loss": 50794.76,
-      "simulated_equity_after": 107237.58,
-      "cash_buffer_retained": 68604.95,
+      "portfolio_drawdown_pct": 16.3,
+      "projected_dollar_loss": 23577.06,
+      "simulated_equity_after": 120876.35,
+      "cash_buffer_retained": 102944.5,
       "position_breakdown": {
-        "PGR": {
-          "initial_val": 44570.4,
+        "ADP": {
+          "initial_val": 10019.46,
           "shock_pct": -56.8,
-          "projected_loss": 25315.99
+          "projected_loss": 5691.05
         },
-        "FANG": {
-          "initial_val": 44856.99,
+        "ETN": {
+          "initial_val": 5279.76,
           "shock_pct": -56.8,
-          "projected_loss": 25478.77
+          "projected_loss": 2998.9
+        },
+        "DAL": {
+          "initial_val": 11212.08,
+          "shock_pct": -56.8,
+          "projected_loss": 6368.46
+        },
+        "FAST": {
+          "initial_val": 5345.58,
+          "shock_pct": -56.8,
+          "projected_loss": 3036.29
+        },
+        "EMR": {
+          "initial_val": 9652.03,
+          "shock_pct": -56.8,
+          "projected_loss": 5482.35
         }
       }
     },
@@ -44,20 +59,35 @@
       "date_range": "Feb - Mar 2020",
       "vix_peak": 82.69,
       "catalyst": "Global economic lockdown, supply chain paralysis, flash margin calls.",
-      "portfolio_drawdown_pct": 19.2,
-      "projected_dollar_loss": 30315.89,
-      "simulated_equity_after": 127716.45,
-      "cash_buffer_retained": 68604.95,
+      "portfolio_drawdown_pct": 9.7,
+      "projected_dollar_loss": 14071.52,
+      "simulated_equity_after": 130381.89,
+      "cash_buffer_retained": 102944.5,
       "position_breakdown": {
-        "PGR": {
-          "initial_val": 44570.4,
+        "ADP": {
+          "initial_val": 10019.46,
           "shock_pct": -33.9,
-          "projected_loss": 15109.37
+          "projected_loss": 3396.6
         },
-        "FANG": {
-          "initial_val": 44856.99,
+        "ETN": {
+          "initial_val": 5279.76,
           "shock_pct": -33.9,
-          "projected_loss": 15206.52
+          "projected_loss": 1789.84
+        },
+        "DAL": {
+          "initial_val": 11212.08,
+          "shock_pct": -33.9,
+          "projected_loss": 3800.9
+        },
+        "FAST": {
+          "initial_val": 5345.58,
+          "shock_pct": -33.9,
+          "projected_loss": 1812.15
+        },
+        "EMR": {
+          "initial_val": 9652.03,
+          "shock_pct": -33.9,
+          "projected_loss": 3272.04
         }
       }
     },
@@ -66,20 +96,35 @@
       "date_range": "Jan - Dec 2022",
       "vix_peak": 38.94,
       "catalyst": "40-year high inflation, aggressive 75bps Fed rate hikes, multiple compression.",
-      "portfolio_drawdown_pct": 14.4,
-      "projected_dollar_loss": 22714.56,
-      "simulated_equity_after": 135317.78,
-      "cash_buffer_retained": 68604.95,
+      "portfolio_drawdown_pct": 7.3,
+      "projected_dollar_loss": 10543.26,
+      "simulated_equity_after": 133910.15,
+      "cash_buffer_retained": 102944.5,
       "position_breakdown": {
-        "PGR": {
-          "initial_val": 44570.4,
+        "ADP": {
+          "initial_val": 10019.46,
           "shock_pct": -25.4,
-          "projected_loss": 11320.88
+          "projected_loss": 2544.94
         },
-        "FANG": {
-          "initial_val": 44856.99,
+        "ETN": {
+          "initial_val": 5279.76,
           "shock_pct": -25.4,
-          "projected_loss": 11393.68
+          "projected_loss": 1341.06
+        },
+        "DAL": {
+          "initial_val": 11212.08,
+          "shock_pct": -25.4,
+          "projected_loss": 2847.87
+        },
+        "FAST": {
+          "initial_val": 5345.58,
+          "shock_pct": -25.4,
+          "projected_loss": 1357.78
+        },
+        "EMR": {
+          "initial_val": 9652.03,
+          "shock_pct": -25.4,
+          "projected_loss": 2451.62
         }
       }
     },
@@ -88,20 +133,35 @@
       "date_range": "2000 - 2002",
       "vix_peak": 45.08,
       "catalyst": "Unprofitable internet stock valuation implosion, telecom capex freeze.",
-      "portfolio_drawdown_pct": 27.8,
-      "projected_dollar_loss": 43908.85,
-      "simulated_equity_after": 114123.49,
-      "cash_buffer_retained": 68604.95,
+      "portfolio_drawdown_pct": 14.1,
+      "projected_dollar_loss": 20380.87,
+      "simulated_equity_after": 124072.54,
+      "cash_buffer_retained": 102944.5,
       "position_breakdown": {
-        "PGR": {
-          "initial_val": 44570.4,
+        "ADP": {
+          "initial_val": 10019.46,
           "shock_pct": -49.1,
-          "projected_loss": 21884.07
+          "projected_loss": 4919.55
         },
-        "FANG": {
-          "initial_val": 44856.99,
+        "ETN": {
+          "initial_val": 5279.76,
           "shock_pct": -49.1,
-          "projected_loss": 22024.78
+          "projected_loss": 2592.36
+        },
+        "DAL": {
+          "initial_val": 11212.08,
+          "shock_pct": -49.1,
+          "projected_loss": 5505.13
+        },
+        "FAST": {
+          "initial_val": 5345.58,
+          "shock_pct": -49.1,
+          "projected_loss": 2624.68
+        },
+        "EMR": {
+          "initial_val": 9652.03,
+          "shock_pct": -49.1,
+          "projected_loss": 4739.15
         }
       }
     },
@@ -110,20 +170,35 @@
       "date_range": "July - Aug 2024",
       "vix_peak": 65.73,
       "catalyst": "Yen carry trade unwind, semiconductor capex digestion, macro growth scare.",
-      "portfolio_drawdown_pct": 5.5,
-      "projected_dollar_loss": 8763.88,
-      "simulated_equity_after": 149268.46,
-      "cash_buffer_retained": 68604.95,
+      "portfolio_drawdown_pct": 2.8,
+      "projected_dollar_loss": 4067.87,
+      "simulated_equity_after": 140385.54,
+      "cash_buffer_retained": 102944.5,
       "position_breakdown": {
-        "PGR": {
-          "initial_val": 44570.4,
+        "ADP": {
+          "initial_val": 10019.46,
           "shock_pct": -9.8,
-          "projected_loss": 4367.9
+          "projected_loss": 981.91
         },
-        "FANG": {
-          "initial_val": 44856.99,
+        "ETN": {
+          "initial_val": 5279.76,
           "shock_pct": -9.8,
-          "projected_loss": 4395.99
+          "projected_loss": 517.42
+        },
+        "DAL": {
+          "initial_val": 11212.08,
+          "shock_pct": -9.8,
+          "projected_loss": 1098.78
+        },
+        "FAST": {
+          "initial_val": 5345.58,
+          "shock_pct": -9.8,
+          "projected_loss": 523.87
+        },
+        "EMR": {
+          "initial_val": 9652.03,
+          "shock_pct": -9.8,
+          "projected_loss": 945.9
         }
       }
     }
