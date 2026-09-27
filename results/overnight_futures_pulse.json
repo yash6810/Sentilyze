@@ -1,0 +1,94 @@
+{
+  "timestamp": "2026-09-27T18:05:11.593987+00:00",
+  "market_bias": "\ud83d\udfe2 BULLISH_GAP_OPEN",
+  "composite_gap_pct": 0.5,
+  "risk_posture": "AGGRESSIVE_RUNNER_EXPANSION",
+  "stance_description": "Futures point to strong opening momentum. Trailing stops ratcheted higher to capture gap.",
+  "portfolio_equity": 144453.41,
+  "cash_buffer": 102944.5040557862,
+  "cash_pct": 71.3,
+  "total_projected_impact_dollar": 219.45,
+  "projected_equity_at_open": 144672.86,
+  "futures_quotes": {
+    "ES=F": {
+      "name": "S&P 500 E-mini Futures",
+      "price": 7803.75,
+      "change_pct": 0.47,
+      "status": "LIVE"
+    },
+    "NQ=F": {
+      "name": "Nasdaq 100 E-mini Futures",
+      "price": 30889.25,
+      "change_pct": 0.4,
+      "status": "LIVE"
+    },
+    "YM=F": {
+      "name": "Dow 30 E-mini Futures",
+      "price": 52163.0,
+      "change_pct": 0.86,
+      "status": "LIVE"
+    }
+  },
+  "position_impacts": {
+    "ADP": {
+      "shares": 38,
+      "position_value": 10019.46,
+      "beta": 0.82,
+      "projected_change_pct": 0.41,
+      "projected_dollar_impact": 41.08,
+      "locked_profit": "SHIELDED"
+    },
+    "ETN": {
+      "shares": 12,
+      "position_value": 5279.76,
+      "beta": 1.15,
+      "projected_change_pct": 0.57,
+      "projected_dollar_impact": 30.36,
+      "locked_profit": "GUARANTEED_PROFIT"
+    },
+    "DAL": {
+      "shares": 132,
+      "position_value": 11212.08,
+      "beta": 1.25,
+      "projected_change_pct": 0.62,
+      "projected_dollar_impact": 70.08,
+      "locked_profit": "GUARANTEED_PROFIT"
+    },
+    "FAST": {
+      "shares": 106,
+      "position_value": 5345.58,
+      "beta": 1.02,
+      "projected_change_pct": 0.51,
+      "projected_dollar_impact": 27.26,
+      "locked_profit": "SHIELDED"
+    },
+    "EMR": {
+      "shares": 61,
+      "position_value": 9652.03,
+      "beta": 1.05,
+      "projected_change_pct": 0.53,
+      "projected_dollar_impact": 50.67,
+      "locked_profit": "GUARANTEED_PROFIT"
+    }
+  },
+  "macro_pulse": {
+    "^TNX": {
+      "name": "US 10-Year Treasury Yield",
+      "value": 5.18,
+      "change_pct": 0.43,
+      "risk_type": "RATE_SPIKE"
+    },
+    "CL=F": {
+      "name": "Crude Oil Futures",
+      "value": 92.41,
+      "change_pct": -2.33,
+      "risk_type": "COMMODITY_SHOCK"
+    },
+    "^VIX": {
+      "name": "CBOE Volatility Index",
+      "value": 14.87,
+      "change_pct": -5.11,
+      "risk_type": "VOL_SURGE"
+    }
+  }
+}

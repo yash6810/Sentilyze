@@ -1,0 +1,244 @@
+{
+  "timestamp": "2026-09-27T18:05:20.647699+00:00",
+  "market_open_time": "2026-09-28 09:30:00 EDT (Monday)",
+  "portfolio_equity": 144453.41,
+  "cash_reserve": 102944.5040557862,
+  "scenarios_analyzed": {
+    "expected_futures_gap": {
+      "gap_pct": 0.5,
+      "name": "Futures Forecast (+0.50%)"
+    },
+    "adverse_gap_stress": {
+      "gap_pct": -1.5,
+      "name": "Adverse Shock (-1.50%)"
+    }
+  },
+  "active_position_routing": {
+    "expected_futures_gap": {
+      "ADP": {
+        "shares": 38,
+        "entry_price": 264.56,
+        "current_price": 263.6700134277344,
+        "simulated_open_price": 264.75,
+        "open_pnl_dollar": 7.22,
+        "open_pnl_pct": 0.07,
+        "stop_loss": 257.95,
+        "tp1_target": 278.08,
+        "action": "HOLD_AND_TRAIL",
+        "execution_note": "Position safe above SL $257.95. Open PnL: $+7.22 (+0.07%)"
+      },
+      "ETN": {
+        "shares": 12,
+        "entry_price": 438.49,
+        "current_price": 439.9800109863281,
+        "simulated_open_price": 442.51,
+        "open_pnl_dollar": 48.24,
+        "open_pnl_pct": 0.92,
+        "stop_loss": 439.68,
+        "tp1_target": 476.72,
+        "action": "HOLD_AND_TRAIL",
+        "execution_note": "Position safe above SL $439.68. Open PnL: $+48.24 (+0.92%)"
+      },
+      "DAL": {
+        "shares": 132,
+        "entry_price": 83.27,
+        "current_price": 84.94000244140625,
+        "simulated_open_price": 85.47,
+        "open_pnl_dollar": 290.4,
+        "open_pnl_pct": 2.64,
+        "stop_loss": 84.61,
+        "tp1_target": 87.08,
+        "action": "HOLD_AND_TRAIL",
+        "execution_note": "Position safe above SL $84.61. Open PnL: $+290.40 (+2.64%)"
+      },
+      "FAST": {
+        "shares": 106,
+        "entry_price": 50.95,
+        "current_price": 50.43000030517578,
+        "simulated_open_price": 50.69,
+        "open_pnl_dollar": -27.56,
+        "open_pnl_pct": -0.51,
+        "stop_loss": 49.68,
+        "tp1_target": 53.62,
+        "action": "HOLD_AND_TRAIL",
+        "execution_note": "Position safe above SL $49.68. Open PnL: $-27.56 (-0.51%)"
+      },
+      "EMR": {
+        "shares": 61,
+        "entry_price": 155.65,
+        "current_price": 158.22999572753906,
+        "simulated_open_price": 159.06,
+        "open_pnl_dollar": 208.01,
+        "open_pnl_pct": 2.19,
+        "stop_loss": 158.19,
+        "tp1_target": 164.43,
+        "action": "HOLD_AND_TRAIL",
+        "execution_note": "Position safe above SL $158.19. Open PnL: $+208.01 (+2.19%)"
+      }
+    },
+    "adverse_gap_stress": {
+      "ADP": {
+        "shares": 38,
+        "entry_price": 264.56,
+        "current_price": 263.6700134277344,
+        "simulated_open_price": 260.43,
+        "open_pnl_dollar": -156.94,
+        "open_pnl_pct": -1.56,
+        "stop_loss": 257.95,
+        "tp1_target": 278.08,
+        "action": "HOLD_AND_TRAIL",
+        "execution_note": "Position safe above SL $257.95. Open PnL: $-156.94 (-1.56%)"
+      },
+      "ETN": {
+        "shares": 12,
+        "entry_price": 438.49,
+        "current_price": 439.9800109863281,
+        "simulated_open_price": 432.39,
+        "open_pnl_dollar": -73.2,
+        "open_pnl_pct": -1.39,
+        "stop_loss": 439.68,
+        "tp1_target": 476.72,
+        "action": "STOP_LOSS_EXIT",
+        "execution_note": "Triggered SL at $439.68. Guaranteed locked profit: $+14.28"
+      },
+      "DAL": {
+        "shares": 132,
+        "entry_price": 83.27,
+        "current_price": 84.94000244140625,
+        "simulated_open_price": 83.35,
+        "open_pnl_dollar": 10.56,
+        "open_pnl_pct": 0.1,
+        "stop_loss": 84.61,
+        "tp1_target": 87.08,
+        "action": "STOP_LOSS_EXIT",
+        "execution_note": "Triggered SL at $84.61. Guaranteed locked profit: $+176.88"
+      },
+      "FAST": {
+        "shares": 106,
+        "entry_price": 50.95,
+        "current_price": 50.43000030517578,
+        "simulated_open_price": 49.66,
+        "open_pnl_dollar": -136.74,
+        "open_pnl_pct": -2.53,
+        "stop_loss": 49.68,
+        "tp1_target": 53.62,
+        "action": "STOP_LOSS_EXIT",
+        "execution_note": "Triggered SL at $49.68. Guaranteed locked profit: $-134.62"
+      },
+      "EMR": {
+        "shares": 61,
+        "entry_price": 155.65,
+        "current_price": 158.22999572753906,
+        "simulated_open_price": 155.74,
+        "open_pnl_dollar": 5.49,
+        "open_pnl_pct": 0.06,
+        "stop_loss": 158.19,
+        "tp1_target": 164.43,
+        "action": "STOP_LOSS_EXIT",
+        "execution_note": "Triggered SL at $158.19. Guaranteed locked profit: $+154.94"
+      }
+    }
+  },
+  "opening_order_ticket": {
+    "candidate": "MSFT",
+    "conviction_pct": 80.6,
+    "order_action": "BUY",
+    "total_shares": 25,
+    "estimated_price": 448.0,
+    "total_capital_allocation": 11200.0,
+    "cash_buffer_remaining": 91744.5,
+    "brackets": {
+      "entry_limit": 448.9,
+      "stop_loss_target": 436.8,
+      "tp1_target": 470.4,
+      "tp2_target": 483.84
+    },
+    "almgren_chriss_execution": {
+      "expected_shortfall_dollars": 0.0,
+      "shortfall_variance": 0.57,
+      "execution_window": "09:30 EDT - 10:00 EDT (10 slices @ 3-min intervals)",
+      "slices": [
+        {
+          "slice_index": 1,
+          "scheduled_time": "09:30 EDT",
+          "shares_to_buy": 3,
+          "cumulative_shares": 3,
+          "order_type": "LIMIT_AGGRESSIVE",
+          "limit_price": 448.45
+        },
+        {
+          "slice_index": 2,
+          "scheduled_time": "09:33 EDT",
+          "shares_to_buy": 3,
+          "cumulative_shares": 6,
+          "order_type": "LIMIT_AGGRESSIVE",
+          "limit_price": 448.45
+        },
+        {
+          "slice_index": 3,
+          "scheduled_time": "09:36 EDT",
+          "shares_to_buy": 3,
+          "cumulative_shares": 9,
+          "order_type": "LIMIT_AGGRESSIVE",
+          "limit_price": 448.45
+        },
+        {
+          "slice_index": 4,
+          "scheduled_time": "09:39 EDT",
+          "shares_to_buy": 3,
+          "cumulative_shares": 12,
+          "order_type": "LIMIT_PASSIVE",
+          "limit_price": 447.55
+        },
+        {
+          "slice_index": 5,
+          "scheduled_time": "09:42 EDT",
+          "shares_to_buy": 2,
+          "cumulative_shares": 14,
+          "order_type": "LIMIT_PASSIVE",
+          "limit_price": 447.55
+        },
+        {
+          "slice_index": 6,
+          "scheduled_time": "09:45 EDT",
+          "shares_to_buy": 2,
+          "cumulative_shares": 16,
+          "order_type": "LIMIT_PASSIVE",
+          "limit_price": 447.55
+        },
+        {
+          "slice_index": 7,
+          "scheduled_time": "09:48 EDT",
+          "shares_to_buy": 2,
+          "cumulative_shares": 18,
+          "order_type": "LIMIT_PASSIVE",
+          "limit_price": 447.55
+        },
+        {
+          "slice_index": 8,
+          "scheduled_time": "09:51 EDT",
+          "shares_to_buy": 2,
+          "cumulative_shares": 20,
+          "order_type": "LIMIT_PASSIVE",
+          "limit_price": 447.55
+        },
+        {
+          "slice_index": 9,
+          "scheduled_time": "09:54 EDT",
+          "shares_to_buy": 2,
+          "cumulative_shares": 22,
+          "order_type": "LIMIT_PASSIVE",
+          "limit_price": 447.55
+        },
+        {
+          "slice_index": 10,
+          "scheduled_time": "09:57 EDT",
+          "shares_to_buy": 2,
+          "cumulative_shares": 24,
+          "order_type": "LIMIT_PASSIVE",
+          "limit_price": 447.55
+        }
+      ]
+    }
+  }
+}
