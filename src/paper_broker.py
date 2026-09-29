@@ -786,9 +786,10 @@ class PaperBroker:
             except Exception as e:
                 logger.debug(f"PaperBroker reload notice: {e}")
 
-    def get_portfolio_summary(self) -> Dict[str, Any]:
+    def get_portfolio_summary(self, reload: bool = True) -> Dict[str, Any]:
         """Returns high-level KPI metrics for the portfolio dashboard."""
-        self.reload_from_disk()
+        if reload:
+            self.reload_from_disk()
         invested = max(0.0, self.state["total_equity"] - self.state["cash"])
         unrealized_pnl_pct = (
             round((self.state["unrealized_pnl"] / invested) * 100.0, 2)

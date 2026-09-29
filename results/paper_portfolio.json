@@ -1,9 +1,9 @@
 {
   "initial_capital": 100000.0,
-  "cash": 119210.1440557862,
-  "total_equity": 144233.27,
+  "cash": 119213.3840557862,
+  "total_equity": 144236.51,
   "unrealized_pnl": 74.5,
-  "realized_pnl": 54471.82405578613,
+  "realized_pnl": 54475.064055786126,
   "win_rate": 65.7,
   "total_trades": 70,
   "winning_trades": 46,
@@ -25,7 +25,7 @@
       "highest_price_seen": 264.56,
       "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
       "high_water_mark": 264.56,
-      "last_eval_price": 263.86
+      "last_eval_price": 261.8
     },
     "FAST": {
       "ticker": "FAST",
@@ -43,7 +43,7 @@
       "highest_price_seen": 50.99,
       "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
       "high_water_mark": 50.95,
-      "last_eval_price": 50.63
+      "last_eval_price": 50.49
     },
     "EMR": {
       "ticker": "EMR",
@@ -54,12 +54,12 @@
       "entry_date": "2026-09-24",
       "tp1_target": 164.43,
       "tp2_target": 171.44,
-      "sl_target": 158.64,
+      "sl_target": 158.19,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_MultiAgent_Kelly",
-      "high_water_mark": 158.48,
-      "last_eval_price": 158.48,
+      "high_water_mark": 159.39,
+      "last_eval_price": 159.39,
       "highest_price_seen": 159.39,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     }
@@ -817,22 +817,22 @@
       "ticker": "ETN",
       "shares": 12,
       "entry_price": 438.49,
-      "exit_price": 431.25,
+      "exit_price": 431.41,
       "entry_date": "2026-09-23",
-      "exit_date": "2026-09-28",
-      "pnl": -86.88,
-      "return_pct": -1.65,
+      "exit_date": "2026-09-29",
+      "pnl": -84.96,
+      "return_pct": -1.61,
       "reason": "STOP_LOSS"
     },
     {
       "ticker": "DAL",
       "shares": 132,
       "entry_price": 83.27,
-      "exit_price": 84.02,
+      "exit_price": 84.03,
       "entry_date": "2026-09-23",
-      "exit_date": "2026-09-28",
-      "pnl": 99.0,
-      "return_pct": 0.9,
+      "exit_date": "2026-09-29",
+      "pnl": 100.32,
+      "return_pct": 0.91,
       "reason": "STOP_LOSS"
     }
   ],
@@ -1007,20 +1007,20 @@
     },
     {
       "date": "2026-09-28",
-      "timestamp": "2026-09-28T09:34:15.112849+00:00",
-      "total_equity": 144232.66,
-      "cash": 119210.14,
-      "invested": 25022.52,
-      "daily_return": -0.15
+      "timestamp": "2026-09-28T19:50:07.255407+00:00",
+      "total_equity": 144453.41,
+      "cash": 102944.5,
+      "invested": 41508.91,
+      "daily_return": 0.0
     },
     {
       "date": "2026-09-29",
-      "timestamp": "2026-09-29T00:23:44.695274+00:00",
-      "total_equity": 144233.27,
-      "cash": 119210.14,
+      "timestamp": "2026-09-29T05:33:16.815315+00:00",
+      "total_equity": 144236.51,
+      "cash": 119213.38,
       "invested": 25023.13,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-29T00:23:45.230523+00:00"
+  "last_updated": "2026-09-29T05:34:28.574945+00:00"
 }

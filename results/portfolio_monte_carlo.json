@@ -1,0 +1,32 @@
+{
+  "timestamp": "2026-09-28T19:04:57.434225+00:00",
+  "num_simulations": 10000,
+  "forecast_days": 5,
+  "initial_total_equity": 144453.41,
+  "cash_buffer": 102944.5,
+  "cash_pct": 71.3,
+  "invested_capital": 41508.91,
+  "annualized_portfolio_vol": 12.4,
+  "cppi_floor": 140000.0,
+  "prob_floor_breach_pct": 0.0,
+  "risk_metrics": {
+    "var_95_dollar": 1126.96,
+    "var_95_pct": 0.78,
+    "var_99_dollar": 1610.88,
+    "var_99_pct": 1.12,
+    "cvar_95_dollar": 1412.58,
+    "cvar_95_pct": 0.98,
+    "cvar_99_dollar": 1856.76,
+    "cvar_99_pct": 1.29
+  },
+  "terminal_equity_percentiles": {
+    "p01_worst_case": 142842.53,
+    "p05_adverse": 143326.45,
+    "p25_lower_quartile": 144016.23,
+    "p50_median": 144512.12,
+    "p75_upper_quartile": 145014.56,
+    "p95_bull_case": 145733.18,
+    "p99_super_bull": 146202.97
+  },
+  "summary": "10,000-Path Monte Carlo confirms CPPI floor ($140,000.00) safety: Floor breach probability is 0.00%. 1-Week 99% CVaR is capped at $1,856.76 due to 71.3% cash moat."
+}

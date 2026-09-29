@@ -584,6 +584,19 @@ class AutonomousTradingEngine:
                     }
                 )
 
+        # Immediately persist Phase A trade closures (e.g. stop losses or take profits)
+        # to ensure disk state is synchronized before Phase B candidate evaluation
+        if (
+            executed_actions["take_profits_tp1"]
+            or executed_actions["take_profits_tp2"]
+            or executed_actions["stop_losses"]
+        ):
+            self.broker._recalculate_metrics(date_str, now_str)
+            self.broker._save()
+            logger.info(
+                "💾 [PHASE A COMMITTED] Closed positions persisted to paper_portfolio.json and executed_trades.csv."
+            )
+
         # 3. Phase B: Scan Universe for Committee Buy Opportunities
         from src.opening_range_engine import (
             is_opening_15min_whipsaw_period,
@@ -914,6 +927,23 @@ class AutonomousTradingEngine:
                 json.dump(executed_actions, f, indent=2, default=str)
         except Exception as log_err:
             logger.warning(f"Could not persist autonomous log file: {log_err}")
+
+        # Persist updated portfolio state and export executed_trades.csv atomically
+        try:
+            open_val = sum(
+                float(p.get("shares", 0))
+                * float(p.get("current_price", p.get("entry_price", 0.0)))
+                for p in self.broker.state.get("open_positions", {}).values()
+            )
+            self.broker.state["total_equity"] = round(
+                float(self.broker.state.get("cash", 0.0)) + open_val, 2
+            )
+            self.broker._save()
+            logger.info(
+                "💾 [PORTFOLIO PERSISTED] Updated paper_portfolio.json and executed_trades.csv successfully."
+            )
+        except Exception as save_err:
+            logger.error(f"Failed to persist portfolio state: {save_err}")
 
         return executed_actions
 

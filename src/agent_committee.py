@@ -1144,7 +1144,11 @@ def execute_committee_order(
             return {"success": False, "reason": "Invalid spot price"}
 
         kelly_alloc_pct = float(deliberation.get("kelly_allocation_pct", 10.0))
-        portfolio_summary = broker.get_portfolio_summary()
+        portfolio_summary = (
+            broker.get_portfolio_summary(reload=False)
+            if hasattr(broker, "get_portfolio_summary")
+            else {}
+        )
         total_equity = float(portfolio_summary.get("total_equity", 100000.0))
         cash_avail = float(portfolio_summary.get("cash", 0.0))
 

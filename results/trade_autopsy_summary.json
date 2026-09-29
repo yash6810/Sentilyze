@@ -1,0 +1,77 @@
+{
+  "timestamp": "2026-09-29T05:37:29.765455+00:00",
+  "total_trades_analyzed": 70,
+  "win_count": 46,
+  "loss_count": 21,
+  "win_rate_pct": 65.7,
+  "profit_factor": 6.54,
+  "total_realized_profit": 47324.05,
+  "gross_gains": 55860.11,
+  "gross_losses": 8536.06,
+  "avg_win_dollar": 1214.35,
+  "avg_loss_dollar": -406.48,
+  "archetype_distribution": {
+    "compounding_runners_count": 20,
+    "tactical_harvest_count": 26,
+    "capital_shield_scratches_count": 17,
+    "stop_loss_shakeouts_count": 7
+  },
+  "top_runners": [
+    {
+      "ticker": "QCOM",
+      "pnl": 369.24,
+      "return_pct": 22.22,
+      "reason": "TP1_SCALE_OUT_50%"
+    },
+    {
+      "ticker": "AMD",
+      "pnl": 6092.46,
+      "return_pct": 364.95,
+      "reason": "TP1_SCALE_OUT_50%"
+    },
+    {
+      "ticker": "PLTR",
+      "pnl": 8392.8,
+      "return_pct": 490.81,
+      "reason": "TP1_SCALE_OUT_50%"
+    },
+    {
+      "ticker": "VRTX",
+      "pnl": 668.45,
+      "return_pct": 31.83,
+      "reason": "TP1_SCALE_OUT_50%"
+    },
+    {
+      "ticker": "CVS",
+      "pnl": 1198.5,
+      "return_pct": 68.64,
+      "reason": "TP1_SCALE_OUT_50%"
+    }
+  ],
+  "induced_cognitive_rules": [
+    {
+      "rule_id": "RULE_01_RUNNER_EXPANSION",
+      "condition": "Trade crosses +5% profit",
+      "action": "Activate Chandelier trailing stop (P_max * 0.965) and protect 80% peak gains to capture 100%+ compounding runners.",
+      "empirical_basis": "Supported by 20 massive runners (PLTR, AMD, EXPE) delivering $+45,961.47."
+    },
+    {
+      "rule_id": "RULE_02_QUARTER_KELLY_CAP",
+      "condition": "New position sizing",
+      "action": "Hard cap maximum capital allocation at <= 10% of portfolio equity per ticker.",
+      "empirical_basis": "Mitigates oversized ticket drawdown experienced in 7 shakeouts."
+    },
+    {
+      "rule_id": "RULE_03_EXIT_QUARANTINE",
+      "condition": "Ticker closed on MODEL_SELL or STOP_LOSS",
+      "action": "Enforce 72-hour quarantine embargo preventing immediate re-entry churn.",
+      "empirical_basis": "Eliminates ping-pong churn where closed tickers were rebought within hours."
+    },
+    {
+      "rule_id": "RULE_04_CROSS_SECTOR_SHIELD",
+      "condition": "Committee evaluation quorum",
+      "action": "Limit open positions to max 1 per GICS sector to prevent sector correlation failure.",
+      "empirical_basis": "Directly prevents 8-industrial clustering experienced during the Sept 22 pullback."
+    }
+  ]
+}

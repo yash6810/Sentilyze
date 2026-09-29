@@ -1,13 +1,13 @@
 {
-  "total_learning_cycles": 5,
-  "last_updated": "2026-09-25T21:09:03.414578+00:00",
+  "total_learning_cycles": 8,
+  "last_updated": "2026-09-29T05:34:26.691219+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.291,
-    "sentiment_weight": 0.35,
-    "valuation_weight": 0.146,
-    "cro_weight": 0.214
+    "technicals_weight": 0.274,
+    "sentiment_weight": 0.359,
+    "valuation_weight": 0.137,
+    "cro_weight": 0.23
   },
-  "adaptive_kelly_multiplier": 0.96,
+  "adaptive_kelly_multiplier": 0.93,
   "recent_trade_autopsies": [
     {
       "ticker": "DE",
@@ -32,6 +32,54 @@
       "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
       "lesson": "Committee conviction on ITW succeeded with +0.14% gain.",
       "timestamp": "2026-09-25T17:56:34.995100+00:00"
+    },
+    {
+      "ticker": "ETN",
+      "pnl": -100.32,
+      "return_pct": -1.91,
+      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
+      "lesson": "Stop loss on ETN triggered at -1.91%. Protecting capital.",
+      "timestamp": "2026-09-28T19:53:08.839016+00:00"
+    },
+    {
+      "ticker": "DAL",
+      "pnl": 89.76,
+      "return_pct": 0.82,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on DAL succeeded with +0.82% gain.",
+      "timestamp": "2026-09-28T19:53:08.839056+00:00"
+    },
+    {
+      "ticker": "ETN",
+      "pnl": -84.96,
+      "return_pct": -1.61,
+      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
+      "lesson": "Stop loss on ETN triggered at -1.61%. Protecting capital.",
+      "timestamp": "2026-09-28T21:23:41.014717+00:00"
+    },
+    {
+      "ticker": "DAL",
+      "pnl": 100.32,
+      "return_pct": 0.91,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on DAL succeeded with +0.91% gain.",
+      "timestamp": "2026-09-28T21:23:41.014745+00:00"
+    },
+    {
+      "ticker": "ETN",
+      "pnl": -84.96,
+      "return_pct": -1.61,
+      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
+      "lesson": "Stop loss on ETN triggered at -1.61%. Protecting capital.",
+      "timestamp": "2026-09-29T05:34:28.542088+00:00"
+    },
+    {
+      "ticker": "DAL",
+      "pnl": 100.32,
+      "return_pct": 0.91,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on DAL succeeded with +0.91% gain.",
+      "timestamp": "2026-09-29T05:34:28.542114+00:00"
     }
   ],
   "retrained_models": [
@@ -43,6 +91,21 @@
     {
       "ticker": "DE",
       "timestamp": "2026-09-25T15:33:20.021562+00:00",
+      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
+    },
+    {
+      "ticker": "ETN",
+      "timestamp": "2026-09-28T19:53:08.838990+00:00",
+      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
+    },
+    {
+      "ticker": "ETN",
+      "timestamp": "2026-09-28T21:23:41.014703+00:00",
+      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
+    },
+    {
+      "ticker": "ETN",
+      "timestamp": "2026-09-29T05:34:28.542077+00:00",
       "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
     }
   ],
@@ -129,10 +192,10 @@
     "Harvested 35 high-conviction momentum runs with 54.69% win rate."
   ],
   "bayesian_council_calibration": {
-    "Technical Momentum": 0.2519,
-    "FinBERT Sentiment": 0.2519,
-    "Fundamental Valuation": 0.1985,
-    "Chief Risk Officer": 0.1498,
-    "Adversarial Red-Team": 0.1479
+    "Technical Momentum": 0.1229,
+    "FinBERT Sentiment": 0.1228,
+    "Fundamental Valuation": 0.1228,
+    "Chief Risk Officer": 0.2015,
+    "Adversarial Red-Team": 0.43
   }
 }

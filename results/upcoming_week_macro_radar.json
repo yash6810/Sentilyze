@@ -1,0 +1,117 @@
+{
+  "timestamp": "2026-09-28T19:03:58.293117+00:00",
+  "week_range": "2026-09-28 to 2026-10-02",
+  "macro_risk_posture": "PRE_NFP_CAUTION",
+  "high_impact_macro_events": [
+    {
+      "event": "ISM Manufacturing PMI",
+      "date": "2026-10-01 10:00 EDT",
+      "impact": "HIGH",
+      "category": "MACRO_GROWTH",
+      "expected_volatility_cone_pct": 0.85,
+      "historical_spy_dispersion": "+/- 0.65%",
+      "cro_rule": "Tighten stop loss buffers by 25% 15 minutes before release"
+    },
+    {
+      "event": "JOLTS Job Openings",
+      "date": "2026-10-01 10:00 EDT",
+      "impact": "HIGH",
+      "category": "LABOR_MARKET",
+      "expected_volatility_cone_pct": 0.7,
+      "historical_spy_dispersion": "+/- 0.55%",
+      "cro_rule": "Cap new Kelly allocations at <= 1.5%"
+    },
+    {
+      "event": "ADP Non-Farm Employment",
+      "date": "2026-09-30 08:15 EDT",
+      "impact": "MEDIUM",
+      "category": "LABOR_MARKET",
+      "expected_volatility_cone_pct": 0.5,
+      "historical_spy_dispersion": "+/- 0.40%",
+      "cro_rule": "Normal risk thresholds active"
+    },
+    {
+      "event": "Non-Farm Payrolls (NFP) & Unemployment Rate",
+      "date": "2026-10-02 08:30 EDT",
+      "impact": "VERY_HIGH",
+      "category": "CRITICAL_LABOR",
+      "expected_volatility_cone_pct": 1.45,
+      "historical_spy_dispersion": "+/- 1.25%",
+      "cro_rule": "MACRO_VOLATILITY_BLACKOUT: Halt new long entries 60m pre-release"
+    },
+    {
+      "event": "FOMC Speeches & Fed Balance Sheet",
+      "date": "2026-10-01 16:30 EDT",
+      "impact": "HIGH",
+      "category": "CENTRAL_BANK",
+      "expected_volatility_cone_pct": 0.9,
+      "historical_spy_dispersion": "+/- 0.75%",
+      "cro_rule": "Maintain min 50% dry powder cash buffer"
+    }
+  ],
+  "monitored_earnings": {
+    "GOOGL": {
+      "earnings_date": "TBD",
+      "days_until_earnings": 45,
+      "blackout_active": false,
+      "cro_guidance": "\ud83d\udfe2 SAFE (NO IMMINENT EARNINGS)"
+    },
+    "DAL": {
+      "earnings_date": "2026-10-10",
+      "days_until_earnings": 12,
+      "blackout_active": false,
+      "cro_guidance": "\ud83d\udfe2 SAFE (NO IMMINENT EARNINGS)"
+    },
+    "NVDA": {
+      "earnings_date": "2026-11-18",
+      "days_until_earnings": 51,
+      "blackout_active": false,
+      "cro_guidance": "\ud83d\udfe2 SAFE (NO IMMINENT EARNINGS)"
+    },
+    "EMR": {
+      "earnings_date": "2026-11-05",
+      "days_until_earnings": 38,
+      "blackout_active": false,
+      "cro_guidance": "\ud83d\udfe2 SAFE (NO IMMINENT EARNINGS)"
+    },
+    "PLTR": {
+      "earnings_date": "TBD",
+      "days_until_earnings": 45,
+      "blackout_active": false,
+      "cro_guidance": "\ud83d\udfe2 SAFE (NO IMMINENT EARNINGS)"
+    },
+    "ETN": {
+      "earnings_date": "2026-10-29",
+      "days_until_earnings": 31,
+      "blackout_active": false,
+      "cro_guidance": "\ud83d\udfe2 SAFE (NO IMMINENT EARNINGS)"
+    },
+    "MSFT": {
+      "earnings_date": "2026-10-22",
+      "days_until_earnings": 24,
+      "blackout_active": false,
+      "cro_guidance": "\ud83d\udfe2 SAFE (NO IMMINENT EARNINGS)"
+    },
+    "FAST": {
+      "earnings_date": "2026-10-11",
+      "days_until_earnings": 13,
+      "blackout_active": false,
+      "cro_guidance": "\ud83d\udfe2 SAFE (NO IMMINENT EARNINGS)"
+    },
+    "AAPL": {
+      "earnings_date": "2026-10-29",
+      "days_until_earnings": 31,
+      "blackout_active": false,
+      "cro_guidance": "\ud83d\udfe2 SAFE (NO IMMINENT EARNINGS)"
+    },
+    "ADP": {
+      "earnings_date": "2026-10-28",
+      "days_until_earnings": 30,
+      "blackout_active": false,
+      "cro_guidance": "\ud83d\udfe2 SAFE (NO IMMINENT EARNINGS)"
+    }
+  },
+  "imminent_blackouts_count": 0,
+  "imminent_blackout_tickers": [],
+  "cro_summary": "No active positions have earnings within 3 days. Focus risk controls on Friday NFP release (08:30 EDT)."
+}
