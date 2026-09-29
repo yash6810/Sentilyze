@@ -1,0 +1,324 @@
+{
+  "timestamp": "2026-09-29 10:59:26 UTC",
+  "total_universe_scanned": 1000,
+  "screened_candidates_count": 998,
+  "portfolio_equity": 144236.51,
+  "cash": 119213.38,
+  "watchlist": [
+    {
+      "ticker": "EXPD",
+      "composite_alpha_score": 74.3,
+      "resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "EXPD",
+        "current_price": 188.21,
+        "composite_alpha_score": 74.3,
+        "model_confidence_pct": 62.9,
+        "model_signal": "BUY",
+        "rsi_14": 55.8,
+        "return_21d_pct": 5.16,
+        "price_vs_sma200_pct": 18.62,
+        "volume_ratio": 0.91,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "ALAB",
+      "composite_alpha_score": 78.1,
+      "resolution": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "ALAB",
+        "current_price": 341.26,
+        "composite_alpha_score": 78.1,
+        "model_confidence_pct": 55.7,
+        "model_signal": "BUY",
+        "rsi_14": 59.2,
+        "return_21d_pct": 17.45,
+        "price_vs_sma200_pct": 47.0,
+        "volume_ratio": 1.42,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "ALNT",
+      "composite_alpha_score": 77.3,
+      "resolution": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "ALNT",
+        "current_price": 109.33,
+        "composite_alpha_score": 77.3,
+        "model_confidence_pct": 63.7,
+        "model_signal": "BUY",
+        "rsi_14": 64.3,
+        "return_21d_pct": 9.86,
+        "price_vs_sma200_pct": 44.74,
+        "volume_ratio": 1.54,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "AGCO",
+      "composite_alpha_score": 76.6,
+      "resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "AGCO",
+        "current_price": 119.92,
+        "composite_alpha_score": 76.6,
+        "model_confidence_pct": 57.0,
+        "model_signal": "BUY",
+        "rsi_14": 57.4,
+        "return_21d_pct": 20.46,
+        "price_vs_sma200_pct": 3.97,
+        "volume_ratio": 0.91,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "AMTX",
+      "composite_alpha_score": 75.7,
+      "resolution": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "AMTX",
+        "current_price": 2.08,
+        "composite_alpha_score": 75.7,
+        "model_confidence_pct": 52.0,
+        "model_signal": "BUY",
+        "rsi_14": 59.6,
+        "return_21d_pct": 8.33,
+        "price_vs_sma200_pct": 6.19,
+        "volume_ratio": 2.26,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "CYPH",
+      "composite_alpha_score": 75.5,
+      "resolution": "\ud83d\udd34 VETO / CUSUM STRUCTURAL BREAKDOWN",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "CYPH",
+        "current_price": 3.4,
+        "composite_alpha_score": 75.5,
+        "model_confidence_pct": 58.3,
+        "model_signal": "BUY",
+        "rsi_14": 70.2,
+        "return_21d_pct": 188.14,
+        "price_vs_sma200_pct": 238.94,
+        "volume_ratio": 1.34,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "ELE",
+      "composite_alpha_score": 75.3,
+      "resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "ELE",
+        "current_price": 21.73,
+        "composite_alpha_score": 75.3,
+        "model_confidence_pct": 68.6,
+        "model_signal": "BUY",
+        "rsi_14": 51.3,
+        "return_21d_pct": -0.84,
+        "price_vs_sma200_pct": 17.07,
+        "volume_ratio": 1.36,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "NEM",
+      "composite_alpha_score": 75.2,
+      "resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "NEM",
+        "current_price": 128.73,
+        "composite_alpha_score": 75.2,
+        "model_confidence_pct": 53.8,
+        "model_signal": "BUY",
+        "rsi_14": 55.2,
+        "return_21d_pct": 10.0,
+        "price_vs_sma200_pct": 18.71,
+        "volume_ratio": 1.35,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "CPA",
+      "composite_alpha_score": 74.7,
+      "resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "CPA",
+        "current_price": 137.45,
+        "composite_alpha_score": 74.7,
+        "model_confidence_pct": 56.4,
+        "model_signal": "BUY",
+        "rsi_14": 68.8,
+        "return_21d_pct": 8.41,
+        "price_vs_sma200_pct": 6.92,
+        "volume_ratio": 2.26,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "MPC",
+      "composite_alpha_score": 74.5,
+      "resolution": "\ud83d\udd34 VETO / RED-TEAM VULNERABILITY",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "MPC",
+        "current_price": 399.51,
+        "composite_alpha_score": 74.5,
+        "model_confidence_pct": 69.7,
+        "model_signal": "BUY",
+        "rsi_14": 82.5,
+        "return_21d_pct": 25.08,
+        "price_vs_sma200_pct": 64.85,
+        "volume_ratio": 0.98,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "VEEV",
+      "composite_alpha_score": 73.6,
+      "resolution": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "VEEV",
+        "current_price": 260.88,
+        "composite_alpha_score": 73.6,
+        "model_confidence_pct": 55.8,
+        "model_signal": "BUY",
+        "rsi_14": 55.1,
+        "return_21d_pct": 11.19,
+        "price_vs_sma200_pct": 31.41,
+        "volume_ratio": 0.76,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "DVN",
+      "composite_alpha_score": 73.5,
+      "resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "DVN",
+        "current_price": 48.98,
+        "composite_alpha_score": 73.5,
+        "model_confidence_pct": 54.9,
+        "model_signal": "BUY",
+        "rsi_14": 55.1,
+        "return_21d_pct": 7.98,
+        "price_vs_sma200_pct": 13.03,
+        "volume_ratio": 1.1,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "SMCI",
+      "composite_alpha_score": 73.4,
+      "resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "SMCI",
+        "current_price": 38.91,
+        "composite_alpha_score": 73.4,
+        "model_confidence_pct": 53.1,
+        "model_signal": "BUY",
+        "rsi_14": 57.6,
+        "return_21d_pct": 23.74,
+        "price_vs_sma200_pct": 23.85,
+        "volume_ratio": 0.58,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "VLO",
+      "composite_alpha_score": 73.4,
+      "resolution": "\ud83d\udd34 VETO / RED-TEAM VULNERABILITY",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "VLO",
+        "current_price": 388.9,
+        "composite_alpha_score": 73.4,
+        "model_confidence_pct": 61.7,
+        "model_signal": "BUY",
+        "rsi_14": 79.9,
+        "return_21d_pct": 23.47,
+        "price_vs_sma200_pct": 62.0,
+        "volume_ratio": 1.23,
+        "has_trained_model": true
+      }
+    },
+    {
+      "ticker": "BSIN",
+      "composite_alpha_score": 72.5,
+      "resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "conviction_pct": 70.0,
+      "cro_veto": false,
+      "thesis": "",
+      "votes": {},
+      "stage1_metrics": {
+        "ticker": "BSIN",
+        "current_price": 1.59,
+        "composite_alpha_score": 72.5,
+        "model_confidence_pct": 50.7,
+        "model_signal": "BUY",
+        "rsi_14": 57.3,
+        "return_21d_pct": 13.57,
+        "price_vs_sma200_pct": 44.57,
+        "volume_ratio": 0.86,
+        "has_trained_model": true
+      }
+    }
+  ]
+}

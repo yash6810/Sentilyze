@@ -130,6 +130,7 @@ def simulate_market_opening(
     # 4. Generate Almgren-Chriss Slicing Schedule for Watchlist Candidate #1
     top_candidate = "MSFT"
     top_conviction = 80.6
+    candidate_price_est = 225.00
     if os.path.exists(watchlist_path):
         try:
             with open(watchlist_path, "r", encoding="utf-8") as f:
@@ -141,13 +142,17 @@ def simulate_market_opening(
                     top_conviction = float(
                         top_item.get("conviction_pct", top_conviction)
                     )
+                    candidate_price_est = float(
+                        top_item.get("stage1_metrics", {}).get(
+                            "current_price", candidate_price_est
+                        )
+                    )
         except Exception as e:
             logger.debug(f"Could not load watchlist: {e}")
 
     # Quarter-Kelly Position Sizing (e.g. 5% max risk, ~10% capital allocation)
     alloc_pct = 0.08  # 8% of portfolio equity (~$11.5k)
     target_capital = min(total_equity * alloc_pct, cash * 0.20)
-    candidate_price_est = 448.00 if top_candidate == "MSFT" else 225.00
     total_shares = max(int(target_capital / candidate_price_est), 1)
     actual_order_capital = round(total_shares * candidate_price_est, 2)
 

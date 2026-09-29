@@ -44,6 +44,8 @@ class UltraQuantEngine:
         self._liquidity_cache_time: float = 0.0
         self._macro_blackout_cache: Optional[Dict[str, Any]] = None
         self._macro_blackout_time: float = 0.0
+        self._hmm_market_cache: Optional[Dict[str, Any]] = None
+        self._hmm_market_cache_time: float = 0.0
         self._insider_cache: Dict[str, Any] = {}
         self._sec_cache: Dict[str, Any] = {}
         self._social_cache: Dict[str, Any] = {}
@@ -265,15 +267,46 @@ class UltraQuantEngine:
             self._liquidity_cache_time = now
         return self._liquidity_cache
 
-    def evaluate_hmm_market_regime(self, market_daily_return: float) -> Dict[str, Any]:
+    def evaluate_hmm_market_regime(
+        self, market_daily_return: Optional[float] = None
+    ) -> Dict[str, Any]:
         """
-        Executes a 3-State Gaussian Hidden Markov Model forward step in microseconds.
+        Executes a 3-State Gaussian Hidden Markov Model forward step on market benchmark returns.
+        Uses a 60-second in-memory cache to guarantee sub-millisecond cycle latency.
         """
+        now = time.time()
+        if market_daily_return is None:
+            if (
+                self._hmm_market_cache is not None
+                and (now - self._hmm_market_cache_time) <= 60.0
+            ):
+                return self._hmm_market_cache
+            spy_ret = 0.0
+            try:
+                from src.data_ingestion import get_price_history
+
+                spy_df = get_price_history("SPY", period="1mo", use_cache=True)
+                if (
+                    isinstance(spy_df, pd.DataFrame)
+                    and len(spy_df) >= 2
+                    and "Close" in spy_df.columns
+                ):
+                    spy_ret = float(
+                        (spy_df["Close"].iloc[-1] - spy_df["Close"].iloc[-2])
+                        / (spy_df["Close"].iloc[-2] + 1e-9)
+                    )
+            except Exception:
+                spy_ret = 0.0
+            market_daily_return = spy_ret
+
         t0 = time.perf_counter_ns()
-        hmm_res = self.hmm_detector.update(market_daily_return)
+        detector = GaussianHMMRegimeDetector()
+        hmm_res = detector.update(market_daily_return)
         elapsed_ns = time.perf_counter_ns() - t0
         hmm_res["eval_latency_micros"] = round(elapsed_ns / 1000.0, 2)
         hmm_res["eval_latency_ns"] = elapsed_ns
+        self._hmm_market_cache = hmm_res
+        self._hmm_market_cache_time = now
         return hmm_res
 
     def evaluate_microstructure_poc(
@@ -343,9 +376,9 @@ class UltraQuantEngine:
         ):
             spot_price = float(df_history["Close"].iloc[-1])
 
-        # 1. HMM Regime Update
+        # 1. HMM Regime Update (Macro market benchmark)
         t_hmm_start = time.perf_counter_ns()
-        hmm_info = self.hmm_detector.update(daily_return)
+        hmm_info = self.evaluate_hmm_market_regime()
         t_hmm = time.perf_counter_ns() - t_hmm_start
 
         # 2. CUSUM Change-Point Surveillance
