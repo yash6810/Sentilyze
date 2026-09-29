@@ -1,49 +1,65 @@
 {
-  "session_time": "Sep 29, 2026 \u2022 01:47 AM IST (04:17 PM EDT)",
+  "session_time": "Sep 30, 2026 \u2022 12:24 AM IST (02:54 PM EDT)",
   "stocks_in_play": [
-    "BA",
     "AXON",
-    "FIX",
     "EFX",
+    "FIX",
+    "BA",
     "FDXF"
   ],
-  "signals_count": 1,
+  "signals_count": 2,
   "signals": [
     {
-      "ticker": "FIX",
+      "ticker": "BA",
       "signal": "BUY",
-      "current_price": 1658.3,
-      "confidence": 0.1848,
-      "take_profit": 1800.68,
-      "stop_loss": 1587.11
+      "current_price": 187.96,
+      "confidence": 0.5572,
+      "take_profit": 201.1,
+      "stop_loss": 181.39
+    },
+    {
+      "ticker": "FDXF",
+      "signal": "BUY",
+      "current_price": 111.76,
+      "confidence": 0.1825,
+      "take_profit": 120.98,
+      "stop_loss": 107.15
     }
   ],
   "executed_paper_trades": [
     {
-      "ticker": "FIX",
+      "ticker": "BA",
       "signal": "BUY",
-      "current_price": 1658.3,
-      "confidence": 0.1848,
-      "take_profit": 1800.68,
-      "stop_loss": 1587.11
+      "current_price": 187.96,
+      "confidence": 0.5572,
+      "take_profit": 201.1,
+      "stop_loss": 181.39
+    },
+    {
+      "ticker": "FDXF",
+      "signal": "BUY",
+      "current_price": 111.76,
+      "confidence": 0.1825,
+      "take_profit": 120.98,
+      "stop_loss": 107.15
     }
   ],
   "portfolio_summary": {
-    "total_equity": 144232.66,
-    "cash": 119210.1440557862,
-    "invested": 25022.51594421381,
+    "total_equity": 144024.15,
+    "cash": 128812.95405578619,
+    "invested": 15211.195944213803,
     "start_of_day_equity": 144453.41,
-    "daily_pnl": -220.75,
-    "daily_return_pct": -0.15,
-    "unrealized_pnl": 73.89,
-    "unrealized_pnl_pct": 0.3,
-    "realized_pnl": 54471.82405578613,
-    "total_pnl": 44232.66,
-    "total_return_pct": 44.23,
-    "win_rate": 65.7,
-    "open_positions_count": 3,
-    "total_trades": 70,
-    "winning_trades": 46,
+    "daily_pnl": -429.26,
+    "daily_return_pct": -0.3,
+    "unrealized_pnl": -242.78,
+    "unrealized_pnl_pct": -1.6,
+    "realized_pnl": 54579.984055786124,
+    "total_pnl": 44024.15,
+    "total_return_pct": 44.02,
+    "win_rate": 66.2,
+    "open_positions_count": 2,
+    "total_trades": 71,
+    "winning_trades": 47,
     "losing_trades": 24
   }
 }
