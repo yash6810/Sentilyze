@@ -143,13 +143,14 @@ def build_orderflow_candlestick_chart(
     ticker: str = "ASSET",
     sm_data: Optional[Dict[str, Any]] = None,
     orb_levels: Optional[Dict[str, float]] = None,
+    trade_levels: Optional[Dict[str, float]] = None,
     height: int = 680,
 ) -> go.Figure:
     """
     Builds an institutional TradingView-style dual-pane interactive chart.
 
     Panes:
-        Row 1 (75%): Candlestick price action, PoC, Value Area, FVGs, and ORB levels.
+        Row 1 (75%): Candlestick price action, Horizontal VPVR Volume Profile, PoC, Value Area, FVGs, and Trade Levels.
         Row 2 (25%): Color-coded volume bars and 20-period volume SMA.
     """
     if price_df.empty:
@@ -231,8 +232,62 @@ def build_orderflow_candlestick_chart(
             col=1,
         )
 
-    # 3. Volume Profile & PoC Calculation
-    bins, poc_price, vah_price, val_price = calculate_volume_profile(df, n_bins=20)
+    # 3. Volume Profile (VPVR) & PoC Calculation
+    bins, poc_price, vah_price, val_price = calculate_volume_profile(df, n_bins=24)
+
+    # Draw Horizontal Volume Profile Bars (VPVR) on Right Axis
+    if len(df) >= 20 and bins:
+        idx_len = len(df.index)
+        bar_span = max(8, min(25, int(idx_len * 0.22)))
+        start_x_idx = idx_len - bar_span
+        start_x = df.index[start_x_idx]
+
+        # Calculate vertical half-height per bin
+        if len(bins) >= 2:
+            half_bin_h = abs(bins[1]["price"] - bins[0]["price"]) * 0.45
+        else:
+            half_bin_h = poc_price * 0.01
+
+        for b in bins:
+            rel_v = b.get("rel_volume", 0.0)
+            if rel_v <= 0.02:
+                continue
+            ext_bars = int(rel_v * (bar_span - 1))
+            end_x_idx = min(idx_len - 1, start_x_idx + ext_bars)
+            end_x = df.index[end_x_idx]
+
+            p_mid = b["price"]
+            is_poc = b.get("is_poc", False)
+            in_va = b.get("in_value_area", False)
+
+            fill_c = (
+                "rgba(245, 158, 11, 0.40)"
+                if is_poc
+                else (
+                    "rgba(56, 189, 248, 0.18)" if in_va else "rgba(148, 163, 184, 0.08)"
+                )
+            )
+            border_c = (
+                "rgba(245, 158, 11, 0.85)"
+                if is_poc
+                else (
+                    "rgba(56, 189, 248, 0.40)" if in_va else "rgba(148, 163, 184, 0.15)"
+                )
+            )
+
+            fig.add_shape(
+                type="rect",
+                xref="x",
+                yref="y",
+                x0=start_x,
+                x1=end_x,
+                y0=p_mid - half_bin_h,
+                y1=p_mid + half_bin_h,
+                fillcolor=fill_c,
+                line=dict(color=border_c, width=1),
+                row=1,
+                col=1,
+            )
 
     # Point of Control (PoC) Line
     if poc_price > 0:
@@ -241,9 +296,9 @@ def build_orderflow_candlestick_chart(
             line_width=1.5,
             line_dash="dash",
             line_color="#F59E0B",
-            annotation_text=f"PoC: ${poc_price:.2f}",
+            annotation_text=f"PoC (Max Volume): ${poc_price:,.2f}",
             annotation_position="top right",
-            annotation_font=dict(color="#F59E0B", size=10),
+            annotation_font=dict(color="#F59E0B", size=10, family="JetBrains Mono"),
             row=1,
             col=1,
         )
@@ -256,12 +311,80 @@ def build_orderflow_candlestick_chart(
             fillcolor="rgba(56, 189, 248, 0.05)",
             line_width=1,
             line_color="rgba(56, 189, 248, 0.25)",
-            annotation_text="Value Area (70%)",
+            annotation_text="Value Area (70% Volume Node)",
             annotation_position="bottom right",
-            annotation_font=dict(color="#38BDF8", size=9),
+            annotation_font=dict(color="#38BDF8", size=9, family="JetBrains Mono"),
             row=1,
             col=1,
         )
+
+    # Trade Levels Overlay (Microstructure Stop-Loss, TP1, TP2, Runner)
+    if trade_levels:
+        entry_p = trade_levels.get("entry_price")
+        sl_p = trade_levels.get("stop_loss")
+        tp1_p = trade_levels.get("tp1_target")
+        tp2_p = trade_levels.get("tp2_target")
+        runner_p = trade_levels.get("runner_target")
+
+        if entry_p and entry_p > 0:
+            fig.add_hline(
+                y=entry_p,
+                line_width=1.5,
+                line_color="#38BDF8",
+                annotation_text=f"ENTRY: ${entry_p:,.2f}",
+                annotation_position="top left",
+                annotation_font=dict(color="#38BDF8", size=10, family="JetBrains Mono"),
+                row=1,
+                col=1,
+            )
+        if sl_p and sl_p > 0:
+            fig.add_hline(
+                y=sl_p,
+                line_width=1.5,
+                line_dash="dash",
+                line_color="#EF4444",
+                annotation_text=f"🛡️ MICROSTRUCTURE STOP: ${sl_p:,.2f}",
+                annotation_position="bottom left",
+                annotation_font=dict(color="#EF4444", size=10, family="JetBrains Mono"),
+                row=1,
+                col=1,
+            )
+        if tp1_p and tp1_p > 0:
+            fig.add_hline(
+                y=tp1_p,
+                line_width=1.5,
+                line_dash="dot",
+                line_color="#10B981",
+                annotation_text=f"🎯 TP1 (+3.5%): ${tp1_p:,.2f}",
+                annotation_position="top right",
+                annotation_font=dict(color="#10B981", size=10, family="JetBrains Mono"),
+                row=1,
+                col=1,
+            )
+        if tp2_p and tp2_p > 0:
+            fig.add_hline(
+                y=tp2_p,
+                line_width=1.5,
+                line_dash="dot",
+                line_color="#059669",
+                annotation_text=f"🏆 TP2 (+7.0%): ${tp2_p:,.2f}",
+                annotation_position="top right",
+                annotation_font=dict(color="#059669", size=10, family="JetBrains Mono"),
+                row=1,
+                col=1,
+            )
+        if runner_p and runner_p > 0:
+            fig.add_hline(
+                y=runner_p,
+                line_width=1.5,
+                line_dash="dot",
+                line_color="#A855F7",
+                annotation_text=f"🚀 RUNNER (+14.0%): ${runner_p:,.2f}",
+                annotation_position="top right",
+                annotation_font=dict(color="#A855F7", size=10, family="JetBrains Mono"),
+                row=1,
+                col=1,
+            )
 
     # 4. Fair Value Gaps (FVG)
     fvgs = detect_fair_value_gaps(df)

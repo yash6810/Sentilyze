@@ -1,0 +1,1116 @@
+{
+  "timestamp": "2026-09-30T06:10:02.125707+00:00",
+  "portfolio_context": {
+    "current_equity": 144057.11,
+    "cash_moat": 128812.95,
+    "cash_pct_of_portfolio": 89.4,
+    "target_ath_equity": 159316.55,
+    "drawdown_recovery_needed": 15259.44
+  },
+  "most_increasable_set_summary": {
+    "positions_count": 7,
+    "total_capital_to_deploy": 63505.08,
+    "remaining_cash_moat": 65307.87,
+    "total_net_expected_recovery": 3510.76,
+    "ath_recovery_percentage": 23.0
+  },
+  "selected_candidates": [
+    {
+      "ticker": "NEM",
+      "sector": "Materials / Gold & Real Assets",
+      "real_market_data": {
+        "last_close": 128.73,
+        "return_1d_pct": 1.32,
+        "sma_20": 125.64,
+        "sma_50": 108.24,
+        "sma_200": 108.44,
+        "atr_14": 4.25,
+        "atr_pct": 3.3,
+        "rsi_14": 55.2,
+        "adv_20_shares": 273711,
+        "last_volume": 367893,
+        "vol_adv_ratio": 1.34,
+        "volume_poc": 93.61,
+        "vah": 133.04,
+        "val": 89.03
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe2 MARKET_TOTAL_ENTERING",
+        "signal_strength": "HIGH_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Net Whale Call Sweeps & ATS Block Buying",
+        "borrow_channel_status": "Locates Stable, High Short Squeeze Pressure",
+        "options_gamma_status": "Positive Gamma Support (> Zero-Gamma Flip)",
+        "github_quant_model": "Microsoft Qlib Alpha158 + Orderflow PoC Bounce Confirmed",
+        "expected_gross_move_pct": 7.5
+      },
+      "cost_function_breakdown": {
+        "shares": 71,
+        "dollar_allocation": 9139.83,
+        "spread_cost_dollars": 2.28,
+        "permanent_impact_dollars": 0.01,
+        "temporary_impact_dollars": 0.84,
+        "turnover_penalty_dollars": 0.29,
+        "total_cost_dollars": 3.42,
+        "total_cost_bps": 3.7
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 71,
+        "capital_committed": 9139.83,
+        "entry_price": 128.73,
+        "microstructure_stop_loss": 125.13,
+        "risk_per_share": 3.6,
+        "risk_pct": 2.8,
+        "tp1_target": 133.24,
+        "tp2_target": 137.74,
+        "runner_target": 146.75,
+        "net_expected_return_pct": 7.46,
+        "net_expected_profit_dollars": 682.07
+      }
+    },
+    {
+      "ticker": "ALAB",
+      "sector": "Technology / High-Speed Connectivity",
+      "real_market_data": {
+        "last_close": 341.26,
+        "return_1d_pct": 12.56,
+        "sma_20": 288.46,
+        "sma_50": 303.87,
+        "sma_200": 232.15,
+        "atr_14": 22.08,
+        "atr_pct": 6.47,
+        "rsi_14": 59.2,
+        "adv_20_shares": 131245,
+        "last_volume": 182310,
+        "vol_adv_ratio": 1.39,
+        "volume_poc": 319.34,
+        "vah": 370.53,
+        "val": 249.52
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe2 MARKET_TOTAL_ENTERING",
+        "signal_strength": "HIGH_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Net Whale Call Sweeps & ATS Block Buying",
+        "borrow_channel_status": "Locates Stable, High Short Squeeze Pressure",
+        "options_gamma_status": "Positive Gamma Support (> Zero-Gamma Flip)",
+        "github_quant_model": "Microsoft Qlib Alpha158 + Orderflow PoC Bounce Confirmed",
+        "expected_gross_move_pct": 7.5
+      },
+      "cost_function_breakdown": {
+        "shares": 26,
+        "dollar_allocation": 8872.76,
+        "spread_cost_dollars": 2.22,
+        "permanent_impact_dollars": 0.01,
+        "temporary_impact_dollars": 1.37,
+        "turnover_penalty_dollars": 0.27,
+        "total_cost_dollars": 3.87,
+        "total_cost_bps": 4.4
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 26,
+        "capital_committed": 8872.76,
+        "entry_price": 341.26,
+        "microstructure_stop_loss": 331.7,
+        "risk_per_share": 9.56,
+        "risk_pct": 2.8,
+        "tp1_target": 353.2,
+        "tp2_target": 365.15,
+        "runner_target": 389.04,
+        "net_expected_return_pct": 7.46,
+        "net_expected_profit_dollars": 661.59
+      }
+    },
+    {
+      "ticker": "DVN",
+      "sector": "Energy / Cashflow Dividends",
+      "real_market_data": {
+        "last_close": 48.98,
+        "return_1d_pct": 1.19,
+        "sma_20": 47.72,
+        "sma_50": 45.08,
+        "sma_200": 43.33,
+        "atr_14": 1.13,
+        "atr_pct": 2.31,
+        "rsi_14": 55.1,
+        "adv_20_shares": 711619,
+        "last_volume": 775297,
+        "vol_adv_ratio": 1.09,
+        "volume_poc": 42.25,
+        "vah": 49.29,
+        "val": 40.26
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe1 SWIFT_RISING_CONSOLIDATION",
+        "signal_strength": "TACTICAL_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Selective Block Absorption at Value Area Low",
+        "borrow_channel_status": "Moderate Borrow Demand",
+        "options_gamma_status": "Gamma Neutral, Pinning at Resistance",
+        "github_quant_model": "Mean-Reverting Dynamic Band Rebound",
+        "expected_gross_move_pct": 4.8
+      },
+      "cost_function_breakdown": {
+        "shares": 187,
+        "dollar_allocation": 9159.26,
+        "spread_cost_dollars": 2.29,
+        "permanent_impact_dollars": 0.01,
+        "temporary_impact_dollars": 0.66,
+        "turnover_penalty_dollars": 0.29,
+        "total_cost_dollars": 3.24,
+        "total_cost_bps": 3.5
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 187,
+        "capital_committed": 9159.26,
+        "entry_price": 48.98,
+        "microstructure_stop_loss": 47.61,
+        "risk_per_share": 1.37,
+        "risk_pct": 2.8,
+        "tp1_target": 50.69,
+        "tp2_target": 52.41,
+        "runner_target": 55.84,
+        "net_expected_return_pct": 4.76,
+        "net_expected_profit_dollars": 436.4
+      }
+    },
+    {
+      "ticker": "NVDA",
+      "sector": "Information Technology / AI Semis",
+      "real_market_data": {
+        "last_close": 222.04,
+        "return_1d_pct": 1.2,
+        "sma_20": 218.73,
+        "sma_50": 214.08,
+        "sma_200": 198.01,
+        "atr_14": 5.88,
+        "atr_pct": 2.65,
+        "rsi_14": 54.8,
+        "adv_20_shares": 3340117,
+        "last_volume": 2828110,
+        "vol_adv_ratio": 0.85,
+        "volume_poc": 211.51,
+        "vah": 228.33,
+        "val": 194.69
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe1 SWIFT_RISING_CONSOLIDATION",
+        "signal_strength": "TACTICAL_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Selective Block Absorption at Value Area Low",
+        "borrow_channel_status": "Moderate Borrow Demand",
+        "options_gamma_status": "Gamma Neutral, Pinning at Resistance",
+        "github_quant_model": "Mean-Reverting Dynamic Band Rebound",
+        "expected_gross_move_pct": 4.8
+      },
+      "cost_function_breakdown": {
+        "shares": 41,
+        "dollar_allocation": 9103.64,
+        "spread_cost_dollars": 2.28,
+        "permanent_impact_dollars": 0.0,
+        "temporary_impact_dollars": 0.18,
+        "turnover_penalty_dollars": 0.29,
+        "total_cost_dollars": 2.75,
+        "total_cost_bps": 3.0
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 41,
+        "capital_committed": 9103.64,
+        "entry_price": 222.04,
+        "microstructure_stop_loss": 215.82,
+        "risk_per_share": 6.22,
+        "risk_pct": 2.8,
+        "tp1_target": 229.81,
+        "tp2_target": 237.58,
+        "runner_target": 253.13,
+        "net_expected_return_pct": 4.77,
+        "net_expected_profit_dollars": 434.22
+      }
+    },
+    {
+      "ticker": "VEEV",
+      "sector": "Healthcare / Cloud Life Sciences",
+      "real_market_data": {
+        "last_close": 260.88,
+        "return_1d_pct": -1.5,
+        "sma_20": 259.94,
+        "sma_50": 223.59,
+        "sma_200": 198.52,
+        "atr_14": 10.85,
+        "atr_pct": 4.16,
+        "rsi_14": 55.1,
+        "adv_20_shares": 97156,
+        "last_volume": 74238,
+        "vol_adv_ratio": 0.76,
+        "volume_poc": 192.83,
+        "vah": 285.6,
+        "val": 153.07
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe1 SWIFT_RISING_CONSOLIDATION",
+        "signal_strength": "TACTICAL_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Selective Block Absorption at Value Area Low",
+        "borrow_channel_status": "Moderate Borrow Demand",
+        "options_gamma_status": "Gamma Neutral, Pinning at Resistance",
+        "github_quant_model": "Mean-Reverting Dynamic Band Rebound",
+        "expected_gross_move_pct": 4.8
+      },
+      "cost_function_breakdown": {
+        "shares": 35,
+        "dollar_allocation": 9130.8,
+        "spread_cost_dollars": 2.28,
+        "permanent_impact_dollars": 0.01,
+        "temporary_impact_dollars": 1.65,
+        "turnover_penalty_dollars": 0.29,
+        "total_cost_dollars": 4.24,
+        "total_cost_bps": 4.6
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 35,
+        "capital_committed": 9130.8,
+        "entry_price": 260.88,
+        "microstructure_stop_loss": 253.58,
+        "risk_per_share": 7.3,
+        "risk_pct": 2.8,
+        "tp1_target": 270.01,
+        "tp2_target": 279.14,
+        "runner_target": 297.4,
+        "net_expected_return_pct": 4.75,
+        "net_expected_profit_dollars": 434.04
+      }
+    },
+    {
+      "ticker": "AAPL",
+      "sector": "Consumer Electronics / Platform Ecosystem",
+      "real_market_data": {
+        "last_close": 335.73,
+        "return_1d_pct": -0.4,
+        "sma_20": 322.65,
+        "sma_50": 320.02,
+        "sma_200": 285.92,
+        "atr_14": 7.62,
+        "atr_pct": 2.27,
+        "rsi_14": 65.2,
+        "adv_20_shares": 1217043,
+        "last_volume": 1141511,
+        "vol_adv_ratio": 0.94,
+        "volume_poc": 333.24,
+        "vah": 334.53,
+        "val": 274.97
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe1 SWIFT_RISING_CONSOLIDATION",
+        "signal_strength": "TACTICAL_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Selective Block Absorption at Value Area Low",
+        "borrow_channel_status": "Moderate Borrow Demand",
+        "options_gamma_status": "Gamma Neutral, Pinning at Resistance",
+        "github_quant_model": "Mean-Reverting Dynamic Band Rebound",
+        "expected_gross_move_pct": 4.8
+      },
+      "cost_function_breakdown": {
+        "shares": 27,
+        "dollar_allocation": 9064.71,
+        "spread_cost_dollars": 2.27,
+        "permanent_impact_dollars": 0.0,
+        "temporary_impact_dollars": 0.2,
+        "turnover_penalty_dollars": 0.29,
+        "total_cost_dollars": 2.75,
+        "total_cost_bps": 3.0
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 27,
+        "capital_committed": 9064.71,
+        "entry_price": 335.73,
+        "microstructure_stop_loss": 326.33,
+        "risk_per_share": 9.4,
+        "risk_pct": 2.8,
+        "tp1_target": 347.48,
+        "tp2_target": 359.23,
+        "runner_target": 382.73,
+        "net_expected_return_pct": 4.77,
+        "net_expected_profit_dollars": 432.36
+      }
+    },
+    {
+      "ticker": "EXPD",
+      "sector": "Industrials / Global Logistics",
+      "real_market_data": {
+        "last_close": 188.21,
+        "return_1d_pct": 1.25,
+        "sma_20": 187.75,
+        "sma_50": 179.32,
+        "sma_200": 158.67,
+        "atr_14": 2.73,
+        "atr_pct": 1.45,
+        "rsi_14": 55.8,
+        "adv_20_shares": 35238,
+        "last_volume": 32652,
+        "vol_adv_ratio": 0.93,
+        "volume_poc": 177.95,
+        "vah": 188.49,
+        "val": 159.97
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe1 SWIFT_RISING_CONSOLIDATION",
+        "signal_strength": "TACTICAL_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Selective Block Absorption at Value Area Low",
+        "borrow_channel_status": "Moderate Borrow Demand",
+        "options_gamma_status": "Gamma Neutral, Pinning at Resistance",
+        "github_quant_model": "Mean-Reverting Dynamic Band Rebound",
+        "expected_gross_move_pct": 4.8
+      },
+      "cost_function_breakdown": {
+        "shares": 48,
+        "dollar_allocation": 9034.08,
+        "spread_cost_dollars": 2.26,
+        "permanent_impact_dollars": 0.02,
+        "temporary_impact_dollars": 1.0,
+        "turnover_penalty_dollars": 0.28,
+        "total_cost_dollars": 3.56,
+        "total_cost_bps": 3.9
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 48,
+        "capital_committed": 9034.08,
+        "entry_price": 188.21,
+        "microstructure_stop_loss": 182.94,
+        "risk_per_share": 5.27,
+        "risk_pct": 2.8,
+        "tp1_target": 194.8,
+        "tp2_target": 201.38,
+        "runner_target": 214.56,
+        "net_expected_return_pct": 4.76,
+        "net_expected_profit_dollars": 430.08
+      }
+    }
+  ],
+  "all_evaluated_candidates": [
+    {
+      "ticker": "NEM",
+      "sector": "Materials / Gold & Real Assets",
+      "real_market_data": {
+        "last_close": 128.73,
+        "return_1d_pct": 1.32,
+        "sma_20": 125.64,
+        "sma_50": 108.24,
+        "sma_200": 108.44,
+        "atr_14": 4.25,
+        "atr_pct": 3.3,
+        "rsi_14": 55.2,
+        "adv_20_shares": 273711,
+        "last_volume": 367893,
+        "vol_adv_ratio": 1.34,
+        "volume_poc": 93.61,
+        "vah": 133.04,
+        "val": 89.03
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe2 MARKET_TOTAL_ENTERING",
+        "signal_strength": "HIGH_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Net Whale Call Sweeps & ATS Block Buying",
+        "borrow_channel_status": "Locates Stable, High Short Squeeze Pressure",
+        "options_gamma_status": "Positive Gamma Support (> Zero-Gamma Flip)",
+        "github_quant_model": "Microsoft Qlib Alpha158 + Orderflow PoC Bounce Confirmed",
+        "expected_gross_move_pct": 7.5
+      },
+      "cost_function_breakdown": {
+        "shares": 71,
+        "dollar_allocation": 9139.83,
+        "spread_cost_dollars": 2.28,
+        "permanent_impact_dollars": 0.01,
+        "temporary_impact_dollars": 0.84,
+        "turnover_penalty_dollars": 0.29,
+        "total_cost_dollars": 3.42,
+        "total_cost_bps": 3.7
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 71,
+        "capital_committed": 9139.83,
+        "entry_price": 128.73,
+        "microstructure_stop_loss": 125.13,
+        "risk_per_share": 3.6,
+        "risk_pct": 2.8,
+        "tp1_target": 133.24,
+        "tp2_target": 137.74,
+        "runner_target": 146.75,
+        "net_expected_return_pct": 7.46,
+        "net_expected_profit_dollars": 682.07
+      }
+    },
+    {
+      "ticker": "ALAB",
+      "sector": "Technology / High-Speed Connectivity",
+      "real_market_data": {
+        "last_close": 341.26,
+        "return_1d_pct": 12.56,
+        "sma_20": 288.46,
+        "sma_50": 303.87,
+        "sma_200": 232.15,
+        "atr_14": 22.08,
+        "atr_pct": 6.47,
+        "rsi_14": 59.2,
+        "adv_20_shares": 131245,
+        "last_volume": 182310,
+        "vol_adv_ratio": 1.39,
+        "volume_poc": 319.34,
+        "vah": 370.53,
+        "val": 249.52
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe2 MARKET_TOTAL_ENTERING",
+        "signal_strength": "HIGH_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Net Whale Call Sweeps & ATS Block Buying",
+        "borrow_channel_status": "Locates Stable, High Short Squeeze Pressure",
+        "options_gamma_status": "Positive Gamma Support (> Zero-Gamma Flip)",
+        "github_quant_model": "Microsoft Qlib Alpha158 + Orderflow PoC Bounce Confirmed",
+        "expected_gross_move_pct": 7.5
+      },
+      "cost_function_breakdown": {
+        "shares": 26,
+        "dollar_allocation": 8872.76,
+        "spread_cost_dollars": 2.22,
+        "permanent_impact_dollars": 0.01,
+        "temporary_impact_dollars": 1.37,
+        "turnover_penalty_dollars": 0.27,
+        "total_cost_dollars": 3.87,
+        "total_cost_bps": 4.4
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 26,
+        "capital_committed": 8872.76,
+        "entry_price": 341.26,
+        "microstructure_stop_loss": 331.7,
+        "risk_per_share": 9.56,
+        "risk_pct": 2.8,
+        "tp1_target": 353.2,
+        "tp2_target": 365.15,
+        "runner_target": 389.04,
+        "net_expected_return_pct": 7.46,
+        "net_expected_profit_dollars": 661.59
+      }
+    },
+    {
+      "ticker": "DVN",
+      "sector": "Energy / Cashflow Dividends",
+      "real_market_data": {
+        "last_close": 48.98,
+        "return_1d_pct": 1.19,
+        "sma_20": 47.72,
+        "sma_50": 45.08,
+        "sma_200": 43.33,
+        "atr_14": 1.13,
+        "atr_pct": 2.31,
+        "rsi_14": 55.1,
+        "adv_20_shares": 711619,
+        "last_volume": 775297,
+        "vol_adv_ratio": 1.09,
+        "volume_poc": 42.25,
+        "vah": 49.29,
+        "val": 40.26
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe1 SWIFT_RISING_CONSOLIDATION",
+        "signal_strength": "TACTICAL_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Selective Block Absorption at Value Area Low",
+        "borrow_channel_status": "Moderate Borrow Demand",
+        "options_gamma_status": "Gamma Neutral, Pinning at Resistance",
+        "github_quant_model": "Mean-Reverting Dynamic Band Rebound",
+        "expected_gross_move_pct": 4.8
+      },
+      "cost_function_breakdown": {
+        "shares": 187,
+        "dollar_allocation": 9159.26,
+        "spread_cost_dollars": 2.29,
+        "permanent_impact_dollars": 0.01,
+        "temporary_impact_dollars": 0.66,
+        "turnover_penalty_dollars": 0.29,
+        "total_cost_dollars": 3.24,
+        "total_cost_bps": 3.5
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 187,
+        "capital_committed": 9159.26,
+        "entry_price": 48.98,
+        "microstructure_stop_loss": 47.61,
+        "risk_per_share": 1.37,
+        "risk_pct": 2.8,
+        "tp1_target": 50.69,
+        "tp2_target": 52.41,
+        "runner_target": 55.84,
+        "net_expected_return_pct": 4.76,
+        "net_expected_profit_dollars": 436.4
+      }
+    },
+    {
+      "ticker": "NVDA",
+      "sector": "Information Technology / AI Semis",
+      "real_market_data": {
+        "last_close": 222.04,
+        "return_1d_pct": 1.2,
+        "sma_20": 218.73,
+        "sma_50": 214.08,
+        "sma_200": 198.01,
+        "atr_14": 5.88,
+        "atr_pct": 2.65,
+        "rsi_14": 54.8,
+        "adv_20_shares": 3340117,
+        "last_volume": 2828110,
+        "vol_adv_ratio": 0.85,
+        "volume_poc": 211.51,
+        "vah": 228.33,
+        "val": 194.69
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe1 SWIFT_RISING_CONSOLIDATION",
+        "signal_strength": "TACTICAL_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Selective Block Absorption at Value Area Low",
+        "borrow_channel_status": "Moderate Borrow Demand",
+        "options_gamma_status": "Gamma Neutral, Pinning at Resistance",
+        "github_quant_model": "Mean-Reverting Dynamic Band Rebound",
+        "expected_gross_move_pct": 4.8
+      },
+      "cost_function_breakdown": {
+        "shares": 41,
+        "dollar_allocation": 9103.64,
+        "spread_cost_dollars": 2.28,
+        "permanent_impact_dollars": 0.0,
+        "temporary_impact_dollars": 0.18,
+        "turnover_penalty_dollars": 0.29,
+        "total_cost_dollars": 2.75,
+        "total_cost_bps": 3.0
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 41,
+        "capital_committed": 9103.64,
+        "entry_price": 222.04,
+        "microstructure_stop_loss": 215.82,
+        "risk_per_share": 6.22,
+        "risk_pct": 2.8,
+        "tp1_target": 229.81,
+        "tp2_target": 237.58,
+        "runner_target": 253.13,
+        "net_expected_return_pct": 4.77,
+        "net_expected_profit_dollars": 434.22
+      }
+    },
+    {
+      "ticker": "VEEV",
+      "sector": "Healthcare / Cloud Life Sciences",
+      "real_market_data": {
+        "last_close": 260.88,
+        "return_1d_pct": -1.5,
+        "sma_20": 259.94,
+        "sma_50": 223.59,
+        "sma_200": 198.52,
+        "atr_14": 10.85,
+        "atr_pct": 4.16,
+        "rsi_14": 55.1,
+        "adv_20_shares": 97156,
+        "last_volume": 74238,
+        "vol_adv_ratio": 0.76,
+        "volume_poc": 192.83,
+        "vah": 285.6,
+        "val": 153.07
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe1 SWIFT_RISING_CONSOLIDATION",
+        "signal_strength": "TACTICAL_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Selective Block Absorption at Value Area Low",
+        "borrow_channel_status": "Moderate Borrow Demand",
+        "options_gamma_status": "Gamma Neutral, Pinning at Resistance",
+        "github_quant_model": "Mean-Reverting Dynamic Band Rebound",
+        "expected_gross_move_pct": 4.8
+      },
+      "cost_function_breakdown": {
+        "shares": 35,
+        "dollar_allocation": 9130.8,
+        "spread_cost_dollars": 2.28,
+        "permanent_impact_dollars": 0.01,
+        "temporary_impact_dollars": 1.65,
+        "turnover_penalty_dollars": 0.29,
+        "total_cost_dollars": 4.24,
+        "total_cost_bps": 4.6
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 35,
+        "capital_committed": 9130.8,
+        "entry_price": 260.88,
+        "microstructure_stop_loss": 253.58,
+        "risk_per_share": 7.3,
+        "risk_pct": 2.8,
+        "tp1_target": 270.01,
+        "tp2_target": 279.14,
+        "runner_target": 297.4,
+        "net_expected_return_pct": 4.75,
+        "net_expected_profit_dollars": 434.04
+      }
+    },
+    {
+      "ticker": "AAPL",
+      "sector": "Consumer Electronics / Platform Ecosystem",
+      "real_market_data": {
+        "last_close": 335.73,
+        "return_1d_pct": -0.4,
+        "sma_20": 322.65,
+        "sma_50": 320.02,
+        "sma_200": 285.92,
+        "atr_14": 7.62,
+        "atr_pct": 2.27,
+        "rsi_14": 65.2,
+        "adv_20_shares": 1217043,
+        "last_volume": 1141511,
+        "vol_adv_ratio": 0.94,
+        "volume_poc": 333.24,
+        "vah": 334.53,
+        "val": 274.97
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe1 SWIFT_RISING_CONSOLIDATION",
+        "signal_strength": "TACTICAL_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Selective Block Absorption at Value Area Low",
+        "borrow_channel_status": "Moderate Borrow Demand",
+        "options_gamma_status": "Gamma Neutral, Pinning at Resistance",
+        "github_quant_model": "Mean-Reverting Dynamic Band Rebound",
+        "expected_gross_move_pct": 4.8
+      },
+      "cost_function_breakdown": {
+        "shares": 27,
+        "dollar_allocation": 9064.71,
+        "spread_cost_dollars": 2.27,
+        "permanent_impact_dollars": 0.0,
+        "temporary_impact_dollars": 0.2,
+        "turnover_penalty_dollars": 0.29,
+        "total_cost_dollars": 2.75,
+        "total_cost_bps": 3.0
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 27,
+        "capital_committed": 9064.71,
+        "entry_price": 335.73,
+        "microstructure_stop_loss": 326.33,
+        "risk_per_share": 9.4,
+        "risk_pct": 2.8,
+        "tp1_target": 347.48,
+        "tp2_target": 359.23,
+        "runner_target": 382.73,
+        "net_expected_return_pct": 4.77,
+        "net_expected_profit_dollars": 432.36
+      }
+    },
+    {
+      "ticker": "EXPD",
+      "sector": "Industrials / Global Logistics",
+      "real_market_data": {
+        "last_close": 188.21,
+        "return_1d_pct": 1.25,
+        "sma_20": 187.75,
+        "sma_50": 179.32,
+        "sma_200": 158.67,
+        "atr_14": 2.73,
+        "atr_pct": 1.45,
+        "rsi_14": 55.8,
+        "adv_20_shares": 35238,
+        "last_volume": 32652,
+        "vol_adv_ratio": 0.93,
+        "volume_poc": 177.95,
+        "vah": 188.49,
+        "val": 159.97
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe1 SWIFT_RISING_CONSOLIDATION",
+        "signal_strength": "TACTICAL_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Selective Block Absorption at Value Area Low",
+        "borrow_channel_status": "Moderate Borrow Demand",
+        "options_gamma_status": "Gamma Neutral, Pinning at Resistance",
+        "github_quant_model": "Mean-Reverting Dynamic Band Rebound",
+        "expected_gross_move_pct": 4.8
+      },
+      "cost_function_breakdown": {
+        "shares": 48,
+        "dollar_allocation": 9034.08,
+        "spread_cost_dollars": 2.26,
+        "permanent_impact_dollars": 0.02,
+        "temporary_impact_dollars": 1.0,
+        "turnover_penalty_dollars": 0.28,
+        "total_cost_dollars": 3.56,
+        "total_cost_bps": 3.9
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 48,
+        "capital_committed": 9034.08,
+        "entry_price": 188.21,
+        "microstructure_stop_loss": 182.94,
+        "risk_per_share": 5.27,
+        "risk_pct": 2.8,
+        "tp1_target": 194.8,
+        "tp2_target": 201.38,
+        "runner_target": 214.56,
+        "net_expected_return_pct": 4.76,
+        "net_expected_profit_dollars": 430.08
+      }
+    },
+    {
+      "ticker": "LLY",
+      "sector": "Healthcare / Pharmaceuticals",
+      "real_market_data": {
+        "last_close": 1124.215,
+        "return_1d_pct": 0.05,
+        "sma_20": 1192.62,
+        "sma_50": 1186.68,
+        "sma_200": 1061.29,
+        "atr_14": 29.73,
+        "atr_pct": 2.64,
+        "rsi_14": 6.4,
+        "adv_20_shares": 99611,
+        "last_volume": 80595,
+        "vol_adv_ratio": 0.81,
+        "volume_poc": 1210.88,
+        "vah": 1229.22,
+        "val": 1111.86
+      },
+      "channel_comment_intelligence": {
+        "channel_shift_verdict": "\ud83d\udfe1 SWIFT_RISING_CONSOLIDATION",
+        "signal_strength": "TACTICAL_ACCUMULATION",
+        "channels_monitored": {
+          "dark_pool_relays": [
+            "DarkPoolDiver",
+            "MarianaRelay",
+            "_0xWhale",
+            "Ephemeral_Key"
+          ],
+          "borrow_channel": "r/Borrow (Locate Shortage & Lending Fee Surveillance)",
+          "reddit_discussion": [
+            "r/unusual_whales",
+            "r/options",
+            "r/wallstreetbets"
+          ],
+          "github_quant_repos": [
+            "openbb-finance",
+            "microsoft/qlib",
+            "finrl",
+            "mlfinlab"
+          ]
+        },
+        "whale_sweep_bias": "Selective Block Absorption at Value Area Low",
+        "borrow_channel_status": "Moderate Borrow Demand",
+        "options_gamma_status": "Gamma Neutral, Pinning at Resistance",
+        "github_quant_model": "Mean-Reverting Dynamic Band Rebound",
+        "expected_gross_move_pct": 4.8
+      },
+      "cost_function_breakdown": {
+        "shares": 8,
+        "dollar_allocation": 8993.72,
+        "spread_cost_dollars": 2.25,
+        "permanent_impact_dollars": 0.0,
+        "temporary_impact_dollars": 0.47,
+        "turnover_penalty_dollars": 0.28,
+        "total_cost_dollars": 3.0,
+        "total_cost_bps": 3.3
+      },
+      "trade_set_protocol": {
+        "action": "BUY_SCALE_IN",
+        "shares": 8,
+        "capital_committed": 8993.72,
+        "entry_price": 1124.215,
+        "microstructure_stop_loss": 1092.74,
+        "risk_per_share": 31.47,
+        "risk_pct": 2.8,
+        "tp1_target": 1163.56,
+        "tp2_target": 1202.91,
+        "runner_target": 1281.61,
+        "net_expected_return_pct": 4.77,
+        "net_expected_profit_dollars": 428.7
+      }
+    }
+  ]
+}

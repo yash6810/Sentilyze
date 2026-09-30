@@ -569,7 +569,9 @@ class PaperBroker:
         except Exception as div_err:
             logger.debug(f"Diversification shield notice: {div_err}")
 
-        max_allowed_positions = 2  # Focus capital into Top-2 highest conviction
+        max_allowed_positions = (
+            8  # Diversified multi-sector capacity (1 per GICS sector)
+        )
         open_count = len(self.state["open_positions"])
 
         if (
@@ -596,7 +598,7 @@ class PaperBroker:
 
                 # Kelly Formula: f* = (p*b - (1-p)) / b
                 kelly_full = max(0.0, (conf * payoff_b - (1.0 - conf)) / payoff_b)
-                quarter_kelly = float(np.clip(kelly_full * 0.25, 0.08, 0.35))
+                quarter_kelly = float(np.clip(kelly_full * 0.25, 0.05, 0.12))
 
                 # Check Options GEX regime for defensive haircut
                 gex_haircut = 1.0
@@ -644,28 +646,37 @@ class PaperBroker:
                 raw_allocation = (
                     self.state["cash"] * quarter_kelly * gex_haircut * cppi_factor
                 )
-                allocation_per_stock = min(raw_allocation, 45000.0)
+                # Cap individual ticket at ~6.5% - 7.5% of total capital ($10,500 max) to prevent concentration
+                allocation_per_stock = min(raw_allocation, 10500.0)
 
                 shares = int(allocation_per_stock // price)
                 if shares <= 0:
                     continue
 
-                cost = float(shares * price)
-                if cost > self.state["cash"]:
+                gross_cost = float(shares * price)
+                # Deduct realistic transaction friction (Corwin-Schultz spread + impact: ~3.5 bps)
+                friction_cost = float(gross_cost * 0.00035)
+                total_cost = gross_cost + friction_cost
+
+                if total_cost > self.state["cash"]:
                     continue
 
-                self.state["cash"] -= cost
+                self.state["cash"] -= total_cost
 
-                # ATR calculation for targets
-                atr_val = tp_val - price
-                atr_base = max(
-                    price * 0.025,
-                    atr_val / 2.5 if atr_val > 0 else price * 0.03,
-                )
-
-                tp1_target = round(price + (2.5 * atr_base), 2)
-                tp2_target = round(price + (4.5 * atr_base), 2)
-                sl_target = round(price - (1.5 * atr_base), 2)
+                # Use microstructure targets/stops if provided, else fallback to ATR brackets
+                if s.get("microstructure_stop_loss"):
+                    sl_target = float(s["microstructure_stop_loss"])
+                    tp1_target = float(s.get("tp1_target", round(price * 1.035, 2)))
+                    tp2_target = float(s.get("tp2_target", round(price * 1.070, 2)))
+                else:
+                    atr_val = tp_val - price
+                    atr_base = max(
+                        price * 0.025,
+                        atr_val / 2.5 if atr_val > 0 else price * 0.03,
+                    )
+                    tp1_target = round(price + (2.5 * atr_base), 2)
+                    tp2_target = round(price + (4.5 * atr_base), 2)
+                    sl_target = round(price - (1.5 * atr_base), 2)
 
                 self.state["open_positions"][ticker] = {
                     "shares": shares,
@@ -679,6 +690,7 @@ class PaperBroker:
                     "scaled_out": False,
                     "confidence": float(s.get("confidence", 0.5)),
                     "regime": s.get("regime", "BULLISH"),
+                    "friction_paid": round(friction_cost, 2),
                 }
 
                 buy_record = {
@@ -947,11 +959,14 @@ class PaperBroker:
         if price <= 0 or shares <= 0:
             return {"success": False, "error": "Invalid price or shares count"}
 
-        cost = float(shares * price)
-        if cost > self.state["cash"]:
+        gross_cost = float(shares * price)
+        # Deduct realistic transaction friction (Corwin-Schultz spread + impact: ~3.5 bps)
+        friction_cost = float(gross_cost * 0.00035)
+        total_cost = gross_cost + friction_cost
+        if total_cost > self.state["cash"]:
             return {
                 "success": False,
-                "error": f"Insufficient cash (${self.state['cash']:,.2f} available, required ${cost:,.2f})",
+                "error": f"Insufficient cash (${self.state['cash']:,.2f} available, required ${total_cost:,.2f})",
             }
 
         now_utc = datetime.now(timezone.utc)
@@ -967,7 +982,7 @@ class PaperBroker:
         )
         sl = stop_loss if stop_loss is not None else round(price - (1.5 * atr_base), 2)
 
-        self.state["cash"] -= cost
+        self.state["cash"] -= total_cost
         self.state["open_positions"][ticker] = {
             "ticker": ticker,
             "shares": shares,
@@ -981,6 +996,7 @@ class PaperBroker:
             "scaled_out": False,
             "confidence": confidence,
             "regime": strategy_name,
+            "friction_paid": round(friction_cost, 2),
         }
 
         self._recalculate_metrics(date_str, now_str)

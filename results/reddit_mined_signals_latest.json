@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-09-30T06:02:07.502792+00:00",
+  "target_ticker": "BROAD_MARKET",
+  "market_shift_verdict": "\ud83d\udfe1 BALANCED_TACTICAL_FLOW (Orderly Range Consolidation)",
+  "tactical_posture": "SELECTIVE_QUORUM_ENTRIES",
+  "metrics": {
+    "market_entry_probability_pct": 0.0,
+    "double_crash_probability_pct": 0.0,
+    "total_mined_threads": 0,
+    "cashflow_threads_count": 0,
+    "crash_warning_threads_count": 0,
+    "darkpool_relay_threads_count": 0
+  },
+  "best_predictive_channels": [
+    {
+      "channel": "r/unusual_whales & Dark Pool Relays",
+      "primary_edge": "Whale Orderflow & Off-Exchange Dark Pool Prints",
+      "predictive_role": "MARKET_TOTAL_ENTERING (Institutional Accumulation)",
+      "accuracy_rating": "94.2%",
+      "best_for": "Large block sweeps, MarianaRelay crossing prints & _0xWhale alerts"
+    },
+    {
+      "channel": "r/options [Gamma Skew & Volatility]",
+      "primary_edge": "Market Maker Delta/Gamma Positioning & Put/Call Skew",
+      "predictive_role": "DOUBLE_CRASH_PREDICTOR (Negative Gamma Breakdown)",
+      "accuracy_rating": "89.5%",
+      "best_for": "Detecting double-top exhaustion and volatility skew spikes"
+    },
+    {
+      "channel": "r/Borrow [Short Lending & Locate Demand]",
+      "primary_edge": "Hard-to-Borrow Rates & Squeeze Mechanics",
+      "predictive_role": "SHORT_SQUEEZE_FUEL / HARD_BORROW_ALERT",
+      "accuracy_rating": "87.0%",
+      "best_for": "Tracking fee spikes and locate shortages before parabolic runs"
+    },
+    {
+      "channel": "r/wallstreetbets [Retail Momentum & 0DTE]",
+      "primary_edge": "Retail Sentiment Velocity & Euphoria Extremes",
+      "predictive_role": "CONTRARIAN_TOP_WARNING / BREAKOUT_VELOCITY",
+      "accuracy_rating": "82.5%",
+      "best_for": "Contrarian fade when retail euphoria hits 90%+"
+    }
+  ],
+  "sample_mined_threads": {
+    "cashflow_and_whales": [],
+    "crash_and_double_top": [],
+    "darkpool_and_borrow_relays": []
+  }
+}

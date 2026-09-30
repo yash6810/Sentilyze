@@ -243,6 +243,59 @@ def _fetch_polygon_news_feed(
     return pd.DataFrame()
 
 
+def _fetch_benzinga_news(ticker: str) -> pd.DataFrame:
+    """
+    Fetches real-time market-moving headlines, analyst ratings, and catalyst flow
+    specifically from Benzinga's financial wire.
+    """
+    try:
+        import requests
+        import defusedxml.ElementTree as ET
+
+        url = f"https://news.google.com/rss/search?q=site:benzinga.com+{ticker}&hl=en-US&gl=US&ceid=US:en"
+        headers = {
+            "User-Agent": (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+            )
+        }
+        resp = requests.get(url, headers=headers, timeout=6)
+        if resp.status_code == 200:
+            root = ET.fromstring(resp.content)
+            items = root.findall(".//item")
+            articles = []
+            for item in items[:15]:
+                title_elem = item.find("title")
+                pub_elem = item.find("pubDate")
+                link_elem = item.find("link")
+                title = title_elem.text if title_elem is not None else ""
+                pub_date = pub_elem.text if pub_elem is not None else ""
+                link = link_elem.text if link_elem is not None else ""
+                if title:
+                    clean_t = title.replace(" - Benzinga", "").strip()
+                    articles.append(
+                        {
+                            "publishedAt": pd.to_datetime(
+                                pub_date or datetime.now(timezone.utc)
+                            ),
+                            "Title": f"[Benzinga] {clean_t}",
+                            "description": clean_t,
+                            "url": link,
+                            "source": {"name": "Benzinga"},
+                        }
+                    )
+            if articles:
+                df = pd.DataFrame(articles)
+                df["publishedAt"] = pd.to_datetime(df["publishedAt"], utc=True)
+                logger.info(
+                    f"Successfully fetched {len(df)} Benzinga live news articles for {ticker}"
+                )
+                return df
+    except Exception as e:
+        logger.debug(f"Benzinga news fetch notice for {ticker}: {e}")
+    return pd.DataFrame()
+
+
 def _fetch_reddit_financial_news(ticker: str) -> pd.DataFrame:
     """Fetches social intelligence and market discussions across 8 financial subreddits."""
     try:
@@ -332,11 +385,41 @@ def get_news(
                 except Exception as e:
                     logger.debug(f"NewsAPI query notice for {ticker}: {e}")
 
-        # 7. Tier 7: Reddit 9-Station Financial Intelligence Stream
-        if articles_df.empty:
-            articles_df = _fetch_reddit_financial_news(ticker)
+        # 7. ALWAYS Fetch & Combine Benzinga News Wire (Analyst upgrades & breaking catalysts)
+        try:
+            benzinga_df = _fetch_benzinga_news(ticker)
+            if isinstance(benzinga_df, pd.DataFrame) and not benzinga_df.empty:
+                if isinstance(articles_df, pd.DataFrame) and not articles_df.empty:
+                    articles_df = pd.concat(
+                        [articles_df, benzinga_df], ignore_index=True
+                    )
+                    if "Title" in articles_df.columns:
+                        articles_df.drop_duplicates(subset=["Title"], inplace=True)
+                    logger.info(
+                        f"Combined Google News RSS and {len(benzinga_df)} Benzinga headlines for {ticker} (Total: {len(articles_df)})"
+                    )
+                else:
+                    articles_df = benzinga_df
+        except Exception as be:
+            logger.debug(f"Benzinga combining notice for {ticker}: {be}")
 
-        # 8. Tier 8: Multi-Hub Web News & SEC 8-K Scraper (Finviz, SEC EDGAR 8-K, Web Portals)
+        # 8. ALWAYS Fetch & Combine Reddit 8-Station Financial Intelligence Stream
+        try:
+            reddit_df = _fetch_reddit_financial_news(ticker)
+            if isinstance(reddit_df, pd.DataFrame) and not reddit_df.empty:
+                if isinstance(articles_df, pd.DataFrame) and not articles_df.empty:
+                    articles_df = pd.concat([articles_df, reddit_df], ignore_index=True)
+                    if "Title" in articles_df.columns:
+                        articles_df.drop_duplicates(subset=["Title"], inplace=True)
+                    logger.info(
+                        f"Combined News and {len(reddit_df)} Reddit social headlines for {ticker} (Total: {len(articles_df)})"
+                    )
+                else:
+                    articles_df = reddit_df
+        except Exception as re:
+            logger.debug(f"Reddit combining notice for {ticker}: {re}")
+
+        # 8. Tier 8: Multi-Hub Web News & SEC 8-K Scraper (Fallback if still empty)
         if articles_df.empty:
             try:
                 from src.universal_web_scraper import scrape_ticker_news_from_web

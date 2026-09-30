@@ -1,0 +1,629 @@
+{
+  "timestamp": "2026-09-30T05:38:31.509320+00:00",
+  "radar_title": "Institutional Swift Shift Radar & Tri-Stream Trade Set Protocol",
+  "active_monitored_tickers": 10,
+  "top_swift_setups": [
+    {
+      "ticker": "EXPD",
+      "timestamp": "2026-09-30T05:38:20.066248+00:00",
+      "last_price": 188.21,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 70.5,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 188.59,
+        "tactical_stop_loss": 184.07,
+        "tp1_swift_target": 196.68,
+        "tp2_runner_target": 206.09,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Expeditors International of Washington, Inc. Stock Price Live, Charts & News - The Economic Times",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 100.0,
+        "reddit_buzz_ratio": 2.0,
+        "reddit_headlines_count": 0,
+        "rsi_14": 55.8,
+        "return_21d_pct": 6.3
+      },
+      "swift_note": "\ud83c\udfaf [EXPD SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (70.5% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Expeditors International of Washington, Inc. Stock Price Live, Charts & News - The Economic Times'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (100.0% positive flow).\n\u2022 Orderflow Telemetry: Last close at $188.21 (21-Day Trend: +6.3%, Volume Ratio: 0.93x, RSI: 55.8).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $188.59 with tactical stop locked at $184.07 (Risk: $4.52). Swift Scale-Out TP1 at $196.68 (Reward: $8.09 | R:R 1.79:1). Final Runner TP2 at $206.09."
+    },
+    {
+      "ticker": "ALAB",
+      "timestamp": "2026-09-30T05:38:21.179565+00:00",
+      "last_price": 341.26,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 75.9,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 341.94,
+        "tactical_stop_loss": 333.75,
+        "tp1_swift_target": 356.62,
+        "tp2_runner_target": 373.68,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Astera Labs Stock Rises Ahead of Q2 Earnings - Astera Labs (NASDAQ:ALAB) - Benzinga",
+        "benzinga_headlines_count": 2,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 59.2,
+        "return_21d_pct": 19.79
+      },
+      "swift_note": "\ud83c\udfaf [ALAB SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (75.9% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Astera Labs Stock Rises Ahead of Q2 Earnings - Astera Labs (NASDAQ:ALAB) - Benzinga'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $341.26 (21-Day Trend: +19.8%, Volume Ratio: 1.39x, RSI: 59.2).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $341.94 with tactical stop locked at $333.75 (Risk: $8.19). Swift Scale-Out TP1 at $356.62 (Reward: $14.68 | R:R 1.79:1). Final Runner TP2 at $373.68."
+    },
+    {
+      "ticker": "ALNT",
+      "timestamp": "2026-09-30T05:38:22.320599+00:00",
+      "last_price": 109.33,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 73.7,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 109.55,
+        "tactical_stop_loss": 106.92,
+        "tp1_swift_target": 114.25,
+        "tp2_runner_target": 119.72,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "3 of Wall Street\u2019s Favorite Stocks We Steer Clear Of - StockStory",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 64.3,
+        "return_21d_pct": 14.15
+      },
+      "swift_note": "\ud83c\udfaf [ALNT SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (73.7% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: '3 of Wall Street\u2019s Favorite Stocks We Steer Clear Of - StockStory'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $109.33 (21-Day Trend: +14.1%, Volume Ratio: 1.56x, RSI: 64.3).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $109.55 with tactical stop locked at $106.92 (Risk: $2.63). Swift Scale-Out TP1 at $114.25 (Reward: $4.70 | R:R 1.79:1). Final Runner TP2 at $119.72."
+    },
+    {
+      "ticker": "VEEV",
+      "timestamp": "2026-09-30T05:38:23.847024+00:00",
+      "last_price": 260.88,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 72.1,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 261.4,
+        "tactical_stop_loss": 255.14,
+        "tp1_swift_target": 272.62,
+        "tp2_runner_target": 285.66,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Veeva Systems (NYSE: VEEV) director lines up 2026 stock sale - Stock Titan",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 55.1,
+        "return_21d_pct": 10.2
+      },
+      "swift_note": "\ud83c\udfaf [VEEV SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (72.1% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Veeva Systems (NYSE: VEEV) director lines up 2026 stock sale - Stock Titan'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $260.88 (21-Day Trend: +10.2%, Volume Ratio: 0.76x, RSI: 55.1).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $261.40 with tactical stop locked at $255.14 (Risk: $6.26). Swift Scale-Out TP1 at $272.62 (Reward: $11.22 | R:R 1.79:1). Final Runner TP2 at $285.66."
+    },
+    {
+      "ticker": "NEM",
+      "timestamp": "2026-09-30T05:38:25.403741+00:00",
+      "last_price": 128.73,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 72.0,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 128.99,
+        "tactical_stop_loss": 125.9,
+        "tp1_swift_target": 134.52,
+        "tp2_runner_target": 140.96,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Newmont Share Price Today (NEM) | Live Chart, News & Stock Market - TechGraph",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 55.2,
+        "return_21d_pct": 10.08
+      },
+      "swift_note": "\ud83c\udfaf [NEM SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (72.0% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Newmont Share Price Today (NEM) | Live Chart, News & Stock Market - TechGraph'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $128.73 (21-Day Trend: +10.1%, Volume Ratio: 1.34x, RSI: 55.2).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $128.99 with tactical stop locked at $125.90 (Risk: $3.09). Swift Scale-Out TP1 at $134.52 (Reward: $5.53 | R:R 1.79:1). Final Runner TP2 at $140.96."
+    },
+    {
+      "ticker": "DVN",
+      "timestamp": "2026-09-30T05:38:26.953351+00:00",
+      "last_price": 48.98,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 81.2,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 49.08,
+        "tactical_stop_loss": 47.9,
+        "tp1_swift_target": 51.18,
+        "tp2_runner_target": 53.63,
+        "risk_reward_ratio": "1.78:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Devon Energy (NYSE:DVN) Given Buy Rating at Stifel Nicolaus - MarketBeat",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 55.1,
+        "return_21d_pct": 7.89
+      },
+      "swift_note": "\ud83c\udfaf [DVN SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (81.2% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Devon Energy (NYSE:DVN) Given Buy Rating at Stifel Nicolaus - MarketBeat'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $48.98 (21-Day Trend: +7.9%, Volume Ratio: 1.09x, RSI: 55.1).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $49.08 with tactical stop locked at $47.90 (Risk: $1.18). Swift Scale-Out TP1 at $51.18 (Reward: $2.10 | R:R 1.78:1). Final Runner TP2 at $53.63."
+    },
+    {
+      "ticker": "NVDA",
+      "timestamp": "2026-09-30T05:38:28.353832+00:00",
+      "last_price": 222.04,
+      "shift_prediction": {
+        "direction": "TACTICAL_RANGE_BREAKOUT",
+        "shift_probability_pct": 62.5,
+        "urgency": "NORMAL (Steady Multi-Day Accumulation)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_LIMIT_PULLBACK",
+        "entry_trigger": 220.93,
+        "tactical_stop_loss": 217.16,
+        "tp1_swift_target": 232.03,
+        "tp2_runner_target": 243.13,
+        "risk_reward_ratio": "2.94:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Nvidia Stock Buyback Impresses Market Experts: \u2018Very Much Like This Move\u2019 - Benzinga",
+        "benzinga_headlines_count": 6,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 8,
+        "rsi_14": 54.8,
+        "return_21d_pct": 2.49
+      },
+      "swift_note": "\ud83c\udfaf [NVDA SWIFT SHIFT NOTE | TACTICAL_RANGE_BREAKOUT (62.5% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Nvidia Stock Buyback Impresses Market Experts: \u2018Very Much Like This Move\u2019 - Benzinga'.\n\u2022 Social Intelligence: Reddit retail sentiment stands at 73.7% Bullish (2.8x bull/bear velocity).\n\u2022 Orderflow Telemetry: Last close at $222.04 (21-Day Trend: +2.5%, Volume Ratio: 0.85x, RSI: 54.8).\n\u2022 Shift Thesis: Approaching technical exhaustion or resistance; defense required.\n\u2022 Trade Set Protocol: Trigger entry at $220.93 with tactical stop locked at $217.16 (Risk: $3.77). Swift Scale-Out TP1 at $232.03 (Reward: $11.10 | R:R 2.94:1). Final Runner TP2 at $243.13."
+    },
+    {
+      "ticker": "AAPL",
+      "timestamp": "2026-09-30T05:38:29.436765+00:00",
+      "last_price": 335.73,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 71.1,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 336.4,
+        "tactical_stop_loss": 328.34,
+        "tp1_swift_target": 350.84,
+        "tp2_runner_target": 367.62,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "'Beyond Spring and Fall': Apple Prepares Organization Restructure for Accelerating Product Launches - Benzinga",
+        "benzinga_headlines_count": 16,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 4,
+        "rsi_14": 65.2,
+        "return_21d_pct": 7.85
+      },
+      "swift_note": "\ud83c\udfaf [AAPL SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (71.1% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: ''Beyond Spring and Fall': Apple Prepares Organization Restructure for Accelerating Product Launches - Benzinga'.\n\u2022 Social Intelligence: Reddit retail sentiment stands at 73.7% Bullish (2.8x bull/bear velocity).\n\u2022 Orderflow Telemetry: Last close at $335.73 (21-Day Trend: +7.9%, Volume Ratio: 0.94x, RSI: 65.2).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $336.40 with tactical stop locked at $328.34 (Risk: $8.06). Swift Scale-Out TP1 at $350.84 (Reward: $14.44 | R:R 1.79:1). Final Runner TP2 at $367.62."
+    },
+    {
+      "ticker": "ADP",
+      "timestamp": "2026-09-30T05:38:30.459973+00:00",
+      "last_price": 265.27,
+      "shift_prediction": {
+        "direction": "TACTICAL_RANGE_BREAKOUT",
+        "shift_probability_pct": 62.5,
+        "urgency": "NORMAL (Steady Multi-Day Accumulation)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_LIMIT_PULLBACK",
+        "entry_trigger": 263.94,
+        "tactical_stop_loss": 259.43,
+        "tp1_swift_target": 277.21,
+        "tp2_runner_target": 290.47,
+        "risk_reward_ratio": "2.94:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "ADP stock heads into the open after a 1.0 percent drop - ad-hoc-news.de",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 35.2,
+        "return_21d_pct": -2.15
+      },
+      "swift_note": "\ud83c\udfaf [ADP SWIFT SHIFT NOTE | TACTICAL_RANGE_BREAKOUT (62.5% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'ADP stock heads into the open after a 1.0 percent drop - ad-hoc-news.de'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $265.27 (21-Day Trend: -2.2%, Volume Ratio: 0.89x, RSI: 35.2).\n\u2022 Shift Thesis: Approaching technical exhaustion or resistance; defense required.\n\u2022 Trade Set Protocol: Trigger entry at $263.94 with tactical stop locked at $259.43 (Risk: $4.51). Swift Scale-Out TP1 at $277.21 (Reward: $13.27 | R:R 2.94:1). Final Runner TP2 at $290.47."
+    },
+    {
+      "ticker": "FAST",
+      "timestamp": "2026-09-30T05:38:31.509203+00:00",
+      "last_price": 48.8,
+      "shift_prediction": {
+        "direction": "TACTICAL_RANGE_BREAKOUT",
+        "shift_probability_pct": 62.5,
+        "urgency": "NORMAL (Steady Multi-Day Accumulation)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_LIMIT_PULLBACK",
+        "entry_trigger": 48.56,
+        "tactical_stop_loss": 47.73,
+        "tp1_swift_target": 51.0,
+        "tp2_runner_target": 53.44,
+        "risk_reward_ratio": "2.94:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "HighTower Advisors LLC Cuts Position in Fastenal Company $FAST - MarketBeat",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 35.1,
+        "return_21d_pct": -6.85
+      },
+      "swift_note": "\ud83c\udfaf [FAST SWIFT SHIFT NOTE | TACTICAL_RANGE_BREAKOUT (62.5% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'HighTower Advisors LLC Cuts Position in Fastenal Company $FAST - MarketBeat'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $48.80 (21-Day Trend: -6.9%, Volume Ratio: 0.92x, RSI: 35.1).\n\u2022 Shift Thesis: Approaching technical exhaustion or resistance; defense required.\n\u2022 Trade Set Protocol: Trigger entry at $48.56 with tactical stop locked at $47.73 (Risk: $0.83). Swift Scale-Out TP1 at $51.00 (Reward: $2.44 | R:R 2.94:1). Final Runner TP2 at $53.44."
+    }
+  ],
+  "cards": [
+    {
+      "ticker": "EXPD",
+      "timestamp": "2026-09-30T05:38:20.066248+00:00",
+      "last_price": 188.21,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 70.5,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 188.59,
+        "tactical_stop_loss": 184.07,
+        "tp1_swift_target": 196.68,
+        "tp2_runner_target": 206.09,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Expeditors International of Washington, Inc. Stock Price Live, Charts & News - The Economic Times",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 100.0,
+        "reddit_buzz_ratio": 2.0,
+        "reddit_headlines_count": 0,
+        "rsi_14": 55.8,
+        "return_21d_pct": 6.3
+      },
+      "swift_note": "\ud83c\udfaf [EXPD SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (70.5% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Expeditors International of Washington, Inc. Stock Price Live, Charts & News - The Economic Times'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (100.0% positive flow).\n\u2022 Orderflow Telemetry: Last close at $188.21 (21-Day Trend: +6.3%, Volume Ratio: 0.93x, RSI: 55.8).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $188.59 with tactical stop locked at $184.07 (Risk: $4.52). Swift Scale-Out TP1 at $196.68 (Reward: $8.09 | R:R 1.79:1). Final Runner TP2 at $206.09."
+    },
+    {
+      "ticker": "ALAB",
+      "timestamp": "2026-09-30T05:38:21.179565+00:00",
+      "last_price": 341.26,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 75.9,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 341.94,
+        "tactical_stop_loss": 333.75,
+        "tp1_swift_target": 356.62,
+        "tp2_runner_target": 373.68,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Astera Labs Stock Rises Ahead of Q2 Earnings - Astera Labs (NASDAQ:ALAB) - Benzinga",
+        "benzinga_headlines_count": 2,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 59.2,
+        "return_21d_pct": 19.79
+      },
+      "swift_note": "\ud83c\udfaf [ALAB SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (75.9% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Astera Labs Stock Rises Ahead of Q2 Earnings - Astera Labs (NASDAQ:ALAB) - Benzinga'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $341.26 (21-Day Trend: +19.8%, Volume Ratio: 1.39x, RSI: 59.2).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $341.94 with tactical stop locked at $333.75 (Risk: $8.19). Swift Scale-Out TP1 at $356.62 (Reward: $14.68 | R:R 1.79:1). Final Runner TP2 at $373.68."
+    },
+    {
+      "ticker": "ALNT",
+      "timestamp": "2026-09-30T05:38:22.320599+00:00",
+      "last_price": 109.33,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 73.7,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 109.55,
+        "tactical_stop_loss": 106.92,
+        "tp1_swift_target": 114.25,
+        "tp2_runner_target": 119.72,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "3 of Wall Street\u2019s Favorite Stocks We Steer Clear Of - StockStory",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 64.3,
+        "return_21d_pct": 14.15
+      },
+      "swift_note": "\ud83c\udfaf [ALNT SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (73.7% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: '3 of Wall Street\u2019s Favorite Stocks We Steer Clear Of - StockStory'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $109.33 (21-Day Trend: +14.1%, Volume Ratio: 1.56x, RSI: 64.3).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $109.55 with tactical stop locked at $106.92 (Risk: $2.63). Swift Scale-Out TP1 at $114.25 (Reward: $4.70 | R:R 1.79:1). Final Runner TP2 at $119.72."
+    },
+    {
+      "ticker": "VEEV",
+      "timestamp": "2026-09-30T05:38:23.847024+00:00",
+      "last_price": 260.88,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 72.1,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 261.4,
+        "tactical_stop_loss": 255.14,
+        "tp1_swift_target": 272.62,
+        "tp2_runner_target": 285.66,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Veeva Systems (NYSE: VEEV) director lines up 2026 stock sale - Stock Titan",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 55.1,
+        "return_21d_pct": 10.2
+      },
+      "swift_note": "\ud83c\udfaf [VEEV SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (72.1% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Veeva Systems (NYSE: VEEV) director lines up 2026 stock sale - Stock Titan'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $260.88 (21-Day Trend: +10.2%, Volume Ratio: 0.76x, RSI: 55.1).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $261.40 with tactical stop locked at $255.14 (Risk: $6.26). Swift Scale-Out TP1 at $272.62 (Reward: $11.22 | R:R 1.79:1). Final Runner TP2 at $285.66."
+    },
+    {
+      "ticker": "NEM",
+      "timestamp": "2026-09-30T05:38:25.403741+00:00",
+      "last_price": 128.73,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 72.0,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 128.99,
+        "tactical_stop_loss": 125.9,
+        "tp1_swift_target": 134.52,
+        "tp2_runner_target": 140.96,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Newmont Share Price Today (NEM) | Live Chart, News & Stock Market - TechGraph",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 55.2,
+        "return_21d_pct": 10.08
+      },
+      "swift_note": "\ud83c\udfaf [NEM SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (72.0% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Newmont Share Price Today (NEM) | Live Chart, News & Stock Market - TechGraph'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $128.73 (21-Day Trend: +10.1%, Volume Ratio: 1.34x, RSI: 55.2).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $128.99 with tactical stop locked at $125.90 (Risk: $3.09). Swift Scale-Out TP1 at $134.52 (Reward: $5.53 | R:R 1.79:1). Final Runner TP2 at $140.96."
+    },
+    {
+      "ticker": "DVN",
+      "timestamp": "2026-09-30T05:38:26.953351+00:00",
+      "last_price": 48.98,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 81.2,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 49.08,
+        "tactical_stop_loss": 47.9,
+        "tp1_swift_target": 51.18,
+        "tp2_runner_target": 53.63,
+        "risk_reward_ratio": "1.78:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Devon Energy (NYSE:DVN) Given Buy Rating at Stifel Nicolaus - MarketBeat",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 55.1,
+        "return_21d_pct": 7.89
+      },
+      "swift_note": "\ud83c\udfaf [DVN SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (81.2% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Devon Energy (NYSE:DVN) Given Buy Rating at Stifel Nicolaus - MarketBeat'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $48.98 (21-Day Trend: +7.9%, Volume Ratio: 1.09x, RSI: 55.1).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $49.08 with tactical stop locked at $47.90 (Risk: $1.18). Swift Scale-Out TP1 at $51.18 (Reward: $2.10 | R:R 1.78:1). Final Runner TP2 at $53.63."
+    },
+    {
+      "ticker": "NVDA",
+      "timestamp": "2026-09-30T05:38:28.353832+00:00",
+      "last_price": 222.04,
+      "shift_prediction": {
+        "direction": "TACTICAL_RANGE_BREAKOUT",
+        "shift_probability_pct": 62.5,
+        "urgency": "NORMAL (Steady Multi-Day Accumulation)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_LIMIT_PULLBACK",
+        "entry_trigger": 220.93,
+        "tactical_stop_loss": 217.16,
+        "tp1_swift_target": 232.03,
+        "tp2_runner_target": 243.13,
+        "risk_reward_ratio": "2.94:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "Nvidia Stock Buyback Impresses Market Experts: \u2018Very Much Like This Move\u2019 - Benzinga",
+        "benzinga_headlines_count": 6,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 8,
+        "rsi_14": 54.8,
+        "return_21d_pct": 2.49
+      },
+      "swift_note": "\ud83c\udfaf [NVDA SWIFT SHIFT NOTE | TACTICAL_RANGE_BREAKOUT (62.5% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'Nvidia Stock Buyback Impresses Market Experts: \u2018Very Much Like This Move\u2019 - Benzinga'.\n\u2022 Social Intelligence: Reddit retail sentiment stands at 73.7% Bullish (2.8x bull/bear velocity).\n\u2022 Orderflow Telemetry: Last close at $222.04 (21-Day Trend: +2.5%, Volume Ratio: 0.85x, RSI: 54.8).\n\u2022 Shift Thesis: Approaching technical exhaustion or resistance; defense required.\n\u2022 Trade Set Protocol: Trigger entry at $220.93 with tactical stop locked at $217.16 (Risk: $3.77). Swift Scale-Out TP1 at $232.03 (Reward: $11.10 | R:R 2.94:1). Final Runner TP2 at $243.13."
+    },
+    {
+      "ticker": "AAPL",
+      "timestamp": "2026-09-30T05:38:29.436765+00:00",
+      "last_price": 335.73,
+      "shift_prediction": {
+        "direction": "RAPID_BULLISH_EXPANSION",
+        "shift_probability_pct": 71.1,
+        "urgency": "HIGH (Opening Gap & Continuation Imminent)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_AGGRESSIVE_SCALE_IN",
+        "entry_trigger": 336.4,
+        "tactical_stop_loss": 328.34,
+        "tp1_swift_target": 350.84,
+        "tp2_runner_target": 367.62,
+        "risk_reward_ratio": "1.79:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "'Beyond Spring and Fall': Apple Prepares Organization Restructure for Accelerating Product Launches - Benzinga",
+        "benzinga_headlines_count": 16,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 4,
+        "rsi_14": 65.2,
+        "return_21d_pct": 7.85
+      },
+      "swift_note": "\ud83c\udfaf [AAPL SWIFT SHIFT NOTE | RAPID_BULLISH_EXPANSION (71.1% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: ''Beyond Spring and Fall': Apple Prepares Organization Restructure for Accelerating Product Launches - Benzinga'.\n\u2022 Social Intelligence: Reddit retail sentiment stands at 73.7% Bullish (2.8x bull/bear velocity).\n\u2022 Orderflow Telemetry: Last close at $335.73 (21-Day Trend: +7.9%, Volume Ratio: 0.94x, RSI: 65.2).\n\u2022 Shift Thesis: Strong institutional and retail alignment; breakout trajectory active.\n\u2022 Trade Set Protocol: Trigger entry at $336.40 with tactical stop locked at $328.34 (Risk: $8.06). Swift Scale-Out TP1 at $350.84 (Reward: $14.44 | R:R 1.79:1). Final Runner TP2 at $367.62."
+    },
+    {
+      "ticker": "ADP",
+      "timestamp": "2026-09-30T05:38:30.459973+00:00",
+      "last_price": 265.27,
+      "shift_prediction": {
+        "direction": "TACTICAL_RANGE_BREAKOUT",
+        "shift_probability_pct": 62.5,
+        "urgency": "NORMAL (Steady Multi-Day Accumulation)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_LIMIT_PULLBACK",
+        "entry_trigger": 263.94,
+        "tactical_stop_loss": 259.43,
+        "tp1_swift_target": 277.21,
+        "tp2_runner_target": 290.47,
+        "risk_reward_ratio": "2.94:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "ADP stock heads into the open after a 1.0 percent drop - ad-hoc-news.de",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 35.2,
+        "return_21d_pct": -2.15
+      },
+      "swift_note": "\ud83c\udfaf [ADP SWIFT SHIFT NOTE | TACTICAL_RANGE_BREAKOUT (62.5% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'ADP stock heads into the open after a 1.0 percent drop - ad-hoc-news.de'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $265.27 (21-Day Trend: -2.2%, Volume Ratio: 0.89x, RSI: 35.2).\n\u2022 Shift Thesis: Approaching technical exhaustion or resistance; defense required.\n\u2022 Trade Set Protocol: Trigger entry at $263.94 with tactical stop locked at $259.43 (Risk: $4.51). Swift Scale-Out TP1 at $277.21 (Reward: $13.27 | R:R 2.94:1). Final Runner TP2 at $290.47."
+    },
+    {
+      "ticker": "FAST",
+      "timestamp": "2026-09-30T05:38:31.509203+00:00",
+      "last_price": 48.8,
+      "shift_prediction": {
+        "direction": "TACTICAL_RANGE_BREAKOUT",
+        "shift_probability_pct": 62.5,
+        "urgency": "NORMAL (Steady Multi-Day Accumulation)",
+        "catalyst_source": "Benzinga + Reddit Tri-Stream"
+      },
+      "trade_set_protocol": {
+        "action": "ENTER_LIMIT_PULLBACK",
+        "entry_trigger": 48.56,
+        "tactical_stop_loss": 47.73,
+        "tp1_swift_target": 51.0,
+        "tp2_runner_target": 53.44,
+        "risk_reward_ratio": "2.94:1",
+        "max_portfolio_allocation_pct": 8.0,
+        "execution_style": "Almgren-Chriss TWAP 10-Slice"
+      },
+      "tri_stream_intel": {
+        "benzinga_catalyst": "HighTower Advisors LLC Cuts Position in Fastenal Company $FAST - MarketBeat",
+        "benzinga_headlines_count": 0,
+        "reddit_sentiment_pct": 73.7,
+        "reddit_buzz_ratio": 2.8,
+        "reddit_headlines_count": 0,
+        "rsi_14": 35.1,
+        "return_21d_pct": -6.85
+      },
+      "swift_note": "\ud83c\udfaf [FAST SWIFT SHIFT NOTE | TACTICAL_RANGE_BREAKOUT (62.5% Conviction)]\n\u2022 Catalyst Wire: Benzinga Catalyst Wire: 'HighTower Advisors LLC Cuts Position in Fastenal Company $FAST - MarketBeat'.\n\u2022 Social Intelligence: Reddit chatter confirms positive retail holding bias (73.7% positive flow).\n\u2022 Orderflow Telemetry: Last close at $48.80 (21-Day Trend: -6.9%, Volume Ratio: 0.92x, RSI: 35.1).\n\u2022 Shift Thesis: Approaching technical exhaustion or resistance; defense required.\n\u2022 Trade Set Protocol: Trigger entry at $48.56 with tactical stop locked at $47.73 (Risk: $0.83). Swift Scale-Out TP1 at $51.00 (Reward: $2.44 | R:R 2.94:1). Final Runner TP2 at $53.44."
+    }
+  ]
+}

@@ -739,7 +739,25 @@ class ChiefRiskOfficerAgent:
             macro_blackout_veto = True
             veto_reason = f"Macro Blackout VETO: {m_blackout.get('reason')}"
 
-        if macro_blackout_veto or cusum_veto or hmm_veto:
+        # Check Reddit & Dark Pool Double-Crash / Top Exhaustion Veto
+        double_crash_veto = False
+        try:
+            from src.reddit_comment_miner import RedditCommentMiner
+
+            miner = RedditCommentMiner()
+            miner_res = miner.analyze_market_cashflow_and_shifts(ticker)
+            metrics_miner = miner_res.get("metrics", {})
+            crash_prob = float(metrics_miner.get("double_crash_probability_pct", 0.0))
+            if (
+                "DOUBLE_CRASH" in str(miner_res.get("market_shift_verdict", ""))
+                or crash_prob >= 65.0
+            ):
+                double_crash_veto = True
+                veto_reason = f"CRO Hard-Veto: Double Crash / Top Exhaustion detected via dark pool put sweeps & options skew ({crash_prob:.1f}% crash probability)."
+        except Exception as de:
+            logger.debug(f"Double-crash miner check notice for {ticker}: {de}")
+
+        if macro_blackout_veto or cusum_veto or hmm_veto or double_crash_veto:
             pass
         elif vpin_veto:
             pass  # VPIN veto already set

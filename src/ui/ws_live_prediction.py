@@ -267,85 +267,59 @@ def render_live_prediction_workspace(ticker: str):
         )
 
     # =========================================================================
-    # INTERACTIVE CANDLESTICK CHART WITH SMART MONEY DEMAND & SUPPLY ZONES
+    # INSTITUTIONAL DUAL-PANE VOLUME PROFILE (VPVR), POC & FAIR VALUE GAP CHART
     # =========================================================================
-    st.markdown("### 📈 Smart Money Candlestick & Institutional Zone Overlays")
+    st.markdown(
+        "### 📈 Institutional Order Flow, Volume Profile (VPVR) & Microstructure Levels"
+    )
     st.caption(
-        f"**Structure:** {sm_data.get('market_structure', 'BULLISH')} | "
-        f"**Volume Point of Control (PoC):** `${sm_data.get('volume_poc', base_price):,.2f}`"
+        f"**Market Structure:** {sm_data.get('market_structure', 'BULLISH')} | "
+        f"**Volume Point of Control (PoC):** `${sm_data.get('volume_poc', base_price):,.2f}` | "
+        f"**Value Area:** 70% Institutional Density | "
+        f"**Microstructure Stop Protection:** Beneath PoC"
     )
 
-    fig = go.Figure()
-    fig.add_trace(
-        go.Candlestick(
-            x=price_df.index[-90:],
-            open=price_df["Open"].iloc[-90:],
-            high=price_df["High"].iloc[-90:],
-            low=price_df["Low"].iloc[-90:],
-            close=price_df["Close"].iloc[-90:],
-            name="Price Action",
-        )
-    )
+    from src.orderflow_chart import build_orderflow_candlestick_chart
 
-    # Volume Point of Control (PoC)
-    poc_val = sm_data.get("volume_poc", base_price)
-    fig.add_hline(
-        y=poc_val,
-        line_dash="dot",
-        line_color="#06B6D4",
-        annotation_text=f"Volume PoC: ${poc_val:.2f}",
-        annotation_position="bottom right",
-    )
-
-    # 15-Minute Opening Range High & Low Overlays
+    # Check if ticker has verified trade set levels
+    trade_levels = {
+        "entry_price": current_price,
+        "stop_loss": stop_loss,
+        "tp1_target": tp1,
+        "tp2_target": tp2,
+        "runner_target": round(current_price * 1.14, 2),
+    }
     try:
-        from src.opening_range_engine import calculate_15min_opening_range
+        inc_file = os.path.join("results", "most_increasable_trade_set_latest.json")
+        if os.path.exists(inc_file):
+            import json
 
-        or_res = calculate_15min_opening_range(ticker, price_df)
-        if or_res.get("has_opening_range"):
-            fig.add_hline(
-                y=or_res["or_low"],
-                line_dash="dot",
-                line_color="#F59E0B",
-                annotation_text=f"15-Min Low (Dip Floor): ${or_res['or_low']:.2f}",
-                annotation_position="bottom left",
-            )
-            fig.add_hline(
-                y=or_res["or_high"],
-                line_dash="dot",
-                line_color="#38BDF8",
-                annotation_text=f"15-Min High: ${or_res['or_high']:.2f}",
-                annotation_position="top left",
-            )
+            with open(inc_file, "r", encoding="utf-8") as f:
+                inc_data = json.load(f)
+            for c in inc_data.get("selected_candidates", []):
+                if c.get("ticker") == ticker:
+                    p = c.get("trade_set_protocol", {})
+                    trade_levels["entry_price"] = float(
+                        p.get("entry_price", current_price)
+                    )
+                    trade_levels["stop_loss"] = float(
+                        p.get("microstructure_stop_loss", stop_loss)
+                    )
+                    trade_levels["tp1_target"] = float(p.get("tp1_target", tp1))
+                    trade_levels["tp2_target"] = float(p.get("tp2_target", tp2))
+                    trade_levels["runner_target"] = float(
+                        p.get("runner_target", round(current_price * 1.14, 2))
+                    )
+                    break
     except Exception:
         pass
 
-    # Target & Stop Lines
-    fig.add_hline(
-        y=tp1,
-        line_dash="dash",
-        line_color="#10B981",
-        annotation_text=f"TP1 (+2.5 ATR): ${tp1:.2f}",
-    )
-    fig.add_hline(
-        y=tp2,
-        line_dash="dash",
-        line_color="#8B5CF6",
-        annotation_text=f"TP2 Runner (+4.5 ATR): ${tp2:.2f}",
-    )
-    fig.add_hline(
-        y=stop_loss,
-        line_dash="dash",
-        line_color="#EF4444",
-        annotation_text=f"SL Floor: ${stop_loss:.2f}",
-    )
-
-    fig.update_layout(
-        template="plotly_dark",
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        height=480,
-        margin=dict(l=20, r=20, t=30, b=20),
+    fig = build_orderflow_candlestick_chart(
+        price_df=price_df.iloc[-90:],
+        ticker=ticker,
+        sm_data=sm_data,
+        trade_levels=trade_levels,
+        height=580,
     )
     st.plotly_chart(fig, use_container_width=True)
 

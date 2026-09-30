@@ -702,15 +702,34 @@ class AutonomousTradingEngine:
                 if p > 5.0:  # Filter out illiquid penny stocks
                     scored_candidates.append((t, chg * vol))
 
+            # Prioritize the verified "Most Increasable" Set (positive net alpha + volume PoC)
+            verified_priority_tickers = []
+            try:
+                inc_file = os.path.join(
+                    "results", "most_increasable_trade_set_latest.json"
+                )
+                if os.path.exists(inc_file):
+                    with open(inc_file, "r", encoding="utf-8") as f:
+                        inc_data = json.load(f)
+                    for item in inc_data.get("selected_candidates", []):
+                        tkr = item.get("ticker")
+                        if (
+                            tkr
+                            and tkr in unheld_tickers
+                            and tkr not in verified_priority_tickers
+                        ):
+                            verified_priority_tickers.append(tkr)
+            except Exception as inc_err:
+                logger.debug(f"Most increasable set prioritization notice: {inc_err}")
+
             scored_candidates.sort(key=lambda x: x[1], reverse=True)
-            top_candidates = (
-                [t for t, _ in scored_candidates[:30]]
-                if scored_candidates
-                else unheld_tickers[:30]
-            )
+            other_cands = [
+                t for t, _ in scored_candidates if t not in verified_priority_tickers
+            ]
+            top_candidates = (verified_priority_tickers + other_cands)[:30]
 
             logger.info(
-                f"🌐 [LEAN MULTI-AGENT SCAN] Evaluating top {len(top_candidates)} active candidates: {top_candidates}"
+                f"🌐 [LEAN MULTI-AGENT SCAN] Evaluating top {len(top_candidates)} active candidates (Priority Set: {verified_priority_tickers}): {top_candidates}"
             )
 
             # Pre-warm FinBERT singleton once before spawning threads
