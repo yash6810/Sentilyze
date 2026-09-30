@@ -1,20 +1,20 @@
 {
   "initial_capital": 100000.0,
-  "cash": 128812.95405578619,
-  "total_equity": 144003.21,
-  "unrealized_pnl": -263.72,
-  "realized_pnl": 54579.984055786124,
-  "win_rate": 66.2,
-  "total_trades": 71,
+  "cash": 134063.13405578618,
+  "total_equity": 143869.41,
+  "unrealized_pnl": -247.0,
+  "realized_pnl": 54429.46405578613,
+  "win_rate": 65.3,
+  "total_trades": 72,
   "winning_trades": 47,
-  "losing_trades": 24,
+  "losing_trades": 25,
   "open_positions": {
     "ADP": {
       "ticker": "ADP",
       "shares": 38,
       "initial_shares": 38,
       "entry_price": 264.56,
-      "current_price": 260.8,
+      "current_price": 258.06,
       "entry_date": "2026-09-23",
       "tp1_target": 278.08,
       "tp2_target": 288.9,
@@ -26,24 +26,6 @@
       "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
       "high_water_mark": 264.56,
       "last_eval_price": 260.8
-    },
-    "FAST": {
-      "ticker": "FAST",
-      "shares": 106,
-      "initial_shares": 106,
-      "entry_price": 50.95,
-      "current_price": 49.81,
-      "entry_date": "2026-09-23",
-      "tp1_target": 53.62,
-      "tp2_target": 55.77,
-      "sl_target": 49.68,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly",
-      "highest_price_seen": 50.99,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
-      "high_water_mark": 50.95,
-      "last_eval_price": 49.81
     }
   },
   "closed_trades": [
@@ -827,6 +809,17 @@
       "pnl": 104.92,
       "return_pct": 1.11,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "FAST",
+      "shares": 106,
+      "entry_price": 50.95,
+      "exit_price": 49.53,
+      "entry_date": "2026-09-23",
+      "exit_date": "2026-09-30",
+      "pnl": -150.52,
+      "return_pct": -2.79,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -1017,11 +1010,11 @@
     {
       "date": "2026-09-30",
       "timestamp": "2026-09-30T09:22:38.927394+00:00",
-      "total_equity": 144003.21,
-      "cash": 128812.95,
-      "invested": 15190.26,
-      "daily_return": -0.04
+      "total_equity": 143869.41,
+      "cash": 134063.13,
+      "invested": 9806.28,
+      "daily_return": -0.09
     }
   ],
-  "last_updated": "2026-09-30T18:29:06.984026+00:00"
+  "last_updated": "2026-09-30T22:29:35.546629+00:00"
 }
