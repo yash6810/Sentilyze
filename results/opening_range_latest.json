@@ -1,61 +1,27 @@
 {
-  "session_time": "Sep 30, 2026 \u2022 12:24 AM IST (02:54 PM EDT)",
+  "session_time": "Oct 01, 2026 \u2022 12:12 AM IST (02:42 PM EDT)",
   "stocks_in_play": [
     "AXON",
-    "EFX",
-    "FIX",
     "BA",
-    "FDXF"
+    "FDXF",
+    "FIX",
+    "BLDR"
   ],
-  "signals_count": 2,
-  "signals": [
-    {
-      "ticker": "BA",
-      "signal": "BUY",
-      "current_price": 187.96,
-      "confidence": 0.5572,
-      "take_profit": 201.1,
-      "stop_loss": 181.39
-    },
-    {
-      "ticker": "FDXF",
-      "signal": "BUY",
-      "current_price": 111.76,
-      "confidence": 0.1825,
-      "take_profit": 120.98,
-      "stop_loss": 107.15
-    }
-  ],
-  "executed_paper_trades": [
-    {
-      "ticker": "BA",
-      "signal": "BUY",
-      "current_price": 187.96,
-      "confidence": 0.5572,
-      "take_profit": 201.1,
-      "stop_loss": 181.39
-    },
-    {
-      "ticker": "FDXF",
-      "signal": "BUY",
-      "current_price": 111.76,
-      "confidence": 0.1825,
-      "take_profit": 120.98,
-      "stop_loss": 107.15
-    }
-  ],
+  "signals_count": 0,
+  "signals": [],
+  "executed_paper_trades": [],
   "portfolio_summary": {
-    "total_equity": 144024.15,
+    "total_equity": 144003.21,
     "cash": 128812.95405578619,
-    "invested": 15211.195944213803,
-    "start_of_day_equity": 144453.41,
-    "daily_pnl": -429.26,
-    "daily_return_pct": -0.3,
-    "unrealized_pnl": -242.78,
-    "unrealized_pnl_pct": -1.6,
+    "invested": 15190.2559442138,
+    "start_of_day_equity": 144057.11,
+    "daily_pnl": -53.9,
+    "daily_return_pct": -0.04,
+    "unrealized_pnl": -263.72,
+    "unrealized_pnl_pct": -1.74,
     "realized_pnl": 54579.984055786124,
-    "total_pnl": 44024.15,
-    "total_return_pct": 44.02,
+    "total_pnl": 44003.21,
+    "total_return_pct": 44.0,
     "win_rate": 66.2,
     "open_positions_count": 2,
     "total_trades": 71,
