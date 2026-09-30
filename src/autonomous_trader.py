@@ -722,6 +722,23 @@ class AutonomousTradingEngine:
             except Exception as inc_err:
                 logger.debug(f"Most increasable set prioritization notice: {inc_err}")
 
+            # Prioritize candidates flagged with RAPID_BULLISH_EXPANSION by SwiftShiftRadar
+            try:
+                swift_file = os.path.join("results", "swift_shift_radar_latest.json")
+                if os.path.exists(swift_file):
+                    with open(swift_file, "r", encoding="utf-8") as sf:
+                        s_data = json.load(sf)
+                    s_tkr = s_data.get("ticker")
+                    if (
+                        s_tkr
+                        and s_tkr in unheld_tickers
+                        and s_tkr not in verified_priority_tickers
+                        and s_data.get("shift_direction") == "RAPID_BULLISH_EXPANSION"
+                    ):
+                        verified_priority_tickers.insert(0, s_tkr)
+            except Exception as ss_err:
+                logger.debug(f"Swift shift priority notice: {ss_err}")
+
             scored_candidates.sort(key=lambda x: x[1], reverse=True)
             other_cands = [
                 t for t, _ in scored_candidates if t not in verified_priority_tickers

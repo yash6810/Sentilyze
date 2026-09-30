@@ -267,6 +267,33 @@ def render_live_prediction_workspace(ticker: str):
         )
 
     # =========================================================================
+    # ⚡ SWIFT SHIFT RADAR & HIGH-VELOCITY TRADE SET PROTOCOL
+    # =========================================================================
+    try:
+        from src.swift_shift_radar import SwiftShiftRadar
+
+        radar = SwiftShiftRadar()
+        swift_report = radar.analyze_ticker_swift_shift(ticker)
+        shift_dir = swift_report.get("shift_direction", "TACTICAL_RANGE_BREAKOUT")
+        shift_prob = float(swift_report.get("shift_prob", 65.0))
+        swift_act = swift_report.get("action", "ENTER_LIMIT_PULLBACK")
+        swift_urg = swift_report.get("urgency", "NORMAL")
+        swift_protocol = swift_report.get("trade_set_protocol", {})
+
+        st.markdown("### ⚡ Swift Shift Radar & Intraday Trade Set Protocol")
+        sc1, sc2, sc3, sc4 = st.columns(4)
+        sc1.metric("⚡ Shift Direction", shift_dir.replace("_", " "))
+        sc2.metric("🎯 Shift Probability", f"{shift_prob:.1f}%", delta=swift_urg)
+        sc3.metric("📋 Action Protocol", swift_act.replace("_", " "))
+        sc4.metric(
+            "🛡️ Micro Tactical Stop",
+            f"${swift_protocol.get('tactical_stop', stop_loss):.2f}",
+            delta=f"R:R {swift_protocol.get('risk_reward_ratio', 2.0):.1f}:1",
+        )
+    except Exception as s_err:
+        logger.debug(f"Live prediction swift display notice: {s_err}")
+
+    # =========================================================================
     # INSTITUTIONAL DUAL-PANE VOLUME PROFILE (VPVR), POC & FAIR VALUE GAP CHART
     # =========================================================================
     st.markdown(

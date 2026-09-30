@@ -296,8 +296,48 @@ def _fetch_benzinga_news(ticker: str) -> pd.DataFrame:
     return pd.DataFrame()
 
 
+def _fetch_sec_8k_news(ticker: str) -> pd.DataFrame:
+    """Fetches real-time official Form 8-K material event filings from SEC EDGAR."""
+    if ticker.upper() in ("TEST", "MOCK"):
+        return pd.DataFrame()
+    try:
+        from src.sec_crawler import get_recent_sec_catalysts
+
+        catalysts = get_recent_sec_catalysts(ticker, days=14)
+        if not catalysts:
+            return pd.DataFrame()
+        articles = []
+        for cat in catalysts:
+            tags_str = ", ".join(cat.get("catalyst_types", ["MATERIAL_EVENT"]))
+            desc = cat.get("description", "Material Corporate Filing")
+            title = f"[SEC 8-K] {tags_str}: {desc}"
+            articles.append(
+                {
+                    "publishedAt": pd.to_datetime(
+                        cat.get("filing_date", datetime.now(timezone.utc)), utc=True
+                    ),
+                    "Title": title,
+                    "description": desc,
+                    "url": f"https://www.sec.gov/edgar/browse/?CIK={ticker}",
+                    "source": {"name": "SEC EDGAR"},
+                    "is_sec_catalyst": True,
+                }
+            )
+        if articles:
+            df = pd.DataFrame(articles)
+            logger.info(
+                f"Successfully fetched {len(df)} Form 8-K filings for {ticker} from SEC EDGAR"
+            )
+            return df
+    except Exception as e:
+        logger.debug(f"SEC 8-K news fetch notice for {ticker}: {e}")
+    return pd.DataFrame()
+
+
 def _fetch_reddit_financial_news(ticker: str) -> pd.DataFrame:
     """Fetches social intelligence and market discussions across 8 financial subreddits."""
+    if ticker.upper() in ("TEST", "MOCK"):
+        return pd.DataFrame()
     try:
         from src.reddit_premarket_station import fetch_all_reddit_headlines_for_ticker
 
@@ -322,7 +362,7 @@ def get_news(
 ) -> pd.DataFrame:
     """
     Enterprise Multi-Source News Router:
-    Cascades through Google News RSS -> Yahoo Finance -> Finnhub -> Marketaux -> Polygon -> NewsAPI -> Reddit 8-Station Stream -> Local Cache.
+    Cascades through Google News RSS -> Yahoo Finance -> Finnhub -> Marketaux -> Polygon -> NewsAPI -> SEC 8-K -> Benzinga Wire -> Reddit 8-Station -> Semantic Deduplicator -> Local Cache.
     """
     clean_ticker = sanitize_filename(ticker)
     cache_path = safe_path_join(DATA_DIR, f"{clean_ticker}_news.csv")
@@ -385,42 +425,50 @@ def get_news(
                 except Exception as e:
                     logger.debug(f"NewsAPI query notice for {ticker}: {e}")
 
-        # 7. ALWAYS Fetch & Combine Benzinga News Wire (Analyst upgrades & breaking catalysts)
-        try:
-            benzinga_df = _fetch_benzinga_news(ticker)
-            if isinstance(benzinga_df, pd.DataFrame) and not benzinga_df.empty:
-                if isinstance(articles_df, pd.DataFrame) and not articles_df.empty:
-                    articles_df = pd.concat(
-                        [articles_df, benzinga_df], ignore_index=True
-                    )
-                    if "Title" in articles_df.columns:
-                        articles_df.drop_duplicates(subset=["Title"], inplace=True)
-                    logger.info(
-                        f"Combined Google News RSS and {len(benzinga_df)} Benzinga headlines for {ticker} (Total: {len(articles_df)})"
-                    )
-                else:
-                    articles_df = benzinga_df
-        except Exception as be:
-            logger.debug(f"Benzinga combining notice for {ticker}: {be}")
+        # 7. ALWAYS Fetch & Combine SEC Form 8-K Regulatory Filings (Tier 1 Authority)
+        if ticker.upper() not in ("TEST", "MOCK"):
+            try:
+                sec_df = _fetch_sec_8k_news(ticker)
+                if isinstance(sec_df, pd.DataFrame) and not sec_df.empty:
+                    if isinstance(articles_df, pd.DataFrame) and not articles_df.empty:
+                        articles_df = pd.concat(
+                            [sec_df, articles_df], ignore_index=True
+                        )
+                    else:
+                        articles_df = sec_df
+            except Exception as se:
+                logger.debug(f"SEC 8-K combining notice for {ticker}: {se}")
 
-        # 8. ALWAYS Fetch & Combine Reddit 8-Station Financial Intelligence Stream
-        try:
-            reddit_df = _fetch_reddit_financial_news(ticker)
-            if isinstance(reddit_df, pd.DataFrame) and not reddit_df.empty:
-                if isinstance(articles_df, pd.DataFrame) and not articles_df.empty:
-                    articles_df = pd.concat([articles_df, reddit_df], ignore_index=True)
-                    if "Title" in articles_df.columns:
-                        articles_df.drop_duplicates(subset=["Title"], inplace=True)
-                    logger.info(
-                        f"Combined News and {len(reddit_df)} Reddit social headlines for {ticker} (Total: {len(articles_df)})"
-                    )
-                else:
-                    articles_df = reddit_df
-        except Exception as re:
-            logger.debug(f"Reddit combining notice for {ticker}: {re}")
+        # 8. ALWAYS Fetch & Combine Benzinga News Wire (Analyst upgrades & breaking catalysts)
+        if ticker.upper() not in ("TEST", "MOCK"):
+            try:
+                benzinga_df = _fetch_benzinga_news(ticker)
+                if isinstance(benzinga_df, pd.DataFrame) and not benzinga_df.empty:
+                    if isinstance(articles_df, pd.DataFrame) and not articles_df.empty:
+                        articles_df = pd.concat(
+                            [articles_df, benzinga_df], ignore_index=True
+                        )
+                    else:
+                        articles_df = benzinga_df
+            except Exception as be:
+                logger.debug(f"Benzinga combining notice for {ticker}: {be}")
 
-        # 8. Tier 8: Multi-Hub Web News & SEC 8-K Scraper (Fallback if still empty)
-        if articles_df.empty:
+        # 9. ALWAYS Fetch & Combine Reddit 8-Station Financial Intelligence Stream
+        if ticker.upper() not in ("TEST", "MOCK"):
+            try:
+                reddit_df = _fetch_reddit_financial_news(ticker)
+                if isinstance(reddit_df, pd.DataFrame) and not reddit_df.empty:
+                    if isinstance(articles_df, pd.DataFrame) and not articles_df.empty:
+                        articles_df = pd.concat(
+                            [articles_df, reddit_df], ignore_index=True
+                        )
+                    else:
+                        articles_df = reddit_df
+            except Exception as re:
+                logger.debug(f"Reddit combining notice for {ticker}: {re}")
+
+        # 10. Fallback: Multi-Hub Web News Scraper (Fallback if still empty)
+        if articles_df.empty and ticker.upper() not in ("TEST", "MOCK"):
             try:
                 from src.universal_web_scraper import scrape_ticker_news_from_web
 
@@ -428,13 +476,23 @@ def get_news(
             except Exception as e:
                 logger.debug(f"Web scraper live news notice for {ticker}: {e}")
 
-        # 9. Fallback: Existing Cache or Synthetic Generation
+        # 11. Fallback: Existing Cache or Synthetic Generation
         if articles_df.empty:
             if os.path.exists(cache_path):
                 logger.warning(f"Using existing cached news for {ticker} as fallback.")
                 articles_df = pd.read_csv(cache_path)
             else:
                 articles_df = _generate_dummy_news(ticker)
+
+        # 12. Fast Semantic Deduplication & Authority Weight Assignment
+        try:
+            from src.news_filter import deduplicate_news_stream
+
+            articles_df = deduplicate_news_stream(articles_df)
+        except Exception as de_err:
+            logger.debug(f"Deduplication notice for {ticker}: {de_err}")
+            if "Title" in articles_df.columns:
+                articles_df.drop_duplicates(subset=["Title"], inplace=True)
 
         articles_df.to_csv(cache_path, index=False)
         logger.info(f"Saved fresh news ({len(articles_df)} articles) to {cache_path}")

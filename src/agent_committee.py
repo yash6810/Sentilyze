@@ -490,21 +490,54 @@ class SentimentCatalystAgent:
                     f" 🧬 BioTech Catalyst Profile: {biotech.get('risk_profile')}."
                 )
 
+            # 5. Swift Shift Radar & Dark Pool Alignment (Tri-Stream Catalyst)
+            swift_data = {}
+            try:
+                from src.swift_shift_radar import SwiftShiftRadar
+
+                radar = SwiftShiftRadar()
+                swift_res = radar.analyze_ticker_swift_shift(ticker)
+                shift_dir = swift_res.get("shift_direction", "TACTICAL_RANGE_BREAKOUT")
+                shift_prob = float(swift_res.get("shift_prob", 60.0))
+                swift_urgency = swift_res.get("urgency", "NORMAL")
+
+                if shift_dir == "RAPID_BULLISH_EXPANSION":
+                    conviction = min(95.0, conviction + 7.0)
+                    thesis += f" ⚡ SWIFT SHIFT: Bullish Expansion ({shift_prob:.1f}% prob). {swift_urgency}."
+                    if vote == "HOLD":
+                        vote = "BUY"
+                elif shift_dir == "BEARISH_LIQUIDITY_DRAIN":
+                    conviction = max(15.0, conviction - 10.0)
+                    thesis += f" ⚠️ SWIFT SHIFT: Bearish Liquidity Drain ({shift_prob:.1f}% prob)."
+                    if vote == "BUY":
+                        vote = "HOLD"
+
+                swift_data = {
+                    "swift_shift_direction": shift_dir,
+                    "swift_shift_prob": shift_prob,
+                    "swift_urgency": swift_urgency,
+                    "swift_action": swift_res.get("action", ""),
+                }
+            except Exception as ss_err:
+                logger.debug(f"Swift Shift integration notice for {ticker}: {ss_err}")
+
             alt_data_metrics = {
                 "sec_8k_count": len(sec_filings),
                 "insider_score": insider.get("conviction_score", 50.0),
                 "insider_cluster_buy": insider.get("cluster_buy_detected", False),
                 "social_velocity": soc_vel,
                 "is_biotech": biotech.get("is_biotech", False),
+                **swift_data,
             }
         except Exception as alt_err:
             logger.debug(f"Alternative data integration notice for {ticker}: {alt_err}")
 
         return {
             "agent_name": "Sentiment & Alternative Data Specialist",
-            "role": "Pillar 2: Tri-Brain FinBERT, SEC 8-K, Insider Form 4 & Social Velocity",
+            "role": "Pillar 2: Tri-Brain FinBERT, SEC 8-K, Swift Shift Radar & Social Velocity",
             "academic_grounding": [
                 "SEC EDGAR Real-Time Form 8-K & Form 4 Microstructure",
+                "Swift Shift Radar & Premarket Catalyst Positioning",
                 "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
                 "Paper 21: Bifet & Gavaldà (2007) ADWIN Adaptive Concept Drift Tracking",
             ],
@@ -981,6 +1014,22 @@ class ChiefRiskOfficerAgent:
         if conf_low and conf_low > 0:
             sl = round(max(sl, conf_low), 2)
 
+        # Microstructure PoC & Swift Trade Set Alignment
+        for r in agent_reports:
+            if isinstance(r, dict) and "key_metrics" in r:
+                ts = r["key_metrics"].get("swift_trade_set")
+                if ts and isinstance(ts, dict) and "tactical_stop" in ts:
+                    swift_sl = float(ts.get("tactical_stop", 0.0))
+                    if swift_sl > 0:
+                        sl = round(max(sl, swift_sl), 2)
+                    swift_tp1 = float(ts.get("tp1_swift", 0.0))
+                    if swift_tp1 > spot_price:
+                        tp1 = round(swift_tp1, 2)
+                    swift_tp2 = float(ts.get("tp2_runner", 0.0))
+                    if swift_tp2 > tp1:
+                        tp2 = round(swift_tp2, 2)
+                    break
+
         return {
             "cro_name": "Chief Risk Officer (Arbitrator)",
             "academic_grounding": [
@@ -1222,15 +1271,36 @@ def execute_committee_order(
                 "reason": "Position size too small for 1 whole share",
             }
 
-        atr_val = deliberation.get("atr_14")
+        cro_dict = (
+            deliberation.get("cro_signoff", {})
+            if isinstance(deliberation.get("cro_signoff"), dict)
+            else {}
+        )
+        tp1 = float(
+            deliberation.get("tp1_target")
+            or cro_dict.get("tp1_target")
+            or (spot_price * 1.05)
+        )
+        tp2 = float(
+            deliberation.get("tp2_target")
+            or cro_dict.get("tp2_target")
+            or (spot_price * 1.10)
+        )
+        sl = float(
+            deliberation.get("stop_loss_target")
+            or cro_dict.get("stop_loss_target")
+            or (spot_price * 0.96)
+        )
+        atr_val = deliberation.get("atr_14") or cro_dict.get("atr_14")
+
         order_res = broker.execute_buy(
             ticker=ticker,
             shares=shares,
             price=spot_price,
             strategy_name="Committee_Turtle_Pyramid_Kelly",
-            tp1_target=deliberation.get("tp1_target", spot_price * 1.05),
-            tp2_target=deliberation.get("tp2_target", spot_price * 1.10),
-            stop_loss=deliberation.get("stop_loss_target", spot_price * 0.96),
+            tp1_target=tp1,
+            tp2_target=tp2,
+            stop_loss=sl,
             atr=atr_val,
         )
         if order_res.get("success") and ticker in broker.state.get(

@@ -1,45 +1,36 @@
 {
-  "timestamp": "2026-09-30T18:24:06.713161+00:00",
-  "buys": [],
+  "timestamp": "2026-09-30T19:23:45.570245+00:00",
+  "buys": [
+    {
+      "success": true,
+      "shares": 100,
+      "price": 125.0,
+      "ticker": "NVDA",
+      "almgren_chriss_schedule": [
+        10.45,
+        10.31,
+        10.18,
+        10.07,
+        9.98,
+        9.9,
+        9.83,
+        9.79,
+        9.76,
+        9.74
+      ],
+      "expected_shortfall": 0.0
+    }
+  ],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
   "stop_losses": [],
   "veto_exits": [],
   "committee_resolutions": {
-    "NEM": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
-    "DVN": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "NVDA": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "VEEV": "\ud83d\udd34 VETO / RED-TEAM VULNERABILITY",
-    "AAPL": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "EXPD": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "HII": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "EFX": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "AOS": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "ITW": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "GNRC": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "HWM": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "BA": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "IR": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "JBHT": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "DE": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "GE": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "CAT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "LDOS": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CTAS": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "HONA": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CARR": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CMI": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "LMT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "GEV": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "DOV": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CPRT": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "FDX": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "EME": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "FDXF": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)"
+    "NVDA": "\ud83d\ude80 CONVICTION INSTITUTIONAL BUY"
   },
-  "portfolio_equity": 144057.11,
-  "cash_balance": 128812.95405578619,
-  "unrealized_pnl": -209.82,
+  "portfolio_equity": 100000.0,
+  "cash_balance": 100000.0,
+  "unrealized_pnl": 0.0,
   "kill_switch_active": false,
   "self_improvement": {
     "total_cycles": 15,
@@ -52,10 +43,10 @@
     "kelly_multiplier": 0.93,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 300.27,
+  "elapsed_seconds": 22.24,
   "execution_telemetry": {
-    "cycle_latency_ns": 300270462070,
-    "cycle_latency_us": 300270462.07,
-    "cycle_latency_ms": 300270.462
+    "cycle_latency_ns": 22240728500,
+    "cycle_latency_us": 22240728.5,
+    "cycle_latency_ms": 22240.729
   }
 }

@@ -314,11 +314,141 @@ def get_sentiment(
         "sentiment_confidence"
     ].fillna(0.5)
 
+    # ⚡ Swift Priority Weighting & Time-Decay Recency
+    try:
+        from src.news_filter import assign_source_weight
+
+        s_weights = []
+        s_tiers = []
+        for _, row in enriched_articles.iterrows():
+            title_str = str(row.get("Title", ""))
+            src_val = row.get("source", "")
+            src_str = (
+                src_val.get("name", "") if isinstance(src_val, dict) else str(src_val)
+            )
+            w, tier = assign_source_weight(title_str, src_str)
+            s_weights.append(w)
+            s_tiers.append(tier)
+
+        enriched_articles["source_weight"] = s_weights
+        enriched_articles["source_tier"] = s_tiers
+
+        # Compute Recency Decay Factor
+        now_utc = pd.to_datetime("now", utc=True)
+        recency_multipliers = []
+        if isinstance(enriched_articles.index, pd.DatetimeIndex):
+            pub_dates = enriched_articles.index
+        elif "publishedAt" in enriched_articles.columns:
+            pub_dates = pd.to_datetime(
+                enriched_articles["publishedAt"], utc=True, errors="coerce"
+            )
+        else:
+            pub_dates = None
+
+        for i, row in enriched_articles.iterrows():
+            rec_factor = 1.0
+            if pub_dates is not None:
+                try:
+                    dt = (
+                        pub_dates[i]
+                        if not isinstance(pub_dates, pd.DatetimeIndex)
+                        else i
+                    )
+                    if pd.notnull(dt):
+                        dt_utc = pd.to_datetime(dt, utc=True)
+                        hours_old = max(
+                            0.0, (now_utc - dt_utc).total_seconds() / 3600.0
+                        )
+                        if hours_old <= 4.0:
+                            rec_factor = 2.0  # Breaking catalyst boost
+                        elif hours_old <= 12.0:
+                            rec_factor = 1.5
+                        elif hours_old <= 24.0:
+                            rec_factor = 1.0
+                        else:
+                            rec_factor = max(0.4, float(np.exp(-0.02 * hours_old)))
+                except Exception:
+                    rec_factor = 1.0
+            recency_multipliers.append(round(rec_factor, 3))
+
+        enriched_articles["recency_factor"] = recency_multipliers
+        enriched_articles["effective_weight"] = (
+            enriched_articles["source_weight"]
+            * enriched_articles["sentiment_confidence"]
+            * enriched_articles["recency_factor"]
+        ).round(4)
+    except Exception as sw_err:
+        logger.debug(f"Swift source weighting notice: {sw_err}")
+        enriched_articles["source_weight"] = 1.0
+        enriched_articles["source_tier"] = "TIER3_GENERAL"
+        enriched_articles["effective_weight"] = enriched_articles[
+            "sentiment_confidence"
+        ]
+
     if ticker:
         enriched_articles.to_csv(cache_path, index=True)
         logger.info(f"Saved enhanced FinBERT sentiment data to {cache_path}")
 
     return enriched_articles
+
+
+def calculate_swift_sentiment_summary(
+    enriched_articles: pd.DataFrame, ticker: str | None = None
+) -> Dict[str, Any]:
+    """
+    Computes an institutional, Swift-Weighted summary of sentiment data,
+    separating Tier 1 catalysts (SEC/Benzinga/DarkPool) from general news noise.
+    """
+    if enriched_articles is None or enriched_articles.empty:
+        return {
+            "weighted_sentiment_score": 0.0,
+            "raw_mean_sentiment": 0.0,
+            "sentiment_dispersion": 0.0,
+            "tier1_catalyst_count": 0,
+            "tier1_headlines": [],
+            "top_label": "neutral",
+            "confidence": 0.5,
+        }
+
+    scores = enriched_articles.get("sentiment_score", pd.Series([0.0]))
+    weights = enriched_articles.get("effective_weight", pd.Series([1.0]))
+
+    total_weight = float(weights.sum())
+    if total_weight > 0:
+        weighted_score = float((scores * weights).sum() / total_weight)
+    else:
+        weighted_score = float(scores.mean())
+
+    raw_mean = float(scores.mean())
+    dispersion = float(scores.std()) if len(scores) > 1 else 0.0
+
+    # Extract Tier 1 Catalysts
+    t1_mask = enriched_articles.get("source_weight", pd.Series([1.0])) >= 2.5
+    t1_articles = enriched_articles[t1_mask] if t1_mask.any() else pd.DataFrame()
+    t1_headlines = (
+        t1_articles["Title"].tolist() if "Title" in t1_articles.columns else []
+    )
+
+    top_label = (
+        "positive"
+        if weighted_score > 0.15
+        else ("negative" if weighted_score < -0.15 else "neutral")
+    )
+
+    return {
+        "weighted_sentiment_score": round(weighted_score, 4),
+        "raw_mean_sentiment": round(raw_mean, 4),
+        "sentiment_dispersion": round(dispersion, 4),
+        "tier1_catalyst_count": len(t1_headlines),
+        "tier1_headlines": t1_headlines[:5],
+        "top_label": top_label,
+        "confidence": round(
+            float(
+                enriched_articles.get("sentiment_confidence", pd.Series([0.5])).mean()
+            ),
+            4,
+        ),
+    }
 
 
 def analyze_sentiment(

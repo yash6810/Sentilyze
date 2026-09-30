@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 
 def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
@@ -150,12 +151,55 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
         .fillna(0.0)
     )
 
+    # 6. Microstructure VPVR Point of Control (PoC) & Value Area
+    try:
+        from src.orderflow_chart import calculate_volume_profile
+
+        _, poc_p, vah_p, val_p = calculate_volume_profile(ph_shifted)
+        if poc_p > 0:
+            price_history["poc_distance_pct"] = (
+                ((ph_shifted["Close"] - poc_p) / (poc_p + 1e-5))
+                .replace([float("inf"), float("-inf")], 0.0)
+                .fillna(0.0)
+            )
+            price_history["is_above_poc"] = (ph_shifted["Close"] > poc_p).astype(float)
+            price_history["in_value_area"] = (
+                (ph_shifted["Close"] >= val_p) & (ph_shifted["Close"] <= vah_p)
+            ).astype(float)
+        else:
+            price_history["poc_distance_pct"] = 0.0
+            price_history["is_above_poc"] = 0.5
+            price_history["in_value_area"] = 0.5
+    except Exception:
+        price_history["poc_distance_pct"] = 0.0
+        price_history["is_above_poc"] = 0.5
+        price_history["in_value_area"] = 0.5
+
+    # 7. Volume-Synchronized Probability of Toxicity (VPIN Proxy)
+    try:
+        from scipy import stats
+
+        ret_series = ph_shifted["Close"].pct_change()
+        sigma_ret = ret_series.rolling(20).std().fillna(1e-4)
+        z_ret = (ret_series / (sigma_ret + 1e-6)).clip(-3.0, 3.0)
+        buy_share = pd.Series(stats.norm.cdf(z_ret.values), index=ph_shifted.index)
+        vpin_raw = (buy_share - 0.5).abs() * 2.0
+        price_history["vpin_proxy"] = (
+            vpin_raw.rolling(10)
+            .mean()
+            .replace([float("inf"), float("-inf")], 0.35)
+            .fillna(0.35)
+        )
+    except Exception:
+        price_history["vpin_proxy"] = 0.35
+
     return price_history
 
 
 def aggregate_sentiment_scores(news_with_sentiment: pd.DataFrame) -> pd.DataFrame:
     """
-    Aggregate sentiment scores per day by resampling.
+    Aggregate sentiment scores per day using Swift-Weighted FinBERT authority scores,
+    recency decay, and computing dispersion, shock Z-scores, and catalyst intensity.
 
     Args:
         news_with_sentiment (pd.DataFrame): A DataFrame containing news data with a DatetimeIndex.
@@ -165,24 +209,85 @@ def aggregate_sentiment_scores(news_with_sentiment: pd.DataFrame) -> pd.DataFram
     """
     if news_with_sentiment.empty:
         return pd.DataFrame(
-            columns=["mean_sentiment_score", "positive", "negative", "neutral"]
+            columns=[
+                "mean_sentiment_score",
+                "positive",
+                "negative",
+                "neutral",
+                "sentiment_dispersion",
+                "sentiment_shock_z",
+                "asymmetric_negative_shock",
+                "catalyst_intensity",
+            ]
         )
 
-    # Resample by day and aggregate sentiment scores, then normalize index
-    daily_sentiment = news_with_sentiment.resample("D").agg(
-        mean_sentiment_score=("sentiment_score", "mean"),
+    df_sent = news_with_sentiment.copy()
+
+    # Check if effective_weight exists; if not, assign equal weight
+    if "effective_weight" not in df_sent.columns:
+        df_sent["effective_weight"] = 1.0
+
+    df_sent["weighted_prod"] = df_sent["sentiment_score"] * df_sent["effective_weight"]
+
+    # Daily resampled aggregation
+    daily_agg = df_sent.resample("D").agg(
+        total_weighted_prod=("weighted_prod", "sum"),
+        total_weight=("effective_weight", "sum"),
+        raw_mean=("sentiment_score", "mean"),
+        sentiment_dispersion=("sentiment_score", "std"),
     )
+
+    daily_sentiment = pd.DataFrame(index=daily_agg.index)
+    weights_sum = daily_agg["total_weight"]
+    daily_sentiment["mean_sentiment_score"] = np.where(
+        weights_sum > 0,
+        daily_agg["total_weighted_prod"] / weights_sum,
+        daily_agg["raw_mean"],
+    )
+    daily_sentiment["mean_sentiment_score"] = daily_sentiment[
+        "mean_sentiment_score"
+    ].fillna(0.0)
+    daily_sentiment["sentiment_dispersion"] = daily_agg["sentiment_dispersion"].fillna(
+        0.0
+    )
+
+    # Catalyst Intensity: count of Tier 1 catalysts (source_weight >= 2.5) per day
+    if "source_weight" in df_sent.columns:
+        df_sent["is_tier1"] = (df_sent["source_weight"] >= 2.5).astype(float)
+        daily_sentiment["catalyst_intensity"] = (
+            df_sent["is_tier1"].resample("D").sum().fillna(0.0)
+        )
+    else:
+        daily_sentiment["catalyst_intensity"] = 0.0
+
+    # Sentiment Shock Z-Score vs 5-day baseline
+    s_roll_mean = (
+        daily_sentiment["mean_sentiment_score"].rolling(5, min_periods=1).mean()
+    )
+    s_roll_std = (
+        daily_sentiment["mean_sentiment_score"]
+        .rolling(5, min_periods=1)
+        .std()
+        .fillna(0.0)
+    )
+    daily_sentiment["sentiment_shock_z"] = (
+        ((daily_sentiment["mean_sentiment_score"] - s_roll_mean) / (s_roll_std + 1e-4))
+        .replace([float("inf"), float("-inf")], 0.0)
+        .fillna(0.0)
+    )
+
+    # Asymmetric Negative Shock: (negative sentiment squared)
+    daily_sentiment["asymmetric_negative_shock"] = (
+        daily_sentiment["mean_sentiment_score"].clip(upper=0.0) ** 2
+    )
+
     daily_sentiment.index = daily_sentiment.index.normalize()
 
     # Convert sentiment labels to lowercase before creating dummies
-    news_with_sentiment["sentiment_label"] = news_with_sentiment[
-        "sentiment_label"
-    ].str.lower()
+    df_sent["sentiment_label"] = df_sent["sentiment_label"].astype(str).str.lower()
 
     # Count sentiment labels per day
-    sentiment_counts = (
-        pd.get_dummies(news_with_sentiment["sentiment_label"]).resample("D").sum()
-    )
+    sentiment_counts = pd.get_dummies(df_sent["sentiment_label"]).resample("D").sum()
     daily_sentiment = pd.concat([daily_sentiment, sentiment_counts], axis=1)
 
     # Ensure all expected sentiment columns exist
