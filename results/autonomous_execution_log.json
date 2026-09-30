@@ -1,52 +1,73 @@
 {
-  "timestamp": "2026-09-30T19:23:45.570245+00:00",
-  "buys": [
-    {
-      "success": true,
-      "shares": 100,
-      "price": 125.0,
-      "ticker": "NVDA",
-      "almgren_chriss_schedule": [
-        10.45,
-        10.31,
-        10.18,
-        10.07,
-        9.98,
-        9.9,
-        9.83,
-        9.79,
-        9.76,
-        9.74
-      ],
-      "expected_shortfall": 0.0
-    }
-  ],
+  "timestamp": "2026-09-30T22:30:11.119756+00:00",
+  "buys": [],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
-  "stop_losses": [],
+  "stop_losses": [
+    {
+      "ticker": "FAST",
+      "shares": 106,
+      "entry_price": 50.95,
+      "exit_price": 49.53,
+      "entry_date": "2026-09-23",
+      "exit_date": "2026-09-30",
+      "pnl": -150.52,
+      "return_pct": -2.79,
+      "reason": "STOP_LOSS"
+    }
+  ],
   "veto_exits": [],
   "committee_resolutions": {
-    "NVDA": "\ud83d\ude80 CONVICTION INSTITUTIONAL BUY"
+    "NEM": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
+    "DVN": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "NVDA": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "VEEV": "\ud83d\udd34 VETO / RED-TEAM VULNERABILITY",
+    "AAPL": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
+    "EXPD": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "ITW": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "HII": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "AOS": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "EFX": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "GNRC": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "FDXF": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "JBHT": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "HWM": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "CAT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "IR": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "GE": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "DOV": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "CTAS": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "GEV": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "AME": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "HUBB": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "CHRW": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "DE": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "FTV": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "ALLE": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "IEX": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "LII": "\ud83d\udd34 VETO / RED-TEAM VULNERABILITY",
+    "LDOS": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
+    "EME": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)"
   },
-  "portfolio_equity": 100000.0,
-  "cash_balance": 100000.0,
-  "unrealized_pnl": 0.0,
+  "portfolio_equity": 144003.21,
+  "cash_balance": 128812.95405578619,
+  "unrealized_pnl": -263.72,
   "kill_switch_active": false,
   "self_improvement": {
-    "total_cycles": 15,
+    "total_cycles": 16,
     "agent_weights": {
-      "technicals_weight": 0.274,
-      "sentiment_weight": 0.359,
-      "valuation_weight": 0.137,
-      "cro_weight": 0.23
+      "technicals_weight": 0.271,
+      "sentiment_weight": 0.355,
+      "valuation_weight": 0.136,
+      "cro_weight": 0.238
     },
-    "kelly_multiplier": 0.93,
-    "new_autopsies_count": 0
+    "kelly_multiplier": 0.9,
+    "new_autopsies_count": 1
   },
-  "elapsed_seconds": 22.24,
+  "elapsed_seconds": 303.72,
   "execution_telemetry": {
-    "cycle_latency_ns": 22240728500,
-    "cycle_latency_us": 22240728.5,
-    "cycle_latency_ms": 22240.729
+    "cycle_latency_ns": 303719867129,
+    "cycle_latency_us": 303719867.13,
+    "cycle_latency_ms": 303719.867
   }
 }

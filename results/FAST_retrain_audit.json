@@ -1,0 +1,14 @@
+{
+  "ticker": "FAST",
+  "timestamp": "2026-09-30T22:34:59.633914+00:00",
+  "elapsed_seconds": 15.2,
+  "dataset_rows": 2511,
+  "features_used": 26,
+  "champion_accuracy": 0.6,
+  "challenger_accuracy": 0.5197,
+  "accuracy_delta_pct": -8.03,
+  "challenger_roc_auc": 0.5052,
+  "challenger_precision": 0.5233,
+  "deployment_verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)",
+  "is_promoted": false
+}
