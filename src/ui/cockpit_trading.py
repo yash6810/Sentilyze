@@ -119,6 +119,62 @@ def _render_monday_premarket_intel():
                 )
 
 
+def _render_voice_morning_briefing_widget():
+    """Renders the one-click Voice Morning Audio Briefing widget in Cockpit 1 (Sprint 4, Module 4.10 / Idea 48)."""
+    from src.audio_briefing import synthesize_morning_audio, generate_audio_script
+
+    audio_path = "results/morning_briefing.mp3"
+    signals_path = "results/daily_signals_latest.json"
+
+    signals = []
+    if os.path.exists(signals_path):
+        try:
+            with open(signals_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                signals = data.get("signals", [])
+        except Exception:
+            pass
+
+    st.markdown(
+        """
+        <div style="background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+                    border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 8px; padding: 12px 16px; margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <span style="font-weight: 700; color: #F3F4F6; font-size: 0.95rem;">🎙️ Sentilyze 60-Second Daily Voice Briefing</span>
+                    <span style="color: #9CA3AF; font-size: 0.8rem; margin-left: 8px;">Studio Neural Voice (edge-tts)</span>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    col_audio, col_btn = st.columns([3, 1])
+
+    with col_audio:
+        if os.path.exists(audio_path):
+            st.audio(audio_path, format="audio/mp3")
+        else:
+            st.caption(
+                "No audio briefing generated for today yet. Click generate below to synthesize."
+            )
+
+    with col_btn:
+        if st.button("🔊 Synthesize Audio", use_container_width=True):
+            with st.spinner("Synthesizing neural voice briefing..."):
+                res = synthesize_morning_audio(
+                    signals_list=signals, output_path=audio_path
+                )
+                if res and os.path.exists(res):
+                    st.success("Briefing Ready!")
+                    st.rerun()
+
+    with st.expander("📝 View Briefing Transcript", expanded=False):
+        script_text = generate_audio_script(signals)
+        st.write(script_text)
+
+
 def render_trading_cockpit(selected_ticker: str):
     st.markdown(
         """
@@ -134,6 +190,7 @@ def render_trading_cockpit(selected_ticker: str):
         unsafe_allow_html=True,
     )
 
+    _render_voice_morning_briefing_widget()
     _render_monday_premarket_intel()
 
     tabs = [

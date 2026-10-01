@@ -109,3 +109,26 @@ def test_audit_full_universe_committee(tmp_path, mocker):
     assert summary["total_audited"] == 2
     assert "NVDA" in summary["resolutions"]
     assert "AAPL" in summary["resolutions"]
+
+
+def test_tree_of_thought_deliberator():
+    from src.agent_committee import TreeOfThoughtDeliberator
+
+    tot = TreeOfThoughtDeliberator(n_simulations=100, horizon_days=5)
+
+    mock_reports = [
+        {"agent": "Technical", "recommendation": "BUY", "conviction": 80},
+        {"agent": "Sentiment", "recommendation": "STRONG_BUY", "conviction": 85},
+        {"agent": "Valuation", "recommendation": "HOLD", "conviction": 50},
+        {"agent": "Scout", "recommendation": "BUY", "conviction": 70},
+        {"agent": "RedTeam", "recommendation": "SELL", "conviction": 60},
+    ]
+
+    res = tot.deliberate(spot_price=150.0, atr=3.0, agent_reports=mock_reports)
+
+    assert res["status"] == "SUCCESS"
+    assert "evaluated_tree" in res
+    assert len(res["evaluated_tree"]) == 3
+    assert "rollout_results" in res
+    assert "dominant_branch" in res["rollout_results"]
+    assert res["recommended_action"] in ["PROCEED_BUY", "DEFENSIVE_HOLD"]

@@ -193,6 +193,40 @@ def create_technical_indicators(price_history: pd.DataFrame) -> pd.DataFrame:
     except Exception:
         price_history["vpin_proxy"] = 0.35
 
+    # 8. Rolling Volume-Weighted Average Price (VWAP) & Dynamic Volatility Bands (Pillar B / Market Microstructure)
+    if (
+        "Volume" in ph_shifted.columns
+        and "High" in ph_shifted.columns
+        and "Low" in ph_shifted.columns
+    ):
+        typical_price = (
+            ph_shifted["High"] + ph_shifted["Low"] + ph_shifted["Close"]
+        ) / 3.0
+        pv = typical_price * ph_shifted["Volume"]
+        cum_pv_20 = pv.rolling(window=20).sum()
+        cum_vol_20 = ph_shifted["Volume"].rolling(window=20).sum() + 1e-5
+        vwap_20 = cum_pv_20 / cum_vol_20
+        price_history["vwap_20"] = vwap_20
+
+        # Distance to VWAP stretch ratio (percentage deviation from volume-weighted fair value)
+        price_history["vwap_distance_pct"] = (
+            ((ph_shifted["Close"] - vwap_20) / (vwap_20 + 1e-5))
+            .replace([float("inf"), float("-inf")], 0.0)
+            .fillna(0.0)
+        )
+        # Dynamic VWAP standard deviation bands (institutional bounce and exhaustion channels)
+        dev_sq = ph_shifted["Volume"] * ((typical_price - vwap_20) ** 2)
+        vwap_std_20 = np.sqrt(dev_sq.rolling(window=20).sum() / cum_vol_20)
+        price_history["vwap_upper_band"] = vwap_20 + 2.0 * vwap_std_20
+        price_history["vwap_lower_band"] = vwap_20 - 2.0 * vwap_std_20
+        price_history["is_above_vwap"] = (ph_shifted["Close"] > vwap_20).astype(float)
+    else:
+        price_history["vwap_20"] = price_history["ma21"]
+        price_history["vwap_distance_pct"] = 0.0
+        price_history["vwap_upper_band"] = price_history["bollinger_upper"]
+        price_history["vwap_lower_band"] = price_history["bollinger_lower"]
+        price_history["is_above_vwap"] = 0.5
+
     return price_history
 
 
@@ -222,6 +256,24 @@ def aggregate_sentiment_scores(news_with_sentiment: pd.DataFrame) -> pd.DataFram
         )
 
     df_sent = news_with_sentiment.copy()
+
+    # Ensure DatetimeIndex for daily resampling
+    if not isinstance(df_sent.index, pd.DatetimeIndex):
+        date_col = next(
+            (
+                c
+                for c in ["publishedAt", "Date", "date", "timestamp"]
+                if c in df_sent.columns
+            ),
+            None,
+        )
+        if date_col:
+            df_sent[date_col] = pd.to_datetime(
+                df_sent[date_col], utc=True, format="mixed"
+            )
+            df_sent = df_sent.set_index(date_col)
+        else:
+            df_sent.index = pd.to_datetime(df_sent.index, utc=True, format="mixed")
 
     # Check if effective_weight exists; if not, assign equal weight
     if "effective_weight" not in df_sent.columns:

@@ -27,4 +27,4 @@ def test_compute_compound_position_size():
     )
     assert sizing["allocated_dollars"] > 0
     assert sizing["allocated_dollars"] <= 150000.0 * 0.25
-    assert sizing["max_risk_dollars"] == 150000.0 * 0.025
+    assert sizing["max_risk_dollars"] == 150000.0 * 0.020

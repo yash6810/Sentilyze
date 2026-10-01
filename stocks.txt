@@ -270,7 +270,7 @@ BAC
 BEN
 BLK
 BNY
-BRK - B
+BRK-B
 BRO
 BX
 C
@@ -450,7 +450,7 @@ GOOG
 
 # 11. Consumer Staples
 ADM
-BF - B
+BF-B
 BG
 CASY
 CHD
@@ -579,7 +579,3 @@ ARKK
 TQQQ
 SOXL
 TLT
-
-# 17. Pre-IPO Pipelines
-OPENAI
-ANTH

@@ -1,8 +1,9 @@
 import os
 import re
 import html
+import numpy as np
 import pandas as pd
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 from src.utils import get_logger, sanitize_filename, safe_path_join
 
 os.environ["TRANSFORMERS_BACKEND"] = "pytorch"
@@ -469,3 +470,184 @@ def analyze_sentiment(
         ticker=ticker,
         cache_duration_hours=cache_dur,
     )
+
+
+class MemeSIRDiffusionModel:
+    """
+    Kermack-McKendrick SIR Epidemiological Diffusion Model for Retail Meme Contagion (Sprint 2, Module 2.8 / Idea 29).
+
+    Models social media mention velocity and retail contagion:
+    dS/dt = -beta * S * I
+    dI/dt = beta * S * I - gamma * I
+    dR/dt = gamma * I
+    R0 = beta / gamma
+    """
+
+    def __init__(self, beta: float = 0.45, gamma: float = 0.15):
+        self.beta = float(beta)  # Virality transmission rate
+        self.gamma = float(gamma)  # Fatigue / exit rate
+        self.r0 = round(self.beta / max(self.gamma, 1e-4), 2)
+
+    def simulate_diffusion(
+        self,
+        days: int = 30,
+        i0: float = 0.01,
+        dt: float = 0.1,
+    ) -> pd.DataFrame:
+        """Simulates Euler numerical integration of SIR trajectory."""
+        steps = int(days / dt)
+        s = 1.0 - i0
+        i = i0
+        r = 0.0
+
+        records = []
+        t = 0.0
+
+        for _ in range(steps):
+            ds = -self.beta * s * i * dt
+            di = (self.beta * s * i - self.gamma * i) * dt
+            dr = self.gamma * i * dt
+
+            s = max(0.0, min(1.0, s + ds))
+            i = max(0.0, min(1.0, i + di))
+            r = max(0.0, min(1.0, r + dr))
+            t += dt
+
+            records.append(
+                {
+                    "time_days": round(t, 2),
+                    "susceptible_ratio": round(s, 4),
+                    "infected_spreader_ratio": round(i, 4),
+                    "recovered_exhausted_ratio": round(r, 4),
+                    "hype_velocity": round(di / dt, 4),
+                }
+            )
+
+        return pd.DataFrame(records)
+
+    def evaluate_social_saturation(
+        self,
+        current_mentions: float,
+        baseline_mentions: float,
+        mention_velocity_pct: float,
+    ) -> Dict[str, Any]:
+        """
+        Diagnoses current retail hype saturation and identifies contrarian exhaustion tops.
+        """
+        surge_ratio = max(current_mentions, 1.0) / max(baseline_mentions, 1.0)
+
+        # Estimate infected fraction I(t) from surge ratio
+        i_est = float(min(0.95, max(0.01, (surge_ratio - 1.0) / 10.0)))
+        s_est = float(max(0.05, 1.0 - i_est))
+
+        # Critical threshold where peak occurs: S = 1 / R0
+        s_critical = 1.0 / max(self.r0, 1e-2)
+        is_post_peak = s_est < s_critical
+        is_saturated = s_est <= 0.20 and surge_ratio >= 3.0
+
+        if is_saturated:
+            verdict = "PEAK_HYPE_EXHAUSTION_CONTRARIAN_TOP"
+            cro_action = "TRIM_LONGS_TIGHTEN_STOPS"
+        elif not is_post_peak and mention_velocity_pct > 25.0:
+            verdict = "VIRAL_EXPONENTIAL_PROPAGATION"
+            cro_action = "RIDE_MOMENTUM_EXPANSION"
+        elif is_post_peak and mention_velocity_pct < -10.0:
+            verdict = "NARRATIVE_FATIGUE_EXODUS"
+            cro_action = "AVOID_BAGHOLDER_TRAP"
+        else:
+            verdict = "STABLE_BACKGROUND_SENTIMENT"
+            cro_action = "NORMAL_DELIBERATION"
+
+        return {
+            "reproduction_number_R0": self.r0,
+            "virality_rate_beta": self.beta,
+            "fatigue_rate_gamma": self.gamma,
+            "surge_ratio": round(surge_ratio, 2),
+            "estimated_spreader_pct": round(i_est * 100.0, 1),
+            "remaining_susceptible_pct": round(s_est * 100.0, 1),
+            "is_hype_saturated": is_saturated,
+            "diffusion_regime": verdict,
+            "cro_recommendation": cro_action,
+        }
+
+
+def fit_sir_meme_diffusion(
+    current_mentions: float = 120.0,
+    baseline_mentions: float = 20.0,
+    velocity_pct: float = 35.0,
+) -> Dict[str, Any]:
+    """Helper for evaluating SIR meme diffusion for an asset."""
+    model = MemeSIRDiffusionModel(beta=0.45, gamma=0.15)
+    return model.evaluate_social_saturation(
+        current_mentions=current_mentions,
+        baseline_mentions=baseline_mentions,
+        mention_velocity_pct=velocity_pct,
+    )
+
+
+def compute_jensen_shannon_divergence(p_dist: np.ndarray, q_dist: np.ndarray) -> float:
+    """
+    Computes Jensen-Shannon Divergence D_JS(P || Q) in [0, 1]:
+    D_JS = 0.5 * D_KL(P || M) + 0.5 * D_KL(Q || M), where M = 0.5 * (P + Q)
+    """
+    from scipy.spatial.distance import jensenshannon
+
+    p = np.asarray(p_dist, dtype=float) + 1e-9
+    q = np.asarray(q_dist, dtype=float) + 1e-9
+    p = p / np.sum(p)
+    q = q / np.sum(q)
+
+    # scipy returns JS distance (sqrt of divergence), so square it
+    js_dist = float(jensenshannon(p, q))
+    return round(float(js_dist**2), 4)
+
+
+def detect_latent_finbert_tone_shift(
+    baseline_distribution: Optional[List[float]] = None,
+    current_distribution: Optional[List[float]] = None,
+    baseline_texts: Optional[List[str]] = None,
+    current_texts: Optional[List[str]] = None,
+) -> Dict[str, Any]:
+    """
+    Latent FinBERT Tone Shift Detector (Sprint 3, Module 3.4 / Idea 5).
+    Computes Jensen-Shannon Divergence between baseline and current corporate rhetoric
+    to detect subtle management narrative shifts.
+    """
+    if baseline_distribution is None:
+        baseline_distribution = [0.45, 0.20, 0.35]  # [pos, neg, neu]
+    if current_distribution is None:
+        current_distribution = [0.20, 0.55, 0.25]
+
+    p = np.array(baseline_distribution)
+    q = np.array(current_distribution)
+
+    js_div = compute_jensen_shannon_divergence(p, q)
+    is_pivot = js_div >= 0.12
+
+    # Polarity difference (positive - negative)
+    base_net = p[0] - p[1]
+    curr_net = q[0] - q[1]
+    delta_net = curr_net - base_net
+
+    if is_pivot and delta_net < -0.20:
+        verdict = "BEARISH_CORPORATE_NARRATIVE_PIVOT"
+        advice = "MANAGEMENT_RHETORIC_DETERIORATING_TRIM_EXPOSURE"
+    elif is_pivot and delta_net > 0.20:
+        verdict = "BULLISH_EXPANSION_RHETORIC_SHIFT"
+        advice = "EXECUTIVE_CONFIDENCE_RISING_ADD_CONVICTION"
+    elif is_pivot:
+        verdict = "AMBIGUOUS_NARRATIVE_DISPERSION"
+        advice = "UNCERTAINTY_RISING_MONITOR_DISCLOSURES"
+    else:
+        verdict = "STABLE_CONSISTENT_NARRATIVE"
+        advice = "MAINTAIN_CURRENT_STRATEGY"
+
+    return {
+        "jensen_shannon_divergence": js_div,
+        "is_narrative_pivot_detected": is_pivot,
+        "baseline_polarity": round(float(base_net), 3),
+        "current_polarity": round(float(curr_net), 3),
+        "polarity_delta": round(float(delta_net), 3),
+        "tone_shift_verdict": verdict,
+        "cro_narrative_advice": advice,
+    }

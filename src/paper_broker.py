@@ -697,7 +697,7 @@ class PaperBroker:
                     "ticker": ticker,
                     "shares": shares,
                     "entry_price": price,
-                    "cost": round(cost, 2),
+                    "cost": round(total_cost, 2),
                     "entry_date": date_str,
                     "tp1_target": tp1_target,
                     "tp2_target": tp2_target,
@@ -707,7 +707,7 @@ class PaperBroker:
                 }
                 executed_actions["buys"].append(buy_record)
                 logger.info(
-                    f"🚀 [QUARTER-KELLY ENTRY] Bought {shares} shares of {ticker} @ ${price:.2f} (Total: ${cost:,.2f} | Kelly%: {quarter_kelly:.1%} | TP1: ${tp1_target:.2f} | SL: ${sl_target:.2f})"
+                    f"🚀 [QUARTER-KELLY ENTRY] Bought {shares} shares of {ticker} @ ${price:.2f} (Total: ${total_cost:,.2f} | Kelly%: {quarter_kelly:.1%} | TP1: ${tp1_target:.2f} | SL: ${sl_target:.2f})"
                 )
 
                 # Live Alpaca Bracket Order Mirroring
@@ -1002,14 +1002,14 @@ class PaperBroker:
         self._recalculate_metrics(date_str, now_str)
         self._save()
         logger.info(
-            f"🚀 [PAPER BUY] Executed {shares} shares of {ticker} @ ${price:.2f} (Total: ${cost:,.2f}) | Strategy: {strategy_name}"
+            f"🚀 [PAPER BUY] Executed {shares} shares of {ticker} @ ${price:.2f} (Total: ${total_cost:,.2f}) | Strategy: {strategy_name}"
         )
         return {
             "success": True,
             "ticker": ticker,
             "shares": shares,
             "price": price,
-            "cost": cost,
+            "cost": total_cost,
             "tp1_target": tp1,
             "tp2_target": tp2,
             "sl_target": sl,

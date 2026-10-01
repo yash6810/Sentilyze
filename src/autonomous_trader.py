@@ -110,6 +110,118 @@ def load_universe_tickers() -> List[str]:
     ]
 
 
+# ==============================================================================
+# Sprint 4, Module 4.5 / Idea 47: Formal Logic Z3 Rule Gate
+# ==============================================================================
+class FormalLogicZ3RuleGate:
+    """
+    Formal Logic & SMT-Style Verification Rule Gate (Idea 47 / Sprint 4.5).
+    Formally verifies hard mathematical invariants on candidate trade proposals:
+    1. Positive Price Invariant: spot_price > 0.0
+    2. Integral & Positive Shares Invariant: shares >= 1
+    3. Solvency / Cash Buffer Invariant: shares * price <= cash_available - min_cash_buffer
+    4. Bracket Monotonicity Invariant: stop_loss < price < tp1 <= tp2
+    5. Minimum Edge / Asymmetry Invariant: (tp1 - price) / (price - stop_loss) >= 0.95
+    6. Position Concentration Invariant: (shares * price) / total_equity <= max_position_pct
+    """
+
+    def __init__(
+        self,
+        min_cash_buffer: float = 1000.0,
+        max_position_pct: float = 0.25,
+    ):
+        self.min_cash_buffer = min_cash_buffer
+        self.max_position_pct = max_position_pct
+
+    def verify_trade(
+        self,
+        ticker: str,
+        spot_price: float,
+        shares: float,
+        deliberation: Dict[str, Any],
+        portfolio_state: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        violations: List[str] = []
+        invariants_checked: Dict[str, bool] = {}
+
+        # 1. Price > 0
+        inv_price = spot_price > 0.0
+        invariants_checked["positive_price"] = inv_price
+        if not inv_price:
+            violations.append(f"Price must be strictly positive: {spot_price}")
+
+        # 2. Shares >= 1
+        inv_shares = shares >= 1.0
+        invariants_checked["positive_integral_shares"] = inv_shares
+        if not inv_shares:
+            violations.append(f"Shares must be >= 1: {shares}")
+
+        # 3. Solvency / Cash
+        cash = float(portfolio_state.get("cash", 0.0))
+        cost = spot_price * shares
+        inv_solvency = cost <= max(cash - self.min_cash_buffer, 0.0)
+        invariants_checked["solvency_cash_buffer"] = inv_solvency
+        if not inv_solvency:
+            violations.append(
+                f"Cost (${cost:.2f}) exceeds cash (${cash:.2f}) minus buffer (${self.min_cash_buffer:.2f})"
+            )
+
+        # 4. Bracket Monotonicity
+        cro_dict = (
+            deliberation.get("cro_signoff", {})
+            if isinstance(deliberation.get("cro_signoff"), dict)
+            else {}
+        )
+        tp1 = float(
+            deliberation.get("tp1_target")
+            or cro_dict.get("tp1_target")
+            or (spot_price * 1.05)
+        )
+        tp2 = float(
+            deliberation.get("tp2_target")
+            or cro_dict.get("tp2_target")
+            or (spot_price * 1.10)
+        )
+        sl = float(
+            deliberation.get("stop_loss_target")
+            or cro_dict.get("stop_loss_target")
+            or (spot_price * 0.96)
+        )
+
+        inv_bracket = sl < spot_price < tp1 <= tp2
+        invariants_checked["bracket_monotonicity"] = inv_bracket
+        if not inv_bracket:
+            violations.append(
+                f"Bracket monotonicity violated: SL({sl}) < Spot({spot_price}) < TP1({tp1}) <= TP2({tp2})"
+            )
+
+        # 5. Risk-Reward Asymmetry
+        risk = max(spot_price - sl, 1e-4)
+        reward = max(tp1 - spot_price, 0.0)
+        rr_ratio = reward / risk
+        inv_asymmetry = rr_ratio >= 0.95
+        invariants_checked["minimum_risk_reward"] = inv_asymmetry
+        if not inv_asymmetry:
+            violations.append(f"Risk-reward ratio ({rr_ratio:.2f}) below minimum 0.95")
+
+        # 6. Concentration
+        total_equity = float(portfolio_state.get("total_equity", cash))
+        inv_conc = (cost / max(total_equity, 1.0)) <= self.max_position_pct
+        invariants_checked["concentration_bound"] = inv_conc
+        if not inv_conc:
+            violations.append(
+                f"Position size ({(cost/total_equity)*100:.1f}%) exceeds maximum cap ({self.max_position_pct*100:.1f}%)"
+            )
+
+        is_valid = len(violations) == 0
+        return {
+            "is_valid": is_valid,
+            "status": "SATISFIED" if is_valid else "VIOLATED",
+            "violations": violations,
+            "invariants_checked": invariants_checked,
+        }
+
+
 class AutonomousTradingEngine:
     """
     Autonomous Execution Engine that integrates Live News Ingestion,
@@ -119,6 +231,7 @@ class AutonomousTradingEngine:
     def __init__(self, broker: Optional[PaperBroker] = None):
         self.broker = broker or PaperBroker()
         self.tickers = load_universe_tickers()
+        self.rule_gate = FormalLogicZ3RuleGate()
 
     def dispatch_discord_alert(
         self, title: str, description: str, color: int = 0x00D4AA
@@ -858,6 +971,23 @@ class AutonomousTradingEngine:
                     )
                     if isinstance(delib.get("cro_signoff"), dict):
                         delib["cro_signoff"]["approved_kelly_pct"] = max_allowed_kelly
+
+                # Formal Logic Z3 Rule Gate Verification (Sprint 4, Module 4.5 / Idea 47)
+                shares_est = max(
+                    1.0, float(int(total_eq * (approved_kelly / 100.0) / spot_price))
+                )
+                gate_eval = self.rule_gate.verify_trade(
+                    ticker=t,
+                    spot_price=spot_price,
+                    shares=shares_est,
+                    deliberation=delib,
+                    portfolio_state=self.broker.state,
+                )
+                if not gate_eval["is_valid"]:
+                    logger.warning(
+                        f"🛑 [FORMAL LOGIC RULE GATE VETO] Trade for {t} rejected: {gate_eval['violations']}"
+                    )
+                    continue
 
                 order_res = execute_committee_order(
                     ticker=t, deliberation=delib, broker=self.broker

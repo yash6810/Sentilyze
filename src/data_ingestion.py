@@ -286,7 +286,9 @@ def _fetch_benzinga_news(ticker: str) -> pd.DataFrame:
                     )
             if articles:
                 df = pd.DataFrame(articles)
-                df["publishedAt"] = pd.to_datetime(df["publishedAt"], utc=True)
+                df["publishedAt"] = pd.to_datetime(
+                    df["publishedAt"], utc=True, format="mixed"
+                )
                 logger.info(
                     f"Successfully fetched {len(df)} Benzinga live news articles for {ticker}"
                 )
@@ -500,7 +502,7 @@ def get_news(
     # Standardize the DataFrame to have a timezone-aware DatetimeIndex
     if "publishedAt" in articles_df.columns:
         articles_df["publishedAt"] = pd.to_datetime(
-            articles_df["publishedAt"], utc=True
+            articles_df["publishedAt"], utc=True, format="mixed"
         )
         articles_df = articles_df.set_index("publishedAt").sort_index(ascending=False)
 

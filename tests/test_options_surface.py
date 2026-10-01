@@ -35,3 +35,19 @@ def test_calculate_multileg_payoff_long_straddle():
     assert res["strategy_type"] == "LONG_STRADDLE"
     assert len(res["legs"]) == 2
     assert res["max_profit"] == "Unlimited"
+
+
+def test_solve_pinn_local_volatility():
+    from src.options_surface import solve_pinn_local_volatility
+
+    res = solve_pinn_local_volatility(
+        spot_price=100.0,
+        strikes=[90.0, 95.0, 100.0, 105.0, 110.0],
+        dtes=[14, 30, 60],
+        epochs=15,
+    )
+    assert res["status"] == "SUCCESS"
+    assert res["is_arbitrage_free"] is True
+    assert len(res["local_vol_matrix_pct"]) == 3
+    assert len(res["local_vol_matrix_pct"][0]) == 5
+    assert res["atm_local_vol_pct"] > 0.0

@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-09-30T19:18:25.168362+00:00",
-  "target_ticker": "NVDA",
+  "timestamp": "2026-10-01T21:10:06.016341+00:00",
+  "target_ticker": "AAPL",
   "market_shift_verdict": "\ud83d\udfe2 MARKET_TOTAL_ENTERING (Broad Cashflow Accumulation Active)",
   "tactical_posture": "AGGRESSIVE_SCALE_IN",
   "metrics": {
@@ -43,9 +43,9 @@
   ],
   "sample_mined_threads": {
     "cashflow_and_whales": [
-      "$UBER, follow the smart money - DD",
-      "NVIDIA\u2019s Accounts Receivable has ballooned to an eye-popping $14 billion which represents approximately 68% of their quarterly revenue",
-      "NVDA vs the world or top?"
+      "Unusual Options Activity 101: Whale Watching Tips",
+      "A quick reminder that accounting can sugar code even armageddon. Cash Flow > Revenue",
+      "Every dip is buying opportunity in Apple."
     ],
     "crash_and_double_top": [],
     "darkpool_and_borrow_relays": []

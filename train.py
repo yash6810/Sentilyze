@@ -287,7 +287,9 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--use-cache",
+        "--use_cache",
         action="store_true",
+        dest="use_cache",
         help="Aggressively use cached data to avoid API rate limits",
     )
     parser.add_argument(

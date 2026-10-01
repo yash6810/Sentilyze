@@ -34,17 +34,21 @@ def compute_fractional_kelly_sizing(
     payoff_ratio: float = 1.75,
     kelly_fraction: float = 0.25,
     max_cap_pct: float = 15.0,
+    skewness: float = 0.0,
+    excess_kurtosis: float = 0.0,
 ) -> Dict[str, Any]:
     """
-    Computes true mathematical fractional Kelly Criterion position sizing:
-    f* = (p * b - (1 - p)) / b
-    where p is empirical win probability and b is payoff ratio (avg win / avg loss).
+    Computes true mathematical fractional Kelly Criterion position sizing with
+    Cornish-Fisher expansion adjustment for return skewness and fat-tailed excess kurtosis (Pillar D / Idea 39).
+    f* = (p * b - (1 - p)) / b * kappa_CF
 
     Args:
         win_rate: Historical strategy win probability (0.0 to 1.0)
         payoff_ratio: Ratio of average gain to average loss (b = avg_win / avg_loss)
         kelly_fraction: Conservative fraction multiplier (default 0.25 for Quarter-Kelly)
         max_cap_pct: Maximum single-position allocation cap
+        skewness: Asymmetry of asset returns (negative skew = crash risk)
+        excess_kurtosis: Heavy-tail distribution penalty (kurtosis > 0 = fat tails)
 
     Returns:
         Dict with full Kelly, fractional Kelly percentage, edge, and allocation status.
@@ -54,6 +58,7 @@ def compute_fractional_kelly_sizing(
             "full_kelly_pct": 0.0,
             "fractional_kelly_pct": 0.0,
             "edge": 0.0,
+            "cf_haircut_multiplier": 1.0,
             "status": "INVALID_PARAMETERS",
         }
 
@@ -66,19 +71,29 @@ def compute_fractional_kelly_sizing(
             "full_kelly_pct": 0.0,
             "fractional_kelly_pct": 0.0,
             "edge": round(edge, 4),
+            "cf_haircut_multiplier": 1.0,
             "status": "NEGATIVE_EXPECTANCY_NO_ALLOCATION",
         }
 
-    fractional_kelly = full_kelly * kelly_fraction
+    # Cornish-Fisher Fat-Tail Haircut Factor (Pillar D / Idea 39)
+    # Negative skewness (crash risk) and positive excess kurtosis (fat tails) penalize sizing:
+    skew_penalty = max(0.0, -skewness) / 4.0
+    kurt_penalty = max(0.0, excess_kurtosis) / 16.0
+    cf_haircut_multiplier = round(max(0.20, 1.0 - (skew_penalty + kurt_penalty)), 4)
+
+    fractional_kelly = full_kelly * kelly_fraction * cf_haircut_multiplier
     allocated_pct = min(max(0.0, fractional_kelly * 100.0), max_cap_pct)
 
     return {
         "full_kelly_pct": round(full_kelly * 100.0, 2),
         "fractional_kelly_pct": round(allocated_pct, 2),
+        "cf_haircut_multiplier": cf_haircut_multiplier,
         "edge": round(edge, 4),
         "kelly_fraction": kelly_fraction,
         "win_rate": win_rate,
         "payoff_ratio": payoff_ratio,
+        "skewness": skewness,
+        "excess_kurtosis": excess_kurtosis,
         "status": "POSITIVE_EXPECTANCY",
     }
 
@@ -465,15 +480,30 @@ class SentimentCatalystAgent:
                         conviction = min(95.0, conviction + 6.0)
                         thesis += f" 📄 SEC Form 8-K Filing: {item_str}."
 
-            # 2. SEC Form 4 Insider Conviction & Cluster Buys
+            # 2. SEC Form 4 Insider Conviction & Cluster Buys (Idea 24)
             insider = uq.evaluate_insider_signals(ticker)
+            try:
+                from src.sec_form4_crawler import get_insider_cluster_radar
+
+                f4_radar = get_insider_cluster_radar(ticker)
+                if f4_radar.get("cluster_buy_detected", False):
+                    insider["cluster_buy_detected"] = True
+                    insider["conviction_score"] = max(
+                        float(insider.get("conviction_score", 50.0)),
+                        float(f4_radar.get("insider_conviction_score", 75.0)),
+                    )
+                    thesis += f" 👔 SEC FORM 4 CLUSTER: {f4_radar.get('cluster_size', 2)} C-suite filings within 5 days."
+                    conviction = min(95.0, conviction + 8.0)
+            except Exception as f4_err:
+                logger.debug(f"Form 4 radar check notice: {f4_err}")
+
             if insider.get("cluster_buy_detected", False):
                 conviction = min(95.0, conviction + 7.0)
                 thesis += (
                     f" 👔 EXECUTIVE CLUSTER BUY: Multiple officers buying shares "
                     f"(Score: {insider.get('conviction_score')}/100)."
                 )
-            elif insider.get("conviction_score", 50.0) < 30.0:
+            elif float(insider.get("conviction_score", 50.0)) < 30.0:
                 conviction = max(20.0, conviction - 5.0)
                 thesis += " ⚠️ INSIDER DISTRIBUTION: Heavy insider selling recorded."
 
@@ -809,17 +839,55 @@ class ChiefRiskOfficerAgent:
                     veto_reason = "Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200)."
                     break
 
-        # 2. Dynamic Mathematical Fractional Kelly Sizing (Paper 23 & Paper 14)
+        # 2. Dynamic Mathematical Fractional Kelly Sizing with Cornish-Fisher Expansion (Paper 23, Paper 14 & Idea 39)
+        ret_skewness = 0.0
+        ret_kurtosis = 0.0
+        try:
+            hist_df_cro = get_price_history(ticker, period="6mo", use_cache=True)
+            if not hist_df_cro.empty and len(hist_df_cro) >= 30:
+                daily_rets = hist_df_cro["Close"].pct_change().dropna()
+                if len(daily_rets) >= 20:
+                    ret_skewness = float(daily_rets.skew())
+                    ret_kurtosis = float(daily_rets.kurtosis())
+        except Exception as sk_err:
+            logger.debug(f"Skew/Kurtosis calculation notice for {ticker}: {sk_err}")
+
         empirical_win_rate = 0.533 if effective_conviction >= 70.0 else 0.48
         kelly_result = compute_fractional_kelly_sizing(
             win_rate=empirical_win_rate,
             payoff_ratio=1.75,
             kelly_fraction=0.25,  # Quarter-Kelly
             max_cap_pct=15.0,
+            skewness=ret_skewness,
+            excess_kurtosis=ret_kurtosis,
         )
         calculated_kelly_pct = float(kelly_result.get("fractional_kelly_pct", 0.0))
         if red_team_caution:
             calculated_kelly_pct = round(calculated_kelly_pct * 0.65, 2)
+
+        # 2b. Conformal Prediction Uncertainty Gate (Romano et al. 2019, Idea 1)
+        conformal_metrics = {}
+        try:
+            from src.conformal_engine import ConformalQuantileEngine
+
+            cqr_engine = ConformalQuantileEngine()
+            meta = cqr_engine.load_calibration_metadata(ticker)
+            if meta:
+                q_hat = meta.get("q_hat_margin", 0.0)
+                interval_width = meta.get("mean_interval_width", 0.05)
+                conformal_metrics = {
+                    "cqr_calibrated": True,
+                    "cqr_q_hat": round(q_hat, 4),
+                    "cqr_mean_width": round(interval_width, 4),
+                    "cqr_coverage_target": meta.get("target_coverage", 0.90),
+                }
+                if interval_width > 0.08:
+                    calculated_kelly_pct = round(calculated_kelly_pct * 0.80, 2)
+                    logger.info(
+                        f"🛡️ [CONFORMAL UNCERTAINTY HAIRCUT] Wide conformal interval ({interval_width:.1%}). Kelly scaled by 0.80x."
+                    )
+        except Exception as cqr_err:
+            logger.debug(f"Conformal check notice for {ticker}: {cqr_err}")
 
         # Scale by Quantum Core Risk Multiplier (Credit spread radar / Value area adjustment)
         q_scalar = float(quantum_telemetry.get("risk_multiplier", 1.0))
@@ -1067,6 +1135,7 @@ class ChiefRiskOfficerAgent:
             "quantum_telemetry": quantum_telemetry,
             "memory_risk_adjustment": mem_adjustment,
             "require_supermajority": require_supermajority,
+            "conformal_metrics": conformal_metrics,
             **vpin_metrics,
         }
 
@@ -1318,3 +1387,243 @@ def execute_committee_order(
     except Exception as e:
         logger.error(f"Error executing committee order for {ticker}: {e}")
         return {"success": False, "error": str(e)}
+
+
+# ==============================================================================
+# Sprint 4, Module 4.4 / Idea 41: Tree-of-Thought Deliberator
+# ==============================================================================
+class TreeOfThoughtDeliberator:
+    """
+    3-Step Branching Monte Carlo Tree-of-Thought (ToT) Deliberator for the Committee.
+    Step 1: Hypothesis Branch Generation (Bullish Expansion, Mean Reversion, Volatility Breakdown)
+    Step 2: Multi-Agent Evaluation & Pruning (Specialist Consensus Scored against Tail Risk)
+    Step 3: Monte Carlo Rollout (500-path stochastic trajectory evaluation for dominant path)
+    """
+
+    def __init__(self, n_simulations: int = 500, horizon_days: int = 10):
+        self.n_simulations = n_simulations
+        self.horizon_days = horizon_days
+
+    def generate_hypotheses(
+        self, spot_price: float, atr: float
+    ) -> List[Dict[str, Any]]:
+        """
+        Step 1: Branching Hypothesis Generation.
+        Generates 3 structural candidate forward scenarios.
+        """
+        atr_safe = max(atr, spot_price * 0.015)
+        return [
+            {
+                "id": "BRANCH_1_BULLISH_EXPANSION",
+                "label": "Bullish Trend Expansion",
+                "target_price": round(spot_price + 2.0 * atr_safe, 2),
+                "stop_price": round(spot_price - 1.0 * atr_safe, 2),
+                "expected_drift": 0.002,
+                "volatility_multiplier": 1.0,
+            },
+            {
+                "id": "BRANCH_2_MEAN_REVERSION",
+                "label": "Consolidation Dip & Rebound",
+                "target_price": round(spot_price + 1.2 * atr_safe, 2),
+                "stop_price": round(spot_price - 0.8 * atr_safe, 2),
+                "expected_drift": 0.0005,
+                "volatility_multiplier": 0.8,
+            },
+            {
+                "id": "BRANCH_3_VOLATILITY_BREAKDOWN",
+                "label": "Liquidity Flush & Breakdown",
+                "target_price": round(spot_price - 2.5 * atr_safe, 2),
+                "stop_price": round(spot_price + 1.0 * atr_safe, 2),
+                "expected_drift": -0.003,
+                "volatility_multiplier": 1.8,
+            },
+        ]
+
+    def evaluate_thoughts(
+        self,
+        hypotheses: List[Dict[str, Any]],
+        agent_reports: List[Dict[str, Any]],
+    ) -> List[Dict[str, Any]]:
+        """
+        Step 2: Thought Evaluation & Branch Scoring.
+        Computes agent belief distribution over the generated hypotheses.
+        """
+        bullish_votes = sum(
+            1 for r in agent_reports if r.get("recommendation") in ["BUY", "STRONG_BUY"]
+        )
+        bearish_votes = sum(
+            1
+            for r in agent_reports
+            if r.get("recommendation") in ["SELL", "STRONG_SELL", "VETO"]
+        )
+        total_votes = max(len(agent_reports), 1)
+
+        bull_prob = bullish_votes / float(total_votes)
+        bear_prob = bearish_votes / float(total_votes)
+        neutral_prob = max(0.0, 1.0 - (bull_prob + bear_prob))
+
+        priors = {
+            "BRANCH_1_BULLISH_EXPANSION": 0.20 + 0.60 * bull_prob,
+            "BRANCH_2_MEAN_REVERSION": 0.15 + 0.50 * neutral_prob,
+            "BRANCH_3_VOLATILITY_BREAKDOWN": 0.10 + 0.70 * bear_prob,
+        }
+
+        # Normalize prior probabilities to sum to 1.0
+        tot = sum(priors.values())
+        for k in priors:
+            priors[k] = priors[k] / tot
+
+        evaluated = []
+        for h in hypotheses:
+            prob = priors.get(h["id"], 0.33)
+            h_copy = dict(h)
+            h_copy["prior_probability"] = round(prob, 4)
+            # Prune branch if probability < 15%
+            h_copy["is_pruned"] = prob < 0.15
+            evaluated.append(h_copy)
+
+        return evaluated
+
+    def monte_carlo_rollout(
+        self,
+        evaluated_thoughts: List[Dict[str, Any]],
+        spot_price: float,
+        daily_vol: float,
+    ) -> Dict[str, Any]:
+        """
+        Step 3: Monte Carlo Tree Rollout across unpruned branches.
+        Simulates geometric Brownian motion with stochastic jumps for each scenario.
+        """
+        np.random.seed(42)
+        branch_stats = {}
+        total_tp_hits = 0
+        total_sl_hits = 0
+
+        dt = 1.0
+        T = self.horizon_days
+
+        for h in evaluated_thoughts:
+            if h.get("is_pruned"):
+                branch_stats[h["id"]] = {
+                    "status": "PRUNED",
+                    "tp_hit_rate": 0.0,
+                    "sl_hit_rate": 0.0,
+                }
+                continue
+
+            drift = h["expected_drift"]
+            vol = daily_vol * h["volatility_multiplier"]
+            tp = h["target_price"]
+            sl = h["stop_price"]
+
+            # Simulate paths
+            sims = self.n_simulations
+            random_shocks = np.random.normal(drift - 0.5 * vol**2, vol, size=(sims, T))
+            price_paths = spot_price * np.exp(np.cumsum(random_shocks, axis=1))
+
+            if tp > spot_price:
+                # Long setup: TP is above, SL is below
+                hit_tp = (price_paths >= tp).any(axis=1)
+                hit_sl = (price_paths <= sl).any(axis=1)
+            else:
+                # Short/Hedge setup: TP is below, SL is above
+                hit_tp = (price_paths <= tp).any(axis=1)
+                hit_sl = (price_paths >= sl).any(axis=1)
+
+            tp_rate = float(np.mean(hit_tp))
+            sl_rate = float(np.mean(hit_sl))
+
+            branch_stats[h["id"]] = {
+                "status": "ACTIVE",
+                "tp_hit_rate": round(tp_rate, 4),
+                "sl_hit_rate": round(sl_rate, 4),
+                "expected_pnl_multiple": round(
+                    (tp - spot_price) / max(spot_price - sl, 1e-4), 2
+                ),
+            }
+
+            weight = h["prior_probability"]
+            total_tp_hits += tp_rate * weight
+            total_sl_hits += sl_rate * weight
+
+        # Dominant path selection
+        active_branches = [h for h in evaluated_thoughts if not h.get("is_pruned")]
+        best_branch = max(
+            active_branches,
+            key=lambda b: (
+                b["prior_probability"]
+                * branch_stats[b["id"]]["tp_hit_rate"]
+                / max(branch_stats[b["id"]]["sl_hit_rate"], 0.01)
+            ),
+        )
+
+        return {
+            "dominant_branch": best_branch["id"],
+            "dominant_label": best_branch["label"],
+            "composite_tp_probability": round(float(total_tp_hits), 4),
+            "composite_sl_probability": round(float(total_sl_hits), 4),
+            "branch_simulations": branch_stats,
+        }
+
+    def deliberate(
+        self,
+        spot_price: float,
+        atr: float,
+        agent_reports: List[Dict[str, Any]],
+    ) -> Dict[str, Any]:
+        """
+        Executes full 3-step Tree-of-Thought search.
+        """
+        hypotheses = self.generate_hypotheses(spot_price, atr)
+        evaluated = self.evaluate_thoughts(hypotheses, agent_reports)
+        daily_vol = max(atr / max(spot_price, 1e-4), 0.015)
+        rollout = self.monte_carlo_rollout(evaluated, spot_price, daily_vol)
+
+        return {
+            "status": "SUCCESS",
+            "evaluated_tree": evaluated,
+            "rollout_results": rollout,
+            "recommended_action": (
+                "PROCEED_BUY"
+                if rollout["composite_tp_probability"] >= 0.50
+                and rollout["dominant_branch"] != "BRANCH_3_VOLATILITY_BREAKDOWN"
+                else "DEFENSIVE_HOLD"
+            ),
+        }
+
+
+def convene_tree_of_thought_committee(
+    ticker: str,
+    vix_level: float = 16.5,
+    vix_change_pct: float = -1.2,
+    spot_price: Optional[float] = None,
+) -> Dict[str, Any]:
+    """
+    High-level orchestration: Runs standard multi-agent committee deliberation
+    and augments the CRO evaluation with Tree-of-Thought Monte Carlo branching search.
+    """
+    base_res = convene_trading_committee(
+        ticker=ticker,
+        vix_level=vix_level,
+        vix_change_pct=vix_change_pct,
+        save_resolution=False,
+        spot_price=spot_price,
+    )
+
+    tot = TreeOfThoughtDeliberator(n_simulations=300, horizon_days=7)
+    tot_result = tot.deliberate(
+        spot_price=base_res["spot_price"],
+        atr=base_res.get("atr_14", base_res["spot_price"] * 0.02),
+        agent_reports=base_res["agent_testimonies"],
+    )
+
+    base_res["tree_of_thought_deliberation"] = tot_result
+    # Augment CRO action if breakdown path is detected
+    if (
+        tot_result["recommended_action"] == "DEFENSIVE_HOLD"
+        and base_res["action_code"] == "EXECUTE_BUY"
+    ):
+        base_res["action_code"] = "DEFENSIVE_HOLD"
+        base_res["final_resolution"] = "VETO_BY_TREE_OF_THOUGHT_MONTE_CARLO"
+
+    return base_res

@@ -1,31 +1,100 @@
 {
-  "session_time": "Oct 01, 2026 \u2022 12:12 AM IST (02:42 PM EDT)",
+  "session_time": "Oct 02, 2026 \u2022 12:28 AM IST (02:58 PM EDT)",
   "stocks_in_play": [
-    "AXON",
-    "BA",
-    "FDXF",
-    "FIX",
-    "BLDR"
+    "FAST",
+    "ADP",
+    "ALLE",
+    "AME",
+    "AOS"
   ],
-  "signals_count": 0,
-  "signals": [],
-  "executed_paper_trades": [],
+  "signals_count": 5,
+  "signals": [
+    {
+      "ticker": "FAST",
+      "signal": "BUY",
+      "current_price": 49.91,
+      "confidence": 0.4833,
+      "take_profit": 55.91,
+      "stop_loss": 46.91
+    },
+    {
+      "ticker": "ADP",
+      "signal": "BUY",
+      "current_price": 264.08,
+      "confidence": 0.4833,
+      "take_profit": 270.08,
+      "stop_loss": 261.08
+    },
+    {
+      "ticker": "ALLE",
+      "signal": "BUY",
+      "current_price": 153.26,
+      "confidence": 0.4833,
+      "take_profit": 159.26,
+      "stop_loss": 150.26
+    },
+    {
+      "ticker": "AME",
+      "signal": "BUY",
+      "current_price": 249.34,
+      "confidence": 0.4833,
+      "take_profit": 255.34,
+      "stop_loss": 246.34
+    },
+    {
+      "ticker": "AOS",
+      "signal": "BUY",
+      "current_price": 56.69,
+      "confidence": 0.4833,
+      "take_profit": 62.69,
+      "stop_loss": 53.69
+    }
+  ],
+  "executed_paper_trades": [
+    {
+      "ticker": "FAST",
+      "signal": "BUY",
+      "current_price": 49.91,
+      "confidence": 0.4833,
+      "take_profit": 55.91,
+      "stop_loss": 46.91
+    },
+    {
+      "ticker": "ADP",
+      "signal": "BUY",
+      "current_price": 264.08,
+      "confidence": 0.4833,
+      "take_profit": 270.08,
+      "stop_loss": 261.08
+    },
+    {
+      "ticker": "ALLE",
+      "signal": "BUY",
+      "current_price": 153.26,
+      "confidence": 0.4833,
+      "take_profit": 159.26,
+      "stop_loss": 150.26
+    },
+    {
+      "ticker": "AME",
+      "signal": "BUY",
+      "current_price": 249.34,
+      "confidence": 0.4833,
+      "take_profit": 255.34,
+      "stop_loss": 246.34
+    },
+    {
+      "ticker": "AOS",
+      "signal": "BUY",
+      "current_price": 56.69,
+      "confidence": 0.4833,
+      "take_profit": 62.69,
+      "stop_loss": 53.69
+    }
+  ],
   "portfolio_summary": {
-    "total_equity": 144003.21,
-    "cash": 128812.95405578619,
-    "invested": 15190.2559442138,
-    "start_of_day_equity": 144057.11,
-    "daily_pnl": -53.9,
-    "daily_return_pct": -0.04,
-    "unrealized_pnl": -263.72,
-    "unrealized_pnl_pct": -1.74,
-    "realized_pnl": 54579.984055786124,
-    "total_pnl": 44003.21,
-    "total_return_pct": 44.0,
-    "win_rate": 66.2,
-    "open_positions_count": 2,
-    "total_trades": 71,
-    "winning_trades": 47,
-    "losing_trades": 24
+    "total_equity": 151872.25,
+    "cash": 140982.95,
+    "win_rate": 83.9
   }
 }
