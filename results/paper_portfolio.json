@@ -14,7 +14,7 @@
       "shares": 38,
       "initial_shares": 38,
       "entry_price": 264.56,
-      "current_price": 258.06,
+      "current_price": 258.05999755859375,
       "entry_date": "2026-09-23",
       "tp1_target": 278.08,
       "tp2_target": 288.9,
@@ -1014,7 +1014,15 @@
       "cash": 134063.13,
       "invested": 9806.28,
       "daily_return": 0.0
+    },
+    {
+      "date": "2026-10-01",
+      "timestamp": "2026-10-01T12:01:43.172627+00:00",
+      "total_equity": 143869.41,
+      "cash": 134063.13,
+      "invested": 9806.28,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-09-30T22:35:14.840208+00:00"
+  "last_updated": "2026-10-01T12:01:44.126031+00:00"
 }
