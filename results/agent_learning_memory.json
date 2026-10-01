@@ -1,6 +1,6 @@
 {
-  "total_learning_cycles": 20,
-  "last_updated": "2026-10-01T18:59:17.250979+00:00",
+  "total_learning_cycles": 18,
+  "last_updated": "2026-10-01T18:54:04.385343+00:00",
   "agent_voting_weights": {
     "technicals_weight": 0.271,
     "sentiment_weight": 0.355,
@@ -205,10 +205,10 @@
     "Harvested 35 high-conviction momentum runs with 54.69% win rate."
   ],
   "bayesian_council_calibration": {
-    "Technical Momentum": 0.1416,
-    "FinBERT Sentiment": 0.1416,
-    "Fundamental Valuation": 0.1349,
-    "Chief Risk Officer": 0.2323,
-    "Adversarial Red-Team": 0.3496
+    "Technical Momentum": 0.2514,
+    "FinBERT Sentiment": 0.2513,
+    "Fundamental Valuation": 0.1986,
+    "Chief Risk Officer": 0.1503,
+    "Adversarial Red-Team": 0.1484
   }
 }
