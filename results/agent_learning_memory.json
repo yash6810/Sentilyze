@@ -1,13 +1,13 @@
 {
-  "total_learning_cycles": 20,
-  "last_updated": "2026-10-02T10:23:13.325913+00:00",
+  "total_learning_cycles": 21,
+  "last_updated": "2026-10-02T18:24:54.704380+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.271,
-    "sentiment_weight": 0.355,
-    "valuation_weight": 0.136,
-    "cro_weight": 0.238
+    "technicals_weight": 0.268,
+    "sentiment_weight": 0.351,
+    "valuation_weight": 0.135,
+    "cro_weight": 0.246
   },
-  "adaptive_kelly_multiplier": 0.9,
+  "adaptive_kelly_multiplier": 0.87,
   "recent_trade_autopsies": [
     {
       "ticker": "DE",
@@ -88,6 +88,14 @@
       "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
       "lesson": "Stop loss on FAST triggered at -2.79%. Protecting capital.",
       "timestamp": "2026-09-30T22:35:14.830217+00:00"
+    },
+    {
+      "ticker": "ADP",
+      "pnl": -259.92,
+      "return_pct": -2.59,
+      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
+      "lesson": "Stop loss on ADP triggered at -2.59%. Protecting capital.",
+      "timestamp": "2026-10-02T18:25:11.729611+00:00"
     }
   ],
   "retrained_models": [
@@ -120,6 +128,11 @@
       "ticker": "FAST",
       "timestamp": "2026-09-30T22:35:14.830207+00:00",
       "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
+    },
+    {
+      "ticker": "ADP",
+      "timestamp": "2026-10-02T18:25:11.729605+00:00",
+      "verdict": "\ud83c\udfc6 PROMOTED (Boosted model deployed as new Champion)"
     }
   ],
   "timestamp": "2026-09-25T11:06:51.023793+00:00",
@@ -205,10 +218,10 @@
     "Harvested 35 high-conviction momentum runs with 54.69% win rate."
   ],
   "bayesian_council_calibration": {
-    "Technical Momentum": 0.1427,
-    "FinBERT Sentiment": 0.1427,
-    "Fundamental Valuation": 0.1343,
-    "Chief Risk Officer": 0.2334,
-    "Adversarial Red-Team": 0.3469
+    "Technical Momentum": 0.2512,
+    "FinBERT Sentiment": 0.2511,
+    "Fundamental Valuation": 0.1986,
+    "Chief Risk Officer": 0.1505,
+    "Adversarial Red-Team": 0.1486
   }
 }

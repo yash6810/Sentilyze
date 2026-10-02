@@ -1,0 +1,14 @@
+{
+  "ticker": "ADP",
+  "timestamp": "2026-10-02T18:24:54.705625+00:00",
+  "elapsed_seconds": 17.02,
+  "dataset_rows": 2513,
+  "features_used": 26,
+  "champion_accuracy": 0.45,
+  "challenger_accuracy": 0.493,
+  "accuracy_delta_pct": 4.3,
+  "challenger_roc_auc": 0.5025,
+  "challenger_precision": 0.5328,
+  "deployment_verdict": "\ud83c\udfc6 PROMOTED (Boosted model deployed as new Champion)",
+  "is_promoted": true
+}

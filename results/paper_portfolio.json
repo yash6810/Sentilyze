@@ -1,33 +1,14 @@
 {
   "initial_capital": 100000.0,
-  "cash": 134063.13405578618,
-  "total_equity": 144093.61,
-  "unrealized_pnl": -22.8,
-  "realized_pnl": 54429.46405578613,
-  "win_rate": 65.3,
-  "total_trades": 72,
+  "cash": 143856.49405578617,
+  "total_equity": 143856.49,
+  "unrealized_pnl": 0,
+  "realized_pnl": 54169.54405578613,
+  "win_rate": 64.4,
+  "total_trades": 73,
   "winning_trades": 47,
-  "losing_trades": 25,
-  "open_positions": {
-    "ADP": {
-      "ticker": "ADP",
-      "shares": 38,
-      "initial_shares": 38,
-      "entry_price": 264.56,
-      "current_price": 263.9599914550781,
-      "entry_date": "2026-09-23",
-      "tp1_target": 278.08,
-      "tp2_target": 288.9,
-      "sl_target": 257.95,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_MultiAgent_Kelly",
-      "highest_price_seen": 265.18,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
-      "high_water_mark": 265.18,
-      "last_eval_price": 263.96
-    }
-  },
+  "losing_trades": 26,
+  "open_positions": {},
   "closed_trades": [
     {
       "ticker": "FIX",
@@ -820,6 +801,17 @@
       "pnl": -150.52,
       "return_pct": -2.79,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "ADP",
+      "shares": 38,
+      "entry_price": 264.56,
+      "exit_price": 257.72,
+      "entry_date": "2026-09-23",
+      "exit_date": "2026-10-02",
+      "pnl": -259.92,
+      "return_pct": -2.59,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -1026,11 +1018,11 @@
     {
       "date": "2026-10-02",
       "timestamp": "2026-10-02T11:26:24.713139+00:00",
-      "total_equity": 144093.61,
-      "cash": 134063.13,
-      "invested": 10030.48,
+      "total_equity": 143856.49,
+      "cash": 143856.49,
+      "invested": 0,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-02T11:26:25.906886+00:00"
+  "last_updated": "2026-10-02T18:25:11.736857+00:00"
 }
