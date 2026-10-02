@@ -6,10 +6,9 @@ import os
 import json
 import streamlit as st
 import pandas as pd
-import numpy as np
 import plotly.express as px
-import plotly.graph_objects as go
 from typing import Dict, Any
+
 
 from src.ui.components import render_workspace_header
 
@@ -38,6 +37,18 @@ def load_tournament_results() -> Dict[str, Any]:
 @st.cache_data(ttl=600)
 def load_safety_benchmarks() -> Dict[str, Any]:
     path = os.path.join("results", "papers_15_24_benchmark.json")
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+
+@st.cache_data(ttl=600)
+def load_academic_papers_benchmark() -> Dict[str, Any]:
+    path = os.path.join("results", "academic_papers_benchmark.json")
     if os.path.exists(path):
         try:
             with open(path, "r", encoding="utf-8") as f:
@@ -455,6 +466,68 @@ def render_quantum_tournament_workspace(selected_ticker: str = "NVDA"):
             ],
         )
         st.dataframe(df_all, use_container_width=True, hide_index=True)
+
+        st.markdown("---")
+        st.subheader("📊 Empirical Research Benchmark Results (14 Core Papers)")
+        st.caption(
+            "Live empirical backtest metrics across multi-year asset histories for all paper algorithms."
+        )
+
+        acad_res = load_academic_papers_benchmark()
+        if acad_res and "results" in acad_res:
+            bench_rows = []
+            for k, v in acad_res["results"].items():
+                bench_rows.append(
+                    {
+                        "Algorithm / Paper": v.get("name", k),
+                        "Citation": v.get("paper_citation", ""),
+                        "Total Return (%)": v.get("total_return_pct", 0.0),
+                        "CAGR (%)": v.get("cagr_pct", 0.0),
+                        "Sharpe": v.get("annualized_sharpe", 0.0),
+                        "Max Drawdown (%)": v.get("max_drawdown_pct", 0.0),
+                        "Calmar": v.get("calmar_ratio", 0.0),
+                        "Win Rate (%)": v.get("win_rate_pct", 0.0),
+                        "Latency (ms)": v.get("solver_latency_ms", 0.0),
+                        "Complexity": v.get("complexity_class", ""),
+                    }
+                )
+            df_bench = pd.DataFrame(bench_rows)
+            st.dataframe(
+                df_bench,
+                use_container_width=True,
+                column_config={
+                    "Total Return (%)": st.column_config.NumberColumn(format="%.1f%%"),
+                    "CAGR (%)": st.column_config.NumberColumn(format="%.1f%%"),
+                    "Sharpe": st.column_config.NumberColumn(format="%.2f"),
+                    "Max Drawdown (%)": st.column_config.NumberColumn(format="%.1f%%"),
+                    "Calmar": st.column_config.NumberColumn(format="%.2f"),
+                    "Win Rate (%)": st.column_config.NumberColumn(format="%.1f%%"),
+                    "Latency (ms)": st.column_config.NumberColumn(format="%.2f ms"),
+                },
+                hide_index=True,
+            )
+        else:
+            st.info("No pre-computed academic benchmark found. Click below to execute.")
+
+        if st.button(
+            "🔬 Re-Run Academic Benchmark Suite", key="btn_run_academic_bench"
+        ):
+            with st.spinner(
+                "Executing 14-Paper Academic Benchmark across core assets..."
+            ):
+                try:
+                    from src.academic_papers_benchmark import (
+                        run_all_14_papers_benchmark,
+                    )
+
+                    out = run_all_14_papers_benchmark(lookback_period="1y")
+                    st.success(
+                        f"Benchmark executed successfully across {out.get('universe_assets', [])}!"
+                    )
+                    st.cache_data.clear()
+                    st.rerun()
+                except Exception as e:
+                    st.error(f"Execution notice: {e}")
 
     st.caption(
         f"Sentilyze Institutional Research OS • Last Updated: {get_market_timestamp()}"

@@ -11,6 +11,8 @@ import streamlit as st
 from src.ui.ws_portfolio import render_portfolio_workspace
 from src.ui.ws_portfolio_diversity import render_portfolio_diversity_workspace
 from src.ui.ws_macro_liquidity import render_macro_liquidity_workspace
+from src.ui.ws_stress_simulator import render_stress_simulator_workspace
+from src.ui.ws_credit_risk import render_credit_risk_workspace
 
 
 def render_portfolio_cockpit(selected_ticker: str):
@@ -21,7 +23,7 @@ def render_portfolio_cockpit(selected_ticker: str):
                 💼 Portfolio & Risk Optimization Engine
             </h1>
             <p style="margin: 4px 0 0 0; color: #94A3B8; font-size: 0.95rem;">
-                Hierarchical Risk Parity (HRP), regime-aware Kelly capital growth, and macroeconomic yield curves.
+                Hierarchical Risk Parity (HRP), regime-aware Kelly capital growth, synthetic diffusion crash testing, and corporate solvency radar.
             </p>
         </div>
         """,
@@ -32,6 +34,8 @@ def render_portfolio_cockpit(selected_ticker: str):
         "💼 HRP & Kelly Allocation",
         "🧬 Correlation & Diversity Grader",
         "🌐 Macro Liquidity & Yields",
+        "💥 Synthetic Crash Simulator",
+        "🏛️ Merton Credit & NSS Curve",
     ]
 
     selected_tab = (
@@ -53,3 +57,7 @@ def render_portfolio_cockpit(selected_ticker: str):
         render_portfolio_diversity_workspace()
     elif selected_tab == "🌐 Macro Liquidity & Yields":
         render_macro_liquidity_workspace()
+    elif selected_tab == "💥 Synthetic Crash Simulator":
+        render_stress_simulator_workspace()
+    elif selected_tab == "🏛️ Merton Credit & NSS Curve":
+        render_credit_risk_workspace(selected_ticker)

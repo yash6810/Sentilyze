@@ -846,11 +846,11 @@ class PaperBroker:
                 * 100.0,
                 2,
             ),
-            "win_rate": self.state["win_rate"],
-            "open_positions_count": len(self.state["open_positions"]),
-            "total_trades": self.state["total_trades"],
-            "winning_trades": self.state["winning_trades"],
-            "losing_trades": self.state["losing_trades"],
+            "win_rate": self.state.get("win_rate", 0.0),
+            "open_positions_count": len(self.state.get("open_positions", {})),
+            "total_trades": self.state.get("total_trades", 0),
+            "winning_trades": self.state.get("winning_trades", 0),
+            "losing_trades": self.state.get("losing_trades", 0),
         }
 
     def get_open_positions_df(self) -> pd.DataFrame:

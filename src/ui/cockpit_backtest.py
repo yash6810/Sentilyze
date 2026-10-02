@@ -14,6 +14,7 @@ from src.ui.ws_backtesting import render_backtesting_workspace
 from src.ui.ws_quantum_tournament import render_quantum_tournament_workspace
 from src.ui.ws_performance_factsheet import render_performance_factsheet_workspace
 from src.ui.ws_alpha_dag import render_alpha_dag_workspace
+from src.ui.ws_strategy_optimizer import render_strategy_optimizer_workspace
 
 RETRAINED_MODELS = [
     "NVDA",
@@ -82,6 +83,7 @@ def render_backtest_cockpit(selected_ticker: str):
         "👑 300-Resource Master Benchmark",
         "📊 Institutional Factsheet",
         "⚡ Quant Alpha DAG Engine",
+        "🧪 Vectorized Strategy Sandbox",
     ]
 
     selected_tab = (
@@ -105,3 +107,5 @@ def render_backtest_cockpit(selected_ticker: str):
         render_performance_factsheet_workspace()
     elif selected_tab == "⚡ Quant Alpha DAG Engine":
         render_alpha_dag_workspace(selected_ticker)
+    elif selected_tab == "🧪 Vectorized Strategy Sandbox":
+        render_strategy_optimizer_workspace(selected_ticker)

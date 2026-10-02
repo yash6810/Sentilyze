@@ -1466,6 +1466,20 @@ def run_autonomous_daemon(interval_seconds: int = 300):
         time.sleep(interval_seconds)
 
 
+def run_master_loop_daily_cycle(
+    watchlist: Optional[List[str]] = None,
+    dry_run: bool = False,
+    ignore_hours: bool = True,
+) -> Dict[str, Any]:
+    """Runs the 4-phase MasterTradingLoop cycle."""
+    from src.master_loop import get_master_trading_loop
+
+    loop = get_master_trading_loop()
+    return loop.run_full_daily_cycle(
+        watchlist=watchlist, dry_run=dry_run, ignore_market_hours=ignore_hours
+    )
+
+
 if __name__ == "__main__":
     import argparse
 
@@ -1488,6 +1502,17 @@ if __name__ == "__main__":
         help="Run 24/7 continuous autonomous trading daemon",
     )
     parser.add_argument(
+        "--master-loop",
+        action="store_true",
+        help="Run full 4-phase master autonomous daily trading lifecycle",
+    )
+    parser.add_argument(
+        "--discord-cmd",
+        type=str,
+        default=None,
+        help="Execute interactive Discord bot command (e.g. /signal NVDA)",
+    )
+    parser.add_argument(
         "--interval",
         type=int,
         default=300,
@@ -1497,7 +1522,15 @@ if __name__ == "__main__":
     args = parser.parse_args()
     engine = AutonomousTradingEngine()
 
-    if args.premarket:
+    if args.discord_cmd:
+        from src.discord_bot import handle_bot_command
+
+        res = handle_bot_command(args.discord_cmd)
+        print(json.dumps(res, indent=2))
+    elif args.master_loop:
+        res = run_master_loop_daily_cycle(dry_run=True, ignore_hours=True)
+        print(json.dumps(res, indent=2))
+    elif args.premarket:
         res = engine.run_premarket_briefing()
         print(json.dumps(res, indent=2))
     elif args.daemon:

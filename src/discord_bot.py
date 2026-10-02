@@ -1,8 +1,8 @@
 import os
-import json
 import requests
 from datetime import datetime, timezone
 from typing import Dict, Any, Optional
+
 from src.paper_broker import PaperBroker
 from src.realtime_tracker import fetch_live_quote, evaluate_intraday_execution
 from src.stress_tester import run_monte_carlo_var
@@ -11,7 +11,9 @@ from src.utils import get_logger, sanitize_filename, safe_path_join
 logger = get_logger(__name__)
 
 
-def handle_bot_command(command_str: str) -> Dict[str, Any]:
+def handle_bot_command(
+    command_str: str, broker: Optional[PaperBroker] = None
+) -> Dict[str, Any]:
     """
     Parses and processes interactive bot commands:
     - `/signal <ticker>`
@@ -74,9 +76,10 @@ def handle_bot_command(command_str: str) -> Dict[str, Any]:
         }
 
     elif cmd in ["/portfolio", "portfolio", "/pnl"]:
-        broker = PaperBroker()
-        summary = broker.get_portfolio_summary()
-        open_pos = broker.state.get("open_positions", {})
+        active_broker = broker or PaperBroker()
+        summary = active_broker.get_portfolio_summary(reload=False)
+        open_pos = active_broker.state.get("open_positions", {})
+
         pos_txt = "\n".join(
             [
                 f"• `{t}`: {p['shares']} shs @ ${p['entry_price']:.2f} (TP1: ${p.get('tp1_target', 0):.2f})"
@@ -87,7 +90,7 @@ def handle_bot_command(command_str: str) -> Dict[str, Any]:
             pos_txt = "No active open positions. Cash is 100% liquid."
 
         return {
-            "title": f"💼 Virtual Paper Portfolio ($100k Account)",
+            "title": "💼 Virtual Paper Portfolio ($100k Account)",
             "description": (
                 f"• **Total Equity:** **`${summary['total_equity']:,.2f}` ({summary['total_return_pct']:+.2f}%)**\n"
                 f"• **Available Cash:** `${summary['cash']:,.2f}`\n"
