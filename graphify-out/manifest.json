@@ -678,9 +678,9 @@
     "semantic_hash": ""
   },
   "results/committee_resolutions.json": {
-    "mtime": 1790945788.2373235,
-    "seen": 1790946138.7111979,
-    "ast_hash": "be0da69bbadfb8075379141d01113e11",
+    "mtime": 1790961723.0603104,
+    "seen": 1790962019.7098012,
+    "ast_hash": "22fc2d0924435e9776b7604ba030f7a3",
     "semantic_hash": ""
   },
   "results/daily_signals_latest.json": {
@@ -708,9 +708,9 @@
     "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "src/agent_committee.py": {
-    "mtime": 1790877030.180573,
-    "seen": 1790877205.6405542,
-    "ast_hash": "dc7a57a8c9ce6f552683e7b6ae2dfa83",
+    "mtime": 1790961847.7287886,
+    "seen": 1790962019.7209744,
+    "ast_hash": "c66f8d520fad6f94684525f11def360e",
     "semantic_hash": ""
   },
   "src/ai_copilot.py": {
@@ -834,10 +834,10 @@
     "semantic_hash": ""
   },
   "src/fundamental_valuation.py": {
-    "mtime": 1790057430.984998,
-    "seen": 1790276802.7772963,
-    "ast_hash": "fb493a1e66a8ec8e2a2c4903eb7be143",
-    "semantic_hash": "fb493a1e66a8ec8e2a2c4903eb7be143"
+    "mtime": 1790960545.9789758,
+    "seen": 1790962019.7341895,
+    "ast_hash": "98911315bdd0ebf1eb1f8d0da88ca7c0",
+    "semantic_hash": ""
   },
   "src/gnn_supply_chain.py": {
     "mtime": 1788674271.9161706,
@@ -894,9 +894,9 @@
     "semantic_hash": "ca9056de11dbecd4bff2296e65f5782f"
   },
   "src/paper_broker.py": {
-    "mtime": 1790945945.0806253,
-    "seen": 1790946138.7488108,
-    "ast_hash": "93aaebf2e5f7da7ae2bedd0a07f6c89f",
+    "mtime": 1790961847.4608288,
+    "seen": 1790962019.7426538,
+    "ast_hash": "6383b4c86804c22e7923d9d27df2c222",
     "semantic_hash": ""
   },
   "src/portfolio.py": {
@@ -1824,9 +1824,9 @@
     "semantic_hash": ""
   },
   "src/cppi_insurance.py": {
-    "mtime": 1790355173.586507,
-    "seen": 1790683452.0770397,
-    "ast_hash": "0b1c0d0e0df4c2df7b91a3838bbb1350",
+    "mtime": 1790961873.1544664,
+    "seen": 1790962019.727519,
+    "ast_hash": "576027114deb647da953de4bb1da7252",
     "semantic_hash": ""
   },
   "src/cusum_detector.py": {
@@ -14172,9 +14172,9 @@
     "semantic_hash": ""
   },
   "src/ultra_quant_engine.py": {
-    "mtime": 1790684529.8969746,
-    "seen": 1790748725.9063668,
-    "ast_hash": "4d031ebaee2d7471f4930a9d8cb1981e",
+    "mtime": 1790960763.5581045,
+    "seen": 1790962019.758811,
+    "ast_hash": "07184dff3244e4394d878191bc5af00a",
     "semantic_hash": ""
   },
   "src/vol_scaled_momentum.py": {
@@ -14346,9 +14346,9 @@
     "semantic_hash": ""
   },
   "results/reddit_mined_signals_latest.json": {
-    "mtime": 1790945787.5028107,
-    "seen": 1790946138.7162805,
-    "ast_hash": "4e4e08e06ece62a3140f9fcf3667ba6e",
+    "mtime": 1790961714.8650265,
+    "seen": 1790962019.714916,
+    "ast_hash": "b6a5f6ccc785266f473b9a644a023653",
     "semantic_hash": ""
   },
   "results/swift_shift_radar_latest.json": {
@@ -14754,15 +14754,15 @@
     "semantic_hash": ""
   },
   "results/benzinga_live_scan_latest.json": {
-    "mtime": 1790945788.2529984,
-    "seen": 1790946138.7103932,
-    "ast_hash": "0bc81f46aa053e8fc345222c92cc59f2",
+    "mtime": 1790961726.5746536,
+    "seen": 1790962019.7088645,
+    "ast_hash": "4c44633bd668192a2ea12f531bc6cd61",
     "semantic_hash": ""
   },
   "src/benzinga_news_trader.py": {
-    "mtime": 1790946033.6527412,
-    "seen": 1790946138.7263534,
-    "ast_hash": "cb2365cc26d98289df056b26047efd78",
+    "mtime": 1790955608.9353468,
+    "seen": 1790962019.7236204,
+    "ast_hash": "c31e263fb714a18623de8041100f79e3",
     "semantic_hash": ""
   },
   "src/ui/ws_benzinga_trader.py": {
@@ -14817,6 +14817,24 @@
     "mtime": 1790947327.3787806,
     "seen": 1790947919.5388613,
     "ast_hash": "09580f1e97a1181886df102466a33410",
+    "semantic_hash": ""
+  },
+  "src/daily_execution_bridge.py": {
+    "mtime": 1790961846.7404792,
+    "seen": 1790962019.7286036,
+    "ast_hash": "4059cc2d35e99fc3a0609e0987992003",
+    "semantic_hash": ""
+  },
+  "tests/test_daily_execution_bridge.py": {
+    "mtime": 1790961557.109351,
+    "seen": 1790962019.769228,
+    "ast_hash": "8fec30f9c6ec61d85a8b829c0b5341c6",
+    "semantic_hash": ""
+  },
+  "tests/test_fast_track_catalyst_lane.py": {
+    "mtime": 1790961846.717585,
+    "seen": 1790962019.772302,
+    "ast_hash": "70373d00261c9d5c3a7f25187e887f2b",
     "semantic_hash": ""
   }
 }

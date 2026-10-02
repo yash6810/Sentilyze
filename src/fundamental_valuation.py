@@ -8,6 +8,9 @@ Pillar 8 Core Engine:
 - Generates 5-Axis Spider/Radar metrics combining AI Technicals with Fundamentals.
 """
 
+import os
+import json
+import time
 from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 import pandas as pd
@@ -16,10 +19,50 @@ from src.utils import get_logger
 
 logger = get_logger(__name__)
 
+FUNDAMENTALS_CACHE_DIR = os.path.join("data", "cache", "fundamentals")
+_MEM_FUNDAMENTALS_CACHE: Dict[str, Tuple[float, Dict[str, Any]]] = {}
+CACHE_TTL_SECONDS = 7 * 86400  # 7 days
+
+
+def _load_disk_cache(ticker: str) -> Optional[Dict[str, Any]]:
+    path = os.path.join(FUNDAMENTALS_CACHE_DIR, f"{ticker}.json")
+    if os.path.exists(path):
+        try:
+            mtime = os.path.getmtime(path)
+            # Valid for 7 days
+            if time.time() - mtime < CACHE_TTL_SECONDS:
+                with open(path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    data["balance_sheet"] = pd.DataFrame()
+                    data["income_statement"] = pd.DataFrame()
+                    data["cash_flow"] = pd.DataFrame()
+                    return data
+        except Exception:
+            pass
+    return None
+
+
+def _save_disk_cache(ticker: str, data: Dict[str, Any]):
+    try:
+        os.makedirs(FUNDAMENTALS_CACHE_DIR, exist_ok=True)
+        path = os.path.join(FUNDAMENTALS_CACHE_DIR, f"{ticker}.json")
+        serializable = {
+            "ticker": ticker,
+            "spot_price": data.get("spot_price", 100.0),
+            "market_cap": data.get("market_cap", 1e10),
+            "info": data.get("info", {}),
+            "is_real_data": data.get("is_real_data", True),
+            "cached_at": time.time(),
+        }
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(serializable, f, indent=2)
+    except Exception as e:
+        logger.debug(f"Fundamentals disk cache save note: {e}")
+
 
 def fetch_financial_statements(ticker: str) -> Dict[str, Any]:
     """
-    Retrieves balance sheet, income statement, and cash flow data for a ticker.
+    Retrieves balance sheet, income statement, and cash flow data for a ticker with 7-day disk/memory caching.
 
     Args:
         ticker: Symbol (e.g. NVDA, MSFT)
@@ -27,40 +70,56 @@ def fetch_financial_statements(ticker: str) -> Dict[str, Any]:
     Returns:
         Dict with financial dataframes, market cap, and key ratios.
     """
+    # 1. In-memory hot cache (<0.01ms)
+    now = time.time()
+    if ticker in _MEM_FUNDAMENTALS_CACHE:
+        ts, cached = _MEM_FUNDAMENTALS_CACHE[ticker]
+        if now - ts < CACHE_TTL_SECONDS:
+            return cached
+
+    # 2. Disk cache (<2ms)
+    disk_cached = _load_disk_cache(ticker)
+    if disk_cached:
+        _MEM_FUNDAMENTALS_CACHE[ticker] = (now, disk_cached)
+        return disk_cached
+
+    # 3. Live yfinance fetch
     try:
         t = yf.Ticker(ticker)
-        bs = getattr(t, "balance_sheet", pd.DataFrame())
-        inc = getattr(t, "financials", pd.DataFrame())
-        cf = getattr(t, "cashflow", pd.DataFrame())
-        info = getattr(t, "info", {}) or {}
         fast_info = getattr(t, "fast_info", None)
+        info = getattr(t, "info", {}) or {}
 
         spot_price = (
             float(fast_info.last_price)
-            if fast_info and hasattr(fast_info, "last_price")
+            if fast_info and hasattr(fast_info, "last_price") and fast_info.last_price
             else float(info.get("currentPrice", 100.0))
         )
         mcap = (
             float(fast_info.market_cap)
-            if fast_info and hasattr(fast_info, "market_cap")
+            if fast_info and hasattr(fast_info, "market_cap") and fast_info.market_cap
             else float(info.get("marketCap", 1e10))
         )
 
-        return {
+        res = {
             "ticker": ticker,
             "spot_price": spot_price,
             "market_cap": mcap,
-            "balance_sheet": bs,
-            "income_statement": inc,
-            "cash_flow": cf,
+            "balance_sheet": pd.DataFrame(),
+            "income_statement": pd.DataFrame(),
+            "cash_flow": pd.DataFrame(),
             "info": info,
-            "is_real_data": not bs.empty,
+            "is_real_data": bool(info),
         }
+        _save_disk_cache(ticker, res)
+        _MEM_FUNDAMENTALS_CACHE[ticker] = (now, res)
+        return res
     except Exception as e:
         logger.warning(
             f"Financial statement fetch notice for {ticker}: {e}. Generating calibrated fundamentals."
         )
-        return _generate_calibrated_financials(ticker)
+        fallback = _generate_calibrated_financials(ticker)
+        _MEM_FUNDAMENTALS_CACHE[ticker] = (now, fallback)
+        return fallback
 
 
 def _generate_calibrated_financials(ticker: str) -> Dict[str, Any]:

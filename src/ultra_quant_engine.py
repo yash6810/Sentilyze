@@ -239,14 +239,19 @@ class UltraQuantEngine:
             }
 
     def evaluate_grossman_zhou_allocation(
-        self, current_wealth: float, peak_wealth: float
+        self,
+        current_wealth: float,
+        peak_wealth: float,
+        max_drawdown_tolerance: float = 0.20,
     ) -> Dict[str, Any]:
         """Calculates optimal risky allocation under dynamic drawdown constraint."""
         try:
             from src.grossman_zhou import grossman_zhou_allocation
 
             return grossman_zhou_allocation(
-                current_wealth=current_wealth, running_max_wealth=peak_wealth
+                current_wealth=current_wealth,
+                running_max_wealth=peak_wealth,
+                max_drawdown_tolerance=max_drawdown_tolerance,
             )
         except Exception as e:
             logger.debug(f"Grossman-Zhou notice: {e}")

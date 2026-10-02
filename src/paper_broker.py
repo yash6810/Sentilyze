@@ -629,13 +629,21 @@ class PaperBroker:
                         for h in self.state.get("equity_history", [])
                     ]
                     peak_eq = max(equity_hist + [self.state["total_equity"]])
+                    # Effective floor: guarantee 95% of initial principal ($95k) or 82% of peak equity
+                    initial_principal = float(
+                        self.state.get("initial_capital", 100000.0)
+                    )
+                    effective_floor = max(initial_principal * 0.95, peak_eq * 0.82)
                     cppi_eval = get_cppi_cushion_multiplier(
                         portfolio_value=self.state["total_equity"],
                         peak_equity=peak_eq,
-                        floor_pct=0.95,
+                        floor_value=effective_floor,
                         multiplier=2.85,
                     )
                     cppi_factor = float(cppi_eval.get("allocation_factor", 1.0))
+                    # If ample cash exists (> $50k dry powder), maintain a minimum exploratory allocation factor
+                    if self.state["cash"] > 50000.0 and cppi_factor < 0.25:
+                        cppi_factor = 0.25
                     if cppi_factor < 1.0:
                         logger.info(
                             f"🛡️ [CPPI SHIELD] Scaled buy allocation by {cppi_factor:.1%} (Cushion: ${cppi_eval['cushion']:,.2f}, Floor: ${cppi_eval['floor_value']:,.2f}, Regime: {cppi_eval['regime']})"
@@ -643,8 +651,37 @@ class PaperBroker:
                 except Exception as cppi_err:
                     logger.debug(f"CPPI calculation notice: {cppi_err}")
 
+                # Check Cross-Asset Macro Expansion Multiplier (Phase 3)
+                macro_multiplier = 1.0
+                try:
+                    matrix_file = os.path.join(
+                        "results", "cross_asset_matrix_latest.json"
+                    )
+                    if os.path.exists(matrix_file):
+                        with open(matrix_file, "r", encoding="utf-8") as mf:
+                            m_data = json.load(mf)
+                        macro_regime = m_data.get(
+                            "macro_regime", "BALANCED_MACRO_TRANSITION"
+                        )
+                        if macro_regime == "RISK_ON_EXPANSION":
+                            macro_multiplier = 1.25
+                            logger.info(
+                                "🌊 [MACRO EXPANSION] Risk-On Expansion regime active. Sizing boosted by 1.25x."
+                            )
+                        elif macro_regime == "DEFENSIVE_RISK_OFF":
+                            macro_multiplier = 0.70
+                            logger.info(
+                                "🛡️ [MACRO RISK-OFF] Defensive Risk-Off regime active. Sizing scaled down to 0.70x."
+                            )
+                except Exception as m_err:
+                    logger.debug(f"Macro multiplier notice: {m_err}")
+
                 raw_allocation = (
-                    self.state["cash"] * quarter_kelly * gex_haircut * cppi_factor
+                    self.state["cash"]
+                    * quarter_kelly
+                    * gex_haircut
+                    * cppi_factor
+                    * macro_multiplier
                 )
                 # Cap individual ticket at ~6.5% - 7.5% of total capital ($10,500 max) to prevent concentration
                 allocation_per_stock = min(raw_allocation, 10500.0)
@@ -714,8 +751,11 @@ class PaperBroker:
                 try:
                     from src.alpaca_broker import AlpacaBrokerBridge
 
+                    is_test_or_dry = os.environ.get("SENTILYZE_DRY_RUN") == "1" or bool(
+                        os.environ.get("PYTEST_CURRENT_TEST")
+                    )
                     alpaca = AlpacaBrokerBridge()
-                    if alpaca.is_connected():
+                    if alpaca.is_connected() and not is_test_or_dry:
                         alp_res = alpaca.submit_bracket_order(
                             ticker=ticker,
                             qty=shares,

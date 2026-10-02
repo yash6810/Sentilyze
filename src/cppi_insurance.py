@@ -6,7 +6,7 @@ Complexity: O(1) per rebalance (single formula).
 """
 
 import numpy as np
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 
 def calculate_cppi_allocation(
@@ -103,19 +103,15 @@ def run_cppi_backtest(
 def get_cppi_cushion_multiplier(
     portfolio_value: float,
     peak_equity: float = 0.0,
-    floor_pct: float = 0.95,
+    floor_pct: float = 0.85,
     multiplier: float = 2.85,
+    floor_value: Optional[float] = None,
 ) -> Dict[str, Any]:
     """
     Computes CPPI (Constant Proportion Portfolio Insurance) scaling factor for order sizing.
 
     Grounded in Black & Jones (1987), Grossman & Zhou (1993), and Chekhlov et al. (2005) CDaR.
-    With m* = 2.85 and floor = 95% of peak equity, gap risk up to -35.1% is mathematically tolerated.
-
-    If portfolio equity is at or above peak, allocation factor = 1.0 (full Kelly permitted).
-    If portfolio is drawing down toward floor_value (e.g. 95% of peak), exposure scales down
-    proportionally to cushion: M * (V_t - Floor) / V_t.
-    If cushion <= 0 (at or below floor), allocation factor is clamped to 0.0 (no new risk).
+    With m* = 2.85, provides smooth cushion scaling while protecting the capital preservation floor.
     """
     if portfolio_value <= 0:
         return {
@@ -129,8 +125,12 @@ def get_cppi_cushion_multiplier(
         }
 
     peak = max(portfolio_value, float(peak_equity or portfolio_value))
-    floor_value = peak * floor_pct
-    cushion = max(0.0, portfolio_value - floor_value)
+    if floor_value is None or floor_value <= 0:
+        effective_floor = peak * floor_pct
+    else:
+        effective_floor = float(floor_value)
+
+    cushion = max(0.0, portfolio_value - effective_floor)
     cushion_pct = cushion / portfolio_value if portfolio_value > 0 else 0.0
 
     # CPPI risky weight exposure = multiplier * cushion_pct
@@ -151,7 +151,7 @@ def get_cppi_cushion_multiplier(
         "allocation_factor": round(allocation_factor, 3),
         "cushion": round(cushion, 2),
         "cushion_pct": round(cushion_pct * 100.0, 2),
-        "floor_value": round(floor_value, 2),
+        "floor_value": round(effective_floor, 2),
         "peak_equity": round(peak, 2),
         "portfolio_value": round(portfolio_value, 2),
         "regime": regime,

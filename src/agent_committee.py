@@ -968,8 +968,11 @@ class ChiefRiskOfficerAgent:
                 with open(portfolio_file, "r", encoding="utf-8") as pf:
                     p_state = json.load(pf)
                 curr_eq = float(p_state.get("total_equity", 100000.0))
+                # Protect baseline initial capital floor ($95k CPPI floor) with 25% max tolerance from peak
                 gz_alloc = uq_engine.evaluate_grossman_zhou_allocation(
-                    current_wealth=curr_eq, peak_wealth=159316.0
+                    current_wealth=curr_eq,
+                    peak_wealth=max(curr_eq, 150000.0),
+                    max_drawdown_tolerance=0.25,
                 )
                 if gz_alloc.get("at_floor", False):
                     calculated_kelly_pct = 0.0
@@ -978,6 +981,27 @@ class ChiefRiskOfficerAgent:
                     )
         except Exception as gz_err:
             logger.debug(f"Grossman-Zhou check notice: {gz_err}")
+
+        # Check for High-Conviction Event-Driven Catalyst Lane
+        is_catalyst_trade = False
+        sentiment_rep = next(
+            (
+                r
+                for r in agent_reports
+                if isinstance(r, dict)
+                and r.get("agent_name") == "Sentiment & Alternative Data Specialist"
+            ),
+            None,
+        )
+        if sentiment_rep:
+            s_metrics = sentiment_rep.get("key_metrics", {})
+            if sentiment_rep.get("vote") == "BUY" and (
+                s_metrics.get("is_material")
+                or float(s_metrics.get("finbert_polarity", 0.0)) >= 0.20
+                or float(sentiment_rep.get("conviction_score", 0.0)) >= 65.0
+                or s_metrics.get("swift_shift_direction") == "RAPID_BULLISH_EXPANSION"
+            ):
+                is_catalyst_trade = True
 
         # Determine Final Committee Resolution with Tightened Consensus Thresholds
         if (
@@ -1007,12 +1031,16 @@ class ChiefRiskOfficerAgent:
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
         elif (
-            buy_votes >= 3
-            and effective_conviction >= (65.0 if require_supermajority else 58.0)
-        ) or (
-            not require_supermajority
-            and buy_votes >= 2
-            and effective_conviction >= 72.0
+            (
+                buy_votes >= 3
+                and effective_conviction >= (65.0 if require_supermajority else 58.0)
+            )
+            or (
+                not require_supermajority
+                and buy_votes >= 2
+                and effective_conviction >= 72.0
+            )
+            or (is_catalyst_trade and buy_votes >= 2 and effective_conviction >= 60.0)
         ):
             final_resolution = "🚀 HIGH CONVICTION COMMITTEE BUY"
             action_code = "EXECUTE_BUY"
@@ -1022,7 +1050,7 @@ class ChiefRiskOfficerAgent:
             not require_supermajority
             and buy_votes >= 2
             and effective_conviction >= 55.0
-        ):
+        ) or (is_catalyst_trade and buy_votes >= 1 and effective_conviction >= 55.0):
             final_resolution = "🟡 AGILE SCALE-IN (Quorum Approved)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
@@ -1211,10 +1239,16 @@ def convene_trading_committee(
         "consensus_conviction_pct": cro_signoff["consensus_conviction_pct"],
         "conviction": cro_signoff["consensus_conviction_pct"],
         "approved_leverage": cro_signoff["approved_leverage"],
-        "kelly_allocation_pct": cro_signoff["kelly_allocation_pct"],
-        "tp1_target": cro_signoff["tp1_target"],
-        "tp2_target": cro_signoff["tp2_target"],
-        "stop_loss_target": cro_signoff["stop_loss_target"],
+        "kelly_allocation_pct": cro_signoff.get("kelly_allocation_pct", 0.0),
+        "tp1_target": cro_signoff.get(
+            "tp1_target", cro_signoff.get("dynamic_take_profit_tp1", 0.0)
+        ),
+        "tp2_target": cro_signoff.get(
+            "tp2_target", cro_signoff.get("dynamic_take_profit_tp2", 0.0)
+        ),
+        "stop_loss_target": cro_signoff.get(
+            "stop_loss_target", cro_signoff.get("dynamic_stop_loss", 0.0)
+        ),
         "atr_14": cro_signoff.get("atr_14", 0.0),
         "atr_pct": cro_signoff.get("atr_pct", 0.0),
         "quantum_telemetry": cro_signoff.get("quantum_telemetry", {}),

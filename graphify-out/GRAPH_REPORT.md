@@ -1,26 +1,26 @@
 # Graph Report - Sentilyze  (2026-10-02)
 
 ## Corpus Check
-- 2440 files · ~709,149 words
+- 2443 files · ~709,872 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 3790 nodes · 7326 edges · 195 communities (183 shown, 12 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 73 edges (avg confidence: 0.93)
+- 3818 nodes · 7386 edges · 189 communities (178 shown, 11 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 74 edges (avg confidence: 0.93)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c63d77c3`
+- Built from commit: `59130848`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- DLinearTCNModel
-- data_ingestion.py
+- deep_learning_model.py
+- get_price_history
 - test_pillar2_alternative_data.py
 - OpeningRangeBreakout
 - run_backtest
-- test_statistical_arbitrage.py
+- drl_policy_agent.py
 - utils.py
 - key_vault.py
 - ws_performance_factsheet.py
@@ -29,12 +29,12 @@
 - CloudDataLake
 - app.py
 - analyze_supply_chain_spillover
-- calculate_hrp_weights
+- ws_portfolio.py
 - run_temporal_fusion_forecast
 - daily_scanner.py
-- train_meta_ensemble
-- test_all_14_papers.py
-- chart_pattern_learning.py
+- meta_ensemble.py
+- test_statistical_arbitrage.py
+- ws_live_prediction.py
 - draw.io XML Style Reference
 - sentiment_analysis.py
 - test_omnichannel_mobile.py
@@ -45,23 +45,23 @@
 - DuckDBStore
 - AlpacaBrokerBridge
 - liquidity_heatmap.py
-- .train_ticker
-- get_us_market_session
-- ipo_radar.py
+- .split
+- ._execute_cycle_body
+- ws_alternative_data.py
 - 3. Cross-Functional Flowcharts (Actor × Phase Grid)
-- apply_triple_barrier_labeling
+- DailyExecutionBridge
 - Edge Routing Decision Guide
-- benchmark_training_paradigms.py
-- triple_convex_engine.py
+- cli.py
+- test_all_14_papers.py
 - Sentilyze — Autonomous Multi-Agent Quantitative Trading & NLP Intelligence Platform
 - VolScaledMomentumEngine
 - [Validator Rules Reference & Troubleshooting]
-- TickerSentinelSwarm
+- paper_broker.py
 - RegimeMixtureOfExperts
 - ConformalQuantileEngine
 - ui/__init__.py
 - Sentilyze Community Code of Conduct
-- test_universal_web_scraper.py
+- universal_web_scraper.py
 - handle_bot_command
 - calculate_portfolio_diversity_grade
 - price_scout.py
@@ -70,50 +70,50 @@
 - risk_constrained_kelly_allocation
 - 🧪 Experimental & Simulated Research Prototypes
 - Sentilyze — Standing Audit Protocol
-- webhook_dispatcher.py
+- cockpit_trading.py
 - calculate_time_decayed_sentiment
 - erd-database-expert.md
-- get_price_history
+- get_news
 - 6. CROSS-DISCIPLINARY & FRONTIER QUANTITATIVE IDEAS
 - rules/graphify.md
 - workflows/graphify.md
-- test_papers_15_24.py
+- GaussianHMMRegimeDetector
 - EWMACorrelationMonitor
 - PaperBroker
 - CUSUMDetector
 - PageHinkleyDetector
 - QuantAlphaDAGEngine
 - test_stock_image_provider.py
-- run_monte_carlo_stress_test
+- fetch_universe_live_quotes
 - [Validator Rules Reference & Troubleshooting]
 - benzinga_news_trader.py
 - ADWINDetector
 - convene_trading_committee
 - MetaRegimeAllocator
 - TradePostMortemLearner
-- EventClassifierModel
+- test_tri_model_pipeline.py
 - .execute_daily_signals
 - reddit_premarket_station.py
 - check_correlation_shield
 - test_pyramiding_cppi_alpha158.py
-- fetch_financial_statements
-- run_unified_institutional_pipeline
-- sanitize_filename
-- cli.py
+- agent_committee.py
+- test_black_swan_simulator.py
+- realtime_tracker.py
+- DuckDBMarketEngine
 - CounterfactualTradeSimulator
 - Detailed Breakdown by Benchmark Ticker
-- calculate_smart_money_zones
+- update_live_holdings_prices_and_alert_discord
 - test_api.py
 - block_external_alerts
 - AgentMemoryStore
-- AICopilotEngine
-- options_surface.py
+- fetch_live_quote
+- test_options_surface.py
 - drawio/SKILL.md
 - test_microstructure_engine.py
 - SECForm4InsiderCrawler
 - test_institutional_weekend_suite.py
 - CongressionalStockTracker
-- paper_broker.py
+- BenzingaNewsWatchdog
 - Domain Expert Reference Template
 - preprocess_data
 - 3. Equipment Mapping (Draw.io Native Shapes)
@@ -132,90 +132,84 @@
 - evaluate_macro_volatility_blackout
 - test_agent_memory.py
 - ws_committee.py
-- generate_morning_briefing_text
-- compile_biotech_catalyst_radar
+- morning_briefing.py
 - ultra_quant_engine.py
+- build_orderflow_candlestick_chart
 - compute_dark_pool_sentiment
 - quant_engine.py
 - MahalanobisAnomalySentinel
 - FastFinBERTEngine
 - calculate_insider_conviction_score
 - DCCCorrelation
-- audit_equity_credit_decoupling
+- ws_credit_risk.py
 - generate_comprehensive_factsheet
 - TriBrainGatingLayer
-- test_zero_giveback_profit_lock.py
+- audit_equity_credit_decoupling
 - analyze_earnings_surprises
 - test_sir_diffusion.py
 - evaluate_overnight_futures_pulse
-- ChiefRiskOfficerAgent
-- calculate_conformal_prediction_interval
+- .evaluate_and_sign_off
+- FactorAttributionEngine
 - social_sentiment.py
 - print_formatted_trade_report
-- acpm_trainer.py
+- test_acpm_trainer.py
 - OnlineNewtonStepOptimizer
-- run_daily_market_scan
+- _load_sentiment_analyzer
 - autonomous_trader.py
 - test_etf_arbitrage.py
 - calculate_almgren_chriss_trajectory
-- generate_audio_script
-- MasterTradingLoop
-- cockpit_portfolio.py
-- calculate_cppi_allocation
+- evaluate_intraday_execution
+- .run_intraday_phase
+- ws_options_surface.py
+- test_papers_15_24.py
 - evaluate_ticker_toxicity
 - SuperEnsembleClassifier
 - test_master_loop.py
-- run_full_quant_experiment
-- generate_pipeline_graph_data
-- calculate_doubling_progress
-- compute_cross_asset_matrix
+- calculate_hrp_weights
+- train.py
+- test_options_max_pain.py
+- test_regime_allocator.py
 - analyze_triad_cointegration
 - AdversarialRedTeamAgent
 - FastNeuralEventClassifier
 - fractional_differentiation_ffd
 - cockpit_backtest.py
 - tabnet_model.py
-- test_acpm_trainer.py
+- ConformalCalibrator
 - NAMClassifier
 - ws_quantum_tournament.py
 - chronos_forecaster.py
-- compute_fractional_kelly_sizing
-- run_universe_mega_scan
+- compute_advanced_performance_ratios
+- SwiftShiftRadar
 - hedging_engine.py
-- evaluate_single_asset_screener
 - get_sector_for_ticker
+- test_ui_modules.py
 - grossman_zhou_allocation
-- DynamicSharpeMetaEnsemble
+- deduplicate_news_stream
 - ElasticWeightConsolidation
-- InstitutionalDataGateway
-- archive_and_prune_mlruns.py
+- master_loop.py
+- time
 - stress_simulator.py
-- DenoisingMLP
-- FormalLogicZ3RuleGate
-- .classify
+- compute_cross_asset_correlation
+- EventClassifierModel
 - generate_wall_street_factsheet_pdf
 - ws_deep_quant.py
-- smart_trader_engine.py
 - analyze_sec_filing_diff
-- run_all_14_papers_benchmark
-- .calibrate
 - SeriesDecomposition
-- .evaluate_catalyst_and_market
+- DLinearTCNModel
 - monitor_training.py
 - render_workspace_header
 - .fuse
-- temp_data_dir
-- sample_portfolio_returns
 - models/__init__.py
 
 ## God Nodes (most connected - your core abstractions)
-1. `get_logger()` - 143 edges
+1. `get_logger()` - 144 edges
 2. `get_price_history()` - 101 edges
-3. `PaperBroker` - 90 edges
+3. `PaperBroker` - 96 edges
 4. `fetch_live_quote()` - 49 edges
 5. `get_news()` - 40 edges
 6. `render_workspace_header()` - 36 edges
-7. `convene_trading_committee()` - 33 edges
+7. `convene_trading_committee()` - 35 edges
 8. `UltraQuantEngine` - 31 edges
 9. `run_unified_institutional_pipeline()` - 30 edges
 10. `AgentMemoryStore` - 29 edges
@@ -223,55 +217,55 @@
 ## Surprising Connections (you probably didn't know these)
 - `solve_merton_model()` --calls--> `root()`  [INFERRED]
   src/credit_risk.py → api.py
-- `test_forensic_fundamental_agent()` --calls--> `ForensicFundamentalAgent`  [EXTRACTED]
-  tests/test_agent_committee.py → src/agent_committee.py
 - `mock_memory()` --uses--> `AgentMemoryStore`  [INFERRED]
   tests/test_agent_memory.py → src/agent_memory.py
 - `test_paper7_quant_agents_trader()` --calls--> `AutonomousTradingEngine`  [EXTRACTED]
   tests/test_all_14_papers.py → src/autonomous_trader.py
 - `test_paper9_when_agents_trade_scanner()` --calls--> `run_daily_market_scan()`  [EXTRACTED]
   tests/test_all_14_papers.py → src/daily_scanner.py
+- `isolated_loop()` --uses--> `MasterTradingLoop`  [INFERRED]
+  tests/test_master_loop.py → src/master_loop.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (195 total, 12 thin omitted)
+## Communities (189 total, 11 thin omitted)
 
-### Community 0 - "DLinearTCNModel"
-Cohesion: 0.14
-Nodes (21): create_sliding_window_tensors(), DLinearTCNModel, load_dlinear_model(), predict_momentum_probability(), Any, DataFrame, Tensor, Converts a pandas DataFrame into sliding window sequence tensors for Deep… (+13 more)
+### Community 0 - "deep_learning_model.py"
+Cohesion: 0.13
+Nodes (20): create_sliding_window_tensors(), load_dlinear_model(), predict_momentum_probability(), Any, DataFrame, Tensor, High-Efficiency Deep Learning Engine: DLinear + Temporal Convolutional Network…, Converts a pandas DataFrame into sliding window sequence tensors for Deep… (+12 more)
 
-### Community 1 - "data_ingestion.py"
-Cohesion: 0.04
-Nodes (85): Clean orphaned MLflow models from mlruns/0/models that no longer belong to any…, Master Academic Research Papers Empirical Benchmark Suite (All 14 Papers).…, Autonomous Multi-Agent Trading Committee & Deliberation Engine for Sentilyze.…, AI Trade Copilot & Conversational Analyst for Sentilyze. Provides natural…, _fetch_alpaca_news(), _fetch_alpaca_price_history(), _fetch_benzinga_news(), _fetch_direct_yahoo_chart() (+77 more)
+### Community 1 - "get_price_history"
+Cohesion: 0.07
+Nodes (43): _fetch_alpaca_news(), _fetch_alpaca_price_history(), _fetch_benzinga_news(), _fetch_direct_yahoo_chart(), _fetch_eodhd_price_history(), _fetch_finnhub_news(), _fetch_fmp_price_history(), _fetch_google_news_rss() (+35 more)
 
 ### Community 2 - "test_pillar2_alternative_data.py"
-Cohesion: 0.15
-Nodes (22): compute_smart_money_insider_score(), Any, ⚠️ EXPERIMENTAL / SIMULATED RESEARCH PROTOTYPE STATUS: DISCONNECTED FROM…, Retrieves recent SEC Form 4 insider transactions for a given stock., Retrieves recent Congressional STOCK Act disclosure reports for a ticker., Synthesizes SEC Form 4 and Congressional activity into an overall Smart Money…, track_congressional_stock_disclosures(), track_corporate_insider_filings() (+14 more)
+Cohesion: 0.14
+Nodes (23): compute_smart_money_insider_score(), Any, ⚠️ EXPERIMENTAL / SIMULATED RESEARCH PROTOTYPE STATUS: DISCONNECTED FROM…, Retrieves recent SEC Form 4 insider transactions for a given stock., Retrieves recent Congressional STOCK Act disclosure reports for a ticker., Synthesizes SEC Form 4 and Congressional activity into an overall Smart Money…, track_congressional_stock_disclosures(), track_corporate_insider_filings() (+15 more)
 
 ### Community 3 - "OpeningRangeBreakout"
-Cohesion: 0.16
-Nodes (12): OpeningRangeBreakout, Any, DataFrame, Paper 25: Opening Range Breakout (ORB) with Stocks-in-Play Filter. Source:…, Simulate multi-year daily ORB strategy returns., Opening Range Breakout (ORB) trading engine with Stocks-in-Play filter. Paper…, Rank universe and select top 'Stocks in Play' based on volume, ATR, and…, Evaluate ORB signal using daily OHLC + volatility approximation. (+4 more)
+Cohesion: 0.12
+Nodes (17): OpeningRangeBreakout, Any, DataFrame, Paper 25: Opening Range Breakout (ORB) with Stocks-in-Play Filter. Source:…, Simulate multi-year daily ORB strategy returns., Opening Range Breakout (ORB) trading engine with Stocks-in-Play filter. Paper…, Rank universe and select top 'Stocks in Play' based on volume, ATR, and…, Evaluate ORB signal using daily OHLC + volatility approximation. (+9 more)
 
 ### Community 4 - "run_backtest"
 Cohesion: 0.07
-Nodes (44): main(), Batch Universe Trainer for Remaining S&P 100 Tickers., run_single(), Full Universe Retraining Engine for Sentilyze. Retrains all stocks in…, retrain_universe(), _persist_attribution_results(), Any, Empirical Alpha Attribution & Signal vs Risk-Management Decomposition Engine… (+36 more)
+Nodes (60): _persist_attribution_results(), Any, Empirical Alpha Attribution & Signal vs Risk-Management Decomposition Engine…, Runs a 4-way attribution experiment on a given asset using real out-of-sample…, run_attribution_decomposition(), calculate_performance_metrics(), _calculate_trade_outcomes(), create_monthly_returns_heatmap() (+52 more)
 
-### Community 5 - "test_statistical_arbitrage.py"
-Cohesion: 0.05
-Nodes (68): ActorCriticPolicy, DRLTradingEnvironment, evaluate_drl_policy_action(), Any, ndarray, Tensor, Trains an Actor-Critic DRL policy agent on historical market returns and news…, Performs fast sub-millisecond inference with the trained Actor-Critic policy. (+60 more)
+### Community 5 - "drl_policy_agent.py"
+Cohesion: 0.08
+Nodes (37): ActorCriticPolicy, DRLTradingEnvironment, evaluate_drl_policy_action(), Any, ndarray, Tensor, Deep Reinforcement Learning (DRL) Autonomous Policy Agent for Sentilyze.…, Trains an Actor-Critic DRL policy agent on historical market returns and news… (+29 more)
 
 ### Community 6 - "utils.py"
-Cohesion: 0.03
-Nodes (50): ⚠️ EXPERIMENTAL / SIMULATED RESEARCH PROTOTYPE STATUS: DISCONNECTED FROM…, Logger, Empirical Quant Experimentation & Multi-Asset Ablation Benchmark Suite.…, Agent Memory — Persistent Multi-Session Memory Engine for Sentilyze.…, Paper 3: Almgren & Chriss (2000) - Optimal Execution of Portfolio Transactions.…, Generation 3: Multi-Horizon AI Courtroom & Regime-Leveraged Quant DAG Engine.…, compute_walk_forward_efficiency(), Any (+42 more)
+Cohesion: 0.07
+Nodes (21): ⚠️ EXPERIMENTAL / SIMULATED RESEARCH PROTOTYPE STATUS: DISCONNECTED FROM…, Logger, Agent Memory — Persistent Multi-Session Memory Engine for Sentilyze.…, Autonomous Backtest Autopsy, WFO Efficiency & Tear-Sheet Factsheet Engine for…, Historical Black Swan Crisis Simulator & Kelly Position Sizing for Sentilyze.…, Cloud PostgreSQL Data Lake (Supabase / Neon) Connector for Sentilyze. Pillar 6…, High-Performance DuckDB Columnar Data Lake & Market-Wide Scanner Engine.…, calculate_sue_metric() (+13 more)
 
 ### Community 7 - "key_vault.py"
 Cohesion: 0.13
 Nodes (19): _eval_polynomial(), _extended_gcd(), _mod_inverse(), MultiPartyKeyVault, Any, Multi-Party Computation (MPC) Key Vault & Shamir Secret Sharing (Sprint 4,…, Institutional MPC Key Management Vault. Guarantees no single agent or server…, Shreds the secret across n custodian shares and returns the distributed shares. (+11 more)
 
 ### Community 8 - "ws_performance_factsheet.py"
-Cohesion: 0.08
-Nodes (31): FactorAttributionEngine, generate_institutional_factsheet_for_ticker(), InstitutionalFactsheet, Any, DataFrame, Series, Institutional Factor Attribution & Performance Factsheet Engine Computes…, Compute execution statistics from trade log dataframe. (+23 more)
+Cohesion: 0.11
+Nodes (22): generate_institutional_factsheet_for_ticker(), InstitutionalFactsheet, Any, Institutional Factor Attribution & Performance Factsheet Engine Computes…, Reads ticker backtest portfolio curve and builds full institutional factsheet., RiskAdjustedMetrics, _get_available_tickers(), _get_ticker_factsheet() (+14 more)
 
 ### Community 9 - "TradingEnvironment"
 Cohesion: 0.14
@@ -286,56 +280,56 @@ Cohesion: 0.14
 Nodes (14): CloudDataLake, Any, Supabase / PostgreSQL Cloud Data Lake Connector., Validates or generates cloud database schema., Syncs local trade executions to the cloud database., Publishes real-time portfolio snapshot to cloud WebSockets channel., generate_twap_order_schedule(), generate_vwap_order_schedule() (+6 more)
 
 ### Community 12 - "app.py"
-Cohesion: 0.12
-Nodes (21): get_model_universe_indicator(), load_universe_tickers(), main(), cache_data, Sentilyze - Institutional Algorithmic Trading & MLOps Platform. High-Speed…, Loads active S&P 100 universe tickers., Computes universe model training coverage and mean accuracy using compiled…, ensure_background_daemon_thread_running() (+13 more)
+Cohesion: 0.19
+Nodes (13): get_model_universe_indicator(), load_universe_tickers(), main(), cache_data, Sentilyze - Institutional Algorithmic Trading & MLOps Platform. High-Speed…, Loads active S&P 100 universe tickers., Computes universe model training coverage and mean accuracy using compiled…, get_market_status() (+5 more)
 
 ### Community 13 - "analyze_supply_chain_spillover"
-Cohesion: 0.15
-Nodes (14): analyze_supply_chain_spillover(), Any, ndarray, Graph Neural Networks (GNN) & Supply Chain Shock Spillover Engine for…, Computes symmetric normalized Laplacian: D^(-1/2) * A * D^(-1/2)., Executes a Graph Convolutional Network (GCN) layer: H_new = ReLU(A_hat * H * W)…, Simulates an upstream supply/production shock (e.g. Taiwan earthquake or fab…, High-level entry point to run GNN supply chain shock propagation. (+6 more)
+Cohesion: 0.14
+Nodes (15): analyze_supply_chain_spillover(), Any, ndarray, Graph Neural Networks (GNN) & Supply Chain Shock Spillover Engine for…, Computes symmetric normalized Laplacian: D^(-1/2) * A * D^(-1/2)., Executes a Graph Convolutional Network (GCN) layer: H_new = ReLU(A_hat * H * W)…, Simulates an upstream supply/production shock (e.g. Taiwan earthquake or fab…, High-level entry point to run GNN supply chain shock propagation. (+7 more)
 
-### Community 14 - "calculate_hrp_weights"
+### Community 14 - "ws_portfolio.py"
 Cohesion: 0.13
-Nodes (26): build_unified_portfolio(), calculate_hrp_weights(), calculate_risk_parity_weights(), get_cluster_var(), get_quasi_diag(), get_rec_bisection(), load_all_ticker_portfolios(), Any (+18 more)
+Nodes (22): build_unified_portfolio(), calculate_risk_parity_weights(), load_all_ticker_portfolios(), Any, DataFrame, Load individual backtest portfolio CSVs for all available tickers. Args:…, Combines individual stock strategies into a single managed multi-asset fund.…, Calculate Inverse-Volatility (Naive Risk Parity) weights for each asset. Assets… (+14 more)
 
 ### Community 15 - "run_temporal_fusion_forecast"
-Cohesion: 0.15
-Nodes (14): Any, DataFrame, ndarray, High-level entry point for Temporal Fusion Transformer multi-horizon…, Computes scaled dot-product attention weights and context vectors., Attention(Q, K, V) = softmax(Q @ K^T / sqrt(d_k)) @ V Args: Q, K, V: Matrices…, Lightweight, high-performance Temporal Fusion Transformer architecture with…, Executes forward pass through Variable Selection, Multi-Head Attention, and… (+6 more)
+Cohesion: 0.14
+Nodes (15): Any, DataFrame, ndarray, Temporal Fusion Transformer (TFT) & Multi-Horizon Self-Attention Engine for…, High-level entry point for Temporal Fusion Transformer multi-horizon…, Computes scaled dot-product attention weights and context vectors., Attention(Q, K, V) = softmax(Q @ K^T / sqrt(d_k)) @ V Args: Q, K, V: Matrices…, Lightweight, high-performance Temporal Fusion Transformer architecture with… (+7 more)
 
 ### Community 16 - "daily_scanner.py"
-Cohesion: 0.12
-Nodes (35): format_signal_card(), _is_duplicate_alert(), Any, Sends a rich formatted trade alert card to a Discord channel via Webhook., Checks if an alert fingerprint was already dispatched within ttl_seconds., Dispatches a crystal-clear, high-impact Discord card for live autonomous trade…, Records an alert fingerprint into results/discord_alert_ledger.json., Dispatches a structured 4-Agent Committee Round-Table debate summary to Discord. (+27 more)
+Cohesion: 0.09
+Nodes (43): format_signal_card(), _is_duplicate_alert(), Any, Sends a rich formatted trade alert card to a Discord channel via Webhook., Checks if an alert fingerprint was already dispatched within ttl_seconds., Dispatches a crystal-clear, high-impact Discord card for live autonomous trade…, Records an alert fingerprint into results/discord_alert_ledger.json., Dispatches a structured 4-Agent Committee Round-Table debate summary to Discord. (+35 more)
 
-### Community 17 - "train_meta_ensemble"
-Cohesion: 0.18
-Nodes (13): MetaEnsembleClassifier, DataFrame, ndarray, Series, Generates binary class prediction (0 = Hold/Sell, 1 = Buy) using soft-voting…, Instantiates and fits the Meta-Ensemble classifier., Multi-Model Meta-Ensemble stacking XGBoost, Random Forest, and Calibrated…, Trains all component models on the training dataset. (+5 more)
+### Community 17 - "meta_ensemble.py"
+Cohesion: 0.10
+Nodes (19): DynamicSharpeMetaEnsemble, MetaEnsembleClassifier, DataFrame, ndarray, Series, Institutional Multi-Model Meta-Ensemble Engine for Sentilyze. Pillar 1 Core…, Generates binary class prediction (0 = Hold/Sell, 1 = Buy) using soft-voting…, Instantiates and fits the Meta-Ensemble classifier. (+11 more)
 
-### Community 18 - "test_all_14_papers.py"
-Cohesion: 0.14
-Nodes (16): detect_negative_cycle_arbitrage(), Any, Finds triangular arbitrage using Bellman-Ford on log exchange rates: w =…, compute_balanced_hedge_allocation(), Series, Computes the optimal hedge ratio (beta) and hedge asset allocation., optimize_higher_order_moments(), Any (+8 more)
+### Community 18 - "test_statistical_arbitrage.py"
+Cohesion: 0.17
+Nodes (29): backtest_pairs_strategy(), calculate_half_life(), calculate_hedge_ratio_and_spread(), calculate_rolling_zscore(), calibrate_avellaneda_lee_stat_arb(), evaluate_cointegration_adf(), generate_pairs_trading_signals(), Any (+21 more)
 
-### Community 19 - "chart_pattern_learning.py"
-Cohesion: 0.19
-Nodes (17): detect_classical_chart_patterns(), generate_ai_chart_explanation(), match_historical_chart_twins(), normalize_waveform(), Any, DataFrame, ndarray, AI Chart Pattern Recognition, Geometric Wave Learning & Visual Understanding… (+9 more)
+### Community 19 - "ws_live_prediction.py"
+Cohesion: 0.10
+Nodes (35): detect_classical_chart_patterns(), generate_ai_chart_explanation(), match_historical_chart_twins(), normalize_waveform(), Any, DataFrame, ndarray, AI Chart Pattern Recognition, Geometric Wave Learning & Visual Understanding… (+27 more)
 
 ### Community 20 - "draw.io XML Style Reference"
 Cohesion: 0.08
 Nodes (23): Color Properties, Common Style Properties, Container Types, Critical Edge Rules, draw.io XML Style Reference, Edge Attributes, Edge Styles, Escaping Rules (XML attribute context) (+15 more)
 
 ### Community 21 - "sentiment_analysis.py"
-Cohesion: 0.06
-Nodes (41): Deep Reinforcement Learning (DRL) Autonomous Policy Agent for Sentilyze.…, assign_source_weight(), calculate_jaccard_similarity(), deduplicate_news_stream(), normalize_headline_tokens(), DataFrame, Institutional News Filter, Semantic Deduplicator & Catalyst Classifier for…, Fast Jaccard-based semantic deduplication that eliminates syndicated press… (+33 more)
+Cohesion: 0.10
+Nodes (27): assign_source_weight(), Assigns institutional source weight and priority tier based on publisher…, analyze_sentiment(), calculate_swift_sentiment_summary(), clean_financial_text(), get_sentiment(), _parse_analyzer_output(), Any (+19 more)
 
 ### Community 22 - "test_omnichannel_mobile.py"
-Cohesion: 0.17
-Nodes (14): answer_financial_query(), Any, Parses natural language questions and routes them to quantitative engines.…, generate_smartwatch_glance_payload(), Any, Generates structured complication JSON for Apple Watch (watchOS) and Wear OS., format_whatsapp_trade_alert(), Any (+6 more)
+Cohesion: 0.16
+Nodes (15): answer_financial_query(), Any, Parses natural language questions and routes them to quantitative engines.…, generate_smartwatch_glance_payload(), Any, Generates structured complication JSON for Apple Watch (watchOS) and Wear OS., format_whatsapp_trade_alert(), Any (+7 more)
 
 ### Community 23 - "pfd-engineering-expert.md"
 Cohesion: 0.10
 Nodes (20): 1. Distillation Column (`distillation_column`), 1. `PHASE_PORT_VIOLATION`, 2. `DEAD_END_STREAM`, 2. Pump (`pump`), 3. Compressor (`compressor`), 3. `OPPOSING_FLOW`, 4. `GRAVITY_VIOLATION`, 4. Separator (`separator`) (+12 more)
 
 ### Community 24 - "UltraQuantEngine"
-Cohesion: 0.06
-Nodes (35): get_ultra_quant_engine(), Any, DataFrame, Evaluates SEC Form 4 insider purchases and executive cluster buys., Mines SEC Form 8-K filings for material corporate events., Calculates retail mention velocity and sentiment from Reddit & StockTwits., Queries OpenFDA & ClinicalTrials.gov for biotech binary events., Calculates optimal execution trajectory and market impact. (+27 more)
+Cohesion: 0.07
+Nodes (28): Any, DataFrame, Evaluates SEC Form 4 insider purchases and executive cluster buys., Mines SEC Form 8-K filings for material corporate events., Calculates retail mention velocity and sentiment from Reddit & StockTwits., Estimates options Net GEX and Max Pain pinning strike., Queries OpenFDA & ClinicalTrials.gov for biotech binary events., Calculates optimal execution trajectory and market impact. (+20 more)
 
 ### Community 25 - "compute_lead_lag_matrix"
 Cohesion: 0.20
@@ -350,64 +344,64 @@ Cohesion: 0.14
 Nodes (13): DuckDBStore, Any, DataFrame, DuckDB & Apache Arrow In-Memory Zero-Copy Analytical Store (Sprint 4, Module…, In-Memory & Persistent Parquet + Apache Arrow Zero-Copy Store. Provides sub-…, Zero-copy register a pandas DataFrame into DuckDB as an Arrow-backed virtual…, Saves a DataFrame as an optimized Snappy-compressed columnar Parquet file., Executes arbitrary SQL and returns results as a pandas DataFrame via zero-copy… (+5 more)
 
 ### Community 28 - "AlpacaBrokerBridge"
-Cohesion: 0.14
+Cohesion: 0.13
 Nodes (18): AlpacaBrokerBridge, Any, Fetches active positions from Alpaca brokerage., Liquidates an active position on Alpaca and cancels all open child orders., Institutional Alpaca Brokerage Execution Bridge for Paper & Live Trading.…, Emergency liquidator: closes all positions and cancels all open orders., Verifies active connection to Alpaca Brokerage API., Fetches live Alpaca account equity, buying power, and cash. (+10 more)
 
 ### Community 29 - "liquidity_heatmap.py"
 Cohesion: 0.31
 Nodes (8): compute_order_book_depth_and_clusters(), compute_volume_profile_and_poc(), Any, Level 2 Order Book Depth & Institutional Dark Pool Liquidity Heatmap for…, Simulates Level 2 market depth and identifies institutional buy/sell liquidity…, Computes Point of Control (POC), Value Area High (VAH), and Value Area Low…, test_compute_order_book_depth_and_clusters(), test_compute_volume_profile_and_poc()
 
-### Community 30 - ".train_ticker"
+### Community 30 - ".split"
+Cohesion: 0.50
+Nodes (3): DataFrame, ndarray, Series
+
+### Community 31 - "._execute_cycle_body"
+Cohesion: 0.11
+Nodes (25): Core cycle execution body., check_market_hours_preflight(), get_current_ny_time(), get_us_market_session(), Any, datetime, Unified US Stock Market (NYSE / NASDAQ) Session & Calendar Engine for…, Pre-flight sanity check for automated workflows. Returns True if execution… (+17 more)
+
+### Community 32 - "ws_alternative_data.py"
 Cohesion: 0.13
-Nodes (13): Any, DataFrame, Series, Executes end-to-end ACPM training for a target equity., compute_deflated_sharpe_ratio(), PurgedGroupTimeSeriesSplit, DataFrame, ndarray (+5 more)
-
-### Community 31 - "get_us_market_session"
-Cohesion: 0.12
-Nodes (24): check_market_hours_preflight(), get_current_ny_time(), get_us_market_session(), Any, datetime, Unified US Stock Market (NYSE / NASDAQ) Session & Calendar Engine for…, Pre-flight sanity check for automated workflows. Returns True if execution…, Returns the current precise timestamp in America/New_York (Eastern Time). (+16 more)
-
-### Community 32 - "ipo_radar.py"
-Cohesion: 0.16
-Nodes (15): auto_register_ipo_ticker(), fetch_pre_ipo_radar_summary(), fetch_sec_edgar_ipo_filings(), get_pre_ipo_pipeline_df(), Any, DataFrame, IPO & Pre-IPO Intelligence Radar for Sentilyze. Pillar 9 Alternative Asset…, Fetches real-time SEC Form S-1 / S-1/A IPO registration statements from SEC… (+7 more)
+Nodes (22): auto_register_ipo_ticker(), fetch_pre_ipo_radar_summary(), fetch_sec_edgar_ipo_filings(), get_pre_ipo_pipeline_df(), Any, DataFrame, IPO & Pre-IPO Intelligence Radar for Sentilyze. Pillar 9 Alternative Asset…, Fetches real-time SEC Form S-1 / S-1/A IPO registration statements from SEC… (+14 more)
 
 ### Community 33 - "3. Cross-Functional Flowcharts (Actor × Phase Grid)"
 Cohesion: 0.10
 Nodes (19): 1. Flat Swimlanes (BPMN-style Flowcharts), 2. Nested Architecture Containers, 3. Cross-Functional Flowcharts (Actor × Phase Grid), 4. When to Use What, Container Key Rules Summary, Critical Rules, Critical Rules, Decision Guide (+11 more)
 
-### Community 34 - "apply_triple_barrier_labeling"
-Cohesion: 0.21
-Nodes (11): apply_triple_barrier_labeling(), calculate_deflated_sharpe_ratio(), DataFrame, Series, Marcos López de Prado's Triple-Barrier Method & Deflated Sharpe Ratio (DSR).…, Computes Bailey & López de Prado's Deflated Sharpe Ratio (DSR). Adjusts for: -…, Applies López de Prado's path-dependent Triple-Barrier Method to generate trade…, test_paper10_deflated_sharpe_ratio() (+3 more)
+### Community 34 - "DailyExecutionBridge"
+Cohesion: 0.15
+Nodes (14): DailyExecutionBridge, main(), Any, Autonomous Daily Execution Bridge for Sentilyze.…, Orchestrates autonomous transition from daily signals to active execution., Loads and parses the latest daily signals scan., Categorizes actionable signals into BUYs, SELLs, and HOLDs., Executes the daily cycle: 1. Evaluates open positions for TP1, TP2, stop loss,… (+6 more)
 
 ### Community 35 - "Edge Routing Decision Guide"
 Cohesion: 0.12
 Nodes (16): Critical Rules, Decision Flowchart, Default Behavior (Built-in Router), Don't add waypoints, Don't hand-route, Edge labels, Edge Routing Decision Guide, Every edge needs an mxGeometry child (+8 more)
 
-### Community 36 - "benchmark_training_paradigms.py"
-Cohesion: 0.21
-Nodes (25): Any, DataFrame, Series, Triple-Barrier Meta-Labeling (Upper +2.0 ATR, Lower -1.2 ATR, Vertical 10d)., Regime-Conditioned Mixture of Experts (MoE) with 3 specialized sub-boosters., Online Streaming Incremental Learning with Stochastic Gradient Descent &…, Standard Rolling Walk-Forward Optimization (Fixed 500-day window)., Cross-Asset Pooled Multi-Task Learning across peer assets for high statistical… (+17 more)
+### Community 36 - "cli.py"
+Cohesion: 0.22
+Nodes (14): Root entry point for Sentilyze CLI. Run directly with: python sentilyze.py NVDA…, cmd_audit(), cmd_briefing(), cmd_portfolio(), cmd_scan(), cmd_trades(), main(), print_banner() (+6 more)
 
-### Community 37 - "triple_convex_engine.py"
-Cohesion: 0.13
-Nodes (14): PolyTimeConvexOptimizer, Any, DataFrame, Series, Stanford Multi-Period Convex Portfolio Optimization Engine (Boyd et al.).…, Polynomial-Time Convex Portfolio Optimizer with Market Frictions (Boyd et al.)., Solves the friction-aware convex optimization problem in polynomial time. Args:…, Triple-Convex Quantum Execution Engine. Fuses the top quantitative research… (+6 more)
+### Community 37 - "test_all_14_papers.py"
+Cohesion: 0.04
+Nodes (63): Any, Master Academic Research Papers Empirical Benchmark Suite (All 14 Papers).…, Executes empirical backtests comparing all 14 academic paper methodologies., run_all_14_papers_benchmark(), compute_fractional_kelly_sizing(), Computes true mathematical fractional Kelly Criterion position sizing with…, PolyTimeConvexOptimizer, Any (+55 more)
 
 ### Community 38 - "Sentilyze — Autonomous Multi-Agent Quantitative Trading & NLP Intelligence Platform"
 Cohesion: 0.12
 Nodes (16): 1. Run in 1-Click (No Installation Required), 2. Local Setup & Installation, 3. Run the Quantitative CLI, 4. Launch the Streamlit Mission Control, 5. Run Full Test Suite (274+ Unit Tests), Active Holdings (Entered 2026-09-08), 📊 Empirical Alpha Attribution & Benchmarks, 🏛️ Grounded 5-Agent Deliberation Council (+8 more)
 
 ### Community 39 - "VolScaledMomentumEngine"
-Cohesion: 0.16
+Cohesion: 0.18
 Nodes (12): DataFrame, Series, Daniel & Moskowitz (JFE 2016) Volatility-Scaled Multi-Horizon Momentum Engine.…, Implements Daniel & Moskowitz (2016) Volatility-Scaled Multi-Horizon Momentum., Computes RiskMetrics EWMA realized volatility with zero lookahead bias., Calculates the composite volatility-scaled momentum position for a given ticker., VolScaledMomentumEngine, VolScaledMomentumResult (+4 more)
 
 ### Community 40 - "[Validator Rules Reference & Troubleshooting]"
 Cohesion: 0.12
 Nodes (16): 1. `DIRECT_WAN_TO_LAN`, 2. `ORPHAN_DEVICE`, 3. `VLAN_LEAK`, 4. `REDUNDANCY_WARNING`, 5. `MISSING_DMZ`, 6. `FLAT_NETWORK`, 7. `FIREWALL_BYPASS`, 8. `SINGLE_TRUNK` (+8 more)
 
-### Community 41 - "TickerSentinelSwarm"
-Cohesion: 0.12
-Nodes (17): detect_peak_crest_exhaustion(), Any, Dedicated Ticker Sentinel & Peak-Crest Volume Harvester Swarm for Sentilyze.…, Dedicated Micro-Agent assigned to monitor a single stock position 24/7. Tracks…, Audits live price tick, applies Zero-Giveback profit ratchets, and detects peak…, Manages the full swarm of Dedicated Ticker Sentinels across all open positions.…, Synchronizes active sentinels with current portfolio open positions without…, Audits all active sentinels concurrently. Optionally persists ratcheted SL and… (+9 more)
+### Community 41 - "paper_broker.py"
+Cohesion: 0.07
+Nodes (34): apply_high_watermark_profit_lock(), enforce_capital_shield_stop_floor(), Institutional Smart Money Market Structure & Price-Action Engine for Sentilyze.…, Guarantees that once a trade reaches peak profit, the bot NEVER gives back >…, Enforces a strict downside capital shield ceiling (max 2.50% loss from entry).…, detect_peak_crest_exhaustion(), Any, Dedicated Ticker Sentinel & Peak-Crest Volume Harvester Swarm for Sentilyze.… (+26 more)
 
 ### Community 42 - "RegimeMixtureOfExperts"
-Cohesion: 0.23
-Nodes (8): Any, DataFrame, ndarray, Series, Regime-Conditioned Mixture of Experts (MoE) Architecture. Trains 3 specialized…, 3-Expert Gated Mixture of Experts classifier for financial regimes., Labels historical rows into 3 latent market regimes: 0 = Bull Momentum (Price >…, RegimeMixtureOfExperts
+Cohesion: 0.26
+Nodes (8): Any, DataFrame, ndarray, Series, 3-Expert Gated Mixture of Experts classifier for financial regimes., Labels historical rows into 3 latent market regimes: 0 = Bull Momentum (Price >…, RegimeMixtureOfExperts, test_regime_moe()
 
 ### Community 43 - "ConformalQuantileEngine"
 Cohesion: 0.10
@@ -417,21 +411,21 @@ Nodes (23): calibrate_and_evaluate_conformal_bounds(), ConformalQuantileEngine, 
 Cohesion: 0.25
 Nodes (7): 📜 Attribution, ⚖️ Enforcement Escalation, 🛡️ Enforcement & Responsibilities, 🌟 Our Pledge, 🎯 Our Standards, 📬 Reporting Guidelines, Sentilyze Community Code of Conduct
 
-### Community 48 - "test_universal_web_scraper.py"
+### Community 48 - "universal_web_scraper.py"
 Cohesion: 0.10
-Nodes (26): batch_scrape_urls(), detect_stock_tickers(), extract_financial_tables_from_html(), _extract_summary_sentences(), _get_browser_session(), Any, DataFrame, Session (+18 more)
+Nodes (31): batch_scrape_urls(), detect_stock_tickers(), extract_financial_tables_from_html(), _extract_summary_sentences(), _get_browser_session(), Any, DataFrame, Session (+23 more)
 
 ### Community 49 - "handle_bot_command"
-Cohesion: 0.21
-Nodes (13): handle_bot_command(), Any, Executes command and posts formatted embed reply to Discord., Parses and processes interactive bot commands: - `/signal <ticker>` -…, send_bot_command_reply(), mock_isolated_broker(), fixture, Unit tests for src/discord_bot.py. Verifies interactive discord bot commands… (+5 more)
+Cohesion: 0.26
+Nodes (11): handle_bot_command(), Any, Executes command and posts formatted embed reply to Discord., Parses and processes interactive bot commands: - `/signal <ticker>` -…, send_bot_command_reply(), Unit tests for src/discord_bot.py. Verifies interactive discord bot commands…, test_handle_bot_command_help(), test_handle_bot_command_portfolio() (+3 more)
 
 ### Community 50 - "calculate_portfolio_diversity_grade"
-Cohesion: 0.24
-Nodes (10): calculate_portfolio_diversity_grade(), Any, DataFrame, _get_cached_diversity_grade(), cache_data, Workspace: Portfolio Diversity & Correlation Health Grader. Institutional…, test_custom_returns_correlated(), test_custom_returns_diverse() (+2 more)
+Cohesion: 0.23
+Nodes (11): calculate_portfolio_diversity_grade(), Any, DataFrame, _get_cached_diversity_grade(), cache_data, Workspace: Portfolio Diversity & Correlation Health Grader. Institutional…, render_portfolio_diversity_workspace(), test_custom_returns_correlated() (+3 more)
 
 ### Community 51 - "price_scout.py"
-Cohesion: 0.20
-Nodes (11): get_latest_scout_alerts(), PriceActionScoutAgent, PriceScoutBot, Any, Real-Time Price Action & Tape-Reading Scout Subagent (Bot) for Sentilyze.…, Continuous Background Scanner Bot that scouts the 538 universe assets, detects…, Scans given tickers for real-time volume breakout candidates., Retrieves the latest price scout breakout alerts. (+3 more)
+Cohesion: 0.18
+Nodes (12): get_latest_scout_alerts(), PriceActionScoutAgent, PriceScoutBot, Any, Real-Time Price Action & Tape-Reading Scout Subagent (Bot) for Sentilyze.…, Continuous Background Scanner Bot that scouts the 538 universe assets, detects…, Scans given tickers for real-time volume breakout candidates., Retrieves the latest price scout breakout alerts. (+4 more)
 
 ### Community 52 - "test_cross_disciplinary_alphas.py"
 Cohesion: 0.08
@@ -453,9 +447,9 @@ Nodes (3): 🧪 Experimental & Simulated Research Prototypes, 🔒 Production Is
 Cohesion: 0.15
 Nodes (12): 10. Strict Portfolio Preservation & Realized Gain Integrity, 1. Fabricated / fake data check, 2. Ticker/input-invariant bugs, 3. Mislabeled methodology, 4. Results-file / README consistency, 5. Duplicate-output smell test, 6. Safety-critical logic sanity check, 7. Silent failure check (+4 more)
 
-### Community 57 - "webhook_dispatcher.py"
-Cohesion: 0.19
-Nodes (19): Workspace: Automated Broker Webhooks & Execution API Dispatcher. Configures and…, render_broker_webhooks_workspace(), _append_audit_log(), dispatch_order_webhook(), format_broker_order_payload(), generate_hmac_signature(), load_webhook_config(), Any (+11 more)
+### Community 57 - "cockpit_trading.py"
+Cohesion: 0.07
+Nodes (48): generate_audio_script(), Any, Generates an institutional Wall Street morning audio briefing script., Synthesizes the morning briefing audio MP3 file. Uses Microsoft Edge Neural TTS…, synthesize_morning_audio(), calculate_conformal_prediction_interval(), calibrate_conformal_residuals_from_history(), compute_conformal_quantile() (+40 more)
 
 ### Community 58 - "calculate_time_decayed_sentiment"
 Cohesion: 0.19
@@ -465,25 +459,25 @@ Nodes (14): calculate_time_decayed_sentiment(), compute_exponential_decay_weight
 Cohesion: 0.13
 Nodes (14): 1. `FK_WITHOUT_TARGET`, 2. `ORPHAN_TABLE`, 3. `DUPLICATE_PK`, 4. `SELF_REFERENCE_MISSING`, 5. `MISSING_JUNCTION`, 6. `CIRCULAR_FK`, [Anti-Patterns], [Docs Index] (+6 more)
 
-### Community 60 - "get_price_history"
-Cohesion: 0.09
-Nodes (20): compute_correlation_matrix(), compute_cross_asset_correlation(), Any, DataFrame, Convenience wrapper returning correlation matrix and analytics dictionary., Computes cross-asset returns correlation matrix and identifies optimal hedge…, get_price_history(), Enterprise Data Router: Fetches historical price data up to today using the… (+12 more)
+### Community 60 - "get_news"
+Cohesion: 0.12
+Nodes (19): _fetch_polygon_news_feed(), get_news(), Fetches reference news from Polygon.io API., Enterprise Multi-Source News Router: Cascades through Google News RSS -> Yahoo…, fixture, Fixture to set a temporary data directory for tests., Test that get_news fetches data from NewsAPI and saves it to a cache file., Test that get_news loads data from the cache if it's not stale. (+11 more)
 
 ### Community 61 - "6. CROSS-DISCIPLINARY & FRONTIER QUANTITATIVE IDEAS"
 Cohesion: 0.07
 Nodes (27): 1. EXECUTIVE SUMMARY & CORE PLATFORM VISION, 2. THE 4-PILLAR WINNING QUANTITATIVE ALPHA FORMULA, 3. EMPIRICAL MULTI-DECADE HISTORICAL BENCHMARKS (1980–2026), 4. MASTER 5-COCKPIT MISSION CONTROL ARCHITECTURE, 5. THE 300 INSTITUTIONAL RESOURCES SYNTHESIS, 6. CROSS-DISCIPLINARY & FRONTIER QUANTITATIVE IDEAS, 7. IMPLEMENTATION & TECHNOLOGY STACK BLUEPRINT, 🐺 A. Evolutionary Biology: Lotka-Volterra Predator-Prey Market Dynamics (+19 more)
 
-### Community 64 - "test_papers_15_24.py"
-Cohesion: 0.08
-Nodes (21): calculate_cdar(), optimize_cdar_portfolio(), Any, DataFrame, ndarray, Paper 19: Conditional Drawdown-at-Risk (CDaR) Portfolio Optimization. Source:…, Calculate Conditional Drawdown-at-Risk: the expected drawdown in the worst…, Optimize portfolio weights to minimize CDaR. Simplified approach: compute CDaR… (+13 more)
+### Community 64 - "GaussianHMMRegimeDetector"
+Cohesion: 0.12
+Nodes (11): GaussianHMMRegimeDetector, Any, DataFrame, ndarray, Paper 15: Gaussian Hidden Markov Model for Market Regime Detection. Source:…, 3-state Gaussian HMM regime classifier: Bull / Normal / Crisis. Uses hand-…, Gaussian emission probability for each state., Forward algorithm step: update filtered state probabilities with one new… (+3 more)
 
 ### Community 65 - "EWMACorrelationMonitor"
 Cohesion: 0.14
 Nodes (10): EWMACorrelationMonitor, Any, DataFrame, ndarray, Paper 17: RiskMetrics EWMA Volatility & Correlation Monitor. Source: J.P.…, Real-time EWMA-based correlation and volatility monitor. Tracks time-varying…, Initialize EWMA state from a seed window of returns., Update EWMA state with one day's returns across all assets. Returns current… (+2 more)
 
 ### Community 67 - "PaperBroker"
-Cohesion: 0.09
-Nodes (25): PaperBroker, DataFrame, Institutional Multi-Stage Quantitative Execution Broker ($100k Account).…, Reloads latest state from disk if file exists., Returns high-level KPI metrics for the portfolio dashboard., Returns a DataFrame of current open holdings with Scale-Out status., Returns a DataFrame of trade history with full company names., Returns equity history as a DatetimeIndex DataFrame. (+17 more)
+Cohesion: 0.08
+Nodes (29): PaperBroker, DataFrame, Institutional Multi-Stage Quantitative Execution Broker ($100k Account).…, Reloads latest state from disk if file exists., Returns high-level KPI metrics for the portfolio dashboard., Returns a DataFrame of current open holdings with Scale-Out status., Returns a DataFrame of trade history with full company names., Returns equity history as a DatetimeIndex DataFrame. (+21 more)
 
 ### Community 68 - "CUSUMDetector"
 Cohesion: 0.15
@@ -494,76 +488,76 @@ Cohesion: 0.15
 Nodes (9): PageHinkleyDetector, Any, ndarray, Paper 22: Page-Hinkley Sequential Test for Concept Drift Detection. Source:…, Page-Hinkley test for detecting changes in the mean of a stream. Monitors…, Process one observation. Returns drift status., Process a batch of observations., Reset detector state. (+1 more)
 
 ### Community 70 - "QuantAlphaDAGEngine"
-Cohesion: 0.10
-Nodes (24): AlphaDAGStageContract, Any, DataFrame, Series, QuantAlphaDAGEngine, Calculates time-aligned returns, normalized volumes, and volatility bands., Generates Gen-3 Multi-Horizon Feature Library: - Factor 1: Triple-Horizon Trend…, Decoupled Alpha Generators with Gen-3 FinBERT Crash Shield & Volatility Sizing. (+16 more)
+Cohesion: 0.06
+Nodes (46): AlphaDAGStageContract, Any, DataFrame, Series, QuantAlphaDAGEngine, Generation 3: Multi-Horizon AI Courtroom & Regime-Leveraged Quant DAG Engine.…, Calculates time-aligned returns, normalized volumes, and volatility bands., Generates Gen-3 Multi-Horizon Feature Library: - Factor 1: Triple-Horizon Trend… (+38 more)
 
 ### Community 71 - "test_stock_image_provider.py"
 Cohesion: 0.13
 Nodes (32): clean_ticker_symbol(), clear_logo_cache(), generate_fallback_svg_badge(), get_asset_avatar_html(), get_asset_logo_base64(), get_sector_gradient(), is_crypto_symbol(), Sentilyze Stock & Crypto Image & Brand Identity Engine.… (+24 more)
 
-### Community 72 - "run_monte_carlo_stress_test"
-Cohesion: 0.11
-Nodes (25): calculate_custom_rebalance(), calculate_share_allocation(), Any, Helper to calculate share allocation from latest daily signals file or universe…, Computes exact whole-share buy allocations for a given capital budget across…, Any, DataFrame, Helper wrapper for Monte Carlo VaR simulation. (+17 more)
+### Community 72 - "fetch_universe_live_quotes"
+Cohesion: 0.10
+Nodes (27): fetch_universe_live_quotes(), Fetches real-time quotes across universe with fast batching (sub-2s)., calculate_custom_rebalance(), calculate_share_allocation(), Any, Helper to calculate share allocation from latest daily signals file or universe…, Computes exact whole-share buy allocations for a given capital budget across…, Any (+19 more)
 
 ### Community 73 - "[Validator Rules Reference & Troubleshooting]"
 Cohesion: 0.13
 Nodes (14): 1. `ORPHAN_POD`, 2. `SERVICE_WITHOUT_TARGET`, 3. `INGRESS_BYPASS`, 4. `PVC_WITHOUT_PV`, 5. `NAMESPACE_LEAK`, 6. `MISSING_RESOURCE_LIMITS`, 7. `PRIVILEGED_CONTAINER`, [Anti-Patterns] (+6 more)
 
 ### Community 74 - "benzinga_news_trader.py"
-Cohesion: 0.22
-Nodes (14): extract_tickers_from_headline(), fetch_top_benzinga_news_wire(), get_latest_benzinga_scan_report(), Any, Benzinga Live News Catalyst Scanner & Autonomous Execution Engine.…, Extracts high-confidence stock tickers from a Benzinga headline using exchange-…, Scrapes the live Benzinga breaking news stream via Google News RSS wire.…, Main Orchestrator: 1. Ingests the latest Benzinga wire. 2. Identifies all… (+6 more)
+Cohesion: 0.18
+Nodes (16): extract_tickers_from_headline(), fetch_top_benzinga_news_wire(), get_latest_benzinga_scan_report(), Any, Benzinga Live News Catalyst Scanner & Autonomous Execution Engine.…, Extracts high-confidence stock tickers from a Benzinga headline using exchange-…, Scrapes the live Benzinga breaking news stream via Google News RSS wire.…, Main Orchestrator: 1. Ingests the latest Benzinga wire. 2. Identifies all… (+8 more)
 
 ### Community 75 - "ADWINDetector"
 Cohesion: 0.19
 Nodes (7): ADWINDetector, Any, ndarray, Paper 21: ADWIN (Adaptive Windowing) Drift Detector. Source: Bifet & Gavaldà…, ADWIN drift detector with Hoeffding bound. Maintains a variable-length window…, Add one observation. Returns whether drift was detected. If drift is detected,…, TestADWIN
 
 ### Community 76 - "convene_trading_committee"
-Cohesion: 0.11
-Nodes (25): audit_full_universe_committee(), convene_trading_committee(), convene_tree_of_thought_committee(), _persist_committee_resolution(), Any, Agent 1: Evaluates Technical Price Action, Momentum, RSI, and Trend Alignment., Orchestrates a full round-table deliberation of the 5-Agent Trading Committee…, Saves the committee resolution into results/committee_resolutions.json. (+17 more)
+Cohesion: 0.08
+Nodes (36): audit_full_universe_committee(), ChiefRiskOfficerAgent, convene_trading_committee(), convene_tree_of_thought_committee(), ForensicFundamentalAgent, _persist_committee_resolution(), Any, Agent 1: Evaluates Technical Price Action, Momentum, RSI, and Trend Alignment. (+28 more)
 
 ### Community 77 - "MetaRegimeAllocator"
-Cohesion: 0.11
-Nodes (23): get_current_macro_regime(), MetaRegimeAllocator, MetaRegimeReport, DataFrame, 3-State Gaussian Hidden Markov Model & Meta-Regime Capital Allocator…, Fetch historical price data for the benchmark asset., Generate statistically grounded market proxy data if network or feed is…, Fit Gaussian Mixture and estimate empirical transition probabilities. (+15 more)
+Cohesion: 0.25
+Nodes (8): MetaRegimeAllocator, DataFrame, Fetch historical price data for the benchmark asset., Generate statistically grounded market proxy data if network or feed is…, Fit Gaussian Mixture and estimate empirical transition probabilities., Infer the current regime, state probabilities, and dynamic allocation weight., 3-State Gaussian Markov Regime Switching Allocator. Discovers latent market…, Compute daily log returns and rolling 20-day annualized realized volatility.
 
 ### Community 78 - "TradePostMortemLearner"
 Cohesion: 0.09
 Nodes (24): Any, DataFrame, Series, Autonomous Trade Post-Mortem & Bayesian Council Weight Calibration Engine for…, Categorizes trade outcome and assigns attribution scores., Computes performance feedback scores for each specialist agent based on…, Updates weights using a Softmax Bayesian update with Dirichlet regularization:…, Executes an end-to-end post-mortem learning cycle: 1. Analyzes trade history.… (+16 more)
 
-### Community 79 - "EventClassifierModel"
-Cohesion: 0.13
-Nodes (20): EventClassifierModel, Financial Event & Emotion Companion Model (Model 2). Companion model to FinBERT…, Production-grade Financial Event & Emotion Companion Model. Provides sub-…, FastAgentPipeline, get_fast_agent_pipeline(), Fast Sub-Second Agent Decision Router. Coordinates the Tri-Model Neural Brain…, Singleton getter for FastAgentPipeline., Sub-second Multi-Model Agent Decision Pipeline. (+12 more)
+### Community 79 - "test_tri_model_pipeline.py"
+Cohesion: 0.16
+Nodes (15): Financial Event & Emotion Companion Model (Model 2). Companion model to FinBERT…, get_fast_agent_pipeline(), Fast Sub-Second Agent Decision Router. Coordinates the Tri-Model Neural Brain…, Singleton getter for FastAgentPipeline., get_fast_finbert_engine(), Accelerated Low-Latency FinBERT Engine (Model 1). Optimized for high-speed…, Singleton getter for FastFinBERTEngine., NeuralGatingNetwork (+7 more)
 
 ### Community 80 - ".execute_daily_signals"
 Cohesion: 0.13
 Nodes (12): Any, Executes an immediate manual live/simulated BUY order from UI., Executes a 0.5N ATR Turtle Pyramiding scale-in order (Unit 2 or Unit 3).…, Alias for _save to ensure 100% backward compatibility., Executes an immediate manual live/simulated exit of an open position., Executes a 50% scale-out on an open position and moves stop to break-even., Appends trade to closed_trades and records an episodic post-mortem in…, Executes daily quantitative scan results using the Concentrated Top-2 + Scale-… (+4 more)
 
 ### Community 81 - "reddit_premarket_station.py"
-Cohesion: 0.12
-Nodes (24): fetch_4station_premarket_intelligence(), fetch_8station_premarket_intelligence(), fetch_all_reddit_headlines_for_ticker(), _fetch_subreddit_rss_entries(), Any, DataFrame, Systematic 8-Station Multi-Channel Reddit Market Intelligence Engine. Pillar 2…, Fetches real-time Atom RSS feed for a subreddit using safe defusedxml. (+16 more)
+Cohesion: 0.18
+Nodes (19): fetch_4station_premarket_intelligence(), fetch_8station_premarket_intelligence(), fetch_all_reddit_headlines_for_ticker(), _fetch_subreddit_rss_entries(), Any, DataFrame, Systematic 8-Station Multi-Channel Reddit Market Intelligence Engine. Pillar 2…, Fetches real-time Atom RSS feed for a subreddit using safe defusedxml. (+11 more)
 
 ### Community 82 - "check_correlation_shield"
-Cohesion: 0.25
-Nodes (10): calculate_portfolio_correlation_matrix(), check_correlation_shield(), Any, DataFrame, Computes the 21-day rolling pairwise return correlation matrix across tickers., Audits a candidate buy against currently held positions. Returns whether the…, Tests for Portfolio Correlation Matrix Shield (src/correlation_shield.py).…, test_calculate_portfolio_correlation_matrix() (+2 more)
+Cohesion: 0.23
+Nodes (11): calculate_portfolio_correlation_matrix(), check_correlation_shield(), Any, DataFrame, Portfolio Correlation Matrix Shield. Functions: - Calculates rolling 21-day…, Computes the 21-day rolling pairwise return correlation matrix across tickers., Audits a candidate buy against currently held positions. Returns whether the…, Tests for Portfolio Correlation Matrix Shield (src/correlation_shield.py).… (+3 more)
 
 ### Community 83 - "test_pyramiding_cppi_alpha158.py"
-Cohesion: 0.15
-Nodes (16): compute_alpha158_top25(), get_alpha158_feature_names(), DataFrame, Microsoft Qlib Alpha158 Top 25 Orthogonal Alpha Factors. Down-selected from the…, Computes the Top 25 Orthogonal Alpha158 factors from standard daily OHLCV…, Returns the names of all 25 orthogonal Alpha158 factors., evaluate_pyramiding_step(), Evaluates whether an active open position should add a pyramid unit and… (+8 more)
-
-### Community 84 - "fetch_financial_statements"
-Cohesion: 0.13
-Nodes (30): _persist_ablation_results(), Any, 4-Agent Trading Committee Ablation Study Engine for Sentilyze. Evaluates the…, Runs committee ablation study across multiple assets and returns aggregated…, Runs systematic ablation backtests comparing all 5 committee configurations.…, run_committee_ablation_backtest(), run_multi_ticker_ablation_study(), ForensicFundamentalAgent (+22 more)
-
-### Community 85 - "run_unified_institutional_pipeline"
-Cohesion: 0.16
-Nodes (15): Any, Executes all 8 quantitative pillars in a synchronized machine flow with zero…, run_unified_institutional_pipeline(), calculate_kelly_sizing(), estimate_market_impact_slippage(), Any, Calculates optimal position sizing using the Kelly Criterion: Kelly % = W - (1…, Estimates market execution slippage using the Almgren-Chriss square-root impact… (+7 more)
-
-### Community 86 - "sanitize_filename"
 Cohesion: 0.09
-Nodes (43): FeatureContribution, health_check(), predict(), PredictionResponse, Fetches the latest market and sentiment data, computes technical indicators,…, root(), BaseModel, get (+35 more)
+Nodes (28): compute_alpha158_top25(), get_alpha158_feature_names(), DataFrame, Microsoft Qlib Alpha158 Top 25 Orthogonal Alpha Factors. Down-selected from the…, Computes the Top 25 Orthogonal Alpha158 factors from standard daily OHLCV…, Returns the names of all 25 orthogonal Alpha158 factors., calculate_doubling_progress(), calculate_turtle_pyramid_plan() (+20 more)
 
-### Community 87 - "cli.py"
-Cohesion: 0.05
-Nodes (44): Root entry point for Sentilyze CLI. Run directly with: python sentilyze.py NVDA…, cmd_audit(), cmd_briefing(), cmd_portfolio(), cmd_scan(), cmd_trades(), main(), print_banner() (+36 more)
+### Community 84 - "agent_committee.py"
+Cohesion: 0.13
+Nodes (30): _persist_ablation_results(), Any, 4-Agent Trading Committee Ablation Study Engine for Sentilyze. Evaluates the…, Runs committee ablation study across multiple assets and returns aggregated…, Runs systematic ablation backtests comparing all 5 committee configurations.…, run_committee_ablation_backtest(), run_multi_ticker_ablation_study(), Autonomous Multi-Agent Trading Committee & Deliberation Engine for Sentilyze.… (+22 more)
+
+### Community 85 - "test_black_swan_simulator.py"
+Cohesion: 0.24
+Nodes (10): calculate_kelly_sizing(), estimate_market_impact_slippage(), Any, Calculates optimal position sizing using the Kelly Criterion: Kelly % = W - (1…, Estimates market execution slippage using the Almgren-Chriss square-root impact…, Stress-tests the current portfolio against major historical market crashes.…, simulate_portfolio_crises(), test_calculate_kelly_sizing() (+2 more)
+
+### Community 86 - "realtime_tracker.py"
+Cohesion: 0.08
+Nodes (46): FeatureContribution, health_check(), predict(), PredictionResponse, Fetches the latest market and sentiment data, computes technical indicators,…, root(), BaseModel, get (+38 more)
+
+### Community 87 - "DuckDBMarketEngine"
+Cohesion: 0.06
+Nodes (30): DuckDBMarketEngine, get_duckdb_scanner(), Any, DataFrame, Inserts or replaces daily bars for a given ticker., Populates the DuckDB lake from pre-computed backtest portfolio curves in…, Screens for high-probability momentum setups across the entire lake., Screens for stocks where SMA50 is breaking out above SMA200 (Long-Term Bullish… (+22 more)
 
 ### Community 88 - "CounterfactualTradeSimulator"
 Cohesion: 0.11
@@ -573,9 +567,9 @@ Nodes (19): CounterfactualTradeSimulator, get_counterfactual_simulator(), Any, D
 Cohesion: 0.12
 Nodes (15): 1. Executive Summary & Training Milestones, 2. Core Benchmark Tickers Historical Performance, 3. Top 25 Highest Accuracy Models Across Full Universe, 4. Top 25 Highest Alpha / Total Return Models Across Full Universe, 5. Retention & Storage Policy, AAPL (19 Recorded Runs), AMZN (14 Recorded Runs), Detailed Breakdown by Benchmark Ticker (+7 more)
 
-### Community 90 - "calculate_smart_money_zones"
-Cohesion: 0.22
-Nodes (15): calculate_smart_money_zones(), calculate_structural_trailing_stop(), evaluate_multi_timeframe_confluence(), find_swing_pivots(), Any, DataFrame, Ratchets the Stop-Loss up structurally behind higher swing lows. Rules: 1.…, Detects fractal swing highs and swing lows across historical price action. A… (+7 more)
+### Community 90 - "update_live_holdings_prices_and_alert_discord"
+Cohesion: 0.19
+Nodes (14): ensure_background_daemon_thread_running(), get_daemon_status(), Returns current live daemon running state and last pulse timestamp., Ensures a single background autonomous trading daemon thread is permanently…, Sub-second live spot price poller for active holdings. Updates current price,…, Continuous 5-Minute Intraday Guardian Loop during active market hours., run_5min_guardian_loop(), update_live_holdings_prices_and_alert_discord() (+6 more)
 
 ### Community 92 - "block_external_alerts"
 Cohesion: 0.50
@@ -585,13 +579,13 @@ Nodes (3): block_external_alerts(), fixture, Autouse fixture that prevents tests
 Cohesion: 0.12
 Nodes (14): AgentMemoryStore, Any, Calculates historical win rate, trade count, and recent trajectory for a…, Synthesizes episodic trade memory to provide risk adjustments to…, Synchronizes executed_trades.csv into trade_postmortems.jsonl and recalibrates…, Retrieves the most recent post-mortems in reverse chronological order., Calibrates committee voting weights using the Softmax Dirichlet RLFF Algorithm.…, Returns current dynamic voting weights. (+6 more)
 
-### Community 94 - "AICopilotEngine"
-Cohesion: 0.24
-Nodes (8): AICopilotEngine, Any, Conversational intelligence engine that parses queries and generates analytical…, Interprets user prompt and routes to appropriate financial analytical…, test_copilot_committee_query(), test_copilot_portfolio_query(), test_copilot_stress_query(), test_copilot_ticker_analysis_query()
+### Community 94 - "fetch_live_quote"
+Cohesion: 0.14
+Nodes (15): AICopilotEngine, Any, AI Trade Copilot & Conversational Analyst for Sentilyze. Provides natural…, Conversational intelligence engine that parses queries and generates analytical…, Interprets user prompt and routes to appropriate financial analytical…, Gathers overnight macro VIX volatility regime, paper portfolio balance, and top…, fetch_live_quote(), _get_browser_session() (+7 more)
 
-### Community 95 - "options_surface.py"
+### Community 95 - "test_options_surface.py"
 Cohesion: 0.16
-Nodes (16): calculate_multileg_payoff(), generate_volatility_surface_mesh(), PINNLocalVolNet, Any, Tensor, 3D Implied Volatility Surface & Multi-Leg Options Strategy Desk for Sentilyze.…, Physics-Informed Neural Network (PINN, Raissi et al. 2019) for Dupire Local…, Constructs a 3D Implied Volatility Surface across strike prices and expiration… (+8 more)
+Nodes (15): calculate_multileg_payoff(), generate_volatility_surface_mesh(), PINNLocalVolNet, Any, Tensor, Physics-Informed Neural Network (PINN, Raissi et al. 2019) for Dupire Local…, Constructs a 3D Implied Volatility Surface across strike prices and expiration…, PINN Local Volatility Solver (Sprint 3, Module 3.6 / Idea 7). Inverts Dupire's… (+7 more)
 
 ### Community 96 - "drawio/SKILL.md"
 Cohesion: 0.13
@@ -606,24 +600,24 @@ Cohesion: 0.14
 Nodes (16): get_insider_cluster_radar(), Any, SEC EDGAR Form 4 Insider Cluster Buying & Opportunistic Accumulation Radar.…, Evaluates insider buying signals, cluster activity, and computes conviction…, Mock fixture generator for deterministic testing., Convenience accessor function for committee and UI integration., Crawls and analyzes SEC Form 4 insider accumulation filings for a given ticker., Retrieves 10-digit padded CIK number for ticker. (+8 more)
 
 ### Community 99 - "test_institutional_weekend_suite.py"
-Cohesion: 0.13
-Nodes (17): Any, Sentilyze 10,000-Path Monte Carlo Portfolio Stress-Testing Engine. Simulates…, Executes a vectorized 10,000-path Monte Carlo simulation over forecast_days., run_portfolio_monte_carlo_simulation(), Any, Performs comprehensive autopsy across historical trades and extracts behavioral…, run_trade_memory_autopsy(), build_weekly_radar() (+9 more)
+Cohesion: 0.11
+Nodes (20): Any, Sentilyze 10,000-Path Monte Carlo Portfolio Stress-Testing Engine. Simulates…, Executes a vectorized 10,000-path Monte Carlo simulation over forecast_days., run_portfolio_monte_carlo_simulation(), Any, Sentilyze Deep Trade Post-Mortem & Autonomous Rule Inducer. Mines historical…, Performs comprehensive autopsy across historical trades and extracts behavioral…, run_trade_memory_autopsy() (+12 more)
 
 ### Community 100 - "CongressionalStockTracker"
 Cohesion: 0.13
 Nodes (17): CongressionalStockTracker, get_congressional_sentiment(), Any, Congressional STOCK Act Disclosure Tracker (Sprint 2, Module 2.1 / Idea 26)…, Analyzes congressional trading activity for a specific ticker over the lookback…, Helper wrapper for quick retrieval of congressional alignment., Ingests and parses US Congressional trading disclosures to evaluate political…, Loads cached transactions if available and fresh (< 24 hours). (+9 more)
 
-### Community 101 - "paper_broker.py"
-Cohesion: 0.11
-Nodes (14): BenzingaNewsWatchdog, Any, Autonomous Benzinga Breaking News Watchdog & Discord Dispatcher.…, Constructs and posts rich embed card to Discord., Launches continuous background watchdog thread., Stops the continuous watchdog thread., Autonomous 5-minute background watchdog monitoring Benzinga catalyst wire., Executes single watchdog polling cycle: - Detects newly published breaking… (+6 more)
+### Community 101 - "BenzingaNewsWatchdog"
+Cohesion: 0.12
+Nodes (14): BenzingaNewsWatchdog, get_benzinga_watchdog(), Any, Constructs and posts rich embed card to Discord., Launches continuous background watchdog thread., Stops the continuous watchdog thread., Autonomous 5-minute background watchdog monitoring Benzinga catalyst wire., Executes single watchdog polling cycle: - Detects newly published breaking… (+6 more)
 
 ### Community 102 - "Domain Expert Reference Template"
 Cohesion: 0.15
 Nodes (12): [Anti-Patterns], [Docs Index], Domain Expert Reference Template, [Domain Rules + Patterns], [Domain-Specific Catalog / Patterns] (OPTIONAL), [Project Context], [Project Conventions], Section Checklist (+4 more)
 
 ### Community 103 - "preprocess_data"
-Cohesion: 0.08
-Nodes (39): get_vix_data(), Fetches historical data for the CBOE Volatility Index (VIX). Args: period…, aggregate_sentiment_scores(), create_features(), create_technical_indicators(), DataFrame, Aggregate sentiment scores per day using Swift-Weighted FinBERT authority…, Merges price history with daily sentiment scores and VIX data to create a… (+31 more)
+Cohesion: 0.13
+Nodes (26): aggregate_sentiment_scores(), create_features(), create_technical_indicators(), DataFrame, Aggregate sentiment scores per day using Swift-Weighted FinBERT authority…, Merges price history with daily sentiment scores and VIX data to create a…, Create technical indicators from price history. Args: price_history…, _get_api_key() (+18 more)
 
 ### Community 104 - "3. Equipment Mapping (Draw.io Native Shapes)"
 Cohesion: 0.15
@@ -638,8 +632,8 @@ Cohesion: 0.11
 Nodes (35): compute_conformal_black_litterman(), compute_ledoit_wolf_covariance(), compute_minimum_variance_portfolio(), denoise_covariance_rmt(), marchenko_pastur_bounds(), optimize_cdar_portfolio(), optimize_dro_portfolio(), optimize_maximum_diversification_ratio() (+27 more)
 
 ### Community 107 - "compute_gamma_exposure_profile"
-Cohesion: 0.11
-Nodes (28): calculate_black_scholes_gamma(), calculate_max_pain(), calculate_options_gex(), calculate_options_max_pain(), compute_gamma_exposure_profile(), fetch_options_chain_data(), Any, DataFrame (+20 more)
+Cohesion: 0.16
+Nodes (17): calculate_black_scholes_gamma(), calculate_options_gex(), compute_gamma_exposure_profile(), Any, Options Gamma Exposure (GEX), Volatility Surface & Strike Wall Radar for…, Computes institutional Net Gamma Exposure (GEX), Call Wall, Put Wall, and Gamma…, Computes exact Black-Scholes option gamma (d^2V / dS^2). Args: spot: Underlying…, Convenience alias for compute_gamma_exposure_profile. (+9 more)
 
 ### Community 108 - "Agent Browser — Live Web Automation Skill"
 Cohesion: 0.50
@@ -674,35 +668,35 @@ Cohesion: 0.12
 Nodes (15): mock_memory(), fixture, Unit Tests for AgentMemoryStore & Episodic Trade Memory.…, Verifies that high-expectancy winners receive alpha champion boosts., Verifies synchronizing executed trades from an external CSV file., Verifies that PaperBroker._record_trade_closure automatically records post-…, Verifies that baseline rules and default weights are created upon…, Verifies appending post-mortems and updating empirical weights. (+7 more)
 
 ### Community 119 - "ws_committee.py"
-Cohesion: 0.10
-Nodes (24): Any, Interactive Multi-Agent War Room Visualizer Component for Streamlit. Functions:…, Renders the complete 5-Agent War Room Council deliberation chamber., render_multi_agent_war_room(), Real-Time Audio Trade Squawk Component for Streamlit. Functions: - Uses…, Renders an HTML5 Web Speech API audio squawk generator inside Streamlit., render_audio_squawk_button(), create_candlestick_sr_chart() (+16 more)
+Cohesion: 0.09
+Nodes (27): Any, Interactive Multi-Agent War Room Visualizer Component for Streamlit. Functions:…, Renders the complete 5-Agent War Room Council deliberation chamber., render_multi_agent_war_room(), Real-Time Audio Trade Squawk Component for Streamlit. Functions: - Uses…, Renders an HTML5 Web Speech API audio squawk generator inside Streamlit., render_audio_squawk_button(), create_candlestick_sr_chart() (+19 more)
 
-### Community 120 - "generate_morning_briefing_text"
-Cohesion: 0.16
-Nodes (19): generate_morning_briefing_text(), get_portfolio_intelligence(), load_universe_candidates(), Any, Reads live paper portfolio state for broadcast reporting., Assembles a comprehensive, institutional Wall Street Morning Podcast and…, Synthesizes broadcast audio podcast (.mp3) using Google Text-to-Speech (gTTS)…, Loads clean ticker list from stocks.txt or falls back to core liquid universe. (+11 more)
+### Community 120 - "morning_briefing.py"
+Cohesion: 0.17
+Nodes (20): generate_morning_briefing_text(), get_portfolio_intelligence(), load_universe_candidates(), Any, AI Pre-Market Audio & Executive Morning Briefing Generator for Sentilyze.…, Reads live paper portfolio state for broadcast reporting., Assembles a comprehensive, institutional Wall Street Morning Podcast and…, Synthesizes broadcast audio podcast (.mp3) using Google Text-to-Speech (gTTS)… (+12 more)
 
-### Community 121 - "compile_biotech_catalyst_radar"
-Cohesion: 0.27
-Nodes (10): compile_biotech_catalyst_radar(), fetch_clinical_trials_catalysts(), fetch_fda_regulatory_catalysts(), is_biotech_or_healthcare(), Any, BioTech & Pharma Catalyst Radar for Sentilyze.…, Queries openFDA API for recent approvals, drug labels, or regulatory safety…, Compiles complete regulatory and clinical trials intelligence for a given stock. (+2 more)
+### Community 121 - "ultra_quant_engine.py"
+Cohesion: 0.13
+Nodes (19): compile_biotech_catalyst_radar(), fetch_clinical_trials_catalysts(), fetch_fda_regulatory_catalysts(), is_biotech_or_healthcare(), Any, BioTech & Pharma Catalyst Radar for Sentilyze.…, Queries openFDA API for recent approvals, drug labels, or regulatory safety…, Compiles complete regulatory and clinical trials intelligence for a given stock. (+11 more)
 
-### Community 122 - "ultra_quant_engine.py"
-Cohesion: 0.18
-Nodes (14): compute_credit_and_liquidity_radar(), Any, Computes High Yield vs Investment Grade Credit Spread (HYG/LQD) leading…, build_orderflow_candlestick_chart(), calculate_volume_profile(), detect_fair_value_gaps(), Any, DataFrame (+6 more)
+### Community 122 - "build_orderflow_candlestick_chart"
+Cohesion: 0.29
+Nodes (10): build_orderflow_candlestick_chart(), calculate_volume_profile(), detect_fair_value_gaps(), Any, DataFrame, Figure, Institutional TradingView-Style Interactive Candlestick & Order Flow Engine.…, Detects 3-candle Fair Value Gaps (FVG) / institutional liquidity imbalances. (+2 more)
 
 ### Community 123 - "compute_dark_pool_sentiment"
 Cohesion: 0.21
 Nodes (14): compute_dark_pool_sentiment(), Any, ⚠️ EXPERIMENTAL / SIMULATED RESEARCH PROTOTYPE STATUS: DISCONNECTED FROM…, Retrieves recent institutional off-exchange block trades and dark pool prints., Scans option chain contracts where daily volume significantly exceeds open…, Synthesizes dark pool prints and unusual options flow into a unified…, scan_abnormal_options_vol_oi(), scan_dark_pool_blocks() (+6 more)
 
 ### Community 124 - "quant_engine.py"
-Cohesion: 0.14
-Nodes (25): MasterQuantPipelineResult, Master Institutional Quantitative Orchestrator for Sentilyze. Unifies all 8…, Strongly-typed container for end-to-end unified institutional analysis., calculate_max_pain(), calculate_put_call_ratios(), estimate_gamma_exposure(), fetch_option_chain(), _generate_mock_option_chain() (+17 more)
+Cohesion: 0.13
+Nodes (29): MasterQuantPipelineResult, Any, Master Institutional Quantitative Orchestrator for Sentilyze. Unifies all 8…, Strongly-typed container for end-to-end unified institutional analysis., Executes all 8 quantitative pillars in a synchronized machine flow with zero…, run_unified_institutional_pipeline(), calculate_max_pain(), calculate_put_call_ratios() (+21 more)
 
 ### Community 125 - "MahalanobisAnomalySentinel"
 Cohesion: 0.16
 Nodes (13): evaluate_mahalanobis_sentinel(), MahalanobisAnomalySentinel, Any, DataFrame, ndarray, Audits incoming features for an asset and flags abnormal distribution drift., Multivariate statistical anomaly detector based on Mahalanobis distance D_M(x).…, Extracts normalized technical feature set from OHLCV DataFrame. (+5 more)
 
 ### Community 126 - "FastFinBERTEngine"
-Cohesion: 0.31
+Cohesion: 0.27
 Nodes (5): FastFinBERTEngine, Any, Vectorized micro-batch inference for multiple headlines., Accelerated FinBERT inference engine delivering 2.5x - 4x speedups., Runs accelerated sentiment scoring on a single headline. Includes Companion…
 
 ### Community 127 - "calculate_insider_conviction_score"
@@ -713,9 +707,9 @@ Nodes (15): calculate_insider_conviction_score(), fetch_insider_transactions(), 
 Cohesion: 0.20
 Nodes (7): DCCCorrelation, Any, DataFrame, Paper 24: Dynamic Conditional Correlation (DCC-GARCH). Source: Engle (2002) —…, Simplified DCC model using EWMA-GARCH(1,1) for individual volatilities and DCC…, Fit the DCC model to a returns DataFrame. Returns time-varying correlation…, TestDCC
 
-### Community 129 - "audit_equity_credit_decoupling"
-Cohesion: 0.10
-Nodes (31): audit_equity_credit_decoupling(), get_synthetic_cds_spread(), Any, Synthetic CDS & Merton Structural Credit Risk Model (Sprint 2, Module 2.2 /…, Evaluates corporate structural credit risk and flags equity-credit divergence., Helper returning synthetic CDS spread in basis points., Solves non-linear 2-equation Merton system for (V, sigma_V). Equations: 1) E -…, solve_merton_model() (+23 more)
+### Community 129 - "ws_credit_risk.py"
+Cohesion: 0.17
+Nodes (18): evaluate_treasury_yield_curve(), fit_svensson_curve(), Any, ndarray, Nelson-Siegel-Svensson (NSS) Yield Curve Decomposer (Sprint 2, Module 2.6 /…, Fetches real-time US Treasury yields and performs Svensson decomposition. Uses…, Evaluates the continuous Nelson-Siegel-Svensson yield curve equation for…, Evaluates the instantaneous forward rate curve: f(m) = y(m) + m * y'(m). (+10 more)
 
 ### Community 130 - "generate_comprehensive_factsheet"
 Cohesion: 0.38
@@ -725,13 +719,13 @@ Nodes (6): generate_comprehensive_factsheet(), Any, Series, Computes over 30 ins
 Cohesion: 0.40
 Nodes (3): Tensor, Neural Softmax Gating layer to dynamically allocate weights among the 3 models.…, TriBrainGatingLayer
 
-### Community 132 - "test_zero_giveback_profit_lock.py"
-Cohesion: 0.18
-Nodes (11): enforce_capital_shield_stop_floor(), Enforces a strict downside capital shield ceiling (max 2.50% loss from entry).…, Unit tests for Institutional Zero-Giveback Profit Protection, 80% Peak Gain…, Verify that a gain of +0.50% immediately locks stop-loss to Breakeven + buffer., Verify that a gain of +1.00% locks stop-loss to at least +0.50% net profit., Verify that any stop loss wider than -2.50% is elevated to the capital shield…, Verify that PaperBroker saves atomically, maintains a backup, and guards…, test_atomic_broker_save_and_backup() (+3 more)
+### Community 132 - "audit_equity_credit_decoupling"
+Cohesion: 0.23
+Nodes (13): audit_equity_credit_decoupling(), get_synthetic_cds_spread(), Any, Synthetic CDS & Merton Structural Credit Risk Model (Sprint 2, Module 2.2 /…, Evaluates corporate structural credit risk and flags equity-credit divergence., Helper returning synthetic CDS spread in basis points., Solves non-linear 2-equation Merton system for (V, sigma_V). Equations: 1) E -…, solve_merton_model() (+5 more)
 
 ### Community 133 - "analyze_earnings_surprises"
-Cohesion: 0.23
-Nodes (10): analyze_earnings_surprises(), calculate_sue_metric(), Any, Post-Earnings Announcement Drift (PEAD) & SUE Earnings Surprise Radar for…, Computes surprise percentage and Standardized Unexpected Earnings (SUE)., Retrieves and computes recent earnings surprise metrics, SUE score, and PEAD…, Unit tests for Post-Earnings Announcement Drift (PEAD) & SUE Earnings Surprise…, test_earnings_surprises_bearish_miss() (+2 more)
+Cohesion: 0.36
+Nodes (7): analyze_earnings_surprises(), Any, Retrieves and computes recent earnings surprise metrics, SUE score, and PEAD…, Unit tests for Post-Earnings Announcement Drift (PEAD) & SUE Earnings Surprise…, test_earnings_surprises_bearish_miss(), test_earnings_surprises_bullish_beat(), test_earnings_surprises_fallback_on_empty()
 
 ### Community 134 - "test_sir_diffusion.py"
 Cohesion: 0.14
@@ -741,13 +735,13 @@ Nodes (16): compute_jensen_shannon_divergence(), detect_latent_finbert_tone_shif
 Cohesion: 0.33
 Nodes (8): evaluate_overnight_futures_pulse(), fetch_futures_quote(), Any, Fetches real-time quote for a futures symbol with yfinance history and proxy…, Evaluates overnight futures sentiment, computes implied market gap, and…, Unit Tests for Overnight Futures & Macro Sentinel Engine. STRICT PORTFOLIO…, test_evaluate_futures_bearish_gap(), test_evaluate_futures_bullish_gap()
 
-### Community 136 - "ChiefRiskOfficerAgent"
-Cohesion: 0.19
-Nodes (9): ChiefRiskOfficerAgent, Agent 4: Chief Risk Officer (CRO) — Synthesizes Votes, Computes Kelly Sizing,…, Any, Executes complete Google web mining across cashflow, dark pool relays, and…, Executes Google Web Mining across Reddit posts, comments, and specialized dark…, Mines Reddit posts and comments indexed via Google News RSS without 403 blocks., RedditCommentMiner, test_cro_agent_approval_and_veto() (+1 more)
+### Community 136 - ".evaluate_and_sign_off"
+Cohesion: 0.28
+Nodes (5): Any, Executes complete Google web mining across cashflow, dark pool relays, and…, Executes Google Web Mining across Reddit posts, comments, and specialized dark…, Mines Reddit posts and comments indexed via Google News RSS without 403 blocks., RedditCommentMiner
 
-### Community 137 - "calculate_conformal_prediction_interval"
-Cohesion: 0.24
-Nodes (12): calculate_conformal_prediction_interval(), calibrate_conformal_residuals_from_history(), compute_conformal_quantile(), Any, ndarray, Generates exact 1 - alpha conformal prediction interval for next-day price &…, Computes exact finite-sample conformal quantile with distribution-free…, Extracts calibration prediction residuals from ticker price history. Uses… (+4 more)
+### Community 137 - "FactorAttributionEngine"
+Cohesion: 0.21
+Nodes (9): FactorAttributionEngine, DataFrame, Series, Compute execution statistics from trade log dataframe., Compute rolling 30-day rolling beta, alpha, and sharpe., Construct a calendar year-month returns grid., Computes rigorous factor attribution and risk diagnostics on strategy return…, Calculate full institutional factsheet metrics. (+1 more)
 
 ### Community 138 - "social_sentiment.py"
 Cohesion: 0.23
@@ -757,73 +751,73 @@ Nodes (13): calculate_social_buzz_metrics(), fetch_social_sentiment_tracker(), A
 Cohesion: 0.23
 Nodes (11): get_trade_telemetry(), print_formatted_trade_report(), Any, Instant Trade Telemetry & Results Engine. Provides direct, zero-overhead access…, Fetches real-time trade execution summary, partitioning by today, yesterday,…, Prints a clean, concise institutional trade report to the terminal., Unit tests for Instant Trade Telemetry & Results Engine., Verify formatted trade report prints without raising exceptions. (+3 more)
 
-### Community 140 - "acpm_trainer.py"
-Cohesion: 0.20
-Nodes (10): Unified Alpha-Conformal Purged Multi-Task (ACPM) Quantitative Training Engine.…, neutralize_features(), neutralize_predictions(), DataFrame, ndarray, Series, Feature & Factor Neutralization for Quantitative Machine Learning.…, Neutralizes target feature columns with respect to factor columns (e.g. SPY… (+2 more)
+### Community 140 - "test_acpm_trainer.py"
+Cohesion: 0.12
+Nodes (19): Unified Alpha-Conformal Purged Multi-Task (ACPM) Quantitative Training Engine.…, Conformal Probability Calibration & Quantile Uncertainty Layer. Maps raw tree…, neutralize_features(), neutralize_predictions(), DataFrame, ndarray, Series, Feature & Factor Neutralization for Quantitative Machine Learning.… (+11 more)
 
 ### Community 141 - "OnlineNewtonStepOptimizer"
 Cohesion: 0.16
 Nodes (11): OnlineNewtonStepOptimizer, DataFrame, ndarray, Online Newton Step (ONS) Portfolio Engine (Agarwal, Hazan, Kale). A polynomial-…, Polynomial-Time ONS Portfolio Engine (Hazan et al.)., Processes price relatives (r_t = Close_t / Close_{t-1}) and updates weights in…, Fast O(d log d) Euclidean projection onto probability simplex., Runs ONS sequence through time and outputs daily allocations and portfolio… (+3 more)
 
-### Community 142 - "run_daily_market_scan"
-Cohesion: 0.19
-Nodes (11): Scans the entire stock universe defined in stocks.txt, generates tomorrow's…, run_daily_market_scan(), Any, Dispatches formatted HTML morning market digest email via Gmail SMTP., send_email_digest(), Test that high VPIN toxicity vetoes a trade and downgrades signal to HOLD., Test that confidence < 0.40 triggers explicit SELL signal., Test that run_daily_market_scan produces BUY when all institutional gates… (+3 more)
+### Community 142 - "_load_sentiment_analyzer"
+Cohesion: 0.21
+Nodes (12): clean_headline_data(), _load_sentiment_analyzer(), Any, Cleans a headline CSV file by removing rows with invalid stock tickers. Caches…, Thread-safely loads the FinBERT sentiment analysis model and tokenizer once…, fixture, temp_data_dirs(), test_clean_headline_data_invalid_tickers_no_cache() (+4 more)
 
 ### Community 143 - "autonomous_trader.py"
-Cohesion: 0.06
-Nodes (45): execute_committee_order(), Executes a committee-approved buy order into the virtual paper broker ledger., AutonomousTradingEngine, check_daily_loss_circuit_breaker(), get_daemon_status(), is_kill_switch_active(), load_universe_tickers(), Any (+37 more)
+Cohesion: 0.07
+Nodes (36): AutonomousTradingEngine, check_daily_loss_circuit_breaker(), FormalLogicZ3RuleGate, is_kill_switch_active(), load_universe_tickers(), Any, Autonomous Live Trading & News Intelligence Engine for Sentilyze. Institutional…, Executes the Self-Improving Feedback Loop: 1. Analyzes trade autopsies on… (+28 more)
 
 ### Community 144 - "test_etf_arbitrage.py"
 Cohesion: 0.23
 Nodes (13): calculate_etf_nav_spread(), calculate_inav(), evaluate_etf_arbitrage_vector(), Any, ETF Intraday NAV Arbitrage Vector & Constituent Flow Predictor (Sprint 2,…, Gathers real-time quotes for the ETF and its underlying basket, computing the…, Computes synthetic indicative Net Asset Value (iNAV) from constituent equity…, Computes basis spread between ETF trading price and iNAV: Spread (%) = ((P_ETF… (+5 more)
 
 ### Community 145 - "calculate_almgren_chriss_trajectory"
-Cohesion: 0.22
-Nodes (9): calculate_almgren_chriss_trajectory(), Any, Computes Almgren-Chriss optimal trading trajectory. x_j = 2 * sinh(0.5 * kappa…, Any, Simulates Monday 9:30 AM EDT market-open execution across existing positions…, simulate_market_opening(), test_paper3_almgren_chriss_execution(), Unit Tests for Market-Open Order Execution Simulator. STRICT PORTFOLIO… (+1 more)
-
-### Community 146 - "generate_audio_script"
-Cohesion: 0.26
-Nodes (10): generate_audio_script(), Any, Generates an institutional Wall Street morning audio briefing script., Synthesizes the morning briefing audio MP3 file. Uses Microsoft Edge Neural TTS…, synthesize_morning_audio(), Renders the one-click Voice Morning Audio Briefing widget in Cockpit 1 (Sprint…, _render_voice_morning_briefing_widget(), Unit tests for Voice Morning Audio Briefing (Sprint 1, Module 1.10) (+2 more)
-
-### Community 147 - "MasterTradingLoop"
-Cohesion: 0.12
-Nodes (14): MasterTradingLoop, Any, Executes Opening 15-Minute Whipsaw Shield: 1. Checks whether current market…, Executes Post-Market Trade Autopsy & Agent Weight Recalibration: 1. Runs…, Runs the complete 4-phase trading lifecycle in sequence: Phase 1 (Pre-Market)…, Returns the current operational status of the master loop for the dashboard., Unified Master Daily Trading Loop Orchestrator for Sentilyze. Coordinates all 4…, Executes Pre-Market Intelligence: 1. Macro yield curve & macro regime via… (+6 more)
-
-### Community 148 - "cockpit_portfolio.py"
 Cohesion: 0.19
-Nodes (13): Cockpit 3: Portfolio & Risk Optimization…, render_portfolio_cockpit(), _get_cached_cross_asset_matrix(), _get_cached_macro_metrics(), cache_data, render_macro_liquidity_workspace(), render_portfolio_diversity_workspace(), load_ticker_sectors() (+5 more)
+Nodes (11): calculate_almgren_chriss_trajectory(), Any, Paper 3: Almgren & Chriss (2000) - Optimal Execution of Portfolio Transactions.…, Computes Almgren-Chriss optimal trading trajectory. x_j = 2 * sinh(0.5 * kappa…, Any, Sentilyze Market-Open Order Execution Simulator. Simulates Monday 9:30 AM EDT…, Simulates Monday 9:30 AM EDT market-open execution across existing positions…, simulate_market_opening() (+3 more)
 
-### Community 149 - "calculate_cppi_allocation"
+### Community 146 - "evaluate_intraday_execution"
+Cohesion: 0.19
+Nodes (13): check_live_news_sentiment_shock(), evaluate_intraday_execution(), get_us_market_session_info(), Any, Checks if breaking news in the last few hours has a severe negative sentiment…, Autonomous 5-Minute Intraday Market Execution Engine: 1. Evaluates 50/50 Scale-…, Computes current US stock market session status (Pre-Market, Regular Hours,…, Sends immediate Discord alert when a new position is opened. (+5 more)
+
+### Community 147 - ".run_intraday_phase"
+Cohesion: 0.17
+Nodes (9): execute_committee_order(), Executes a committee-approved buy order into the virtual paper broker ledger., Any, Executes Opening 15-Minute Whipsaw Shield: 1. Checks whether current market…, Executes Intraday Deliberation & Order Routing: 1. Checks Master Kill Switch…, Executes Post-Market Trade Autopsy & Agent Weight Recalibration: 1. Runs…, Runs the complete 4-phase trading lifecycle in sequence: Phase 1 (Pre-Market)…, Returns the current operational status of the master loop for the dashboard. (+1 more)
+
+### Community 148 - "ws_options_surface.py"
 Cohesion: 0.23
-Nodes (8): calculate_cppi_allocation(), Any, ndarray, Paper 20: Constant Proportion Portfolio Insurance (CPPI). Source: Black & Jones…, CPPI allocation: Exposure = M * (Portfolio - Floor). Args: portfolio_value:…, Run a full CPPI backtest over a return series. Args: returns: Array of daily…, run_cppi_backtest(), TestCPPI
+Nodes (11): get_current_macro_regime(), MetaRegimeReport, 3-State Gaussian Hidden Markov Model & Meta-Regime Capital Allocator…, Convenience helper to compute macro regime report on demand., RegimeState, _get_cached_gex(), _get_cached_macro_regime(), cache_data (+3 more)
+
+### Community 149 - "test_papers_15_24.py"
+Cohesion: 0.11
+Nodes (18): calculate_cdar(), optimize_cdar_portfolio(), Any, DataFrame, ndarray, Paper 19: Conditional Drawdown-at-Risk (CDaR) Portfolio Optimization. Source:…, Calculate Conditional Drawdown-at-Risk: the expected drawdown in the worst…, Optimize portfolio weights to minimize CDaR. Simplified approach: compute CDaR… (+10 more)
 
 ### Community 150 - "evaluate_ticker_toxicity"
-Cohesion: 0.26
-Nodes (11): calculate_vpin(), evaluate_ticker_toxicity(), Any, DataFrame, Pulls price history and evaluates institutional order flow toxicity for a given…, Computes Volume-Synchronized Probability of Toxicity (VPIN) from price and…, Unit tests for Volume-Synchronized Probability of Toxicity (VPIN)…, test_vpin_bounded_between_zero_and_one() (+3 more)
+Cohesion: 0.23
+Nodes (12): calculate_vpin(), evaluate_ticker_toxicity(), Any, DataFrame, Volume-Synchronized Probability of Toxicity (VPIN) Microstructure Engine for…, Pulls price history and evaluates institutional order flow toxicity for a given…, Computes Volume-Synchronized Probability of Toxicity (VPIN) from price and…, Unit tests for Volume-Synchronized Probability of Toxicity (VPIN)… (+4 more)
 
 ### Community 151 - "SuperEnsembleClassifier"
 Cohesion: 0.11
-Nodes (16): Any, DataFrame, ndarray, Series, Institutional 3-Way Super-Ensemble & Stacking Meta-Learner for Sentilyze.…, Predicts directional momentum class (0 or 1)., Calculates individual predictions and consensus score for transparency., Saves all 3 models natively using secure serialization. No pickle/joblib used. (+8 more)
+Nodes (15): Any, DataFrame, ndarray, Series, Predicts directional momentum class (0 or 1)., Calculates individual predictions and consensus score for transparency., Saves all 3 models natively using secure serialization. No pickle/joblib used., Loads all 3 models natively. (+7 more)
 
 ### Community 152 - "test_master_loop.py"
 Cohesion: 0.22
 Nodes (3): isolated_loop(), fixture, Unit tests for src/master_loop.py. Verifies the 4-phase MasterTradingLoop…
 
-### Community 153 - "run_full_quant_experiment"
-Cohesion: 0.22
-Nodes (9): compute_performance_metrics(), Any, DataFrame, Series, Executes empirical ablation benchmark across the full asset universe., Simulates walk-forward strategy execution with or without advanced quant…, Computes key quant performance metrics., run_full_quant_experiment() (+1 more)
+### Community 153 - "calculate_hrp_weights"
+Cohesion: 0.13
+Nodes (21): compute_performance_metrics(), Any, DataFrame, Series, Empirical Quant Experimentation & Multi-Asset Ablation Benchmark Suite.…, Executes empirical ablation benchmark across the full asset universe., Simulates walk-forward strategy execution with or without advanced quant…, Computes key quant performance metrics. (+13 more)
 
-### Community 154 - "generate_pipeline_graph_data"
-Cohesion: 0.27
-Nodes (9): generate_pipeline_graph_data(), Any, Interactive Multi-Agent & Pipeline Architecture Canvas Component for Streamlit.…, Renders the interactive Vis.js animated node network canvas inside Streamlit., Constructs the nodes and edges representation for the pipeline graph canvas., render_pipeline_topology_canvas(), Tests for Interactive Multi-Agent & Pipeline Architecture Canvas…, test_generate_pipeline_graph_data_defaults() (+1 more)
+### Community 154 - "train.py"
+Cohesion: 0.24
+Nodes (9): main(), Batch Universe Trainer for Remaining S&P 100 Tickers., run_single(), Full Universe Retraining Engine for Sentilyze. Retrains all stocks in…, retrain_universe(), main(), Trains institutional ACPM Sector-Pooled Multi-Task models across the universe.…, Main function to run the training pipeline for a given stock ticker. Args:… (+1 more)
 
-### Community 155 - "calculate_doubling_progress"
-Cohesion: 0.31
-Nodes (8): calculate_doubling_progress(), compute_compound_position_size(), Any, Computes exact mathematical progress, run-rate, and remaining cycles to reach…, Computes dynamic equity-scaled position sizing so trade sizes grow…, Unit tests for Max Compound Acceleration Engine., test_calculate_doubling_progress(), test_compute_compound_position_size()
+### Community 155 - "test_options_max_pain.py"
+Cohesion: 0.20
+Nodes (11): calculate_max_pain(), calculate_options_max_pain(), fetch_options_chain_data(), DataFrame, Computes exact analytical Max Pain strike price and pinning probability. Max…, Computes standalone Max Pain Radar for a given ticker., Fetches real exchange options chains across near-term expiration dates. Args:…, Unit tests for Options Max Pain & Strike Pinning Radar (Option 4). (+3 more)
 
-### Community 156 - "compute_cross_asset_matrix"
-Cohesion: 0.27
-Nodes (10): compute_cross_asset_matrix(), fetch_cross_asset_history(), Any, DataFrame, Computes institutional cross-asset correlation matrix, credit ratio, and regime…, Fetches historical daily close prices for core cross-asset proxies. Returns…, Unit tests for Cross-Asset Credit & Macro Spillover Matrix (Option 2)., test_compute_cross_asset_matrix_credit_stress_divergence() (+2 more)
+### Community 156 - "test_regime_allocator.py"
+Cohesion: 0.18
+Nodes (10): mock_price_history(), fixture, Unit tests for 3-State Gaussian Hidden Markov Model & Meta-Regime Allocator., Generate 100 days of price history with bull and volatile phases., Verify HMM discovers 3 regimes and sorts them properly., Verify analysis report structure and allocation bounds., Verify fallback generation works if remote API fails., test_regime_allocator_analysis_report() (+2 more)
 
 ### Community 157 - "analyze_triad_cointegration"
 Cohesion: 0.24
@@ -842,84 +836,80 @@ Cohesion: 0.29
 Nodes (10): find_optimal_d(), fractional_differentiation_ffd(), get_weights_ffd(), ndarray, Series, Fixed-Width Window Fractional Differentiation (FFD) for Financial Time Series.…, Generate weights for Fixed-Width Window Fractional Differentiation. w_0 = 1 w_k…, Applies Fixed-Width Window Fractional Differentiation to a price series. (+2 more)
 
 ### Community 161 - "cockpit_backtest.py"
-Cohesion: 0.12
-Nodes (19): Any, Fast vectorized backtesting simulation sandbox for custom leverage, confidence,…, simulate_strategy_sandbox(), Cockpit 4: Multi-Decade Backtest & Performance Factsheet…, Renders verification card confirming 12 production models are freshly retrained., render_backtest_cockpit(), _render_retrained_models_badge(), load_cached_tournament_results() (+11 more)
+Cohesion: 0.19
+Nodes (12): Any, Fast vectorized backtesting simulation sandbox for custom leverage, confidence,…, simulate_strategy_sandbox(), Cockpit 4: Multi-Decade Backtest & Performance Factsheet…, Renders verification card confirming 12 production models are freshly retrained., render_backtest_cockpit(), _render_retrained_models_badge(), Workspace 6: Walk-Forward Backtesting & Performance Tearsheet. (+4 more)
 
 ### Community 162 - "tabnet_model.py"
 Cohesion: 0.08
 Nodes (24): AttentiveTransformer, FeatureTransformer, GatedLinearUnit, Any, ndarray, Tensor, TabNet Attentive Interpretable Tabular Network (Sprint 3, Module 3.1 / Idea 2)…, Returns: logits: (Batch, output_dim) m_explain: (Batch, input_dim) Normalized… (+16 more)
 
-### Community 163 - "test_acpm_trainer.py"
-Cohesion: 0.18
-Nodes (10): ACPMTrainer, State-of-the-Art 10x Institutional Quantitative Training Engine., ConformalCalibrator, Conformal Probability Calibration & Quantile Uncertainty Layer. Maps raw tree…, Non-parametric monotonic Isotonic Conformal Calibrator., Checks if a trade signal has statistically significant empirical edge beyond…, Unit Tests for 10x Alpha-Conformal Purged Multi-Task (ACPM) Training Engine., test_acpm_trainer_end_to_end() (+2 more)
+### Community 163 - "ConformalCalibrator"
+Cohesion: 0.12
+Nodes (14): ACPMTrainer, Any, DataFrame, Series, State-of-the-Art 10x Institutional Quantitative Training Engine., Executes end-to-end ACPM training for a target equity., ConformalCalibrator, ndarray (+6 more)
 
 ### Community 164 - "NAMClassifier"
 Cohesion: 0.09
 Nodes (20): ExU, FeatureSubNet, NAMClassifier, NeuralAdditiveModel, Any, ndarray, Tensor, Neural Additive Models (NAMs) with Monotonic Constraints (Sprint 3, Module 3.3… (+12 more)
 
 ### Community 165 - "ws_quantum_tournament.py"
-Cohesion: 0.22
-Nodes (14): generate_institutional_pdf_tearsheet(), Generates a publication-grade institutional quantitative tearsheet PDF. Returns…, get_market_timestamp(), load_academic_papers_benchmark(), load_safety_benchmarks(), load_tournament_results(), Any, cache_data (+6 more)
+Cohesion: 0.19
+Nodes (15): generate_institutional_pdf_tearsheet(), Institutional Quantitative Tearsheet & Factsheet Generator for Sentilyze.…, Generates a publication-grade institutional quantitative tearsheet PDF. Returns…, get_market_timestamp(), load_academic_papers_benchmark(), load_safety_benchmarks(), load_tournament_results(), Any (+7 more)
 
 ### Community 166 - "chronos_forecaster.py"
 Cohesion: 0.10
 Nodes (20): ChronosPriceConeForecaster, ChronosSequenceModel, ChronosTokenizer, get_chronos_price_forecast(), Any, ndarray, Tensor, Chronos Foundation Time-Series Forecaster & Price Cones (Sprint 3, Module 3.2 /… (+12 more)
 
-### Community 167 - "compute_fractional_kelly_sizing"
-Cohesion: 0.20
-Nodes (8): compute_fractional_kelly_sizing(), Computes true mathematical fractional Kelly Criterion position sizing with…, Any, DataFrame, Executes a full multi-period walk-forward simulation of the Triple-Convex…, Executes the 5-step Triple-Convex quantitative pipeline across the asset…, test_fractional_kelly_sizing(), test_paper14_fractional_kelly_capital_growth()
+### Community 167 - "compute_advanced_performance_ratios"
+Cohesion: 0.25
+Nodes (8): compute_advanced_performance_ratios(), compute_walk_forward_efficiency(), Any, Series, Computes Pardo (2008) Walk-Forward Efficiency (WFE) Ratio: WFE = OOS_Sharpe /…, Mines executed trade history (strictly read-only) to produce an autopsy…, Computes institutional performance ratios: Calmar, Sortino, Omega, Max DD…, run_autonomous_trade_autopsy()
 
-### Community 168 - "run_universe_mega_scan"
-Cohesion: 0.40
-Nodes (5): load_target_universe(), Any, Executes the institutional 1,000+ universe scan., Assembles the 1,000+ stock universe: 1. All S&P 500 components in stocks.txt 2.…, run_universe_mega_scan()
+### Community 168 - "SwiftShiftRadar"
+Cohesion: 0.32
+Nodes (5): Any, Predicts rapid market and ticker momentum shifts by cross-referencing: 1.…, Executes Swift Shift Radar across the entire active watchlist and candidate…, Executes deep Tri-Stream Shift Prediction and generates a concrete Trade Set…, SwiftShiftRadar
 
 ### Community 169 - "hedging_engine.py"
 Cohesion: 0.29
 Nodes (9): calculate_synthetic_floor_hedge(), calculate_vix_call_ratio_backspread(), Any, Institutional Hedging Engine & Convex Tail-Risk Derivatives Modeler (Sprint 4,…, Constructs an institutional VIX 1xN Call Ratio Backspread (Idea 34 / Sprint…, Synthetically replicates a Down-and-Out Put Floor protection using dynamic…, test_calculate_synthetic_floor_hedge(), test_calculate_synthetic_floor_hedge_barrier_knockout() (+1 more)
 
-### Community 170 - "evaluate_single_asset_screener"
-Cohesion: 0.27
-Nodes (9): evaluate_single_asset_screener(), Any, DataFrame, Executes parallel multi-condition anomaly screening across a universe of…, Evaluates multi-condition anomaly criteria for a single equity., run_universe_screener(), Tests for Real-Time Market Anomaly Screener (src/screener_engine.py). Verifies…, test_evaluate_single_asset_screener() (+1 more)
+### Community 170 - "get_sector_for_ticker"
+Cohesion: 0.14
+Nodes (18): build_pooled_sector_dataset(), get_sector_for_ticker(), DataFrame, Series, Cross-Asset Sector-Pooled Multi-Task Dataset Engine. Maps the 538-stock…, Returns the sector cluster for a given ticker or General default., Pools cross-sectional DataFrames across sector peers and creates a unified…, evaluate_single_asset_screener() (+10 more)
 
-### Community 171 - "get_sector_for_ticker"
-Cohesion: 0.28
-Nodes (8): build_pooled_sector_dataset(), get_sector_for_ticker(), DataFrame, Series, Cross-Asset Sector-Pooled Multi-Task Dataset Engine. Maps the 538-stock…, Returns the sector cluster for a given ticker or General default., Pools cross-sectional DataFrames across sector peers and creates a unified…, test_cross_asset_pooling()
+### Community 171 - "test_ui_modules.py"
+Cohesion: 0.32
+Nodes (6): load_cached_tournament_results(), cache_data, Loads pre-computed 3-generation tournament results if available., Renders the comprehensive Quant Alpha DAG Engine workspace., render_alpha_dag_workspace(), test_ws_alpha_dag_module_import()
 
 ### Community 172 - "grossman_zhou_allocation"
 Cohesion: 0.28
 Nodes (5): grossman_zhou_allocation(), Any, Paper 18: Grossman-Zhou Optimal Drawdown-Constrained Strategy. Source: Grossman…, Compute the Grossman-Zhou optimal risky allocation under a drawdown constraint…, TestGrossmanZhou
 
-### Community 173 - "DynamicSharpeMetaEnsemble"
-Cohesion: 0.25
-Nodes (5): DynamicSharpeMetaEnsemble, Dynamically re-weights multi-agent specialist and sub-model signals based on…, Record historical daily returns for a submodel., Calculate annualized Sharpe ratio for each submodel over lookback window., Compute Softmax allocation weights over rolling Sharpe ratios.
+### Community 173 - "deduplicate_news_stream"
+Cohesion: 0.29
+Nodes (7): calculate_jaccard_similarity(), deduplicate_news_stream(), normalize_headline_tokens(), DataFrame, Fast Jaccard-based semantic deduplication that eliminates syndicated press…, Extracts clean alphanumeric tokens for fast semantic similarity., Calculates Jaccard token overlap between two headlines.
 
 ### Community 174 - "ElasticWeightConsolidation"
 Cohesion: 0.15
 Nodes (18): Module, ElasticWeightConsolidation, FinancialMLP, Any, DataFrame, ndarray, Tensor, Elastic Weight Consolidation (EWC) Walk-Forward Optimization (WFO) Trainer Idea… (+10 more)
 
-### Community 175 - "InstitutionalDataGateway"
-Cohesion: 0.12
-Nodes (12): InsiderFlowSnapshot, InstitutionalDataGateway, MacroRegimeSnapshot, OptionsSentimentSnapshot, Fetches Federal Reserve Macro Indicators from St. Louis Fed (FRED) or falls…, Classifies macroeconomic regime and calculates sizing multiplier., Fetches SEC Form 4 insider trading transactions (CEOs, CFOs, 10% Owners)., Computes Options Put/Call ratios and Max Pain strike. (+4 more)
+### Community 175 - "master_loop.py"
+Cohesion: 0.07
+Nodes (27): InsiderFlowSnapshot, InstitutionalDataGateway, MacroRegimeSnapshot, OptionsSentimentSnapshot, Institutional Multi-Provider Market Data Gateway for Sentilyze.…, Fetches Federal Reserve Macro Indicators from St. Louis Fed (FRED) or falls…, Classifies macroeconomic regime and calculates sizing multiplier., Fetches SEC Form 4 insider trading transactions (CEOs, CFOs, 10% Owners). (+19 more)
 
-### Community 176 - "archive_and_prune_mlruns.py"
-Cohesion: 0.60
-Nodes (4): delete_run_dir(), main(), parse_run(), Archive and Prune MLflow Experiment Runs for Sentilyze (Multi-Threaded). Parses…
+### Community 176 - "time"
+Cohesion: 0.28
+Nodes (6): delete_run_dir(), main(), parse_run(), Archive and Prune MLflow Experiment Runs for Sentilyze (Multi-Threaded). Parses…, Clean orphaned MLflow models from mlruns/0/models that no longer belong to any…, time
 
 ### Community 177 - "stress_simulator.py"
-Cohesion: 0.20
-Nodes (11): Any, ndarray, Synthetic Crash Diffusion Engine & Black Swan Stress Simulator (Sprint 3,…, Samples N synthetic black-swan return paths using the reverse diffusion…, Runs comprehensive multi-scenario stress test across historical black swans.…, Simulates conditional fat-tailed synthetic black swan paths., run_portfolio_stress_test(), SyntheticCrashDiffusionEngine (+3 more)
+Cohesion: 0.11
+Nodes (18): DenoisingMLP, DiffusionNoiseSchedule, Any, ndarray, Tensor, Synthetic Crash Diffusion Engine & Black Swan Stress Simulator (Sprint 3,…, Samples N synthetic black-swan return paths using the reverse diffusion…, Runs comprehensive multi-scenario stress test across historical black swans.… (+10 more)
 
-### Community 178 - "DenoisingMLP"
-Cohesion: 0.25
-Nodes (5): DenoisingMLP, DiffusionNoiseSchedule, Tensor, Manages cosine/linear variance schedule for forward and reverse diffusion., Lightweight 1D conditional denoising MLP: epsilon_theta(x_t, t, condition) ->…
+### Community 178 - "compute_cross_asset_correlation"
+Cohesion: 0.40
+Nodes (6): compute_correlation_matrix(), compute_cross_asset_correlation(), Any, DataFrame, Convenience wrapper returning correlation matrix and analytics dictionary., Computes cross-asset returns correlation matrix and identifies optimal hedge…
 
-### Community 179 - "FormalLogicZ3RuleGate"
-Cohesion: 0.38
-Nodes (4): FormalLogicZ3RuleGate, Formal Logic & SMT-Style Verification Rule Gate (Idea 47 / Sprint 4.5).…, test_formal_logic_rule_gate_satisfaction(), test_formal_logic_rule_gate_violations()
-
-### Community 180 - ".classify"
-Cohesion: 0.33
-Nodes (4): Any, Translates raw social slang, emojis, and cashtags into standardized financial…, Classifies a single headline or social post with sub-millisecond speed.…, Batch-processes multiple headlines with vectorized execution.
+### Community 180 - "EventClassifierModel"
+Cohesion: 0.24
+Nodes (8): EventClassifierModel, Any, Translates raw social slang, emojis, and cashtags into standardized financial…, Classifies a single headline or social post with sub-millisecond speed.…, Batch-processes multiple headlines with vectorized execution., Production-grade Financial Event & Emotion Companion Model. Provides sub-…, test_event_classifier_fraud_and_dilution(), test_event_classifier_model()
 
 ### Community 181 - "generate_wall_street_factsheet_pdf"
 Cohesion: 0.36
@@ -927,55 +917,39 @@ Nodes (6): generate_wall_street_factsheet_pdf(), Any, Institutional PDF Fact She
 
 ### Community 182 - "ws_deep_quant.py"
 Cohesion: 0.18
-Nodes (17): analyze_debt_maturity_wall(), calculate_beneish_m_score(), Any, DataFrame, Beneish M-Score Forensic Analyzer & Debt Maturity Wall Radar for Sentilyze.…, Evaluates corporate interest coverage and debt maturity wall runway., Computes the 8-Ratio Beneish M-Score from 2-year comparative SEC financial…, _get_cached_forensic() (+9 more)
-
-### Community 183 - "smart_trader_engine.py"
-Cohesion: 0.27
-Nodes (8): apply_high_watermark_profit_lock(), Institutional Smart Money Market Structure & Price-Action Engine for Sentilyze.…, Guarantees that once a trade reaches peak profit, the bot NEVER gives back >…, Unit tests for High-Watermark Peak Profit Ratchet (75% Lock Floor)., test_high_watermark_does_not_lower_sl_on_pullback(), test_high_watermark_locks_75pct_of_peak_gain(), Verify that a peak surge to $110 (+10%) locks at least $108 (+8.0%) into the…, test_high_watermark_80_pct_retention()
+Nodes (18): analyze_debt_maturity_wall(), calculate_beneish_m_score(), Any, DataFrame, Beneish M-Score Forensic Analyzer & Debt Maturity Wall Radar for Sentilyze.…, Evaluates corporate interest coverage and debt maturity wall runway., Computes the 8-Ratio Beneish M-Score from 2-year comparative SEC financial…, _get_cached_dcf() (+10 more)
 
 ### Community 184 - "analyze_sec_filing_diff"
 Cohesion: 0.40
 Nodes (6): analyze_sec_filing_diff(), compute_text_similarity_and_diff(), Any, Computes lexical and semantic diff metrics between consecutive filings., Retrieves and compares the most recent and prior SEC filings for a company.…, test_sec_filing_diff_analysis()
 
-### Community 185 - "run_all_14_papers_benchmark"
-Cohesion: 0.20
-Nodes (10): Any, Executes empirical backtests comparing all 14 academic paper methodologies., run_all_14_papers_benchmark(), mock_stock_data(), fixture, Unit tests for src/academic_papers_benchmark.py. Verifies the master academic…, Verify that existing benchmark results file has required schema., Test run_all_14_papers_benchmark with mocked price feed. (+2 more)
-
-### Community 186 - ".calibrate"
-Cohesion: 0.40
-Nodes (3): ndarray, Calibrates on an independent holdout calibration split., Returns empirical calibrated probabilities.
-
-### Community 188 - ".evaluate_catalyst_and_market"
-Cohesion: 0.50
-Nodes (3): Any, DataFrame, Executes complete Tri-Model evaluation on incoming headline & market structure.…
+### Community 188 - "DLinearTCNModel"
+Cohesion: 0.18
+Nodes (9): DLinearTCNModel, Dual-Branch Deep Learning Architecture: - Branch 1 (Trend): Linear projection…, FastAgentPipeline, Any, DataFrame, Sub-second Multi-Model Agent Decision Pipeline., Executes complete Tri-Model evaluation on incoming headline & market structure.…, Verify that DLinear-TCN forward pass produces correct [batch, num_classes]… (+1 more)
 
 ### Community 190 - "render_workspace_header"
-Cohesion: 0.10
-Nodes (30): Real-Time Market Anomaly Screener Component for Streamlit. Functions: - Renders…, Renders the Real-Time Market Anomaly Screener UI., render_live_screener_section(), get_benzinga_watchdog(), Cockpit 2: Smart Money & Alternative Data…, render_smart_money_cockpit(), Shared Institutional UI Components & Widgets for Sentilyze. Includes Live US…, Renders an executive header banner with live status badge and market clock. (+22 more)
-
-### Community 192 - "temp_data_dir"
-Cohesion: 0.67
-Nodes (3): fixture, Fixture to set a temporary data directory for tests., temp_data_dir()
+Cohesion: 0.11
+Nodes (21): Real-Time Market Anomaly Screener Component for Streamlit. Functions: - Renders…, Renders the Real-Time Market Anomaly Screener UI., render_live_screener_section(), Cockpit 2: Smart Money & Alternative Data…, render_smart_money_cockpit(), Shared Institutional UI Components & Widgets for Sentilyze. Includes Live US…, Renders an executive header banner with live status badge and market clock., Wraps HTML content inside an institutional frosted glass container. (+13 more)
 
 ## Knowledge Gaps
 - **235 isolated node(s):** `graphify`, `1. Core Principles`, `2. Use Cases in Sentilyze`, `1. Storage Architecture`, `2. Integration Pattern` (+230 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **12 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `get_logger()` connect `utils.py` to `data_ingestion.py`, `test_pillar2_alternative_data.py`, `run_backtest`, `analyze_earnings_surprises`, `test_statistical_arbitrage.py`, `key_vault.py`, `TradingEnvironment`, `real_market_analyzer.py`, `CloudDataLake`, `social_sentiment.py`, `analyze_supply_chain_spillover`, `run_daily_market_scan`, `autonomous_trader.py`, `daily_scanner.py`, `OnlineNewtonStepOptimizer`, `generate_audio_script`, `chart_pattern_learning.py`, `calculate_hrp_weights`, `sentiment_analysis.py`, `SuperEnsembleClassifier`, `compute_lead_lag_matrix`, `DuckDBStore`, `liquidity_heatmap.py`, `get_us_market_session`, `ipo_radar.py`, `apply_triple_barrier_labeling`, `benchmark_training_paradigms.py`, `triple_convex_engine.py`, `VolScaledMomentumEngine`, `hedging_engine.py`, `TickerSentinelSwarm`, `ConformalQuantileEngine`, `ElasticWeightConsolidation`, `calculate_portfolio_diversity_grade`, `price_scout.py`, `generate_wall_street_factsheet_pdf`, `ws_deep_quant.py`, `smart_trader_engine.py`, `webhook_dispatcher.py`, `calculate_time_decayed_sentiment`, `get_price_history`, `test_stock_image_provider.py`, `run_monte_carlo_stress_test`, `benzinga_news_trader.py`, `TradePostMortemLearner`, `EventClassifierModel`, `reddit_premarket_station.py`, `fetch_financial_statements`, `sanitize_filename`, `cli.py`, `options_surface.py`, `SECForm4InsiderCrawler`, `test_institutional_weekend_suite.py`, `CongressionalStockTracker`, `paper_broker.py`, `preprocess_data`, `compute_gamma_exposure_profile`, `run_universe_training.py`, `compile_biotech_catalyst_radar`, `ultra_quant_engine.py`, `compute_dark_pool_sentiment`, `quant_engine.py`, `calculate_insider_conviction_score`?**
-  _High betweenness centrality (0.195) - this node is a cross-community bridge._
-- **Why does `get_price_history()` connect `get_price_history` to `data_ingestion.py`, `audit_equity_credit_decoupling`, `run_backtest`, `test_statistical_arbitrage.py`, `utils.py`, `ChiefRiskOfficerAgent`, `app.py`, `run_daily_market_scan`, `daily_scanner.py`, `test_etf_arbitrage.py`, `cockpit_portfolio.py`, `sentiment_analysis.py`, `evaluate_ticker_toxicity`, `UltraQuantEngine`, `run_full_quant_experiment`, `analyze_triad_cointegration`, `AdversarialRedTeamAgent`, `cockpit_backtest.py`, `chronos_forecaster.py`, `evaluate_single_asset_screener`, `stress_simulator.py`, `calculate_portfolio_diversity_grade`, `price_scout.py`, `run_all_14_papers_benchmark`, `QuantAlphaDAGEngine`, `reddit_premarket_station.py`, `check_correlation_shield`, `fetch_financial_statements`, `sanitize_filename`, `CounterfactualTradeSimulator`, `test_microstructure_engine.py`, `preprocess_data`, `test_commodity_spread.py`, `test_portfolio_optimizer.py`, `run_universe_training.py`, `ws_committee.py`, `generate_morning_briefing_text`, `ultra_quant_engine.py`, `MahalanobisAnomalySentinel`?**
-  _High betweenness centrality (0.116) - this node is a cross-community bridge._
-- **Why does `PaperBroker` connect `PaperBroker` to `data_ingestion.py`, `test_zero_giveback_profit_lock.py`, `test_statistical_arbitrage.py`, `utils.py`, `ws_performance_factsheet.py`, `print_formatted_trade_report`, `run_daily_market_scan`, `autonomous_trader.py`, `daily_scanner.py`, `calculate_hrp_weights`, `MasterTradingLoop`, `cockpit_portfolio.py`, `test_master_loop.py`, `AlpacaBrokerBridge`, `handle_bot_command`, `calculate_portfolio_diversity_grade`, `benzinga_news_trader.py`, `.execute_daily_signals`, `test_pyramiding_cppi_alpha158.py`, `sanitize_filename`, `cli.py`, `AgentMemoryStore`, `AICopilotEngine`, `paper_broker.py`, `test_agent_memory.py`, `generate_morning_briefing_text`, `calculate_insider_conviction_score`?**
-  _High betweenness centrality (0.057) - this node is a cross-community bridge._
-- **Are the 11 inferred relationships involving `PaperBroker` (e.g. with `AICopilotEngine` and `AutonomousTradingEngine`) actually correct?**
-  _`PaperBroker` has 11 INFERRED edges - model-reasoned connections that need verification._
+- **Why does `get_logger()` connect `utils.py` to `deep_learning_model.py`, `get_price_history`, `test_pillar2_alternative_data.py`, `run_backtest`, `drl_policy_agent.py`, `key_vault.py`, `TradingEnvironment`, `real_market_analyzer.py`, `CloudDataLake`, `social_sentiment.py`, `analyze_supply_chain_spillover`, `OnlineNewtonStepOptimizer`, `autonomous_trader.py`, `daily_scanner.py`, `calculate_almgren_chriss_trajectory`, `meta_ensemble.py`, `ws_live_prediction.py`, `test_statistical_arbitrage.py`, `sentiment_analysis.py`, `run_temporal_fusion_forecast`, `evaluate_ticker_toxicity`, `test_omnichannel_mobile.py`, `calculate_hrp_weights`, `train.py`, `DuckDBStore`, `AlpacaBrokerBridge`, `compute_lead_lag_matrix`, `liquidity_heatmap.py`, `._execute_cycle_body`, `ws_alternative_data.py`, `DailyExecutionBridge`, `cli.py`, `test_all_14_papers.py`, `ws_quantum_tournament.py`, `VolScaledMomentumEngine`, `hedging_engine.py`, `paper_broker.py`, `ConformalQuantileEngine`, `get_sector_for_ticker`, `ElasticWeightConsolidation`, `master_loop.py`, `universal_web_scraper.py`, `calculate_portfolio_diversity_grade`, `price_scout.py`, `generate_wall_street_factsheet_pdf`, `ws_deep_quant.py`, `cockpit_trading.py`, `calculate_time_decayed_sentiment`, `QuantAlphaDAGEngine`, `test_stock_image_provider.py`, `fetch_universe_live_quotes`, `benzinga_news_trader.py`, `TradePostMortemLearner`, `test_tri_model_pipeline.py`, `reddit_premarket_station.py`, `check_correlation_shield`, `test_pyramiding_cppi_alpha158.py`, `agent_committee.py`, `realtime_tracker.py`, `fetch_live_quote`, `SECForm4InsiderCrawler`, `test_institutional_weekend_suite.py`, `CongressionalStockTracker`, `preprocess_data`, `compute_gamma_exposure_profile`, `run_universe_training.py`, `morning_briefing.py`, `ultra_quant_engine.py`, `build_orderflow_candlestick_chart`, `compute_dark_pool_sentiment`, `quant_engine.py`, `calculate_insider_conviction_score`?**
+  _High betweenness centrality (0.214) - this node is a cross-community bridge._
+- **Why does `get_price_history()` connect `get_price_history` to `ws_credit_risk.py`, `OpeningRangeBreakout`, `run_backtest`, `audit_equity_credit_decoupling`, `utils.py`, `drl_policy_agent.py`, `.evaluate_and_sign_off`, `daily_scanner.py`, `test_etf_arbitrage.py`, `test_statistical_arbitrage.py`, `evaluate_ticker_toxicity`, `UltraQuantEngine`, `calculate_hrp_weights`, `analyze_triad_cointegration`, `AdversarialRedTeamAgent`, `cockpit_backtest.py`, `test_all_14_papers.py`, `chronos_forecaster.py`, `SwiftShiftRadar`, `get_sector_for_ticker`, `stress_simulator.py`, `compute_cross_asset_correlation`, `calculate_portfolio_diversity_grade`, `price_scout.py`, `get_news`, `QuantAlphaDAGEngine`, `convene_trading_committee`, `check_correlation_shield`, `agent_committee.py`, `realtime_tracker.py`, `CounterfactualTradeSimulator`, `update_live_holdings_prices_and_alert_discord`, `test_microstructure_engine.py`, `preprocess_data`, `test_commodity_spread.py`, `test_portfolio_optimizer.py`, `run_universe_training.py`, `ws_committee.py`, `morning_briefing.py`, `ultra_quant_engine.py`, `MahalanobisAnomalySentinel`?**
+  _High betweenness centrality (0.115) - this node is a cross-community bridge._
+- **Why does `PaperBroker` connect `PaperBroker` to `OpeningRangeBreakout`, `drl_policy_agent.py`, `ws_performance_factsheet.py`, `print_formatted_trade_report`, `ws_portfolio.py`, `autonomous_trader.py`, `daily_scanner.py`, `evaluate_intraday_execution`, `test_master_loop.py`, `AlpacaBrokerBridge`, `DailyExecutionBridge`, `cli.py`, `paper_broker.py`, `master_loop.py`, `handle_bot_command`, `calculate_portfolio_diversity_grade`, `stress_simulator.py`, `benzinga_news_trader.py`, `convene_trading_committee`, `.execute_daily_signals`, `test_pyramiding_cppi_alpha158.py`, `realtime_tracker.py`, `update_live_holdings_prices_and_alert_discord`, `AgentMemoryStore`, `fetch_live_quote`, `BenzingaNewsWatchdog`, `test_agent_memory.py`, `morning_briefing.py`, `calculate_insider_conviction_score`?**
+  _High betweenness centrality (0.059) - this node is a cross-community bridge._
+- **Are the 12 inferred relationships involving `PaperBroker` (e.g. with `AICopilotEngine` and `AutonomousTradingEngine`) actually correct?**
+  _`PaperBroker` has 12 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `graphify`, `1. Core Principles`, `2. Use Cases in Sentilyze` to the rest of the system?**
   _235 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `DLinearTCNModel` be split into smaller, more focused modules?**
-  _Cohesion score 0.1383399209486166 - nodes in this community are weakly interconnected._
-- **Should `data_ingestion.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.037311894454751596 - nodes in this community are weakly interconnected._
+- **Should `deep_learning_model.py` be split into smaller, more focused modules?**
+  _Cohesion score 0.13043478260869565 - nodes in this community are weakly interconnected._
+- **Should `get_price_history` be split into smaller, more focused modules?**
+  _Cohesion score 0.070578231292517 - nodes in this community are weakly interconnected._
