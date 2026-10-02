@@ -349,11 +349,22 @@ def scan_and_trade_benzinga_catalysts(
             continue
 
         # Deliberate with Multi-Agent Committee
+        cat_titles = [n["title"] for n in item.get("news_items", [])]
         try:
-            committee_res = convene_trading_committee(ticker=ticker, spot_price=price)
-            verdict = committee_res.get("verdict", "HOLD")
-            conviction = float(committee_res.get("conviction", 50.0))
-            votes = committee_res.get("votes", {})
+            committee_res = convene_trading_committee(
+                ticker=ticker, spot_price=price, catalyst_headlines=cat_titles
+            )
+            verdict = (
+                committee_res.get("action_code")
+                or committee_res.get("verdict")
+                or "HOLD"
+            )
+            conviction = float(
+                committee_res.get("consensus_conviction_pct")
+                or committee_res.get("conviction")
+                or 50.0
+            )
+            votes = committee_res.get("agent_testimonies", [])
         except Exception as ce:
             logger.debug(f"Committee deliberation note for {ticker}: {ce}")
             verdict = (
@@ -362,7 +373,7 @@ def scan_and_trade_benzinga_catalysts(
                 else ("SELL" if net_score <= -0.50 else "HOLD")
             )
             conviction = 65.0 if abs(net_score) >= 0.50 else 50.0
-            votes = {}
+            votes = []
 
         # Trade Decision Logic:
         action = "HOLD"
@@ -370,12 +381,11 @@ def scan_and_trade_benzinga_catalysts(
 
         # Case 1: Bearish News on an existing position -> EXIT / SELL
         if ticker in open_positions and (
-            cat_sentiment == "BEARISH" or verdict == "SELL"
+            cat_sentiment == "BEARISH" or verdict in ("SELL", "AVOID")
         ):
             action = "SELL"
             trade_reason = f"BENZINGA_BEARISH_CATALYST_EXIT: {latest_headline}"
             if execute_paper:
-                pos = open_positions[ticker]
                 exit_res = active_broker.execute_daily_signals(
                     signals_list=[
                         {
@@ -402,7 +412,10 @@ def scan_and_trade_benzinga_catalysts(
         elif (
             cat_sentiment == "BULLISH"
             and net_score >= 0.30
-            and verdict in ("BUY", "STRONG_BUY")
+            and (
+                verdict in ("BUY", "STRONG_BUY", "EXECUTE_BUY", "SCALE_IN")
+                or (net_score >= 0.60 and conviction >= 60.0)
+            )
         ):
             action = "BUY"
             trade_reason = f"BENZINGA_BREAKING_BULLISH_CATALYST: {latest_headline}"

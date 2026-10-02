@@ -326,7 +326,9 @@ class TechnicalAlphaAgent:
 class SentimentCatalystAgent:
     """Agent 2: Evaluates FinBERT Deep NLP Sentiment across Live News Streams."""
 
-    def evaluate(self, ticker: str) -> Dict[str, Any]:
+    def evaluate(
+        self, ticker: str, override_headlines: Optional[List[str]] = None
+    ) -> Dict[str, Any]:
         net_polarity = 0.0
         head_count = 0
         event_type = "GENERAL_MARKET_FLOW"
@@ -343,17 +345,21 @@ class SentimentCatalystAgent:
             fast_finbert = get_fast_finbert_engine()
             event_classifier = EventClassifierModel()
 
-            news_raw = get_news(ticker, use_cache=True)
-            if isinstance(news_raw, pd.DataFrame) and not news_raw.empty:
-                titles = (
-                    news_raw["Title"].dropna().tolist()
-                    if "Title" in news_raw.columns
-                    else []
-                )
-            elif isinstance(news_raw, list) and len(news_raw) > 0:
-                titles = [str(x) for x in news_raw]
+            if override_headlines and len(override_headlines) > 0:
+                titles = [str(t) for t in override_headlines]
+                news_raw = pd.DataFrame({"Title": titles})
             else:
-                titles = []
+                news_raw = get_news(ticker, use_cache=True)
+                if isinstance(news_raw, pd.DataFrame) and not news_raw.empty:
+                    titles = (
+                        news_raw["Title"].dropna().tolist()
+                        if "Title" in news_raw.columns
+                        else []
+                    )
+                elif isinstance(news_raw, list) and len(news_raw) > 0:
+                    titles = [str(x) for x in news_raw]
+                else:
+                    titles = []
 
             head_count = len(titles)
             if titles:
@@ -1146,6 +1152,7 @@ def convene_trading_committee(
     vix_change_pct: float = -1.2,
     save_resolution: bool = True,
     spot_price: Optional[float] = None,
+    catalyst_headlines: Optional[List[str]] = None,
 ) -> Dict[str, Any]:
     """
     Orchestrates a full round-table deliberation of the 5-Agent Trading Committee for a given asset.
@@ -1172,7 +1179,7 @@ def convene_trading_committee(
 
     # Gather Specialist Testimonies from domain agents + real-time price scout + red-team stress tester
     report_tech = tech_agent.evaluate(ticker, spot_price)
-    report_sent = sent_agent.evaluate(ticker)
+    report_sent = sent_agent.evaluate(ticker, override_headlines=catalyst_headlines)
     report_forensic = forensic_agent.evaluate(ticker, spot_price)
     report_scout = scout_agent.evaluate(ticker, spot_price)
     report_red_team = red_team_agent.evaluate(ticker, spot_price)
@@ -1200,7 +1207,9 @@ def convene_trading_committee(
         "spot_price": spot_price,
         "final_resolution": cro_signoff["final_resolution"],
         "action_code": cro_signoff["action_code"],
+        "verdict": cro_signoff["action_code"],
         "consensus_conviction_pct": cro_signoff["consensus_conviction_pct"],
+        "conviction": cro_signoff["consensus_conviction_pct"],
         "approved_leverage": cro_signoff["approved_leverage"],
         "kelly_allocation_pct": cro_signoff["kelly_allocation_pct"],
         "tp1_target": cro_signoff["tp1_target"],

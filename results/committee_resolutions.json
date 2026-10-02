@@ -3552,22 +3552,24 @@
     ]
   },
   "MU": {
-    "timestamp": "2026-10-02T12:56:08.222253+00:00",
+    "timestamp": "2026-10-02T15:43:25.174498+00:00",
     "ticker": "MU",
-    "spot_price": 1097.39,
-    "final_resolution": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
-    "action_code": "SCALE_IN",
-    "consensus_conviction_pct": 59.4,
-    "approved_leverage": 1.0,
-    "kelly_allocation_pct": 3.5,
-    "tp1_target": 1206.32,
-    "tp2_target": 1293.46,
-    "stop_loss_target": 1033.49,
+    "spot_price": 1078.06,
+    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "action_code": "HOLD",
+    "verdict": "HOLD",
+    "consensus_conviction_pct": 50.6,
+    "conviction": 50.6,
+    "approved_leverage": 0.0,
+    "kelly_allocation_pct": 0.0,
+    "tp1_target": 1186.98,
+    "tp2_target": 1274.12,
+    "stop_loss_target": 1015.29,
     "atr_14": 43.57,
-    "atr_pct": 3.97,
+    "atr_pct": 4.04,
     "quantum_telemetry": {
       "ticker": "MU",
-      "spot_price": 1097.39,
+      "spot_price": 1078.06,
       "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
       "risk_multiplier": 1.0,
       "hmm_regime": "Bull",
@@ -3578,8 +3580,8 @@
       "vah_price": 142.31,
       "val_price": 41.2,
       "dist_to_poc_pct": 1445.94,
-      "conformal_lower_bound": 1033.49,
-      "conformal_upper_bound": 1161.29,
+      "conformal_lower_bound": 1015.29,
+      "conformal_upper_bound": 1140.83,
       "momentum_zscore": 2.9,
       "vol_scaled_exposure": 0.2,
       "realized_vol_annual": 0.705,
@@ -3658,7 +3660,7 @@
           }
         ],
         "summary": "Net Insider Outflow: $4,727,494 in open-market dispositions.",
-        "timestamp": "2026-10-02T12:55:58.336562+00:00"
+        "timestamp": "2026-10-02T15:42:49.914824+00:00"
       },
       "sec_catalysts": [
         {
@@ -3686,17 +3688,17 @@
         "color": "#3B82F6"
       },
       "options_data": {
-        "spot_price": 1097.39,
+        "spot_price": 1078.06,
         "net_gex": 0.0,
         "gamma_regime": "Neutral Gamma",
-        "max_pain_strike": 1097.39
+        "max_pain_strike": 1078.06
       },
       "macro_blackout": {
         "is_blackout_active": false,
         "status": "NORMAL_LIQUIDITY",
-        "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -378.9h",
+        "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -381.7h",
         "nearest_event_name": "FOMC Rate Decision & Dot Plot Projections",
-        "minutes_to_event": -22735.6,
+        "minutes_to_event": -22901.7,
         "tier": "TIER_1_CRITICAL",
         "expected_spy_dispersion_pct": 0.85,
         "expected_qqq_dispersion_pct": 1.25,
@@ -3710,12 +3712,12 @@
         "risk_profile": "NORMAL"
       },
       "execution_latency": {
-        "total_nanoseconds": 77778000,
-        "total_microseconds": 77778.0,
-        "hmm_micros": 5.4,
-        "cusum_micros": 14.4,
-        "volume_profile_micros": 59339.4,
-        "momentum_micros": 9347.3
+        "total_nanoseconds": 9738058400,
+        "total_microseconds": 9738058.4,
+        "hmm_micros": 13443.7,
+        "cusum_micros": 11.2,
+        "volume_profile_micros": 83810.9,
+        "momentum_micros": 10934.0
       }
     },
     "agent_testimonies": [
@@ -3742,7 +3744,7 @@
           "corr5": 0.52242,
           "wvma10": 0.01336
         },
-        "thesis": "Asset is consolidating within trend (RSI 64.5, SMA200 $614.09). \ud83c\udfaf 15-Min Opening Range Breakout verified (Price $1097.39 > OR_High $1042.38). ACPM Conformal Model signals caution (41.8% probability)."
+        "thesis": "Asset is consolidating within trend (RSI 64.5, SMA200 $614.09). \ud83c\udfaf 15-Min Opening Range Breakout verified (Price $1078.06 > OR_High $1042.38). ACPM Conformal Model signals caution (41.8% probability)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -3753,17 +3755,17 @@
           "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
           "Paper 21: Bifet & Gavald\u00e0 (2007) ADWIN Adaptive Concept Drift Tracking"
         ],
-        "vote": "BUY",
-        "conviction_score": 64.9,
+        "vote": "HOLD",
+        "conviction_score": 45.0,
         "key_metrics": {
-          "finbert_polarity": 0.248,
+          "finbert_polarity": 0.124,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
-          "headlines_analyzed": 100,
-          "pead_signal": "IN_LINE_DRIFT",
-          "sue_score": 0.14,
-          "eps_surprise_pct": 5.03,
+          "headlines_analyzed": 3,
+          "pead_signal": "NEUTRAL_DRIFT",
+          "sue_score": 0.0,
+          "eps_surprise_pct": 0.0,
           "sec_8k_count": 1,
           "insider_score": 10.0,
           "insider_cluster_buy": false,
@@ -3774,7 +3776,7 @@
           "swift_urgency": "NORMAL",
           "swift_action": ""
         },
-        "thesis": "Strong bullish news flow (++0.25 FinBERT score across 100 live headlines; Event: GENERAL_MARKET_FLOW). \u26a0\ufe0f INSIDER DISTRIBUTION: Heavy insider selling recorded. \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
+        "thesis": "Balanced sentiment environment (+0.12 polarity across 3 headlines; Event: GENERAL_MARKET_FLOW). \u26a0\ufe0f INSIDER DISTRIBUTION: Heavy insider selling recorded. \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -3783,31 +3785,30 @@
           "Paper 05: Bellman-Ford Fundamental Arbitrage Graph Theory",
           "Paper 13: Chen et al. (2020) Supply Chain Contagion Graph Neural Networks"
         ],
-        "vote": "HOLD",
-        "conviction_score": 31.8,
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "data_available": true,
+          "data_available": false,
           "piotroski_f_score": 5,
-          "altman_z_score": 25.0,
-          "dcf_fair_value": 613.71,
-          "dcf_margin_of_safety_pct": -44.1
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $613.71 (Margin of Safety: -44.1%)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "MU",
-        "spot_price": 1097.39,
-        "day_high": 1098.9,
-        "day_low": 1022.9,
-        "change_pct": 3.03,
-        "range_position_pct": 98.0,
+        "spot_price": 1078.06,
+        "day_high": 1107.87,
+        "day_low": 1072.78,
+        "change_pct": -1.76,
+        "range_position_pct": 15.0,
         "rvol": 0.88,
-        "momentum_velocity_pct": 14.87,
-        "conviction_score": 85.0,
-        "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 0.88x, Range 98%, 5D Vel +14.9%)",
-        "timestamp": "2026-10-02T12:56:00.550839+00:00"
+        "momentum_velocity_pct": 12.85,
+        "conviction_score": 40.0,
+        "vote": "HOLD",
+        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 15%, RVOL 0.88x, 5D Vel +12.8%)",
+        "timestamp": "2026-10-02T15:43:01.779778+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -3821,7 +3822,7 @@
         "severity_score": 35.0,
         "conviction_score": 65.0,
         "risk_factors": [
-          "Severe overextension: Trading +78.7% above 200-day SMA ($614.09) \u2014 elevated mean-reversion risk."
+          "Severe overextension: Trading +75.6% above 200-day SMA ($614.09) \u2014 elevated mean-reversion risk."
         ],
         "key_metrics": {
           "vulnerabilities_detected": 1,
@@ -3840,15 +3841,15 @@
         "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
         "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
       ],
-      "final_resolution": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
-      "action_code": "SCALE_IN",
-      "buy_votes": 2,
+      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+      "action_code": "HOLD",
+      "buy_votes": 0,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 59.4,
-      "unweighted_conviction_pct": 58.9,
-      "weighted_conviction_pct": 59.9,
-      "approved_leverage": 1.0,
-      "kelly_allocation_pct": 3.5,
+      "consensus_conviction_pct": 50.6,
+      "unweighted_conviction_pct": 49.6,
+      "weighted_conviction_pct": 51.5,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
       "kelly_details": {
         "full_kelly_pct": 18.29,
         "fractional_kelly_pct": 3.5,
@@ -3862,14 +3863,14 @@
         "status": "POSITIVE_EXPECTANCY"
       },
       "atr_14": 43.57,
-      "atr_pct": 3.97,
-      "tp1_target": 1206.32,
-      "tp2_target": 1293.46,
-      "stop_loss_target": 1033.49,
+      "atr_pct": 4.04,
+      "tp1_target": 1186.98,
+      "tp2_target": 1274.12,
+      "stop_loss_target": 1015.29,
       "portfolio_diversity_grade": "A",
-      "conformal_lower_bound": 1033.49,
-      "conformal_upper_bound": 1161.29,
-      "cro_thesis": "Committee Consensus: 2/5 specialist agents voted BUY (Average Conviction: 58.9%). ATR14 is $43.57 (4.0% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 3.5%. Trade signed off for execution.",
+      "conformal_lower_bound": 1015.29,
+      "conformal_upper_bound": 1140.83,
+      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 49.6%). ATR14 is $43.57 (4.0% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false,
@@ -3878,7 +3879,7 @@
       "hmm_veto_triggered": false,
       "quantum_telemetry": {
         "ticker": "MU",
-        "spot_price": 1097.39,
+        "spot_price": 1078.06,
         "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
         "risk_multiplier": 1.0,
         "hmm_regime": "Bull",
@@ -3889,8 +3890,8 @@
         "vah_price": 142.31,
         "val_price": 41.2,
         "dist_to_poc_pct": 1445.94,
-        "conformal_lower_bound": 1033.49,
-        "conformal_upper_bound": 1161.29,
+        "conformal_lower_bound": 1015.29,
+        "conformal_upper_bound": 1140.83,
         "momentum_zscore": 2.9,
         "vol_scaled_exposure": 0.2,
         "realized_vol_annual": 0.705,
@@ -3969,7 +3970,7 @@
             }
           ],
           "summary": "Net Insider Outflow: $4,727,494 in open-market dispositions.",
-          "timestamp": "2026-10-02T12:55:58.336562+00:00"
+          "timestamp": "2026-10-02T15:42:49.914824+00:00"
         },
         "sec_catalysts": [
           {
@@ -3997,17 +3998,17 @@
           "color": "#3B82F6"
         },
         "options_data": {
-          "spot_price": 1097.39,
+          "spot_price": 1078.06,
           "net_gex": 0.0,
           "gamma_regime": "Neutral Gamma",
-          "max_pain_strike": 1097.39
+          "max_pain_strike": 1078.06
         },
         "macro_blackout": {
           "is_blackout_active": false,
           "status": "NORMAL_LIQUIDITY",
-          "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -378.9h",
+          "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -381.7h",
           "nearest_event_name": "FOMC Rate Decision & Dot Plot Projections",
-          "minutes_to_event": -22735.6,
+          "minutes_to_event": -22901.7,
           "tier": "TIER_1_CRITICAL",
           "expected_spy_dispersion_pct": 0.85,
           "expected_qqq_dispersion_pct": 1.25,
@@ -4021,12 +4022,12 @@
           "risk_profile": "NORMAL"
         },
         "execution_latency": {
-          "total_nanoseconds": 77778000,
-          "total_microseconds": 77778.0,
-          "hmm_micros": 5.4,
-          "cusum_micros": 14.4,
-          "volume_profile_micros": 59339.4,
-          "momentum_micros": 9347.3
+          "total_nanoseconds": 9738058400,
+          "total_microseconds": 9738058.4,
+          "hmm_micros": 13443.7,
+          "cusum_micros": 11.2,
+          "volume_profile_micros": 83810.9,
+          "momentum_micros": 10934.0
         }
       },
       "memory_risk_adjustment": {
@@ -5383,22 +5384,24 @@
     ]
   },
   "AMZN": {
-    "timestamp": "2026-10-02T12:55:56.264656+00:00",
+    "timestamp": "2026-10-02T15:42:36.030878+00:00",
     "ticker": "AMZN",
-    "spot_price": 248.23,
-    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "action_code": "HOLD",
-    "consensus_conviction_pct": 66.3,
-    "approved_leverage": 0.0,
-    "kelly_allocation_pct": 0.0,
-    "tp1_target": 262.38,
-    "tp2_target": 273.7,
-    "stop_loss_target": 239.76,
+    "spot_price": 250.48,
+    "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+    "action_code": "EXECUTE_BUY",
+    "verdict": "EXECUTE_BUY",
+    "consensus_conviction_pct": 74.6,
+    "conviction": 74.6,
+    "approved_leverage": 1.25,
+    "kelly_allocation_pct": 5.0,
+    "tp1_target": 264.63,
+    "tp2_target": 275.95,
+    "stop_loss_target": 241.99,
     "atr_14": 5.66,
-    "atr_pct": 2.28,
+    "atr_pct": 2.26,
     "quantum_telemetry": {
       "ticker": "AMZN",
-      "spot_price": 248.23,
+      "spot_price": 250.48,
       "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
       "risk_multiplier": 1.0,
       "hmm_regime": "Bull",
@@ -5409,8 +5412,8 @@
       "vah_price": 184.31,
       "val_price": 90.02,
       "dist_to_poc_pct": 54.96,
-      "conformal_lower_bound": 239.76,
-      "conformal_upper_bound": 256.7,
+      "conformal_lower_bound": 241.93,
+      "conformal_upper_bound": 259.03,
       "momentum_zscore": -0.08,
       "vol_scaled_exposure": -0.03,
       "realized_vol_annual": 0.38,
@@ -5478,7 +5481,7 @@
           }
         ],
         "summary": "Net Insider Outflow: $753,867 in open-market dispositions.",
-        "timestamp": "2026-10-02T12:55:44.232468+00:00"
+        "timestamp": "2026-10-02T15:42:08.126548+00:00"
       },
       "sec_catalysts": [],
       "social_buzz": {
@@ -5493,17 +5496,17 @@
         "color": "#3B82F6"
       },
       "options_data": {
-        "spot_price": 248.23,
+        "spot_price": 250.48,
         "net_gex": 0.0,
         "gamma_regime": "Neutral Gamma",
-        "max_pain_strike": 248.23
+        "max_pain_strike": 250.48
       },
       "macro_blackout": {
         "is_blackout_active": false,
         "status": "NORMAL_LIQUIDITY",
-        "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -378.9h",
+        "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -381.7h",
         "nearest_event_name": "FOMC Rate Decision & Dot Plot Projections",
-        "minutes_to_event": -22735.6,
+        "minutes_to_event": -22901.7,
         "tier": "TIER_1_CRITICAL",
         "expected_spy_dispersion_pct": 0.85,
         "expected_qqq_dispersion_pct": 1.25,
@@ -5517,12 +5520,12 @@
         "risk_profile": "NORMAL"
       },
       "execution_latency": {
-        "total_nanoseconds": 94822200,
-        "total_microseconds": 94822.2,
-        "hmm_micros": 7.2,
-        "cusum_micros": 23.4,
-        "volume_profile_micros": 72720.4,
-        "momentum_micros": 9833.0
+        "total_nanoseconds": 73404400,
+        "total_microseconds": 73404.4,
+        "hmm_micros": 4.6,
+        "cusum_micros": 18.0,
+        "volume_profile_micros": 52405.9,
+        "momentum_micros": 8023.0
       }
     },
     "agent_testimonies": [
@@ -5560,17 +5563,17 @@
           "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
           "Paper 21: Bifet & Gavald\u00e0 (2007) ADWIN Adaptive Concept Drift Tracking"
         ],
-        "vote": "HOLD",
-        "conviction_score": 77.5,
+        "vote": "BUY",
+        "conviction_score": 95.0,
         "key_metrics": {
-          "finbert_polarity": 0.128,
+          "finbert_polarity": 0.746,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
-          "headlines_analyzed": 100,
-          "pead_signal": "STRONG_POST_EARNINGS_ACCUMULATION",
-          "sue_score": 2.51,
-          "eps_surprise_pct": 214.89,
+          "headlines_analyzed": 1,
+          "pead_signal": "NEUTRAL_DRIFT",
+          "sue_score": 0.0,
+          "eps_surprise_pct": 0.0,
           "sec_8k_count": 0,
           "insider_score": 76.0,
           "insider_cluster_buy": true,
@@ -5581,7 +5584,7 @@
           "swift_urgency": "NORMAL",
           "swift_action": ""
         },
-        "thesis": "Balanced sentiment environment (+0.13 polarity across 100 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +214.9% EPS Surprise. \ud83d\udc54 SEC FORM 4 CLUSTER: 2 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 76.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
+        "thesis": "Strong bullish news flow (++0.75 FinBERT score across 1 live headlines; Event: GENERAL_MARKET_FLOW). \ud83d\udc54 SEC FORM 4 CLUSTER: 2 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 76.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -5590,31 +5593,30 @@
           "Paper 05: Bellman-Ford Fundamental Arbitrage Graph Theory",
           "Paper 13: Chen et al. (2020) Supply Chain Contagion Graph Neural Networks"
         ],
-        "vote": "HOLD",
-        "conviction_score": 24.0,
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "data_available": true,
+          "data_available": false,
           "piotroski_f_score": 5,
-          "altman_z_score": 8.92,
-          "dcf_fair_value": 74.46899871826172,
-          "dcf_margin_of_safety_pct": -70.0
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $74.47 (Margin of Safety: -70.0%)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "AMZN",
-        "spot_price": 248.23,
-        "day_high": 251.83,
-        "day_low": 246.12,
-        "change_pct": -0.37,
-        "range_position_pct": 37.0,
+        "spot_price": 250.48,
+        "day_high": 253.56,
+        "day_low": 250.14,
+        "change_pct": 0.91,
+        "range_position_pct": 9.9,
         "rvol": 1.29,
-        "momentum_velocity_pct": -2.62,
+        "momentum_velocity_pct": -1.74,
         "conviction_score": 68.0,
         "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.29x, Range 37%, 5D Vel -2.6%)",
-        "timestamp": "2026-10-02T12:55:46.653479+00:00"
+        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.29x, Range 10%, 5D Vel -1.7%)",
+        "timestamp": "2026-10-02T15:42:22.714168+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -5645,36 +5647,36 @@
         "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
         "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
       ],
-      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-      "action_code": "HOLD",
-      "buy_votes": 1,
+      "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+      "action_code": "EXECUTE_BUY",
+      "buy_votes": 2,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 66.3,
-      "unweighted_conviction_pct": 64.9,
-      "weighted_conviction_pct": 67.6,
-      "approved_leverage": 0.0,
-      "kelly_allocation_pct": 0.0,
+      "consensus_conviction_pct": 74.6,
+      "unweighted_conviction_pct": 73.6,
+      "weighted_conviction_pct": 75.6,
+      "approved_leverage": 1.25,
+      "kelly_allocation_pct": 5.0,
       "kelly_details": {
-        "full_kelly_pct": 18.29,
-        "fractional_kelly_pct": 3.0,
+        "full_kelly_pct": 26.61,
+        "fractional_kelly_pct": 4.37,
         "cf_haircut_multiplier": 0.6572,
-        "edge": 0.32,
+        "edge": 0.4658,
         "kelly_fraction": 0.25,
-        "win_rate": 0.48,
+        "win_rate": 0.533,
         "payoff_ratio": 1.75,
         "skewness": 0.3211833268566311,
         "excess_kurtosis": 5.485174166841046,
         "status": "POSITIVE_EXPECTANCY"
       },
       "atr_14": 5.66,
-      "atr_pct": 2.28,
-      "tp1_target": 262.38,
-      "tp2_target": 273.7,
-      "stop_loss_target": 239.76,
+      "atr_pct": 2.26,
+      "tp1_target": 264.63,
+      "tp2_target": 275.95,
+      "stop_loss_target": 241.99,
       "portfolio_diversity_grade": "A",
-      "conformal_lower_bound": 239.76,
-      "conformal_upper_bound": 256.7,
-      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 64.9%). ATR14 is $5.66 (2.3% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Insufficient consensus.",
+      "conformal_lower_bound": 241.93,
+      "conformal_upper_bound": 259.03,
+      "cro_thesis": "Committee Consensus: 2/5 specialist agents voted BUY (Average Conviction: 73.6%). ATR14 is $5.66 (2.3% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 5.0%. Trade signed off for execution.",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false,
@@ -5683,7 +5685,7 @@
       "hmm_veto_triggered": false,
       "quantum_telemetry": {
         "ticker": "AMZN",
-        "spot_price": 248.23,
+        "spot_price": 250.48,
         "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
         "risk_multiplier": 1.0,
         "hmm_regime": "Bull",
@@ -5694,8 +5696,8 @@
         "vah_price": 184.31,
         "val_price": 90.02,
         "dist_to_poc_pct": 54.96,
-        "conformal_lower_bound": 239.76,
-        "conformal_upper_bound": 256.7,
+        "conformal_lower_bound": 241.93,
+        "conformal_upper_bound": 259.03,
         "momentum_zscore": -0.08,
         "vol_scaled_exposure": -0.03,
         "realized_vol_annual": 0.38,
@@ -5763,7 +5765,7 @@
             }
           ],
           "summary": "Net Insider Outflow: $753,867 in open-market dispositions.",
-          "timestamp": "2026-10-02T12:55:44.232468+00:00"
+          "timestamp": "2026-10-02T15:42:08.126548+00:00"
         },
         "sec_catalysts": [],
         "social_buzz": {
@@ -5778,17 +5780,17 @@
           "color": "#3B82F6"
         },
         "options_data": {
-          "spot_price": 248.23,
+          "spot_price": 250.48,
           "net_gex": 0.0,
           "gamma_regime": "Neutral Gamma",
-          "max_pain_strike": 248.23
+          "max_pain_strike": 250.48
         },
         "macro_blackout": {
           "is_blackout_active": false,
           "status": "NORMAL_LIQUIDITY",
-          "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -378.9h",
+          "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -381.7h",
           "nearest_event_name": "FOMC Rate Decision & Dot Plot Projections",
-          "minutes_to_event": -22735.6,
+          "minutes_to_event": -22901.7,
           "tier": "TIER_1_CRITICAL",
           "expected_spy_dispersion_pct": 0.85,
           "expected_qqq_dispersion_pct": 1.25,
@@ -5802,12 +5804,12 @@
           "risk_profile": "NORMAL"
         },
         "execution_latency": {
-          "total_nanoseconds": 94822200,
-          "total_microseconds": 94822.2,
-          "hmm_micros": 7.2,
-          "cusum_micros": 23.4,
-          "volume_profile_micros": 72720.4,
-          "momentum_micros": 9833.0
+          "total_nanoseconds": 73404400,
+          "total_microseconds": 73404.4,
+          "hmm_micros": 4.6,
+          "cusum_micros": 18.0,
+          "volume_profile_micros": 52405.9,
+          "momentum_micros": 8023.0
         }
       },
       "memory_risk_adjustment": {
@@ -19127,22 +19129,24 @@
     }
   },
   "AKAM": {
-    "timestamp": "2026-10-02T12:55:41.534213+00:00",
+    "timestamp": "2026-10-02T15:41:51.067017+00:00",
     "ticker": "AKAM",
-    "spot_price": 106.93,
-    "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "action_code": "HOLD",
-    "consensus_conviction_pct": 64.4,
-    "approved_leverage": 0.0,
-    "kelly_allocation_pct": 0.0,
-    "tp1_target": 117.01,
-    "tp2_target": 125.07,
-    "stop_loss_target": 101.65,
+    "spot_price": 112.09,
+    "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+    "action_code": "EXECUTE_BUY",
+    "verdict": "EXECUTE_BUY",
+    "consensus_conviction_pct": 78.0,
+    "conviction": 78.0,
+    "approved_leverage": 1.25,
+    "kelly_allocation_pct": 5.0,
+    "tp1_target": 122.17,
+    "tp2_target": 130.22,
+    "stop_loss_target": 106.55,
     "atr_14": 4.03,
-    "atr_pct": 3.77,
+    "atr_pct": 3.6,
     "quantum_telemetry": {
       "ticker": "AKAM",
-      "spot_price": 106.93,
+      "spot_price": 112.09,
       "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
       "risk_multiplier": 1.0,
       "hmm_regime": "Bull",
@@ -19153,8 +19157,8 @@
       "vah_price": 120.62,
       "val_price": 88.02,
       "dist_to_poc_pct": 0.35,
-      "conformal_lower_bound": 101.65,
-      "conformal_upper_bound": 112.21,
+      "conformal_lower_bound": 106.55,
+      "conformal_upper_bound": 117.63,
       "momentum_zscore": -0.11,
       "vol_scaled_exposure": -0.03,
       "realized_vol_annual": 0.49,
@@ -19211,7 +19215,7 @@
           }
         ],
         "summary": "Aggressive C-Suite Insider Buying: $768,430 purchased across 1 officers.",
-        "timestamp": "2026-10-02T12:55:29.645960+00:00"
+        "timestamp": "2026-10-02T15:41:25.883458+00:00"
       },
       "sec_catalysts": [
         {
@@ -19252,17 +19256,17 @@
         "color": "#3B82F6"
       },
       "options_data": {
-        "spot_price": 106.93,
+        "spot_price": 112.09,
         "net_gex": 0.0,
         "gamma_regime": "Neutral Gamma",
-        "max_pain_strike": 106.93
+        "max_pain_strike": 112.09
       },
       "macro_blackout": {
         "is_blackout_active": false,
         "status": "NORMAL_LIQUIDITY",
-        "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -378.9h",
+        "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -381.7h",
         "nearest_event_name": "FOMC Rate Decision & Dot Plot Projections",
-        "minutes_to_event": -22735.6,
+        "minutes_to_event": -22901.7,
         "tier": "TIER_1_CRITICAL",
         "expected_spy_dispersion_pct": 0.85,
         "expected_qqq_dispersion_pct": 1.25,
@@ -19276,12 +19280,12 @@
         "risk_profile": "NORMAL"
       },
       "execution_latency": {
-        "total_nanoseconds": 878284000,
-        "total_microseconds": 878284.0,
-        "hmm_micros": 18268.7,
-        "cusum_micros": 71.3,
-        "volume_profile_micros": 75335.2,
-        "momentum_micros": 13544.2
+        "total_nanoseconds": 5266859300,
+        "total_microseconds": 5266859.3,
+        "hmm_micros": 16985.5,
+        "cusum_micros": 21.2,
+        "volume_profile_micros": 71671.4,
+        "momentum_micros": 11781.7
       }
     },
     "agent_testimonies": [
@@ -19294,21 +19298,21 @@
           "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)",
           "Institutional Market Microstructure: SqueezeMetrics Gamma Exposure (GEX)"
         ],
-        "vote": "HOLD",
-        "conviction_score": 38.0,
+        "vote": "BUY",
+        "conviction_score": 86.0,
         "key_metrics": {
           "estimated_rsi": 46.8,
           "sma_200": 109.79,
           "ma_21": 111.77,
           "return_5d_pct": 4.11,
-          "trend_status": "ORB_BEARISH_BREAKDOWN",
+          "trend_status": "BULLISH_MOMENTUM_EXPANSION",
           "acpm_calibrated_prob": 0.4654,
           "kmid": 0.01335,
           "klen": 0.04174,
           "corr5": 0.74729,
           "wvma10": 0.01203
         },
-        "thesis": "Asset is trading below its 200-day SMA ($109.79), signaling prevailing macro downtrend. \u26a0\ufe0f Below 15-Min Opening Low ($108.19); downward momentum dominant."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($109.79) with optimal pullback RSI (46.8). Qlib Alpha158 confirms real-body expansion (KMID: +0.0134, CORR5: 0.75)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -19320,16 +19324,16 @@
           "Paper 21: Bifet & Gavald\u00e0 (2007) ADWIN Adaptive Concept Drift Tracking"
         ],
         "vote": "HOLD",
-        "conviction_score": 58.9,
+        "conviction_score": 50.0,
         "key_metrics": {
-          "finbert_polarity": 0.133,
+          "finbert_polarity": 0.193,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
-          "headlines_analyzed": 100,
-          "pead_signal": "STRONG_POST_EARNINGS_ACCUMULATION",
-          "sue_score": 1.79,
-          "eps_surprise_pct": 13.71,
+          "headlines_analyzed": 1,
+          "pead_signal": "NEUTRAL_DRIFT",
+          "sue_score": 0.0,
+          "eps_surprise_pct": 0.0,
           "sec_8k_count": 2,
           "insider_score": 90.0,
           "insider_cluster_buy": false,
@@ -19340,7 +19344,7 @@
           "swift_urgency": "NORMAL",
           "swift_action": ""
         },
-        "thesis": "Balanced sentiment environment (+0.13 polarity across 100 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +13.7% EPS Surprise. \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
+        "thesis": "Balanced sentiment environment (+0.19 polarity across 1 headlines; Event: GENERAL_MARKET_FLOW). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -19349,31 +19353,30 @@
           "Paper 05: Bellman-Ford Fundamental Arbitrage Graph Theory",
           "Paper 13: Chen et al. (2020) Supply Chain Contagion Graph Neural Networks"
         ],
-        "vote": "HOLD",
-        "conviction_score": 35.9,
+        "vote": "NEUTRAL",
+        "conviction_score": 50.0,
         "key_metrics": {
-          "data_available": true,
+          "data_available": false,
           "piotroski_f_score": 5,
-          "altman_z_score": 1.92,
-          "dcf_fair_value": 74.41,
-          "dcf_margin_of_safety_pct": -30.4
+          "altman_z_score": 2.5,
+          "dcf_margin_of_safety_pct": 0.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $74.41 (Margin of Safety: -30.4%)."
+        "thesis": "Live SEC financial statement data unavailable on free feed; abstaining with neutral vote."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "AKAM",
-        "spot_price": 106.93,
-        "day_high": 108.1,
-        "day_low": 104.0,
-        "change_pct": 0.55,
-        "range_position_pct": 71.5,
+        "spot_price": 112.09,
+        "day_high": 113.13,
+        "day_low": 108.54,
+        "change_pct": 4.83,
+        "range_position_pct": 77.3,
         "rvol": 1.63,
-        "momentum_velocity_pct": 1.77,
-        "conviction_score": 75.0,
+        "momentum_velocity_pct": 6.68,
+        "conviction_score": 95.0,
         "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.63x, Range 71%, 5D Vel +1.8%)",
-        "timestamp": "2026-10-02T12:55:33.323858+00:00"
+        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.63x, Range 77%, 5D Vel +6.7%)",
+        "timestamp": "2026-10-02T15:41:37.059998+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -19404,36 +19407,36 @@
         "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
         "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
       ],
-      "final_resolution": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-      "action_code": "HOLD",
-      "buy_votes": 1,
+      "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+      "action_code": "EXECUTE_BUY",
+      "buy_votes": 2,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 64.4,
-      "unweighted_conviction_pct": 61.6,
-      "weighted_conviction_pct": 67.3,
-      "approved_leverage": 0.0,
-      "kelly_allocation_pct": 0.0,
+      "consensus_conviction_pct": 78.0,
+      "unweighted_conviction_pct": 76.2,
+      "weighted_conviction_pct": 79.8,
+      "approved_leverage": 1.25,
+      "kelly_allocation_pct": 5.0,
       "kelly_details": {
-        "full_kelly_pct": 18.29,
-        "fractional_kelly_pct": 0.91,
+        "full_kelly_pct": 26.61,
+        "fractional_kelly_pct": 1.33,
         "cf_haircut_multiplier": 0.2,
-        "edge": 0.32,
+        "edge": 0.4658,
         "kelly_fraction": 0.25,
-        "win_rate": 0.48,
+        "win_rate": 0.533,
         "payoff_ratio": 1.75,
         "skewness": 0.08667140537089424,
         "excess_kurtosis": 24.19746925121163,
         "status": "POSITIVE_EXPECTANCY"
       },
       "atr_14": 4.03,
-      "atr_pct": 3.77,
-      "tp1_target": 117.01,
-      "tp2_target": 125.07,
-      "stop_loss_target": 101.65,
+      "atr_pct": 3.6,
+      "tp1_target": 122.17,
+      "tp2_target": 130.22,
+      "stop_loss_target": 106.55,
       "portfolio_diversity_grade": "A",
-      "conformal_lower_bound": 101.65,
-      "conformal_upper_bound": 112.21,
-      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 61.6%). ATR14 is $4.03 (3.8% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: CRO Hard-Veto: Double Crash / Top Exhaustion detected via dark pool put sweeps & options skew (100.0% crash probability).",
+      "conformal_lower_bound": 106.55,
+      "conformal_upper_bound": 117.63,
+      "cro_thesis": "Committee Consensus: 2/5 specialist agents voted BUY (Average Conviction: 76.2%). ATR14 is $4.03 (3.6% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 5.0%. Trade signed off for execution.",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false,
@@ -19442,7 +19445,7 @@
       "hmm_veto_triggered": false,
       "quantum_telemetry": {
         "ticker": "AKAM",
-        "spot_price": 106.93,
+        "spot_price": 112.09,
         "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
         "risk_multiplier": 1.0,
         "hmm_regime": "Bull",
@@ -19453,8 +19456,8 @@
         "vah_price": 120.62,
         "val_price": 88.02,
         "dist_to_poc_pct": 0.35,
-        "conformal_lower_bound": 101.65,
-        "conformal_upper_bound": 112.21,
+        "conformal_lower_bound": 106.55,
+        "conformal_upper_bound": 117.63,
         "momentum_zscore": -0.11,
         "vol_scaled_exposure": -0.03,
         "realized_vol_annual": 0.49,
@@ -19511,7 +19514,7 @@
             }
           ],
           "summary": "Aggressive C-Suite Insider Buying: $768,430 purchased across 1 officers.",
-          "timestamp": "2026-10-02T12:55:29.645960+00:00"
+          "timestamp": "2026-10-02T15:41:25.883458+00:00"
         },
         "sec_catalysts": [
           {
@@ -19552,17 +19555,17 @@
           "color": "#3B82F6"
         },
         "options_data": {
-          "spot_price": 106.93,
+          "spot_price": 112.09,
           "net_gex": 0.0,
           "gamma_regime": "Neutral Gamma",
-          "max_pain_strike": 106.93
+          "max_pain_strike": 112.09
         },
         "macro_blackout": {
           "is_blackout_active": false,
           "status": "NORMAL_LIQUIDITY",
-          "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -378.9h",
+          "reason": "Next catalyst: FOMC Rate Decision & Dot Plot Projections in -381.7h",
           "nearest_event_name": "FOMC Rate Decision & Dot Plot Projections",
-          "minutes_to_event": -22735.6,
+          "minutes_to_event": -22901.7,
           "tier": "TIER_1_CRITICAL",
           "expected_spy_dispersion_pct": 0.85,
           "expected_qqq_dispersion_pct": 1.25,
@@ -19576,12 +19579,12 @@
           "risk_profile": "NORMAL"
         },
         "execution_latency": {
-          "total_nanoseconds": 878284000,
-          "total_microseconds": 878284.0,
-          "hmm_micros": 18268.7,
-          "cusum_micros": 71.3,
-          "volume_profile_micros": 75335.2,
-          "momentum_micros": 13544.2
+          "total_nanoseconds": 5266859300,
+          "total_microseconds": 5266859.3,
+          "hmm_micros": 16985.5,
+          "cusum_micros": 21.2,
+          "volume_profile_micros": 71671.4,
+          "momentum_micros": 11781.7
         }
       },
       "memory_risk_adjustment": {
