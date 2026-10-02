@@ -748,9 +748,10 @@ class PaperBroker:
         total_equity = round(self.state["cash"] + invested_val, 2)
         prev_equity = (
             self.state["equity_history"][-1]["total_equity"]
-            if self.state["equity_history"]
+            if self.state.get("equity_history")
             else self.initial_cash
         )
+
         daily_return = (
             round(((total_equity - prev_equity) / prev_equity) * 100.0, 2)
             if prev_equity > 0
@@ -759,19 +760,17 @@ class PaperBroker:
 
         self.state["total_equity"] = total_equity
 
-        total_closed = self.state["total_trades"]
+        total_closed = self.state.get("total_trades", 0)
+        winning = self.state.get("winning_trades", 0)
         self.state["win_rate"] = (
-            round((self.state["winning_trades"] / total_closed) * 100.0, 1)
-            if total_closed > 0
-            else 0.0
+            round((winning / total_closed) * 100.0, 1) if total_closed > 0 else 0.0
         )
 
         # Append or update today's equity history point
-        if (
-            self.state["equity_history"]
-            and self.state["equity_history"][-1]["date"] == date_str
-        ):
-            self.state["equity_history"][-1]["total_equity"] = total_equity
+        eq_hist = self.state.get("equity_history", [])
+        if eq_hist and eq_hist[-1]["date"] == date_str:
+            eq_hist[-1]["total_equity"] = total_equity
+
             self.state["equity_history"][-1]["cash"] = round(self.state["cash"], 2)
             self.state["equity_history"][-1]["invested"] = round(invested_val, 2)
             self.state["equity_history"][-1]["daily_return"] = daily_return

@@ -1,0 +1,80 @@
+{
+  "scan_timestamp": "2026-10-02T12:55:08.420268+00:00",
+  "total_articles_scraped": 100,
+  "total_tickers_identified": 24,
+  "top_evaluated_stocks": [
+    {
+      "ticker": "AKAM",
+      "current_price": 106.93,
+      "change_pct": 0.55,
+      "latest_headline": "Akamai Stock Soars on $11.6 Billion Anthropic Deal - Akamai Technologies (NASDAQ:AKAM)",
+      "benzinga_sentiment": "BULLISH",
+      "net_catalyst_score": 1.0,
+      "headline_count": 1,
+      "committee_verdict": "HOLD",
+      "committee_conviction_pct": 50.0,
+      "trade_action": "HOLD",
+      "trade_reason": "",
+      "is_currently_held": false
+    },
+    {
+      "ticker": "AMZN",
+      "current_price": 248.23,
+      "change_pct": -0.37,
+      "latest_headline": "Amazon Signs $1B Synopsys Deal to Boost AWS Custom Chips - Amazon.com (NASDAQ:AMZN)",
+      "benzinga_sentiment": "BULLISH",
+      "net_catalyst_score": 0.8,
+      "headline_count": 1,
+      "committee_verdict": "HOLD",
+      "committee_conviction_pct": 50.0,
+      "trade_action": "HOLD",
+      "trade_reason": "",
+      "is_currently_held": false
+    },
+    {
+      "ticker": "MU",
+      "current_price": 1097.39,
+      "change_pct": 3.03,
+      "latest_headline": "Micron\u2019s $150B Contract Book Tops Annual Revenue - Micron Technology (NASDAQ:MU)",
+      "benzinga_sentiment": "BULLISH",
+      "net_catalyst_score": 0.6,
+      "headline_count": 4,
+      "committee_verdict": "HOLD",
+      "committee_conviction_pct": 50.0,
+      "trade_action": "HOLD",
+      "trade_reason": "",
+      "is_currently_held": false
+    },
+    {
+      "ticker": "NIO",
+      "current_price": 3.4,
+      "change_pct": -0.87,
+      "latest_headline": "NIO Stock Hits 52-Week Low: What's Happening?",
+      "benzinga_sentiment": "BEARISH",
+      "net_catalyst_score": -0.6,
+      "headline_count": 2,
+      "committee_verdict": "HOLD",
+      "committee_conviction_pct": 50.0,
+      "trade_action": "HOLD",
+      "trade_reason": "",
+      "is_currently_held": false
+    },
+    {
+      "ticker": "SPCX",
+      "current_price": 148.07,
+      "change_pct": -1.85,
+      "latest_headline": "Anthropic Eyes November IPO - SpaceX (NASDAQ:SPCX)",
+      "benzinga_sentiment": "NEUTRAL",
+      "net_catalyst_score": -0.6,
+      "headline_count": 2,
+      "committee_verdict": "HOLD",
+      "committee_conviction_pct": 50.0,
+      "trade_action": "HOLD",
+      "trade_reason": "",
+      "is_currently_held": false
+    }
+  ],
+  "trade_actions_executed": [],
+  "portfolio_equity": 144093.61,
+  "portfolio_cash": 134063.13
+}

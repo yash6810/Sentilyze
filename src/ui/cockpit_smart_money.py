@@ -13,6 +13,7 @@ from src.ui.ws_screener import render_screener_workspace
 from src.ui.ws_options_surface import render_options_surface_workspace
 from src.ui.ws_alternative_data import render_alternative_data_workspace
 from src.ui.ws_insider_radar import render_insider_radar_workspace
+from src.ui.ws_benzinga_trader import render_benzinga_trader_workspace
 
 
 def render_smart_money_cockpit(selected_ticker: str):
@@ -23,7 +24,7 @@ def render_smart_money_cockpit(selected_ticker: str):
                 🌊 Smart Money & Alternative Data Radar
             </h1>
             <p style="margin: 4px 0 0 0; color: #94A3B8; font-size: 0.95rem;">
-                Institutional dark pool prints, unusual options flow, insider filings, and real-time sentiment anomalies.
+                Institutional dark pool prints, unusual options flow, insider filings, and real-time Benzinga catalyst wire.
             </p>
         </div>
         """,
@@ -35,6 +36,7 @@ def render_smart_money_cockpit(selected_ticker: str):
         "📉 Dark Pools & Options Surface",
         "📰 News & Alternative Sentiment",
         "🏛️ Insider Transactions Radar",
+        "⚡ Benzinga News Trader",
     ]
 
     selected_tab = (
@@ -58,3 +60,5 @@ def render_smart_money_cockpit(selected_ticker: str):
         render_alternative_data_workspace(selected_ticker)
     elif selected_tab == "🏛️ Insider Transactions Radar":
         render_insider_radar_workspace(selected_ticker)
+    elif selected_tab == "⚡ Benzinga News Trader":
+        render_benzinga_trader_workspace()
