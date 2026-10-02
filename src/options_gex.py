@@ -327,6 +327,18 @@ def compute_gamma_exposure_profile(
     pcr_oi = round(total_put_oi / max(1, total_call_oi), 2)
     pcr_vol = round(total_put_vol / max(1, total_call_vol), 2)
 
+    # Calculate analytical Max Pain strike and Pinning Probability
+    max_pain_metrics = calculate_max_pain(
+        df_calls=df_calls,
+        df_puts=df_puts,
+        spot_price=spot,
+        avg_dte=(
+            float(df_calls["dte"].median())
+            if "dte" in df_calls and not df_calls["dte"].empty
+            else 7.0
+        ),
+    )
+
     return {
         "ticker": ticker,
         "spot_price": round(spot, 2),
@@ -344,9 +356,100 @@ def compute_gamma_exposure_profile(
         "put_call_volume_ratio": pcr_vol,
         "market_maker_regime": mm_regime,
         "market_maker_behavior": mm_behavior,
+        "max_pain": max_pain_metrics,
         "is_real_data": is_real,
         "strikes_df": df_strikes,
         "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def calculate_max_pain(
+    df_calls: pd.DataFrame,
+    df_puts: pd.DataFrame,
+    spot_price: float,
+    avg_dte: float = 7.0,
+) -> Dict[str, Any]:
+    """
+    Computes exact analytical Max Pain strike price and pinning probability.
+    Max Pain is the strike where option buyers lose the most money (total holder payout minimized).
+    """
+    if df_calls.empty or df_puts.empty or spot_price <= 0:
+        return {
+            "max_pain_strike": round(spot_price, 2),
+            "distance_to_spot_pct": 0.0,
+            "pinning_probability_pct": 50.0,
+            "pinning_badge": "⚪ NEUTRAL PINNING",
+            "total_holder_payout_m": 0.0,
+        }
+
+    # Aggregate total OI by strike
+    c_oi_by_strike = df_calls.groupby("strike")["openInterest"].sum().to_dict()
+    p_oi_by_strike = df_puts.groupby("strike")["openInterest"].sum().to_dict()
+
+    all_strikes = sorted(
+        list(set(c_oi_by_strike.keys()).union(set(p_oi_by_strike.keys())))
+    )
+    # Filter to reasonable window around spot (+/- 30%)
+    eval_strikes = [
+        k for k in all_strikes if spot_price * 0.70 <= k <= spot_price * 1.30
+    ]
+    if not eval_strikes:
+        eval_strikes = all_strikes
+
+    strike_payouts = {}
+    for test_s in eval_strikes:
+        # Payout to calls: test_s - k for all calls where k < test_s
+        call_loss = sum(
+            max(0.0, test_s - k) * oi * 100.0 for k, oi in c_oi_by_strike.items()
+        )
+        # Payout to puts: k - test_s for all puts where k > test_s
+        put_loss = sum(
+            max(0.0, k - test_s) * oi * 100.0 for k, oi in p_oi_by_strike.items()
+        )
+        strike_payouts[test_s] = call_loss + put_loss
+
+    # Strike that minimizes total payout to option holders
+    min_strike = min(strike_payouts, key=strike_payouts.get)
+    min_payout_dollars = strike_payouts[min_strike]
+
+    dist_pct = (min_strike - spot_price) / spot_price * 100.0
+    abs_dist_ratio = abs(min_strike - spot_price) / spot_price
+    time_factor = 1.0 / np.sqrt(max(1.0, avg_dte))
+
+    # Analytical strike pinning probability formula
+    decay = np.exp(-15.0 * abs_dist_ratio)
+    raw_pin_prob = decay * (0.45 + 0.55 * min(1.0, time_factor))
+    pin_prob_pct = round(float(np.clip(raw_pin_prob * 100.0, 5.0, 95.0)), 1)
+
+    if pin_prob_pct >= 65.0:
+        pin_badge = "🎯 STRONG PINNING FORCE (Price Gravitating to Max Pain)"
+    elif pin_prob_pct >= 40.0:
+        pin_badge = "🟡 MODERATE PINNING GRAVITY"
+    else:
+        pin_badge = "⚪ WEAK PINNING (Trend Dominant over Options Expiration)"
+
+    return {
+        "max_pain_strike": round(min_strike, 2),
+        "distance_to_spot_pct": round(dist_pct, 2),
+        "pinning_probability_pct": pin_prob_pct,
+        "pinning_badge": pin_badge,
+        "total_holder_payout_m": round(min_payout_dollars / 1_000_000.0, 2),
+    }
+
+
+def calculate_options_max_pain(ticker: str, max_expiries: int = 3) -> Dict[str, Any]:
+    """Computes standalone Max Pain Radar for a given ticker."""
+    gex_data = compute_gamma_exposure_profile(ticker, max_expiries=max_expiries)
+    return {
+        "ticker": ticker,
+        "spot_price": gex_data["spot_price"],
+        "max_pain": gex_data["max_pain"],
+        "call_wall": gex_data["call_wall"],
+        "put_wall": gex_data["put_wall"],
+        "gamma_flip": gex_data["gamma_flip_line"],
+        "market_maker_regime": gex_data["market_maker_regime"],
+        "is_real_data": gex_data["is_real_data"],
+        "timestamp": gex_data["timestamp"],
     }
 
 

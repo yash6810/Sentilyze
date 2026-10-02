@@ -11,6 +11,7 @@ from src.benzinga_news_trader import (
     scan_and_trade_benzinga_catalysts,
     get_latest_benzinga_scan_report,
 )
+from src.benzinga_watchdog import get_benzinga_watchdog
 from src.ui.components import render_workspace_header
 
 
@@ -27,6 +28,20 @@ def render_benzinga_trader_workspace():
         "When material catalysts break (earnings beats, multi-billion dollar contracts, analyst upgrades, regulatory probes), "
         "the **Multi-Agent Trading Council** convenes to evaluate technical momentum and execute buy/sell orders."
     )
+
+    # Autonomous Watchdog Status Bar
+    watchdog = get_benzinga_watchdog()
+    w_col1, w_col2, w_col3, w_col4 = st.columns(4)
+    w_is_alive = (
+        watchdog._daemon_thread is not None and watchdog._daemon_thread.is_alive()
+    )
+    w_col1.metric("🐕 Background Watchdog", "🟢 ACTIVE" if w_is_alive else "⚪ STANDBY")
+    w_col2.metric(
+        "⏱️ Last Wire Poll",
+        watchdog.last_poll_time[:19] if watchdog.last_poll_time else "Ready",
+    )
+    w_col3.metric("🚨 Dispatched Alerts", f"{watchdog.total_alerts_dispatched}")
+    w_col4.metric("🧠 Monitored Hashes", f"{len(watchdog.seen_headline_hashes)}")
 
     c1, c2, c3 = st.columns([2, 1, 1])
     with c1:

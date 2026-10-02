@@ -26,6 +26,7 @@ from src.chart_pattern_learning import (
     match_historical_chart_twins,
     generate_ai_chart_explanation,
 )
+from src.conformal_prediction import calculate_conformal_prediction_interval
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -168,6 +169,62 @@ def render_live_prediction_workspace(ticker: str):
     render_conviction_gauge(
         pred_prob * 100.0, label=f"SUPER-ENSEMBLE ALPHA CONVICTION ({ticker})"
     )
+
+    # =========================================================================
+    # SPLIT CONFORMAL PREDICTION INTERVALS (ROMANO ET AL. 2019)
+    # =========================================================================
+    try:
+        conf_forecast_pct = (pred_prob - 0.5) * 4.0  # Normalized forecast %
+        conf_res = calculate_conformal_prediction_interval(
+            ticker=ticker,
+            current_price=base_price,
+            predicted_return_pct=conf_forecast_pct,
+            alpha=0.10,  # 90% guaranteed coverage
+        )
+        st.markdown(
+            "### 🎲 Split Conformal Prediction Intervals (90% Guaranteed Coverage)"
+        )
+        st.caption(
+            "Distribution-free, finite-sample guaranteed prediction intervals (Romano, Sesia, Candès 2019). "
+            "Mathematically bounds next-day price movements without assuming Gaussian normality."
+        )
+        cp1, cp2, cp3, cp4 = st.columns(4)
+        lower_p = conf_res["price_interval_dollars"]["lower"]
+        upper_p = conf_res["price_interval_dollars"]["upper"]
+        width_pct = conf_res["interval_width_pct"]
+        margin_pct = conf_res["conformal_quantile_margin_pct"]
+        edge_badge = conf_res["alpha_badge"]
+
+        cp1.metric("🔒 90% Price Range", f"${lower_p:.2f} — ${upper_p:.2f}")
+        cp2.metric(
+            "📏 Interval Width",
+            f"±{margin_pct:.2f}%",
+            delta=f"Total Spread: {width_pct:.1f}%",
+            delta_color="inverse" if width_pct > 6.0 else "normal",
+        )
+        cp3.metric(
+            "🛡️ Statistical Alpha",
+            conf_res["statistical_edge"].replace("_", " "),
+            delta=f"Sizing: {conf_res['sizing_discount']:.2f}x",
+        )
+        cp4.metric(
+            "⚖️ Uncertainty Level",
+            conf_res["uncertainty_level"].replace("_", " "),
+            delta=conf_res["recommendation"],
+            delta_color="off",
+        )
+
+        st.markdown(
+            f"""
+            <div style="background-color: rgba(59, 130, 246, 0.08); border-left: 4px solid #3B82F6; padding: 10px 16px; border-radius: 6px; margin: 8px 0 16px 0;">
+                <b>Conformal Alpha Edge:</b> {edge_badge}<br/>
+                <span style="font-size: 0.85rem; opacity: 0.85;">{conf_res['recommendation']} (Calibration size: {conf_res['calibration_sample_size']} sessions)</span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    except Exception as c_err:
+        logger.debug(f"Conformal UI display note: {c_err}")
 
     # =========================================================================
     # AI CHART VISION & HISTORICAL TWIN PATTERN LEARNING

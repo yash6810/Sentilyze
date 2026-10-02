@@ -1026,15 +1026,15 @@
     "semantic_hash": ""
   },
   "src/ui/ws_live_prediction.py": {
-    "mtime": 1790932197.1719804,
-    "seen": 1790943250.928235,
-    "ast_hash": "1f04b9f360b11d1f55d9a36b724a6972",
+    "mtime": 1790947645.0420215,
+    "seen": 1790947919.5098395,
+    "ast_hash": "a71db52c683212b284fd9c9b2fa542b1",
     "semantic_hash": ""
   },
   "src/ui/ws_options_surface.py": {
-    "mtime": 1789321451.4153197,
-    "seen": 1789321833.3750563,
-    "ast_hash": "5b4f95cc6776d52c98312448931bd5cc",
+    "mtime": 1790947645.021653,
+    "seen": 1790947919.5103526,
+    "ast_hash": "e7e40b9596ea9eeec2009dbf930cc835",
     "semantic_hash": ""
   },
   "src/ui/ws_portfolio.py": {
@@ -1962,9 +1962,9 @@
     "semantic_hash": ""
   },
   "src/ui/ws_macro_liquidity.py": {
-    "mtime": 1788931983.292636,
-    "seen": 1788932315.0825007,
-    "ast_hash": "c61a3d6915c1f378343bd798615c7f1e",
+    "mtime": 1790947682.1288047,
+    "seen": 1790947919.5098426,
+    "ast_hash": "66ca34b1c57009f3ea9e2cbc4678e794",
     "semantic_hash": ""
   },
   "src/ui/ws_market_neutral_statarb.py": {
@@ -5340,9 +5340,9 @@
     "semantic_hash": ""
   },
   "src/options_gex.py": {
-    "mtime": 1789321418.058957,
-    "seen": 1789321833.3637393,
-    "ast_hash": "4b3e0c6d3716617abb96fcc7b01de2c0",
+    "mtime": 1790947645.0526357,
+    "seen": 1790947919.491011,
+    "ast_hash": "e39a44127b49ab4ce42919aa4986441d",
     "semantic_hash": ""
   },
   "src/regime_allocator.py": {
@@ -14766,15 +14766,57 @@
     "semantic_hash": ""
   },
   "src/ui/ws_benzinga_trader.py": {
-    "mtime": 1790946033.5575078,
-    "seen": 1790946138.7642345,
-    "ast_hash": "8a9a077655030a9170e6fa89e24af345",
+    "mtime": 1790947644.8465633,
+    "seen": 1790947919.508051,
+    "ast_hash": "fb2aeee96e6c26a9501037db08ee5348",
     "semantic_hash": ""
   },
   "tests/test_benzinga_news_trader.py": {
     "mtime": 1790946033.5304306,
     "seen": 1790946138.7737875,
     "ast_hash": "fa558a8c70040ba5360c5db9736e01af",
+    "semantic_hash": ""
+  },
+  "src/benzinga_watchdog.py": {
+    "mtime": 1790947735.6034088,
+    "seen": 1790947919.4647546,
+    "ast_hash": "1ad6ac4c96f016860975e2fc615e69b4",
+    "semantic_hash": ""
+  },
+  "src/conformal_prediction.py": {
+    "mtime": 1790947644.8222468,
+    "seen": 1790947919.468155,
+    "ast_hash": "6e423764be116a53777c1911ccfca927",
+    "semantic_hash": ""
+  },
+  "src/cross_asset_matrix.py": {
+    "mtime": 1790947644.9290645,
+    "seen": 1790947919.4703617,
+    "ast_hash": "d579e0a0bdbf38dd45146b6c4e42cfae",
+    "semantic_hash": ""
+  },
+  "tests/test_benzinga_watchdog.py": {
+    "mtime": 1790947778.6500132,
+    "seen": 1790947919.521,
+    "ast_hash": "322e3509060b162564a0acc5297a354f",
+    "semantic_hash": ""
+  },
+  "tests/test_conformal_prediction.py": {
+    "mtime": 1790947245.131229,
+    "seen": 1790947919.5227973,
+    "ast_hash": "4f3da8a3f683f696468d7ecec4a5afad",
+    "semantic_hash": ""
+  },
+  "tests/test_cross_asset_matrix.py": {
+    "mtime": 1790947644.8339498,
+    "seen": 1790947919.5245488,
+    "ast_hash": "c259de17e9e5aab003bf1736f965343d",
+    "semantic_hash": ""
+  },
+  "tests/test_options_max_pain.py": {
+    "mtime": 1790947327.3787806,
+    "seen": 1790947919.5388613,
+    "ast_hash": "09580f1e97a1181886df102466a33410",
     "semantic_hash": ""
   }
 }

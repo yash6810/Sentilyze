@@ -109,9 +109,10 @@ def render_options_surface_workspace(selected_ticker: str):
         unsafe_allow_html=True,
     )
 
-    t1, t2, t3 = st.tabs(
+    t1, t2, t3, t4 = st.tabs(
         [
             "📊 Net Gamma Exposure by Strike",
+            "🎯 Max Pain & Strike Pinning Radar",
             "🌐 3D Implied Volatility Surface",
             "🧠 Macro Regime & Tactical Exposure",
         ]
@@ -206,6 +207,97 @@ def render_options_surface_workspace(selected_ticker: str):
             st.info("No detailed strike data available.")
 
     with t2:
+        st.markdown("#### 🎯 Options Max Pain Strike & Gravitational Pinning Radar")
+        st.caption(
+            "Analytical Max Pain is the strike price where option sellers/market makers pay out "
+            "the absolute minimum dollar amount to option buyers upon expiration. "
+            "Asset prices exhibit strong statistical tendency to pin at Max Pain on high-OI expiration sessions."
+        )
+        max_pain = gex_data.get("max_pain", {})
+        mp_strike = max_pain.get("max_pain_strike", spot)
+        mp_dist_pct = max_pain.get("distance_to_spot_pct", 0.0)
+        pin_prob = max_pain.get("pinning_probability_pct", 50.0)
+        pin_badge = max_pain.get("pinning_badge", "⚪ NEUTRAL")
+        payout_m = max_pain.get("total_holder_payout_m", 0.0)
+
+        mp1, mp2, mp3, mp4 = st.columns(4)
+        mp1.metric(
+            "🎯 Max Pain Strike",
+            f"${mp_strike:,.2f}",
+            delta=f"{mp_dist_pct:+.2f}% vs Spot (${spot:,.2f})",
+        )
+        mp2.metric(
+            "🧲 Pinning Force",
+            f"{pin_prob:.1f}%",
+            delta="Gravitational Pull",
+            delta_color="normal" if pin_prob >= 60 else "off",
+        )
+        mp3.metric(
+            "💵 Expiring Payout", f"${payout_m:,.2f}M", delta="Minimum Holder Value"
+        )
+        mp4.metric("🛡️ Pinning Status", pin_badge.split()[0], delta=pin_badge)
+
+        st.markdown(
+            f"""
+            <div style="background-color: rgba(234, 179, 8, 0.08); border-left: 4px solid #EAB308; padding: 12px 16px; border-radius: 6px; margin: 12px 0 18px 0;">
+                <b>Strike Pinning Assessment:</b> {pin_badge}<br/>
+                <span style="font-size: 0.9em; opacity: 0.85;">
+                    Current Spot is <b>${spot:,.2f}</b>. If price trades within 2-3% of Max Pain (<b>${mp_strike:,.2f}</b>) near expiration, 
+                    market makers have maximal economic incentive to pin price near this strike to expire both calls and puts out-of-the-money.
+                </span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        strikes_df = gex_data.get("strikes_df")
+        if strikes_df is not None and not strikes_df.empty:
+            fig_mp = go.Figure()
+            fig_mp.add_trace(
+                go.Bar(
+                    x=strikes_df["strike"],
+                    y=strikes_df["call_oi"],
+                    name="Call Open Interest",
+                    marker_color="rgba(34, 197, 94, 0.8)",
+                )
+            )
+            fig_mp.add_trace(
+                go.Bar(
+                    x=strikes_df["strike"],
+                    y=strikes_df["put_oi"],
+                    name="Put Open Interest",
+                    marker_color="rgba(239, 68, 68, 0.8)",
+                )
+            )
+            fig_mp.add_vline(
+                x=mp_strike,
+                line_dash="dash",
+                line_color="#EAB308",
+                line_width=3,
+                annotation_text=f"Max Pain Strike (${mp_strike:,.2f})",
+                annotation_position="top left",
+            )
+            fig_mp.add_vline(
+                x=spot,
+                line_dash="dot",
+                line_color="#38BDF8",
+                line_width=2,
+                annotation_text=f"Spot (${spot:,.2f})",
+                annotation_position="bottom right",
+            )
+            fig_mp.update_layout(
+                title=f"Call vs Put Open Interest Distribution & Max Pain Magnet — {selected_ticker}",
+                xaxis_title="Strike Price ($)",
+                yaxis_title="Open Interest (Contracts)",
+                template="plotly_dark",
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                barmode="group",
+                height=420,
+            )
+            st.plotly_chart(fig_mp, use_container_width=True)
+
+    with t3:
         st.markdown("#### 🌐 3D Implied Volatility Surface (Moneyness vs Tenor)")
         moneyness = np.linspace(0.8, 1.2, 30)
         tenor = np.linspace(0.05, 1.0, 30)
@@ -235,7 +327,7 @@ def render_options_surface_workspace(selected_ticker: str):
         )
         st.plotly_chart(fig_surf, use_container_width=True)
 
-    with t3:
+    with t4:
         st.markdown("#### 🧠 Macro Market Regime (HMM) & Capital Allocation Matrix")
         macro_report = _get_cached_macro_regime()
 

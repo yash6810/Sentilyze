@@ -9,12 +9,21 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 from src.macro_liquidity import calculate_macro_liquidity_metrics
+from src.cross_asset_matrix import compute_cross_asset_matrix
 from src.data_ingestion import get_price_history
+from src.utils import get_logger
+
+logger = get_logger(__name__)
 
 
 @st.cache_data(ttl=300)
 def _get_cached_macro_metrics():
     return calculate_macro_liquidity_metrics()
+
+
+@st.cache_data(ttl=300)
+def _get_cached_cross_asset_matrix():
+    return compute_cross_asset_matrix()
 
 
 def render_macro_liquidity_workspace():
@@ -120,6 +129,99 @@ def render_macro_liquidity_workspace():
                 yaxis_title="Yield Percentage (%)",
             )
             st.plotly_chart(fig_tnx, use_container_width=True)
+
+    # =========================================================================
+    # CROSS-ASSET CREDIT & MACRO SPILLOVER MATRIX (OPTION 2)
+    # =========================================================================
+    st.markdown("---")
+    st.markdown("### ⚡ Cross-Asset Credit & Macro Spillover Matrix")
+    st.caption(
+        "Institutional Cross-Asset Lead-Lag Engine: High-Yield vs Investment-Grade credit ratio (HYG/LQD), "
+        "30-day rolling multi-asset correlation matrix, stealth credit divergences, and CRO risk multipliers."
+    )
+
+    try:
+        ca_data = _get_cached_cross_asset_matrix()
+        regime_badge = ca_data.get("regime_badge", "⚪ NEUTRAL")
+        regime_desc = ca_data.get(
+            "regime_description", "Balanced cross-asset relationships."
+        )
+        cro_mult = ca_data.get("cro_risk_multiplier", 1.0)
+        zscore = ca_data.get("credit_ratio_20d_zscore", 0.0)
+        ratio_val = ca_data.get("credit_ratio_hyg_lqd", 0.75)
+        ratio_chg = ca_data.get("credit_ratio_20d_change_pct", 0.0)
+
+        ca_c1, ca_c2, ca_c3, ca_c4 = st.columns(4)
+        ca_c1.metric(
+            "🌐 Macro Risk Regime", regime_badge.split()[0], delta=regime_badge
+        )
+        ca_c2.metric(
+            "💳 HYG / LQD Ratio", f"{ratio_val:.4f}", delta=f"{ratio_chg:+.2f}% 20D"
+        )
+        ca_c3.metric(
+            "📊 Credit Ratio Z-Score",
+            f"{zscore:+.2f}σ",
+            delta="Tight Spreads" if zscore > 0 else "Credit Stress",
+            delta_color="normal" if zscore > 0 else "inverse",
+        )
+        ca_c4.metric(
+            "🛡️ CRO Leverage Multiplier", f"{cro_mult:.2f}x", delta="Allocation Scaling"
+        )
+
+        st.markdown(
+            f"""
+            <div style="background-color: rgba(14, 165, 233, 0.08); border-left: 4px solid #0EA5E9; padding: 12px 16px; border-radius: 6px; margin: 10px 0 16px 0;">
+                <b>Regime Diagnostic:</b> {regime_badge} (CRO Multiplier: <b>{cro_mult:.2f}x</b>)<br/>
+                <span style="font-size: 0.9em; opacity: 0.85;">{regime_desc}</span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        # Divergence Alerts
+        alerts = ca_data.get("divergence_alerts", [])
+        if alerts:
+            for alt in alerts:
+                sev_color = "#EF4444" if alt.get("severity") == "HIGH" else "#F59E0B"
+                st.markdown(
+                    f"""
+                    <div style="background-color: rgba(239, 68, 68, 0.08); border-left: 4px solid {sev_color}; padding: 10px 14px; border-radius: 6px; margin-bottom: 8px;">
+                        <b>⚠️ Macro Divergence Detected:</b> {alt.get('type')}<br/>
+                        <span style="font-size: 0.85rem;">{alt.get('message')}</span>
+                    </div>
+                    """,
+                    unsafe_allow_html=True,
+                )
+
+        # 30-Day Correlation Heatmap
+        corr_dict = ca_data.get("correlation_matrix_30d", {})
+        if corr_dict:
+            corr_df = pd.DataFrame(corr_dict)
+            fig_ca_corr = go.Figure(
+                data=go.Heatmap(
+                    z=corr_df.values,
+                    x=corr_df.columns,
+                    y=corr_df.index,
+                    colorscale="RdBu_r",
+                    zmin=-1.0,
+                    zmax=1.0,
+                    text=np.round(corr_df.values, 2),
+                    texttemplate="%{text}",
+                    textfont={"size": 11},
+                )
+            )
+            fig_ca_corr.update_layout(
+                title="30-Day Rolling Cross-Asset Pearson Correlation Heatmap",
+                template="plotly_dark",
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                height=380,
+                margin=dict(l=20, r=20, t=35, b=20),
+            )
+            st.plotly_chart(fig_ca_corr, use_container_width=True)
+
+    except Exception as ca_err:
+        logger.debug(f"Cross-asset matrix render note: {ca_err}")
 
     # Source & Attribution Notice
     source_label = (
