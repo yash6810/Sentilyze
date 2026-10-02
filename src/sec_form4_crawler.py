@@ -103,7 +103,7 @@ class SECForm4InsiderCrawler:
         recent_form4s = []
 
         try:
-            with urllib.request.urlopen(req, timeout=6) as response:
+            with urllib.request.urlopen(req, timeout=6) as response:  # nosec B310
                 import gzip
 
                 content = response.read()

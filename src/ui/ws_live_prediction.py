@@ -26,6 +26,9 @@ from src.chart_pattern_learning import (
     match_historical_chart_twins,
     generate_ai_chart_explanation,
 )
+from src.utils import get_logger
+
+logger = get_logger(__name__)
 
 
 @st.cache_data(ttl=300)
