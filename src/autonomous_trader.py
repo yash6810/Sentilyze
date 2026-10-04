@@ -515,13 +515,67 @@ class AutonomousTradingEngine:
             if pos_atr <= 0:
                 pos_atr = max(entry_price * 0.025, 1.0)
 
+            # Evaluate Adaptive Execution Policy (Hurst + Options GEX + Vaulted Genetic DNA)
+            adaptive_policy = {}
+            try:
+                from src.hurst_exponent import get_adaptive_execution_policy
+
+                adaptive_policy = get_adaptive_execution_policy(
+                    ticker=ticker, spot_price=spot_price
+                )
+            except Exception as e:
+                logger.debug(f"Adaptive policy lookup notice for {ticker}: {e}")
+
+            exec_mode = adaptive_policy.get("execution_mode", "HYBRID_BALANCED")
+            pyramid_allowed = adaptive_policy.get("pyramiding_enabled", True)
+            fast_harvest_target = adaptive_policy.get("fast_harvest_target_pct")
+
+            # Check Mean-Reversion Sniper Fast Harvest (e.g. Call Wall resistance)
+            unrealized_gain_pct = (
+                float((spot_price - entry_price) / entry_price * 100.0)
+                if entry_price > 0
+                else 0.0
+            )
+            if (
+                exec_mode == "MEAN_REVERSION_SNIPE"
+                and fast_harvest_target is not None
+                and unrealized_gain_pct >= fast_harvest_target
+            ):
+                proceeds = float(shares * spot_price)
+                cost_basis = float(shares * entry_price)
+                pnl = float(proceeds - cost_basis)
+
+                self.broker.state["cash"] += proceeds
+                self.broker.state["realized_pnl"] += pnl
+                self.broker.state["total_trades"] += 1
+                self.broker.state["winning_trades"] += 1
+
+                trade_record = {
+                    "ticker": ticker,
+                    "shares": shares,
+                    "entry_price": entry_price,
+                    "exit_price": spot_price,
+                    "entry_date": pos.get("entry_date", date_str),
+                    "exit_date": date_str,
+                    "pnl": round(pnl, 2),
+                    "return_pct": round(unrealized_gain_pct, 2),
+                    "reason": "MEAN_REVERSION_SNIPER_HARVEST",
+                }
+                self.broker._record_trade_closure(trade_record)
+                del self.broker.state["open_positions"][ticker]
+                executed_actions["take_profits_tp2"].append(trade_record)
+                logger.info(
+                    f"🎯 [SNIPER HARVEST] {ticker} reached Call Wall resistance (+{unrealized_gain_pct:.2f}%). Fully closed @ ${spot_price:.2f} | PnL: ${pnl:+,.2f}"
+                )
+                continue
+
             pyramid_eval = evaluate_pyramiding_step(
                 current_price=spot_price,
                 position_state=pos,
                 atr=pos_atr,
             )
 
-            if pyramid_eval.get("trigger_met"):
+            if pyramid_eval.get("trigger_met") and pyramid_allowed:
                 p_action = pyramid_eval.get("action")
                 new_sl_val = float(pyramid_eval.get("new_sl", sl_target))
 

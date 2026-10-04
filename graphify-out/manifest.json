@@ -672,9 +672,9 @@
     "semantic_hash": "ae987e0aac858f566be0bc4a815063b0"
   },
   "results/autonomous_execution_log.json": {
-    "mtime": 1791129030.3271506,
-    "seen": 1791129185.8407393,
-    "ast_hash": "234c344e5ca7d8d2535ba44798e1ca17",
+    "mtime": 1791138116.4226477,
+    "seen": 1791138267.3139205,
+    "ast_hash": "0d4247ca2fe263858aff428b5dc3d089",
     "semantic_hash": ""
   },
   "results/committee_resolutions.json": {
@@ -708,9 +708,9 @@
     "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "src/agent_committee.py": {
-    "mtime": 1791126207.7371354,
-    "seen": 1791127047.6746686,
-    "ast_hash": "f29c928e88bf7f069442bbaef17b4134",
+    "mtime": 1791137809.1692753,
+    "seen": 1791138267.327983,
+    "ast_hash": "feae13ab7e2de09f9efa9c3ba75fd319",
     "semantic_hash": ""
   },
   "src/ai_copilot.py": {
@@ -738,9 +738,9 @@
     "semantic_hash": ""
   },
   "src/autonomous_trader.py": {
-    "mtime": 1791128981.264449,
-    "seen": 1791129185.8534257,
-    "ast_hash": "d2c011fc6cea1c3244c4456aaeae3cee",
+    "mtime": 1791137856.5957677,
+    "seen": 1791138267.330047,
+    "ast_hash": "8283b2c531ccb046b4a28259f5b4128f",
     "semantic_hash": ""
   },
   "src/backtesting.py": {
@@ -1356,9 +1356,9 @@
     "semantic_hash": ""
   },
   "results/agent_learning_memory.json": {
-    "mtime": 1791129030.3228755,
-    "seen": 1791129185.8401597,
-    "ast_hash": "7b657e3ae6b6586efcbedfbd1f3f8679",
+    "mtime": 1791138116.412113,
+    "seen": 1791138267.3133192,
+    "ast_hash": "075efa7f9c459a89a4efbf5702e8859c",
     "semantic_hash": ""
   },
   "results/attribution_analysis.json": {
@@ -1782,9 +1782,9 @@
     "semantic_hash": ""
   },
   "results/morning_briefing_latest.json": {
-    "mtime": 1791129085.0473154,
-    "seen": 1791129185.8444283,
-    "ast_hash": "cbb524cc4963a4e66fe63633ed2aeb3e",
+    "mtime": 1791138144.1437006,
+    "seen": 1791138267.3187506,
+    "ast_hash": "80f2ece4c3d9f0ef093ccee1e3dc6d41",
     "semantic_hash": ""
   },
   "results/opening_range_latest.json": {
@@ -14346,9 +14346,9 @@
     "semantic_hash": ""
   },
   "results/reddit_mined_signals_latest.json": {
-    "mtime": 1791129083.2979114,
-    "seen": 1791129185.8460639,
-    "ast_hash": "ad1b16b578b23b7ddf00ee94d9cbe2cd",
+    "mtime": 1791138184.5362804,
+    "seen": 1791138267.3203037,
+    "ast_hash": "9556ffa1b2e921afbc2fa22bf7b52906",
     "semantic_hash": ""
   },
   "results/swift_shift_radar_latest.json": {
@@ -14841,6 +14841,18 @@
     "mtime": 1791126192.6073864,
     "seen": 1791127047.6623528,
     "ast_hash": "3f5b0f9126c5444826acd749787dd8ba",
+    "semantic_hash": ""
+  },
+  "src/hurst_exponent.py": {
+    "mtime": 1791138038.33826,
+    "seen": 1791138267.343098,
+    "ast_hash": "75d1f651e0bdea4e52d1e17f5f5cdefe",
+    "semantic_hash": ""
+  },
+  "tests/test_hurst_and_adaptive_execution.py": {
+    "mtime": 1791138049.2032561,
+    "seen": 1791138267.384557,
+    "ast_hash": "ec1ea70118744c0ede052c0f5f5b1e25",
     "semantic_hash": ""
   }
 }

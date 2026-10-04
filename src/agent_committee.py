@@ -1256,6 +1256,25 @@ def convene_trading_committee(
         "cro_signoff": cro_signoff,
     }
 
+    # Dynamic Adaptive Execution Policy (Hurst Exponent + Options GEX + Vaulted Genetic Strategy DNA)
+    try:
+        from src.hurst_exponent import get_adaptive_execution_policy
+
+        adaptive_policy = get_adaptive_execution_policy(
+            ticker=ticker, spot_price=spot_price
+        )
+        resolution_packet["adaptive_execution"] = adaptive_policy
+        resolution_packet["execution_mode"] = adaptive_policy.get(
+            "execution_mode", "HYBRID_BALANCED"
+        )
+        resolution_packet["pyramiding_enabled"] = adaptive_policy.get(
+            "pyramiding_enabled", True
+        )
+    except Exception as e:
+        logger.debug(f"Notice attaching adaptive execution policy: {e}")
+        resolution_packet["execution_mode"] = "HYBRID_BALANCED"
+        resolution_packet["pyramiding_enabled"] = True
+
     if save_resolution:
         _persist_committee_resolution(ticker, resolution_packet)
 

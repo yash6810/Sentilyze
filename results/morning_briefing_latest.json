@@ -1,6 +1,6 @@
 {
   "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Sunday, October 04, 2026",
-  "mode": "SINGLE_TICKER",
+  "mode": "MARKET_MASTER",
   "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.7**. Top algorithmic focus is on **DELL, MPC, EXPD** with **DELL** leading at 78% conviction. The fund holds **$137,284.33** in liquid cash reserves (95.4% dry powder) alongside 3 active position(s) (MPC, PH, AAPL).",
   "macro_posture": {
     "regime": "BULLISH_EXPANSION",
@@ -67,6 +67,6 @@
       "AAPL"
     ]
   },
-  "audio_script": "Good morning. This is your Sentilyze Deep Dive Analyst Briefing on NVDA for Sunday, October 04, 2026. The macroeconomic volatility regime is Bullish Expansion with VIX at 15.7. The Multi-Agent Quantitative Committee has delivered a APPROVED verdict on NVDA with 78 percent conviction. Our portfolio holds 137,284.33 dollars in liquid cash, ready to allocate fractional Kelly sizing upon market open.",
-  "generated_at": "03:51 PM UTC"
+  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Sunday, October 04, 2026. First, in global macro: Volatility remains subdued with the VIX index at 15.7, placing markets in a Bullish Expansion regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: DELL, MPC, EXPD. Leading the list is DELL trading at 535.43 dollars with 84 percent algorithmic conviction, followed by MPC and EXPD. Turning to portfolio health: Sentilyze manages 143,854.19 dollars in total equity, with 137,284.33 dollars in liquid cash reserves (95 percent dry powder) alongside 3 active positions in MPC, PH, AAPL, maintaining a 64.4 percent win rate with 54,169.54 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
+  "generated_at": "06:21 PM UTC"
 }
