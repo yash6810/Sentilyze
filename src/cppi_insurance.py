@@ -106,6 +106,7 @@ def get_cppi_cushion_multiplier(
     floor_pct: float = 0.85,
     multiplier: float = 2.85,
     floor_value: Optional[float] = None,
+    target_multiplier: Optional[float] = None,
 ) -> Dict[str, Any]:
     """
     Computes CPPI (Constant Proportion Portfolio Insurance) scaling factor for order sizing.
@@ -113,6 +114,7 @@ def get_cppi_cushion_multiplier(
     Grounded in Black & Jones (1987), Grossman & Zhou (1993), and Chekhlov et al. (2005) CDaR.
     With m* = 2.85, provides smooth cushion scaling while protecting the capital preservation floor.
     """
+    m = target_multiplier if target_multiplier is not None else multiplier
     if portfolio_value <= 0:
         return {
             "allocation_factor": 0.0,
@@ -122,6 +124,7 @@ def get_cppi_cushion_multiplier(
             "peak_equity": 0.0,
             "portfolio_value": 0.0,
             "regime": "CAPITAL_PRESERVATION_FLOOR",
+            "effective_multiplier": m,
         }
 
     peak = max(portfolio_value, float(peak_equity or portfolio_value))
@@ -134,7 +137,7 @@ def get_cppi_cushion_multiplier(
     cushion_pct = cushion / portfolio_value if portfolio_value > 0 else 0.0
 
     # CPPI risky weight exposure = multiplier * cushion_pct
-    risky_exposure = multiplier * cushion_pct
+    risky_exposure = m * cushion_pct
     # Clamp allocation factor to [0.0, 1.0]
     allocation_factor = float(np.clip(risky_exposure, 0.0, 1.0))
 
@@ -155,4 +158,5 @@ def get_cppi_cushion_multiplier(
         "peak_equity": round(peak, 2),
         "portfolio_value": round(portfolio_value, 2),
         "regime": regime,
+        "effective_multiplier": m,
     }

@@ -169,7 +169,7 @@ def train_model(
     except Exception:
         roc_auc = 0.5
 
-    report = classification_report(oos_true, binary_preds)
+    report = classification_report(oos_true, binary_preds, zero_division=0)
 
     # Calculate Logistic Regression baseline metrics
     baseline_binary = [1 if p > 0.5 else 0 for p in baseline_oos_predictions]

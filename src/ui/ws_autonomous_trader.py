@@ -53,25 +53,24 @@ def render_autonomous_trader_workspace(selected_ticker: str):
             pass
 
     # Metrics Bar
+    curr_eq = float(portfolio_summary.get("total_equity", 100000.0))
+    curr_cash = float(portfolio_summary.get("cash", 100000.0))
+    win_rate = float(portfolio_summary.get("win_rate", 0.0))
     m1, m2, m3, m4 = st.columns(4)
-    m1.metric(
-        "💰 Total Equity",
-        f"${portfolio_summary.get('total_equity', 152198.09):,.2f}",
-    )
-    m2.metric("💵 Cash Balance", f"${portfolio_summary.get('cash', 128062.59):,.2f}")
+    m1.metric("💰 Total Equity", f"${curr_eq:,.2f}")
+    m2.metric("💵 Cash Balance", f"${curr_cash:,.2f}")
     m3.metric(
         "📈 Unrealized PnL",
         f"${portfolio_summary.get('unrealized_pnl', 0.0):+,.2f}",
         delta=f"{portfolio_summary.get('unrealized_pnl_pct', 0.0):+.2f}%",
     )
-    m4.metric("🏆 Win Rate", f"{portfolio_summary.get('win_rate', 89.7):.1f}%")
+    m4.metric("🏆 Win Rate", f"{win_rate:.1f}%")
 
     # =========================================================================
     # TARGET +100% ACCOUNT DOUBLING RADAR ($200,000 MILESTONE TRACKER)
     # =========================================================================
     from src.compound_engine import calculate_doubling_progress
 
-    curr_eq = float(portfolio_summary.get("total_equity", 152198.09))
     init_cap = float(portfolio_summary.get("initial_capital", 100000.0))
     progress_data = calculate_doubling_progress(
         initial_capital=init_cap, current_equity=curr_eq
@@ -214,6 +213,53 @@ def render_autonomous_trader_workspace(selected_ticker: str):
                     )
                     st.success(
                         f"✅ Updated {guard_res.get('updated_positions', 0)} holdings! (Discord alert sent: {guard_res.get('discord_alert_dispatched', False)})"
+                    )
+                    st.rerun()
+
+        st.markdown("<div style='height: 4px;'></div>", unsafe_allow_html=True)
+        btn_col_c, btn_col_d = st.columns([1, 1])
+        with btn_col_c:
+            if st.button(
+                "⚡ Daily Signals Bridge",
+                use_container_width=True,
+                help="Bridges top ML daily signals with GICS sector diversification, Quarter-Kelly sizing, and CPPI cushion floor.",
+            ):
+                with st.spinner("Executing daily signals bridge..."):
+                    from src.daily_execution_bridge import DailyExecutionBridge
+
+                    bridge = DailyExecutionBridge(
+                        portfolio_file=broker_instance.portfolio_path,
+                        trades_file=broker_instance.trades_path,
+                    )
+                    b_res = bridge.execute_daily_cycle()
+                    if b_res.get("success"):
+                        acts = b_res.get("executed_actions", {})
+                        buys_count = len(acts.get("buys", []))
+                        st.success(f"✅ Daily bridge executed ({buys_count} new buys)!")
+                    else:
+                        st.warning(
+                            f"Bridge notice: {b_res.get('reason', 'No actions taken')}"
+                        )
+                    st.rerun()
+        with btn_col_d:
+            if st.button(
+                "📰 Benzinga Catalyst Trader",
+                use_container_width=True,
+                help="Scans real-time breaking news wire from Benzinga, consults the 5-Agent Council, and trades material catalysts.",
+            ):
+                with st.spinner(
+                    "Scanning Benzinga catalyst wire & consulting committee..."
+                ):
+                    from src.benzinga_news_trader import (
+                        scan_and_trade_benzinga_catalysts,
+                    )
+
+                    bz_res = scan_and_trade_benzinga_catalysts(
+                        execute_paper=True, broker=broker_instance
+                    )
+                    trades_done = len(bz_res.get("trade_actions_executed", []))
+                    st.success(
+                        f"📰 Benzinga wire scanned ({trades_done} catalyst trades executed)!"
                     )
                     st.rerun()
 

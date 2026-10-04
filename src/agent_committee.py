@@ -1341,13 +1341,17 @@ def execute_committee_order(
                 for h in broker.state.get("equity_history", [])
             ]
             peak_eq = max(equity_hist + [total_equity])
+            initial_principal = float(broker.state.get("initial_capital", 100000.0))
+            effective_floor = max(initial_principal * 0.95, peak_eq * 0.82)
             cppi_eval = get_cppi_cushion_multiplier(
                 portfolio_value=total_equity,
                 peak_equity=peak_eq,
-                floor_pct=0.95,
+                floor_value=effective_floor,
                 multiplier=2.85,
             )
             cppi_factor = float(cppi_eval.get("allocation_factor", 1.0))
+            if cash_avail > 50000.0 and cppi_factor < 0.25:
+                cppi_factor = 0.25
         except Exception:
             cppi_factor = 1.0
 

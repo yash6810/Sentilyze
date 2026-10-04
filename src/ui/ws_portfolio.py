@@ -83,16 +83,18 @@ def render_portfolio_workspace(selected_ticker: str):
                 for h in port_data.get("equity_history", [])
             ]
             peak_eq = max(hist_eq + [total_eq])
+            init_cap = float(port_data.get("initial_capital", 100000.0))
+            eff_floor = max(init_cap * 0.95, peak_eq * 0.82)
             cppi_info = get_cppi_cushion_multiplier(
                 portfolio_value=total_eq,
                 peak_equity=peak_eq,
-                floor_pct=0.95,
-                target_multiplier=2.85,
+                floor_value=eff_floor,
+                multiplier=2.85,
             )
             st.markdown("#### 🔒 CPPI Dynamic Cushion & Capital Floor Monitor")
             c1, c2, c3, c4 = st.columns(4)
             c1.metric(
-                "🛡️ 95% Capital Floor",
+                "🛡️ Preservation Floor",
                 f"${cppi_info['floor_value']:,.2f}",
                 delta="Strictly Protected",
             )
