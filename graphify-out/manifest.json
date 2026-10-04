@@ -678,9 +678,9 @@
     "semantic_hash": ""
   },
   "results/committee_resolutions.json": {
-    "mtime": 1791126773.0113473,
-    "seen": 1791127047.6658628,
-    "ast_hash": "52c72489810da0ff134512706cb8fa91",
+    "mtime": 1791128370.3988688,
+    "seen": 1791128450.4674013,
+    "ast_hash": "d16e59dc141f99c4c237e2402d0eba1a",
     "semantic_hash": ""
   },
   "results/daily_signals_latest.json": {
@@ -786,9 +786,9 @@
     "semantic_hash": ""
   },
   "src/data_ingestion.py": {
-    "mtime": 1790884887.1782103,
-    "seen": 1790889091.6648088,
-    "ast_hash": "8ea91d41a6be14dc9139f2bc162f1b46",
+    "mtime": 1791128149.1557965,
+    "seen": 1791128450.4856105,
+    "ast_hash": "88f8c88bb4f501985f04230703bfbc21",
     "semantic_hash": ""
   },
   "src/data_sync.py": {
@@ -5382,9 +5382,9 @@
     "semantic_hash": ""
   },
   "src/duckdb_engine.py": {
-    "mtime": 1790191786.408451,
-    "seen": 1790276802.7747982,
-    "ast_hash": "666051ff6eb984ab4f4f6a406ef9ca89",
+    "mtime": 1791128381.1910393,
+    "seen": 1791128450.486763,
+    "ast_hash": "ae29fc70ac944a0e326b2c541f9be711",
     "semantic_hash": ""
   },
   "tests/test_duckdb_engine.py": {
@@ -14346,9 +14346,9 @@
     "semantic_hash": ""
   },
   "results/reddit_mined_signals_latest.json": {
-    "mtime": 1791126965.4955657,
-    "seen": 1791127047.6690764,
-    "ast_hash": "950fdc4d5df3367853622ba38597a343",
+    "mtime": 1791128363.229965,
+    "seen": 1791128450.4722323,
+    "ast_hash": "0555894602700d6c4bc01f2523bdec05",
     "semantic_hash": ""
   },
   "results/swift_shift_radar_latest.json": {
@@ -14754,9 +14754,9 @@
     "semantic_hash": ""
   },
   "results/benzinga_live_scan_latest.json": {
-    "mtime": 1791126773.0133853,
-    "seen": 1791127047.665459,
-    "ast_hash": "986accd2becc11c0f1815ba19d7fab90",
+    "mtime": 1791128373.0878048,
+    "seen": 1791128450.466411,
+    "ast_hash": "f1bef203a0c791a487fdf0bc123e7350",
     "semantic_hash": ""
   },
   "src/benzinga_news_trader.py": {
@@ -14820,9 +14820,9 @@
     "semantic_hash": ""
   },
   "src/daily_execution_bridge.py": {
-    "mtime": 1790961846.7404792,
-    "seen": 1790962019.7286036,
-    "ast_hash": "4059cc2d35e99fc3a0609e0987992003",
+    "mtime": 1791128381.2211392,
+    "seen": 1791128450.4854255,
+    "ast_hash": "677dfe9c7a4cc4edfee210b80f1ce5aa",
     "semantic_hash": ""
   },
   "tests/test_daily_execution_bridge.py": {

@@ -42,11 +42,17 @@ class DailyExecutionBridge:
         portfolio_file: str = PORTFOLIO_FILE,
         trades_file: str = DEFAULT_TRADES_FILE,
         dry_run: bool = False,
+        enable_sector_quota: Optional[bool] = None,
     ):
         self.signals_file = signals_file
         self.portfolio_file = portfolio_file
         self.trades_file = trades_file
         self.dry_run = dry_run
+        self.enable_sector_quota = (
+            enable_sector_quota
+            if enable_sector_quota is not None
+            else (signals_file == DEFAULT_SIGNALS_FILE)
+        )
         self.broker = PaperBroker(
             portfolio_file=portfolio_file, trades_file=trades_file
         )
@@ -71,12 +77,26 @@ class DailyExecutionBridge:
     def get_actionable_signals(
         self, min_confidence: float = 0.55
     ) -> Dict[str, List[Dict[str, Any]]]:
-        """Categorizes actionable signals into BUYs, SELLs, and HOLDs."""
+        """
+        Categorizes actionable signals into BUYs, SELLs, and HOLDs with Multi-Sector Quota.
+        1. Loads model daily signals (BUY, SELL, HOLD).
+        2. Incorporates high-conviction breaking catalyst BUYs from Benzinga wire (if enable_sector_quota is True).
+        3. For unoccupied sectors, selects the highest-conviction bullish candidate to prevent cash starvation.
+        """
+        from src.cross_asset_pooling import get_sector_for_ticker
+
         signals = self.load_signals()
         buys = []
         sells = []
         holds = []
 
+        if not signals:
+            return {"buys": [], "sells": [], "holds": []}
+
+        open_positions = self.broker.state.get("open_positions", {})
+        occupied_sectors = {get_sector_for_ticker(t) for t in open_positions.keys()}
+
+        # 1. Existing BUY/SELL signals
         for s in signals:
             sig = s.get("signal", "HOLD")
             conf = float(s.get("confidence", 0.50))
@@ -86,6 +106,82 @@ class DailyExecutionBridge:
                 sells.append(s)
             else:
                 holds.append(s)
+
+        if not self.enable_sector_quota:
+            buys = sorted(
+                buys, key=lambda x: float(x.get("confidence", 0.0)), reverse=True
+            )
+            return {"buys": buys, "sells": sells, "holds": holds}
+
+        # 2. Add approved Benzinga Catalyst BUYs if sector is unoccupied
+        bz_file = os.path.join("results", "benzinga_live_scan_latest.json")
+        if os.path.exists(bz_file):
+            try:
+                with open(bz_file, "r", encoding="utf-8") as bf:
+                    bz_data = json.load(bf)
+                for item in bz_data.get("top_evaluated_stocks", []):
+                    tk = item.get("ticker")
+                    v = item.get("committee_verdict", "HOLD")
+                    c = float(item.get("committee_conviction_pct", 50.0)) / 100.0
+                    p = float(item.get("current_price", 0.0))
+                    sec = get_sector_for_ticker(tk)
+                    if (
+                        v in ("BUY", "EXECUTE_BUY", "STRONG_BUY")
+                        and c >= min_confidence
+                        and p > 0
+                        and tk not in open_positions
+                        and sec not in occupied_sectors
+                        and not any(b["ticker"] == tk for b in buys)
+                    ):
+                        logger.info(
+                            f"📰 [Catalyst Quota] Added {tk} ({sec}, Conf: {c:.1%}) to candidate pool"
+                        )
+                        buys.append(
+                            {
+                                "ticker": tk,
+                                "signal": "BUY",
+                                "confidence": c,
+                                "current_price": p,
+                                "take_profit": round(p * 1.06, 2),
+                                "stop_loss": round(p * 0.975, 2),
+                                "regime": "▲ BULLISH (Benzinga Catalyst + Council)",
+                                "source": "BENZINGA_CATALYST_COUNCIL",
+                            }
+                        )
+            except Exception as bze:
+                logger.debug(f"Benzinga catalyst bridge notice: {bze}")
+
+        # 3. Multi-Sector Quota: For unoccupied sectors, scan holds for high-conviction bullish leaders
+        sector_candidates: Dict[str, List[Dict[str, Any]]] = {}
+        for s in holds:
+            tk = s.get("ticker", "")
+            conf = float(s.get("confidence", 0.0))
+            regime = str(s.get("regime", ""))
+            price = float(s.get("current_price", 0.0))
+            sec = get_sector_for_ticker(tk)
+
+            if (
+                sec not in occupied_sectors
+                and sec not in ("General", "Unknown", "General S&P 100")
+                and conf >= 0.58
+                and "BULLISH" in regime.upper()
+                and price > 0
+                and tk not in open_positions
+                and not any(b["ticker"] == tk for b in buys)
+            ):
+                sector_candidates.setdefault(sec, []).append(s)
+
+        # For each unoccupied sector, add the top-1 ranked candidate if buys don't already have one
+        for sec, cands in sector_candidates.items():
+            if not any(get_sector_for_ticker(b["ticker"]) == sec for b in buys):
+                cands.sort(key=lambda x: float(x.get("confidence", 0)), reverse=True)
+                top_cand = cands[0].copy()
+                top_cand["signal"] = "BUY"
+                top_cand["source"] = "MULTI_SECTOR_QUOTA_SCANNER"
+                logger.info(
+                    f"🌐 [Sector Quota] Selected {top_cand['ticker']} for unoccupied sector '{sec}' (Conf: {top_cand.get('confidence', 0):.1%})"
+                )
+                buys.append(top_cand)
 
         buys = sorted(buys, key=lambda x: float(x.get("confidence", 0.0)), reverse=True)
         return {"buys": buys, "sells": sells, "holds": holds}

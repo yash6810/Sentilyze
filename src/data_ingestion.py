@@ -793,52 +793,55 @@ def _get_browser_session() -> requests.Session:
 
 def _fetch_direct_yahoo_chart(ticker: str, period: str = "10y") -> pd.DataFrame:
     """Fetches full historical price data directly from Yahoo Finance Chart API up to today."""
-    try:
-        url = f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}"
-        params = {
-            "range": period,
-            "interval": "1d",
-            "events": "div,splits",
-        }
-        session = _get_browser_session()
-        res = session.get(url, params=params, timeout=12)
-        if res.status_code == 200:
-            data = res.json()
-            result = data["chart"]["result"][0]
-            timestamps = result.get("timestamp", [])
-            indicators = result.get("indicators", {})
-            quotes = indicators.get("quote", [{}])[0]
+    endpoints = [
+        f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}",
+        f"https://query2.finance.yahoo.com/v8/finance/chart/{ticker}",
+    ]
+    params = {
+        "range": period,
+        "interval": "1d",
+        "events": "div,splits",
+    }
+    session = _get_browser_session()
+    for url in endpoints:
+        try:
+            res = session.get(url, params=params, timeout=12)
+            if res.status_code == 200:
+                data = res.json()
+                result = data.get("chart", {}).get("result", [{}])[0]
+                timestamps = result.get("timestamp", [])
+                indicators = result.get("indicators", {})
+                quotes = indicators.get("quote", [{}])[0]
 
-            if not timestamps or not quotes.get("close"):
-                return pd.DataFrame()
+                if timestamps and quotes.get("close"):
+                    import datetime
 
-            import datetime
+                    dates = [
+                        datetime.datetime.fromtimestamp(ts, tz=datetime.timezone.utc)
+                        for ts in timestamps
+                    ]
+                    dt_index = pd.DatetimeIndex(dates, name="Date").normalize()
+                    df = pd.DataFrame(
+                        {
+                            "Open": quotes.get("open", []),
+                            "High": quotes.get("high", []),
+                            "Low": quotes.get("low", []),
+                            "Close": quotes.get("close", []),
+                            "Volume": quotes.get("volume", []),
+                        },
+                        index=dt_index,
+                    )
+                    df["Dividends"] = 0.0
+                    df["Stock Splits"] = 0.0
 
-            dates = [
-                datetime.datetime.fromtimestamp(ts, tz=datetime.timezone.utc)
-                for ts in timestamps
-            ]
-            dt_index = pd.DatetimeIndex(dates, name="Date").normalize()
-            df = pd.DataFrame(
-                {
-                    "Open": quotes.get("open", []),
-                    "High": quotes.get("high", []),
-                    "Low": quotes.get("low", []),
-                    "Close": quotes.get("close", []),
-                    "Volume": quotes.get("volume", []),
-                },
-                index=dt_index,
-            )
-            df["Dividends"] = 0.0
-            df["Stock Splits"] = 0.0
-
-            df = df.ffill().dropna()
-            logger.info(
-                f"[Yahoo Chart] Directly fetched {len(df)} price bars for {ticker} up to {df.index[-1].strftime('%Y-%m-%d')}"
-            )
-            return df
-    except Exception as e:
-        logger.warning(f"Direct Yahoo chart fetch failed for {ticker}: {e}")
+                    df = df.ffill().dropna()
+                    if not df.empty:
+                        logger.info(
+                            f"[Yahoo Chart] Directly fetched {len(df)} price bars for {ticker} via {url.split('/')[2]}"
+                        )
+                        return df
+        except Exception as e:
+            logger.debug(f"Direct Yahoo chart fetch attempt notice ({url}): {e}")
     return pd.DataFrame()
 
 
@@ -874,13 +877,29 @@ def get_price_history(
                     f"Price history cache for {ticker} is stale. Re-fetching..."
                 )
 
+    history = pd.DataFrame()
     if should_load_cache:
-        logger.info(f"Loading price history for {ticker} from cache...")
-        history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
-        if history.index.tz is None:
-            history.index = history.index.tz_localize("UTC").normalize()
-        else:
-            history.index = history.index.tz_convert("UTC").normalize()
+        # Check DuckDB lake first for ultra-fast in-process query (<2ms)
+        try:
+            from src.duckdb_engine import DuckDBMarketEngine
+
+            duck_eng = DuckDBMarketEngine()
+            duck_bars = duck_eng.get_bars(ticker)
+            if not duck_bars.empty and len(duck_bars) >= 15:
+                logger.debug(
+                    f"⚡ [DuckDB Lake] Loaded {len(duck_bars)} bars for {ticker} in <2ms"
+                )
+                history = duck_bars
+        except Exception as de:
+            logger.debug(f"DuckDB cache check notice for {ticker}: {de}")
+
+        if history.empty and os.path.exists(cache_path):
+            logger.info(f"Loading price history for {ticker} from cache...")
+            history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
+            if history.index.tz is None:
+                history.index = history.index.tz_localize("UTC").normalize()
+            else:
+                history.index = history.index.tz_convert("UTC").normalize()
     else:
         logger.info(f"Routing live price history fetch for {ticker}...")
         # 1. Alpaca Markets Data API v2
@@ -929,6 +948,14 @@ def get_price_history(
                 return pd.DataFrame()
         else:
             history.to_csv(cache_path)
+            # Upsert into DuckDB columnar lake
+            try:
+                from src.duckdb_engine import DuckDBMarketEngine
+
+                duck_eng = DuckDBMarketEngine()
+                duck_eng.ingest_bars(history, ticker)
+            except Exception as de:
+                logger.debug(f"DuckDB ingestion notice for {ticker}: {de}")
             logger.info(f"Saved updated price history to {cache_path}")
 
     # Ensure required columns exist

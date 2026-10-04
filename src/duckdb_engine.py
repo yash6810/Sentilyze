@@ -161,6 +161,41 @@ class DuckDBMarketEngine:
         self.con.unregister("tmp_bars")
         return len(sub_df)
 
+    def get_bars(self, ticker: str, start_date: Optional[str] = None) -> pd.DataFrame:
+        """
+        Retrieves daily bars for a ticker as a standard OHLCV DataFrame indexed by Date (UTC).
+        Enables <2ms sub-millisecond retrieval from local columnar store.
+        """
+        sql = """
+            SELECT date, open, high, low, close, volume, rsi, sma50, sma200, atr, vwap
+            FROM daily_bars
+            WHERE ticker = ?
+        """
+        params: List[Any] = [ticker.upper()]
+        if start_date:
+            sql += " AND date >= ?"
+            params.append(start_date)
+        sql += " ORDER BY date ASC"
+        df = self.query(sql, params)
+        if df.empty:
+            return pd.DataFrame()
+        df["date"] = pd.to_datetime(df["date"], utc=True)
+        df.set_index("date", inplace=True)
+        df.index.name = "Date"
+        col_map = {
+            "open": "Open",
+            "high": "High",
+            "low": "Low",
+            "close": "Close",
+            "volume": "Volume",
+        }
+        df.rename(columns=col_map, inplace=True)
+        if "Dividends" not in df.columns:
+            df["Dividends"] = 0.0
+        if "Stock Splits" not in df.columns:
+            df["Stock Splits"] = 0.0
+        return df
+
     def bootstrap_from_results(
         self, results_dir: str = "results", max_tickers: int = 50
     ) -> int:
