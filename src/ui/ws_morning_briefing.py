@@ -157,6 +157,18 @@ def render_morning_briefing_workspace(selected_ticker: str = "NVDA"):
     # Top Key Macro & Portfolio Matrix
     macro_info = memo.get("macro_posture", {})
     port_info = memo.get("portfolio_status", {})
+    if not port_info or port_info.get("cash_reserves") is None:
+        try:
+            from src.paper_broker import PaperBroker
+
+            broker_state = PaperBroker().state
+            port_info = {
+                "cash_reserves": float(broker_state.get("cash", 100000.0)),
+                "win_rate_pct": float(broker_state.get("win_rate", 0.0)),
+            }
+        except Exception:
+            port_info = {"cash_reserves": 100000.0, "win_rate_pct": 0.0}
+
     primary_info = memo.get("primary_focus", {})
 
     m1, m2, m3, m4 = st.columns(4)
@@ -177,8 +189,8 @@ def render_morning_briefing_workspace(selected_ticker: str = "NVDA"):
     )
     m4.metric(
         "💼 Cash Reserves",
-        f"${port_info.get('cash_reserves', 152198.09):,.2f}",
-        delta=f"{port_info.get('win_rate_pct', 89.66):.1f}% Win Rate",
+        f"${float(port_info.get('cash_reserves', 100000.0)):,.2f}",
+        delta=f"{float(port_info.get('win_rate_pct', 0.0)):.1f}% Win Rate",
     )
 
     # Executive Overview Box

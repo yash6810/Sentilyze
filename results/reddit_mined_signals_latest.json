@@ -1,14 +1,14 @@
 {
-  "timestamp": "2026-10-02T17:21:54.865282+00:00",
-  "target_ticker": "TEST",
-  "market_shift_verdict": "\ud83d\udfe2 MARKET_TOTAL_ENTERING (Broad Cashflow Accumulation Active)",
-  "tactical_posture": "AGGRESSIVE_SCALE_IN",
+  "timestamp": "2026-10-04T15:51:23.297895+00:00",
+  "target_ticker": "DELL",
+  "market_shift_verdict": "\ud83d\udd34 DOUBLE_CRASH_WARNING (Top Exhaustion & Liquidity Drain)",
+  "tactical_posture": "DEFENSIVE_CASH_LOCK",
   "metrics": {
-    "market_entry_probability_pct": 66.7,
-    "double_crash_probability_pct": 33.3,
-    "total_mined_threads": 8,
+    "market_entry_probability_pct": 0.0,
+    "double_crash_probability_pct": 100.0,
+    "total_mined_threads": 16,
     "cashflow_threads_count": 8,
-    "crash_warning_threads_count": 0,
+    "crash_warning_threads_count": 8,
     "darkpool_relay_threads_count": 0
   },
   "best_predictive_channels": [
@@ -43,11 +43,15 @@
   ],
   "sample_mined_threads": {
     "cashflow_and_whales": [
-      "$UBER, follow the smart money - DD",
-      "Unusual Options Activity 101: Whale Watching Tips",
-      "SpaceX earnings cash flow statement"
+      "A (sort-of) brief explanation of the DIX/GEX",
+      "All In on SMCI: $6,000,000 Bet Across Interactive Brokers and My Swiss Bank \u2013 Am I Crazy or a Genius?",
+      "AI storage is waking up, and NTAP just gave the market a receipt"
     ],
-    "crash_and_double_top": [],
+    "crash_and_double_top": [
+      "Is this really a crash? We are not even down 5%",
+      "Why does dell have negative shareholders equity?",
+      "Microsoft is now cheaper than the April 2025 Tariff crash, yet TTM EPS is up 30%. Huge bargain"
+    ],
     "darkpool_and_borrow_relays": []
   }
 }

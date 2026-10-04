@@ -1328,6 +1328,14 @@ class AutonomousTradingEngine:
             top_watchlist=top_watchlist,
         )
 
+        # Cache executive pre-market briefing memo JSON (results/morning_briefing_latest.json)
+        try:
+            from src.morning_briefing import generate_morning_briefing_text
+
+            generate_morning_briefing_text(mode="MARKET_MASTER")
+        except Exception as e:
+            logger.warning(f"Error caching morning briefing memo JSON: {e}")
+
         return {
             "status": "success",
             "timestamp": datetime.now(timezone.utc).isoformat(),
