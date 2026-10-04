@@ -1,10 +1,10 @@
 {
-  "sync_time": "2026-10-03T04:54:55.195157+00:00",
+  "sync_time": "2026-10-04T05:47:53.468967+00:00",
   "assets_synced": 536,
   "details": {
     "ADP": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -16,7 +16,7 @@
     },
     "AME": {
       "price_bars": 2514,
-      "news_articles": 95,
+      "news_articles": 88,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -28,61 +28,61 @@
     },
     "AXON": {
       "price_bars": 2514,
-      "news_articles": 92,
+      "news_articles": 89,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BA": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BLDR": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BR": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 113,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CARR": {
       "price_bars": 1644,
-      "news_articles": 107,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CAT": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 113,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CHRW": {
       "price_bars": 2514,
-      "news_articles": 90,
+      "news_articles": 86,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CMI": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CPRT": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CSX": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 104,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -94,73 +94,73 @@
     },
     "DAL": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DD": {
       "price_bars": 2514,
-      "news_articles": 115,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DE": {
       "price_bars": 2514,
-      "news_articles": 85,
+      "news_articles": 81,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DOV": {
       "price_bars": 2514,
-      "news_articles": 83,
+      "news_articles": 79,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EFX": {
       "price_bars": 2514,
-      "news_articles": 99,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EME": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 113,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EMR": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 97,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ETN": {
       "price_bars": 2514,
-      "news_articles": 92,
+      "news_articles": 97,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EXPD": {
       "price_bars": 2514,
-      "news_articles": 96,
+      "news_articles": 92,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FAST": {
       "price_bars": 2514,
-      "news_articles": 123,
+      "news_articles": 120,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FDX": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 114,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FDXF": {
       "price_bars": 90,
-      "news_articles": 101,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -172,13 +172,13 @@
     },
     "FIX": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FTV": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -190,49 +190,49 @@
     },
     "GE": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GEV": {
       "price_bars": 632,
-      "news_articles": 104,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GNRC": {
       "price_bars": 2514,
-      "news_articles": 102,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GWW": {
       "price_bars": 2514,
-      "news_articles": 85,
+      "news_articles": 80,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HII": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HON": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HONA": {
       "price_bars": 77,
-      "news_articles": 104,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HUBB": {
       "price_bars": 2514,
-      "news_articles": 93,
+      "news_articles": 98,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -250,37 +250,37 @@
     },
     "IR": {
       "price_bars": 2361,
-      "news_articles": 99,
+      "news_articles": 104,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ITW": {
       "price_bars": 2514,
-      "news_articles": 89,
+      "news_articles": 91,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "J": {
       "price_bars": 2514,
-      "news_articles": 91,
+      "news_articles": 88,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "JBHT": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "JCI": {
       "price_bars": 2514,
-      "news_articles": 118,
+      "news_articles": 117,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "LDOS": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -292,7 +292,7 @@
     },
     "LII": {
       "price_bars": 2514,
-      "news_articles": 89,
+      "news_articles": 86,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -304,7 +304,7 @@
     },
     "LUV": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -316,7 +316,7 @@
     },
     "MMM": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 113,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -328,25 +328,25 @@
     },
     "NOC": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 115,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NSC": {
       "price_bars": 2514,
-      "news_articles": 97,
+      "news_articles": 93,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ODFL": {
       "price_bars": 2514,
-      "news_articles": 86,
+      "news_articles": 87,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "OTIS": {
       "price_bars": 1644,
-      "news_articles": 82,
+      "news_articles": 76,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -358,19 +358,19 @@
     },
     "PCAR": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PH": {
       "price_bars": 2514,
-      "news_articles": 116,
+      "news_articles": 115,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PNR": {
       "price_bars": 2514,
-      "news_articles": 93,
+      "news_articles": 89,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -382,49 +382,49 @@
     },
     "ROK": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ROL": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "RSG": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 100,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "RTX": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SNA": {
       "price_bars": 2514,
-      "news_articles": 87,
+      "news_articles": 82,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SWK": {
       "price_bars": 2514,
-      "news_articles": 91,
+      "news_articles": 94,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TDG": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 116,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TT": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 116,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -436,49 +436,49 @@
     },
     "UAL": {
       "price_bars": 2514,
-      "news_articles": 100,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "UBER": {
       "price_bars": 1860,
-      "news_articles": 118,
+      "news_articles": 114,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "UNP": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "UPS": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "URI": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VLTO": {
       "price_bars": 752,
-      "news_articles": 103,
+      "news_articles": 91,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VRSK": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VRT": {
       "price_bars": 2053,
-      "news_articles": 108,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -490,85 +490,85 @@
     },
     "WM": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "XYL": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "A": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ABBV": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ABT": {
       "price_bars": 2514,
-      "news_articles": 117,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ALGN": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 104,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AMGN": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BAX": {
       "price_bars": 2514,
-      "news_articles": 94,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BDX": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BIIB": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BMY": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BSX": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CAH": {
       "price_bars": 2514,
-      "news_articles": 98,
+      "news_articles": 100,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CI": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -580,19 +580,19 @@
     },
     "COO": {
       "price_bars": 2514,
-      "news_articles": 118,
+      "news_articles": 117,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "COR": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CRL": {
       "price_bars": 2514,
-      "news_articles": 71,
+      "news_articles": 77,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -604,19 +604,19 @@
     },
     "DGX": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 98,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DHR": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 113,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DVA": {
       "price_bars": 2514,
-      "news_articles": 94,
+      "news_articles": 97,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -628,121 +628,121 @@
     },
     "ELV": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EW": {
       "price_bars": 2514,
-      "news_articles": 118,
+      "news_articles": 123,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GEHC": {
       "price_bars": 952,
-      "news_articles": 91,
+      "news_articles": 95,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GILD": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HCA": {
       "price_bars": 2514,
-      "news_articles": 102,
+      "news_articles": 104,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HSIC": {
       "price_bars": 2514,
-      "news_articles": 74,
+      "news_articles": 72,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HUM": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "IDXX": {
       "price_bars": 2514,
-      "news_articles": 86,
+      "news_articles": 83,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "INCY": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "IQV": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ISRG": {
       "price_bars": 2514,
-      "news_articles": 96,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "JNJ": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "LH": {
       "price_bars": 2514,
-      "news_articles": 103,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "LLY": {
       "price_bars": 2514,
-      "news_articles": 102,
+      "news_articles": 96,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MCK": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MDT": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MRK": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MRNA": {
       "price_bars": 1965,
-      "news_articles": 106,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MTD": {
       "price_bars": 2514,
-      "news_articles": 94,
+      "news_articles": 80,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PFE": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -760,7 +760,7 @@
     },
     "RVTY": {
       "price_bars": 2514,
-      "news_articles": 103,
+      "news_articles": 104,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -772,7 +772,7 @@
     },
     "STE": {
       "price_bars": 2514,
-      "news_articles": 97,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -784,145 +784,145 @@
     },
     "TECH": {
       "price_bars": 2514,
-      "news_articles": 118,
+      "news_articles": 120,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TMO": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "UHS": {
       "price_bars": 2514,
-      "news_articles": 83,
+      "news_articles": 86,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "UNH": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VEEV": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VRTX": {
       "price_bars": 2514,
-      "news_articles": 102,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VTRS": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WAT": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 119,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WST": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ZBH": {
       "price_bars": 2514,
-      "news_articles": 93,
+      "news_articles": 90,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ZTS": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 104,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AAPL": {
       "price_bars": 2514,
-      "news_articles": 115,
+      "news_articles": 118,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ACN": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ADBE": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ADI": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 104,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ADSK": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 115,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AKAM": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AMAT": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 104,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AMD": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 115,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ANET": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "APH": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AVGO": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CDNS": {
       "price_bars": 2514,
-      "news_articles": 78,
+      "news_articles": 87,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CDW": {
       "price_bars": 2514,
-      "news_articles": 94,
+      "news_articles": 95,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -934,13 +934,13 @@
     },
     "COHR": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CRM": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 113,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -952,25 +952,25 @@
     },
     "CSCO": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 115,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CTSH": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DDOG": {
       "price_bars": 1769,
-      "news_articles": 107,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DELL": {
       "price_bars": 2514,
-      "news_articles": 99,
+      "news_articles": 100,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -982,19 +982,19 @@
     },
     "FICO": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FLEX": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FSLR": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1006,25 +1006,25 @@
     },
     "GDDY": {
       "price_bars": 2514,
-      "news_articles": 115,
+      "news_articles": 117,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GEN": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GLW": {
       "price_bars": 2514,
-      "news_articles": 96,
+      "news_articles": 95,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HPE": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1036,43 +1036,43 @@
     },
     "IBM": {
       "price_bars": 2514,
-      "news_articles": 117,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "INTC": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "INTU": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "IT": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 117,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "JBL": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "KEYS": {
       "price_bars": 2514,
-      "news_articles": 116,
+      "news_articles": 115,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "KLAC": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1084,85 +1084,85 @@
     },
     "LRCX": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MCHP": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MPWR": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MRVL": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MSFT": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MSI": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MU": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 116,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NOW": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NTAP": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 98,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NVDA": {
       "price_bars": 2514,
-      "news_articles": 119,
+      "news_articles": 120,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NXPI": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ON": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 116,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ORCL": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PANW": {
       "price_bars": 2514,
-      "news_articles": 98,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1174,25 +1174,25 @@
     },
     "PTC": {
       "price_bars": 2514,
-      "news_articles": 92,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "Q": {
       "price_bars": 235,
-      "news_articles": 91,
+      "news_articles": 92,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "QCOM": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ROP": {
       "price_bars": 2514,
-      "news_articles": 100,
+      "news_articles": 96,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1204,25 +1204,25 @@
     },
     "SNDK": {
       "price_bars": 411,
-      "news_articles": 111,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SNPS": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "STX": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SWKS": {
       "price_bars": 2514,
-      "news_articles": 102,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1234,19 +1234,19 @@
     },
     "TEL": {
       "price_bars": 2514,
-      "news_articles": 122,
+      "news_articles": 118,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TER": {
       "price_bars": 2514,
-      "news_articles": 103,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TRMB": {
       "price_bars": 2514,
-      "news_articles": 99,
+      "news_articles": 90,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1258,25 +1258,25 @@
     },
     "TYL": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VRSN": {
       "price_bars": 2514,
-      "news_articles": 95,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WDAY": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WDC": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1288,115 +1288,115 @@
     },
     "AEE": {
       "price_bars": 2514,
-      "news_articles": 73,
+      "news_articles": 72,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AEP": {
       "price_bars": 2514,
-      "news_articles": 91,
+      "news_articles": 79,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AES": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 115,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ATO": {
       "price_bars": 2514,
-      "news_articles": 96,
+      "news_articles": 93,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AWK": {
       "price_bars": 2514,
-      "news_articles": 82,
+      "news_articles": 76,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CEG": {
       "price_bars": 1181,
-      "news_articles": 94,
+      "news_articles": 100,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CMS": {
       "price_bars": 2514,
-      "news_articles": 93,
+      "news_articles": 97,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CNP": {
       "price_bars": 2514,
-      "news_articles": 92,
+      "news_articles": 85,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "D": {
       "price_bars": 2514,
-      "news_articles": 99,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DTE": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 97,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DUK": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 119,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ED": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EIX": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ES": {
       "price_bars": 2514,
-      "news_articles": 94,
+      "news_articles": 97,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ETR": {
       "price_bars": 2514,
-      "news_articles": 92,
+      "news_articles": 91,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EVRG": {
       "price_bars": 2514,
-      "news_articles": 76,
+      "news_articles": 70,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EXC": {
       "price_bars": 2514,
-      "news_articles": 99,
+      "news_articles": 95,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FE": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 116,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "LNT": {
       "price_bars": 2514,
-      "news_articles": 85,
+      "news_articles": 77,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1408,19 +1408,19 @@
     },
     "NI": {
       "price_bars": 2514,
-      "news_articles": 99,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NRG": {
       "price_bars": 2514,
-      "news_articles": 84,
+      "news_articles": 95,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PCG": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 97,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1432,79 +1432,79 @@
     },
     "PNW": {
       "price_bars": 2514,
-      "news_articles": 100,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PPL": {
       "price_bars": 2514,
-      "news_articles": 103,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SO": {
       "price_bars": 2514,
-      "news_articles": 116,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SRE": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 90,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WEC": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "XEL": {
       "price_bars": 2514,
-      "news_articles": 92,
+      "news_articles": 91,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ACGL": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AFL": {
       "price_bars": 2514,
-      "news_articles": 92,
+      "news_articles": 96,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AIG": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 113,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AIZ": {
       "price_bars": 2514,
-      "news_articles": 90,
+      "news_articles": 86,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AJG": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ALL": {
       "price_bars": 2514,
-      "news_articles": 116,
+      "news_articles": 120,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AMP": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1516,7 +1516,7 @@
     },
     "APO": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 120,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1528,13 +1528,13 @@
     },
     "AXP": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BAC": {
       "price_bars": 2514,
-      "news_articles": 116,
+      "news_articles": 117,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1546,13 +1546,13 @@
     },
     "BLK": {
       "price_bars": 2514,
-      "news_articles": 117,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BNY": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 116,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1564,19 +1564,19 @@
     },
     "BRO": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BX": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "C": {
       "price_bars": 2514,
-      "news_articles": 72,
+      "news_articles": 75,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1588,25 +1588,25 @@
     },
     "CBOE": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CFG": {
       "price_bars": 2514,
-      "news_articles": 97,
+      "news_articles": 93,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CINF": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CME": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1618,37 +1618,37 @@
     },
     "COIN": {
       "price_bars": 1375,
-      "news_articles": 99,
+      "news_articles": 100,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CPAY": {
       "price_bars": 2514,
-      "news_articles": 81,
+      "news_articles": 82,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EG": {
       "price_bars": 2514,
-      "news_articles": 91,
+      "news_articles": 89,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ERIE": {
       "price_bars": 2514,
-      "news_articles": 97,
+      "news_articles": 92,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FDS": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FIS": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1660,79 +1660,79 @@
     },
     "FITB": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GL": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GPN": {
       "price_bars": 2514,
-      "news_articles": 98,
+      "news_articles": 93,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GS": {
       "price_bars": 2514,
-      "news_articles": 121,
+      "news_articles": 117,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HBAN": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HIG": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HOOD": {
       "price_bars": 1301,
-      "news_articles": 104,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "IBKR": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 118,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ICE": {
       "price_bars": 2514,
-      "news_articles": 123,
+      "news_articles": 118,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "IVZ": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "JKHY": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 92,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "JPM": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 113,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "KEY": {
       "price_bars": 2514,
-      "news_articles": 117,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1744,31 +1744,31 @@
     },
     "L": {
       "price_bars": 2514,
-      "news_articles": 90,
+      "news_articles": 85,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MA": {
       "price_bars": 2514,
-      "news_articles": 116,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MCO": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MET": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MRSH": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1780,67 +1780,67 @@
     },
     "MSCI": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 114,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MTB": {
       "price_bars": 2514,
-      "news_articles": 96,
+      "news_articles": 93,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NDAQ": {
       "price_bars": 2514,
-      "news_articles": 91,
+      "news_articles": 97,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NTRS": {
       "price_bars": 2514,
-      "news_articles": 96,
+      "news_articles": 95,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PFG": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 100,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PGR": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PNC": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PRU": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PYPL": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "RF": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "RJF": {
       "price_bars": 2514,
-      "news_articles": 94,
+      "news_articles": 96,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1852,109 +1852,109 @@
     },
     "SPGI": {
       "price_bars": 2514,
-      "news_articles": 117,
+      "news_articles": 116,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "STT": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 118,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SYF": {
       "price_bars": 2514,
-      "news_articles": 86,
+      "news_articles": 85,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TFC": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TROW": {
       "price_bars": 2514,
-      "news_articles": 103,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TRV": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "USB": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "V": {
       "price_bars": 2514,
-      "news_articles": 87,
+      "news_articles": 85,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WFC": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WRB": {
       "price_bars": 2514,
-      "news_articles": 97,
+      "news_articles": 85,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WTW": {
       "price_bars": 2514,
-      "news_articles": 83,
+      "news_articles": 81,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "XYZ": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ALB": {
       "price_bars": 2514,
-      "news_articles": 115,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AMCR": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "APD": {
       "price_bars": 2514,
-      "news_articles": 84,
+      "news_articles": 78,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AVY": {
       "price_bars": 2514,
-      "news_articles": 66,
+      "news_articles": 68,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BALL": {
       "price_bars": 2514,
-      "news_articles": 102,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CF": {
       "price_bars": 2514,
-      "news_articles": 99,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -1966,55 +1966,55 @@
     },
     "CTVA": {
       "price_bars": 1850,
-      "news_articles": 96,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DOW": {
       "price_bars": 1896,
-      "news_articles": 101,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ECL": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FCX": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 117,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "IFF": {
       "price_bars": 2514,
-      "news_articles": 77,
+      "news_articles": 79,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "IP": {
       "price_bars": 2514,
-      "news_articles": 89,
+      "news_articles": 94,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "LIN": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "LYB": {
       "price_bars": 2514,
-      "news_articles": 95,
+      "news_articles": 94,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MLM": {
       "price_bars": 2514,
-      "news_articles": 78,
+      "news_articles": 77,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2026,91 +2026,91 @@
     },
     "NEM": {
       "price_bars": 2514,
-      "news_articles": 100,
+      "news_articles": 98,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NUE": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PKG": {
       "price_bars": 2514,
-      "news_articles": 92,
+      "news_articles": 96,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PPG": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SHW": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "STLD": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SW": {
       "price_bars": 2514,
-      "news_articles": 90,
+      "news_articles": 94,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VMC": {
       "price_bars": 2514,
-      "news_articles": 76,
+      "news_articles": 75,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ABNB": {
       "price_bars": 1459,
-      "news_articles": 103,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AMZN": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "APTV": {
       "price_bars": 2514,
-      "news_articles": 89,
+      "news_articles": 86,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AZO": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BBY": {
       "price_bars": 2514,
-      "news_articles": 102,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BKNG": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CCL": {
       "price_bars": 2514,
-      "news_articles": 102,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2122,67 +2122,67 @@
     },
     "CVNA": {
       "price_bars": 2371,
-      "news_articles": 116,
+      "news_articles": 113,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DASH": {
       "price_bars": 1460,
-      "news_articles": 113,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DECK": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DHI": {
       "price_bars": 2514,
-      "news_articles": 87,
+      "news_articles": 90,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DPZ": {
       "price_bars": 2514,
-      "news_articles": 117,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DRI": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EBAY": {
       "price_bars": 2514,
-      "news_articles": 103,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EXPE": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "F": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GM": {
       "price_bars": 2514,
-      "news_articles": 117,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GPC": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2200,19 +2200,19 @@
     },
     "HD": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HLT": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "LEN": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2230,61 +2230,61 @@
     },
     "LVS": {
       "price_bars": 2514,
-      "news_articles": 99,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MAR": {
       "price_bars": 2514,
-      "news_articles": 96,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MCD": {
       "price_bars": 2514,
-      "news_articles": 119,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MGM": {
       "price_bars": 2514,
-      "news_articles": 100,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NCLH": {
       "price_bars": 2514,
-      "news_articles": 103,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NKE": {
       "price_bars": 2514,
-      "news_articles": 115,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NVR": {
       "price_bars": 2514,
-      "news_articles": 94,
+      "news_articles": 97,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ORLY": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 114,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PHM": {
       "price_bars": 2514,
-      "news_articles": 81,
+      "news_articles": 78,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "RCL": {
       "price_bars": 2514,
-      "news_articles": 100,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2296,19 +2296,19 @@
     },
     "ROST": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SBUX": {
       "price_bars": 2514,
-      "news_articles": 116,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TJX": {
       "price_bars": 2514,
-      "news_articles": 97,
+      "news_articles": 96,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2320,43 +2320,43 @@
     },
     "TSCO": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TSLA": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ULTA": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WSM": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WYNN": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "YUM": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "AMT": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2368,13 +2368,13 @@
     },
     "BXP": {
       "price_bars": 2514,
-      "news_articles": 78,
+      "news_articles": 80,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CBRE": {
       "price_bars": 2514,
-      "news_articles": 98,
+      "news_articles": 93,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2386,91 +2386,91 @@
     },
     "CPT": {
       "price_bars": 2514,
-      "news_articles": 91,
+      "news_articles": 82,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CSGP": {
       "price_bars": 2514,
-      "news_articles": 103,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DLR": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DOC": {
       "price_bars": 2514,
-      "news_articles": 93,
+      "news_articles": 98,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EQIX": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ESS": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EXR": {
       "price_bars": 2514,
-      "news_articles": 77,
+      "news_articles": 75,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FRT": {
       "price_bars": 2514,
-      "news_articles": 85,
+      "news_articles": 86,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HST": {
       "price_bars": 2514,
-      "news_articles": 80,
+      "news_articles": 73,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "INVH": {
       "price_bars": 2431,
-      "news_articles": 74,
+      "news_articles": 75,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "IRM": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "KIM": {
       "price_bars": 2514,
-      "news_articles": 89,
+      "news_articles": 90,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MAA": {
       "price_bars": 2514,
-      "news_articles": 100,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "O": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PLD": {
       "price_bars": 2514,
-      "news_articles": 115,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2482,79 +2482,79 @@
     },
     "REG": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SBAC": {
       "price_bars": 2514,
-      "news_articles": 98,
+      "news_articles": 94,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SPG": {
       "price_bars": 2514,
-      "news_articles": 97,
+      "news_articles": 93,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "UDR": {
       "price_bars": 2514,
-      "news_articles": 74,
+      "news_articles": 72,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VICI": {
       "price_bars": 2200,
-      "news_articles": 98,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VMRK": {
       "price_bars": 2514,
-      "news_articles": 62,
+      "news_articles": 67,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VTR": {
       "price_bars": 2514,
-      "news_articles": 93,
+      "news_articles": 88,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WELL": {
       "price_bars": 2514,
-      "news_articles": 121,
+      "news_articles": 118,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WY": {
       "price_bars": 2514,
-      "news_articles": 98,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FOXA": {
       "price_bars": 1902,
-      "news_articles": 101,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GOOGL": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NWSA": {
       "price_bars": 2514,
-      "news_articles": 85,
+      "news_articles": 82,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GOOG": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 114,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2566,31 +2566,31 @@
     },
     "BF-B": {
       "price_bars": 2514,
-      "news_articles": 102,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BG": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CASY": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CHD": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 97,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CL": {
       "price_bars": 2514,
-      "news_articles": 103,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2608,73 +2608,73 @@
     },
     "DG": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "DLTR": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EL": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "GIS": {
       "price_bars": 2514,
-      "news_articles": 115,
+      "news_articles": 113,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HRL": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 118,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "HSY": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "KDP": {
       "price_bars": 2514,
-      "news_articles": 98,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "KHC": {
       "price_bars": 2514,
-      "news_articles": 116,
+      "news_articles": 109,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "KMB": {
       "price_bars": 2514,
-      "news_articles": 119,
+      "news_articles": 123,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "KO": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 114,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "KR": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "KVUE": {
       "price_bars": 857,
-      "news_articles": 87,
+      "news_articles": 91,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2686,103 +2686,103 @@
     },
     "MKC": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MNST": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MO": {
       "price_bars": 2514,
-      "news_articles": 116,
+      "news_articles": 114,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PEP": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PG": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PM": {
       "price_bars": 2514,
-      "news_articles": 99,
+      "news_articles": 100,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SJM": {
       "price_bars": 2514,
-      "news_articles": 104,
+      "news_articles": 97,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "STZ": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SYY": {
       "price_bars": 2514,
-      "news_articles": 113,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TAP": {
       "price_bars": 2514,
-      "news_articles": 102,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TGT": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 113,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TSN": {
       "price_bars": 2514,
-      "news_articles": 97,
+      "news_articles": 98,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WMT": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "APA": {
       "price_bars": 2514,
-      "news_articles": 95,
+      "news_articles": 96,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BKR": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "COP": {
       "price_bars": 2514,
-      "news_articles": 92,
+      "news_articles": 93,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CVX": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2794,13 +2794,13 @@
     },
     "EOG": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "EQT": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2812,7 +2812,7 @@
     },
     "FANG": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 117,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2824,79 +2824,79 @@
     },
     "KMI": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "MPC": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 116,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "OKE": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 103,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "OXY": {
       "price_bars": 2514,
-      "news_articles": 96,
+      "news_articles": 104,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PSX": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 117,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SLB": {
       "price_bars": 2514,
-      "news_articles": 98,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TPL": {
       "price_bars": 2514,
-      "news_articles": 88,
+      "news_articles": 90,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TRGP": {
       "price_bars": 2514,
-      "news_articles": 93,
+      "news_articles": 94,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VLO": {
       "price_bars": 2514,
-      "news_articles": 97,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WMB": {
       "price_bars": 2514,
-      "news_articles": 112,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "XOM": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "APP": {
       "price_bars": 1374,
-      "news_articles": 90,
+      "news_articles": 96,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CHTR": {
       "price_bars": 2514,
-      "news_articles": 106,
+      "news_articles": 105,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2908,49 +2908,49 @@
     },
     "DIS": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ECHO": {
       "price_bars": 2514,
-      "news_articles": 98,
+      "news_articles": 100,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "LYV": {
       "price_bars": 2514,
-      "news_articles": 94,
+      "news_articles": 92,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "META": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NFLX": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 107,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "OMC": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 115,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "PSKY": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "RDDT": {
       "price_bars": 636,
-      "news_articles": 100,
+      "news_articles": 104,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -2962,67 +2962,67 @@
     },
     "TKO": {
       "price_bars": 2514,
-      "news_articles": 109,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TMUS": {
       "price_bars": 2514,
-      "news_articles": 110,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TTD": {
       "price_bars": 2514,
-      "news_articles": 100,
+      "news_articles": 99,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TTWO": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 108,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VZ": {
       "price_bars": 2514,
-      "news_articles": 111,
+      "news_articles": 116,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "WBD": {
       "price_bars": 2514,
-      "news_articles": 116,
+      "news_articles": 115,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "FOX": {
       "price_bars": 1901,
-      "news_articles": 110,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "NWS": {
       "price_bars": 2514,
-      "news_articles": 86,
+      "news_articles": 90,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "RMD": {
       "price_bars": 2514,
-      "news_articles": 114,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "VST": {
       "price_bars": 2512,
-      "news_articles": 108,
+      "news_articles": 115,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SQ": {
       "price_bars": 0,
-      "news_articles": 110,
+      "news_articles": 111,
       "latest_price_date": "N/A",
       "status": "SUCCESS"
     },
@@ -3034,7 +3034,7 @@
     },
     "SOFI": {
       "price_bars": 1444,
-      "news_articles": 112,
+      "news_articles": 110,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -3046,31 +3046,31 @@
     },
     "MSTR": {
       "price_bars": 2514,
-      "news_articles": 107,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "IBIT": {
       "price_bars": 684,
-      "news_articles": 99,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ARM": {
       "price_bars": 766,
-      "news_articles": 87,
+      "news_articles": 89,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "CRSP": {
       "price_bars": 2502,
-      "news_articles": 113,
+      "news_articles": 114,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "BNTX": {
       "price_bars": 1754,
-      "news_articles": 103,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -3082,7 +3082,7 @@
     },
     "ILMN": {
       "price_bars": 2514,
-      "news_articles": 101,
+      "news_articles": 106,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -3094,7 +3094,7 @@
     },
     "RKLB": {
       "price_bars": 1470,
-      "news_articles": 102,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
@@ -3106,49 +3106,49 @@
     },
     "QQQ": {
       "price_bars": 2514,
-      "news_articles": 100,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "IWM": {
       "price_bars": 2514,
-      "news_articles": 108,
+      "news_articles": 112,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SMH": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 102,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "XBI": {
       "price_bars": 2514,
-      "news_articles": 93,
+      "news_articles": 85,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "ARKK": {
       "price_bars": 2514,
-      "news_articles": 117,
+      "news_articles": 119,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TQQQ": {
       "price_bars": 2514,
-      "news_articles": 95,
+      "news_articles": 101,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "SOXL": {
       "price_bars": 2514,
-      "news_articles": 84,
+      "news_articles": 91,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     },
     "TLT": {
       "price_bars": 2514,
-      "news_articles": 105,
+      "news_articles": 111,
       "latest_price_date": "2026-10-02 00:00:00+00:00",
       "status": "SUCCESS"
     }
