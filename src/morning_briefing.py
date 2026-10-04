@@ -51,7 +51,39 @@ CORE_DEFAULT_UNIVERSE = [
 
 
 def load_universe_candidates(max_count: int = 20) -> List[str]:
-    """Loads clean ticker list from stocks.txt or falls back to core liquid universe."""
+    """Loads clean ticker list from daily signals, stocks.txt, or falls back to core liquid universe."""
+    signals_file = os.path.join("results", "daily_signals_latest.json")
+    if os.path.exists(signals_file):
+        try:
+            import json
+
+            with open(signals_file, "r", encoding="utf-8") as f:
+                sig_data = json.load(f)
+            signals = sig_data.get("signals", [])
+            buys = [
+                s["ticker"]
+                for s in signals
+                if s.get("signal") == "BUY" and "ticker" in s
+            ]
+            high_conf = sorted(
+                signals, key=lambda s: float(s.get("confidence", 0)), reverse=True
+            )
+            top_tickers = buys + [
+                s["ticker"]
+                for s in high_conf
+                if s.get("ticker") and s.get("ticker") not in buys
+            ]
+            seen: set = set()
+            unique_top: List[str] = []
+            for tk in top_tickers:
+                if tk and tk not in seen:
+                    seen.add(tk)
+                    unique_top.append(tk)
+            if unique_top:
+                return unique_top[:max_count]
+        except Exception as e:
+            logger.debug(f"Daily signals candidate load fallback: {e}")
+
     if os.path.exists(STOCKS_FILE):
         try:
             tickers = []
@@ -59,7 +91,6 @@ def load_universe_candidates(max_count: int = 20) -> List[str]:
                 for line in f:
                     line = line.strip()
                     if line and not line.startswith("#"):
-                        # Extract valid ticker symbol
                         clean_tk = re.sub(r"[^A-Za-z]", "", line).upper()
                         if clean_tk and clean_tk not in tickers:
                             tickers.append(clean_tk)
@@ -143,11 +174,18 @@ def scan_top_alpha_stocks(
         except Exception as e:
             logger.debug(f"Alpha scan skipped for {tk}: {e}")
 
-    # Sort descending by composite conviction
+    # Sort descending by composite conviction and deduplicate
     scored_stocks.sort(key=lambda x: x["conviction_pct"], reverse=True)
+    seen_tk: set = set()
+    deduped_scored: List[Dict[str, Any]] = []
+    for s in scored_stocks:
+        if s["ticker"] not in seen_tk:
+            seen_tk.add(s["ticker"])
+            deduped_scored.append(s)
+
     return (
-        scored_stocks[:top_k]
-        if scored_stocks
+        deduped_scored[:top_k]
+        if deduped_scored
         else [
             {
                 "ticker": "NVDA",
@@ -170,11 +208,11 @@ def get_portfolio_intelligence() -> Dict[str, Any]:
     """Reads live paper portfolio state for broadcast reporting."""
     try:
         broker = PaperBroker()
-        total_equity = float(broker.state.get("total_equity", 152198.09))
-        cash_avail = float(broker.state.get("cash", 152198.09))
-        realized_gain = float(broker.state.get("realized_pnl", 52198.09))
-        win_rate = float(broker.state.get("win_rate", 89.66))
-        total_trades = int(broker.state.get("total_trades", 29))
+        total_equity = float(broker.state.get("total_equity", 100000.0))
+        cash_avail = float(broker.state.get("cash", 100000.0))
+        realized_gain = float(broker.state.get("realized_pnl", 0.0))
+        win_rate = float(broker.state.get("win_rate", 0.0))
+        total_trades = int(broker.state.get("total_trades", 0))
         open_positions = broker.state.get("open_positions", {})
 
         return {
@@ -194,11 +232,11 @@ def get_portfolio_intelligence() -> Dict[str, Any]:
     except Exception as e:
         logger.debug(f"Portfolio intelligence fallback: {e}")
         return {
-            "total_equity": 152198.09,
-            "cash_reserves": 152198.09,
-            "realized_gain": 52198.09,
-            "win_rate": 89.66,
-            "total_trades": 29,
+            "total_equity": 100000.0,
+            "cash_reserves": 100000.0,
+            "realized_gain": 0.0,
+            "win_rate": 0.0,
+            "total_trades": 0,
             "open_count": 0,
             "open_positions": [],
             "status": "ALL_CASH_LIQUID",
@@ -269,14 +307,21 @@ def generate_morning_briefing_text(
         thesis = "Multi-agent quorum approved with favorable asymmetric upside."
 
     # 5. Build Spoken Podcast Script (Multi-Segment Professional Anchor Cadence)
+    pct_cash = (cash / equity * 100.0) if equity > 0 else 100.0
+    if open_count == 0:
+        port_spoken = f"with one hundred percent cash liquidity at {cash:,.2f} dollars and zero open positions"
+    else:
+        positions_spoken = ", ".join(port_intel["open_positions"])
+        port_spoken = f"with {cash:,.2f} dollars in liquid cash reserves ({pct_cash:.0f} percent dry powder) alongside {open_count} active position{'s' if open_count > 1 else ''} in {positions_spoken}"
+
     if mode == "PORTFOLIO_RADAR":
         audio_script = (
             f"Good morning. This is your Sentilyze Portfolio Risk and Capital Radar for {date_str}. "
             f"Our quantitative trading desk currently manages {equity:,.2f} dollars in total equity, "
-            f"with {cash:,.2f} dollars held in liquid cash reserves and zero debt. "
-            f"Lifetime trading performance stands at an eighty-nine point seven percent win rate across twenty-nine closed executions, "
-            f"banking fifty-two thousand one hundred ninety-eight dollars in realized profit. "
-            f"With one hundred percent cash liquidity, capital is fully deployed and primed for fresh opening range breakouts at the 9:30 AM bell."
+            f"{port_spoken}. "
+            f"Lifetime trading performance stands at a {win_rate:.1f} percent win rate across {port_intel['total_trades']} closed executions, "
+            f"banking {realized_pnl:,.2f} dollars in realized profit. "
+            f"Capital is strictly protected with dynamic CPPI cushions and primed for fresh opening range opportunities."
         )
     elif mode == "TOP_STOCKS":
         audio_script = (
@@ -307,20 +352,26 @@ def generate_morning_briefing_text(
             f"Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: {top_picks_str}. "
             f"Leading the list is {top_stocks[0]['ticker']} trading at {top_stocks[0]['last_price']:.2f} dollars with {top_stocks[0]['conviction_pct']:.0f} percent algorithmic conviction, "
             f"followed by {top_stocks[1]['ticker'] if len(top_stocks) > 1 else 'AMD'} and {top_stocks[2]['ticker'] if len(top_stocks) > 2 else 'PLTR'}. "
-            f"Turning to portfolio health: Sentilyze manages {equity:,.2f} dollars in total equity with one hundred percent cash liquidity at {cash:,.2f} dollars, "
-            f"following twenty-six winning scale-out harvests at an eighty-nine point seven percent win rate. "
+            f"Turning to portfolio health: Sentilyze manages {equity:,.2f} dollars in total equity, {port_spoken}, "
+            f"maintaining a {win_rate:.1f} percent win rate with {realized_pnl:,.2f} dollars in realized profit. "
             f"At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. "
             f"Have a disciplined and profitable trading day."
         )
 
     # 6. Build Executive Formatted Memorandum
+    if open_count == 0:
+        cash_exec_summary = f"The fund holds **${cash:,.2f}** in 100% liquid cash reserves, ready for morning opening range opportunities."
+    else:
+        active_str = ", ".join(port_intel["open_positions"])
+        cash_exec_summary = f"The fund holds **${cash:,.2f}** in liquid cash reserves ({pct_cash:.1f}% dry powder) alongside {open_count} active position(s) ({active_str})."
+
     memo_sections = {
         "headline": f"Sentilyze Pre-Market Intelligence Memo — {date_str}",
         "mode": mode,
         "executive_summary": (
             f"Global setup reflects a **{regime}** environment with VIX steady at **{vix:.1f}**. "
             f"Top algorithmic focus is on **{top_picks_str}** with **{primary_pick}** leading at {confidence:.0f}% conviction. "
-            f"The fund holds **${cash:,.2f}** in 100% liquid cash reserves, ready for morning opening range opportunities."
+            f"{cash_exec_summary}"
         ),
         "macro_posture": {
             "regime": regime,

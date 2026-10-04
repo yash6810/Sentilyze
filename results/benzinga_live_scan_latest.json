@@ -1,51 +1,108 @@
 {
-  "scan_timestamp": "2026-10-02T17:22:03.077039+00:00",
-  "total_articles_scraped": 1,
-  "total_tickers_identified": 1,
+  "scan_timestamp": "2026-10-04T15:10:34.187972+00:00",
+  "total_articles_scraped": 100,
+  "total_tickers_identified": 25,
   "top_evaluated_stocks": [
     {
-      "ticker": "TEST",
-      "current_price": 100.0,
-      "change_pct": 2.5,
-      "latest_headline": "TEST Reports $10B Transformative Cloud Deal",
+      "ticker": "MU",
+      "current_price": 1074.89,
+      "change_pct": -2.05,
+      "latest_headline": "Micron\u2019s $150B Contract Book Tops Annual Revenue - Micron Technology (NASDAQ:MU)",
       "benzinga_sentiment": "BULLISH",
-      "net_catalyst_score": 0.85,
+      "net_catalyst_score": 1.4,
+      "headline_count": 4,
+      "committee_verdict": "HOLD",
+      "committee_conviction_pct": 53.8,
+      "trade_action": "HOLD",
+      "trade_reason": "",
+      "is_currently_held": false
+    },
+    {
+      "ticker": "TSLA",
+      "current_price": 370.59,
+      "change_pct": 4.65,
+      "latest_headline": "Elon Musk Says Tesla Cut Optimus Robot Memory to Scale Production - Tesla (NASDAQ:TSLA)",
+      "benzinga_sentiment": "BEARISH",
+      "net_catalyst_score": -1.2,
+      "headline_count": 2,
+      "committee_verdict": "VETO",
+      "committee_conviction_pct": 63.9,
+      "trade_action": "HOLD",
+      "trade_reason": "",
+      "is_currently_held": false
+    },
+    {
+      "ticker": "AMZN",
+      "current_price": 251.52,
+      "change_pct": 1.33,
+      "latest_headline": "Amazon Signs $1B Synopsys Deal to Boost AWS Custom Chips - Amazon.com (NASDAQ:AMZN)",
+      "benzinga_sentiment": "BULLISH",
+      "net_catalyst_score": 0.8,
       "headline_count": 1,
       "committee_verdict": "EXECUTE_BUY",
-      "committee_conviction_pct": 78.0,
+      "committee_conviction_pct": 74.6,
       "trade_action": "BUY",
-      "trade_reason": "BENZINGA_BREAKING_BULLISH_CATALYST: TEST Reports $10B Transformative Cloud Deal",
-      "is_currently_held": true
-    }
-  ],
-  "trade_actions_executed": [
+      "trade_reason": "BENZINGA_BREAKING_BULLISH_CATALYST: Amazon Signs $1B Synopsys Deal to Boost AWS Custom Chips - Amazon.com (NASDAQ:AMZN)",
+      "is_currently_held": false
+    },
     {
-      "ticker": "TEST",
-      "action": "BUY",
-      "price": 100.0,
-      "result": {
-        "buys": [
-          {
-            "ticker": "TEST",
-            "shares": 60,
-            "entry_price": 100.0,
-            "cost": 6002.1,
-            "entry_date": "2026-10-02",
-            "tp1_target": 106.25,
-            "tp2_target": 111.25,
-            "sl_target": 96.25,
-            "confidence": 78.0,
-            "quarter_kelly_pct": 12.0
-          }
-        ],
-        "take_profits": [],
-        "take_profits_tp1": [],
-        "take_profits_tp2": [],
-        "stop_losses": [],
-        "sells": []
-      }
+      "ticker": "CCL",
+      "current_price": 25.76,
+      "change_pct": 2.75,
+      "latest_headline": "Weak Jobs Lift Nasdaq 100 To Record, Micron Fuels AI Rally - NVIDIA (NASDAQ:NVDA), Carnival (NYSE:CCL)",
+      "benzinga_sentiment": "BULLISH",
+      "net_catalyst_score": 0.8,
+      "headline_count": 1,
+      "committee_verdict": "EXECUTE_BUY",
+      "committee_conviction_pct": 81.3,
+      "trade_action": "BUY",
+      "trade_reason": "BENZINGA_BREAKING_BULLISH_CATALYST: Weak Jobs Lift Nasdaq 100 To Record, Micron Fuels AI Rally - NVIDIA (NASDAQ:NVDA), Carnival (NYSE:CCL)",
+      "is_currently_held": false
+    },
+    {
+      "ticker": "NVDA",
+      "current_price": 233.95,
+      "change_pct": 1.34,
+      "latest_headline": "Weak Jobs Lift Nasdaq 100 To Record, Micron Fuels AI Rally - NVIDIA (NASDAQ:NVDA), Carnival (NYSE:CCL)",
+      "benzinga_sentiment": "BULLISH",
+      "net_catalyst_score": 0.8,
+      "headline_count": 1,
+      "committee_verdict": "EXECUTE_BUY",
+      "committee_conviction_pct": 75.1,
+      "trade_action": "BUY",
+      "trade_reason": "BENZINGA_BREAKING_BULLISH_CATALYST: Weak Jobs Lift Nasdaq 100 To Record, Micron Fuels AI Rally - NVIDIA (NASDAQ:NVDA), Carnival (NYSE:CCL)",
+      "is_currently_held": false
+    },
+    {
+      "ticker": "SPCX",
+      "current_price": 158.96,
+      "change_pct": 7.35,
+      "latest_headline": "Anthropic Eyes November IPO - SpaceX (NASDAQ:SPCX)",
+      "benzinga_sentiment": "NEUTRAL",
+      "net_catalyst_score": -0.6,
+      "headline_count": 2,
+      "committee_verdict": "EXECUTE_BUY",
+      "committee_conviction_pct": 81.6,
+      "trade_action": "HOLD",
+      "trade_reason": "",
+      "is_currently_held": false
+    },
+    {
+      "ticker": "NIO",
+      "current_price": 3.37,
+      "change_pct": -0.88,
+      "latest_headline": "NIO Stock Hits 52-Week Low: What's Happening?",
+      "benzinga_sentiment": "BEARISH",
+      "net_catalyst_score": -0.6,
+      "headline_count": 1,
+      "committee_verdict": "HOLD",
+      "committee_conviction_pct": 52.1,
+      "trade_action": "HOLD",
+      "trade_reason": "",
+      "is_currently_held": false
     }
   ],
-  "portfolio_equity": 100000.0,
-  "portfolio_cash": 50000.0
+  "trade_actions_executed": [],
+  "portfolio_equity": 143854.19,
+  "portfolio_cash": 137284.33
 }

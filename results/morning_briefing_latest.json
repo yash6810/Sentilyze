@@ -1,7 +1,7 @@
 {
-  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Thursday, October 01, 2026",
-  "mode": "SINGLE_TICKER",
-  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.7**. Top algorithmic focus is on **CHRW, CAT, CTAS** with **CHRW** leading at 78% conviction. The fund holds **$134,063.13** in 100% liquid cash reserves, ready for morning opening range opportunities.",
+  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Sunday, October 04, 2026",
+  "mode": "MARKET_MASTER",
+  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.7**. Top algorithmic focus is on **DELL, MPC, EXPD** with **DELL** leading at 78% conviction. The fund holds **$137,284.33** in liquid cash reserves (95.4% dry powder) alongside 3 active position(s) (MPC, PH, AAPL).",
   "macro_posture": {
     "regime": "BULLISH_EXPANSION",
     "vix_level": 15.65999984741211,
@@ -10,61 +10,63 @@
   },
   "top_stocks_in_play": [
     {
-      "ticker": "CHRW",
-      "last_price": 150.49,
-      "day_change_pct": 0.18,
-      "momentum_5d_pct": 4.11,
-      "atr": 3.19,
-      "tp1_target": 158.47,
-      "tp2_target": 164.85,
-      "sl_target": 145.7,
-      "conviction_pct": 76.5,
-      "headline_catalyst": "Solid institutional institutional order flow observed in CHRW.",
+      "ticker": "DELL",
+      "last_price": 535.43,
+      "day_change_pct": 0.36,
+      "momentum_5d_pct": 8.78,
+      "atr": 38.39,
+      "tp1_target": 631.41,
+      "tp2_target": 708.2,
+      "sl_target": 477.84,
+      "conviction_pct": 83.9,
+      "headline_catalyst": "Solid institutional institutional order flow observed in DELL.",
       "sentiment_buzz": "Bullish Momentum"
     },
     {
-      "ticker": "CAT",
-      "last_price": 815.55,
-      "day_change_pct": -0.86,
-      "momentum_5d_pct": 2.99,
-      "atr": 17.47,
-      "tp1_target": 859.24,
-      "tp2_target": 894.18,
-      "sl_target": 789.35,
-      "conviction_pct": 72.8,
-      "headline_catalyst": "Solid institutional institutional order flow observed in CAT.",
+      "ticker": "MPC",
+      "last_price": 399.51,
+      "day_change_pct": 0.36,
+      "momentum_5d_pct": 3.17,
+      "atr": 9.29,
+      "tp1_target": 422.74,
+      "tp2_target": 441.31,
+      "sl_target": 385.57,
+      "conviction_pct": 75.5,
+      "headline_catalyst": "Solid institutional institutional order flow observed in MPC.",
       "sentiment_buzz": "Bullish Momentum"
     },
     {
-      "ticker": "CTAS",
-      "last_price": 200.09,
-      "day_change_pct": -0.23,
-      "momentum_5d_pct": 1.02,
-      "atr": 4.0,
-      "tp1_target": 210.09,
-      "tp2_target": 218.1,
-      "sl_target": 194.09,
-      "conviction_pct": 71.1,
-      "headline_catalyst": "Solid institutional institutional order flow observed in CTAS.",
+      "ticker": "EXPD",
+      "last_price": 188.21,
+      "day_change_pct": 1.25,
+      "momentum_5d_pct": 1.05,
+      "atr": 3.76,
+      "tp1_target": 197.62,
+      "tp2_target": 205.15,
+      "sl_target": 182.56,
+      "conviction_pct": 74.1,
+      "headline_catalyst": "Solid institutional institutional order flow observed in EXPD.",
       "sentiment_buzz": "Bullish Momentum"
     }
   ],
   "primary_focus": {
-    "ticker": "CHRW",
+    "ticker": "DELL",
     "committee_decision": "APPROVED",
     "confidence_pct": 78.0,
     "rationale": "Strong momentum catalyst and disciplined risk-reward ratio."
   },
   "portfolio_status": {
-    "total_equity": 144093.23,
-    "cash_reserves": 134063.13405578618,
-    "realized_gain": 54429.46405578613,
-    "win_rate_pct": 65.3,
-    "open_positions": 1,
+    "total_equity": 143854.19,
+    "cash_reserves": 137284.3347110245,
+    "realized_gain": 54169.54405578613,
+    "win_rate_pct": 64.4,
+    "open_positions": 3,
     "active_tickers": [
-      "ADP"
+      "MPC",
+      "PH",
+      "AAPL"
     ]
   },
-  "audio_script": "Good morning. This is your Sentilyze Deep Dive Analyst Briefing on NVDA for Thursday, October 01, 2026. The macroeconomic volatility regime is Bullish Expansion with VIX at 15.7. The Multi-Agent Quantitative Committee has delivered a APPROVED verdict on NVDA with 78 percent conviction. Our portfolio holds 134,063.13 dollars in liquid cash, ready to allocate fractional Kelly sizing upon market open.",
-  "generated_at": "06:57 PM UTC"
+  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Sunday, October 04, 2026. First, in global macro: Volatility remains subdued with the VIX index at 15.7, placing markets in a Bullish Expansion regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: DELL, MPC, EXPD. Leading the list is DELL trading at 535.43 dollars with 84 percent algorithmic conviction, followed by MPC and EXPD. Turning to portfolio health: Sentilyze manages 143,854.19 dollars in total equity, with 137,284.33 dollars in liquid cash reserves (95 percent dry powder) alongside 3 active positions in MPC, PH, AAPL, maintaining a 64.4 percent win rate with 54,169.54 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
+  "generated_at": "03:15 PM UTC"
 }

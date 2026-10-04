@@ -1,7 +1,7 @@
 # Graph Report - Sentilyze  (2026-10-04)
 
 ## Corpus Check
-- 2443 files · ~709,912 words
+- 2444 files · ~712,927 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `84481aa1`
+- Built from commit: `09f54156`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -681,7 +681,7 @@ Nodes (11): create_candlestick_sr_chart(), DataFrame, Figure, Automated Dynamic 
 
 ### Community 120 - "morning_briefing.py"
 Cohesion: 0.17
-Nodes (20): generate_morning_briefing_text(), get_portfolio_intelligence(), load_universe_candidates(), Any, AI Pre-Market Audio & Executive Morning Briefing Generator for Sentilyze.…, Reads live paper portfolio state for broadcast reporting., Assembles a comprehensive, institutional Wall Street Morning Podcast and…, Synthesizes broadcast audio podcast (.mp3) using Google Text-to-Speech (gTTS)… (+12 more)
+Nodes (20): generate_morning_briefing_text(), get_portfolio_intelligence(), load_universe_candidates(), Any, AI Pre-Market Audio & Executive Morning Briefing Generator for Sentilyze.…, Scans candidate universe to score and rank the Top Alpha Stocks in Play for…, Reads live paper portfolio state for broadcast reporting., Assembles a comprehensive, institutional Wall Street Morning Podcast and… (+12 more)
 
 ### Community 121 - "ultra_quant_engine.py"
 Cohesion: 0.13

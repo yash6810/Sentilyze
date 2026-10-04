@@ -3371,7 +3371,7 @@
       "file_type": "code",
       "norm_label": "generate_morning_briefing_text()",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L208"
+      "source_location": "L246"
     },
     {
       "id": "src_morning_briefing_get_portfolio_intelligence",
@@ -3383,7 +3383,7 @@
       "file_type": "code",
       "norm_label": "get_portfolio_intelligence()",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L169"
+      "source_location": "L207"
     },
     {
       "id": "src_morning_briefing_load_universe_candidates",
@@ -3407,7 +3407,7 @@
       "file_type": "code",
       "norm_label": "scan_top_alpha_stocks()",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L73"
+      "source_location": "L104"
     },
     {
       "id": "src_morning_briefing_synthesize_briefing_audio",
@@ -3419,7 +3419,7 @@
       "file_type": "code",
       "norm_label": "synthesize_briefing_audio()",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L409"
+      "source_location": "L460"
     },
     {
       "id": "src_ui_ws_morning_briefing_render_morning_briefing_workspace",
@@ -22382,51 +22382,7 @@
       "source_location": "L1"
     },
     {
-      "id": "src_morning_briefing_rationale_170",
-      "label": "Reads live paper portfolio state for broadcast reporting.",
-      "_origin": "ast",
-      "community": 120,
-      "community_name": "morning_briefing.py",
-      "file_type": "rationale",
-      "norm_label": "reads live paper portfolio state for broadcast reporting.",
-      "source_file": "src/morning_briefing.py",
-      "source_location": "L170"
-    },
-    {
-      "id": "src_morning_briefing_rationale_211",
-      "label": "Assembles a comprehensive, institutional Wall Street Morning Podcast and\u2026",
-      "_origin": "ast",
-      "community": 120,
-      "community_name": "morning_briefing.py",
-      "file_type": "rationale",
-      "norm_label": "assembles a comprehensive, institutional wall street morning podcast and...",
-      "source_file": "src/morning_briefing.py",
-      "source_location": "L211"
-    },
-    {
-      "id": "src_morning_briefing_rationale_415",
-      "label": "Synthesizes broadcast audio podcast (.mp3) using Google Text-to-Speech (gTTS)\u2026",
-      "_origin": "ast",
-      "community": 120,
-      "community_name": "morning_briefing.py",
-      "file_type": "rationale",
-      "norm_label": "synthesizes broadcast audio podcast (.mp3) using google text-to-speech (gtts)...",
-      "source_file": "src/morning_briefing.py",
-      "source_location": "L415"
-    },
-    {
-      "id": "src_morning_briefing_rationale_54",
-      "label": "Loads clean ticker list from stocks.txt or falls back to core liquid universe.",
-      "_origin": "ast",
-      "community": 120,
-      "community_name": "morning_briefing.py",
-      "file_type": "rationale",
-      "norm_label": "loads clean ticker list from stocks.txt or falls back to core liquid universe.",
-      "source_file": "src/morning_briefing.py",
-      "source_location": "L54"
-    },
-    {
-      "id": "src_morning_briefing_rationale_76",
+      "id": "src_morning_briefing_rationale_107",
       "label": "Scans candidate universe to score and rank the Top Alpha Stocks in Play for\u2026",
       "_origin": "ast",
       "community": 120,
@@ -22434,7 +22390,51 @@
       "file_type": "rationale",
       "norm_label": "scans candidate universe to score and rank the top alpha stocks in play for...",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L76"
+      "source_location": "L107"
+    },
+    {
+      "id": "src_morning_briefing_rationale_208",
+      "label": "Reads live paper portfolio state for broadcast reporting.",
+      "_origin": "ast",
+      "community": 120,
+      "community_name": "morning_briefing.py",
+      "file_type": "rationale",
+      "norm_label": "reads live paper portfolio state for broadcast reporting.",
+      "source_file": "src/morning_briefing.py",
+      "source_location": "L208"
+    },
+    {
+      "id": "src_morning_briefing_rationale_249",
+      "label": "Assembles a comprehensive, institutional Wall Street Morning Podcast and\u2026",
+      "_origin": "ast",
+      "community": 120,
+      "community_name": "morning_briefing.py",
+      "file_type": "rationale",
+      "norm_label": "assembles a comprehensive, institutional wall street morning podcast and...",
+      "source_file": "src/morning_briefing.py",
+      "source_location": "L249"
+    },
+    {
+      "id": "src_morning_briefing_rationale_466",
+      "label": "Synthesizes broadcast audio podcast (.mp3) using Google Text-to-Speech (gTTS)\u2026",
+      "_origin": "ast",
+      "community": 120,
+      "community_name": "morning_briefing.py",
+      "file_type": "rationale",
+      "norm_label": "synthesizes broadcast audio podcast (.mp3) using google text-to-speech (gtts)...",
+      "source_file": "src/morning_briefing.py",
+      "source_location": "L466"
+    },
+    {
+      "id": "src_morning_briefing_rationale_54",
+      "label": "Loads clean ticker list from daily signals, stocks.txt, or falls back to core\u2026",
+      "_origin": "ast",
+      "community": 120,
+      "community_name": "morning_briefing.py",
+      "file_type": "rationale",
+      "norm_label": "loads clean ticker list from daily signals, stocks.txt, or falls back to core...",
+      "source_file": "src/morning_briefing.py",
+      "source_location": "L54"
     },
     {
       "id": "src_ui_ws_morning_briefing_rationale_1",
@@ -50538,7 +50538,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L228",
+      "source_location": "L266",
       "weight": 1.0
     },
     {
@@ -50550,7 +50550,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L242",
+      "source_location": "L280",
       "weight": 1.0
     },
     {
@@ -50562,7 +50562,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L247",
+      "source_location": "L285",
       "weight": 1.0
     },
     {
@@ -50574,7 +50574,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L257",
+      "source_location": "L295",
       "weight": 1.0
     },
     {
@@ -50586,19 +50586,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L172",
-      "weight": 1.0
-    },
-    {
-      "source": "src_morning_briefing_scan_top_alpha_stocks",
-      "target": "src_data_ingestion_get_news",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "src/morning_briefing.py",
-      "source_location": "L113",
+      "source_location": "L210",
       "weight": 1.0
     },
     {
@@ -50610,7 +50598,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L80",
+      "source_location": "L111",
       "weight": 1.0
     },
     {
@@ -50622,7 +50610,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L85",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "src_morning_briefing_scan_top_alpha_stocks",
+      "target": "src_data_ingestion_get_news",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/morning_briefing.py",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -68190,7 +68190,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L208",
+      "source_location": "L246",
       "weight": 1.0
     },
     {
@@ -68202,7 +68202,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L169",
+      "source_location": "L207",
       "weight": 1.0
     },
     {
@@ -68214,7 +68214,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/morning_briefing.py",
-      "source_location": "L73",
+      "source_location": "L104",
       "weight": 1.0
     },
     {
@@ -102393,13 +102393,24 @@
     },
     {
       "source": "src_morning_briefing",
+      "target": "src_morning_briefing_scan_top_alpha_stocks",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/morning_briefing.py",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "src_morning_briefing",
       "target": "src_morning_briefing_get_portfolio_intelligence",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/morning_briefing.py",
-      "source_location": "L169",
+      "source_location": "L207",
       "weight": 1.0
     },
     {
@@ -102410,7 +102421,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/morning_briefing.py",
-      "source_location": "L208",
+      "source_location": "L246",
       "weight": 1.0
     },
     {
@@ -102421,7 +102432,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/morning_briefing.py",
-      "source_location": "L409",
+      "source_location": "L460",
       "weight": 1.0
     },
     {
@@ -102433,17 +102444,6 @@
       "confidence_score": 1.0,
       "source_file": "src/morning_briefing.py",
       "source_location": "L53",
-      "weight": 1.0
-    },
-    {
-      "source": "src_morning_briefing",
-      "target": "src_morning_briefing_scan_top_alpha_stocks",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/morning_briefing.py",
-      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -122434,36 +122434,47 @@
       "weight": 1.0
     },
     {
-      "source": "src_morning_briefing_rationale_170",
+      "source": "src_morning_briefing_rationale_107",
+      "target": "src_morning_briefing_scan_top_alpha_stocks",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/morning_briefing.py",
+      "source_location": "L107",
+      "weight": 1.0
+    },
+    {
+      "source": "src_morning_briefing_rationale_208",
       "target": "src_morning_briefing_get_portfolio_intelligence",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/morning_briefing.py",
-      "source_location": "L170",
+      "source_location": "L208",
       "weight": 1.0
     },
     {
-      "source": "src_morning_briefing_rationale_211",
+      "source": "src_morning_briefing_rationale_249",
       "target": "src_morning_briefing_generate_morning_briefing_text",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/morning_briefing.py",
-      "source_location": "L211",
+      "source_location": "L249",
       "weight": 1.0
     },
     {
-      "source": "src_morning_briefing_rationale_415",
+      "source": "src_morning_briefing_rationale_466",
       "target": "src_morning_briefing_synthesize_briefing_audio",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/morning_briefing.py",
-      "source_location": "L415",
+      "source_location": "L466",
       "weight": 1.0
     },
     {
@@ -122475,17 +122486,6 @@
       "confidence_score": 1.0,
       "source_file": "src/morning_briefing.py",
       "source_location": "L54",
-      "weight": 1.0
-    },
-    {
-      "source": "src_morning_briefing_rationale_76",
-      "target": "src_morning_briefing_scan_top_alpha_stocks",
-      "relation": "rationale_for",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/morning_briefing.py",
-      "source_location": "L76",
       "weight": 1.0
     },
     {
@@ -129644,5 +129644,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "84481aa12e4fb6db8cb97bbdb04b3be87519b525"
+  "built_at_commit": "09f541568f02dbd93c559bb1b230856f83f0e5ad"
 }
