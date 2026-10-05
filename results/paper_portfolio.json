@@ -17,11 +17,12 @@
       "entry_date": "2026-10-03",
       "tp1_target": 466.02,
       "tp2_target": 500.97,
-      "sl_target": 396.12,
+      "sl_target": 411.77,
       "scaled_out": false,
       "confidence": 0.707945704460144,
       "regime": "\u25b2 BULLISH (Above SMA200)",
-      "friction_paid": 1.03
+      "friction_paid": 1.03,
+      "highest_price_seen": 422.3299865722656
     },
     "PH": {
       "shares": 2,
@@ -31,11 +32,12 @@
       "entry_date": "2026-10-03",
       "tp1_target": 1033.33,
       "tp2_target": 1081.96,
-      "sl_target": 936.08,
+      "sl_target": 948.24,
       "scaled_out": false,
       "confidence": 0.67160964012146,
       "regime": "\u25b2 BULLISH (Above SMA200)",
-      "friction_paid": 0.68
+      "friction_paid": 0.68,
+      "highest_price_seen": 972.5499877929688
     },
     "AAPL": {
       "shares": 5,
@@ -45,11 +47,12 @@
       "entry_date": "2026-10-03",
       "tp1_target": 354.55,
       "tp2_target": 371.23,
-      "sl_target": 321.18,
+      "sl_target": 325.35,
       "scaled_out": false,
       "confidence": 0.6211140751838684,
       "regime": "\u25b2 BULLISH (Above SMA200)",
-      "friction_paid": 0.58
+      "friction_paid": 0.58,
+      "highest_price_seen": 333.69000244140625
     }
   },
   "closed_trades": [
@@ -1073,7 +1076,15 @@
       "cash": 137284.33,
       "invested": 6569.86,
       "daily_return": -0.0
+    },
+    {
+      "date": "2026-10-05",
+      "timestamp": "2026-10-05T12:24:33.709627+00:00",
+      "total_equity": 143854.19,
+      "cash": 137284.33,
+      "invested": 6569.86,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-03T11:22:33.325584+00:00"
+  "last_updated": "2026-10-05T12:24:33.710143+00:00"
 }
