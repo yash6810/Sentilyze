@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 137284.3347110245,
-  "total_equity": 143854.19,
-  "unrealized_pnl": 0.0,
+  "total_equity": 143934.43,
+  "unrealized_pnl": 80.24,
   "realized_pnl": 54169.54405578613,
   "win_rate": 64.4,
   "total_trades": 73,
@@ -13,37 +13,37 @@
       "shares": 7,
       "initial_shares": 7,
       "entry_price": 422.3299865722656,
-      "current_price": 422.3299865722656,
+      "current_price": 433.4700012207031,
       "entry_date": "2026-10-03",
       "tp1_target": 466.02,
       "tp2_target": 500.97,
-      "sl_target": 411.77,
+      "sl_target": 431.24,
       "scaled_out": false,
       "confidence": 0.707945704460144,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "friction_paid": 1.03,
-      "highest_price_seen": 422.3299865722656
+      "highest_price_seen": 433.4700012207031
     },
     "PH": {
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 972.5499877929688,
-      "current_price": 972.5499877929688,
+      "current_price": 975.6799926757812,
       "entry_date": "2026-10-03",
       "tp1_target": 1033.33,
       "tp2_target": 1081.96,
-      "sl_target": 948.24,
+      "sl_target": 975.05,
       "scaled_out": false,
       "confidence": 0.67160964012146,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "friction_paid": 0.68,
-      "highest_price_seen": 972.5499877929688
+      "highest_price_seen": 975.6799926757812
     },
     "AAPL": {
       "shares": 5,
       "initial_shares": 5,
       "entry_price": 333.69000244140625,
-      "current_price": 333.69000244140625,
+      "current_price": 332.8900146484375,
       "entry_date": "2026-10-03",
       "tp1_target": 354.55,
       "tp2_target": 371.23,
@@ -1080,11 +1080,11 @@
     {
       "date": "2026-10-05",
       "timestamp": "2026-10-05T12:24:33.709627+00:00",
-      "total_equity": 143854.19,
+      "total_equity": 143934.43,
       "cash": 137284.33,
-      "invested": 6569.86,
-      "daily_return": 0.0
+      "invested": 6650.1,
+      "daily_return": 0.06
     }
   ],
-  "last_updated": "2026-10-05T12:24:33.710143+00:00"
+  "last_updated": "2026-10-05T23:32:40.153407+00:00"
 }
