@@ -13,7 +13,7 @@
       "shares": 7,
       "initial_shares": 7,
       "entry_price": 422.3299865722656,
-      "current_price": 433.47,
+      "current_price": 433.4700012207031,
       "entry_date": "2026-10-03",
       "tp1_target": 466.02,
       "tp2_target": 500.97,
@@ -29,7 +29,7 @@
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 972.5499877929688,
-      "current_price": 975.68,
+      "current_price": 975.6799926757812,
       "entry_date": "2026-10-03",
       "tp1_target": 1033.33,
       "tp2_target": 1081.96,
@@ -45,7 +45,7 @@
       "shares": 5,
       "initial_shares": 5,
       "entry_price": 333.69000244140625,
-      "current_price": 332.89,
+      "current_price": 332.8900146484375,
       "entry_date": "2026-10-03",
       "tp1_target": 354.55,
       "tp2_target": 371.23,
@@ -1097,5 +1097,5 @@
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-06T01:47:34.100003+00:00"
+  "last_updated": "2026-10-06T11:49:46.395775+00:00"
 }
