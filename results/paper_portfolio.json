@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 134719.12720252448,
-  "total_equity": 143933.54,
-  "unrealized_pnl": 80.24,
+  "total_equity": 143943.19,
+  "unrealized_pnl": 89.89,
   "realized_pnl": 54169.54405578613,
   "win_rate": 64.4,
   "total_trades": 73,
@@ -13,7 +13,7 @@
       "shares": 7,
       "initial_shares": 7,
       "entry_price": 422.3299865722656,
-      "current_price": 434.7,
+      "current_price": 432.36,
       "entry_date": "2026-10-03",
       "tp1_target": 466.02,
       "tp2_target": 500.97,
@@ -29,7 +29,7 @@
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 972.5499877929688,
-      "current_price": 987.17,
+      "current_price": 984.91,
       "entry_date": "2026-10-03",
       "tp1_target": 1033.33,
       "tp2_target": 1081.96,
@@ -45,7 +45,7 @@
       "shares": 5,
       "initial_shares": 5,
       "entry_price": 333.69000244140625,
-      "current_price": 333.25,
+      "current_price": 333.63,
       "entry_date": "2026-10-03",
       "tp1_target": 354.55,
       "tp2_target": 371.23,
@@ -62,11 +62,11 @@
       "shares": 6,
       "initial_shares": 6,
       "entry_price": 116.94,
-      "current_price": 116.94,
+      "current_price": 116.39,
       "entry_date": "2026-10-06",
       "tp1_target": 125.74,
       "tp2_target": 132.78,
-      "sl_target": 112.33,
+      "sl_target": 114.06,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -75,14 +75,15 @@
       "target_units": 3,
       "unit_shares": 6,
       "atr_14": 3.52,
-      "highest_price_seen": 116.94
+      "highest_price_seen": 116.94,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "DD": {
       "ticker": "DD",
       "shares": 3,
       "initial_shares": 3,
       "entry_price": 133.44,
-      "current_price": 133.44,
+      "current_price": 133.28,
       "entry_date": "2026-10-06",
       "tp1_target": 138.64,
       "tp2_target": 142.8,
@@ -95,18 +96,19 @@
       "target_units": 3,
       "unit_shares": 3,
       "atr_14": 2.08,
-      "highest_price_seen": 133.44
+      "highest_price_seen": 133.44,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "DVN": {
       "ticker": "DVN",
       "shares": 9,
       "initial_shares": 9,
       "entry_price": 48.11,
-      "current_price": 48.11,
+      "current_price": 48.02,
       "entry_date": "2026-10-06",
       "tp1_target": 51.63,
       "tp2_target": 54.45,
-      "sl_target": 46.47,
+      "sl_target": 46.91,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -115,18 +117,19 @@
       "target_units": 3,
       "unit_shares": 9,
       "atr_14": 1.41,
-      "highest_price_seen": 48.11
+      "highest_price_seen": 48.11,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "GEV": {
       "ticker": "GEV",
       "shares": 1,
       "initial_shares": 1,
       "entry_price": 1029.36,
-      "current_price": 1029.36,
+      "current_price": 1029.21,
       "entry_date": "2026-10-06",
       "tp1_target": 1112.36,
       "tp2_target": 1178.76,
-      "sl_target": 998.31,
+      "sl_target": 1003.63,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -135,7 +138,8 @@
       "target_units": 3,
       "unit_shares": 1,
       "atr_14": 33.2,
-      "highest_price_seen": 1029.36
+      "highest_price_seen": 1029.36,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     }
   },
   "closed_trades": [
@@ -1171,11 +1175,11 @@
     {
       "date": "2026-10-06",
       "timestamp": "2026-10-06T01:47:33.311367+00:00",
-      "total_equity": 143933.54,
+      "total_equity": 143943.19,
       "cash": 134719.13,
-      "invested": 9214.41,
-      "daily_return": 0.0
+      "invested": 9224.06,
+      "daily_return": 0.01
     }
   ],
-  "last_updated": "2026-10-06T18:58:53.896190+00:00"
+  "last_updated": "2026-10-06T22:54:07.154694+00:00"
 }
