@@ -1,6 +1,6 @@
 {
-  "total_learning_cycles": 25,
-  "last_updated": "2026-10-06T18:58:53.884575+00:00",
+  "total_learning_cycles": 26,
+  "last_updated": "2026-10-06T22:59:22.607872+00:00",
   "agent_voting_weights": {
     "technicals_weight": 0.268,
     "sentiment_weight": 0.351,

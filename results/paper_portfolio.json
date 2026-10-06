@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
-  "cash": 134719.12720252448,
-  "total_equity": 143933.54,
-  "unrealized_pnl": 80.24,
+  "cash": 133775.77714552448,
+  "total_equity": 143965.97,
+  "unrealized_pnl": 113.0,
   "realized_pnl": 54169.54405578613,
   "win_rate": 64.4,
   "total_trades": 73,
@@ -82,7 +82,7 @@
       "shares": 3,
       "initial_shares": 3,
       "entry_price": 133.44,
-      "current_price": 133.44,
+      "current_price": 133.28,
       "entry_date": "2026-10-06",
       "tp1_target": 138.64,
       "tp2_target": 142.8,
@@ -95,7 +95,9 @@
       "target_units": 3,
       "unit_shares": 3,
       "atr_14": 2.08,
-      "highest_price_seen": 133.44
+      "highest_price_seen": 133.44,
+      "high_water_mark": 133.44,
+      "last_eval_price": 133.28
     },
     "DVN": {
       "ticker": "DVN",
@@ -122,7 +124,7 @@
       "shares": 1,
       "initial_shares": 1,
       "entry_price": 1029.36,
-      "current_price": 1029.36,
+      "current_price": 1029.21,
       "entry_date": "2026-10-06",
       "tp1_target": 1112.36,
       "tp2_target": 1178.76,
@@ -135,7 +137,49 @@
       "target_units": 3,
       "unit_shares": 1,
       "atr_14": 33.2,
-      "highest_price_seen": 1029.36
+      "highest_price_seen": 1029.36,
+      "high_water_mark": 1029.36,
+      "last_eval_price": 1029.21
+    },
+    "ADP": {
+      "ticker": "ADP",
+      "shares": 2,
+      "initial_shares": 2,
+      "entry_price": 262.36,
+      "current_price": 262.36,
+      "entry_date": "2026-10-06",
+      "tp1_target": 276.09,
+      "tp2_target": 287.06,
+      "sl_target": 256.07,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_Turtle_Pyramid_Kelly",
+      "friction_paid": 0.18,
+      "pyramid_units_filled": 1,
+      "target_units": 3,
+      "unit_shares": 2,
+      "atr_14": 5.49,
+      "highest_price_seen": 262.36
+    },
+    "DAL": {
+      "ticker": "DAL",
+      "shares": 5,
+      "initial_shares": 5,
+      "entry_price": 83.66,
+      "current_price": 83.66,
+      "entry_date": "2026-10-06",
+      "tp1_target": 89.73,
+      "tp2_target": 94.59,
+      "sl_target": 80.83,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_Turtle_Pyramid_Kelly",
+      "friction_paid": 0.15,
+      "pyramid_units_filled": 1,
+      "target_units": 3,
+      "unit_shares": 5,
+      "atr_14": 2.43,
+      "highest_price_seen": 83.66
     }
   },
   "closed_trades": [
@@ -1171,11 +1215,11 @@
     {
       "date": "2026-10-06",
       "timestamp": "2026-10-06T01:47:33.311367+00:00",
-      "total_equity": 143933.54,
-      "cash": 134719.13,
-      "invested": 9214.41,
+      "total_equity": 143965.97,
+      "cash": 133775.78,
+      "invested": 10190.19,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-06T18:58:53.896190+00:00"
+  "last_updated": "2026-10-06T22:59:22.619367+00:00"
 }
