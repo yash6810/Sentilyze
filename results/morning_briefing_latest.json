@@ -1,62 +1,62 @@
 {
-  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Monday, October 05, 2026",
+  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Tuesday, October 06, 2026",
   "mode": "MARKET_MASTER",
-  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.5**. Top algorithmic focus is on **CRL, SOXL, CDNS** with **CRL** leading at 78% conviction. The fund holds **$137,284.33** in liquid cash reserves (95.4% dry powder) alongside 3 active position(s) (MPC, PH, AAPL).",
+  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.1**. Top algorithmic focus is on **GEV, CDNS, MAR** with **GEV** leading at 78% conviction. The fund holds **$137,284.33** in liquid cash reserves (95.4% dry powder) alongside 3 active position(s) (MPC, PH, AAPL).",
   "macro_posture": {
     "regime": "BULLISH_EXPANSION",
-    "vix_level": 15.520000457763672,
+    "vix_level": 15.050000190734863,
     "10y_treasury": "4.25%",
     "fed_liquidity": "$6.05 Trillion"
   },
   "top_stocks_in_play": [
     {
-      "ticker": "CRL",
-      "last_price": 310.77,
-      "day_change_pct": 7.09,
-      "momentum_5d_pct": 5.0,
-      "atr": 10.31,
-      "tp1_target": 336.54,
-      "tp2_target": 357.17,
-      "sl_target": 295.3,
-      "conviction_pct": 91.7,
-      "headline_catalyst": "Solid institutional institutional order flow observed in CRL.",
-      "sentiment_buzz": "Bullish Momentum"
-    },
-    {
-      "ticker": "SOXL",
-      "last_price": 164.27,
-      "day_change_pct": 0.34,
-      "momentum_5d_pct": 11.75,
-      "atr": 7.86,
-      "tp1_target": 183.91,
-      "tp2_target": 199.63,
-      "sl_target": 152.48,
-      "conviction_pct": 88.3,
-      "headline_catalyst": "Solid institutional institutional order flow observed in SOXL.",
+      "ticker": "GEV",
+      "last_price": 1028.34,
+      "day_change_pct": 3.87,
+      "momentum_5d_pct": 8.19,
+      "atr": 42.46,
+      "tp1_target": 1134.48,
+      "tp2_target": 1219.4,
+      "sl_target": 964.66,
+      "conviction_pct": 90.0,
+      "headline_catalyst": "Solid institutional institutional order flow observed in GEV.",
       "sentiment_buzz": "Bullish Momentum"
     },
     {
       "ticker": "CDNS",
-      "last_price": 353.48,
-      "day_change_pct": 0.61,
-      "momentum_5d_pct": 9.04,
-      "atr": 12.86,
-      "tp1_target": 385.64,
-      "tp2_target": 411.36,
-      "sl_target": 334.19,
-      "conviction_pct": 84.8,
+      "last_price": 360.83,
+      "day_change_pct": 2.08,
+      "momentum_5d_pct": 9.28,
+      "atr": 12.33,
+      "tp1_target": 391.64,
+      "tp2_target": 416.3,
+      "sl_target": 342.33,
+      "conviction_pct": 88.1,
       "headline_catalyst": "Solid institutional institutional order flow observed in CDNS.",
+      "sentiment_buzz": "Bullish Momentum"
+    },
+    {
+      "ticker": "MAR",
+      "last_price": 360.94,
+      "day_change_pct": 1.42,
+      "momentum_5d_pct": 1.48,
+      "atr": 7.22,
+      "tp1_target": 378.99,
+      "tp2_target": 393.42,
+      "sl_target": 350.11,
+      "conviction_pct": 75.1,
+      "headline_catalyst": "Solid institutional institutional order flow observed in MAR.",
       "sentiment_buzz": "Bullish Momentum"
     }
   ],
   "primary_focus": {
-    "ticker": "CRL",
+    "ticker": "GEV",
     "committee_decision": "APPROVED",
     "confidence_pct": 78.0,
     "rationale": "Strong momentum catalyst and disciplined risk-reward ratio."
   },
   "portfolio_status": {
-    "total_equity": 143854.19,
+    "total_equity": 143934.43,
     "cash_reserves": 137284.3347110245,
     "realized_gain": 54169.54405578613,
     "win_rate_pct": 64.4,
@@ -67,6 +67,6 @@
       "AAPL"
     ]
   },
-  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Monday, October 05, 2026. First, in global macro: Volatility remains subdued with the VIX index at 15.5, placing markets in a Bullish Expansion regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: CRL, SOXL, CDNS. Leading the list is CRL trading at 310.77 dollars with 92 percent algorithmic conviction, followed by SOXL and CDNS. Turning to portfolio health: Sentilyze manages 143,854.19 dollars in total equity, with 137,284.33 dollars in liquid cash reserves (95 percent dry powder) alongside 3 active positions in MPC, PH, AAPL, maintaining a 64.4 percent win rate with 54,169.54 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
-  "generated_at": "08:58 PM UTC"
+  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Tuesday, October 06, 2026. First, in global macro: Volatility remains subdued with the VIX index at 15.1, placing markets in a Bullish Expansion regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: GEV, CDNS, MAR. Leading the list is GEV trading at 1028.34 dollars with 90 percent algorithmic conviction, followed by CDNS and MAR. Turning to portfolio health: Sentilyze manages 143,934.43 dollars in total equity, with 137,284.33 dollars in liquid cash reserves (95 percent dry powder) alongside 3 active positions in MPC, PH, AAPL, maintaining a 64.4 percent win rate with 54,169.54 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
+  "generated_at": "06:47 PM UTC"
 }
