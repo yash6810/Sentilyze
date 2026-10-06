@@ -13,7 +13,7 @@
       "shares": 7,
       "initial_shares": 7,
       "entry_price": 422.3299865722656,
-      "current_price": 433.4700012207031,
+      "current_price": 433.47,
       "entry_date": "2026-10-03",
       "tp1_target": 466.02,
       "tp2_target": 500.97,
@@ -22,13 +22,14 @@
       "confidence": 0.707945704460144,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "friction_paid": 1.03,
-      "highest_price_seen": 433.4700012207031
+      "highest_price_seen": 433.4700012207031,
+      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
     "PH": {
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 972.5499877929688,
-      "current_price": 975.6799926757812,
+      "current_price": 975.68,
       "entry_date": "2026-10-03",
       "tp1_target": 1033.33,
       "tp2_target": 1081.96,
@@ -37,13 +38,14 @@
       "confidence": 0.67160964012146,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "friction_paid": 0.68,
-      "highest_price_seen": 975.6799926757812
+      "highest_price_seen": 975.68,
+      "profit_lock_status": "\ud83d\udee1\ufe0f RISK-FREE BREAKEVEN"
     },
     "AAPL": {
       "shares": 5,
       "initial_shares": 5,
       "entry_price": 333.69000244140625,
-      "current_price": 332.8900146484375,
+      "current_price": 332.89,
       "entry_date": "2026-10-03",
       "tp1_target": 354.55,
       "tp2_target": 371.23,
@@ -52,7 +54,8 @@
       "confidence": 0.6211140751838684,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "friction_paid": 0.58,
-      "highest_price_seen": 333.69000244140625
+      "highest_price_seen": 333.69000244140625,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     }
   },
   "closed_trades": [
@@ -1084,7 +1087,15 @@
       "cash": 137284.33,
       "invested": 6650.1,
       "daily_return": 0.06
+    },
+    {
+      "date": "2026-10-06",
+      "timestamp": "2026-10-06T01:47:33.311367+00:00",
+      "total_equity": 143934.43,
+      "cash": 137284.33,
+      "invested": 6650.1,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-05T23:32:40.153407+00:00"
+  "last_updated": "2026-10-06T01:47:34.100003+00:00"
 }
