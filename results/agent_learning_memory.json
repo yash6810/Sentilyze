@@ -1,13 +1,13 @@
 {
-  "total_learning_cycles": 26,
-  "last_updated": "2026-10-06T22:59:22.607872+00:00",
+  "total_learning_cycles": 27,
+  "last_updated": "2026-10-07T19:24:46.734226+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.268,
-    "sentiment_weight": 0.351,
-    "valuation_weight": 0.135,
-    "cro_weight": 0.246
+    "technicals_weight": 0.263,
+    "sentiment_weight": 0.344,
+    "valuation_weight": 0.132,
+    "cro_weight": 0.261
   },
-  "adaptive_kelly_multiplier": 0.87,
+  "adaptive_kelly_multiplier": 0.81,
   "recent_trade_autopsies": [
     {
       "ticker": "DE",
@@ -96,6 +96,22 @@
       "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
       "lesson": "Stop loss on ADP triggered at -2.59%. Protecting capital.",
       "timestamp": "2026-10-02T18:25:11.729611+00:00"
+    },
+    {
+      "ticker": "DD",
+      "pnl": -7.8,
+      "return_pct": -1.95,
+      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
+      "lesson": "Stop loss on DD triggered at -1.95%. Protecting capital.",
+      "timestamp": "2026-10-07T19:25:08.979961+00:00"
+    },
+    {
+      "ticker": "GEV",
+      "pnl": -34.13,
+      "return_pct": -3.32,
+      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
+      "lesson": "Stop loss on GEV triggered at -3.32%. Protecting capital.",
+      "timestamp": "2026-10-07T19:25:30.911697+00:00"
     }
   ],
   "retrained_models": [
@@ -133,6 +149,16 @@
       "ticker": "ADP",
       "timestamp": "2026-10-02T18:25:11.729605+00:00",
       "verdict": "\ud83c\udfc6 PROMOTED (Boosted model deployed as new Champion)"
+    },
+    {
+      "ticker": "DD",
+      "timestamp": "2026-10-07T19:25:08.979945+00:00",
+      "verdict": null
+    },
+    {
+      "ticker": "GEV",
+      "timestamp": "2026-10-07T19:25:30.911682+00:00",
+      "verdict": null
     }
   ],
   "timestamp": "2026-09-25T11:06:51.023793+00:00",
@@ -218,10 +244,10 @@
     "Harvested 35 high-conviction momentum runs with 54.69% win rate."
   ],
   "bayesian_council_calibration": {
-    "Technical Momentum": 0.2512,
-    "FinBERT Sentiment": 0.2511,
-    "Fundamental Valuation": 0.1986,
-    "Chief Risk Officer": 0.1505,
-    "Adversarial Red-Team": 0.1486
+    "Technical Momentum": 0.2507,
+    "FinBERT Sentiment": 0.2507,
+    "Fundamental Valuation": 0.1987,
+    "Chief Risk Officer": 0.1506,
+    "Adversarial Red-Team": 0.1493
   }
 }
