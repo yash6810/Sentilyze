@@ -1,56 +1,56 @@
 {
   "initial_capital": 100000.0,
-  "cash": 135282.3339780245,
-  "total_equity": 141316.32,
-  "unrealized_pnl": 148.89,
-  "realized_pnl": 54130.89405578613,
-  "win_rate": 63.2,
-  "total_trades": 76,
-  "winning_trades": 48,
-  "losing_trades": 29,
+  "cash": 137090.00397802447,
+  "total_equity": 141519.18,
+  "unrealized_pnl": 229.37,
+  "realized_pnl": 54253.274096069326,
+  "win_rate": 62.8,
+  "total_trades": 78,
+  "winning_trades": 49,
+  "losing_trades": 30,
   "open_positions": {
     "MPC": {
-      "shares": 7,
+      "shares": 4,
       "initial_shares": 7,
       "entry_price": 422.3299865722656,
-      "current_price": 442.260009765625,
+      "current_price": 466.59,
       "entry_date": "2026-10-03",
       "tp1_target": 466.02,
       "tp2_target": 500.97,
-      "sl_target": 438.27,
-      "scaled_out": false,
+      "sl_target": 422.3299865722656,
+      "scaled_out": true,
       "confidence": 0.707945704460144,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "friction_paid": 1.03,
-      "highest_price_seen": 442.260009765625,
+      "highest_price_seen": 466.59,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
     "AAPL": {
       "shares": 5,
       "initial_shares": 5,
       "entry_price": 333.69000244140625,
-      "current_price": 336.6700134277344,
+      "current_price": 341.12,
       "entry_date": "2026-10-03",
       "tp1_target": 354.55,
       "tp2_target": 371.23,
-      "sl_target": 336.07,
+      "sl_target": 339.63,
       "scaled_out": false,
       "confidence": 0.6211140751838684,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "friction_paid": 0.58,
-      "highest_price_seen": 336.6700134277344,
-      "profit_lock_status": "\ud83d\udd12 TIER-1 SECURED (+0.5%)"
+      "highest_price_seen": 341.12,
+      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
     "DVN": {
       "ticker": "DVN",
       "shares": 9,
       "initial_shares": 9,
       "entry_price": 48.11,
-      "current_price": 47.880001068115234,
+      "current_price": 49.15,
       "entry_date": "2026-10-06",
       "tp1_target": 51.63,
       "tp2_target": 54.45,
-      "sl_target": 46.91,
+      "sl_target": 48.94,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -59,41 +59,19 @@
       "target_units": 3,
       "unit_shares": 9,
       "atr_14": 1.41,
-      "highest_price_seen": 48.11,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
-    },
-    "DAL": {
-      "ticker": "DAL",
-      "shares": 5,
-      "initial_shares": 5,
-      "entry_price": 83.66,
-      "current_price": 82.97000122070312,
-      "entry_date": "2026-10-06",
-      "tp1_target": 89.73,
-      "tp2_target": 94.59,
-      "sl_target": 82.14,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_Turtle_Pyramid_Kelly",
-      "friction_paid": 0.15,
-      "pyramid_units_filled": 1,
-      "target_units": 3,
-      "unit_shares": 5,
-      "atr_14": 2.43,
-      "highest_price_seen": 83.66000366210938,
-      "high_water_mark": 83.66,
-      "last_eval_price": 82.97
+      "highest_price_seen": 49.15,
+      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
     "J": {
       "ticker": "J",
       "shares": 3,
       "initial_shares": 3,
       "entry_price": 136.35,
-      "current_price": 136.35000610351562,
+      "current_price": 138.29,
       "entry_date": "2026-10-07",
       "tp1_target": 145.82,
       "tp2_target": 153.41,
-      "sl_target": 132.94,
+      "sl_target": 137.9,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -102,7 +80,8 @@
       "target_units": 3,
       "unit_shares": 3,
       "atr_14": 3.79,
-      "highest_price_seen": 136.35000610351562
+      "highest_price_seen": 138.29,
+      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     }
   },
   "closed_trades": [
@@ -952,6 +931,28 @@
       "pnl": 3.28,
       "return_pct": 0.63,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "MPC",
+      "shares": 3,
+      "entry_price": 422.3299865722656,
+      "exit_price": 466.59,
+      "entry_date": "2026-10-03",
+      "exit_date": "2026-10-08",
+      "pnl": 132.78,
+      "return_pct": 10.48,
+      "reason": "TP1_SCALE_OUT_50%"
+    },
+    {
+      "ticker": "DAL",
+      "shares": 5,
+      "entry_price": 83.66,
+      "exit_price": 81.58,
+      "entry_date": "2026-10-06",
+      "exit_date": "2026-10-08",
+      "pnl": -10.4,
+      "return_pct": -2.49,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -1198,11 +1199,11 @@
     {
       "date": "2026-10-08",
       "timestamp": "2026-10-08T12:08:29.955907+00:00",
-      "total_equity": 141316.32,
-      "cash": 135282.33,
-      "invested": 6033.99,
-      "daily_return": -0.49
+      "total_equity": 141519.18,
+      "cash": 137090.0,
+      "invested": 4429.18,
+      "daily_return": 0.14
     }
   ],
-  "last_updated": "2026-10-08T12:08:29.960446+00:00"
+  "last_updated": "2026-10-08T19:15:14.642673+00:00"
 }
