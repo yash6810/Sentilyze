@@ -1,23 +1,23 @@
 {
   "initial_capital": 100000.0,
-  "cash": 133566.04073552447,
-  "total_equity": 141315.0,
-  "unrealized_pnl": 158.61,
-  "realized_pnl": 54120.594055786125,
-  "win_rate": 62.3,
-  "total_trades": 77,
-  "winning_trades": 48,
+  "cash": 134006.32073552447,
+  "total_equity": 140099.91,
+  "unrealized_pnl": 203.22,
+  "realized_pnl": 54127.884055786126,
+  "win_rate": 62.8,
+  "total_trades": 78,
+  "winning_trades": 49,
   "losing_trades": 30,
   "open_positions": {
     "MPC": {
       "shares": 4,
       "initial_shares": 7,
       "entry_price": 422.3299865722656,
-      "current_price": 466.59,
+      "current_price": 463.34,
       "entry_date": "2026-10-03",
       "tp1_target": 466.02,
       "tp2_target": 500.97,
-      "sl_target": 422.3299865722656,
+      "sl_target": 457.74,
       "scaled_out": true,
       "confidence": 0.707945704460144,
       "regime": "\u25b2 BULLISH (Above SMA200)",
@@ -29,7 +29,7 @@
       "shares": 5,
       "initial_shares": 5,
       "entry_price": 333.69000244140625,
-      "current_price": 341.12,
+      "current_price": 340.42,
       "entry_date": "2026-10-03",
       "tp1_target": 354.55,
       "tp2_target": 371.23,
@@ -41,37 +41,16 @@
       "highest_price_seen": 341.12,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
-    "DVN": {
-      "ticker": "DVN",
-      "shares": 9,
-      "initial_shares": 9,
-      "entry_price": 48.11,
-      "current_price": 49.15,
-      "entry_date": "2026-10-06",
-      "tp1_target": 51.63,
-      "tp2_target": 54.45,
-      "sl_target": 48.94,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_Turtle_Pyramid_Kelly",
-      "friction_paid": 0.15,
-      "pyramid_units_filled": 1,
-      "target_units": 3,
-      "unit_shares": 9,
-      "atr_14": 1.41,
-      "highest_price_seen": 48.11,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
-    },
     "J": {
       "ticker": "J",
       "shares": 3,
       "initial_shares": 3,
       "entry_price": 136.35,
-      "current_price": 138.44,
+      "current_price": 138.59,
       "entry_date": "2026-10-07",
       "tp1_target": 145.82,
       "tp2_target": 153.41,
-      "sl_target": 136.9,
+      "sl_target": 138.14,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -80,20 +59,21 @@
       "target_units": 3,
       "unit_shares": 3,
       "atr_14": 3.79,
-      "highest_price_seen": 138.44,
+      "highest_price_seen": 138.59,
       "high_water_mark": 138.44,
-      "last_eval_price": 138.44
+      "last_eval_price": 138.44,
+      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
     "BR": {
       "ticker": "BR",
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 164.4,
-      "current_price": 164.4,
+      "current_price": 165.21,
       "entry_date": "2026-10-08",
       "tp1_target": 173.0,
       "tp2_target": 179.88,
-      "sl_target": 160.25,
+      "sl_target": 160.29,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -102,18 +82,19 @@
       "target_units": 3,
       "unit_shares": 2,
       "atr_14": 3.44,
-      "highest_price_seen": 164.4
+      "highest_price_seen": 165.21,
+      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE"
     },
     "AOS": {
       "ticker": "AOS",
       "shares": 7,
       "initial_shares": 7,
       "entry_price": 56.49,
-      "current_price": 56.49,
+      "current_price": 56.56,
       "entry_date": "2026-10-08",
       "tp1_target": 59.87,
       "tp2_target": 62.57,
-      "sl_target": 54.85,
+      "sl_target": 56.21,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -122,18 +103,19 @@
       "target_units": 3,
       "unit_shares": 7,
       "atr_14": 1.35,
-      "highest_price_seen": 56.49
+      "highest_price_seen": 56.56,
+      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE"
     },
     "EXPD": {
       "ticker": "EXPD",
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 194.41,
-      "current_price": 194.41,
+      "current_price": 193.71,
       "entry_date": "2026-10-08",
       "tp1_target": 204.76,
       "tp2_target": 213.04,
-      "sl_target": 188.2,
+      "sl_target": 189.55,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -142,18 +124,19 @@
       "target_units": 3,
       "unit_shares": 2,
       "atr_14": 4.14,
-      "highest_price_seen": 194.41
+      "highest_price_seen": 194.41,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "ALLE": {
       "ticker": "ALLE",
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 150.46,
-      "current_price": 150.46,
+      "current_price": 149.99,
       "entry_date": "2026-10-08",
       "tp1_target": 159.86,
       "tp2_target": 167.38,
-      "sl_target": 145.69,
+      "sl_target": 146.7,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -162,14 +145,15 @@
       "target_units": 3,
       "unit_shares": 2,
       "atr_14": 3.76,
-      "highest_price_seen": 150.46
+      "highest_price_seen": 150.46,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "GD": {
       "ticker": "GD",
       "shares": 1,
       "initial_shares": 1,
       "entry_price": 330.38,
-      "current_price": 330.38,
+      "current_price": 329.9,
       "entry_date": "2026-10-08",
       "tp1_target": 345.68,
       "tp2_target": 357.92,
@@ -182,14 +166,15 @@
       "target_units": 3,
       "unit_shares": 1,
       "atr_14": 6.12,
-      "highest_price_seen": 330.38
+      "highest_price_seen": 330.38,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "CSX": {
       "ticker": "CSX",
       "shares": 8,
       "initial_shares": 8,
       "entry_price": 47.4,
-      "current_price": 47.4,
+      "current_price": 47.34,
       "entry_date": "2026-10-08",
       "tp1_target": 49.4,
       "tp2_target": 51.0,
@@ -202,7 +187,8 @@
       "target_units": 3,
       "unit_shares": 8,
       "atr_14": 0.8,
-      "highest_price_seen": 47.4
+      "highest_price_seen": 47.4,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     }
   },
   "closed_trades": [
@@ -1063,6 +1049,17 @@
       "pnl": -10.3,
       "return_pct": -2.46,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "DVN",
+      "shares": 9,
+      "entry_price": 48.11,
+      "exit_price": 48.92,
+      "entry_date": "2026-10-06",
+      "exit_date": "2026-10-08",
+      "pnl": 7.29,
+      "return_pct": 1.68,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -1309,11 +1306,11 @@
     {
       "date": "2026-10-08",
       "timestamp": "2026-10-08T12:08:29.955907+00:00",
-      "total_equity": 141315.0,
-      "cash": 133566.04,
-      "invested": 7748.96,
-      "daily_return": 0.0
+      "total_equity": 140099.91,
+      "cash": 134006.32,
+      "invested": 6093.59,
+      "daily_return": -0.86
     }
   ],
-  "last_updated": "2026-10-08T19:21:01.428355+00:00"
+  "last_updated": "2026-10-08T23:48:43.665327+00:00"
 }
