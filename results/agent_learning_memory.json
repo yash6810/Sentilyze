@@ -1,13 +1,13 @@
 {
-  "total_learning_cycles": 28,
-  "last_updated": "2026-10-07T23:44:59.659124+00:00",
+  "total_learning_cycles": 29,
+  "last_updated": "2026-10-08T19:20:38.124505+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.263,
-    "sentiment_weight": 0.344,
-    "valuation_weight": 0.132,
-    "cro_weight": 0.261
+    "technicals_weight": 0.26,
+    "sentiment_weight": 0.341,
+    "valuation_weight": 0.131,
+    "cro_weight": 0.268
   },
-  "adaptive_kelly_multiplier": 0.81,
+  "adaptive_kelly_multiplier": 0.78,
   "recent_trade_autopsies": [
     {
       "ticker": "DE",
@@ -112,6 +112,14 @@
       "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
       "lesson": "Stop loss on GEV triggered at -3.32%. Protecting capital.",
       "timestamp": "2026-10-07T19:25:30.911697+00:00"
+    },
+    {
+      "ticker": "DAL",
+      "pnl": -10.3,
+      "return_pct": -2.46,
+      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
+      "lesson": "Stop loss on DAL triggered at -2.46%. Protecting capital.",
+      "timestamp": "2026-10-08T19:21:01.415209+00:00"
     }
   ],
   "retrained_models": [
@@ -158,6 +166,11 @@
     {
       "ticker": "GEV",
       "timestamp": "2026-10-07T19:25:30.911682+00:00",
+      "verdict": null
+    },
+    {
+      "ticker": "DAL",
+      "timestamp": "2026-10-08T19:21:01.415197+00:00",
       "verdict": null
     }
   ],
@@ -244,10 +257,10 @@
     "Harvested 35 high-conviction momentum runs with 54.69% win rate."
   ],
   "bayesian_council_calibration": {
-    "Technical Momentum": 0.2507,
-    "FinBERT Sentiment": 0.2507,
+    "Technical Momentum": 0.2502,
+    "FinBERT Sentiment": 0.2503,
     "Fundamental Valuation": 0.1987,
-    "Chief Risk Officer": 0.1506,
-    "Adversarial Red-Team": 0.1493
+    "Chief Risk Officer": 0.1511,
+    "Adversarial Red-Team": 0.1497
   }
 }
