@@ -1,31 +1,81 @@
 {
-  "session_time": "Oct 08, 2026 \u2022 01:06 AM IST (03:36 PM EDT)",
+  "session_time": "Oct 09, 2026 \u2022 01:02 AM IST (03:32 PM EDT)",
   "stocks_in_play": [
     "CHRW",
     "FIX",
-    "BLDR",
     "AXON",
-    "CAT"
+    "BLDR",
+    "ETN"
   ],
-  "signals_count": 0,
-  "signals": [],
-  "executed_paper_trades": [],
+  "signals_count": 3,
+  "signals": [
+    {
+      "ticker": "CHRW",
+      "signal": "BUY",
+      "current_price": 141.73,
+      "confidence": 1.0,
+      "take_profit": 154.47,
+      "stop_loss": 135.36
+    },
+    {
+      "ticker": "AXON",
+      "signal": "BUY",
+      "current_price": 417.9,
+      "confidence": 1.0,
+      "take_profit": 449.92,
+      "stop_loss": 401.89
+    },
+    {
+      "ticker": "BLDR",
+      "signal": "BUY",
+      "current_price": 54.06,
+      "confidence": 0.6973,
+      "take_profit": 58.6,
+      "stop_loss": 51.79
+    }
+  ],
+  "executed_paper_trades": [
+    {
+      "ticker": "CHRW",
+      "signal": "BUY",
+      "current_price": 141.73,
+      "confidence": 1.0,
+      "take_profit": 154.47,
+      "stop_loss": 135.36
+    },
+    {
+      "ticker": "AXON",
+      "signal": "BUY",
+      "current_price": 417.9,
+      "confidence": 1.0,
+      "take_profit": 449.92,
+      "stop_loss": 401.89
+    },
+    {
+      "ticker": "BLDR",
+      "signal": "BUY",
+      "current_price": 54.06,
+      "confidence": 0.6973,
+      "take_profit": 58.6,
+      "stop_loss": 51.79
+    }
+  ],
   "portfolio_summary": {
-    "total_equity": 143902.6,
-    "cash": 135163.52714552448,
-    "invested": 8739.072854475526,
-    "start_of_day_equity": 143965.97,
-    "daily_pnl": -63.37,
-    "daily_return_pct": -0.04,
-    "unrealized_pnl": 91.56,
-    "unrealized_pnl_pct": 1.05,
-    "realized_pnl": 54127.61405578613,
-    "total_pnl": 43902.6,
-    "total_return_pct": 43.9,
-    "win_rate": 62.7,
-    "open_positions_count": 6,
-    "total_trades": 75,
-    "winning_trades": 47,
-    "losing_trades": 28
+    "total_equity": 141315.0,
+    "cash": 133566.04073552447,
+    "invested": 7748.959264475532,
+    "start_of_day_equity": 142010.22,
+    "daily_pnl": -695.22,
+    "daily_return_pct": -0.49,
+    "unrealized_pnl": 158.61,
+    "unrealized_pnl_pct": 2.05,
+    "realized_pnl": 54120.594055786125,
+    "total_pnl": 41315.0,
+    "total_return_pct": 41.32,
+    "win_rate": 62.3,
+    "open_positions_count": 10,
+    "total_trades": 77,
+    "winning_trades": 48,
+    "losing_trades": 30
   }
 }
