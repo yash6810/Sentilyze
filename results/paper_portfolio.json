@@ -9,38 +9,6 @@
   "winning_trades": 49,
   "losing_trades": 30,
   "open_positions": {
-    "MPC": {
-      "shares": 4,
-      "initial_shares": 7,
-      "entry_price": 422.3299865722656,
-      "current_price": 463.3399963378906,
-      "entry_date": "2026-10-03",
-      "tp1_target": 466.02,
-      "tp2_target": 500.97,
-      "sl_target": 457.74,
-      "scaled_out": true,
-      "confidence": 0.707945704460144,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "friction_paid": 1.03,
-      "highest_price_seen": 466.59,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
-    },
-    "AAPL": {
-      "shares": 5,
-      "initial_shares": 5,
-      "entry_price": 333.69000244140625,
-      "current_price": 340.4200134277344,
-      "entry_date": "2026-10-03",
-      "tp1_target": 354.55,
-      "tp2_target": 371.23,
-      "sl_target": 339.63,
-      "scaled_out": false,
-      "confidence": 0.6211140751838684,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "friction_paid": 0.58,
-      "highest_price_seen": 341.12,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
-    },
     "J": {
       "ticker": "J",
       "shares": 3,
@@ -50,7 +18,7 @@
       "entry_date": "2026-10-07",
       "tp1_target": 145.82,
       "tp2_target": 153.41,
-      "sl_target": 138.14,
+      "sl_target": 138.78,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -1091,6 +1059,28 @@
       "exit_date": "2026-10-08",
       "pnl": 7.29,
       "return_pct": 1.68,
+      "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "MPC",
+      "shares": 4,
+      "entry_price": 422.3299865722656,
+      "exit_price": 456.28,
+      "entry_date": "2026-10-03",
+      "exit_date": "2026-10-09",
+      "pnl": 135.8,
+      "return_pct": 8.04,
+      "reason": "BREAK_EVEN_TRAIL"
+    },
+    {
+      "ticker": "AAPL",
+      "shares": 5,
+      "entry_price": 333.69000244140625,
+      "exit_price": 336.8,
+      "entry_date": "2026-10-03",
+      "exit_date": "2026-10-09",
+      "pnl": 15.55,
+      "return_pct": 0.93,
       "reason": "STOP_LOSS"
     }
   ],

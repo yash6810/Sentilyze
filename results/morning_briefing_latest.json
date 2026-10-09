@@ -1,74 +1,78 @@
 {
-  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Thursday, October 08, 2026",
+  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Friday, October 09, 2026",
   "mode": "MARKET_MASTER",
-  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.6**. Top algorithmic focus is on **EXPE, ADP, JKHY** with **EXPE** leading at 78% conviction. The fund holds **$135,282.33** in liquid cash reserves (95.7% dry powder) alongside 5 active position(s) (MPC, AAPL, DVN, DAL, J).",
+  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **14.9**. Top algorithmic focus is on **DDOG, NU, EXPE** with **DDOG** leading at 78% conviction. The fund holds **$134,006.32** in liquid cash reserves (95.7% dry powder) alongside 9 active position(s) (MPC, AAPL, J, BR, AOS, EXPD, ALLE, GD, CSX).",
   "macro_posture": {
     "regime": "BULLISH_EXPANSION",
-    "vix_level": 15.619999885559082,
+    "vix_level": 14.859999656677246,
     "10y_treasury": "4.25%",
     "fed_liquidity": "$6.05 Trillion"
   },
   "top_stocks_in_play": [
     {
+      "ticker": "DDOG",
+      "last_price": 291.3,
+      "day_change_pct": 6.39,
+      "momentum_5d_pct": 5.39,
+      "atr": 10.79,
+      "tp1_target": 318.29,
+      "tp2_target": 339.88,
+      "sl_target": 275.11,
+      "conviction_pct": 90.9,
+      "headline_catalyst": "Solid institutional institutional order flow observed in DDOG.",
+      "sentiment_buzz": "Bullish Momentum"
+    },
+    {
+      "ticker": "NU",
+      "last_price": 15.9,
+      "day_change_pct": 3.38,
+      "momentum_5d_pct": 4.74,
+      "atr": 0.49,
+      "tp1_target": 17.12,
+      "tp2_target": 18.09,
+      "sl_target": 15.17,
+      "conviction_pct": 83.9,
+      "headline_catalyst": "Solid institutional institutional order flow observed in NU.",
+      "sentiment_buzz": "Bullish Momentum"
+    },
+    {
       "ticker": "EXPE",
-      "last_price": 271.53,
-      "day_change_pct": 4.89,
-      "momentum_5d_pct": 2.46,
-      "atr": 10.37,
-      "tp1_target": 297.45,
-      "tp2_target": 318.19,
-      "sl_target": 255.98,
-      "conviction_pct": 83.5,
+      "last_price": 273.35,
+      "day_change_pct": 1.19,
+      "momentum_5d_pct": 5.07,
+      "atr": 10.05,
+      "tp1_target": 298.46,
+      "tp2_target": 318.55,
+      "sl_target": 258.28,
+      "conviction_pct": 80.0,
       "headline_catalyst": "Solid institutional institutional order flow observed in EXPE.",
-      "sentiment_buzz": "Bullish Momentum"
-    },
-    {
-      "ticker": "ADP",
-      "last_price": 270.86,
-      "day_change_pct": 2.6,
-      "momentum_5d_pct": 5.12,
-      "atr": 5.86,
-      "tp1_target": 285.51,
-      "tp2_target": 297.23,
-      "sl_target": 262.08,
-      "conviction_pct": 82.9,
-      "headline_catalyst": "Solid institutional institutional order flow observed in ADP.",
-      "sentiment_buzz": "Bullish Momentum"
-    },
-    {
-      "ticker": "JKHY",
-      "last_price": 148.52,
-      "day_change_pct": 1.94,
-      "momentum_5d_pct": 4.2,
-      "atr": 3.14,
-      "tp1_target": 156.37,
-      "tp2_target": 162.64,
-      "sl_target": 143.81,
-      "conviction_pct": 80.2,
-      "headline_catalyst": "Solid institutional institutional order flow observed in JKHY.",
       "sentiment_buzz": "Bullish Momentum"
     }
   ],
   "primary_focus": {
-    "ticker": "EXPE",
+    "ticker": "DDOG",
     "committee_decision": "APPROVED",
     "confidence_pct": 78.0,
     "rationale": "Strong momentum catalyst and disciplined risk-reward ratio."
   },
   "portfolio_status": {
-    "total_equity": 141316.32,
-    "cash_reserves": 135282.3339780245,
-    "realized_gain": 54130.89405578613,
-    "win_rate_pct": 63.2,
-    "open_positions": 5,
+    "total_equity": 140099.91,
+    "cash_reserves": 134006.32073552447,
+    "realized_gain": 54127.884055786126,
+    "win_rate_pct": 62.8,
+    "open_positions": 9,
     "active_tickers": [
       "MPC",
       "AAPL",
-      "DVN",
-      "DAL",
-      "J"
+      "J",
+      "BR",
+      "AOS",
+      "EXPD",
+      "ALLE",
+      "GD",
+      "CSX"
     ]
   },
-  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Thursday, October 08, 2026. First, in global macro: Volatility remains subdued with the VIX index at 15.6, placing markets in a Bullish Expansion regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: EXPE, ADP, JKHY. Leading the list is EXPE trading at 271.53 dollars with 84 percent algorithmic conviction, followed by ADP and JKHY. Turning to portfolio health: Sentilyze manages 141,316.32 dollars in total equity, with 135,282.33 dollars in liquid cash reserves (96 percent dry powder) alongside 5 active positions in MPC, AAPL, DVN, DAL, J, maintaining a 63.2 percent win rate with 54,130.89 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
-  "generated_at": "07:09 PM UTC"
+  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Friday, October 09, 2026. First, in global macro: Volatility remains subdued with the VIX index at 14.9, placing markets in a Bullish Expansion regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: DDOG, NU, EXPE. Leading the list is DDOG trading at 291.30 dollars with 91 percent algorithmic conviction, followed by NU and EXPE. Turning to portfolio health: Sentilyze manages 140,099.91 dollars in total equity, with 134,006.32 dollars in liquid cash reserves (96 percent dry powder) alongside 9 active positions in MPC, AAPL, J, BR, AOS, EXPD, ALLE, GD, CSX, maintaining a 62.8 percent win rate with 54,127.88 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
+  "generated_at": "06:40 PM UTC"
 }
