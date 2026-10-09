@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
-  "cash": 134006.32073552447,
-  "total_equity": 140099.91,
-  "unrealized_pnl": 203.22,
+  "cash": 133216.34434052446,
+  "total_equity": 140103.35,
+  "unrealized_pnl": 206.94,
   "realized_pnl": 54127.884055786126,
   "win_rate": 62.8,
   "total_trades": 78,
@@ -46,7 +46,7 @@
       "shares": 3,
       "initial_shares": 3,
       "entry_price": 136.35,
-      "current_price": 138.58999633789062,
+      "current_price": 139.39,
       "entry_date": "2026-10-07",
       "tp1_target": 145.82,
       "tp2_target": 153.41,
@@ -59,9 +59,9 @@
       "target_units": 3,
       "unit_shares": 3,
       "atr_14": 3.79,
-      "highest_price_seen": 138.59,
-      "high_water_mark": 138.44,
-      "last_eval_price": 138.44,
+      "highest_price_seen": 139.39,
+      "high_water_mark": 139.39,
+      "last_eval_price": 139.39,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
     "BR": {
@@ -69,7 +69,7 @@
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 164.4,
-      "current_price": 165.2100067138672,
+      "current_price": 165.38,
       "entry_date": "2026-10-08",
       "tp1_target": 173.0,
       "tp2_target": 179.88,
@@ -82,19 +82,21 @@
       "target_units": 3,
       "unit_shares": 2,
       "atr_14": 3.44,
-      "highest_price_seen": 165.2100067138672,
-      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE"
+      "highest_price_seen": 165.38,
+      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE",
+      "high_water_mark": 165.38,
+      "last_eval_price": 165.38
     },
     "AOS": {
       "ticker": "AOS",
       "shares": 7,
       "initial_shares": 7,
       "entry_price": 56.49,
-      "current_price": 56.560001373291016,
+      "current_price": 56.73,
       "entry_date": "2026-10-08",
       "tp1_target": 59.87,
       "tp2_target": 62.57,
-      "sl_target": 56.21,
+      "sl_target": 56.55,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -103,15 +105,17 @@
       "target_units": 3,
       "unit_shares": 7,
       "atr_14": 1.35,
-      "highest_price_seen": 56.560001373291016,
-      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE"
+      "highest_price_seen": 56.73,
+      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE",
+      "high_water_mark": 56.73,
+      "last_eval_price": 56.73
     },
     "EXPD": {
       "ticker": "EXPD",
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 194.41,
-      "current_price": 193.7100067138672,
+      "current_price": 191.65,
       "entry_date": "2026-10-08",
       "tp1_target": 204.76,
       "tp2_target": 213.04,
@@ -125,18 +129,20 @@
       "unit_shares": 2,
       "atr_14": 4.14,
       "highest_price_seen": 194.41,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
+      "high_water_mark": 194.41,
+      "last_eval_price": 191.65
     },
     "ALLE": {
       "ticker": "ALLE",
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 150.46,
-      "current_price": 149.99000549316406,
+      "current_price": 151.32,
       "entry_date": "2026-10-08",
       "tp1_target": 159.86,
       "tp2_target": 167.38,
-      "sl_target": 146.7,
+      "sl_target": 150.61,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -145,15 +151,17 @@
       "target_units": 3,
       "unit_shares": 2,
       "atr_14": 3.76,
-      "highest_price_seen": 150.46,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
+      "highest_price_seen": 151.32,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
+      "high_water_mark": 151.32,
+      "last_eval_price": 151.32
     },
     "GD": {
       "ticker": "GD",
       "shares": 1,
       "initial_shares": 1,
       "entry_price": 330.38,
-      "current_price": 329.8999938964844,
+      "current_price": 330.67,
       "entry_date": "2026-10-08",
       "tp1_target": 345.68,
       "tp2_target": 357.92,
@@ -166,15 +174,17 @@
       "target_units": 3,
       "unit_shares": 1,
       "atr_14": 6.12,
-      "highest_price_seen": 330.38,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
+      "highest_price_seen": 330.67,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
+      "high_water_mark": 330.67,
+      "last_eval_price": 330.67
     },
     "CSX": {
       "ticker": "CSX",
       "shares": 8,
       "initial_shares": 8,
       "entry_price": 47.4,
-      "current_price": 47.34000015258789,
+      "current_price": 47.4,
       "entry_date": "2026-10-08",
       "tp1_target": 49.4,
       "tp2_target": 51.0,
@@ -188,7 +198,29 @@
       "unit_shares": 8,
       "atr_14": 0.8,
       "highest_price_seen": 47.4,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
+      "high_water_mark": 47.4,
+      "last_eval_price": 47.4
+    },
+    "EME": {
+      "ticker": "EME",
+      "shares": 1,
+      "initial_shares": 1,
+      "entry_price": 789.7,
+      "current_price": 789.7,
+      "entry_date": "2026-10-09",
+      "tp1_target": 850.4,
+      "tp2_target": 898.96,
+      "sl_target": 753.28,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_Turtle_Pyramid_Kelly",
+      "friction_paid": 0.28,
+      "pyramid_units_filled": 1,
+      "target_units": 3,
+      "unit_shares": 1,
+      "atr_14": 24.28,
+      "highest_price_seen": 789.7
     }
   },
   "closed_trades": [
@@ -1314,11 +1346,11 @@
     {
       "date": "2026-10-09",
       "timestamp": "2026-10-09T12:22:28.564793+00:00",
-      "total_equity": 140099.91,
-      "cash": 134006.32,
-      "invested": 6093.59,
+      "total_equity": 140103.35,
+      "cash": 133216.34,
+      "invested": 6887.01,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-09T12:22:28.565511+00:00"
+  "last_updated": "2026-10-09T18:51:46.898359+00:00"
 }
