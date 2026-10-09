@@ -1,20 +1,20 @@
 {
   "initial_capital": 100000.0,
-  "cash": 133216.34434052446,
-  "total_equity": 140103.35,
-  "unrealized_pnl": 206.94,
-  "realized_pnl": 54127.884055786126,
-  "win_rate": 62.8,
-  "total_trades": 78,
-  "winning_trades": 49,
-  "losing_trades": 30,
+  "cash": 133052.36358552446,
+  "total_equity": 136545.29,
+  "unrealized_pnl": 7.68,
+  "realized_pnl": 54127.15405578613,
+  "win_rate": 62.5,
+  "total_trades": 80,
+  "winning_trades": 50,
+  "losing_trades": 31,
   "open_positions": {
     "J": {
       "ticker": "J",
       "shares": 3,
       "initial_shares": 3,
       "entry_price": 136.35,
-      "current_price": 139.39,
+      "current_price": 139.15,
       "entry_date": "2026-10-07",
       "tp1_target": 145.82,
       "tp2_target": 153.41,
@@ -29,7 +29,7 @@
       "atr_14": 3.79,
       "highest_price_seen": 139.39,
       "high_water_mark": 139.39,
-      "last_eval_price": 139.39,
+      "last_eval_price": 139.15,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
     "BR": {
@@ -37,7 +37,7 @@
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 164.4,
-      "current_price": 165.38,
+      "current_price": 165.45,
       "entry_date": "2026-10-08",
       "tp1_target": 173.0,
       "tp2_target": 179.88,
@@ -50,40 +50,17 @@
       "target_units": 3,
       "unit_shares": 2,
       "atr_14": 3.44,
-      "highest_price_seen": 165.38,
+      "highest_price_seen": 165.45,
       "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE",
-      "high_water_mark": 165.38,
-      "last_eval_price": 165.38
-    },
-    "AOS": {
-      "ticker": "AOS",
-      "shares": 7,
-      "initial_shares": 7,
-      "entry_price": 56.49,
-      "current_price": 56.73,
-      "entry_date": "2026-10-08",
-      "tp1_target": 59.87,
-      "tp2_target": 62.57,
-      "sl_target": 56.55,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_Turtle_Pyramid_Kelly",
-      "friction_paid": 0.14,
-      "pyramid_units_filled": 1,
-      "target_units": 3,
-      "unit_shares": 7,
-      "atr_14": 1.35,
-      "highest_price_seen": 56.73,
-      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE",
-      "high_water_mark": 56.73,
-      "last_eval_price": 56.73
+      "high_water_mark": 165.45,
+      "last_eval_price": 165.45
     },
     "EXPD": {
       "ticker": "EXPD",
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 194.41,
-      "current_price": 191.65,
+      "current_price": 193.24,
       "entry_date": "2026-10-08",
       "tp1_target": 204.76,
       "tp2_target": 213.04,
@@ -99,41 +76,18 @@
       "highest_price_seen": 194.41,
       "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
       "high_water_mark": 194.41,
-      "last_eval_price": 191.65
-    },
-    "ALLE": {
-      "ticker": "ALLE",
-      "shares": 2,
-      "initial_shares": 2,
-      "entry_price": 150.46,
-      "current_price": 151.32,
-      "entry_date": "2026-10-08",
-      "tp1_target": 159.86,
-      "tp2_target": 167.38,
-      "sl_target": 150.61,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_Turtle_Pyramid_Kelly",
-      "friction_paid": 0.11,
-      "pyramid_units_filled": 1,
-      "target_units": 3,
-      "unit_shares": 2,
-      "atr_14": 3.76,
-      "highest_price_seen": 151.32,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
-      "high_water_mark": 151.32,
-      "last_eval_price": 151.32
+      "last_eval_price": 193.24
     },
     "GD": {
       "ticker": "GD",
       "shares": 1,
       "initial_shares": 1,
       "entry_price": 330.38,
-      "current_price": 330.67,
+      "current_price": 331.27,
       "entry_date": "2026-10-08",
       "tp1_target": 345.68,
       "tp2_target": 357.92,
-      "sl_target": 323.37,
+      "sl_target": 330.71,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -142,17 +96,17 @@
       "target_units": 3,
       "unit_shares": 1,
       "atr_14": 6.12,
-      "highest_price_seen": 330.67,
+      "highest_price_seen": 331.27,
       "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
-      "high_water_mark": 330.67,
-      "last_eval_price": 330.67
+      "high_water_mark": 331.27,
+      "last_eval_price": 331.27
     },
     "CSX": {
       "ticker": "CSX",
       "shares": 8,
       "initial_shares": 8,
       "entry_price": 47.4,
-      "current_price": 47.4,
+      "current_price": 47.26,
       "entry_date": "2026-10-08",
       "tp1_target": 49.4,
       "tp2_target": 51.0,
@@ -168,14 +122,14 @@
       "highest_price_seen": 47.4,
       "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
       "high_water_mark": 47.4,
-      "last_eval_price": 47.4
+      "last_eval_price": 47.26
     },
     "EME": {
       "ticker": "EME",
       "shares": 1,
       "initial_shares": 1,
       "entry_price": 789.7,
-      "current_price": 789.7,
+      "current_price": 789.45,
       "entry_date": "2026-10-09",
       "tp1_target": 850.4,
       "tp2_target": 898.96,
@@ -188,7 +142,29 @@
       "target_units": 3,
       "unit_shares": 1,
       "atr_14": 24.28,
-      "highest_price_seen": 789.7
+      "highest_price_seen": 789.7,
+      "high_water_mark": 789.7,
+      "last_eval_price": 789.45
+    },
+    "ETN": {
+      "ticker": "ETN",
+      "shares": 2,
+      "initial_shares": 2,
+      "entry_price": 429.65,
+      "current_price": 429.65,
+      "entry_date": "2026-10-09",
+      "tp1_target": 462.02,
+      "tp2_target": 487.92,
+      "sl_target": 416.1,
+      "scaled_out": false,
+      "confidence": 0.85,
+      "regime": "Committee_Turtle_Pyramid_Kelly",
+      "friction_paid": 0.3,
+      "pyramid_units_filled": 1,
+      "target_units": 3,
+      "unit_shares": 2,
+      "atr_14": 12.95,
+      "highest_price_seen": 429.65
     }
   },
   "closed_trades": [
@@ -1082,6 +1058,28 @@
       "pnl": 15.55,
       "return_pct": 0.93,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "AOS",
+      "shares": 7,
+      "entry_price": 56.49,
+      "exit_price": 56.38,
+      "entry_date": "2026-10-08",
+      "exit_date": "2026-10-09",
+      "pnl": -0.77,
+      "return_pct": -0.19,
+      "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "ALLE",
+      "shares": 2,
+      "entry_price": 150.46,
+      "exit_price": 150.48,
+      "entry_date": "2026-10-08",
+      "exit_date": "2026-10-09",
+      "pnl": 0.04,
+      "return_pct": 0.01,
+      "reason": "STOP_LOSS"
     }
   ],
   "equity_history": [
@@ -1336,11 +1334,11 @@
     {
       "date": "2026-10-09",
       "timestamp": "2026-10-09T12:22:28.564793+00:00",
-      "total_equity": 140103.35,
-      "cash": 133216.34,
-      "invested": 6887.01,
+      "total_equity": 136545.29,
+      "cash": 133052.36,
+      "invested": 3492.93,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-09T18:51:46.898359+00:00"
+  "last_updated": "2026-10-09T23:04:38.073618+00:00"
 }

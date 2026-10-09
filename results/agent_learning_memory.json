@@ -1,13 +1,13 @@
 {
-  "total_learning_cycles": 30,
-  "last_updated": "2026-10-09T18:51:46.884620+00:00",
+  "total_learning_cycles": 31,
+  "last_updated": "2026-10-09T23:04:16.990033+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.26,
-    "sentiment_weight": 0.341,
-    "valuation_weight": 0.131,
-    "cro_weight": 0.268
+    "technicals_weight": 0.255,
+    "sentiment_weight": 0.344,
+    "valuation_weight": 0.128,
+    "cro_weight": 0.273
   },
-  "adaptive_kelly_multiplier": 0.78,
+  "adaptive_kelly_multiplier": 0.77,
   "recent_trade_autopsies": [
     {
       "ticker": "DE",
@@ -120,6 +120,22 @@
       "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
       "lesson": "Stop loss on DAL triggered at -2.46%. Protecting capital.",
       "timestamp": "2026-10-08T19:21:01.415209+00:00"
+    },
+    {
+      "ticker": "AOS",
+      "pnl": -0.77,
+      "return_pct": -0.19,
+      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
+      "lesson": "Stop loss on AOS triggered at -0.19%. Protecting capital.",
+      "timestamp": "2026-10-09T23:04:38.061209+00:00"
+    },
+    {
+      "ticker": "ALLE",
+      "pnl": 0.04,
+      "return_pct": 0.01,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on ALLE succeeded with +0.01% gain.",
+      "timestamp": "2026-10-09T23:04:38.061223+00:00"
     }
   ],
   "retrained_models": [
@@ -171,6 +187,11 @@
     {
       "ticker": "DAL",
       "timestamp": "2026-10-08T19:21:01.415197+00:00",
+      "verdict": null
+    },
+    {
+      "ticker": "AOS",
+      "timestamp": "2026-10-09T23:04:38.061186+00:00",
       "verdict": null
     }
   ],
@@ -257,10 +278,10 @@
     "Harvested 35 high-conviction momentum runs with 54.69% win rate."
   ],
   "bayesian_council_calibration": {
-    "Technical Momentum": 0.2502,
-    "FinBERT Sentiment": 0.2503,
-    "Fundamental Valuation": 0.1987,
-    "Chief Risk Officer": 0.1511,
-    "Adversarial Red-Team": 0.1497
+    "Technical Momentum": 0.25,
+    "FinBERT Sentiment": 0.25,
+    "Fundamental Valuation": 0.1988,
+    "Chief Risk Officer": 0.1513,
+    "Adversarial Red-Team": 0.1499
   }
 }
