@@ -1398,9 +1398,9 @@
     "semantic_hash": ""
   },
   "src/market_session.py": {
-    "mtime": 1791626104.1442375,
-    "seen": 1791626446.4867868,
-    "ast_hash": "01903741a23bf989a0ff4f7ce24217fa",
+    "mtime": 1791627276.2875822,
+    "seen": 1791627687.2953837,
+    "ast_hash": "608505689c777a939aad1293f5369553",
     "semantic_hash": ""
   },
   "src/opening_range_engine.py": {
@@ -14892,27 +14892,21 @@
     "semantic_hash": ""
   },
   "src/api_server.py": {
-    "mtime": 1791626174.0497797,
-    "seen": 1791626446.4658546,
-    "ast_hash": "0634d8ac56bd1b6d28c82391f05ff096",
-    "semantic_hash": ""
-  },
-  "src/currency_fx.py": {
-    "mtime": 1791626173.987536,
-    "seen": 1791626446.4747345,
-    "ast_hash": "4df35666b0072695ca68444e28912b8f",
+    "mtime": 1791627341.7526436,
+    "seen": 1791627687.2794752,
+    "ast_hash": "6a6cbdd90048c77795e3fcc81c5100cf",
     "semantic_hash": ""
   },
   "tests/test_api_server.py": {
-    "mtime": 1791626174.0019584,
-    "seen": 1791626446.5207732,
-    "ast_hash": "a838e5b9d6185415d8f1148affbb34f3",
+    "mtime": 1791627361.1465642,
+    "seen": 1791627687.322392,
+    "ast_hash": "a620f7368530b725d1f55522ab687dcb",
     "semantic_hash": ""
   },
-  "tests/test_global_markets.py": {
-    "mtime": 1791626143.5140438,
-    "seen": 1791626446.532906,
-    "ast_hash": "106df0cd810a19639e0a9d1b38ad4c84",
+  "results/global_markets_experiment_report.json": {
+    "mtime": 1791627555.8773832,
+    "seen": 1791627687.2688289,
+    "ast_hash": "4ecde4ed5d8f89c5485db3bf231142c2",
     "semantic_hash": ""
   }
 }

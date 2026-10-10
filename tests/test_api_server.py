@@ -27,7 +27,7 @@ def test_health_endpoint():
     assert data["status"] == "HEALTHY"
     assert "uptime_seconds" in data
     assert "memory_used_mb" in data
-    assert "global_sessions" in data
+    assert "us_market_session" in data
 
 
 def test_sessions_endpoint():
@@ -39,9 +39,6 @@ def test_sessions_endpoint():
     markets = data["markets"]
     assert "US" in markets
     assert "CRYPTO" in markets
-    assert "JAPAN" in markets
-    assert "INDIA" in markets
-    assert "HONG_KONG" in markets
 
 
 def test_ticker_session_endpoint():
@@ -50,30 +47,14 @@ def test_ticker_session_endpoint():
     assert resp_btc.status_code == 200
     data_btc = resp_btc.json()
     assert data_btc["can_trade_now"] is True
-    assert data_btc["session"]["market_code"] == "CRYPTO"
+    assert data_btc["is_crypto"] is True
 
-    # Japan TSE
-    resp_tse = client.get("/api/v1/session/7203.T")
-    assert resp_tse.status_code == 200
-    data_tse = resp_tse.json()
-    assert data_tse["session"]["market_code"] == "JP"
-    assert data_tse["session"]["currency"] == "JPY"
-
-    # India NSE
-    resp_nse = client.get("/api/v1/session/RELIANCE.NS")
-    assert resp_nse.status_code == 200
-    data_nse = resp_nse.json()
-    assert data_nse["session"]["market_code"] == "IN"
-    assert data_nse["session"]["currency"] == "INR"
-
-
-def test_fx_endpoint():
-    resp = client.get("/api/v1/fx/JPY?amount=10000")
-    assert resp.status_code == 200
-    data = resp.json()
-    assert data["currency"] == "JPY"
-    assert data["amount_local"] == 10000.0
-    assert data["amount_usd"] > 0
+    # US Equity
+    resp_us = client.get("/api/v1/session/AAPL")
+    assert resp_us.status_code == 200
+    data_us = resp_us.json()
+    assert data_us["is_crypto"] is False
+    assert "session" in data_us
 
 
 def test_smartwatch_endpoint():

@@ -17,11 +17,10 @@ import uvicorn
 
 from src.utils import get_logger
 from src.market_session import (
-    get_regional_market_session,
-    get_all_global_market_statuses,
+    get_us_market_session,
+    is_crypto_asset,
     is_asset_market_open,
 )
-from src.currency_fx import get_usd_fx_rate, convert_to_usd
 from src.smartwatch_api import generate_smartwatch_glance_payload
 
 logger = get_logger(__name__)
@@ -59,7 +58,7 @@ def root_info() -> Dict[str, Any]:
         "architecture": "Decoupled FastAPI Engine + Streamlit Viewport",
         "docs_url": "/docs",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-        "supported_theatres": ["US", "CRYPTO", "JAPAN", "INDIA", "CHINA_HK"],
+        "supported_theatres": ["US", "CRYPTO"],
     }
 
 
@@ -78,7 +77,7 @@ def get_health() -> Dict[str, Any]:
         "uptime_seconds": uptime_seconds,
         "memory_used_mb": current_mem_mb,
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-        "global_sessions": get_all_global_market_statuses(),
+        "us_market_session": get_us_market_session(),
     }
 
 
@@ -143,37 +142,49 @@ def get_trades(
 
 @app.get("/api/v1/sessions")
 def get_all_sessions() -> Dict[str, Any]:
-    """Returns active session status for US, Crypto, Japan, India, and China/HK."""
+    """Returns active session status for US Regular Market and 24/7 Crypto."""
+    us_sess = get_us_market_session()
+    crypto_sess = {
+        "status": "CRYPTO_24_7_OPEN",
+        "is_open": True,
+        "session_name": "24/7 Digital Asset Market",
+        "time_utc": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
+        "badge_color": "#10B981",
+        "icon": "🟢",
+        "message": "🟢 24/7/365 Continuous Execution Active for Crypto.",
+    }
     return {
         "status": "SUCCESS",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-        "markets": get_all_global_market_statuses(),
+        "markets": {
+            "US": us_sess,
+            "CRYPTO": crypto_sess,
+        },
     }
 
 
 @app.get("/api/v1/session/{ticker}")
 def get_ticker_session(ticker: str) -> Dict[str, Any]:
-    """Returns the market session details for a specific ticker symbol."""
-    sess = get_regional_market_session(ticker)
+    """Returns the market session details for a specific ticker symbol (US or Crypto)."""
+    is_crypto = is_crypto_asset(ticker)
+    if is_crypto:
+        sess = {
+            "status": "CRYPTO_24_7_OPEN",
+            "is_open": True,
+            "currency": "USD",
+            "badge_color": "#10B981",
+            "icon": "🟢",
+            "message": "24/7 Continuous Crypto Execution Active.",
+        }
+    else:
+        sess = get_us_market_session()
+
     return {
         "status": "SUCCESS",
         "ticker": ticker.upper(),
+        "is_crypto": is_crypto,
         "session": sess,
         "can_trade_now": is_asset_market_open(ticker),
-    }
-
-
-@app.get("/api/v1/fx/{currency}")
-def get_fx_conversion(currency: str, amount: float = 1.0) -> Dict[str, Any]:
-    """Converts a local currency amount into USD."""
-    rate = get_usd_fx_rate(currency)
-    converted_usd = convert_to_usd(amount, currency)
-    return {
-        "status": "SUCCESS",
-        "currency": currency.upper(),
-        "amount_local": amount,
-        "rate_usd_per_unit": rate,
-        "amount_usd": round(converted_usd, 4),
     }
 
 
