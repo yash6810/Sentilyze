@@ -188,17 +188,17 @@ def calculate_structural_trailing_stop(
     new_sl = current_sl
     action = "MAINTAIN_STOP"
 
-    # Rule A1: Zero-Giveback Micro-Profit Breakeven Lock at +0.50% (Covers friction, guarantees risk-free)
-    if gain_pct >= 0.50 and new_sl < entry_price * 1.002:
+    # Rule A1: Volatility-Anchored Breakeven Floor at +3.0% (guarantees trade had room to breathe)
+    if gain_pct >= 3.0 and new_sl < entry_price * 1.002:
         new_sl = round(
             entry_price * 1.002, 2
         )  # Entry + 0.2% commission/slippage cushion
         action = "ZERO_GIVEBACK_BREAKEVEN_LOCKED (Risk-Free)"
 
-    # Rule A2: Tier-1 Profit Bank Floor at +1.00% (Guarantees at least +0.50% banked)
-    if gain_pct >= 1.00 and new_sl < entry_price * 1.005:
-        new_sl = round(entry_price * 1.005, 2)
-        action = "TIER1_PROFIT_BANK_LOCKED (+0.50% Secured)"
+    # Rule A2: Structural Profit Floor at +5.0% (Locks in at least +2.0% profit)
+    if gain_pct >= 5.0 and new_sl < entry_price * 1.020:
+        new_sl = round(entry_price * 1.020, 2)
+        action = "TIER1_PROFIT_BANK_LOCKED (+2.00% Secured)"
 
     # Rule B: Structural Swing Low Trailing
     if not df_history.empty and len(df_history) >= 15:
@@ -244,21 +244,13 @@ def apply_high_watermark_profit_lock(
     peak_price = max(highest_price_seen, current_price)
     peak_gain_pct = (peak_price - entry_price) / entry_price * 100.0
 
-    new_sl = current_sl
-    action = "MAINTAIN_STOP"
-
-    # Micro-breakeven lock if peak reached >= +0.50%
-    if peak_gain_pct >= 0.50 and new_sl < entry_price * 1.002:
+    # Volatility-Anchored Breakeven Lock at +3.0% gain
+    if peak_gain_pct >= 3.0 and new_sl < entry_price * 1.002:
         new_sl = round(entry_price * 1.002, 2)
         action = "ZERO_GIVEBACK_PEAK_BREAKEVEN_LOCKED"
 
-    # Tier-1 profit lock if peak reached >= +1.00%
-    if peak_gain_pct >= 1.00 and new_sl < entry_price * 1.005:
-        new_sl = round(entry_price * 1.005, 2)
-        action = "TIER1_PEAK_PROFIT_LOCKED (+0.50%)"
-
-    # Institutional 80% peak gain retention for moves >= min_profit_threshold_pct (default 1.2%)
-    if peak_gain_pct >= min_profit_threshold_pct:
+    # Institutional Peak Gain Retention for solid trends (requires at least +3.5% peak gain)
+    if peak_gain_pct >= max(3.5, min_profit_threshold_pct):
         locked_profit_per_share = (peak_price - entry_price) * lock_fraction
         candidate_sl = round(entry_price + locked_profit_per_share, 2)
         if candidate_sl > new_sl:

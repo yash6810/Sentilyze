@@ -10,19 +10,32 @@ from src.feature_engineering import (
     aggregate_sentiment_scores,
     create_features,
 )
+from typing import Any
 from functools import lru_cache
 import threading
-from typing import Any
-from transformers import (
-    pipeline,
-    AutoTokenizer,
-    AutoModelForSequenceClassification,
-)
 
 logger = get_logger(__name__)
 
 _ANALYZER_LOCK = threading.Lock()
 _SENTIMENT_ANALYZER_INSTANCE = None
+
+
+def __getattr__(name: str):
+    """Lazy-loads heavy transformers components on-demand to protect Streamlit memory."""
+    if name in ("AutoTokenizer", "AutoModelForSequenceClassification", "pipeline"):
+        from transformers import (
+            AutoTokenizer,
+            AutoModelForSequenceClassification,
+            pipeline,
+        )
+
+        globals()["AutoTokenizer"] = AutoTokenizer
+        globals()[
+            "AutoModelForSequenceClassification"
+        ] = AutoModelForSequenceClassification
+        globals()["pipeline"] = pipeline
+        return globals()[name]
+    raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
 
 
 def _load_sentiment_analyzer() -> Any:

@@ -1,15 +1,15 @@
 {
-  "timestamp": "2026-10-04T18:23:04.536591+00:00",
-  "target_ticker": "AAPL",
-  "market_shift_verdict": "\ud83d\udfe2 MARKET_TOTAL_ENTERING (Broad Cashflow Accumulation Active)",
-  "tactical_posture": "AGGRESSIVE_SCALE_IN",
+  "timestamp": "2026-10-10T08:22:44.949467+00:00",
+  "target_ticker": "DDOG",
+  "market_shift_verdict": "\ud83d\udfe1 BALANCED_TACTICAL_FLOW (Orderly Range Consolidation)",
+  "tactical_posture": "SELECTIVE_QUORUM_ENTRIES",
   "metrics": {
-    "market_entry_probability_pct": 100.0,
-    "double_crash_probability_pct": 0.0,
-    "total_mined_threads": 8,
+    "market_entry_probability_pct": 50.0,
+    "double_crash_probability_pct": 50.0,
+    "total_mined_threads": 24,
     "cashflow_threads_count": 8,
-    "crash_warning_threads_count": 0,
-    "darkpool_relay_threads_count": 0
+    "crash_warning_threads_count": 8,
+    "darkpool_relay_threads_count": 8
   },
   "best_predictive_channels": [
     {
@@ -44,10 +44,18 @@
   "sample_mined_threads": {
     "cashflow_and_whales": [
       "Unusual Options Activity 101: Whale Watching Tips",
-      "A quick reminder that accounting can sugar code even armageddon. Cash Flow > Revenue",
-      "Apple Q3 Earnings Call Live Transcript"
+      "Can Someone Explain Why PANW is Worth 299 x Earnings??",
+      "Danaos (DAC)- The Richest Company on Earth"
     ],
-    "crash_and_double_top": [],
-    "darkpool_and_borrow_relays": []
+    "crash_and_double_top": [
+      "A review of the SaaSpocalypse and most of the stocks that dumped because of AI.",
+      "What\u2019s a stock you changed your mind about recently, and why?",
+      "Setting up a hedge against the \"imminent\" correction"
+    ],
+    "darkpool_and_borrow_relays": [
+      "Unusual Options Activity 101: Whale Watching Tips",
+      "What\u2019s one stock you sold way too early and still regret it ?",
+      "The death of SaaS has been greatly exaggerated"
+    ]
   }
 }

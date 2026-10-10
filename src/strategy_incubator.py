@@ -37,6 +37,7 @@ class StrategyGenome:
         tp_atr_multiple: float = 2.0,
         sl_atr_multiple: float = 1.0,
         sentiment_gate: float = 0.20,
+        regime_type: str = "TREND_EXPANSION",
     ):
         self.genome_id = genome_id or f"GEN_{np.random.randint(10000, 99999)}"
         self.rsi_period = int(rsi_period)
@@ -46,10 +47,12 @@ class StrategyGenome:
         self.tp_atr_multiple = float(tp_atr_multiple)
         self.sl_atr_multiple = float(sl_atr_multiple)
         self.sentiment_gate = float(sentiment_gate)
+        self.regime_type = regime_type  # "TREND_EXPANSION" vs "CHOP_MEAN_REVERSION"
 
     def to_dict(self) -> Dict[str, Any]:
         return {
             "genome_id": self.genome_id,
+            "regime_type": getattr(self, "regime_type", "TREND_EXPANSION"),
             "rsi_period": self.rsi_period,
             "rsi_entry_threshold": round(self.rsi_entry_threshold, 1),
             "macd_fast": self.macd_fast,
@@ -60,36 +63,51 @@ class StrategyGenome:
         }
 
     @classmethod
-    def random(cls) -> "StrategyGenome":
+    def random(cls, regime: str = "TREND_EXPANSION") -> "StrategyGenome":
+        if regime == "CHOP_MEAN_REVERSION":
+            # Choppy regime: tight oscillator thresholds for buying oversold dips
+            return cls(
+                regime_type="CHOP_MEAN_REVERSION",
+                rsi_period=int(np.random.choice([7, 9, 14])),
+                rsi_entry_threshold=float(np.random.uniform(22.0, 35.0)),
+                macd_fast=int(np.random.choice([6, 8, 12])),
+                macd_slow=int(np.random.choice([18, 22, 26])),
+                tp_atr_multiple=float(np.random.uniform(1.2, 2.2)),
+                sl_atr_multiple=float(np.random.uniform(0.8, 1.4)),
+                sentiment_gate=float(np.random.uniform(-0.2, 0.2)),
+            )
         return cls(
+            regime_type="TREND_EXPANSION",
             rsi_period=int(np.random.choice([9, 14, 21])),
-            rsi_entry_threshold=float(np.random.uniform(25.0, 45.0)),
+            rsi_entry_threshold=float(np.random.uniform(35.0, 52.0)),
             macd_fast=int(np.random.choice([8, 12, 16])),
             macd_slow=int(np.random.choice([21, 26, 34])),
-            tp_atr_multiple=float(np.random.uniform(1.5, 4.0)),
-            sl_atr_multiple=float(np.random.uniform(0.75, 1.75)),
-            sentiment_gate=float(np.random.uniform(-0.1, 0.4)),
+            tp_atr_multiple=float(np.random.uniform(2.0, 4.5)),
+            sl_atr_multiple=float(np.random.uniform(1.2, 2.0)),
+            sentiment_gate=float(np.random.uniform(0.1, 0.5)),
         )
 
     def mutate(self) -> "StrategyGenome":
+        regime = getattr(self, "regime_type", "TREND_EXPANSION")
         return StrategyGenome(
+            regime_type=regime,
             rsi_period=int(
                 np.clip(self.rsi_period + np.random.choice([-2, 0, 2]), 5, 30)
             ),
             rsi_entry_threshold=float(
-                np.clip(self.rsi_entry_threshold + np.random.normal(0, 2.0), 20.0, 50.0)
+                np.clip(self.rsi_entry_threshold + np.random.normal(0, 2.0), 20.0, 55.0)
             ),
             macd_fast=int(
                 np.clip(self.macd_fast + np.random.choice([-2, 0, 2]), 5, 20)
             ),
             macd_slow=int(
-                np.clip(self.macd_slow + np.random.choice([-2, 0, 2]), 20, 45)
+                np.clip(self.macd_slow + np.random.choice([-2, 0, 2]), 18, 45)
             ),
             tp_atr_multiple=float(
                 np.clip(self.tp_atr_multiple + np.random.normal(0, 0.25), 1.2, 5.0)
             ),
             sl_atr_multiple=float(
-                np.clip(self.sl_atr_multiple + np.random.normal(0, 0.15), 0.5, 2.5)
+                np.clip(self.sl_atr_multiple + np.random.normal(0, 0.15), 0.7, 2.5)
             ),
             sentiment_gate=float(
                 np.clip(self.sentiment_gate + np.random.normal(0, 0.05), -0.5, 0.8)

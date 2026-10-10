@@ -236,7 +236,9 @@ def get_adaptive_execution_policy(
             if gex_data.get("status") != "NO_OPTIONS_DATA":
                 total_net_gex = float(gex_data.get("total_net_gex", 0.0))
                 gamma_flip = float(gex_data.get("gamma_flip", spot_price or 100.0))
-                call_wall = float(gex_data.get("call_wall", (spot_price or 100.0) * 1.05))
+                call_wall = float(
+                    gex_data.get("call_wall", (spot_price or 100.0) * 1.05)
+                )
                 put_wall = float(gex_data.get("put_wall", (spot_price or 100.0) * 0.95))
                 has_real_options = bool(gex_data.get("is_real_data", False))
         except Exception as e:

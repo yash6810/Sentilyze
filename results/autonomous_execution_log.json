@@ -1,96 +1,39 @@
 {
-  "timestamp": "2026-10-09T22:58:27.363844+00:00",
+  "timestamp": "2026-10-10T08:22:24.673786+00:00",
   "buys": [
     {
       "success": true,
-      "ticker": "ETN",
-      "shares": 2,
-      "price": 429.65,
-      "cost": 859.6007549999999,
-      "tp1_target": 462.02,
-      "tp2_target": 487.92,
-      "sl_target": 416.1,
-      "strategy": "Committee_Turtle_Pyramid_Kelly",
+      "shares": 100,
+      "price": 125.0,
+      "ticker": "NVDA",
       "almgren_chriss_schedule": [
-        0.21,
-        0.21,
-        0.2,
-        0.2,
-        0.2,
-        0.2,
-        0.2,
-        0.2,
-        0.2,
-        0.19
+        10.45,
+        10.31,
+        10.18,
+        10.07,
+        9.98,
+        9.9,
+        9.83,
+        9.79,
+        9.76,
+        9.74
       ],
       "expected_shortfall": 0.0
     }
   ],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
-  "stop_losses": [
-    {
-      "ticker": "AOS",
-      "shares": 7,
-      "entry_price": 56.49,
-      "exit_price": 56.38,
-      "entry_date": "2026-10-08",
-      "exit_date": "2026-10-09",
-      "pnl": -0.77,
-      "return_pct": -0.19,
-      "reason": "STOP_LOSS"
-    },
-    {
-      "ticker": "ALLE",
-      "shares": 2,
-      "entry_price": 150.46,
-      "exit_price": 150.48,
-      "entry_date": "2026-10-08",
-      "exit_date": "2026-10-09",
-      "pnl": 0.04,
-      "return_pct": 0.01,
-      "reason": "STOP_LOSS"
-    }
-  ],
+  "stop_losses": [],
   "veto_exits": [],
   "committee_resolutions": {
-    "NVDA": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "VEEV": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "DE": "\ud83d\udd34 VETO / CUSUM STRUCTURAL BREAKDOWN",
-    "HONA": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "JCI": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "LDOS": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "BLDR": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "EMR": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "GWW": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "FERG": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "FTV": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "LII": "\ud83d\udd34 VETO / RED-TEAM VULNERABILITY",
-    "BA": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "AXON": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "ETN": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
-    "HWM": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "IEX": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "IR": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "GE": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CHRW": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CTAS": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "CPRT": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CMI": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "FIX": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "HON": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CAT": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "FAST": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "CARR": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "AME": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "JBHT": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)"
+    "NVDA": "\ud83d\ude80 CONVICTION INSTITUTIONAL BUY"
   },
-  "portfolio_equity": 140103.35,
-  "cash_balance": 133216.34434052446,
-  "unrealized_pnl": 206.94,
+  "portfolio_equity": 100000.0,
+  "cash_balance": 100000.0,
+  "unrealized_pnl": 0.0,
   "kill_switch_active": false,
   "self_improvement": {
-    "total_cycles": 31,
+    "total_cycles": 32,
     "agent_weights": {
       "technicals_weight": 0.255,
       "sentiment_weight": 0.344,
@@ -98,12 +41,12 @@
       "cro_weight": 0.273
     },
     "kelly_multiplier": 0.77,
-    "new_autopsies_count": 2
+    "new_autopsies_count": 0
   },
-  "elapsed_seconds": 370.71,
+  "elapsed_seconds": 4.64,
   "execution_telemetry": {
-    "cycle_latency_ns": 370709265166,
-    "cycle_latency_us": 370709265.17,
-    "cycle_latency_ms": 370709.265
+    "cycle_latency_ns": 4641902900,
+    "cycle_latency_us": 4641902.9,
+    "cycle_latency_ms": 4641.903
   }
 }

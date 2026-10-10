@@ -92,15 +92,18 @@ def get_model_universe_indicator():
 
 
 def main():
-    # Ensure permanent 24/7 autonomous trading daemon is continuously running
-    try:
-        from src.autonomous_trader import (
-            ensure_background_daemon_thread_running,
-        )
+    # Autonomous trading daemon is managed via GitHub Actions (.github/workflows/autonomous_live_trader.yml)
+    # to protect Streamlit Community Cloud's 1 GB RAM limit.
+    # It can be activated locally or on a dedicated server by setting ENABLE_IN_APP_DAEMON=true.
+    if os.getenv("ENABLE_IN_APP_DAEMON", "false").lower() == "true":
+        try:
+            from src.autonomous_trader import (
+                ensure_background_daemon_thread_running,
+            )
 
-        ensure_background_daemon_thread_running(interval_seconds=60)
-    except Exception:
-        pass
+            ensure_background_daemon_thread_running(interval_seconds=60)
+        except Exception:
+            pass
 
     # --- Sidebar Controls ---
     st.sidebar.markdown(

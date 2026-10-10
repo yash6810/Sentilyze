@@ -298,14 +298,42 @@ class TechnicalAlphaAgent:
         except Exception as a_err:
             logger.debug(f"Alpha158 check notice for {ticker}: {a_err}")
 
+        # Check ARAR Microstructure & Absorption Wall (Stoikov / López de Prado)
+        arar_metrics = {}
+        try:
+            from src.arar_microstructure import evaluate_arar_microstructure
+
+            arar_eval = evaluate_arar_microstructure(ticker, df)
+            if arar_eval:
+                arar_metrics = {
+                    "arar_score": arar_eval.get("arar_score", 0.0),
+                    "arar_normalized": arar_eval.get("arar_normalized", 0.0),
+                    "obi": arar_eval.get("obi", 0.0),
+                    "cvd": arar_eval.get("cvd", 0.0),
+                    "is_absorption_active": arar_eval.get(
+                        "is_absorption_active", False
+                    ),
+                }
+                if arar_eval.get("is_absorption_active"):
+                    conviction = min(96.0, conviction + 8.0)
+                    thesis += f" 🛡️ ARAR Institutional Absorption Wall active (Score: {arar_eval['arar_score']:.1f}, OBI: {arar_eval['obi']:+.2f}); aggressive sellers absorbed by resting bid."
+                elif arar_eval.get("obi", 0.0) > 0.40:
+                    conviction = min(92.0, conviction + 4.0)
+                    thesis += (
+                        f" 📈 High Order Book Imbalance (OBI: {arar_eval['obi']:+.2f})."
+                    )
+        except Exception as arar_err:
+            logger.debug(f"ARAR check notice for {ticker}: {arar_err}")
+
         return {
             "agent_name": "Technical Momentum Specialist",
-            "role": "Pillar 1: Market Structure, Moving Averages, RSI, Options GEX & Alpha158",
+            "role": "Pillar 1: Market Structure, Moving Averages, RSI, Options GEX, ARAR & Alpha158",
             "academic_grounding": [
                 "Microsoft Qlib: Alpha158 Orthogonal Price-Volume Factors",
                 "Paper 25: Zarattini, Barbon, Aziz (2024) 5-Min Opening Range Breakout (ORB)",
                 "Paper 10: Bailey & López de Prado (2014) Deflated Sharpe Ratio (DSR)",
                 "Institutional Market Microstructure: SqueezeMetrics Gamma Exposure (GEX)",
+                "Stoikov (2018) / Easley-de Prado-O'Hara (2012) ARAR Absorption & Order Book Imbalance",
             ],
             "vote": vote,
             "conviction_score": conviction,
@@ -318,6 +346,7 @@ class TechnicalAlphaAgent:
                 "acpm_calibrated_prob": calibrated_prob,
                 **gex_metrics,
                 **alpha158_metrics,
+                **arar_metrics,
             },
             "thesis": thesis,
         }
@@ -845,6 +874,47 @@ class ChiefRiskOfficerAgent:
                     veto_reason = "Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200)."
                     break
 
+        # Check López de Prado (2018) Meta-Labeling Secondary Barrier Filter
+        meta_label_veto = False
+        meta_metrics = {}
+        try:
+            from src.meta_labeling_filter import (
+                evaluate_meta_labeling_barrier_probability,
+            )
+
+            rsi_val_cro = 50.0
+            obi_val_cro = 0.0
+            arar_val_cro = 0.0
+            for r in agent_reports:
+                if isinstance(r, dict) and "key_metrics" in r:
+                    km = r["key_metrics"]
+                    if "estimated_rsi" in km:
+                        rsi_val_cro = float(km.get("estimated_rsi", 50.0))
+                    if "obi" in km:
+                        obi_val_cro = float(km.get("obi", 0.0))
+                    if "arar_score" in km:
+                        arar_val_cro = float(km.get("arar_score", 0.0))
+
+            meta_res = evaluate_meta_labeling_barrier_probability(
+                ticker=ticker,
+                spot_price=spot_price,
+                primary_conviction_pct=effective_conviction,
+                atr_14=spot_price * 0.025,
+                rsi_val=rsi_val_cro,
+                obi_val=obi_val_cro,
+                arar_score=arar_val_cro,
+                is_above_sma200=not trend_veto,
+                vix_level=vix_level,
+            )
+            meta_metrics = meta_res
+            if not meta_res.get("approved", True) and buy_votes >= 2 and not trend_veto:
+                meta_label_veto = True
+                veto_reason = meta_res.get(
+                    "reason", "Meta-labeler barrier probability < 50%."
+                )
+        except Exception as ml_err:
+            logger.debug(f"Meta-labeling check notice for {ticker}: {ml_err}")
+
         # 2. Dynamic Mathematical Fractional Kelly Sizing with Cornish-Fisher Expansion (Paper 23, Paper 14 & Idea 39)
         ret_skewness = 0.0
         ret_kurtosis = 0.0
@@ -1012,6 +1082,7 @@ class ChiefRiskOfficerAgent:
             or vix_veto
             or trend_veto
             or red_team_veto
+            or meta_label_veto
         ):
             if macro_blackout_veto:
                 final_resolution = "🔴 VETO / MACRO EVENT BLACKOUT (FOMC/CPI/NFP)"
@@ -1025,6 +1096,10 @@ class ChiefRiskOfficerAgent:
                 final_resolution = "🔴 VETO / CAPITAL PRESERVATION"
             elif red_team_veto:
                 final_resolution = "🔴 VETO / RED-TEAM VULNERABILITY"
+            elif meta_label_veto:
+                final_resolution = (
+                    "🔴 VETO / META-LABELER ASYMMETRY (LOW BARRIER PROBABILITY)"
+                )
             else:
                 final_resolution = "🔴 VETO / MACRO DOWNTREND (BELOW SMA200)"
             action_code = "VETO"
@@ -1170,6 +1245,8 @@ class ChiefRiskOfficerAgent:
             "memory_risk_adjustment": mem_adjustment,
             "require_supermajority": require_supermajority,
             "conformal_metrics": conformal_metrics,
+            "meta_label_metrics": meta_metrics,
+            "meta_label_veto_triggered": meta_label_veto,
             **vpin_metrics,
         }
 
@@ -1274,6 +1351,24 @@ def convene_trading_committee(
         logger.debug(f"Notice attaching adaptive execution policy: {e}")
         resolution_packet["execution_mode"] = "HYBRID_BALANCED"
         resolution_packet["pyramiding_enabled"] = True
+
+    # Tri-Force Dynamic Signal Fusion (ARAR Microstructure + StatArb + Momentum)
+    try:
+        from src.tri_force_fusion import evaluate_tri_force_fusion
+
+        hist_df_tri = get_price_history(ticker, period="6mo", use_cache=True)
+        tri_eval = evaluate_tri_force_fusion(
+            ticker=ticker,
+            df_ohlcv=hist_df_tri,
+            xgb_prob=float(resolution_packet.get("weighted_conviction_pct", 50.0))
+            / 100.0,
+            vix_level=vix_level,
+        )
+        resolution_packet["tri_force_fusion"] = tri_eval
+        resolution_packet["p_trade"] = tri_eval.get("p_trade", 0.50)
+    except Exception as tf_err:
+        logger.debug(f"Tri-Force fusion notice for {ticker}: {tf_err}")
+        resolution_packet["p_trade"] = 0.50
 
     if save_resolution:
         _persist_committee_resolution(ticker, resolution_packet)
@@ -1380,18 +1475,22 @@ def execute_committee_order(
                 "reason": "CPPI Capital Preservation Floor Active (No new equity risk permitted)",
             }
 
-        # Size dollar allocation based on fractional Kelly allocation scaled by CPPI cushion
-        target_allocation_dollars = (
-            total_equity * (kelly_alloc_pct / 100.0) * cppi_factor
-        )
-
-        # 🐢 Turtle 0.5N Pyramiding: Initial entry is 1/3 Seed Unit to truncate left-tail breakout risk
-        seed_allocation = target_allocation_dollars / 3.0
-        invest_amount = min(seed_allocation, cash_avail * 0.90)
-
-        # Fallback for small portfolios: ensure at least 1 whole share if target allocation is valid
-        if invest_amount < spot_price and target_allocation_dollars >= spot_price:
-            invest_amount = min(target_allocation_dollars, cash_avail * 0.90)
+        # 🛡️ Capital Allocation Sizing: Institutional Active Exposure
+        # When cash is ample (> $50,000), eliminate double-deflation throttling to ensure
+        # high-conviction signals receive $5,500 - $8,000 allocation (active 40%-55% exposure)
+        # while preserving a strict $65,000+ liquid cash safety moat.
+        if cash_avail > 50000.0:
+            # Active institutional sizing: 4.0% to 6.0% allocation per high-conviction setup
+            target_alloc_pct = max(4.0, min(kelly_alloc_pct, 6.0))
+            invest_amount = min(
+                total_equity * (target_alloc_pct / 100.0), cash_avail * 0.15
+            )
+        else:
+            # Conservative cushion when cash is tight
+            target_allocation_dollars = (
+                total_equity * (kelly_alloc_pct / 100.0) * max(0.5, cppi_factor)
+            )
+            invest_amount = min(target_allocation_dollars, cash_avail * 0.50)
 
         if invest_amount < 200.0:
             return {
@@ -1399,12 +1498,34 @@ def execute_committee_order(
                 "reason": "Insufficient cash for minimum position size",
             }
 
-        shares = int(invest_amount // spot_price)
-        if shares <= 0:
-            return {
-                "success": False,
-                "reason": "Position size too small for 1 whole share",
-            }
+        # Daniel & Moskowitz (2016) Volatility-Scaled Sizing
+        try:
+            from src.vol_scaled_momentum import VolScaledMomentumEngine
+
+            v_engine = VolScaledMomentumEngine(target_vol=0.18)
+            v_res = v_engine.evaluate_ticker_momentum(ticker)
+            if v_res and v_res.vol_scaling_multiplier > 0:
+                v_mult = float(np.clip(v_res.vol_scaling_multiplier, 0.65, 1.35))
+                invest_amount = invest_amount * v_mult
+        except Exception:
+            pass
+
+        from src.market_session import is_crypto_asset
+
+        if is_crypto_asset(ticker):
+            shares = round(float(invest_amount / spot_price), 6)
+            if shares <= 0.000001:
+                return {
+                    "success": False,
+                    "reason": "Position size too small for minimum fractional crypto lot (0.000001)",
+                }
+        else:
+            shares = int(invest_amount // spot_price)
+            if shares <= 0:
+                return {
+                    "success": False,
+                    "reason": "Position size too small for 1 whole share",
+                }
 
         cro_dict = (
             deliberation.get("cro_signoff", {})

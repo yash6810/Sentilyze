@@ -9,6 +9,10 @@ font = "sans serif"
 [server]
 fileWatcherType = "none"
 headless = true
+enableCORS = false
+enableXsrfProtection = true
+maxUploadSize = 10
+maxMessageSize = 50
 
 
 [browser]

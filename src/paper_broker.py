@@ -12,6 +12,34 @@ PORTFOLIO_FILE = os.path.join("results", "paper_portfolio.json")
 INITIAL_CAPITAL = 100000.00
 
 
+def compute_corwin_schultz_spread(df: pd.DataFrame) -> float:
+    """
+    Computes Corwin-Schultz (2012) high-low bid-ask spread estimator.
+    Uses consecutive 2-day high/low ratios to determine effective institutional spread.
+    Returns effective spread as fraction (e.g. 0.00035 = 3.5 bps).
+    """
+    if df.empty or len(df) < 2 or not all(c in df.columns for c in ["High", "Low"]):
+        return 0.00035
+
+    try:
+        h = df["High"].values[-2:].astype(float)
+        l = df["Low"].values[-2:].astype(float)
+
+        beta = float(np.sum(np.log(np.maximum(h, 1e-6) / np.maximum(l, 1e-6)) ** 2))
+        gamma = float((np.log(max(h[1], h[0]) / max(min(l[1], l[0]), 1e-6))) ** 2)
+
+        c = 3.0 - 2.0 * np.sqrt(2.0)
+        alpha = (np.sqrt(2.0 * beta) - np.sqrt(beta)) / c - np.sqrt(gamma / c)
+
+        if alpha <= 0:
+            return 0.00035
+
+        spread = 2.0 * (np.exp(alpha) - 1.0) / (1.0 + np.exp(alpha))
+        return float(np.clip(spread, 0.0001, 0.02))
+    except Exception:
+        return 0.00035
+
+
 class PaperBroker:
     """
     Institutional Multi-Stage Quantitative Execution Broker ($100k Account).
@@ -584,7 +612,7 @@ class PaperBroker:
 
             for s in target_buys:
                 ticker = s["ticker"]
-                price = float(s["current_price"])
+                price = float(s.get("current_price") or s.get("spot_price") or 0.0)
                 if price <= 0:
                     continue
 
@@ -686,13 +714,30 @@ class PaperBroker:
                 # Cap individual ticket at ~6.5% - 7.5% of total capital ($10,500 max) to prevent concentration
                 allocation_per_stock = min(raw_allocation, 10500.0)
 
-                shares = int(allocation_per_stock // price)
-                if shares <= 0:
-                    continue
+                # Check if asset is 24/7 Cryptocurrency
+                from src.market_session import is_crypto_asset
+
+                if is_crypto_asset(ticker):
+                    shares = round(float(allocation_per_stock / price), 6)
+                    if shares <= 0.000001:
+                        continue
+                else:
+                    shares = int(allocation_per_stock // price)
+                    if shares <= 0:
+                        continue
 
                 gross_cost = float(shares * price)
-                # Deduct realistic transaction friction (Corwin-Schultz spread + impact: ~3.5 bps)
-                friction_cost = float(gross_cost * 0.00035)
+                # Deduct realistic transaction friction via Corwin-Schultz high-low spread estimator
+                spread_fraction = 0.00035
+                try:
+                    from src.data_ingestion import get_price_history
+
+                    hist_spread = get_price_history(ticker, period="5d", use_cache=True)
+                    spread_fraction = compute_corwin_schultz_spread(hist_spread)
+                except Exception:
+                    pass
+
+                friction_cost = float(gross_cost * spread_fraction)
                 total_cost = gross_cost + friction_cost
 
                 if total_cost > self.state["cash"]:
@@ -815,7 +860,7 @@ class PaperBroker:
             self.state["equity_history"][-1]["invested"] = round(invested_val, 2)
             self.state["equity_history"][-1]["daily_return"] = daily_return
         else:
-            self.state["equity_history"].append(
+            self.state.setdefault("equity_history", []).append(
                 {
                     "date": date_str,
                     "timestamp": now_str,
@@ -1100,12 +1145,16 @@ class PaperBroker:
             }
 
         pos = self.state["open_positions"][ticker]
-        old_shares = int(pos["shares"])
+        old_shares = float(pos["shares"])
         old_entry = float(pos["entry_price"])
 
         # Recalculate blended average cost basis
-        total_shares = old_shares + shares
-        blended_entry = (old_shares * old_entry + shares * price) / total_shares
+        total_shares = (
+            round(old_shares + float(shares), 6)
+            if not (old_shares + float(shares)).is_integer()
+            else int(old_shares + float(shares))
+        )
+        blended_entry = (old_shares * old_entry + float(shares) * price) / total_shares
 
         self.state["cash"] -= cost
         pos["shares"] = total_shares
@@ -1157,7 +1206,8 @@ class PaperBroker:
             if price and price > 0
             else pos.get("current_price", pos["entry_price"])
         )
-        shares = int(pos["shares"])
+        raw_shares = float(pos["shares"])
+        shares = raw_shares if not raw_shares.is_integer() else int(raw_shares)
         entry_price = float(pos["entry_price"])
 
         proceeds = float(shares * exit_price)
@@ -1220,9 +1270,14 @@ class PaperBroker:
             if price and price > 0
             else pos.get("current_price", pos["entry_price"])
         )
-        shares = int(pos["shares"])
+        raw_shares = float(pos["shares"])
+        if not raw_shares.is_integer():
+            half_shares = round(raw_shares / 2.0, 6)
+            shares = raw_shares
+        else:
+            shares = int(raw_shares)
+            half_shares = max(1, shares // 2)
         entry_price = float(pos["entry_price"])
-        half_shares = max(1, shares // 2)
 
         proceeds = float(half_shares * curr_price)
         cost_basis = float(half_shares * entry_price)

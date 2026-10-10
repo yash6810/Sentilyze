@@ -408,7 +408,8 @@ class AutonomousTradingEngine:
                     continue
 
             pos["current_price"] = spot_price
-            shares = int(pos.get("shares", 0))
+            raw_shares = float(pos.get("shares", 0))
+            shares = raw_shares if not raw_shares.is_integer() else int(raw_shares)
             entry_price = float(pos.get("entry_price") or spot_price or 1.0)
             denom = entry_price if entry_price > 0 else 1.0
             tp1_target = float(pos.get("tp1_target", entry_price * 1.05))
@@ -423,36 +424,33 @@ class AutonomousTradingEngine:
             unrealized_gain_pct = (spot_price - entry_price) / denom * 100.0
             max_gain_pct = (high_water - entry_price) / denom * 100.0
 
-            # Level 1: Agile Micro-Breakeven Shield (Once in profit >= +0.25%, never allow trade to go red)
-            if (
-                not scaled_out
-                and max_gain_pct >= 0.25
-                and sl_target < entry_price * 1.001
-            ):
-                new_sl = round(entry_price * 1.001, 2)
-                pos["sl_target"] = new_sl
-                sl_target = new_sl
-                logger.info(
-                    f"🛡️ [BREAKEVEN SHIELD] {ticker} gained +{max_gain_pct:.2f}%. Stop trailed up to Breakeven (${new_sl:.2f})"
-                )
+            # 🛡️ Level 1 & 2: Volatility-Anchored Breathing Room (ATR Dynamic Trailing)
+            # Replaces the fragile 0.25% noise trap with true institutional leeway:
+            # - Move to breakeven ONLY after trade gains at least +1.2x ATR (~2.5% to 4.0% gain)
+            # - Trail trailing stop at 1.5x ATR below peak to allow runners to compound to +10%-+25%
+            pos_atr = float(pos.get("atr_14", entry_price * 0.025))
+            if pos_atr <= 0:
+                pos_atr = max(entry_price * 0.025, 1.0)
 
-            # Level 2: Trailing Profit Lock (If gained >= +1.0%, lock in >= +0.4% profit)
-            if max_gain_pct >= 1.0 and sl_target < entry_price * 1.004:
-                new_sl = round(entry_price * 1.004, 2)
-                pos["sl_target"] = new_sl
-                sl_target = new_sl
-                logger.info(
-                    f"🔒 [PROFIT LOCK TIER 1] {ticker} peaked at +{max_gain_pct:.2f}%. Stop trailed to lock +0.4% profit (${new_sl:.2f})"
-                )
+            # Move to Breakeven (+0.2% fee cushion) only after reaching +1.2x ATR profit
+            if not scaled_out and (high_water - entry_price) >= (pos_atr * 1.2):
+                breakeven_floor = round(entry_price * 1.002, 2)
+                if sl_target < breakeven_floor:
+                    pos["sl_target"] = breakeven_floor
+                    sl_target = breakeven_floor
+                    logger.info(
+                        f"🛡️ [ATR BREAKEVEN SECURED] {ticker} gained +1.2x ATR (+{max_gain_pct:.2f}%). Stop moved to Breakeven (${breakeven_floor:.2f})"
+                    )
 
-            # Level 3: Trailing Profit Lock (If gained >= +2.0%, lock in >= +1.0% profit)
-            if max_gain_pct >= 2.0 and sl_target < entry_price * 1.010:
-                new_sl = round(entry_price * 1.010, 2)
-                pos["sl_target"] = new_sl
-                sl_target = new_sl
-                logger.info(
-                    f"🔒 [PROFIT LOCK TIER 2] {ticker} peaked at +{max_gain_pct:.2f}%. Stop trailed to lock +1.0% profit (${new_sl:.2f})"
-                )
+            # Trail stop at High - 1.5x ATR once in solid trend (+2.0x ATR)
+            if (high_water - entry_price) >= (pos_atr * 2.0):
+                atr_trail_sl = round(high_water - (pos_atr * 1.5), 2)
+                if atr_trail_sl > sl_target:
+                    pos["sl_target"] = atr_trail_sl
+                    sl_target = atr_trail_sl
+                    logger.info(
+                        f"🔒 [ATR RUNNER TRAIL] {ticker} peaked at ${high_water:.2f}. Trailed stop to ${atr_trail_sl:.2f} (1.5x ATR room)"
+                    )
 
             # Level 4: Chandelier Trailing Stop for Runners (trail 3.5% from peak)
             if scaled_out:
@@ -628,7 +626,10 @@ class AutonomousTradingEngine:
             # Check Stage 1 Scale-Out (+2.5 ATR)
             if not scaled_out and spot_price >= tp1_target:
 
-                half_shares = max(1, shares // 2)
+                if isinstance(shares, float) and not shares.is_integer():
+                    half_shares = round(shares / 2.0, 6)
+                else:
+                    half_shares = max(1, int(shares) // 2)
                 proceeds = float(half_shares * spot_price)
                 cost_basis = float(half_shares * entry_price)
                 pnl = float(proceeds - cost_basis)
@@ -825,11 +826,13 @@ class AutonomousTradingEngine:
         cash_available = self.broker.state.get("cash", 0.0)
 
         if available_slots > 0 and cash_available > 5000.0:
-            # 3-Day Anti-Whipsaw Cooldown: Quarantine recently closed tickers
+            # 3-Day Anti-Whipsaw Cooldown: Quarantine ONLY trades closed at a loss (PnL < 0)
+            # Winning and breakeven trades are NOT blacklisted if fresh high-conviction signals emerge
             quarantined_tickers = set()
             for ct in self.broker.state.get("closed_trades", []):
                 exit_d = ct.get("exit_date", "")
-                if exit_d:
+                pnl_val = float(ct.get("pnl", 0.0))
+                if exit_d and pnl_val < 0:
                     try:
                         d_exit = datetime.fromisoformat(str(exit_d)[:10])
                         d_now = datetime.fromisoformat(str(date_str)[:10])
@@ -846,17 +849,45 @@ class AutonomousTradingEngine:
                 for h in self.broker.state.get("open_positions", {}).keys()
             }
 
+            from src.market_session import is_crypto_asset
+
+            is_us_open = market_session.get("is_open", False)
+            if not is_us_open:
+                crypto_candidates = ["BTC-USD", "ETH-USD", "SOL-USD"]
+                tickers_to_scan = list(
+                    set(
+                        [t for t in tickers_to_scan if is_crypto_asset(t)]
+                        + crypto_candidates
+                    )
+                )
+                logger.info(
+                    f"🌙 [24/7 CRYPTO GATEWAY] US Equities closed. Routing autonomous scan to 24/7 digital assets: {tickers_to_scan}"
+                )
+
             unheld_tickers = [
                 t
                 for t in tickers_to_scan
                 if t not in self.broker.state.get("open_positions", {})
                 and t not in quarantined_tickers
                 and (
-                    get_sector_for_ticker(t) not in occupied_sectors
-                    or get_sector_for_ticker(t)
-                    in ("General", "Unknown", "General_Market")
+                    is_crypto_asset(t)
+                    or (
+                        is_us_open
+                        and (
+                            get_sector_for_ticker(t) not in occupied_sectors
+                            or get_sector_for_ticker(t)
+                            in (
+                                "General",
+                                "Unknown",
+                                "General_Market",
+                                "Cryptocurrency",
+                            )
+                        )
+                    )
                 )
             ]
+            if not is_us_open:
+                unheld_tickers = [t for t in unheld_tickers if is_crypto_asset(t)]
 
             # Lightweight Pre-Screening: Filter to top 15 active/liquid assets
             # This keeps RAM usage minimal (<250MB) and prevents laptop freezing
@@ -961,7 +992,8 @@ class AutonomousTradingEngine:
             ]
             buy_candidates.sort(
                 key=lambda x: (
-                    float(x[1].get("consensus_conviction_pct") or 0.0)
+                    float(x[1].get("p_trade", 0.50)) * 100.0 * 0.50
+                    + float(x[1].get("consensus_conviction_pct") or 0.0) * 0.50
                     if isinstance(x[1], dict)
                     else 0.0
                 ),
@@ -1027,9 +1059,15 @@ class AutonomousTradingEngine:
                         delib["cro_signoff"]["approved_kelly_pct"] = max_allowed_kelly
 
                 # Formal Logic Z3 Rule Gate Verification (Sprint 4, Module 4.5 / Idea 47)
-                shares_est = max(
-                    1.0, float(int(total_eq * (approved_kelly / 100.0) / spot_price))
-                )
+                if is_crypto_asset(t):
+                    shares_est = round(
+                        float(total_eq * (approved_kelly / 100.0) / spot_price), 6
+                    )
+                else:
+                    shares_est = max(
+                        1.0,
+                        float(int(total_eq * (approved_kelly / 100.0) / spot_price)),
+                    )
                 gate_eval = self.rule_gate.verify_trade(
                     ticker=t,
                     spot_price=spot_price,
