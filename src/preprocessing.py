@@ -52,6 +52,11 @@ def _load_sentiment_analyzer() -> Any:
             return _SENTIMENT_ANALYZER_INSTANCE
 
         import torch
+        from transformers import (
+            AutoTokenizer,
+            AutoModelForSequenceClassification,
+            pipeline,
+        )
 
         try:
             torch.set_num_threads(2)
