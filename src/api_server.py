@@ -240,7 +240,7 @@ def execute_autonomous_cycle(
         raise HTTPException(status_code=500, detail=f"Execution error: {str(e)}")
 
 
-def start_server(host: str = "0.0.0.0", port: int = 8000):
+def start_server(host: str = "127.0.0.1", port: int = 8000):  # nosec B104
     """Launches the Uvicorn server."""
     logger.info(f"🚀 Starting Sentilyze FastAPI Quant Engine on http://{host}:{port}")
     uvicorn.run(
