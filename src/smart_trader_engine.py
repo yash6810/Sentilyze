@@ -244,6 +244,9 @@ def apply_high_watermark_profit_lock(
     peak_price = max(highest_price_seen, current_price)
     peak_gain_pct = (peak_price - entry_price) / entry_price * 100.0
 
+    new_sl = float(current_sl)
+    action = "MAINTAIN_CURRENT_STOP"
+
     # Volatility-Anchored Breakeven Lock at +3.0% gain
     if peak_gain_pct >= 3.0 and new_sl < entry_price * 1.002:
         new_sl = round(entry_price * 1.002, 2)

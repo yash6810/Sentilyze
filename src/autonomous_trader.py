@@ -798,7 +798,7 @@ class AutonomousTradingEngine:
             )
             available_slots = 0
 
-        # Macro Breadth Gate: Check VIX
+        # Macro Breadth Gate: Check VIX and SPY 50-day Trend Alignment
         try:
             vix_val = float(quotes_map.get("^VIX", {}).get("price", 0.0))
             if vix_val > 24.0:
@@ -806,8 +806,21 @@ class AutonomousTradingEngine:
                     f"🛡️ [MACRO BREADTH GATE] Pausing new entries: VIX is elevated at {vix_val:.1f} (> 24.0). Preserving cash."
                 )
                 available_slots = 0
-        except Exception:
-            pass
+            else:
+                # Check broader market health: SPY price vs 50-day SMA
+                from src.data_ingestion import get_price_history
+
+                spy_df = get_price_history("SPY", period="6mo", use_cache=True)
+                if isinstance(spy_df, pd.DataFrame) and len(spy_df) >= 50:
+                    spy_close = float(spy_df["Close"].iloc[-1])
+                    spy_sma50 = float(spy_df["Close"].rolling(50).mean().iloc[-1])
+                    if spy_close < spy_sma50:
+                        logger.warning(
+                            f"🛡️ [MACRO BREADTH GATE] S&P 500 (SPY ${spy_close:.2f}) is below its 50-day SMA (${spy_sma50:.2f}). Market in defensive pullback — pausing new long allocations."
+                        )
+                        available_slots = 0
+        except Exception as bg_err:
+            logger.debug(f"Macro breadth gate notice: {bg_err}")
 
         # Macro Pre-Event Blackout Gate (FOMC / CPI / NFP releases)
         try:

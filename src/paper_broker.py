@@ -22,8 +22,15 @@ def compute_corwin_schultz_spread(df: pd.DataFrame) -> float:
         return 0.00035
 
     try:
-        h = df["High"].values[-2:].astype(float)
-        l = df["Low"].values[-2:].astype(float)
+        clean_df = df[["High", "Low"]].dropna()
+        if len(clean_df) < 2:
+            return 0.00035
+
+        h = clean_df["High"].values[-2:].astype(float)
+        l = clean_df["Low"].values[-2:].astype(float)
+
+        if np.isnan(h).any() or np.isnan(l).any() or (l <= 0).any():
+            return 0.00035
 
         beta = float(np.sum(np.log(np.maximum(h, 1e-6) / np.maximum(l, 1e-6)) ** 2))
         gamma = float((np.log(max(h[1], h[0]) / max(min(l[1], l[0]), 1e-6))) ** 2)
@@ -31,10 +38,12 @@ def compute_corwin_schultz_spread(df: pd.DataFrame) -> float:
         c = 3.0 - 2.0 * np.sqrt(2.0)
         alpha = (np.sqrt(2.0 * beta) - np.sqrt(beta)) / c - np.sqrt(gamma / c)
 
-        if alpha <= 0:
+        if alpha <= 0 or np.isnan(alpha):
             return 0.00035
 
         spread = 2.0 * (np.exp(alpha) - 1.0) / (1.0 + np.exp(alpha))
+        if np.isnan(spread):
+            return 0.00035
         return float(np.clip(spread, 0.0001, 0.02))
     except Exception:
         return 0.00035
@@ -704,13 +713,25 @@ class PaperBroker:
                 except Exception as m_err:
                     logger.debug(f"Macro multiplier notice: {m_err}")
 
-                raw_allocation = (
-                    self.state["cash"]
-                    * quarter_kelly
-                    * gex_haircut
-                    * cppi_factor
-                    * macro_multiplier
-                )
+                # Ensure active institutional allocation ($3,500 - $7,500) when cash is ample (> $50k)
+                # to prevent deflation cascading down to single-share ($300) tickets.
+                if self.state["cash"] > 50000.0:
+                    raw_allocation = max(
+                        self.state["cash"]
+                        * quarter_kelly
+                        * gex_haircut
+                        * cppi_factor
+                        * macro_multiplier,
+                        self.state["total_equity"] * 0.035,
+                    )
+                else:
+                    raw_allocation = (
+                        self.state["cash"]
+                        * quarter_kelly
+                        * gex_haircut
+                        * cppi_factor
+                        * macro_multiplier
+                    )
                 # Cap individual ticket at ~6.5% - 7.5% of total capital ($10,500 max) to prevent concentration
                 allocation_per_stock = min(raw_allocation, 10500.0)
 
