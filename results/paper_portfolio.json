@@ -1,37 +1,14 @@
 {
   "initial_capital": 100000.0,
-  "cash": 131835.73796436968,
+  "cash": 132253.18794605913,
   "total_equity": 136544.87,
-  "unrealized_pnl": 7.68,
-  "realized_pnl": 54127.15405578613,
-  "win_rate": 62.5,
-  "total_trades": 80,
-  "winning_trades": 50,
+  "unrealized_pnl": -0.72,
+  "realized_pnl": 54135.55403747558,
+  "win_rate": 63.0,
+  "total_trades": 81,
+  "winning_trades": 51,
   "losing_trades": 31,
   "open_positions": {
-    "J": {
-      "ticker": "J",
-      "shares": 3,
-      "initial_shares": 3,
-      "entry_price": 136.35,
-      "current_price": 139.14999389648438,
-      "entry_date": "2026-10-07",
-      "tp1_target": 145.82,
-      "tp2_target": 153.41,
-      "sl_target": 138.78,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_Turtle_Pyramid_Kelly",
-      "friction_paid": 0.14,
-      "pyramid_units_filled": 1,
-      "target_units": 3,
-      "unit_shares": 3,
-      "atr_14": 3.79,
-      "highest_price_seen": 139.39,
-      "high_water_mark": 139.39,
-      "last_eval_price": 139.15,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
-    },
     "BR": {
       "ticker": "BR",
       "shares": 2,
@@ -174,11 +151,12 @@
       "entry_date": "2026-10-10",
       "tp1_target": 669.88,
       "tp2_target": 719.31,
-      "sl_target": 571.03,
+      "sl_target": 592.9,
       "scaled_out": false,
       "confidence": 0.6104902029037476,
       "regime": "\u25b2 BULLISH (Above SMA200)",
-      "friction_paid": 0.43
+      "friction_paid": 0.43,
+      "highest_price_seen": 608.0999755859375
     }
   },
   "closed_trades": [
@@ -1094,6 +1072,17 @@
       "pnl": 0.04,
       "return_pct": 0.01,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "J",
+      "shares": 3,
+      "entry_price": 136.35,
+      "exit_price": 139.14999389648438,
+      "entry_date": "2026-10-07",
+      "exit_date": "2026-10-12",
+      "pnl": 8.4,
+      "return_pct": 2.05,
+      "reason": "MODEL_SELL"
     }
   ],
   "equity_history": [
@@ -1360,7 +1349,15 @@
       "cash": 131835.74,
       "invested": 4709.13,
       "daily_return": -0.0
+    },
+    {
+      "date": "2026-10-12",
+      "timestamp": "2026-10-12T12:32:58.074522+00:00",
+      "total_equity": 136544.87,
+      "cash": 132253.19,
+      "invested": 4291.68,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-10T11:33:34.922244+00:00"
+  "last_updated": "2026-10-12T12:32:58.082034+00:00"
 }
