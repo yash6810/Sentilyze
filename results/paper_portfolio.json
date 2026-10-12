@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 132253.18794605913,
-  "total_equity": 136544.87,
-  "unrealized_pnl": -0.72,
+  "total_equity": 136511.31,
+  "unrealized_pnl": -34.28,
   "realized_pnl": 54135.55403747558,
   "win_rate": 63.0,
   "total_trades": 81,
@@ -14,7 +14,7 @@
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 164.4,
-      "current_price": 165.4499969482422,
+      "current_price": 166.41,
       "entry_date": "2026-10-08",
       "tp1_target": 173.0,
       "tp2_target": 179.88,
@@ -27,8 +27,8 @@
       "target_units": 3,
       "unit_shares": 2,
       "atr_14": 3.44,
-      "highest_price_seen": 165.45,
-      "profit_lock_status": "\ud83d\udfe2 TRACKING WAVE",
+      "highest_price_seen": 166.41,
+      "profit_lock_status": "\ud83d\udd12 TIER-1 SECURED (+0.5%)",
       "high_water_mark": 165.45,
       "last_eval_price": 165.45
     },
@@ -37,7 +37,7 @@
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 194.41,
-      "current_price": 193.24000549316406,
+      "current_price": 193.41,
       "entry_date": "2026-10-08",
       "tp1_target": 204.76,
       "tp2_target": 213.04,
@@ -60,7 +60,7 @@
       "shares": 1,
       "initial_shares": 1,
       "entry_price": 330.38,
-      "current_price": 331.2699890136719,
+      "current_price": 335.46,
       "entry_date": "2026-10-08",
       "tp1_target": 345.68,
       "tp2_target": 357.92,
@@ -73,8 +73,8 @@
       "target_units": 3,
       "unit_shares": 1,
       "atr_14": 6.12,
-      "highest_price_seen": 331.27,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
+      "highest_price_seen": 335.46,
+      "profit_lock_status": "\ud83d\udd12 TIER-1 SECURED (+0.5%)",
       "high_water_mark": 331.27,
       "last_eval_price": 331.27
     },
@@ -83,11 +83,11 @@
       "shares": 8,
       "initial_shares": 8,
       "entry_price": 47.4,
-      "current_price": 47.2599983215332,
+      "current_price": 47.75,
       "entry_date": "2026-10-08",
       "tp1_target": 49.4,
       "tp2_target": 51.0,
-      "sl_target": 46.32,
+      "sl_target": 46.53,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -96,8 +96,8 @@
       "target_units": 3,
       "unit_shares": 8,
       "atr_14": 0.8,
-      "highest_price_seen": 47.4,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
+      "highest_price_seen": 47.75,
+      "profit_lock_status": "\ud83d\udee1\ufe0f RISK-FREE BREAKEVEN",
       "high_water_mark": 47.4,
       "last_eval_price": 47.26
     },
@@ -106,7 +106,7 @@
       "shares": 1,
       "initial_shares": 1,
       "entry_price": 789.7,
-      "current_price": 789.4500122070312,
+      "current_price": 779.16,
       "entry_date": "2026-10-09",
       "tp1_target": 850.4,
       "tp2_target": 898.96,
@@ -121,18 +121,19 @@
       "atr_14": 24.28,
       "highest_price_seen": 789.7,
       "high_water_mark": 789.7,
-      "last_eval_price": 789.45
+      "last_eval_price": 789.45,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "ETN": {
       "ticker": "ETN",
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 429.65,
-      "current_price": 429.6499938964844,
+      "current_price": 426.69,
       "entry_date": "2026-10-09",
       "tp1_target": 462.02,
       "tp2_target": 487.92,
-      "sl_target": 418.91,
+      "sl_target": 421.71,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -141,13 +142,14 @@
       "target_units": 3,
       "unit_shares": 2,
       "atr_14": 12.95,
-      "highest_price_seen": 429.65
+      "highest_price_seen": 429.65,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     },
     "AMD": {
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 608.0999755859375,
-      "current_price": 608.0999755859375,
+      "current_price": 594.24,
       "entry_date": "2026-10-10",
       "tp1_target": 669.88,
       "tp2_target": 719.31,
@@ -156,7 +158,8 @@
       "confidence": 0.6104902029037476,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "friction_paid": 0.43,
-      "highest_price_seen": 608.0999755859375
+      "highest_price_seen": 608.0999755859375,
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
     }
   },
   "closed_trades": [
@@ -1353,11 +1356,11 @@
     {
       "date": "2026-10-12",
       "timestamp": "2026-10-12T12:32:58.074522+00:00",
-      "total_equity": 136544.87,
+      "total_equity": 136511.31,
       "cash": 132253.19,
-      "invested": 4291.68,
-      "daily_return": 0.0
+      "invested": 4258.12,
+      "daily_return": -0.02
     }
   ],
-  "last_updated": "2026-10-12T12:32:58.082034+00:00"
+  "last_updated": "2026-10-12T21:41:55.085062+00:00"
 }
