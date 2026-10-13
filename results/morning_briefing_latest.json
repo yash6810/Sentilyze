@@ -1,66 +1,66 @@
 {
-  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Monday, October 12, 2026",
+  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Tuesday, October 13, 2026",
   "mode": "MARKET_MASTER",
-  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.2**. Top algorithmic focus is on **VEEV, MAR, EIX** with **VEEV** leading at 78% conviction. The fund holds **$132,253.19** in liquid cash reserves (96.9% dry powder) alongside 7 active position(s) (BR, EXPD, GD, CSX, EME, ETN, AMD).",
+  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **15.4**. Top algorithmic focus is on **MPC, JBL, TSN** with **MPC** leading at 78% conviction. The fund holds **$127,502.33** in liquid cash reserves (93.4% dry powder) alongside 8 active position(s) (BR, EXPD, GD, CSX, EME, ETN, AMD, PG).",
   "macro_posture": {
     "regime": "BULLISH_EXPANSION",
-    "vix_level": 15.210000038146973,
+    "vix_level": 15.390000343322754,
     "10y_treasury": "4.25%",
     "fed_liquidity": "$6.05 Trillion"
   },
   "top_stocks_in_play": [
     {
-      "ticker": "VEEV",
-      "last_price": 295.85,
-      "day_change_pct": -0.09,
-      "momentum_5d_pct": 4.36,
-      "atr": 8.29,
-      "tp1_target": 316.57,
-      "tp2_target": 333.14,
-      "sl_target": 283.42,
-      "conviction_pct": 76.3,
-      "headline_catalyst": "Solid institutional institutional order flow observed in VEEV.",
+      "ticker": "MPC",
+      "last_price": 474.85,
+      "day_change_pct": 3.5,
+      "momentum_5d_pct": 7.37,
+      "atr": 15.22,
+      "tp1_target": 512.9,
+      "tp2_target": 543.34,
+      "sl_target": 452.01,
+      "conviction_pct": 88.0,
+      "headline_catalyst": "Solid institutional institutional order flow observed in MPC.",
       "sentiment_buzz": "Bullish Momentum"
     },
     {
-      "ticker": "MAR",
-      "last_price": 369.3,
-      "day_change_pct": 0.93,
-      "momentum_5d_pct": 2.22,
-      "atr": 7.39,
-      "tp1_target": 387.76,
-      "tp2_target": 402.54,
-      "sl_target": 358.22,
-      "conviction_pct": 75.2,
-      "headline_catalyst": "Solid institutional institutional order flow observed in MAR.",
+      "ticker": "JBL",
+      "last_price": 318.01,
+      "day_change_pct": 1.92,
+      "momentum_5d_pct": 6.19,
+      "atr": 11.75,
+      "tp1_target": 347.4,
+      "tp2_target": 370.9,
+      "sl_target": 300.38,
+      "conviction_pct": 83.1,
+      "headline_catalyst": "Solid institutional institutional order flow observed in JBL.",
       "sentiment_buzz": "Bullish Momentum"
     },
     {
-      "ticker": "EIX",
-      "last_price": 55.64,
-      "day_change_pct": 0.61,
-      "momentum_5d_pct": 2.56,
-      "atr": 1.13,
-      "tp1_target": 58.46,
-      "tp2_target": 60.72,
-      "sl_target": 53.95,
-      "conviction_pct": 75.1,
-      "headline_catalyst": "Solid institutional institutional order flow observed in EIX.",
+      "ticker": "TSN",
+      "last_price": 53.85,
+      "day_change_pct": 0.53,
+      "momentum_5d_pct": 4.17,
+      "atr": 1.08,
+      "tp1_target": 56.55,
+      "tp2_target": 58.7,
+      "sl_target": 52.24,
+      "conviction_pct": 77.3,
+      "headline_catalyst": "Solid institutional institutional order flow observed in TSN.",
       "sentiment_buzz": "Bullish Momentum"
     }
   ],
   "primary_focus": {
-    "ticker": "VEEV",
+    "ticker": "MPC",
     "committee_decision": "APPROVED",
     "confidence_pct": 78.0,
     "rationale": "Strong momentum catalyst and disciplined risk-reward ratio."
   },
   "portfolio_status": {
-    "total_equity": 136544.87,
-    "cash_reserves": 132253.18794605913,
+    "total_equity": 136509.65,
+    "cash_reserves": 127502.32582069673,
     "realized_gain": 54135.55403747558,
     "win_rate_pct": 63.0,
-    "open_positions": 7,
+    "open_positions": 8,
     "active_tickers": [
       "BR",
       "EXPD",
@@ -68,9 +68,10 @@
       "CSX",
       "EME",
       "ETN",
-      "AMD"
+      "AMD",
+      "PG"
     ]
   },
-  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Monday, October 12, 2026. First, in global macro: Volatility remains subdued with the VIX index at 15.2, placing markets in a Bullish Expansion regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: VEEV, MAR, EIX. Leading the list is VEEV trading at 295.85 dollars with 76 percent algorithmic conviction, followed by MAR and EIX. Turning to portfolio health: Sentilyze manages 136,544.87 dollars in total equity, with 132,253.19 dollars in liquid cash reserves (97 percent dry powder) alongside 7 active positions in BR, EXPD, GD, CSX, EME, ETN, AMD, maintaining a 63.0 percent win rate with 54,135.55 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
-  "generated_at": "09:33 PM UTC"
+  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Tuesday, October 13, 2026. First, in global macro: Volatility remains subdued with the VIX index at 15.4, placing markets in a Bullish Expansion regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: MPC, JBL, TSN. Leading the list is MPC trading at 474.85 dollars with 88 percent algorithmic conviction, followed by JBL and TSN. Turning to portfolio health: Sentilyze manages 136,509.65 dollars in total equity, with 127,502.33 dollars in liquid cash reserves (93 percent dry powder) alongside 8 active positions in BR, EXPD, GD, CSX, EME, ETN, AMD, PG, maintaining a 63.0 percent win rate with 54,135.55 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
+  "generated_at": "07:45 PM UTC"
 }
