@@ -1,65 +1,49 @@
 {
-  "session_time": "Oct 14, 2026 \u2022 01:35 AM IST (04:05 PM EDT)",
+  "session_time": "Oct 14, 2026 \u2022 11:48 PM IST (02:18 PM EDT)",
   "stocks_in_play": [
     "FIX",
-    "CHRW",
-    "CAT",
+    "FAST",
     "BLDR",
-    "AXON"
+    "ETN",
+    "CAT"
   ],
-  "signals_count": 2,
+  "signals_count": 1,
   "signals": [
     {
-      "ticker": "FIX",
+      "ticker": "FAST",
       "signal": "BUY",
-      "current_price": 1626.31,
-      "confidence": 0.5095,
-      "take_profit": 1772.65,
-      "stop_loss": 1553.14
-    },
-    {
-      "ticker": "AXON",
-      "signal": "BUY",
-      "current_price": 413.35,
-      "confidence": 0.2512,
-      "take_profit": 444.59,
-      "stop_loss": 397.73
+      "current_price": 51.68,
+      "confidence": 1.0,
+      "take_profit": 54.22,
+      "stop_loss": 50.41
     }
   ],
   "executed_paper_trades": [
     {
-      "ticker": "FIX",
+      "ticker": "FAST",
       "signal": "BUY",
-      "current_price": 1626.31,
-      "confidence": 0.5095,
-      "take_profit": 1772.65,
-      "stop_loss": 1553.14
-    },
-    {
-      "ticker": "AXON",
-      "signal": "BUY",
-      "current_price": 413.35,
-      "confidence": 0.2512,
-      "take_profit": 444.59,
-      "stop_loss": 397.73
+      "current_price": 51.68,
+      "confidence": 1.0,
+      "take_profit": 54.22,
+      "stop_loss": 50.41
     }
   ],
   "portfolio_summary": {
-    "total_equity": 136522.4,
-    "cash": 127502.32582069673,
-    "invested": 9020.074179303265,
-    "start_of_day_equity": 136511.31,
-    "daily_pnl": 11.09,
-    "daily_return_pct": 0.01,
-    "unrealized_pnl": -21.53,
-    "unrealized_pnl_pct": -0.24,
-    "realized_pnl": 54135.55403747558,
-    "total_pnl": 36522.4,
-    "total_return_pct": 36.52,
-    "win_rate": 63.0,
-    "open_positions_count": 8,
-    "total_trades": 81,
+    "total_equity": 136404.65,
+    "cash": 124498.38997819673,
+    "invested": 11906.26002180326,
+    "start_of_day_equity": 136531.58,
+    "daily_pnl": -126.93,
+    "daily_return_pct": -0.09,
+    "unrealized_pnl": 33.55,
+    "unrealized_pnl_pct": 0.28,
+    "realized_pnl": 53964.604086303705,
+    "total_pnl": 36404.65,
+    "total_return_pct": 36.4,
+    "win_rate": 60.7,
+    "open_positions_count": 6,
+    "total_trades": 84,
     "winning_trades": 51,
-    "losing_trades": 31
+    "losing_trades": 34
   }
 }
