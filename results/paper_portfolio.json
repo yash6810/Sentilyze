@@ -1,6 +1,6 @@
 {
   "initial_capital": 100000.0,
-  "cash": 124498.38997819673,
+  "cash": 124112.14997819673,
   "total_equity": 136475.02,
   "unrealized_pnl": 103.92,
   "realized_pnl": 53964.604086303705,
@@ -30,7 +30,7 @@
       "highest_price_seen": 168.44000244140625,
       "profit_lock_status": "\ud83d\udd12 TIER-1 SECURED (+0.5%)",
       "high_water_mark": 168.38,
-      "last_eval_price": 168.38
+      "last_eval_price": 168.26
     },
     "EXPD": {
       "ticker": "EXPD",
@@ -52,8 +52,8 @@
       "atr_14": 4.14,
       "highest_price_seen": 196.38,
       "profit_lock_status": "\ud83d\udd12 TIER-1 SECURED (+0.5%)",
-      "high_water_mark": 194.88,
-      "last_eval_price": 194.88
+      "high_water_mark": 196.38,
+      "last_eval_price": 196.38
     },
     "GD": {
       "ticker": "GD",
@@ -75,31 +75,31 @@
       "atr_14": 6.12,
       "highest_price_seen": 335.46,
       "profit_lock_status": "\ud83d\udd12 TIER-1 SECURED (+0.5%)",
-      "high_water_mark": 332.59,
-      "last_eval_price": 332.59
+      "high_water_mark": 334.66,
+      "last_eval_price": 334.66
     },
     "CSX": {
       "ticker": "CSX",
-      "shares": 8,
+      "shares": 16,
       "initial_shares": 8,
-      "entry_price": 47.4,
+      "entry_price": 47.84,
       "current_price": 48.28,
       "entry_date": "2026-10-08",
       "tp1_target": 49.4,
       "tp2_target": 51.0,
-      "sl_target": 46.53,
+      "sl_target": 47.49,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
       "friction_paid": 0.13,
-      "pyramid_units_filled": 1,
+      "pyramid_units_filled": 2,
       "target_units": 3,
       "unit_shares": 8,
       "atr_14": 0.8,
       "highest_price_seen": 48.28,
       "profit_lock_status": "\ud83d\udd12 TIER-1 SECURED (+0.5%)",
-      "high_water_mark": 47.81,
-      "last_eval_price": 47.81
+      "high_water_mark": 48.28,
+      "last_eval_price": 48.28
     },
     "PG": {
       "shares": 31,
@@ -136,7 +136,9 @@
       "unit_shares": 35,
       "atr_14": 3.78,
       "highest_price_seen": 153.17,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
+      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)",
+      "high_water_mark": 153.13,
+      "last_eval_price": 152.5
     }
   },
   "closed_trades": [
@@ -1383,10 +1385,10 @@
       "date": "2026-10-14",
       "timestamp": "2026-10-14T10:35:26.085103+00:00",
       "total_equity": 136475.02,
-      "cash": 124498.39,
-      "invested": 11976.63,
-      "daily_return": 0.05
+      "cash": 124112.15,
+      "invested": 12362.87,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-14T21:18:43.557910+00:00"
+  "last_updated": "2026-10-14T21:25:42.596940+00:00"
 }

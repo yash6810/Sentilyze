@@ -1,86 +1,30 @@
 {
-  "timestamp": "2026-10-13T19:51:12.698599+00:00",
-  "buys": [
-    {
-      "success": true,
-      "ticker": "ALLE",
-      "shares": 35,
-      "price": 153.13,
-      "cost": 5361.4258425,
-      "tp1_target": 162.58,
-      "tp2_target": 170.14,
-      "sl_target": 148.24,
-      "strategy": "Committee_Turtle_Pyramid_Kelly",
-      "almgren_chriss_schedule": [
-        3.66,
-        3.61,
-        3.56,
-        3.52,
-        3.49,
-        3.46,
-        3.44,
-        3.43,
-        3.41,
-        3.41
-      ],
-      "expected_shortfall": 0.0
-    }
-  ],
+  "timestamp": "2026-10-14T21:25:25.669740+00:00",
+  "buys": [],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
   "stop_losses": [],
   "veto_exits": [],
-  "committee_resolutions": {
-    "NEM": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
-    "DVN": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "VEEV": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "CAT": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "DE": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "HII": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "FDXF": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "ALLE": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
-    "AOS": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
-    "J": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "LII": "\ud83d\udd34 VETO / RED-TEAM VULNERABILITY",
-    "GNRC": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "HWM": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "BA": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "HON": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "LMT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "EFX": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "LHX": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "GWW": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "LDOS": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CHRW": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "DOV": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "FIX": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
-    "FERG": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "CARR": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "ADP": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "DAL": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "FTV": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)",
-    "BLDR": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
-    "HUBB": "\ud83d\udd34 VETO / MACRO DOWNTREND (BELOW SMA200)"
-  },
-  "portfolio_equity": 136509.65,
-  "cash_balance": 127502.32582069673,
-  "unrealized_pnl": -34.28,
+  "committee_resolutions": {},
+  "portfolio_equity": 136475.02,
+  "cash_balance": 124498.38997819673,
+  "unrealized_pnl": 103.92,
   "kill_switch_active": false,
   "pyramid_adds": [
     {
       "success": true,
-      "ticker": "BR",
+      "ticker": "CSX",
       "unit_num": 2,
-      "added_shares": 2,
-      "total_shares": 4,
-      "blended_entry": 166.39,
-      "new_sl": 165.24,
-      "cost": 336.76,
+      "added_shares": 8,
+      "total_shares": 16,
+      "blended_entry": 47.84,
+      "new_sl": 47.49,
+      "cost": 386.24,
       "reason": "TURTLE_PYRAMID_UNIT_2_BREAKEVEN_LOCKED"
     }
   ],
   "self_improvement": {
-    "total_cycles": 33,
+    "total_cycles": 34,
     "agent_weights": {
       "technicals_weight": 0.255,
       "sentiment_weight": 0.344,
@@ -90,10 +34,10 @@
     "kelly_multiplier": 0.77,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 305.72,
+  "elapsed_seconds": 16.93,
   "execution_telemetry": {
-    "cycle_latency_ns": 305721034699,
-    "cycle_latency_us": 305721034.7,
-    "cycle_latency_ms": 305721.035
+    "cycle_latency_ns": 16926873949,
+    "cycle_latency_us": 16926873.95,
+    "cycle_latency_ms": 16926.874
   }
 }
