@@ -14,7 +14,7 @@
       "shares": 4,
       "initial_shares": 2,
       "entry_price": 166.39,
-      "current_price": 168.26,
+      "current_price": 168.25999450683594,
       "entry_date": "2026-10-08",
       "tp1_target": 173.0,
       "tp2_target": 179.88,
@@ -37,7 +37,7 @@
       "shares": 2,
       "initial_shares": 2,
       "entry_price": 194.41,
-      "current_price": 196.38,
+      "current_price": 196.3800048828125,
       "entry_date": "2026-10-08",
       "tp1_target": 204.76,
       "tp2_target": 213.04,
@@ -50,7 +50,7 @@
       "target_units": 3,
       "unit_shares": 2,
       "atr_14": 4.14,
-      "highest_price_seen": 196.38,
+      "highest_price_seen": 196.3800048828125,
       "profit_lock_status": "\ud83d\udd12 TIER-1 SECURED (+0.5%)",
       "high_water_mark": 196.38,
       "last_eval_price": 196.38
@@ -60,7 +60,7 @@
       "shares": 1,
       "initial_shares": 1,
       "entry_price": 330.38,
-      "current_price": 334.66,
+      "current_price": 334.6600036621094,
       "entry_date": "2026-10-08",
       "tp1_target": 345.68,
       "tp2_target": 357.92,
@@ -83,7 +83,7 @@
       "shares": 16,
       "initial_shares": 8,
       "entry_price": 47.84,
-      "current_price": 48.28,
+      "current_price": 48.279998779296875,
       "entry_date": "2026-10-08",
       "tp1_target": 49.4,
       "tp2_target": 51.0,
@@ -105,7 +105,7 @@
       "shares": 31,
       "initial_shares": 31,
       "entry_price": 153.1999969482422,
-      "current_price": 156.53,
+      "current_price": 156.52999877929688,
       "entry_date": "2026-10-13",
       "tp1_target": 162.77,
       "tp2_target": 170.43,
@@ -1398,5 +1398,5 @@
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-15T00:01:07.531091+00:00"
+  "last_updated": "2026-10-15T10:33:51.833686+00:00"
 }
