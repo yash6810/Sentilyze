@@ -1537,7 +1537,9 @@ def ensure_background_daemon_thread_running(
             if not run_immediately:
                 _DAEMON_STOP_EVENT.wait(interval_seconds)
 
-            while not _DAEMON_STOP_EVENT.is_set() and threading.main_thread().is_alive():
+            while (
+                not _DAEMON_STOP_EVENT.is_set() and threading.main_thread().is_alive()
+            ):
                 try:
                     from src.market_session import get_us_market_session
 

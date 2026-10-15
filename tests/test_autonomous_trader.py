@@ -259,4 +259,3 @@ def test_ensure_background_daemon_thread_running(monkeypatch):
         stopped = stop_background_daemon_thread(timeout=2.0)
         assert stopped is True
         assert not get_daemon_status()["is_active"]
-
