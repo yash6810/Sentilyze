@@ -1,13 +1,13 @@
 {
-  "total_learning_cycles": 34,
-  "last_updated": "2026-10-14T21:25:42.588992+00:00",
+  "total_learning_cycles": 35,
+  "last_updated": "2026-10-15T17:49:19.368194+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.255,
-    "sentiment_weight": 0.344,
-    "valuation_weight": 0.128,
-    "cro_weight": 0.273
+    "technicals_weight": 0.252,
+    "sentiment_weight": 0.35,
+    "valuation_weight": 0.127,
+    "cro_weight": 0.27
   },
-  "adaptive_kelly_multiplier": 0.77,
+  "adaptive_kelly_multiplier": 0.79,
   "recent_trade_autopsies": [
     {
       "ticker": "DE",
@@ -136,6 +136,14 @@
       "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
       "lesson": "Committee conviction on ALLE succeeded with +0.01% gain.",
       "timestamp": "2026-10-09T23:04:38.061223+00:00"
+    },
+    {
+      "ticker": "BR",
+      "pnl": 24.45,
+      "return_pct": 4.9,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on BR succeeded with +4.90% gain.",
+      "timestamp": "2026-10-15T17:49:19.368212+00:00"
     }
   ],
   "retrained_models": [
