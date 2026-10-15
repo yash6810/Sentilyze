@@ -1108,14 +1108,14 @@ class ChiefRiskOfficerAgent:
         elif (
             (
                 buy_votes >= 3
-                and effective_conviction >= (65.0 if require_supermajority else 58.0)
+                and effective_conviction >= (68.0 if require_supermajority else 62.0)
             )
             or (
                 not require_supermajority
                 and buy_votes >= 2
-                and effective_conviction >= 72.0
+                and effective_conviction >= 74.0
             )
-            or (is_catalyst_trade and buy_votes >= 2 and effective_conviction >= 60.0)
+            or (is_catalyst_trade and buy_votes >= 2 and effective_conviction >= 65.0)
         ):
             final_resolution = "🚀 HIGH CONVICTION COMMITTEE BUY"
             action_code = "EXECUTE_BUY"
@@ -1124,8 +1124,8 @@ class ChiefRiskOfficerAgent:
         elif (
             not require_supermajority
             and buy_votes >= 2
-            and effective_conviction >= 55.0
-        ) or (is_catalyst_trade and buy_votes >= 1 and effective_conviction >= 55.0):
+            and effective_conviction >= 65.0
+        ) or (is_catalyst_trade and buy_votes >= 1 and effective_conviction >= 62.0):
             final_resolution = "🟡 AGILE SCALE-IN (Quorum Approved)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
@@ -1141,7 +1141,7 @@ class ChiefRiskOfficerAgent:
             approved_leverage = 0.0
             kelly_allocation_pct = 0.0
 
-        # Empirical 14-Day ATR Volatility Corridors (+2.5 ATR TP1, +4.5 ATR TP2, -1.5 ATR SL) - Paper 11
+        # Empirical 14-Day ATR Volatility Corridors (+2.5 ATR TP1, +4.5 ATR TP2, -1.2 ATR SL with -2.75% max loss cap)
         atr_val = None
         try:
             hist_df = get_price_history(ticker, period="6mo", use_cache=True)
@@ -1166,11 +1166,14 @@ class ChiefRiskOfficerAgent:
             logger.debug(f"Empirical ATR calculation notice for {ticker}: {ae}")
 
         if atr_val is None or atr_val <= 0:
-            atr_val = round(max(spot_price * 0.03, 1.0), 2)
+            atr_val = round(max(spot_price * 0.02, 1.0), 2)
 
         tp1 = round(spot_price + (2.5 * atr_val), 2)
         tp2 = round(spot_price + (4.5 * atr_val), 2)
-        sl = round(max(spot_price - (1.5 * atr_val), spot_price * 0.85), 2)
+        # Strict asymmetric stop-loss: 1.2x ATR clamped at a hard -2.75% maximum loss ceiling
+        max_stop_loss_distance = spot_price * 0.0275
+        effective_sl_distance = min(1.2 * atr_val, max_stop_loss_distance)
+        sl = round(spot_price - effective_sl_distance, 2)
         atr_pct = round((atr_val / spot_price) * 100.0, 2)
 
         reason_str = veto_reason if veto_reason else "Insufficient consensus."
@@ -1542,11 +1545,13 @@ def execute_committee_order(
             or cro_dict.get("tp2_target")
             or (spot_price * 1.10)
         )
-        sl = float(
+        sl_candidate = float(
             deliberation.get("stop_loss_target")
             or cro_dict.get("stop_loss_target")
-            or (spot_price * 0.96)
+            or (spot_price * 0.9725)
         )
+        # Ensure stop loss never exceeds 2.75% max loss ceiling
+        sl = max(sl_candidate, round(spot_price * 0.9725, 2))
         atr_val = deliberation.get("atr_14") or cro_dict.get("atr_14")
 
         order_res = broker.execute_buy(

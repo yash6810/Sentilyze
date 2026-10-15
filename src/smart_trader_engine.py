@@ -247,8 +247,8 @@ def apply_high_watermark_profit_lock(
     new_sl = float(current_sl)
     action = "MAINTAIN_CURRENT_STOP"
 
-    # Volatility-Anchored Breakeven Lock at +3.0% gain
-    if peak_gain_pct >= 3.0 and new_sl < entry_price * 1.002:
+    # Volatility-Anchored Breakeven Lock at +1.8% gain (Rapid Zero-Risk Transition)
+    if peak_gain_pct >= 1.8 and new_sl < entry_price * 1.002:
         new_sl = round(entry_price * 1.002, 2)
         action = "ZERO_GIVEBACK_PEAK_BREAKEVEN_LOCKED"
 
