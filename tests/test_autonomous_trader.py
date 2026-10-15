@@ -207,6 +207,10 @@ def test_run_premarket_briefing(monkeypatch):
         "src.autonomous_trader.send_discord_premarket_briefing",
         lambda **kwargs: True,
     )
+    monkeypatch.setattr(
+        "src.morning_briefing.generate_morning_briefing_text",
+        lambda mode="MARKET_MASTER": {"headline": "Test Briefing", "mode": mode},
+    )
 
     res = engine.run_premarket_briefing()
     assert res["status"] == "success"
@@ -216,14 +220,43 @@ def test_run_premarket_briefing(monkeypatch):
     assert res["watchlist_evaluated"] == 5
 
 
-def test_ensure_background_daemon_thread_running():
+def test_ensure_background_daemon_thread_running(monkeypatch):
     from src.autonomous_trader import (
         ensure_background_daemon_thread_running,
         get_daemon_status,
+        stop_background_daemon_thread,
     )
 
-    t = ensure_background_daemon_thread_running(interval_seconds=3600)
-    assert t is not None
-    assert t.is_alive()
-    status = get_daemon_status()
-    assert status["is_active"] is True
+    # Ensure any previous background daemon is cleanly stopped
+    stop_background_daemon_thread(timeout=1.0)
+
+    # Mock real-time holdings audit and autonomous cycle to prevent background leaks
+    monkeypatch.setattr(
+        "src.autonomous_trader.AutonomousTradingEngine.run_autonomous_cycle",
+        MagicMock(
+            return_value={
+                "buys": [],
+                "take_profits_tp1": [],
+                "take_profits_tp2": [],
+                "stop_losses": [],
+            }
+        ),
+    )
+    monkeypatch.setattr(
+        "src.realtime_tracker.update_live_holdings_prices_and_alert_discord",
+        MagicMock(return_value={"executed_trades": []}),
+    )
+
+    try:
+        t = ensure_background_daemon_thread_running(
+            interval_seconds=3600, run_immediately=False
+        )
+        assert t is not None
+        assert t.is_alive()
+        status = get_daemon_status()
+        assert status["is_active"] is True
+    finally:
+        stopped = stop_background_daemon_thread(timeout=2.0)
+        assert stopped is True
+        assert not get_daemon_status()["is_active"]
+

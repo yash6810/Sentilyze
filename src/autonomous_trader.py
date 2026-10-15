@@ -1482,6 +1482,7 @@ import threading
 
 _DAEMON_THREAD = None
 _DAEMON_LOCK = threading.Lock()
+_DAEMON_STOP_EVENT = threading.Event()
 _LAST_DAEMON_PULSE = {"timestamp": None, "status": "IDLE", "actions": None}
 
 
@@ -1496,7 +1497,27 @@ def get_daemon_status() -> Dict[str, Any]:
     }
 
 
-def ensure_background_daemon_thread_running(interval_seconds: int = 60):
+def stop_background_daemon_thread(timeout: float = 3.0) -> bool:
+    """
+    Signals the background autonomous trading daemon thread to terminate cleanly
+    and waits up to timeout seconds for thread completion.
+    """
+    global _DAEMON_THREAD
+    with _DAEMON_LOCK:
+        _DAEMON_STOP_EVENT.set()
+        if _DAEMON_THREAD is not None and _DAEMON_THREAD.is_alive():
+            _DAEMON_THREAD.join(timeout=timeout)
+        is_still_alive = _DAEMON_THREAD is not None and _DAEMON_THREAD.is_alive()
+        if not is_still_alive:
+            _DAEMON_THREAD = None
+            _LAST_DAEMON_PULSE["status"] = "STOPPED"
+        return not is_still_alive
+
+
+def ensure_background_daemon_thread_running(
+    interval_seconds: int = 60,
+    run_immediately: bool = True,
+):
     """
     Ensures a single background autonomous trading daemon thread is permanently active.
     Polls the market continuously and executes cycles during open market hours.
@@ -1506,12 +1527,17 @@ def ensure_background_daemon_thread_running(interval_seconds: int = 60):
         if _DAEMON_THREAD is not None and _DAEMON_THREAD.is_alive():
             return _DAEMON_THREAD
 
+        _DAEMON_STOP_EVENT.clear()
+
         def _daemon_loop():
             engine = AutonomousTradingEngine()
             logger.info(
                 f"🤖 [PERMANENT 24/7 DAEMON THREAD] Initialized. Interval: {interval_seconds}s"
             )
-            while threading.main_thread().is_alive():
+            if not run_immediately:
+                _DAEMON_STOP_EVENT.wait(interval_seconds)
+
+            while not _DAEMON_STOP_EVENT.is_set() and threading.main_thread().is_alive():
                 try:
                     from src.market_session import get_us_market_session
 
@@ -1535,7 +1561,7 @@ def ensure_background_daemon_thread_running(interval_seconds: int = 60):
                         )
                         if autopilot_flag:
                             logger.info(
-                                f"🟢 [DAEMON CYCLE] Auto-Pilot is ARMED. Running top-25 candidate scan..."
+                                "🟢 [DAEMON CYCLE] Auto-Pilot is ARMED. Running top-25 candidate scan..."
                             )
                             cycle_res = engine.run_autonomous_cycle(
                                 candidate_tickers=engine.tickers[:25]
@@ -1576,11 +1602,8 @@ def ensure_background_daemon_thread_running(interval_seconds: int = 60):
                     logger.error(f"Daemon background loop exception: {e}")
                     _LAST_DAEMON_PULSE["status"] = f"ERROR: {str(e)[:100]}"
 
-                # Sleep in short increments to allow rapid shutdown
-                for _ in range(max(1, interval_seconds // 2)):
-                    if not threading.main_thread().is_alive():
-                        break
-                    time.sleep(2)
+                # Wait on stop event instead of blind sleep
+                _DAEMON_STOP_EVENT.wait(interval_seconds)
 
         _DAEMON_THREAD = threading.Thread(
             target=_daemon_loop, daemon=True, name="SentilyzeAutonomousDaemon"

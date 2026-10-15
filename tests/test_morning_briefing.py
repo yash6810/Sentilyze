@@ -1,3 +1,4 @@
+import os
 import pytest
 from src.morning_briefing import (
     generate_morning_briefing_text,
@@ -56,14 +57,16 @@ def test_generate_morning_briefing_modes():
         assert len(res["audio_script"]) > 50
 
 
-def test_synthesize_briefing_audio_execution():
+def test_synthesize_briefing_audio_execution(tmp_path):
     test_script = (
         "Good morning. This is your Sentilyze quantitative morning test briefing."
     )
+    out_file = str(tmp_path / "test_briefing.mp3")
     path = synthesize_briefing_audio(
         test_script,
-        output_path="results/test_briefing.mp3",
+        output_path=out_file,
         voice_key="UK_LONDON",
         slow=False,
     )
     assert path is not None
+    assert os.path.exists(path)

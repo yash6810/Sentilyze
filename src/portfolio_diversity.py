@@ -80,7 +80,7 @@ def calculate_portfolio_diversity_grade(
             }
 
         prices_df = pd.DataFrame(price_series).dropna(how="all")
-        returns_df = prices_df.pct_change().dropna(how="all")
+        returns_df = prices_df.pct_change(fill_method=None).dropna(how="all")
 
     valid_tickers = [t for t in cleaned_tickers if t in returns_df.columns]
     if len(valid_tickers) < 2:
