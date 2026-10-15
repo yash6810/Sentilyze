@@ -82,6 +82,13 @@ skills/
 # Ignore heavy raw debug test predictions, evaluation reports, and local backtests
 results/*_X_test.csv
 results/*_predictions.csv
+!results/NVDA_predictions.csv
+!results/AAPL_predictions.csv
+!results/MSFT_predictions.csv
+!results/GOOGL_predictions.csv
+!results/META_predictions.csv
+!results/AMZN_predictions.csv
+!results/TSLA_predictions.csv
 results/*_shap_values.npy
 results/*_monthly_returns_heatmap.png
 results/*_portfolio.csv
