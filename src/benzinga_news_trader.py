@@ -197,7 +197,10 @@ def fetch_top_benzinga_news_wire(limit: int = 100) -> List[Dict[str, Any]]:
     Scrapes the live Benzinga breaking news stream via Google News RSS wire.
     Returns parsed articles with title, pub_date, link, and extracted tickers.
     """
-    url = "https://news.google.com/rss/search?q=site:benzinga.com&hl=en-US&gl=US&ceid=US:en"
+    urls = [
+        "https://www.benzinga.com/feed",
+        "https://news.google.com/rss/search?q=site:benzinga.com&hl=en-US&gl=US&ceid=US:en",
+    ]
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -206,15 +209,24 @@ def fetch_top_benzinga_news_wire(limit: int = 100) -> List[Dict[str, Any]]:
     }
 
     articles: List[Dict[str, Any]] = []
+    items = []
+    for u in urls:
+        try:
+            resp = requests.get(u, headers=headers, timeout=6)
+            if resp.status_code == 200 and resp.content:
+                root = ET.fromstring(resp.content)
+                parsed_items = root.findall(".//item")
+                if parsed_items:
+                    items = parsed_items
+                    break
+        except Exception as e:
+            logger.debug(f"Benzinga stream attempt notice for {u}: {e}")
+
+    if not items:
+        logger.warning("Could not fetch Benzinga wire items from all endpoints.")
+        return articles
+
     try:
-        resp = requests.get(url, headers=headers, timeout=8)
-        if resp.status_code != 200:
-            logger.warning(f"Benzinga news stream HTTP {resp.status_code}")
-            return articles
-
-        root = ET.fromstring(resp.content)
-        items = root.findall(".//item")
-
         for item in items[:limit]:
             title_elem = item.find("title")
             pub_elem = item.find("pubDate")
@@ -270,7 +282,7 @@ def fetch_top_benzinga_news_wire(limit: int = 100) -> List[Dict[str, Any]]:
 
         logger.info(f"Successfully scraped {len(articles)} live Benzinga wire items.")
     except Exception as e:
-        logger.error(f"Error fetching Benzinga news wire: {e}")
+        logger.error(f"Error parsing Benzinga news wire: {e}")
 
     return articles
 

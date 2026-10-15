@@ -950,11 +950,38 @@ class AutonomousTradingEngine:
             except Exception as ss_err:
                 logger.debug(f"Swift shift priority notice: {ss_err}")
 
+            # Prioritize breaking catalyst tickers identified on the Benzinga wire
+            benzinga_priority_tickers = []
+            try:
+                from src.benzinga_news_trader import fetch_top_benzinga_news_wire
+
+                bz_articles = fetch_top_benzinga_news_wire(limit=30)
+                for art in bz_articles:
+                    if art.get("catalyst_sentiment") == "BULLISH":
+                        for bt in art.get("extracted_tickers", []):
+                            if (
+                                bt in unheld_tickers
+                                and bt not in verified_priority_tickers
+                                and bt not in benzinga_priority_tickers
+                            ):
+                                benzinga_priority_tickers.append(bt)
+                if benzinga_priority_tickers:
+                    logger.info(
+                        f"⚡ [BENZINGA PRIORITY] Prioritizing {len(benzinga_priority_tickers)} breaking catalyst tickers: {benzinga_priority_tickers}"
+                    )
+            except Exception as bz_err:
+                logger.debug(f"Benzinga prioritization notice: {bz_err}")
+
             scored_candidates.sort(key=lambda x: x[1], reverse=True)
             other_cands = [
-                t for t, _ in scored_candidates if t not in verified_priority_tickers
+                t
+                for t, _ in scored_candidates
+                if t not in verified_priority_tickers
+                and t not in benzinga_priority_tickers
             ]
-            top_candidates = (verified_priority_tickers + other_cands)[:30]
+            top_candidates = (
+                benzinga_priority_tickers + verified_priority_tickers + other_cands
+            )[:30]
 
             logger.info(
                 f"🌐 [LEAN MULTI-AGENT SCAN] Evaluating top {len(top_candidates)} active candidates (Priority Set: {verified_priority_tickers}): {top_candidates}"
