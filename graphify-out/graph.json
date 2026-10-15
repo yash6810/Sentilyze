@@ -6073,7 +6073,7 @@
       "file_type": "code",
       "norm_label": "run_autonomous_daemon()",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1618"
+      "source_location": "L1620"
     },
     {
       "id": "src_autonomous_trader_stop_background_daemon_thread",
@@ -8929,7 +8929,7 @@
       "file_type": "code",
       "norm_label": "run_master_loop_daily_cycle()",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1632"
+      "source_location": "L1634"
     },
     {
       "id": "src_backtest_autopsy_compute_advanced_performance_ratios",
@@ -26528,7 +26528,7 @@
       "source_location": "L1521"
     },
     {
-      "id": "src_autonomous_trader_rationale_1619",
+      "id": "src_autonomous_trader_rationale_1621",
       "label": "Runs the Autonomous Trading Engine continuously on an interval.",
       "_origin": "ast",
       "community": 143,
@@ -26536,7 +26536,7 @@
       "file_type": "rationale",
       "norm_label": "runs the autonomous trading engine continuously on an interval.",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1619"
+      "source_location": "L1621"
     },
     {
       "id": "src_autonomous_trader_rationale_226",
@@ -30004,7 +30004,7 @@
       "source_location": "L1251"
     },
     {
-      "id": "src_autonomous_trader_rationale_1637",
+      "id": "src_autonomous_trader_rationale_1639",
       "label": "Runs the 4-phase MasterTradingLoop cycle.",
       "_origin": "ast",
       "community": 172,
@@ -30012,7 +30012,7 @@
       "file_type": "rationale",
       "norm_label": "runs the 4-phase mastertradingloop cycle.",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1637"
+      "source_location": "L1639"
     },
     {
       "id": "src_autonomous_trader_rationale_265",
@@ -48651,7 +48651,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1544",
+      "source_location": "L1546",
       "weight": 1.0
     },
     {
@@ -48663,7 +48663,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1551",
+      "source_location": "L1553",
       "weight": 1.0
     },
     {
@@ -48675,7 +48675,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1620",
+      "source_location": "L1622",
       "weight": 1.0
     },
     {
@@ -48687,7 +48687,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1640",
+      "source_location": "L1642",
       "weight": 1.0
     },
     {
@@ -68019,7 +68019,7 @@
       "confidence_score": 1.0,
       "context": "generic_arg",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1632",
+      "source_location": "L1634",
       "weight": 1.0
     },
     {
@@ -75411,7 +75411,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1547",
+      "source_location": "L1549",
       "weight": 1.0
     },
     {
@@ -75423,7 +75423,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1638",
+      "source_location": "L1640",
       "weight": 1.0
     },
     {
@@ -75435,7 +75435,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1689",
+      "source_location": "L1691",
       "weight": 1.0
     },
     {
@@ -88791,7 +88791,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1689",
+      "source_location": "L1691",
       "weight": 1.0
     },
     {
@@ -103017,7 +103017,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1618",
+      "source_location": "L1620",
       "weight": 1.0
     },
     {
@@ -103028,7 +103028,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1632",
+      "source_location": "L1634",
       "weight": 1.0
     },
     {
@@ -122084,25 +122084,25 @@
       "weight": 1.0
     },
     {
-      "source": "src_autonomous_trader_rationale_1619",
+      "source": "src_autonomous_trader_rationale_1621",
       "target": "src_autonomous_trader_run_autonomous_daemon",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1619",
+      "source_location": "L1621",
       "weight": 1.0
     },
     {
-      "source": "src_autonomous_trader_rationale_1637",
+      "source": "src_autonomous_trader_rationale_1639",
       "target": "src_autonomous_trader_run_master_loop_daily_cycle",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/autonomous_trader.py",
-      "source_location": "L1637",
+      "source_location": "L1639",
       "weight": 1.0
     },
     {
@@ -134541,5 +134541,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "ac5d6d4a3bc7f8f2b1cd162f00095ddc8850e294"
+  "built_at_commit": "33aa6a079fa824742bfeefe031c98b0397fee1b4"
 }
