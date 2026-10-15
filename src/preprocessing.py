@@ -11,7 +11,6 @@ from src.feature_engineering import (
     create_features,
 )
 from typing import Any
-from functools import lru_cache
 import threading
 
 logger = get_logger(__name__)
@@ -23,18 +22,11 @@ _SENTIMENT_ANALYZER_INSTANCE = None
 def __getattr__(name: str):
     """Lazy-loads heavy transformers components on-demand to protect Streamlit memory."""
     if name in ("AutoTokenizer", "AutoModelForSequenceClassification", "pipeline"):
-        from transformers import (
-            AutoTokenizer,
-            AutoModelForSequenceClassification,
-            pipeline,
-        )
+        import transformers
 
-        globals()["AutoTokenizer"] = AutoTokenizer
-        globals()[
-            "AutoModelForSequenceClassification"
-        ] = AutoModelForSequenceClassification
-        globals()["pipeline"] = pipeline
-        return globals()[name]
+        attr = getattr(transformers, name)
+        globals()[name] = attr
+        return attr
     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
 
 
@@ -51,12 +43,18 @@ def _load_sentiment_analyzer() -> Any:
         if _SENTIMENT_ANALYZER_INSTANCE is not None:
             return _SENTIMENT_ANALYZER_INSTANCE
 
+        import sys
         import torch
         from transformers import (
-            AutoTokenizer,
-            AutoModelForSequenceClassification,
-            pipeline,
+            AutoTokenizer as _DefaultTok,
+            AutoModelForSequenceClassification as _DefaultModel,
+            pipeline as _DefaultPipe,
         )
+
+        mod = sys.modules.get(__name__)
+        tok_cls = getattr(mod, "AutoTokenizer", _DefaultTok)
+        model_cls = getattr(mod, "AutoModelForSequenceClassification", _DefaultModel)
+        pipe_fn = getattr(mod, "pipeline", _DefaultPipe)
 
         try:
             torch.set_num_threads(2)
@@ -70,10 +68,10 @@ def _load_sentiment_analyzer() -> Any:
         local_path = "./models/finbert-fine-tuned"
         try:
             if os.path.exists(local_path):
-                tokenizer = AutoTokenizer.from_pretrained(
+                tokenizer = tok_cls.from_pretrained(
                     local_path, local_files_only=True
                 )  # nosec B615
-                model = AutoModelForSequenceClassification.from_pretrained(
+                model = model_cls.from_pretrained(
                     local_path, local_files_only=True
                 )  # nosec B615
                 if device == -1:
@@ -88,25 +86,31 @@ def _load_sentiment_analyzer() -> Any:
                         )
                     except Exception as q_err:
                         logger.debug(f"INT8 quantization skipped: {q_err}")
-                _SENTIMENT_ANALYZER_INSTANCE = pipeline(
-                    "sentiment-analysis",
-                    model=model,
-                    tokenizer=tokenizer,
-                    top_k=None,
-                    truncation=True,
-                    max_length=512,
-                    device=device,
-                )
+                pipe_kwargs = {
+                    "task": "sentiment-analysis",
+                    "model": model,
+                    "tokenizer": tokenizer,
+                    "top_k": None,
+                    "truncation": True,
+                    "max_length": 512,
+                }
+                if (
+                    device is not None
+                    and device >= 0
+                    and getattr(model, "hf_device_map", None) is None
+                ):
+                    pipe_kwargs["device"] = device
+                _SENTIMENT_ANALYZER_INSTANCE = pipe_fn(**pipe_kwargs)
                 return _SENTIMENT_ANALYZER_INSTANCE
         except Exception as e:
             logger.warning(
                 f"Could not load local fine-tuned model at {local_path}: {e}. Falling back to ProsusAI/finbert..."
             )
 
-        tokenizer = AutoTokenizer.from_pretrained(
+        tokenizer = tok_cls.from_pretrained(
             "ProsusAI/finbert", revision="main", use_fast=True
         )  # nosec B615
-        model = AutoModelForSequenceClassification.from_pretrained(
+        model = model_cls.from_pretrained(
             "ProsusAI/finbert", revision="main"
         )  # nosec B615
         if device == -1:
@@ -121,15 +125,21 @@ def _load_sentiment_analyzer() -> Any:
                 )
             except Exception as q_err:
                 logger.debug(f"INT8 quantization skipped: {q_err}")
-        _SENTIMENT_ANALYZER_INSTANCE = pipeline(
-            "sentiment-analysis",
-            model=model,
-            tokenizer=tokenizer,
-            top_k=None,
-            truncation=True,
-            max_length=512,
-            device=device,
-        )
+        pipe_kwargs = {
+            "task": "sentiment-analysis",
+            "model": model,
+            "tokenizer": tokenizer,
+            "top_k": None,
+            "truncation": True,
+            "max_length": 512,
+        }
+        if (
+            device is not None
+            and device >= 0
+            and getattr(model, "hf_device_map", None) is None
+        ):
+            pipe_kwargs["device"] = device
+        _SENTIMENT_ANALYZER_INSTANCE = pipe_fn(**pipe_kwargs)
         return _SENTIMENT_ANALYZER_INSTANCE
 
 

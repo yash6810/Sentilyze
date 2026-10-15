@@ -178,6 +178,7 @@ def optimize_universe_portfolio(
         return {
             "status": "EQUAL_WEIGHT_FALLBACK",
             "weights": eq_w,
+            "optimized_weights": eq_w,
             "message": "Fewer than 2 assets with valid price history.",
         }
 

@@ -69,6 +69,9 @@ def test_get_price_history_loads_from_cache(mocker, temp_data_dir):
 
     mock_ticker = MagicMock()
     mocker.patch("yfinance.Ticker", return_value=mock_ticker)
+    mocker.patch(
+        "src.duckdb_engine.DuckDBMarketEngine.get_bars", return_value=pd.DataFrame()
+    )
 
     # Act
     history = get_price_history(ticker, period="1y")

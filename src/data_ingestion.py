@@ -797,8 +797,9 @@ def _fetch_direct_yahoo_chart(ticker: str, period: str = "10y") -> pd.DataFrame:
         f"https://query1.finance.yahoo.com/v8/finance/chart/{ticker}",
         f"https://query2.finance.yahoo.com/v8/finance/chart/{ticker}",
     ]
+    fetch_range = "10y" if str(period).lower() == "max" else period
     params = {
-        "range": period,
+        "range": fetch_range,
         "interval": "1d",
         "events": "div,splits",
     }
@@ -879,13 +880,25 @@ def get_price_history(
 
     history = pd.DataFrame()
     if should_load_cache:
+        # Determine minimum required bars based on requested period
+        p_str = str(period).lower()
+        if p_str in ["3mo", "90d"]:
+            min_required_bars = 50
+        elif p_str in ["6mo", "180d"]:
+            min_required_bars = 90
+        elif p_str in ["1y", "2y", "5y", "10y", "ytd", "max"]:
+            min_required_bars = 100
+        else:
+            min_required_bars = 15
+
         # Check DuckDB lake first for ultra-fast in-process query (<2ms)
         try:
             from src.duckdb_engine import DuckDBMarketEngine
 
-            duck_eng = DuckDBMarketEngine()
+            duck_db_path = os.path.join(DATA_DIR, "sentilyze_market.duckdb")
+            duck_eng = DuckDBMarketEngine(db_path=duck_db_path)
             duck_bars = duck_eng.get_bars(ticker)
-            if not duck_bars.empty and len(duck_bars) >= 15:
+            if not duck_bars.empty and len(duck_bars) >= min_required_bars:
                 logger.debug(
                     f"⚡ [DuckDB Lake] Loaded {len(duck_bars)} bars for {ticker} in <2ms"
                 )
@@ -900,7 +913,7 @@ def get_price_history(
                 history.index = history.index.tz_localize("UTC").normalize()
             else:
                 history.index = history.index.tz_convert("UTC").normalize()
-    else:
+    if history.empty:
         logger.info(f"Routing live price history fetch for {ticker}...")
         # 1. Alpaca Markets Data API v2
         history = _fetch_alpaca_price_history(ticker, period=period)

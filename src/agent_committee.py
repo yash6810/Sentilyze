@@ -855,14 +855,13 @@ class ChiefRiskOfficerAgent:
         except Exception as de:
             logger.debug(f"Double-crash miner check notice for {ticker}: {de}")
 
-        if macro_blackout_veto or cusum_veto or hmm_veto or double_crash_veto:
-            pass
-        elif vpin_veto:
-            pass  # VPIN veto already set
-        elif vix_level > 26.0 or vix_change_pct > 8.0:
+        # Check VIX Macro Volatility Gate
+        if vix_level > 26.0 or vix_change_pct > 8.0:
             vix_veto = True
-            veto_reason = f"VIX elevated at {vix_level:.1f} (+{vix_change_pct:+.1f}% spike) — macro volatility gate activated."
-        elif not red_team_veto:
+            if not veto_reason:
+                veto_reason = f"VIX elevated at {vix_level:.1f} (+{vix_change_pct:+.1f}% spike) — macro volatility gate activated."
+
+        if not red_team_veto:
             # Check Trend Regime Gate: Long positions blocked if asset is below 200 SMA
             for r in agent_reports:
                 if (
@@ -871,7 +870,8 @@ class ChiefRiskOfficerAgent:
                     == "BEARISH_BELOW_SMA200"
                 ):
                     trend_veto = True
-                    veto_reason = "Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200)."
+                    if not veto_reason:
+                        veto_reason = "Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200)."
                     break
 
         # Check López de Prado (2018) Meta-Labeling Secondary Barrier Filter
@@ -1122,10 +1122,14 @@ class ChiefRiskOfficerAgent:
             approved_leverage = 1.25
             kelly_allocation_pct = max(calculated_kelly_pct, 5.0)
         elif (
-            not require_supermajority
-            and buy_votes >= 2
-            and effective_conviction >= 65.0
-        ) or (is_catalyst_trade and buy_votes >= 1 and effective_conviction >= 62.0):
+            (
+                not require_supermajority
+                and buy_votes >= 2
+                and effective_conviction >= 65.0
+            )
+            or (is_catalyst_trade and buy_votes >= 2 and effective_conviction >= 55.0)
+            or (is_catalyst_trade and buy_votes >= 1 and effective_conviction >= 62.0)
+        ):
             final_resolution = "🟡 AGILE SCALE-IN (Quorum Approved)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
