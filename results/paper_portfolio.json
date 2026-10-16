@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 120511.86090319672,
-  "total_equity": 136583.54,
-  "unrealized_pnl": 178.05,
+  "total_equity": 136625.99,
+  "unrealized_pnl": 220.5,
   "realized_pnl": 54009.0440863037,
   "win_rate": 62.1,
   "total_trades": 87,
@@ -14,11 +14,11 @@
       "shares": 1,
       "initial_shares": 1,
       "entry_price": 330.38,
-      "current_price": 341.86,
+      "current_price": 344.15,
       "entry_date": "2026-10-08",
       "tp1_target": 345.68,
       "tp2_target": 357.92,
-      "sl_target": 339.56,
+      "sl_target": 341.4,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -27,7 +27,7 @@
       "target_units": 3,
       "unit_shares": 1,
       "atr_14": 6.12,
-      "highest_price_seen": 341.86,
+      "highest_price_seen": 344.15,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED",
       "high_water_mark": 335.66,
       "last_eval_price": 335.66
@@ -36,16 +36,16 @@
       "shares": 31,
       "initial_shares": 31,
       "entry_price": 153.1999969482422,
-      "current_price": 158.22,
+      "current_price": 159.33,
       "entry_date": "2026-10-13",
       "tp1_target": 162.77,
       "tp2_target": 170.43,
-      "sl_target": 157.22,
+      "sl_target": 158.1,
       "scaled_out": false,
       "confidence": 0.6102321743965149,
       "regime": "\u25b2 BULLISH (Above SMA200)",
       "friction_paid": 1.66,
-      "highest_price_seen": 158.22,
+      "highest_price_seen": 159.33,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     },
     "ALLE": {
@@ -53,11 +53,11 @@
       "shares": 35,
       "initial_shares": 35,
       "entry_price": 153.13,
-      "current_price": 155.45,
+      "current_price": 156.5,
       "entry_date": "2026-10-13",
       "tp1_target": 162.58,
       "tp2_target": 170.14,
-      "sl_target": 155.23,
+      "sl_target": 155.83,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -66,7 +66,7 @@
       "target_units": 3,
       "unit_shares": 35,
       "atr_14": 3.78,
-      "highest_price_seen": 155.75,
+      "highest_price_seen": 156.5,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED",
       "high_water_mark": 155.53,
       "last_eval_price": 155.53
@@ -76,7 +76,7 @@
       "shares": 25,
       "initial_shares": 25,
       "entry_price": 218.18,
-      "current_price": 215.37,
+      "current_price": 214.13,
       "entry_date": "2026-10-15",
       "tp1_target": 233.08,
       "tp2_target": 245.0,
@@ -1396,11 +1396,11 @@
     {
       "date": "2026-10-16",
       "timestamp": "2026-10-16T09:56:36.219723+00:00",
-      "total_equity": 136583.54,
+      "total_equity": 136625.99,
       "cash": 120511.86,
-      "invested": 16071.68,
-      "daily_return": -0.02
+      "invested": 16114.13,
+      "daily_return": 0.03
     }
   ],
-  "last_updated": "2026-10-16T17:17:20.815663+00:00"
+  "last_updated": "2026-10-16T20:01:41.192113+00:00"
 }
