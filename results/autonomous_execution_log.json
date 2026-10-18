@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-18T16:17:17.453338-04:00",
+  "timestamp": "2026-10-18T18:53:01.250698-04:00",
   "buys": [],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
@@ -7,22 +7,9 @@
   "veto_exits": [],
   "committee_resolutions": {},
   "portfolio_equity": 136628.09,
-  "cash_balance": 120511.86090319672,
-  "unrealized_pnl": 222.6,
+  "cash_balance": 120167.63090319672,
+  "unrealized_pnl": 222.59,
   "kill_switch_active": false,
-  "pyramid_adds": [
-    {
-      "success": true,
-      "ticker": "GD",
-      "unit_num": 2,
-      "added_shares": 1,
-      "total_shares": 2,
-      "blended_entry": 337.31,
-      "new_sl": 341.46,
-      "cost": 344.23,
-      "reason": "TURTLE_PYRAMID_UNIT_2_BREAKEVEN_LOCKED"
-    }
-  ],
   "self_improvement": {
     "total_cycles": 1,
     "agent_weights": {
@@ -34,10 +21,10 @@
     "kelly_multiplier": 1.0,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 3.59,
+  "elapsed_seconds": 3.09,
   "execution_telemetry": {
-    "cycle_latency_ns": 3594518571,
-    "cycle_latency_us": 3594518.57,
-    "cycle_latency_ms": 3594.519
+    "cycle_latency_ns": 3089178017,
+    "cycle_latency_us": 3089178.02,
+    "cycle_latency_ms": 3089.178
   }
 }
