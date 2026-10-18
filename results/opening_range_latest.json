@@ -1,49 +1,49 @@
 {
-  "session_time": "Oct 14, 2026 \u2022 11:48 PM IST (02:18 PM EDT)",
+  "session_time": "Oct 16, 2026 \u2022 11:20 PM IST (01:50 PM EDT)",
   "stocks_in_play": [
     "FIX",
-    "FAST",
+    "CHRW",
+    "AXON",
     "BLDR",
-    "ETN",
     "CAT"
   ],
   "signals_count": 1,
   "signals": [
     {
-      "ticker": "FAST",
+      "ticker": "BLDR",
       "signal": "BUY",
-      "current_price": 51.68,
-      "confidence": 1.0,
-      "take_profit": 54.22,
-      "stop_loss": 50.41
+      "current_price": 54.69,
+      "confidence": 0.8025,
+      "take_profit": 59.13,
+      "stop_loss": 52.47
     }
   ],
   "executed_paper_trades": [
     {
-      "ticker": "FAST",
+      "ticker": "BLDR",
       "signal": "BUY",
-      "current_price": 51.68,
-      "confidence": 1.0,
-      "take_profit": 54.22,
-      "stop_loss": 50.41
+      "current_price": 54.69,
+      "confidence": 0.8025,
+      "take_profit": 59.13,
+      "stop_loss": 52.47
     }
   ],
   "portfolio_summary": {
-    "total_equity": 136404.65,
-    "cash": 124498.38997819673,
-    "invested": 11906.26002180326,
-    "start_of_day_equity": 136531.58,
-    "daily_pnl": -126.93,
-    "daily_return_pct": -0.09,
-    "unrealized_pnl": 33.55,
-    "unrealized_pnl_pct": 0.28,
-    "realized_pnl": 53964.604086303705,
-    "total_pnl": 36404.65,
-    "total_return_pct": 36.4,
-    "win_rate": 60.7,
-    "open_positions_count": 6,
-    "total_trades": 84,
-    "winning_trades": 51,
+    "total_equity": 136583.54,
+    "cash": 120511.86090319672,
+    "invested": 16071.679096803287,
+    "start_of_day_equity": 136617.44,
+    "daily_pnl": -33.9,
+    "daily_return_pct": -0.02,
+    "unrealized_pnl": 178.05,
+    "unrealized_pnl_pct": 1.11,
+    "realized_pnl": 54009.0440863037,
+    "total_pnl": 36583.54,
+    "total_return_pct": 36.58,
+    "win_rate": 62.1,
+    "open_positions_count": 4,
+    "total_trades": 87,
+    "winning_trades": 54,
     "losing_trades": 34
   }
 }
