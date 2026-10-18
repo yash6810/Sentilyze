@@ -1,0 +1,14 @@
+{
+  "ticker": "SOL-USD",
+  "timestamp": "2026-10-16T15:57:16.989483+00:00",
+  "elapsed_seconds": 31.6,
+  "dataset_rows": 2380,
+  "features_used": 26,
+  "champion_accuracy": 0.52,
+  "challenger_accuracy": 0.5042,
+  "accuracy_delta_pct": -1.58,
+  "challenger_roc_auc": 0.4956,
+  "challenger_precision": 0.5024,
+  "deployment_verdict": "\ud83c\udfc6 PROMOTED (Boosted model deployed as new Champion)",
+  "is_promoted": true
+}

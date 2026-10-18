@@ -1,0 +1,14 @@
+{
+  "ticker": "BTC-USD",
+  "timestamp": "2026-10-16T15:56:32.743847+00:00",
+  "elapsed_seconds": 2.33,
+  "dataset_rows": 1826,
+  "features_used": 26,
+  "champion_accuracy": 0.52,
+  "challenger_accuracy": 0.4945,
+  "accuracy_delta_pct": -2.55,
+  "challenger_roc_auc": 0.5065,
+  "challenger_precision": 0.4831,
+  "deployment_verdict": "\ud83c\udfc6 PROMOTED (Boosted model deployed as new Champion)",
+  "is_promoted": true
+}

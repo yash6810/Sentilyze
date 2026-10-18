@@ -1,43 +1,98 @@
 {
-  "timestamp": "2026-10-14T21:25:25.669740+00:00",
+  "timestamp": "2026-10-16T12:44:33.065644-04:00",
   "buys": [],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
-  "stop_losses": [],
-  "veto_exits": [],
-  "committee_resolutions": {},
-  "portfolio_equity": 136475.02,
-  "cash_balance": 124498.38997819673,
-  "unrealized_pnl": 103.92,
-  "kill_switch_active": false,
-  "pyramid_adds": [
+  "stop_losses": [
     {
-      "success": true,
+      "ticker": "BR",
+      "shares": 3,
+      "entry_price": 168.96,
+      "exit_price": 172.22,
+      "entry_date": "2026-10-08",
+      "exit_date": "2026-10-16",
+      "pnl": 9.6,
+      "return_pct": 1.93,
+      "reason": "BREAK_EVEN_TRAIL",
+      "exit_friction": 0.18
+    },
+    {
+      "ticker": "EXPD",
+      "shares": 4,
+      "entry_price": 196.52,
+      "exit_price": 195.78,
+      "entry_date": "2026-10-08",
+      "exit_date": "2026-10-16",
+      "pnl": -3.23,
+      "return_pct": -0.38,
+      "reason": "STOP_LOSS",
+      "exit_friction": 0.27
+    },
+    {
       "ticker": "CSX",
-      "unit_num": 2,
-      "added_shares": 8,
-      "total_shares": 16,
-      "blended_entry": 47.84,
-      "new_sl": 47.49,
-      "cost": 386.24,
-      "reason": "TURTLE_PYRAMID_UNIT_2_BREAKEVEN_LOCKED"
+      "shares": 16,
+      "entry_price": 47.84,
+      "exit_price": 48.49,
+      "entry_date": "2026-10-08",
+      "exit_date": "2026-10-16",
+      "pnl": 10.13,
+      "return_pct": 1.36,
+      "reason": "STOP_LOSS",
+      "exit_friction": 0.27
     }
   ],
-  "self_improvement": {
-    "total_cycles": 34,
-    "agent_weights": {
-      "technicals_weight": 0.255,
-      "sentiment_weight": 0.344,
-      "valuation_weight": 0.128,
-      "cro_weight": 0.273
-    },
-    "kelly_multiplier": 0.77,
-    "new_autopsies_count": 0
+  "veto_exits": [],
+  "committee_resolutions": {
+    "NEM": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
+    "DVN": "VETO_BY_TREE_OF_THOUGHT_MONTE_CARLO",
+    "NVDA": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "VEEV": "\ud83d\udd34 VETO / MAHALANOBIS ANOMALY (MULTIVARIATE DISLOCATION)",
+    "AAPL": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "AXON": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "CHRW": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "HONA": "VETO_BY_TREE_OF_THOUGHT_MONTE_CARLO",
+    "JBHT": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "FDXF": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "BLDR": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
+    "LMT": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
+    "DE": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "DAL": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "LHX": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "HWM": "\ud83d\udd34 VETO / TOXIC LIQUIDITY DUMPING (VPIN SPIKE)",
+    "FIX": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "GE": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
+    "DOV": "VETO_BY_TREE_OF_THOUGHT_MONTE_CARLO",
+    "FERG": "VETO_BY_TREE_OF_THOUGHT_MONTE_CARLO",
+    "CMI": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "HII": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "CARR": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "HON": "VETO_BY_TREE_OF_THOUGHT_MONTE_CARLO",
+    "IR": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
+    "FDX": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
+    "JCI": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "FAST": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "GNRC": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION",
+    "EMR": "\u23f8\ufe0f NEUTRAL HOLD / NO ACTION"
   },
-  "elapsed_seconds": 16.93,
+  "portfolio_equity": 136625.62,
+  "cash_balance": 123551.94997819673,
+  "unrealized_pnl": 239.12,
+  "kill_switch_active": false,
+  "self_improvement": {
+    "total_cycles": 46,
+    "agent_weights": {
+      "technicals_weight": 0.245,
+      "sentiment_weight": 0.36,
+      "valuation_weight": 0.123,
+      "cro_weight": 0.272
+    },
+    "kelly_multiplier": 0.8,
+    "new_autopsies_count": 3
+  },
+  "elapsed_seconds": 456.36,
   "execution_telemetry": {
-    "cycle_latency_ns": 16926873949,
-    "cycle_latency_us": 16926873.95,
-    "cycle_latency_ms": 16926.874
+    "cycle_latency_ns": 456364300400,
+    "cycle_latency_us": 456364300.4,
+    "cycle_latency_ms": 456364.3
   }
 }

@@ -27,17 +27,47 @@ STOCKS_FILE = "stocks.txt"
 
 @st.cache_data(ttl=3600)
 def load_universe_tickers():
-    """Loads active S&P 100 universe tickers."""
-    if os.path.exists(STOCKS_FILE):
-        with open(STOCKS_FILE, "r", encoding="utf-8") as f:
-            tickers = [
-                line.strip().upper()
-                for line in f
-                if line.strip() and not line.startswith("#")
-            ]
-        if tickers:
-            return tickers
-    return ["NVDA", "AAPL", "MSFT", "GOOGL", "META", "AMZN", "TSLA"]
+    """Loads active universe tickers across all trained models."""
+    import glob
+
+    candidates = []
+    for fpath in ["stocks_us_all.txt", "stocks.txt"]:
+        if os.path.exists(fpath):
+            with open(fpath, "r", encoding="utf-8") as f:
+                candidates.extend(
+                    [
+                        line.strip().upper()
+                        for line in f
+                        if line.strip() and not line.startswith("#")
+                    ]
+                )
+    for m in glob.glob("models/*_model.json"):
+        t = os.path.basename(m).replace("_model.json", "").upper()
+        candidates.append(t)
+
+    anchors = [
+        "NVDA",
+        "AAPL",
+        "MSFT",
+        "TSLA",
+        "AMZN",
+        "META",
+        "GOOGL",
+        "BTC-USD",
+        "ETH-USD",
+        "SOL-USD",
+    ]
+    seen = set()
+    ordered = []
+    for a in anchors:
+        if a not in seen:
+            seen.add(a)
+            ordered.append(a)
+    for c in sorted(candidates):
+        if c not in seen:
+            seen.add(c)
+            ordered.append(c)
+    return ordered if ordered else anchors
 
 
 @st.cache_data(ttl=300)
@@ -54,7 +84,7 @@ def get_model_universe_indicator():
             accs = [row["accuracy"] for row in data if "accuracy" in row]
             mean_acc = (sum(accs) / len(accs)) if accs else 0.0
             model_count = len(data)
-            total_valid = 535
+            total_valid = max(model_count, 535)
             pct = min(100.0, (model_count / total_valid) * 100.0)
             return {
                 "models_count": model_count,
@@ -80,7 +110,7 @@ def get_model_universe_indicator():
         except Exception:
             pass
     mean_acc = (sum(accuracies) / len(accuracies) * 100.0) if accuracies else 0.0
-    total_valid = 535
+    total_valid = max(model_count, 535)
     pct = min(100.0, (model_count / total_valid) * 100.0) if total_valid else 0.0
     return {
         "models_count": model_count,
@@ -195,7 +225,7 @@ def main():
     st.sidebar.markdown(
         f"""
         <div style="font-size: 0.75rem; color: #64748B; font-family: 'JetBrains Mono', monospace;">
-            ● Model Universe: {len(tickers)} S&P Assets<br>
+            ● Model Universe: {len(tickers)} Multi-Asset Leaders<br>
             ● Active Asset: <b>{selected_ticker}</b><br>
             ● Company: {comp_name}<br>
             ● Status: 🟢 5 Cockpits Operational

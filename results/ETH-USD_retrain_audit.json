@@ -1,0 +1,14 @@
+{
+  "ticker": "ETH-USD",
+  "timestamp": "2026-10-16T15:56:35.080577+00:00",
+  "elapsed_seconds": 41.91,
+  "dataset_rows": 3263,
+  "features_used": 26,
+  "champion_accuracy": 0.52,
+  "challenger_accuracy": 0.5219,
+  "accuracy_delta_pct": 0.19,
+  "challenger_roc_auc": 0.5366,
+  "challenger_precision": 0.5181,
+  "deployment_verdict": "\ud83c\udfc6 PROMOTED (Boosted model deployed as new Champion)",
+  "is_promoted": true
+}

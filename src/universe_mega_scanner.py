@@ -193,7 +193,9 @@ def _evaluate_single_stock_stage1(ticker: str) -> Optional[Dict[str, Any]]:
             "current_price": round(curr_p, 2),
             "composite_alpha_score": round(composite_alpha_score, 1),
             "model_confidence_pct": round(model_conf * 100.0, 1),
-            "model_signal": "BUY" if model_pred == 1 or model_conf >= 0.55 else "HOLD",
+            "model_signal": (
+                "BUY" if (model_pred == 1 and model_conf >= 0.65) else "HOLD"
+            ),
             "rsi_14": round(rsi, 1),
             "return_21d_pct": round(ret_21d * 100.0, 2),
             "price_vs_sma200_pct": round(((curr_p - sma200) / sma200) * 100.0, 2),

@@ -1,0 +1,368 @@
+{
+  "NVDA": [
+    {
+      "peer": "AMD",
+      "filtered_structural_correlation": 0.9942
+    },
+    {
+      "peer": "AVGO",
+      "filtered_structural_correlation": 0.9904
+    },
+    {
+      "peer": "QCOM",
+      "filtered_structural_correlation": 0.9619
+    },
+    {
+      "peer": "TSLA",
+      "filtered_structural_correlation": 0.9571
+    }
+  ],
+  "AAPL": [
+    {
+      "peer": "GS",
+      "filtered_structural_correlation": 0.9637
+    },
+    {
+      "peer": "BAC",
+      "filtered_structural_correlation": 0.9088
+    },
+    {
+      "peer": "JPM",
+      "filtered_structural_correlation": 0.9086
+    },
+    {
+      "peer": "TSLA",
+      "filtered_structural_correlation": 0.8767
+    }
+  ],
+  "MSFT": [
+    {
+      "peer": "AMZN",
+      "filtered_structural_correlation": 0.9936
+    },
+    {
+      "peer": "META",
+      "filtered_structural_correlation": 0.9906
+    },
+    {
+      "peer": "GOOGL",
+      "filtered_structural_correlation": 0.9904
+    },
+    {
+      "peer": "TSLA",
+      "filtered_structural_correlation": 0.981
+    }
+  ],
+  "AMZN": [
+    {
+      "peer": "META",
+      "filtered_structural_correlation": 0.9971
+    },
+    {
+      "peer": "MSFT",
+      "filtered_structural_correlation": 0.9936
+    },
+    {
+      "peer": "GOOGL",
+      "filtered_structural_correlation": 0.9858
+    },
+    {
+      "peer": "TSLA",
+      "filtered_structural_correlation": 0.9716
+    }
+  ],
+  "GOOGL": [
+    {
+      "peer": "META",
+      "filtered_structural_correlation": 0.9928
+    },
+    {
+      "peer": "MSFT",
+      "filtered_structural_correlation": 0.9904
+    },
+    {
+      "peer": "AMZN",
+      "filtered_structural_correlation": 0.9858
+    },
+    {
+      "peer": "TSLA",
+      "filtered_structural_correlation": 0.9459
+    }
+  ],
+  "META": [
+    {
+      "peer": "AMZN",
+      "filtered_structural_correlation": 0.9971
+    },
+    {
+      "peer": "GOOGL",
+      "filtered_structural_correlation": 0.9928
+    },
+    {
+      "peer": "MSFT",
+      "filtered_structural_correlation": 0.9906
+    },
+    {
+      "peer": "TSLA",
+      "filtered_structural_correlation": 0.9542
+    }
+  ],
+  "TSLA": [
+    {
+      "peer": "MSFT",
+      "filtered_structural_correlation": 0.981
+    },
+    {
+      "peer": "QCOM",
+      "filtered_structural_correlation": 0.9795
+    },
+    {
+      "peer": "AMZN",
+      "filtered_structural_correlation": 0.9716
+    },
+    {
+      "peer": "CAT",
+      "filtered_structural_correlation": 0.9624
+    }
+  ],
+  "AMD": [
+    {
+      "peer": "AVGO",
+      "filtered_structural_correlation": 0.9962
+    },
+    {
+      "peer": "NVDA",
+      "filtered_structural_correlation": 0.9942
+    },
+    {
+      "peer": "QCOM",
+      "filtered_structural_correlation": 0.9443
+    },
+    {
+      "peer": "TSLA",
+      "filtered_structural_correlation": 0.9232
+    }
+  ],
+  "AVGO": [
+    {
+      "peer": "AMD",
+      "filtered_structural_correlation": 0.9962
+    },
+    {
+      "peer": "NVDA",
+      "filtered_structural_correlation": 0.9904
+    },
+    {
+      "peer": "QCOM",
+      "filtered_structural_correlation": 0.9288
+    },
+    {
+      "peer": "TSLA",
+      "filtered_structural_correlation": 0.9147
+    }
+  ],
+  "QCOM": [
+    {
+      "peer": "TSLA",
+      "filtered_structural_correlation": 0.9795
+    },
+    {
+      "peer": "CAT",
+      "filtered_structural_correlation": 0.9634
+    },
+    {
+      "peer": "NVDA",
+      "filtered_structural_correlation": 0.9619
+    },
+    {
+      "peer": "AMD",
+      "filtered_structural_correlation": 0.9443
+    }
+  ],
+  "JPM": [
+    {
+      "peer": "BAC",
+      "filtered_structural_correlation": 0.9997
+    },
+    {
+      "peer": "V",
+      "filtered_structural_correlation": 0.9386
+    },
+    {
+      "peer": "GS",
+      "filtered_structural_correlation": 0.9313
+    },
+    {
+      "peer": "AAPL",
+      "filtered_structural_correlation": 0.9086
+    }
+  ],
+  "BAC": [
+    {
+      "peer": "JPM",
+      "filtered_structural_correlation": 0.9997
+    },
+    {
+      "peer": "V",
+      "filtered_structural_correlation": 0.9409
+    },
+    {
+      "peer": "GS",
+      "filtered_structural_correlation": 0.9256
+    },
+    {
+      "peer": "AAPL",
+      "filtered_structural_correlation": 0.9088
+    }
+  ],
+  "GS": [
+    {
+      "peer": "AAPL",
+      "filtered_structural_correlation": 0.9637
+    },
+    {
+      "peer": "GE",
+      "filtered_structural_correlation": 0.9589
+    },
+    {
+      "peer": "AMZN",
+      "filtered_structural_correlation": 0.9321
+    },
+    {
+      "peer": "JPM",
+      "filtered_structural_correlation": 0.9313
+    }
+  ],
+  "V": [
+    {
+      "peer": "LLY",
+      "filtered_structural_correlation": 0.9729
+    },
+    {
+      "peer": "BAC",
+      "filtered_structural_correlation": 0.9409
+    },
+    {
+      "peer": "JPM",
+      "filtered_structural_correlation": 0.9386
+    },
+    {
+      "peer": "UNH",
+      "filtered_structural_correlation": 0.8842
+    }
+  ],
+  "XOM": [
+    {
+      "peer": "CVX",
+      "filtered_structural_correlation": 0.9943
+    }
+  ],
+  "CVX": [
+    {
+      "peer": "XOM",
+      "filtered_structural_correlation": 0.9943
+    }
+  ],
+  "LLY": [
+    {
+      "peer": "V",
+      "filtered_structural_correlation": 0.9729
+    },
+    {
+      "peer": "UNH",
+      "filtered_structural_correlation": 0.896
+    },
+    {
+      "peer": "BAC",
+      "filtered_structural_correlation": 0.875
+    },
+    {
+      "peer": "JPM",
+      "filtered_structural_correlation": 0.871
+    }
+  ],
+  "UNH": [
+    {
+      "peer": "LLY",
+      "filtered_structural_correlation": 0.896
+    },
+    {
+      "peer": "V",
+      "filtered_structural_correlation": 0.8842
+    },
+    {
+      "peer": "JPM",
+      "filtered_structural_correlation": 0.6998
+    },
+    {
+      "peer": "BAC",
+      "filtered_structural_correlation": 0.698
+    }
+  ],
+  "CAT": [
+    {
+      "peer": "QCOM",
+      "filtered_structural_correlation": 0.9634
+    },
+    {
+      "peer": "TSLA",
+      "filtered_structural_correlation": 0.9624
+    },
+    {
+      "peer": "NVDA",
+      "filtered_structural_correlation": 0.9212
+    },
+    {
+      "peer": "AMZN",
+      "filtered_structural_correlation": 0.9118
+    }
+  ],
+  "GE": [
+    {
+      "peer": "GS",
+      "filtered_structural_correlation": 0.9589
+    },
+    {
+      "peer": "META",
+      "filtered_structural_correlation": 0.9309
+    },
+    {
+      "peer": "AMZN",
+      "filtered_structural_correlation": 0.9277
+    },
+    {
+      "peer": "JPM",
+      "filtered_structural_correlation": 0.8978
+    }
+  ],
+  "BTC-USD": [
+    {
+      "peer": "ETH-USD",
+      "filtered_structural_correlation": 0.9991
+    },
+    {
+      "peer": "SOL-USD",
+      "filtered_structural_correlation": 0.9984
+    }
+  ],
+  "ETH-USD": [
+    {
+      "peer": "SOL-USD",
+      "filtered_structural_correlation": 0.9992
+    },
+    {
+      "peer": "BTC-USD",
+      "filtered_structural_correlation": 0.9991
+    }
+  ],
+  "SOL-USD": [
+    {
+      "peer": "ETH-USD",
+      "filtered_structural_correlation": 0.9992
+    },
+    {
+      "peer": "BTC-USD",
+      "filtered_structural_correlation": 0.9984
+    }
+  ]
+}

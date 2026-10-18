@@ -1,235 +1,39 @@
 {
-  "total_learning_cycles": 34,
-  "last_updated": "2026-10-14T21:25:42.588992+00:00",
-  "agent_voting_weights": {
-    "technicals_weight": 0.255,
-    "sentiment_weight": 0.344,
-    "valuation_weight": 0.128,
-    "cro_weight": 0.273
-  },
-  "adaptive_kelly_multiplier": 0.77,
-  "recent_trade_autopsies": [
-    {
-      "ticker": "DE",
-      "pnl": -265.3,
-      "return_pct": -3.74,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on DE triggered at -3.74%. Protecting capital.",
-      "timestamp": "2026-09-25T14:58:27.717382+00:00"
-    },
-    {
-      "ticker": "DE",
-      "pnl": -250.3,
-      "return_pct": -3.52,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on DE triggered at -3.52%. Protecting capital.",
-      "timestamp": "2026-09-25T15:33:20.021578+00:00"
-    },
-    {
-      "ticker": "ITW",
-      "pnl": 10.92,
-      "return_pct": 0.14,
-      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
-      "lesson": "Committee conviction on ITW succeeded with +0.14% gain.",
-      "timestamp": "2026-09-25T17:56:34.995100+00:00"
-    },
-    {
-      "ticker": "ETN",
-      "pnl": -100.32,
-      "return_pct": -1.91,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on ETN triggered at -1.91%. Protecting capital.",
-      "timestamp": "2026-09-28T19:53:08.839016+00:00"
-    },
-    {
-      "ticker": "DAL",
-      "pnl": 89.76,
-      "return_pct": 0.82,
-      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
-      "lesson": "Committee conviction on DAL succeeded with +0.82% gain.",
-      "timestamp": "2026-09-28T19:53:08.839056+00:00"
-    },
-    {
-      "ticker": "ETN",
-      "pnl": -84.96,
-      "return_pct": -1.61,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on ETN triggered at -1.61%. Protecting capital.",
-      "timestamp": "2026-09-28T21:23:41.014717+00:00"
-    },
-    {
-      "ticker": "DAL",
-      "pnl": 100.32,
-      "return_pct": 0.91,
-      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
-      "lesson": "Committee conviction on DAL succeeded with +0.91% gain.",
-      "timestamp": "2026-09-28T21:23:41.014745+00:00"
-    },
-    {
-      "ticker": "ETN",
-      "pnl": -84.96,
-      "return_pct": -1.61,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on ETN triggered at -1.61%. Protecting capital.",
-      "timestamp": "2026-09-29T05:34:28.542088+00:00"
-    },
-    {
-      "ticker": "DAL",
-      "pnl": 100.32,
-      "return_pct": 0.91,
-      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
-      "lesson": "Committee conviction on DAL succeeded with +0.91% gain.",
-      "timestamp": "2026-09-29T05:34:28.542114+00:00"
-    },
-    {
-      "ticker": "FAST",
-      "pnl": -150.52,
-      "return_pct": -2.79,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on FAST triggered at -2.79%. Protecting capital.",
-      "timestamp": "2026-09-30T22:35:14.830217+00:00"
-    },
-    {
-      "ticker": "ADP",
-      "pnl": -259.92,
-      "return_pct": -2.59,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on ADP triggered at -2.59%. Protecting capital.",
-      "timestamp": "2026-10-02T18:25:11.729611+00:00"
-    },
-    {
-      "ticker": "DD",
-      "pnl": -7.8,
-      "return_pct": -1.95,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on DD triggered at -1.95%. Protecting capital.",
-      "timestamp": "2026-10-07T19:25:08.979961+00:00"
-    },
-    {
-      "ticker": "GEV",
-      "pnl": -34.13,
-      "return_pct": -3.32,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on GEV triggered at -3.32%. Protecting capital.",
-      "timestamp": "2026-10-07T19:25:30.911697+00:00"
-    },
-    {
-      "ticker": "DAL",
-      "pnl": -10.3,
-      "return_pct": -2.46,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on DAL triggered at -2.46%. Protecting capital.",
-      "timestamp": "2026-10-08T19:21:01.415209+00:00"
-    },
-    {
-      "ticker": "AOS",
-      "pnl": -0.77,
-      "return_pct": -0.19,
-      "verdict": "\ud83d\uded1 CONTROLLED RISK SHUTDOWN",
-      "lesson": "Stop loss on AOS triggered at -0.19%. Protecting capital.",
-      "timestamp": "2026-10-09T23:04:38.061209+00:00"
-    },
-    {
-      "ticker": "ALLE",
-      "pnl": 0.04,
-      "return_pct": 0.01,
-      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
-      "lesson": "Committee conviction on ALLE succeeded with +0.01% gain.",
-      "timestamp": "2026-10-09T23:04:38.061223+00:00"
-    }
-  ],
-  "retrained_models": [
-    {
-      "ticker": "DE",
-      "timestamp": "2026-09-25T14:58:27.717368+00:00",
-      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
-    },
-    {
-      "ticker": "DE",
-      "timestamp": "2026-09-25T15:33:20.021562+00:00",
-      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
-    },
-    {
-      "ticker": "ETN",
-      "timestamp": "2026-09-28T19:53:08.838990+00:00",
-      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
-    },
-    {
-      "ticker": "ETN",
-      "timestamp": "2026-09-28T21:23:41.014703+00:00",
-      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
-    },
-    {
-      "ticker": "ETN",
-      "timestamp": "2026-09-29T05:34:28.542077+00:00",
-      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
-    },
-    {
-      "ticker": "FAST",
-      "timestamp": "2026-09-30T22:35:14.830207+00:00",
-      "verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)"
-    },
-    {
-      "ticker": "ADP",
-      "timestamp": "2026-10-02T18:25:11.729605+00:00",
-      "verdict": "\ud83c\udfc6 PROMOTED (Boosted model deployed as new Champion)"
-    },
-    {
-      "ticker": "DD",
-      "timestamp": "2026-10-07T19:25:08.979945+00:00",
-      "verdict": null
-    },
-    {
-      "ticker": "GEV",
-      "timestamp": "2026-10-07T19:25:30.911682+00:00",
-      "verdict": null
-    },
-    {
-      "ticker": "DAL",
-      "timestamp": "2026-10-08T19:21:01.415197+00:00",
-      "verdict": null
-    },
-    {
-      "ticker": "AOS",
-      "timestamp": "2026-10-09T23:04:38.061186+00:00",
-      "verdict": null
-    }
-  ],
-  "timestamp": "2026-09-25T11:06:51.023793+00:00",
-  "total_trades_analyzed": 64,
-  "trades_analyzed": 64,
-  "win_rate_pct": 54.69,
-  "total_realized_pnl": 47506.63,
-  "winners_count": 35,
-  "controlled_losses_count": 13,
-  "severe_losses_count": 3,
+  "timestamp": "2026-10-16T16:53:12.263596+00:00",
+  "total_trades_analyzed": 90,
+  "trades_analyzed": 90,
+  "win_rate_pct": 45.56,
+  "total_realized_pnl": 46961.04,
+  "winners_count": 41,
+  "controlled_losses_count": 28,
+  "severe_losses_count": 8,
   "prior_weights": {
-    "Technical Momentum": 0.2546,
-    "FinBERT Sentiment": 0.2545,
-    "Fundamental Valuation": 0.1981,
-    "Chief Risk Officer": 0.1481,
-    "Adversarial Red-Team": 0.1447
+    "Technical Momentum": 0.1073,
+    "FinBERT Sentiment": 0.1169,
+    "Fundamental Valuation": 0.114,
+    "Chief Risk Officer": 0.1976,
+    "Adversarial Red-Team": 0.4641
   },
   "posterior_calibrated_weights": {
-    "Technical Momentum": 0.2574,
-    "FinBERT Sentiment": 0.2573,
-    "Fundamental Valuation": 0.1965,
-    "Chief Risk Officer": 0.1473,
-    "Adversarial Red-Team": 0.1415
+    "Technical Momentum": 0.1355,
+    "FinBERT Sentiment": 0.145,
+    "Fundamental Valuation": 0.1418,
+    "Chief Risk Officer": 0.2277,
+    "Adversarial Red-Team": 0.35
   },
   "calibrated_weights": {
-    "Technical Momentum": 0.2574,
-    "FinBERT Sentiment": 0.2573,
-    "Fundamental Valuation": 0.1965,
-    "Chief Risk Officer": 0.1473,
-    "Adversarial Red-Team": 0.1415
+    "Technical Momentum": 0.1355,
+    "FinBERT Sentiment": 0.145,
+    "Fundamental Valuation": 0.1418,
+    "Chief Risk Officer": 0.2277,
+    "Adversarial Red-Team": 0.35
   },
   "agent_performance_deltas": {
-    "Technical Momentum": 0.3138,
-    "FinBERT Sentiment": 0.3138,
-    "Fundamental Valuation": 0.1874,
-    "Chief Risk Officer": 0.2078,
-    "Adversarial Red-Team": 0.0937
+    "Technical Momentum": 0.1356,
+    "FinBERT Sentiment": 0.1356,
+    "Fundamental Valuation": 0.1144,
+    "Chief Risk Officer": 0.2167,
+    "Adversarial Red-Team": 0.1989
   },
   "recent_top_wins": [
     {
@@ -274,14 +78,7 @@
     }
   ],
   "recent_lessons": [
-    "Controlled 13 stop-loss events via Capital Shield.",
-    "Harvested 35 high-conviction momentum runs with 54.69% win rate."
-  ],
-  "bayesian_council_calibration": {
-    "Technical Momentum": 0.2494,
-    "FinBERT Sentiment": 0.2494,
-    "Fundamental Valuation": 0.1988,
-    "Chief Risk Officer": 0.1513,
-    "Adversarial Red-Team": 0.1511
-  }
+    "Controlled 28 stop-loss events via Capital Shield.",
+    "Harvested 41 high-conviction momentum runs with 45.56% win rate."
+  ]
 }

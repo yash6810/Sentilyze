@@ -8,6 +8,7 @@ from typing import Dict, List, Any, Optional
 from src.paper_broker import PaperBroker
 from src.sentiment_analysis import analyze_sentiment
 from src.data_ingestion import get_news
+from src.market_session import get_current_ny_time, is_crypto_asset
 from src.utils import get_logger
 
 logger = get_logger(__name__)
@@ -385,20 +386,98 @@ def evaluate_intraday_execution(
             continue
 
         pos["current_price"] = curr_price
-        shares = int(pos.get("shares", 0))
+        from src.paper_broker import reconcile_split_if_needed
+
+        reconcile_split_if_needed(pos, ticker, curr_price)
+
+        raw_shares = float(pos.get("shares", 0))
+        shares = (
+            raw_shares
+            if (not raw_shares.is_integer() or raw_shares < 1.0)
+            else int(raw_shares)
+        )
         entry_price = float(pos.get("entry_price", curr_price))
+        denom = entry_price if entry_price > 0 else 1.0
         tp1_target = float(pos.get("tp1_target", entry_price * 1.06))
         tp2_target = float(pos.get("tp2_target", entry_price * 1.12))
         sl_target = float(pos.get("sl_target", entry_price * 0.95))
         scaled_out = pos.get("scaled_out", False)
 
+        # High-Water Mark & Dynamic Trailing Profit Shield
+        high_water = max(
+            float(pos.get("high_water_mark", entry_price)),
+            float(pos.get("highest_price_seen", entry_price)),
+            curr_price,
+        )
+        pos["high_water_mark"] = high_water
+        pos["highest_price_seen"] = high_water
+
+        try:
+            from src.smart_trader_engine import (
+                apply_high_watermark_profit_lock,
+                enforce_capital_shield_stop_floor,
+            )
+
+            # Capital Shield floor (-2.5% max risk ceiling)
+            shielded_sl, _ = enforce_capital_shield_stop_floor(
+                entry_price=entry_price,
+                current_sl=sl_target,
+                max_loss_pct=2.50,
+            )
+            if shielded_sl > sl_target:
+                pos["sl_target"] = shielded_sl
+                sl_target = shielded_sl
+
+            # High-Watermark 80% Retention Ratchet
+            hwm_sl, new_peak, _ = apply_high_watermark_profit_lock(
+                current_price=curr_price,
+                entry_price=entry_price,
+                highest_price_seen=high_water,
+                current_sl=sl_target,
+                min_profit_threshold_pct=0.30,
+                lock_fraction=0.80,
+            )
+            pos["highest_price_seen"] = new_peak
+            if hwm_sl > sl_target:
+                pos["sl_target"] = hwm_sl
+                sl_target = hwm_sl
+        except Exception as e:
+            logger.debug(f"Notice applying zero-giveback in realtime tracker: {e}")
+
+        # Multi-Tier Progressive Profit Locks
+        if scaled_out:
+            floor_runner_sl = round(entry_price * 1.02, 2)
+            chandelier_sl = round(pos.get("highest_price_seen", curr_price) * 0.965, 2)
+            target_sl = max(floor_runner_sl, chandelier_sl)
+            if target_sl > sl_target:
+                pos["sl_target"] = target_sl
+                sl_target = target_sl
+        else:
+            if curr_price >= entry_price * 1.08:
+                tier3_sl = round(entry_price * 1.05, 2)
+                if tier3_sl > sl_target:
+                    pos["sl_target"] = tier3_sl
+                    sl_target = tier3_sl
+            elif curr_price >= entry_price * 1.05:
+                tier2_sl = round(entry_price * 1.025, 2)
+                if tier2_sl > sl_target:
+                    pos["sl_target"] = tier2_sl
+                    sl_target = tier2_sl
+            elif curr_price >= entry_price * 1.03:
+                tier1_sl = round(entry_price * 1.010, 2)
+                if tier1_sl > sl_target:
+                    pos["sl_target"] = tier1_sl
+                    sl_target = tier1_sl
+
         # Check Emergency News Catalyst Shock
         news_shock = check_live_news_sentiment_shock(ticker)
         if news_shock:
-            proceeds = float(shares * curr_price)
+            gross_proceeds = float(shares * curr_price)
+            exit_friction = float(gross_proceeds * 0.00035)
+            proceeds = float(gross_proceeds - exit_friction)
             cost_basis = float(shares * entry_price)
             pnl = float(proceeds - cost_basis)
-            ret_pct = ((curr_price - entry_price) / entry_price) * 100.0
+            ret_pct = ((curr_price - entry_price) / denom) * 100.0
 
             broker.state["cash"] += proceeds
             broker.state["realized_pnl"] += pnl
@@ -408,17 +487,20 @@ def evaluate_intraday_execution(
             else:
                 broker.state["losing_trades"] += 1
 
-            now_str = datetime.now(timezone.utc).isoformat()
+            now_ny = get_current_ny_time()
+            now_str = now_ny.isoformat()
+            date_str = now_ny.strftime("%Y-%m-%d")
             trade_record = {
                 "ticker": ticker,
                 "shares": shares,
                 "entry_price": entry_price,
                 "exit_price": curr_price,
-                "entry_date": pos.get("entry_date", now_str[:10]),
-                "exit_date": now_str[:10],
+                "entry_date": pos.get("entry_date", date_str),
+                "exit_date": date_str,
                 "pnl": round(pnl, 2),
                 "return_pct": round(ret_pct, 2),
                 "reason": "🚨 EMERGENCY_NEWS_CATALYST_EXIT",
+                "exit_friction": round(exit_friction, 2),
             }
             broker.state["closed_trades"].append(trade_record)
             del broker.state["open_positions"][ticker]
@@ -428,41 +510,88 @@ def evaluate_intraday_execution(
 
         # Check Stage 1 Scale-Out (+2.5 ATR)
         if not scaled_out and curr_price >= tp1_target:
-            half_shares = max(1, shares // 2)
-            proceeds = float(half_shares * curr_price)
+            from src.market_session import is_crypto_asset
+
+            is_crypto = is_crypto_asset(ticker)
+            raw_s = float(shares)
+            if is_crypto or not raw_s.is_integer():
+                half_shares = round(raw_s / 2.0, 6)
+            elif raw_s > 1.0:
+                half_shares = int(raw_s) // 2
+            else:
+                half_shares = raw_s
+
+            gross_proceeds = float(half_shares * curr_price)
+            exit_friction = float(gross_proceeds * 0.00035)
+            proceeds = float(gross_proceeds - exit_friction)
             cost_basis = float(half_shares * entry_price)
             pnl = float(proceeds - cost_basis)
-            ret_pct = ((curr_price - entry_price) / entry_price) * 100.0
+            ret_pct = ((curr_price - entry_price) / denom) * 100.0
 
             broker.state["cash"] += proceeds
             broker.state["realized_pnl"] += pnl
-            pos["shares"] = shares - half_shares
-            pos["scaled_out"] = True
-            pos["sl_target"] = round(entry_price * 1.002, 2)  # Move SL to Break-Even
+            remaining_shares = shares - half_shares
 
-            now_str = datetime.now(timezone.utc).isoformat()
-            trade_record = {
-                "ticker": ticker,
-                "shares": half_shares,
-                "entry_price": entry_price,
-                "exit_price": curr_price,
-                "entry_date": pos.get("entry_date", now_str[:10]),
-                "exit_date": now_str[:10],
-                "pnl": round(pnl, 2),
-                "return_pct": round(ret_pct, 2),
-                "reason": "🎯 SCALE_OUT_TP1 (50% Banked)",
-                "status": "RISK_FREE_RUNNER",
-            }
-            broker.state["closed_trades"].append(trade_record)
-            executed_trades.append(trade_record)
-            logger.info(
-                f"🎯 [STAGE 1 SCALE-OUT] Banked 50% {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
-            )
-            _send_flash_notifications(trade_record, discord_url)
+            now_ny = get_current_ny_time()
+            now_str = now_ny.isoformat()
+            date_str = now_ny.strftime("%Y-%m-%d")
+            if remaining_shares <= 1e-6:
+                broker.state["total_trades"] += 1
+                broker.state["winning_trades"] += 1
+                trade_record = {
+                    "ticker": ticker,
+                    "shares": half_shares,
+                    "entry_price": entry_price,
+                    "exit_price": curr_price,
+                    "entry_date": pos.get("entry_date", date_str),
+                    "exit_date": date_str,
+                    "pnl": round(pnl, 2),
+                    "return_pct": round(ret_pct, 2),
+                    "reason": "🎯 COMPLETE_TP1_EXIT",
+                    "status": "COMPLETED_PROFIT_HARVEST",
+                    "exit_friction": round(exit_friction, 2),
+                }
+                broker.state["closed_trades"].append(trade_record)
+                del broker.state["open_positions"][ticker]
+                executed_trades.append(trade_record)
+                logger.info(
+                    f"🎯 [STAGE 1 COMPLETE EXIT] Closed 100% {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
+                )
+                _send_flash_notifications(trade_record, discord_url)
+                continue
+            else:
+                pos["shares"] = remaining_shares
+                pos["scaled_out"] = True
+                scaled_out = True
+                pos["sl_target"] = round(
+                    entry_price * 1.002, 2
+                )  # Move SL to Break-Even
+
+                trade_record = {
+                    "ticker": ticker,
+                    "shares": half_shares,
+                    "entry_price": entry_price,
+                    "exit_price": curr_price,
+                    "entry_date": pos.get("entry_date", date_str),
+                    "exit_date": date_str,
+                    "pnl": round(pnl, 2),
+                    "return_pct": round(ret_pct, 2),
+                    "reason": "🎯 SCALE_OUT_TP1 (50% Banked)",
+                    "status": "RISK_FREE_RUNNER",
+                    "exit_friction": round(exit_friction, 2),
+                }
+                broker.state["closed_trades"].append(trade_record)
+                executed_trades.append(trade_record)
+                logger.info(
+                    f"🎯 [STAGE 1 SCALE-OUT] Banked 50% {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
+                )
+                _send_flash_notifications(trade_record, discord_url)
 
         # Check Stage 2 Runner Exit (+4.5 ATR)
         elif scaled_out and curr_price >= tp2_target:
-            proceeds = float(shares * curr_price)
+            gross_proceeds = float(shares * curr_price)
+            exit_friction = float(gross_proceeds * 0.00035)
+            proceeds = float(gross_proceeds - exit_friction)
             cost_basis = float(shares * entry_price)
             pnl = float(proceeds - cost_basis)
             ret_pct = ((curr_price - entry_price) / entry_price) * 100.0
@@ -472,17 +601,20 @@ def evaluate_intraday_execution(
             broker.state["total_trades"] += 1
             broker.state["winning_trades"] += 1
 
-            now_str = datetime.now(timezone.utc).isoformat()
+            now_ny = get_current_ny_time()
+            now_str = now_ny.isoformat()
+            date_str = now_ny.strftime("%Y-%m-%d")
             trade_record = {
                 "ticker": ticker,
                 "shares": shares,
                 "entry_price": entry_price,
                 "exit_price": curr_price,
-                "entry_date": pos.get("entry_date", now_str[:10]),
-                "exit_date": now_str[:10],
+                "entry_date": pos.get("entry_date", date_str),
+                "exit_date": date_str,
                 "pnl": round(pnl, 2),
                 "return_pct": round(ret_pct, 2),
                 "reason": "🏆 FULL_TP2_RUNNER (+4.5 ATR Exit)",
+                "exit_friction": round(exit_friction, 2),
             }
             broker.state["closed_trades"].append(trade_record)
             del broker.state["open_positions"][ticker]
@@ -494,7 +626,9 @@ def evaluate_intraday_execution(
 
         # Check Stop-Loss / Break-Even Exit
         elif curr_price <= sl_target:
-            proceeds = float(shares * curr_price)
+            gross_proceeds = float(shares * curr_price)
+            exit_friction = float(gross_proceeds * 0.00035)
+            proceeds = float(gross_proceeds - exit_friction)
             cost_basis = float(shares * entry_price)
             pnl = float(proceeds - cost_basis)
             ret_pct = ((curr_price - entry_price) / entry_price) * 100.0
@@ -508,17 +642,20 @@ def evaluate_intraday_execution(
                 broker.state["losing_trades"] += 1
 
             reason = "🛡️ BREAK_EVEN_EXIT" if scaled_out else "🛑 STOP_LOSS"
-            now_str = datetime.now(timezone.utc).isoformat()
+            now_ny = get_current_ny_time()
+            now_str = now_ny.isoformat()
+            date_str = now_ny.strftime("%Y-%m-%d")
             trade_record = {
                 "ticker": ticker,
                 "shares": shares,
                 "entry_price": entry_price,
                 "exit_price": curr_price,
-                "entry_date": pos.get("entry_date", now_str[:10]),
-                "exit_date": now_str[:10],
+                "entry_date": pos.get("entry_date", date_str),
+                "exit_date": date_str,
                 "pnl": round(pnl, 2),
                 "return_pct": round(ret_pct, 2),
                 "reason": reason,
+                "exit_friction": round(exit_friction, 2),
             }
             broker.state["closed_trades"].append(trade_record)
             del broker.state["open_positions"][ticker]
@@ -748,8 +885,20 @@ def update_live_holdings_prices_and_alert_discord(
                 and not scaled_out
                 and spot_price >= entry_price * 1.012
             ):
-                shares_to_sell = max(1, pos["shares"] // 2)
-                proceeds = float(shares_to_sell * spot_price)
+                from src.market_session import is_crypto_asset
+
+                is_crypto = is_crypto_asset(ticker)
+                raw_s = float(pos["shares"])
+                if is_crypto or not raw_s.is_integer():
+                    shares_to_sell = round(raw_s / 2.0, 6)
+                elif raw_s > 1.0:
+                    shares_to_sell = int(raw_s) // 2
+                else:
+                    shares_to_sell = raw_s
+
+                gross_proceeds = float(shares_to_sell * spot_price)
+                exit_friction = float(gross_proceeds * 0.00035)
+                proceeds = float(gross_proceeds - exit_friction)
                 cost_basis = float(shares_to_sell * entry_price)
                 pnl = float(proceeds - cost_basis)
                 ret_pct = float((spot_price - entry_price) / entry_price * 100.0)
@@ -761,8 +910,11 @@ def update_live_holdings_prices_and_alert_discord(
                     broker.state["winning_trades"] += 1
                 else:
                     broker.state["losing_trades"] += 1
-                pos["shares"] -= shares_to_sell
+
+                remaining_s = pos["shares"] - shares_to_sell
+                pos["shares"] = remaining_s
                 pos["scaled_out"] = True
+                scaled_out = True  # FIX BUG-09: Synchronize local flag so TP1 does not double-fire on same tick
                 pos["sl_target"] = entry_price
 
                 trade_record = {
@@ -775,19 +927,35 @@ def update_live_holdings_prices_and_alert_discord(
                     "pnl": round(pnl, 2),
                     "return_pct": round(ret_pct, 2),
                     "reason": "PEAK_CREST_VOLUME_EXHAUSTION_LOCK",
+                    "exit_friction": round(exit_friction, 2),
                 }
                 broker.state["closed_trades"].append(trade_record)
                 executed_trades.append(trade_record)
                 logger.info(
                     f"🎯 [PEAK CREST LOCK] {ticker} harvested ${pnl:+,.2f} profit at wave crest ${spot_price:,.2f}!"
                 )
+                if remaining_s <= 1e-6:
+                    del broker.state["open_positions"][ticker]
+                    continue
         except Exception:
             pass
 
         # 1. Check TP1 (+2.5 ATR): Scale out 50% & Breakeven Stop
         if spot_price >= tp1_target and not scaled_out:
-            shares_to_sell = max(1, pos["shares"] // 2)
-            proceeds = float(shares_to_sell * spot_price)
+            from src.market_session import is_crypto_asset
+
+            is_crypto = is_crypto_asset(ticker)
+            raw_s = float(pos["shares"])
+            if is_crypto or not raw_s.is_integer():
+                shares_to_sell = round(raw_s / 2.0, 6)
+            elif raw_s > 1.0:
+                shares_to_sell = int(raw_s) // 2
+            else:
+                shares_to_sell = raw_s
+
+            gross_proceeds = float(shares_to_sell * spot_price)
+            exit_friction = float(gross_proceeds * 0.00035)
+            proceeds = float(gross_proceeds - exit_friction)
             cost_basis = float(shares_to_sell * entry_price)
             pnl = float(proceeds - cost_basis)
             ret_pct = float((spot_price - entry_price) / entry_price * 100.0)
@@ -797,9 +965,11 @@ def update_live_holdings_prices_and_alert_discord(
             broker.state["total_trades"] += 1
             broker.state["winning_trades"] += 1
 
-            pos["shares"] -= shares_to_sell
+            remaining_s = pos["shares"] - shares_to_sell
+            pos["shares"] = remaining_s
             pos["scaled_out"] = True
-            pos["sl_target"] = entry_price  # Move Stop to Breakeven
+            scaled_out = True
+            pos["sl_target"] = round(entry_price * 1.002, 2)  # Move Stop to Breakeven
 
             trade_record = {
                 "ticker": ticker,
@@ -811,6 +981,7 @@ def update_live_holdings_prices_and_alert_discord(
                 "pnl": round(pnl, 2),
                 "return_pct": round(ret_pct, 2),
                 "reason": "TP1_SCALE_OUT_50%",
+                "exit_friction": round(exit_friction, 2),
             }
             broker.state["closed_trades"].append(trade_record)
             executed_trades.append(trade_record)
@@ -828,10 +999,15 @@ def update_live_holdings_prices_and_alert_discord(
                     "tp2": pos.get("tp2_target", 0.0),
                 }
             )
+            if remaining_s <= 1e-6:
+                del broker.state["open_positions"][ticker]
+                continue
 
         # 2. Check TP2 (+4.5 ATR): Close Runner
         elif spot_price >= tp2_target:
-            proceeds = float(pos["shares"] * spot_price)
+            gross_proceeds = float(pos["shares"] * spot_price)
+            exit_friction = float(gross_proceeds * 0.00035)
+            proceeds = float(gross_proceeds - exit_friction)
             cost_basis = float(pos["shares"] * entry_price)
             pnl = float(proceeds - cost_basis)
             ret_pct = float((spot_price - entry_price) / entry_price * 100.0)
@@ -851,6 +1027,7 @@ def update_live_holdings_prices_and_alert_discord(
                 "pnl": round(pnl, 2),
                 "return_pct": round(ret_pct, 2),
                 "reason": "TP2_RUNNER_EXIT",
+                "exit_friction": round(exit_friction, 2),
             }
             broker.state["closed_trades"].append(trade_record)
             del broker.state["open_positions"][ticker]
@@ -872,7 +1049,9 @@ def update_live_holdings_prices_and_alert_discord(
 
         # 3. Check Stop-Loss / Breakeven Floor
         elif spot_price <= sl_target:
-            proceeds = float(pos["shares"] * spot_price)
+            gross_proceeds = float(pos["shares"] * spot_price)
+            exit_friction = float(gross_proceeds * 0.00035)
+            proceeds = float(gross_proceeds - exit_friction)
             cost_basis = float(pos["shares"] * entry_price)
             pnl = float(proceeds - cost_basis)
             ret_pct = float((spot_price - entry_price) / entry_price * 100.0)
@@ -896,6 +1075,7 @@ def update_live_holdings_prices_and_alert_discord(
                 "pnl": round(pnl, 2),
                 "return_pct": round(ret_pct, 2),
                 "reason": reason,
+                "exit_friction": round(exit_friction, 2),
             }
             broker.state["closed_trades"].append(trade_record)
             del broker.state["open_positions"][ticker]

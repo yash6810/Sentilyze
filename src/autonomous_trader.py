@@ -27,6 +27,7 @@ from src.alerts import (
     send_discord_social_spike_alert,
     send_discord_premarket_briefing,
 )
+from src.market_session import get_current_ny_time, is_crypto_asset
 
 logger = get_logger(__name__)
 
@@ -150,11 +151,16 @@ class FormalLogicZ3RuleGate:
         if not inv_price:
             violations.append(f"Price must be strictly positive: {spot_price}")
 
-        # 2. Shares >= 1
-        inv_shares = shares >= 1.0
-        invariants_checked["positive_integral_shares"] = inv_shares
+        # 2. Shares strictly positive (allows fractional crypto >= 0.000001, and >= 1 for whole shares)
+        from src.market_session import is_crypto_asset
+
+        min_shares = (
+            1e-6 if is_crypto_asset(ticker) or not float(shares).is_integer() else 1.0
+        )
+        inv_shares = float(shares) >= min_shares
+        invariants_checked["positive_shares"] = inv_shares
         if not inv_shares:
-            violations.append(f"Shares must be >= 1: {shares}")
+            violations.append(f"Shares must be >= {min_shares}: {shares}")
 
         # 3. Solvency / Cash
         cash = float(portfolio_state.get("cash", 0.0))
@@ -228,10 +234,27 @@ class AutonomousTradingEngine:
     4-Agent Committee Deliberation, and 2-Stage Profit Scaling.
     """
 
-    def __init__(self, broker: Optional[PaperBroker] = None):
+    def __init__(
+        self,
+        broker: Optional[PaperBroker] = None,
+        crypto_broker: Optional[PaperBroker] = None,
+    ):
         self.broker = broker or PaperBroker()
+        self.crypto_broker = crypto_broker or PaperBroker(
+            portfolio_path=os.path.join("results", "pilot_crypto_portfolio.json"),
+            initial_cash=25000.0,
+            trades_path=os.path.join("results", "pilot_crypto_trades.csv"),
+        )
         self.tickers = load_universe_tickers()
         self.rule_gate = FormalLogicZ3RuleGate()
+
+    def get_target_broker(self, ticker: str) -> PaperBroker:
+        """Routes execution and state to the isolated crypto sandbox or standard US equity broker."""
+        from src.market_session import is_crypto_asset
+
+        if is_crypto_asset(ticker):
+            return self.crypto_broker
+        return self.broker
 
     def dispatch_discord_alert(
         self, title: str, description: str, color: int = 0x00D4AA
@@ -338,6 +361,22 @@ class AutonomousTradingEngine:
                 except Exception:
                     pass
 
+    def manage_open_positions(self) -> Dict[str, Any]:
+        """
+        Public method to audit and ratchet open positions (Phase A).
+        Used by MasterTradingLoop and external surveillance callers.
+        """
+        open_tickers = list(self.broker.state.get("open_positions", {}).keys())
+        if not open_tickers:
+            return {"status": "NO_OPEN_POSITIONS", "actions": []}
+        return self._execute_cycle_body(
+            candidate_tickers=[], max_concurrent_positions=0
+        )
+
+    def _manage_open_positions(self) -> Dict[str, Any]:
+        """Backward-compatibility alias for manage_open_positions."""
+        return self.manage_open_positions()
+
     def _execute_cycle_body(
         self,
         candidate_tickers: Optional[List[str]] = None,
@@ -347,8 +386,9 @@ class AutonomousTradingEngine:
         start_time = time.time()
         cycle_t0_ns = time.perf_counter_ns()
         tickers_to_scan = candidate_tickers or self.tickers
-        now_str = datetime.now(timezone.utc).isoformat()
-        date_str = now_str[:10]
+        now_ny = get_current_ny_time()
+        now_str = now_ny.isoformat()
+        date_str = now_ny.strftime("%Y-%m-%d")
 
         from src.market_session import get_us_market_session
 
@@ -381,9 +421,14 @@ class AutonomousTradingEngine:
         }
 
         # 2. Phase A: Manage & Audit Open Positions (Profit Taking / Trailing Stops)
-        open_positions = list(self.broker.state.get("open_positions", {}).keys())
-        for ticker in open_positions:
-            pos = self.broker.state["open_positions"].get(ticker)
+        all_open_positions = []
+        for tk in list(self.broker.state.get("open_positions", {}).keys()):
+            all_open_positions.append((tk, self.broker))
+        for tk in list(self.crypto_broker.state.get("open_positions", {}).keys()):
+            all_open_positions.append((tk, self.crypto_broker))
+
+        for ticker, target_broker in all_open_positions:
+            pos = target_broker.state["open_positions"].get(ticker)
             if not pos:
                 continue
 
@@ -408,6 +453,10 @@ class AutonomousTradingEngine:
                     continue
 
             pos["current_price"] = spot_price
+            from src.paper_broker import reconcile_split_if_needed
+
+            reconcile_split_if_needed(pos, ticker, spot_price)
+
             raw_shares = float(pos.get("shares", 0))
             shares = raw_shares if not raw_shares.is_integer() else int(raw_shares)
             entry_price = float(pos.get("entry_price") or spot_price or 1.0)
@@ -419,50 +468,105 @@ class AutonomousTradingEngine:
             scaled_out = bool(pos.get("scaled_out", False))
 
             # 🛡️ High-Water Mark & Dynamic Trailing Profit Shield
-            high_water = max(pos.get("high_water_mark", entry_price), spot_price)
+            high_water = max(
+                float(pos.get("high_water_mark", entry_price)),
+                float(pos.get("highest_price_seen", entry_price)),
+                spot_price,
+            )
             pos["high_water_mark"] = high_water
+            pos["highest_price_seen"] = high_water
             unrealized_gain_pct = (spot_price - entry_price) / denom * 100.0
             max_gain_pct = (high_water - entry_price) / denom * 100.0
 
-            # 🛡️ Level 1 & 2: Volatility-Anchored Breathing Room (ATR Dynamic Trailing)
-            # Replaces the fragile 0.25% noise trap with true institutional leeway:
-            # - Move to breakeven ONLY after trade gains at least +1.2x ATR (~2.5% to 4.0% gain)
-            # - Trail trailing stop at 1.5x ATR below peak to allow runners to compound to +10%-+25%
-            pos_atr = float(pos.get("atr_14", entry_price * 0.025))
-            if pos_atr <= 0:
-                pos_atr = max(entry_price * 0.025, 1.0)
+            # Level 0: Enforce Capital Shield Hard Floor (-2.50% max risk ceiling)
+            try:
+                from src.smart_trader_engine import (
+                    apply_high_watermark_profit_lock,
+                    enforce_capital_shield_stop_floor,
+                )
 
-            # Move to Breakeven (+0.2% fee cushion) only after reaching +1.2x ATR profit
-            if not scaled_out and (high_water - entry_price) >= (pos_atr * 1.2):
-                breakeven_floor = round(entry_price * 1.002, 2)
-                if sl_target < breakeven_floor:
-                    pos["sl_target"] = breakeven_floor
-                    sl_target = breakeven_floor
-                    logger.info(
-                        f"🛡️ [ATR BREAKEVEN SECURED] {ticker} gained +1.2x ATR (+{max_gain_pct:.2f}%). Stop moved to Breakeven (${breakeven_floor:.2f})"
-                    )
+                shielded_sl, _ = enforce_capital_shield_stop_floor(
+                    entry_price=entry_price,
+                    current_sl=sl_target,
+                    max_loss_pct=2.50,
+                )
+                if shielded_sl > sl_target:
+                    pos["sl_target"] = shielded_sl
+                    sl_target = shielded_sl
 
-            # Trail stop at High - 1.5x ATR once in solid trend (+2.0x ATR)
-            if (high_water - entry_price) >= (pos_atr * 2.0):
-                atr_trail_sl = round(high_water - (pos_atr * 1.5), 2)
-                if atr_trail_sl > sl_target:
-                    pos["sl_target"] = atr_trail_sl
-                    sl_target = atr_trail_sl
-                    logger.info(
-                        f"🔒 [ATR RUNNER TRAIL] {ticker} peaked at ${high_water:.2f}. Trailed stop to ${atr_trail_sl:.2f} (1.5x ATR room)"
-                    )
+                # Level 1: Institutional 80% Peak Gain Retention Ratchet
+                # Guarantees that once a trade reaches peak profit, never give back > 20% of gains
+                hwm_sl, new_peak, hwm_action = apply_high_watermark_profit_lock(
+                    current_price=spot_price,
+                    entry_price=entry_price,
+                    highest_price_seen=high_water,
+                    current_sl=sl_target,
+                    min_profit_threshold_pct=1.20,
+                    lock_fraction=0.80,
+                )
+                pos["highest_price_seen"] = new_peak
+                if hwm_sl > sl_target:
+                    pos["sl_target"] = hwm_sl
+                    sl_target = hwm_sl
+                    logger.info(f"🔒 [{ticker} PEAK PROFIT LOCK] {hwm_action}")
+            except Exception as pe:
+                logger.debug(f"Notice applying high watermark lock for {ticker}: {pe}")
 
-            # Level 4: Chandelier Trailing Stop for Runners (trail 3.5% from peak)
+            # Level 2: Multi-Tier Progressive Profit Bank & Guaranteed Floors
+            # Prevents +10% gain from ever eroding back to +2%
             if scaled_out:
+                floor_runner_sl = round(entry_price * 1.02, 2)
                 chandelier_sl = round(
                     pos.get("highest_price_seen", spot_price) * 0.965, 2
                 )
-                if chandelier_sl > sl_target:
-                    pos["sl_target"] = chandelier_sl
-                    sl_target = chandelier_sl
-                    logger.info(
-                        f"🏆 [CHANDELIER RUNNER TRAIL] {ticker} runner stop ratcheted to ${chandelier_sl:.2f} (Peak: ${pos.get('highest_price_seen'):.2f})"
+                target_sl = max(floor_runner_sl, chandelier_sl)
+                if target_sl > sl_target:
+                    pos["sl_target"] = target_sl
+                    sl_target = target_sl
+                    pos["profit_lock_status"] = f"🏆 RUNNER RATCHET (${target_sl:.2f})"
+            else:
+                if max_gain_pct >= 10.0:
+                    peak_80_sl = round(
+                        entry_price + (high_water - entry_price) * 0.80, 2
                     )
+                    if peak_80_sl > sl_target:
+                        pos["sl_target"] = peak_80_sl
+                        sl_target = peak_80_sl
+                        pos["profit_lock_status"] = (
+                            f"🔒 80% PEAK LOCKED (+{max_gain_pct * 0.8:.1f}% @ ${peak_80_sl:.2f})"
+                        )
+                elif max_gain_pct >= 8.0:
+                    tier3_sl = round(entry_price * 1.050, 2)  # Lock +5.0%
+                    if tier3_sl > sl_target:
+                        pos["sl_target"] = tier3_sl
+                        sl_target = tier3_sl
+                        pos["profit_lock_status"] = (
+                            f"🔒 TIER-3 COMPOUNDER (+5.0% @ ${tier3_sl:.2f})"
+                        )
+                elif max_gain_pct >= 5.0:
+                    tier2_sl = round(entry_price * 1.025, 2)  # Lock +2.5%
+                    if tier2_sl > sl_target:
+                        pos["sl_target"] = tier2_sl
+                        sl_target = tier2_sl
+                        pos["profit_lock_status"] = (
+                            f"🔒 TIER-2 SECURED (+2.5% @ ${tier2_sl:.2f})"
+                        )
+                elif max_gain_pct >= 3.0:
+                    tier1_sl = round(entry_price * 1.010, 2)  # Lock +1.0%
+                    if tier1_sl > sl_target:
+                        pos["sl_target"] = tier1_sl
+                        sl_target = tier1_sl
+                        pos["profit_lock_status"] = (
+                            f"🔒 TIER-1 SECURED (+1.0% @ ${tier1_sl:.2f})"
+                        )
+                elif max_gain_pct >= 1.5:
+                    be_sl = round(entry_price * 1.002, 2)  # Breakeven + fee cushion
+                    if be_sl > sl_target:
+                        pos["sl_target"] = be_sl
+                        sl_target = be_sl
+                        pos["profit_lock_status"] = (
+                            f"🛡️ BREAKEVEN SECURED (${be_sl:.2f})"
+                        )
 
             # Level 5: CUSUM Structural Break Early Warning (Page 1954)
             try:
@@ -539,14 +643,16 @@ class AutonomousTradingEngine:
                 and fast_harvest_target is not None
                 and unrealized_gain_pct >= fast_harvest_target
             ):
-                proceeds = float(shares * spot_price)
+                gross_proceeds = float(shares * spot_price)
+                exit_friction = float(gross_proceeds * 0.00035)
+                proceeds = float(gross_proceeds - exit_friction)
                 cost_basis = float(shares * entry_price)
                 pnl = float(proceeds - cost_basis)
 
-                self.broker.state["cash"] += proceeds
-                self.broker.state["realized_pnl"] += pnl
-                self.broker.state["total_trades"] += 1
-                self.broker.state["winning_trades"] += 1
+                target_broker.state["cash"] += proceeds
+                target_broker.state["realized_pnl"] += pnl
+                target_broker.state["total_trades"] += 1
+                target_broker.state["winning_trades"] += 1
 
                 trade_record = {
                     "ticker": ticker,
@@ -558,9 +664,10 @@ class AutonomousTradingEngine:
                     "pnl": round(pnl, 2),
                     "return_pct": round(unrealized_gain_pct, 2),
                     "reason": "MEAN_REVERSION_SNIPER_HARVEST",
+                    "exit_friction": round(exit_friction, 2),
                 }
-                self.broker._record_trade_closure(trade_record)
-                del self.broker.state["open_positions"][ticker]
+                target_broker._record_trade_closure(trade_record)
+                del target_broker.state["open_positions"][ticker]
                 executed_actions["take_profits_tp2"].append(trade_record)
                 logger.info(
                     f"🎯 [SNIPER HARVEST] {ticker} reached Call Wall resistance (+{unrealized_gain_pct:.2f}%). Fully closed @ ${spot_price:.2f} | PnL: ${pnl:+,.2f}"
@@ -579,10 +686,10 @@ class AutonomousTradingEngine:
 
                 if (
                     p_action == "ADD_UNIT_1"
-                    and self.broker.state.get("cash", 0) > 1000.0
+                    and target_broker.state.get("cash", 0) > 1000.0
                 ):
                     add_shares = int(pos.get("unit_shares", shares))
-                    pyr_res = self.broker.execute_pyramid_unit(
+                    pyr_res = target_broker.execute_pyramid_unit(
                         ticker=ticker,
                         unit_num=2,
                         shares=add_shares,
@@ -600,10 +707,10 @@ class AutonomousTradingEngine:
 
                 elif (
                     p_action == "ADD_UNIT_2"
-                    and self.broker.state.get("cash", 0) > 1000.0
+                    and target_broker.state.get("cash", 0) > 1000.0
                 ):
                     add_shares = int(pos.get("unit_shares", max(1, shares // 2)))
-                    pyr_res = self.broker.execute_pyramid_unit(
+                    pyr_res = target_broker.execute_pyramid_unit(
                         ticker=ticker,
                         unit_num=3,
                         shares=add_shares,
@@ -625,35 +732,67 @@ class AutonomousTradingEngine:
 
             # Check Stage 1 Scale-Out (+2.5 ATR)
             if not scaled_out and spot_price >= tp1_target:
+                from src.market_session import is_crypto_asset
 
-                if isinstance(shares, float) and not shares.is_integer():
-                    half_shares = round(shares / 2.0, 6)
+                is_crypto = is_crypto_asset(ticker)
+                raw_shares = float(shares)
+                if is_crypto or not raw_shares.is_integer():
+                    half_shares = round(raw_shares / 2.0, 6)
+                elif raw_shares > 1.0:
+                    half_shares = int(raw_shares) // 2
                 else:
-                    half_shares = max(1, int(shares) // 2)
-                proceeds = float(half_shares * spot_price)
+                    # 1 whole share: close 100% at TP1 since it cannot be split into whole shares
+                    half_shares = shares
+
+                gross_proceeds = float(half_shares * spot_price)
+                exit_friction = float(gross_proceeds * 0.00035)
+                proceeds = float(gross_proceeds - exit_friction)
                 cost_basis = float(half_shares * entry_price)
                 pnl = float(proceeds - cost_basis)
                 ret_pct = float((spot_price - entry_price) / denom * 100.0)
 
-                self.broker.state["cash"] += proceeds
-                self.broker.state["realized_pnl"] += pnl
-                pos["shares"] = shares - half_shares
-                pos["scaled_out"] = True
-                pos["sl_target"] = round(entry_price * 1.002, 2)  # Breakeven + 0.2%
+                target_broker.state["cash"] += proceeds
+                target_broker.state["realized_pnl"] += pnl
+                remaining_shares = shares - half_shares
 
-                tp1_record = {
-                    "ticker": ticker,
-                    "shares_sold": half_shares,
-                    "remaining_shares": pos["shares"],
-                    "exit_price": spot_price,
-                    "pnl": round(pnl, 2),
-                    "return_pct": round(ret_pct, 2),
-                    "action": "TP1_PROFIT_LOCK_50PCT",
-                }
-                executed_actions["take_profits_tp1"].append(tp1_record)
-                logger.info(
-                    f"💰 [TP1 PROFIT LOCK] Sold {half_shares} shares of {ticker} @ ${spot_price:.2f} | Realized PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%) | Stop moved to ${pos['sl_target']:.2f}"
-                )
+                if remaining_shares <= 1e-6:
+                    target_broker.state["total_trades"] += 1
+                    target_broker.state["winning_trades"] += 1
+                    del target_broker.state["open_positions"][ticker]
+                    tp1_record = {
+                        "ticker": ticker,
+                        "shares_sold": half_shares,
+                        "remaining_shares": 0,
+                        "exit_price": spot_price,
+                        "pnl": round(pnl, 2),
+                        "return_pct": round(ret_pct, 2),
+                        "action": "TP1_100PCT_COMPLETE_EXIT",
+                        "exit_friction": round(exit_friction, 2),
+                    }
+                    executed_actions["take_profits_tp1"].append(tp1_record)
+                    logger.info(
+                        f"🎯 [TP1 COMPLETE EXIT] Closed 100% {ticker} ({half_shares} shares @ ${spot_price:.2f}) | Realized PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
+                    )
+                    continue
+                else:
+                    pos["shares"] = remaining_shares
+                    pos["scaled_out"] = True
+                    pos["sl_target"] = round(entry_price * 1.002, 2)  # Breakeven + 0.2%
+
+                    tp1_record = {
+                        "ticker": ticker,
+                        "shares_sold": half_shares,
+                        "remaining_shares": pos["shares"],
+                        "exit_price": spot_price,
+                        "pnl": round(pnl, 2),
+                        "return_pct": round(ret_pct, 2),
+                        "action": "TP1_PROFIT_LOCK_50PCT",
+                        "exit_friction": round(exit_friction, 2),
+                    }
+                    executed_actions["take_profits_tp1"].append(tp1_record)
+                    logger.info(
+                        f"💰 [TP1 PROFIT LOCK] Sold {half_shares} shares of {ticker} @ ${spot_price:.2f} | Realized PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%) | Stop moved to ${pos['sl_target']:.2f}"
+                    )
                 send_discord_execution_alert(
                     {
                         "action": "SELL",
@@ -669,15 +808,17 @@ class AutonomousTradingEngine:
 
             # Check Stage 2 Runner Exit (+4.5 ATR)
             elif spot_price >= tp2_target:
-                proceeds = float(pos["shares"] * spot_price)
+                gross_proceeds = float(pos["shares"] * spot_price)
+                exit_friction = float(gross_proceeds * 0.00035)
+                proceeds = float(gross_proceeds - exit_friction)
                 cost_basis = float(pos["shares"] * entry_price)
                 pnl = float(proceeds - cost_basis)
                 ret_pct = float((spot_price - entry_price) / denom * 100.0)
 
-                self.broker.state["cash"] += proceeds
-                self.broker.state["realized_pnl"] += pnl
-                self.broker.state["total_trades"] += 1
-                self.broker.state["winning_trades"] += 1
+                target_broker.state["cash"] += proceeds
+                target_broker.state["realized_pnl"] += pnl
+                target_broker.state["total_trades"] += 1
+                target_broker.state["winning_trades"] += 1
 
                 trade_record = {
                     "ticker": ticker,
@@ -689,9 +830,10 @@ class AutonomousTradingEngine:
                     "pnl": round(pnl, 2),
                     "return_pct": round(ret_pct, 2),
                     "reason": "TP2_RUNNER_EXIT",
+                    "exit_friction": round(exit_friction, 2),
                 }
-                self.broker._record_trade_closure(trade_record)
-                del self.broker.state["open_positions"][ticker]
+                target_broker._record_trade_closure(trade_record)
+                del target_broker.state["open_positions"][ticker]
                 executed_actions["take_profits_tp2"].append(trade_record)
                 logger.info(
                     f"🎯 [TP2 RUNNER EXIT] Closed runner for {ticker} @ ${spot_price:.2f} | Realized PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
@@ -710,18 +852,20 @@ class AutonomousTradingEngine:
 
             # Check Stop-Loss / Breakeven Exit
             elif spot_price <= sl_target:
-                proceeds = float(pos["shares"] * spot_price)
+                gross_proceeds = float(pos["shares"] * spot_price)
+                exit_friction = float(gross_proceeds * 0.00035)
+                proceeds = float(gross_proceeds - exit_friction)
                 cost_basis = float(pos["shares"] * entry_price)
                 pnl = float(proceeds - cost_basis)
                 ret_pct = float((spot_price - entry_price) / denom * 100.0)
 
-                self.broker.state["cash"] += proceeds
-                self.broker.state["realized_pnl"] += pnl
-                self.broker.state["total_trades"] += 1
+                target_broker.state["cash"] += proceeds
+                target_broker.state["realized_pnl"] += pnl
+                target_broker.state["total_trades"] += 1
                 if pnl > 0 or scaled_out:
-                    self.broker.state["winning_trades"] += 1
+                    target_broker.state["winning_trades"] += 1
                 else:
-                    self.broker.state["losing_trades"] += 1
+                    target_broker.state["losing_trades"] += 1
 
                 reason = "BREAK_EVEN_TRAIL" if scaled_out else "STOP_LOSS"
                 trade_record = {
@@ -734,9 +878,10 @@ class AutonomousTradingEngine:
                     "pnl": round(pnl, 2),
                     "return_pct": round(ret_pct, 2),
                     "reason": reason,
+                    "exit_friction": round(exit_friction, 2),
                 }
-                self.broker._record_trade_closure(trade_record)
-                del self.broker.state["open_positions"][ticker]
+                target_broker._record_trade_closure(trade_record)
+                del target_broker.state["open_positions"][ticker]
                 executed_actions["stop_losses"].append(trade_record)
                 logger.info(
                     f"🛡️ [{reason}] Closed position for {ticker} @ ${spot_price:.2f} | Realized PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
@@ -761,8 +906,10 @@ class AutonomousTradingEngine:
         ):
             self.broker._recalculate_metrics(date_str, now_str)
             self.broker._save()
+            self.crypto_broker._recalculate_metrics(date_str, now_str)
+            self.crypto_broker._save()
             logger.info(
-                "💾 [PHASE A COMMITTED] Closed positions persisted to paper_portfolio.json and executed_trades.csv."
+                "💾 [PHASE A COMMITTED] Closed positions persisted to paper_portfolio.json and pilot_crypto_portfolio.json."
             )
 
         # 3. Phase B: Scan Universe for Committee Buy Opportunities
@@ -839,17 +986,18 @@ class AutonomousTradingEngine:
         cash_available = self.broker.state.get("cash", 0.0)
 
         if available_slots > 0 and cash_available > 5000.0:
-            # 3-Day Anti-Whipsaw Cooldown: Quarantine ONLY trades closed at a loss (PnL < 0)
-            # Winning and breakeven trades are NOT blacklisted if fresh high-conviction signals emerge
+            # Anti-Whipsaw Cooldown: Quarantine any exit within 24h (scratch/breakeven) to stop ping-pong churn,
+            # and enforce full 3-day quarantine on losses (pnl < 0).
             quarantined_tickers = set()
             for ct in self.broker.state.get("closed_trades", []):
                 exit_d = ct.get("exit_date", "")
                 pnl_val = float(ct.get("pnl", 0.0))
-                if exit_d and pnl_val < 0:
+                if exit_d:
                     try:
                         d_exit = datetime.fromisoformat(str(exit_d)[:10])
                         d_now = datetime.fromisoformat(str(date_str)[:10])
-                        if (d_now - d_exit).days < 3:
+                        days_diff = (d_now - d_exit).days
+                        if days_diff < 1 or (pnl_val < 0 and days_diff < 3):
                             quarantined_tickers.add(ct.get("ticker"))
                     except Exception:
                         pass
@@ -880,7 +1028,16 @@ class AutonomousTradingEngine:
             unheld_tickers = [
                 t
                 for t in tickers_to_scan
-                if t not in self.broker.state.get("open_positions", {})
+                if (
+                    (
+                        is_crypto_asset(t)
+                        and t not in self.crypto_broker.state.get("open_positions", {})
+                    )
+                    or (
+                        not is_crypto_asset(t)
+                        and t not in self.broker.state.get("open_positions", {})
+                    )
+                )
                 and t not in quarantined_tickers
                 and (
                     is_crypto_asset(t)
@@ -913,8 +1070,24 @@ class AutonomousTradingEngine:
                 if p > 5.0:  # Filter out illiquid penny stocks
                     scored_candidates.append((t, chg * vol))
 
-            # Prioritize the verified "Most Increasable" Set (positive net alpha + volume PoC)
+            # Prioritize the verified "Most Increasable" Set and Tier-1 Asymmetric Radar Set
             verified_priority_tickers = []
+            try:
+                radar_file = os.path.join("results", "tier1_asymmetric_radar.json")
+                if os.path.exists(radar_file):
+                    with open(radar_file, "r", encoding="utf-8") as rf:
+                        radar_data = json.load(rf)
+                    for item in radar_data[:25]:
+                        tkr = item.get("ticker")
+                        if (
+                            tkr
+                            and tkr in unheld_tickers
+                            and tkr not in verified_priority_tickers
+                        ):
+                            verified_priority_tickers.append(tkr)
+            except Exception as r_err:
+                logger.debug(f"Tier-1 radar prioritization notice: {r_err}")
+
             try:
                 inc_file = os.path.join(
                     "results", "most_increasable_trade_set_latest.json"
@@ -1040,11 +1213,94 @@ class AutonomousTradingEngine:
                 reverse=True,
             )
 
+            # Proprietary Alpha: Dynamic Sympathy Lead-Lag Propagation Scan
+            try:
+                from src.soros_sympathy import (
+                    get_sympathy_propagator,
+                    get_active_sympathy_network,
+                )
+
+                propagator = get_sympathy_propagator()
+                active_sympathy_net = get_active_sympathy_network()
+                driver_dfs = {}
+                for driver in active_sympathy_net.keys():
+                    if driver in quotes_map:
+                        d_df = get_price_history(driver, period="1mo", use_cache=True)
+                        if d_df is not None and not d_df.empty:
+                            driver_dfs[driver] = d_df
+
+                if driver_dfs and len(buy_candidates) < available_slots:
+                    for driver, info in active_sympathy_net.items():
+                        if driver in driver_dfs:
+                            for follower in info["followers"]:
+                                if follower in [
+                                    b[0] for b in buy_candidates
+                                ] or follower in self.broker.state.get(
+                                    "open_positions", {}
+                                ):
+                                    continue
+                                f_df = get_price_history(
+                                    follower, period="1mo", use_cache=True
+                                )
+                                sympathy_check = (
+                                    propagator.evaluate_sympathy_for_follower(
+                                        follower_ticker=follower,
+                                        driver_data_dict=driver_dfs,
+                                        follower_df=f_df,
+                                    )
+                                )
+                                if sympathy_check.get("sympathy_opportunity"):
+                                    logger.info(
+                                        f"🎯 [SYMPATHY ALPHA DETECTED] Follower {follower} lagging driver {driver} "
+                                        f"(Expected: +{sympathy_check['total_expected_sympathy_pct']}%, Unpriced Spread: +{sympathy_check['unpriced_lag_spread_pct']}%)"
+                                    )
+                                    _, f_delib = _deliberate_single(follower)
+                                    if f_delib and f_delib.get("action_code") in [
+                                        "EXECUTE_BUY",
+                                        "SCALE_IN",
+                                        "HOLD",
+                                    ]:
+                                        f_delib["action_code"] = "EXECUTE_BUY"
+                                        f_delib["final_resolution"] = (
+                                            f"SYMPATHY_FRONTRUN_FROM_{driver}"
+                                        )
+                                        f_delib["sympathy_intelligence"] = (
+                                            sympathy_check
+                                        )
+                                        buy_candidates.append((follower, f_delib))
+            except Exception as sym_err:
+                logger.debug(f"Sympathy scanner notice: {sym_err}")
+
             # Task 8 Max Position Size Hard Constraint: Max 10% of total portfolio equity for 8-10 position dynamic model
             total_eq = max(
                 float(portfolio_summary.get("total_equity") or 100000.0), 1.0
             )
-            max_position_dollars = total_eq * 0.10
+
+            # Neural SDE Dynamic CPPI Survival Floor & Cushion (Black & Jones 1987 / Grossman & Zhou 1993)
+            # Calibrated by 1,000,000 GPU Monte Carlo paths in results/cvar_stress_report.json
+            cppi_floor = 109362.04
+            try:
+                cvar_report_path = os.path.join("results", "cvar_stress_report.json")
+                if os.path.exists(cvar_report_path):
+                    with open(cvar_report_path, "r", encoding="utf-8") as cf:
+                        cvar_rep = json.load(cf)
+                    cppi_floor = float(
+                        cvar_rep.get("recommended_dynamic_cash_floor", cppi_floor)
+                    )
+            except Exception as cf_err:
+                logger.debug(f"CVaR report load notice: {cf_err}")
+
+            cppi_cushion = max(0.0, total_eq - cppi_floor)
+            if cppi_cushion <= 0.0:
+                logger.critical(
+                    f"🚨 [NEURAL SDE CPPI FLOOR BREACH] Equity (${total_eq:,.2f}) is at or below dynamic survival floor (${cppi_floor:,.2f}). Freezing all new long exposure."
+                )
+                return executed_actions
+
+            # Position ticket size bounded by 10% equity ceiling and available CPPI surplus cushion
+            max_position_dollars = min(
+                total_eq * 0.10, max(1500.0, cppi_cushion * 0.35)
+            )
 
             # Execute entries into Top candidate setups up to available slots
             for t, delib in buy_candidates[:available_slots]:
@@ -1087,6 +1343,29 @@ class AutonomousTradingEngine:
                 # Ensure Kelly sizing allocation does not breach max position size
                 cro_info = delib.get("cro_signoff") or {}
                 approved_kelly = float(cro_info.get("approved_kelly_pct", 8.0))
+
+                # Universal DRL Continuous Policy Dynamic Leverage & Pyramiding Modulation
+                try:
+                    from src.drl_policy_agent import evaluate_drl_policy_action
+
+                    drl_res = evaluate_drl_policy_action(ticker=t)
+                    rec_lev = float(drl_res.get("recommended_leverage", 1.0))
+                    drl_scalar = float(np.clip(rec_lev, 0.35, 1.25))
+                    if drl_scalar != 1.0:
+                        old_k = approved_kelly
+                        approved_kelly = round(approved_kelly * drl_scalar, 1)
+                        logger.info(
+                            f"🧠 [UNIVERSAL DRL LEVERAGE] {t}: Policy recommends {rec_lev:.2f}x ({drl_res.get('action_label')}). Modulated Kelly: {old_k}% -> {approved_kelly}%."
+                        )
+                        if isinstance(delib.get("cro_signoff"), dict):
+                            delib["cro_signoff"]["approved_kelly_pct"] = approved_kelly
+                            delib["cro_signoff"]["drl_leverage_multiplier"] = rec_lev
+                            delib["cro_signoff"]["drl_action_label"] = drl_res.get(
+                                "action_label"
+                            )
+                except Exception as drl_err:
+                    logger.debug(f"DRL policy modulation notice for {t}: {drl_err}")
+
                 max_allowed_kelly = round(
                     (max_position_dollars / total_eq) * 100.0,
                     1,
@@ -1095,25 +1374,30 @@ class AutonomousTradingEngine:
                     logger.info(
                         f"🔒 [CIRCUIT BREAKER: POSITION SIZE] Sizing for {t} capped from {approved_kelly}% to {max_allowed_kelly}% max position limit."
                     )
+                    approved_kelly = max_allowed_kelly
                     if isinstance(delib.get("cro_signoff"), dict):
                         delib["cro_signoff"]["approved_kelly_pct"] = max_allowed_kelly
 
                 # Formal Logic Z3 Rule Gate Verification (Sprint 4, Module 4.5 / Idea 47)
+                target_b = self.get_target_broker(t)
+                target_equity = float(target_b.state.get("total_equity", 100000.0))
                 if is_crypto_asset(t):
                     shares_est = round(
-                        float(total_eq * (approved_kelly / 100.0) / spot_price), 6
+                        float(target_equity * (approved_kelly / 100.0) / spot_price), 6
                     )
                 else:
                     shares_est = max(
                         1.0,
-                        float(int(total_eq * (approved_kelly / 100.0) / spot_price)),
+                        float(
+                            int(target_equity * (approved_kelly / 100.0) / spot_price)
+                        ),
                     )
                 gate_eval = self.rule_gate.verify_trade(
                     ticker=t,
                     spot_price=spot_price,
                     shares=shares_est,
                     deliberation=delib,
-                    portfolio_state=self.broker.state,
+                    portfolio_state=target_b.state,
                 )
                 if not gate_eval["is_valid"]:
                     logger.warning(
@@ -1122,7 +1406,7 @@ class AutonomousTradingEngine:
                     continue
 
                 order_res = execute_committee_order(
-                    ticker=t, deliberation=delib, broker=self.broker
+                    ticker=t, deliberation=delib, broker=target_b
                 )
                 if order_res.get("success"):
                     executed_actions["buys"].append(order_res)
@@ -1176,6 +1460,8 @@ class AutonomousTradingEngine:
         # 4. Phase C: Update Portfolio Summary Ledger
         self.broker._recalculate_metrics(date_str, now_str)
         self.broker._save()
+        self.crypto_broker._recalculate_metrics(date_str, now_str)
+        self.crypto_broker._save()
 
         # 5. Phase D: Self-Improving Feedback Loop & Trade Autopsy
         self_improvement_summary = self._run_self_improvement_feedback_loop(
@@ -1226,7 +1512,7 @@ class AutonomousTradingEngine:
         except Exception as log_err:
             logger.warning(f"Could not persist autonomous log file: {log_err}")
 
-        # Persist updated portfolio state and export executed_trades.csv atomically
+        # Persist updated portfolio states and export executed trades atomically
         try:
             open_val = sum(
                 float(p.get("shares", 0))
@@ -1237,8 +1523,18 @@ class AutonomousTradingEngine:
                 float(self.broker.state.get("cash", 0.0)) + open_val, 2
             )
             self.broker._save()
+
+            crypto_val = sum(
+                float(p.get("shares", 0))
+                * float(p.get("current_price", p.get("entry_price", 0.0)))
+                for p in self.crypto_broker.state.get("open_positions", {}).values()
+            )
+            self.crypto_broker.state["total_equity"] = round(
+                float(self.crypto_broker.state.get("cash", 0.0)) + crypto_val, 2
+            )
+            self.crypto_broker._save()
             logger.info(
-                "💾 [PORTFOLIO PERSISTED] Updated paper_portfolio.json and executed_trades.csv successfully."
+                "💾 [PORTFOLIO PERSISTED] Updated paper_portfolio.json and pilot_crypto_portfolio.json successfully."
             )
         except Exception as save_err:
             logger.error(f"Failed to persist portfolio state: {save_err}")

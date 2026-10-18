@@ -271,29 +271,42 @@ class MasterTradingLoop:
                     }
                 )
 
-                # Execute only high-conviction un-vetoed BUY signals
+                # Execute only high-conviction un-vetoed BUY signals (minimum 65.0% conviction)
                 action_code = delib.get("action_code", "")
                 is_buy_signal = (
                     (
                         action_code in ["EXECUTE_BUY", "SCALE_IN"]
                         or "BUY" in str(res).upper()
                     )
-                    and conv >= 58.0
+                    and conv >= 65.0
                     and not cro_veto
                 )
                 if is_buy_signal or force_execution:
-                    exec_record = execute_committee_order(delib, broker=self.broker)
-                    if exec_record and exec_record.get("status") == "EXECUTED":
+                    exec_record = execute_committee_order(
+                        ticker=ticker, deliberation=delib, broker=self.broker
+                    )
+                    if exec_record and (
+                        exec_record.get("success")
+                        or exec_record.get("status") == "EXECUTED"
+                    ):
                         executed_orders.append(exec_record)
                         logger.info(
-                            f"✅ Executed Paper Order for {ticker}: {exec_record.get('shares')} shares @ ${exec_record.get('entry_price', 0):.2f}"
+                            f"✅ Executed Paper Order for {ticker}: {exec_record.get('shares')} shares @ ${exec_record.get('entry_price', exec_record.get('price', 0)):.2f}"
                         )
 
                         # Mirror to Alpaca Bracket Order if connected
                         if self.alpaca.is_connected():
                             shares = int(exec_record.get("shares", 1))
-                            tp = float(exec_record.get("tp1", 0.0))
-                            sl = float(exec_record.get("sl", 0.0))
+                            tp = float(
+                                exec_record.get("tp1_target")
+                                or exec_record.get("tp1")
+                                or 0.0
+                            )
+                            sl = float(
+                                exec_record.get("sl_target")
+                                or exec_record.get("sl")
+                                or 0.0
+                            )
                             if shares > 0 and tp > 0 and sl > 0:
                                 alpaca_res = self.alpaca.submit_bracket_order(
                                     ticker=ticker,
@@ -301,6 +314,7 @@ class MasterTradingLoop:
                                     take_profit_price=tp,
                                     stop_loss_price=sl,
                                     side="buy",
+                                    timeout=10,
                                 )
                                 alpaca_orders.append(alpaca_res)
                                 logger.info(
@@ -312,7 +326,7 @@ class MasterTradingLoop:
 
         # 3.3 Manage Existing Open Positions (Trailing profit lock & TP harvests)
         try:
-            pos_audit = self.engine._manage_open_positions()
+            pos_audit = self.engine.manage_open_positions()
         except Exception as e:
             logger.debug(f"Position audit notice: {e}")
             pos_audit = {}

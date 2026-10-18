@@ -194,7 +194,7 @@ def run_daily_market_scan() -> list:
                     c_veto = bool(comm_res.get("veto_active", False))
 
                     council_verdict_str = f"{c_dir} ({c_conf:.1%})"
-                    if c_dir == "BUY" and c_conf >= 0.55 and not c_veto:
+                    if c_dir == "BUY" and c_conf >= 0.65 and not c_veto:
                         signal_type = "BUY"
                     else:
                         signal_type = "HOLD"
@@ -202,15 +202,20 @@ def run_daily_market_scan() -> list:
                     logger.debug(
                         f"Council deliberation fallback for {ticker}: {comm_err}"
                     )
-                    signal_type = "BUY"
+                    signal_type = "HOLD"
             elif confidence < 0.40 or (rsi > 80 and not above_sma):
                 signal_type = "SELL"
             else:
                 signal_type = "HOLD"
 
-            # Calculate Take-Profit and Stop-Loss Targets
+            # Calculate Take-Profit and Stop-Loss Targets bounded by Capital Shield
             tp_target = float(curr_close + (2.5 * atr_val))
-            sl_target = float(curr_close - ((3.0 if above_sma else 1.5) * atr_val))
+            raw_sl = float(curr_close - ((1.5 if above_sma else 1.2) * atr_val))
+            from src.smart_trader_engine import enforce_capital_shield_stop_floor
+
+            sl_target, _ = enforce_capital_shield_stop_floor(
+                entry_price=curr_close, current_sl=raw_sl, max_loss_pct=2.50
+            )
             regime_str = (
                 "▲ BULLISH (Above SMA200)" if above_sma else "▼ BEARISH (Below SMA200)"
             )

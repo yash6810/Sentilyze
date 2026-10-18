@@ -250,14 +250,23 @@ def evaluate_drl_policy_action(
     """
     Performs fast sub-millisecond inference with the trained Actor-Critic policy.
     """
-    model = ActorCriticPolicy(state_dim=6, hidden_dim=32)
     weights_path = os.path.join(
         DRL_MODEL_DIR, f"{sanitize_filename(ticker)}_drl_weights.pt"
     )
+    universal_path = os.path.join(DRL_MODEL_DIR, "universal_drl_policy.pt")
+    target_path = weights_path if os.path.exists(weights_path) else universal_path
 
-    if os.path.exists(weights_path):
+    model = ActorCriticPolicy(state_dim=6, hidden_dim=32)
+    if os.path.exists(target_path):
         try:
-            model.load_state_dict(torch.load(weights_path, weights_only=True))
+            state = torch.load(
+                target_path, map_location=torch.device("cpu"), weights_only=True
+            )
+            if "encoder.0.weight" in state:
+                h = state["encoder.0.weight"].shape[0]
+                if h != 32:
+                    model = ActorCriticPolicy(state_dim=6, hidden_dim=h)
+            model.load_state_dict(state)
         except Exception:
             pass
 

@@ -325,6 +325,37 @@ class TechnicalAlphaAgent:
         except Exception as arar_err:
             logger.debug(f"ARAR check notice for {ticker}: {arar_err}")
 
+        # Check GPU Chronos-2 Probabilistic Corridors (Quantile Density Bands)
+        chronos_metrics = {}
+        try:
+            corridor_file = os.path.join(
+                "results", "chronos_probabilistic_corridors.json"
+            )
+            if os.path.exists(corridor_file):
+                with open(corridor_file, "r", encoding="utf-8") as cf:
+                    cdata = json.load(cf)
+                    if ticker in cdata:
+                        tcor = cdata[ticker]
+                        p10_floor = float(tcor.get("p10_stop_floor", spot_price * 0.95))
+                        p90_ceil = float(
+                            tcor.get("p90_target_ceiling", spot_price * 1.05)
+                        )
+                        upside_ratio = (p90_ceil - spot_price) / max(
+                            spot_price - p10_floor, 1e-4
+                        )
+                        chronos_metrics = {
+                            "p10_floor": round(p10_floor, 2),
+                            "p90_ceiling": round(p90_ceil, 2),
+                            "upside_to_downside_ratio": round(upside_ratio, 2),
+                        }
+                        if spot_price <= p10_floor * 1.02 and upside_ratio >= 1.8:
+                            conviction = min(96.0, conviction + 6.0)
+                            thesis += f" 🔮 GPU Chronos Corridor favorable: Near P10 floor (${p10_floor:.2f}) with {upside_ratio:.1f}x asymmetric upside to P90 ceiling (${p90_ceil:.2f})."
+                        elif spot_price >= p90_ceil * 0.99:
+                            thesis += f" ⚠️ GPU Chronos Ceiling: Near P90 target limit (${p90_ceil:.2f}); risk/reward compressed."
+        except Exception as chr_err:
+            logger.debug(f"Chronos corridor check notice for {ticker}: {chr_err}")
+
         return {
             "agent_name": "Technical Momentum Specialist",
             "role": "Pillar 1: Market Structure, Moving Averages, RSI, Options GEX, ARAR & Alpha158",
@@ -334,6 +365,7 @@ class TechnicalAlphaAgent:
                 "Paper 10: Bailey & López de Prado (2014) Deflated Sharpe Ratio (DSR)",
                 "Institutional Market Microstructure: SqueezeMetrics Gamma Exposure (GEX)",
                 "Stoikov (2018) / Easley-de Prado-O'Hara (2012) ARAR Absorption & Order Book Imbalance",
+                "Amazon Chronos-2: Probabilistic Time-Series Foundation Corridors",
             ],
             "vote": vote,
             "conviction_score": conviction,
@@ -347,6 +379,8 @@ class TechnicalAlphaAgent:
                 **gex_metrics,
                 **alpha158_metrics,
                 **arar_metrics,
+                **chronos_metrics,
+                "chronos_corridors": chronos_metrics,
             },
             "thesis": thesis,
         }
@@ -726,6 +760,7 @@ class ChiefRiskOfficerAgent:
             "Technical Momentum Specialist": 0.25,
             "Sentiment & Alternative Data Specialist": 0.25,
             "Fundamental Valuation Specialist": 0.20,
+            "Forensic & Valuation Auditor": 0.20,
             "Adversarial Red-Team Specialist": 0.15,
             "Chief Risk Officer": 0.15,
         }
@@ -740,9 +775,9 @@ class ChiefRiskOfficerAgent:
                         agent_weights["Sentiment & Alternative Data Specialist"] = (
                             float(wdata.get("FinBERT Sentiment", 0.25))
                         )
-                        agent_weights["Fundamental Valuation Specialist"] = float(
-                            wdata.get("Fundamental Valuation", 0.20)
-                        )
+                        fund_w = float(wdata.get("Fundamental Valuation", 0.20))
+                        agent_weights["Fundamental Valuation Specialist"] = fund_w
+                        agent_weights["Forensic & Valuation Auditor"] = fund_w
                         agent_weights["Adversarial Red-Team Specialist"] = float(
                             wdata.get("Adversarial Red-Team", 0.15)
                         )
@@ -750,15 +785,19 @@ class ChiefRiskOfficerAgent:
                 pass
 
         total_weight = sum(
-            agent_weights.get(r.get("agent_name", ""), 0.25)
+            agent_weights.get(r.get("agent_name", ""), 0.20)
             for r in agent_reports
             if isinstance(r, dict)
         )
         if total_weight > 0:
             weighted_conviction = (
                 sum(
-                    float(r.get("conviction_score", 50.0))
-                    * agent_weights.get(r.get("agent_name", ""), 0.25)
+                    (
+                        50.0
+                        if np.isnan(float(r.get("conviction_score", 50.0)))
+                        else float(r.get("conviction_score", 50.0))
+                    )
+                    * agent_weights.get(r.get("agent_name", ""), 0.20)
                     for r in agent_reports
                     if isinstance(r, dict)
                 )
@@ -854,6 +893,20 @@ class ChiefRiskOfficerAgent:
                 veto_reason = f"CRO Hard-Veto: Double Crash / Top Exhaustion detected via dark pool put sweeps & options skew ({crash_prob:.1f}% crash probability)."
         except Exception as de:
             logger.debug(f"Double-crash miner check notice for {ticker}: {de}")
+
+        # Check Mahalanobis Multivariate Anomaly Sentinel (Idea 49 / Out-of-Distribution Market Dislocation)
+        mahalanobis_veto = False
+        mahalanobis_metrics = {}
+        try:
+            from src.risk_guardian import evaluate_mahalanobis_sentinel
+
+            maha_res = evaluate_mahalanobis_sentinel(ticker)
+            mahalanobis_metrics = maha_res
+            if maha_res.get("is_anomaly", False):
+                mahalanobis_veto = True
+                veto_reason = f"Mahalanobis Sentinel VETO: Multivariate dislocation detected (D_M={maha_res.get('mahalanobis_distance', 0.0)}, p={maha_res.get('p_value', 0.0):.4f}). Out-of-distribution regime."
+        except Exception as me:
+            logger.debug(f"Mahalanobis anomaly check notice for {ticker}: {me}")
 
         # Check VIX Macro Volatility Gate
         if vix_level > 26.0 or vix_change_pct > 8.0:
@@ -964,6 +1017,94 @@ class ChiefRiskOfficerAgent:
                     )
         except Exception as cqr_err:
             logger.debug(f"Conformal check notice for {ticker}: {cqr_err}")
+
+        # 2c. FinJEPA Latent Space Physics Regime Gate (LeCun JEPA Architecture)
+        finjepa_metrics = {}
+        finjepa_veto = False
+        try:
+            from src.finjepa_engine import evaluate_finjepa_physics_gate
+
+            finjepa_res = evaluate_finjepa_physics_gate(
+                ticker=ticker,
+                df=(
+                    hist_df_cro
+                    if "hist_df_cro" in locals() and not hist_df_cro.empty
+                    else None
+                ),
+            )
+            finjepa_metrics = {
+                "finjepa_regime": finjepa_res.get("regime", "UNKNOWN"),
+                "finjepa_displacement": finjepa_res.get("latent_displacement", 0.0),
+                "finjepa_confidence": finjepa_res.get("physics_confidence", 0.50),
+                "finjepa_veto": finjepa_res.get("cro_veto", False),
+            }
+            if finjepa_res.get("cro_veto"):
+                finjepa_veto = True
+                calculated_kelly_pct = round(calculated_kelly_pct * 0.40, 2)
+                if not veto_reason and buy_votes < 3:
+                    veto_reason = f"FinJEPA Physics Hazard: {finjepa_res.get('regime')} (High latent dispersion anomaly)."
+                logger.warning(
+                    f"🛡️ [FinJEPA PHYSICS VETO/HAIRCUT] Latent hazard ({finjepa_res.get('regime')}). Kelly scaled by 0.40x."
+                )
+            elif finjepa_res.get("regime") == "STRUCTURAL_EXPANSION_BREAKOUT":
+                calculated_kelly_pct = round(min(15.0, calculated_kelly_pct * 1.15), 2)
+        except Exception as fj_err:
+            logger.debug(f"FinJEPA CRO check notice for {ticker}: {fj_err}")
+
+        # 2d. 1,000,000-Path Continuous Jump-Diffusion Neural SDE Hard Cash Floor
+        sde_metrics = {}
+        try:
+            sde_path = os.path.join("results", "cvar_stress_report.json")
+            if os.path.exists(sde_path):
+                with open(sde_path, "r", encoding="utf-8") as sde_fp:
+                    sde_data = json.load(sde_fp)
+                    cvar_floor = float(
+                        sde_data.get("recommended_dynamic_cash_floor", 118014.06)
+                    )
+                    sde_metrics = {
+                        "cvar99_floor": cvar_floor,
+                        "var99": float(sde_data.get("value_at_risk_var99", 0.0)),
+                    }
+                    port_path = os.path.join("results", "paper_portfolio.json")
+                    if os.path.exists(port_path):
+                        with open(port_path, "r", encoding="utf-8") as pp_fp:
+                            pp_data = json.load(pp_fp)
+                            live_cash = float(pp_data.get("cash", 125626.0))
+                            if live_cash <= cvar_floor * 1.02:
+                                calculated_kelly_pct = min(calculated_kelly_pct, 1.5)
+                                logger.warning(
+                                    f"🛡️ [NEURAL SDE SURVIVAL GATE] Cash ${live_cash:,.2f} near CVaR99 floor ${cvar_floor:,.2f}. Capping allocation at {calculated_kelly_pct}%."
+                                )
+        except Exception as sde_err:
+            logger.debug(f"Neural SDE check notice: {sde_err}")
+
+        # 2e. 4,096-Env Vectorized DRL Master Policy Dynamic Leverage Guidance
+        drl_metrics = {}
+        try:
+            drl_path = os.path.join(
+                "models", "drl_policy", "universal_drl_master_policy.pt"
+            )
+            if os.path.exists(drl_path):
+                import torch
+
+                port_ret = float(ret_skewness) if "ret_skewness" in locals() else 0.01
+                state_vec = torch.tensor(
+                    [[0.01, 0.02, 0.5, 0.0, -0.01, 1.0]], dtype=torch.float32
+                )
+                sd = torch.load(drl_path, weights_only=True, map_location="cpu")
+                # Feedforward through policy encoder and actor
+                w0, b0 = sd["encoder.0.weight"], sd["encoder.0.bias"]
+                w3, b3 = sd["encoder.3.weight"], sd["encoder.3.bias"]
+                wa, ba = sd["actor.0.weight"], sd["actor.0.bias"]
+                h1 = torch.relu(torch.layer_norm(state_vec @ w0.T + b0, (32,)))
+                h2 = torch.relu(h1 @ w3.T + b3)
+                drl_action = float(torch.sigmoid(h2 @ wa.T + ba) * 1.5)
+                drl_metrics = {"drl_leverage_multiplier": round(drl_action, 3)}
+                calculated_kelly_pct = round(
+                    calculated_kelly_pct * np.clip(drl_action, 0.6, 1.25), 2
+                )
+        except Exception as drl_err:
+            logger.debug(f"DRL Policy check notice: {drl_err}")
 
         # Scale by Quantum Core Risk Multiplier (Credit spread radar / Value area adjustment)
         q_scalar = float(quantum_telemetry.get("risk_multiplier", 1.0))
@@ -1083,9 +1224,20 @@ class ChiefRiskOfficerAgent:
             or trend_veto
             or red_team_veto
             or meta_label_veto
+            or double_crash_veto
+            or mahalanobis_veto
+            or (finjepa_veto and buy_votes < 3)
         ):
             if macro_blackout_veto:
                 final_resolution = "🔴 VETO / MACRO EVENT BLACKOUT (FOMC/CPI/NFP)"
+            elif mahalanobis_veto:
+                final_resolution = (
+                    "🔴 VETO / MAHALANOBIS ANOMALY (MULTIVARIATE DISLOCATION)"
+                )
+            elif double_crash_veto:
+                final_resolution = "🔴 VETO / DOUBLE CRASH EXHAUSTION DETECTED"
+            elif finjepa_veto and buy_votes < 3:
+                final_resolution = "🔴 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD"
             elif cusum_veto:
                 final_resolution = "🔴 VETO / CUSUM STRUCTURAL BREAKDOWN"
             elif hmm_veto:
@@ -1122,14 +1274,10 @@ class ChiefRiskOfficerAgent:
             approved_leverage = 1.25
             kelly_allocation_pct = max(calculated_kelly_pct, 5.0)
         elif (
-            (
-                not require_supermajority
-                and buy_votes >= 2
-                and effective_conviction >= 65.0
-            )
-            or (is_catalyst_trade and buy_votes >= 2 and effective_conviction >= 55.0)
-            or (is_catalyst_trade and buy_votes >= 1 and effective_conviction >= 62.0)
-        ):
+            not require_supermajority
+            and buy_votes >= 2
+            and effective_conviction >= 65.0
+        ) or (is_catalyst_trade and buy_votes >= 2 and effective_conviction >= 65.0):
             final_resolution = "🟡 AGILE SCALE-IN (Quorum Approved)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
@@ -1214,6 +1362,20 @@ class ChiefRiskOfficerAgent:
                         tp2 = round(swift_tp2, 2)
                     break
 
+        # Fair Value Gap (FVG) Liquidity Void & Invalidation Floor Alignment
+        for r in agent_reports:
+            if isinstance(r, dict) and "fvg_analysis" in r:
+                fvg_data = r.get("fvg_analysis")
+                if (
+                    fvg_data
+                    and isinstance(fvg_data, dict)
+                    and fvg_data.get("is_mitigating")
+                ):
+                    fvg_stop = float(fvg_data.get("invalidation_stop", 0.0))
+                    if 0 < fvg_stop < spot_price:
+                        sl = round(max(sl, fvg_stop), 2)
+                break
+
         return {
             "cro_name": "Chief Risk Officer (Arbitrator)",
             "academic_grounding": [
@@ -1254,6 +1416,12 @@ class ChiefRiskOfficerAgent:
             "conformal_metrics": conformal_metrics,
             "meta_label_metrics": meta_metrics,
             "meta_label_veto_triggered": meta_label_veto,
+            "mahalanobis_veto_triggered": mahalanobis_veto,
+            "mahalanobis_metrics": mahalanobis_metrics,
+            "finjepa_metrics": finjepa_metrics,
+            "finjepa_veto_triggered": finjepa_veto,
+            "sde_tail_risk_metrics": sde_metrics,
+            "drl_policy_metrics": drl_metrics,
             **vpin_metrics,
         }
 
@@ -1265,6 +1433,8 @@ def convene_trading_committee(
     save_resolution: bool = True,
     spot_price: Optional[float] = None,
     catalyst_headlines: Optional[List[str]] = None,
+    enable_tot: bool = True,
+    **kwargs,
 ) -> Dict[str, Any]:
     """
     Orchestrates a full round-table deliberation of the 5-Agent Trading Committee for a given asset.
@@ -1376,6 +1546,133 @@ def convene_trading_committee(
     except Exception as tf_err:
         logger.debug(f"Tri-Force fusion notice for {ticker}: {tf_err}")
         resolution_packet["p_trade"] = 0.50
+
+    # Sprint 4, Module 4.4 / Idea 41: Tree-of-Thought (ToT) Monte Carlo Branching Search
+    if enable_tot:
+        try:
+            n_sims = int(kwargs.get("n_simulations", 300))
+            horizon = int(kwargs.get("horizon_days", 7))
+            tot = TreeOfThoughtDeliberator(n_simulations=n_sims, horizon_days=horizon)
+            atr_tot = float(resolution_packet.get("atr_14") or (spot_price * 0.02))
+            tot_result = tot.deliberate(
+                spot_price=spot_price,
+                atr=atr_tot,
+                agent_reports=specialist_reports,
+            )
+            resolution_packet["tree_of_thought_deliberation"] = tot_result
+            # If dominant branch is a breakdown or composite TP probability is weak, override to DEFENSIVE_HOLD
+            if (
+                tot_result.get("recommended_action") == "DEFENSIVE_HOLD"
+                and resolution_packet.get("action_code") == "EXECUTE_BUY"
+            ):
+                resolution_packet["action_code"] = "DEFENSIVE_HOLD"
+                resolution_packet["verdict"] = "DEFENSIVE_HOLD"
+                resolution_packet["final_resolution"] = (
+                    "VETO_BY_TREE_OF_THOUGHT_MONTE_CARLO"
+                )
+        except Exception as tot_err:
+            logger.debug(f"ToT deliberation notice for {ticker}: {tot_err}")
+
+    # Proprietary Alpha Inventions Gating (Wavelet Sifter, FinJEPA, Jev Catalyst, Soros Reflexivity)
+    try:
+        from src.wavelet_entropy_sifter import evaluate_wavelet_invalidation_gate
+
+        wavelet_eval = evaluate_wavelet_invalidation_gate(ticker=ticker)
+        resolution_packet["wavelet_sifter"] = wavelet_eval
+        if (
+            wavelet_eval.get("veto_active")
+            and resolution_packet.get("action_code") == "EXECUTE_BUY"
+        ):
+            resolution_packet["action_code"] = "DEFENSIVE_HOLD"
+            resolution_packet["verdict"] = "DEFENSIVE_HOLD"
+            resolution_packet["final_resolution"] = "VETO_BY_WAVELET_ENTROPY_CHOP"
+            logger.info(
+                f"🛑 [VETO] {ticker} buy proposal vetoed by Wavelet Entropy Sifter (Noise Chop)"
+            )
+
+        from src.finjepa_engine import evaluate_finjepa_physics_gate
+
+        finjepa_eval = evaluate_finjepa_physics_gate(ticker=ticker)
+        resolution_packet["finjepa_physics"] = finjepa_eval
+        if (
+            finjepa_eval.get("cro_veto")
+            and resolution_packet.get("action_code") == "EXECUTE_BUY"
+        ):
+            resolution_packet["action_code"] = "DEFENSIVE_HOLD"
+            resolution_packet["verdict"] = "DEFENSIVE_HOLD"
+            resolution_packet["final_resolution"] = "VETO_BY_FINJEPA_LIQUIDITY_DROUGHT"
+            logger.info(
+                f"🛑 [VETO] {ticker} buy proposal vetoed by FinJEPA (Liquidity Drought Hazard)"
+            )
+
+        from src.jev_catalyst import evaluate_jev_catalyst_gate
+
+        jev_verdict = evaluate_jev_catalyst_gate(ticker=ticker)
+        resolution_packet["jev_catalyst"] = jev_verdict.to_dict()
+        if (
+            jev_verdict.conviction_tier == "TIER_4_VETO"
+            and resolution_packet.get("action_code") == "EXECUTE_BUY"
+        ):
+            resolution_packet["action_code"] = "DEFENSIVE_HOLD"
+            resolution_packet["verdict"] = "DEFENSIVE_HOLD"
+            resolution_packet["final_resolution"] = (
+                f"VETO_BY_JEV_{jev_verdict.event_type}"
+            )
+            logger.info(
+                f"🛑 [VETO] {ticker} buy proposal vetoed by Jev Catalyst ({jev_verdict.event_type})"
+            )
+
+        from src.soros_sympathy import get_soros_engine
+
+        soros_engine = get_soros_engine()
+        hist_df_soros = get_price_history(ticker, period="1mo", use_cache=True)
+        if hist_df_soros is not None and len(hist_df_soros) >= 6:
+            p_arr = hist_df_soros["Close"].values
+            s_arr = np.full(
+                len(p_arr),
+                float(resolution_packet.get("consensus_conviction_pct", 50.0)) / 100.0,
+            )
+            soros_eval = soros_engine.calculate_kinematics(p_arr, s_arr)
+            resolution_packet["soros_reflexivity"] = soros_eval
+            if (
+                soros_eval.get("cro_veto")
+                and resolution_packet.get("action_code") == "EXECUTE_BUY"
+            ):
+                resolution_packet["action_code"] = "DEFENSIVE_HOLD"
+                resolution_packet["verdict"] = "DEFENSIVE_HOLD"
+                resolution_packet["final_resolution"] = (
+                    "VETO_BY_SOROS_DISTRIBUTION_EXHAUSTION"
+                )
+                logger.info(
+                    f"🛑 [VETO] {ticker} buy proposal vetoed by Soros Reflexivity (Distribution Exhaustion)"
+                )
+            elif (
+                soros_eval.get("regime") == "STEALTH_ACCUMULATION"
+                and resolution_packet.get("action_code") == "EXECUTE_BUY"
+            ):
+                resolution_packet["consensus_conviction_pct"] = min(
+                    98.0, resolution_packet.get("consensus_conviction_pct", 50.0) * 1.25
+                )
+
+        from src.working_memory_tape import get_working_memory_tape
+
+        mem_tape = get_working_memory_tape()
+        micro_state = mem_tape.get_microstructure_state(ticker)
+        resolution_packet["working_memory_tape"] = micro_state
+        if (
+            micro_state.get("spread_expansion_hazard")
+            and resolution_packet.get("action_code") == "EXECUTE_BUY"
+        ):
+            resolution_packet["action_code"] = "DEFENSIVE_HOLD"
+            resolution_packet["verdict"] = "DEFENSIVE_HOLD"
+            resolution_packet["final_resolution"] = (
+                "VETO_BY_MICRO_SPREAD_EXPANSION_HAZARD"
+            )
+            logger.info(
+                f"🛑 [VETO] {ticker} buy proposal vetoed by FinMem Working Memory Tape (Spread Hazard: {micro_state.get('current_spread_bps')} bps)"
+            )
+    except Exception as prop_err:
+        logger.debug(f"Proprietary gates notice for {ticker}: {prop_err}")
 
     if save_resolution:
         _persist_committee_resolution(ticker, resolution_packet)
@@ -1517,6 +1814,10 @@ def execute_committee_order(
         except Exception:
             pass
 
+        # Strict Institutional Concentration Cap (Max 10% of Total Portfolio Equity)
+        max_ticket_allowed = total_equity * 0.10
+        invest_amount = min(invest_amount, max_ticket_allowed, cash_avail * 0.20)
+
         from src.market_session import is_crypto_asset
 
         if is_crypto_asset(ticker):
@@ -1558,10 +1859,28 @@ def execute_committee_order(
         sl = max(sl_candidate, round(spot_price * 0.9725, 2))
         atr_val = deliberation.get("atr_14") or cro_dict.get("atr_14")
 
+        # Avellaneda-Stoikov Micro-Inventory Reservation Price Skewer
+        exec_price = spot_price
+        try:
+            from src.inventory_skewer import calculate_optimal_execution_limit
+
+            open_pos = broker.state.get("open_positions", {})
+            curr_shs = float(open_pos.get(ticker, {}).get("shares", 0.0))
+            skewed_limit = calculate_optimal_execution_limit(
+                side="BUY",
+                market_price=spot_price,
+                current_shares=curr_shs,
+                max_shares=max(100.0, curr_shs * 2.0),
+            )
+            if 0 < skewed_limit <= spot_price:
+                exec_price = skewed_limit
+        except Exception as as_err:
+            logger.debug(f"Avellaneda-Stoikov skewer notice: {as_err}")
+
         order_res = broker.execute_buy(
             ticker=ticker,
             shares=shares,
-            price=spot_price,
+            price=exec_price,
             strategy_name="Committee_Turtle_Pyramid_Kelly",
             tp1_target=tp1,
             tp2_target=tp2,
@@ -1645,12 +1964,15 @@ class TreeOfThoughtDeliberator:
         Computes agent belief distribution over the generated hypotheses.
         """
         bullish_votes = sum(
-            1 for r in agent_reports if r.get("recommendation") in ["BUY", "STRONG_BUY"]
+            1
+            for r in agent_reports
+            if (r.get("recommendation") or r.get("vote")) in ["BUY", "STRONG_BUY"]
         )
         bearish_votes = sum(
             1
             for r in agent_reports
-            if r.get("recommendation") in ["SELL", "STRONG_SELL", "VETO"]
+            if (r.get("recommendation") or r.get("vote"))
+            in ["SELL", "STRONG_SELL", "VETO"]
         )
         total_votes = max(len(agent_reports), 1)
 
@@ -1793,33 +2115,18 @@ def convene_tree_of_thought_committee(
     vix_level: float = 16.5,
     vix_change_pct: float = -1.2,
     spot_price: Optional[float] = None,
+    **kwargs,
 ) -> Dict[str, Any]:
     """
     High-level orchestration: Runs standard multi-agent committee deliberation
     and augments the CRO evaluation with Tree-of-Thought Monte Carlo branching search.
     """
-    base_res = convene_trading_committee(
+    return convene_trading_committee(
         ticker=ticker,
         vix_level=vix_level,
         vix_change_pct=vix_change_pct,
-        save_resolution=False,
+        save_resolution=kwargs.pop("save_resolution", False),
         spot_price=spot_price,
+        enable_tot=True,
+        **kwargs,
     )
-
-    tot = TreeOfThoughtDeliberator(n_simulations=300, horizon_days=7)
-    tot_result = tot.deliberate(
-        spot_price=base_res["spot_price"],
-        atr=base_res.get("atr_14", base_res["spot_price"] * 0.02),
-        agent_reports=base_res["agent_testimonies"],
-    )
-
-    base_res["tree_of_thought_deliberation"] = tot_result
-    # Augment CRO action if breakdown path is detected
-    if (
-        tot_result["recommended_action"] == "DEFENSIVE_HOLD"
-        and base_res["action_code"] == "EXECUTE_BUY"
-    ):
-        base_res["action_code"] = "DEFENSIVE_HOLD"
-        base_res["final_resolution"] = "VETO_BY_TREE_OF_THOUGHT_MONTE_CARLO"
-
-    return base_res

@@ -35,6 +35,7 @@ def render_deep_quant_cockpit(selected_ticker: str):
 
     tabs = [
         "🧠 SHAP Explainability",
+        "🌊 Proprietary Alpha & Physics",
         "🔄 Market-Neutral Stat-Arb",
         "🕸️ GNN Supply Chain Shock",
         "🌪️ Black Swan Stress Test",
@@ -57,6 +58,10 @@ def render_deep_quant_cockpit(selected_ticker: str):
 
     if selected_tab == "🧠 SHAP Explainability":
         render_xai_workspace(selected_ticker)
+    elif selected_tab == "🌊 Proprietary Alpha & Physics":
+        from src.ui.ws_proprietary_alpha import render_proprietary_alpha_workspace
+
+        render_proprietary_alpha_workspace(selected_ticker)
     elif selected_tab == "🔄 Market-Neutral Stat-Arb":
         render_market_neutral_statarb_workspace(selected_ticker)
     elif selected_tab == "🕸️ GNN Supply Chain Shock":

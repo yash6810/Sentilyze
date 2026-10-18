@@ -1,0 +1,11 @@
+{
+  "portfolio_equity_evaluated": 136618.32,
+  "simulated_paths": 1000000,
+  "horizon_trading_days": 10,
+  "median_projected_equity_q50": 136960.89,
+  "value_at_risk_var95": 7553.38,
+  "value_at_risk_var99": 10733.22,
+  "expected_shortfall_cvar99": 124225.33,
+  "recommended_dynamic_cash_floor": 118014.06,
+  "device_accelerator": "NVIDIA Tesla T4 CUDA Tensor Cores"
+}

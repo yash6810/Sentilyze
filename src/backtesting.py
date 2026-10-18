@@ -179,21 +179,10 @@ def run_backtest(
         today_open_price = portfolio.iloc[i, open_idx]
         today_close_price = portfolio.iloc[i, close_idx]
 
-        # 1. Update holdings value based on today's price action
-        if position_open and prev_close > 0:
-            price_change_pct = (today_close_price / prev_close) - 1
-            portfolio.iloc[i, hold_idx] *= 1 + price_change_pct
-
-            # Daily margin financing fee deducted from cash equity
-            if borrowed_margin > 0:
-                daily_interest = borrowed_margin * daily_margin_rate
-                portfolio.iloc[i, cash_idx] -= daily_interest
-
         execute_trade = 0  # 0=no action, 1=buy, -1=sell
 
-        # 2. Risk Management & Profit Targets
+        # 1. Risk Management & Profit Targets (Evaluated at today's open price)
         if position_open:
-            days_held += 1
             current_holdings = portfolio.iloc[i, hold_idx]
             current_equity = (
                 current_holdings + portfolio.iloc[i, cash_idx] - borrowed_margin
@@ -223,6 +212,17 @@ def run_backtest(
                     f"Stop-loss triggered on Day {portfolio.index[i].date()} at ${today_open_price:.2f}"
                 )
             else:
+                # Holding continues: update holdings value to today's close
+                days_held += 1
+                if prev_close > 0:
+                    price_change_pct = (today_close_price / prev_close) - 1
+                    portfolio.iloc[i, hold_idx] *= 1 + price_change_pct
+
+                # Daily margin financing fee deducted from cash equity
+                if borrowed_margin > 0:
+                    daily_interest = borrowed_margin * daily_margin_rate
+                    portfolio.iloc[i, cash_idx] -= daily_interest
+
                 # Update Trailing Stop-Loss based on previous day's close
                 atr_multiplier = 3.0 if prev_close > prev_sma200 else 1.5
                 new_stop = prev_close - (atr_multiplier * prev_atr)
@@ -230,7 +230,7 @@ def run_backtest(
                     current_stop_loss = new_stop
                     portfolio.iloc[i, sl_idx] = current_stop_loss
 
-        # 3. Regime Filter (Buy Logic)
+        # 2. Regime Filter (Buy Logic evaluated if no position currently open)
         elif not position_open:
             available_cash = portfolio.iloc[i, cash_idx]
             if (
@@ -240,10 +240,10 @@ def run_backtest(
             ):
                 execute_trade = 1
 
-        # 4. Execute Trades at today's open price
+        # 3. Execute Trades at today's open price
         portfolio.iloc[i, sig_idx] = execute_trade
 
-        if execute_trade == 1:  # BUY
+        if execute_trade == 1:  # BUY at today's open
             current_cash = portfolio.iloc[i, cash_idx]
             leverage = max_leverage if prev_prob_up > 0.80 else 1.0
 
@@ -256,7 +256,11 @@ def run_backtest(
             effective_investment = total_investment / (1 + slippage_pct)
 
             portfolio.iloc[i, cash_idx] -= total_investment + cost
-            portfolio.iloc[i, hold_idx] += effective_investment
+            # Incorporate Day-1 Open-to-Close price move for newly entered position
+            day1_ratio = (
+                (today_close_price / today_open_price) if today_open_price > 0 else 1.0
+            )
+            portfolio.iloc[i, hold_idx] = effective_investment * day1_ratio
 
             position_open = True
             entry_price = today_open_price
@@ -265,8 +269,10 @@ def run_backtest(
             current_stop_loss = prev_close - (atr_multiplier * prev_atr)
             portfolio.iloc[i, sl_idx] = current_stop_loss
 
-        elif execute_trade == -1:  # SELL / LIQUIDATION / TAKE-PROFIT
-            proceeds = portfolio.iloc[i, hold_idx]
+        elif execute_trade == -1:  # SELL / LIQUIDATION / TAKE-PROFIT at today's open
+            # Price move from yesterday's close to today's open execution price
+            open_ratio = (today_open_price / prev_close) if prev_close > 0 else 1.0
+            proceeds = portfolio.iloc[i, hold_idx] * open_ratio
             if proceeds > 0:
                 cost = proceeds * transaction_cost_pct
                 effective_proceeds = proceeds * (1 - slippage_pct)

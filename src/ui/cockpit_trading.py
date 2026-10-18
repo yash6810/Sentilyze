@@ -175,6 +175,73 @@ def _render_voice_morning_briefing_widget():
         st.write(script_text)
 
 
+def _render_tier1_asymmetric_radar_widget():
+    """Renders Tier-1 Asymmetric Alpha Radar across the 1,974-asset universe."""
+    radar_path = "results/tier1_asymmetric_radar.json"
+    if not os.path.exists(radar_path):
+        return
+
+    try:
+        with open(radar_path, "r", encoding="utf-8") as f:
+            candidates = json.load(f)
+    except Exception:
+        return
+
+    if not candidates:
+        return
+
+    top = candidates[0]
+    count = len(candidates)
+    avg_rr = sum(c["reward_to_risk"] for c in candidates) / count
+    avg_acc = sum(c["validation_accuracy"] for c in candidates) / count
+
+    with st.expander(
+        f"🌌 **TIER-1 ASYMMETRIC ALPHA RADAR (1,974 MULTI-ASSET UNIVERSE)** | Top Alpha Pick: **{top['ticker']}** (RR: {top['reward_to_risk']:.1f}:1, Acc: {top['validation_accuracy']:.1%}, Sharpe: {top['strategy_sharpe']:.2f})",
+        expanded=False,
+    ):
+        r1, r2, r3, r4 = st.columns(4)
+        r1.metric(
+            "🏆 Top Asymmetric Pick",
+            f"{top['ticker']}",
+            delta=f"RR: {top['reward_to_risk']:.1f}:1",
+        )
+        r2.metric("🎯 Average RR Ratio", f"{avg_rr:.1f} : 1", delta="TP1 vs SL")
+        r3.metric(
+            "🧠 Mean Validation Acc",
+            f"{avg_acc:.1%}",
+            delta="Purged Out-of-Sample",
+        )
+        r4.metric(
+            "⚡ Filtered Setups",
+            f"{count} Leaders",
+            delta="from 1,974 Universe",
+        )
+
+        import pandas as pd
+
+        df_display = pd.DataFrame(
+            [
+                {
+                    "Rank": i + 1,
+                    "Ticker": c["ticker"],
+                    "Spot ($)": f"${c['spot_price']:.2f}",
+                    "Stop-Loss p10 ($)": f"${c['stop_loss_p10']:.2f}",
+                    "Target 1 p50 ($)": f"${c['target1_p50']:.2f}",
+                    "Runner p90 ($)": f"${c['runner_p90']:.2f}",
+                    "Reward-to-Risk": f"{c['reward_to_risk']:.1f}x",
+                    "Accuracy": f"{c['validation_accuracy']:.1%}",
+                    "Sharpe": f"{c['strategy_sharpe']:.2f}",
+                    "Max DD": f"{c['max_drawdown_pct']:.1f}%",
+                }
+                for i, c in enumerate(candidates[:15])
+            ]
+        )
+        st.dataframe(df_display, use_container_width=True, hide_index=True)
+        st.caption(
+            "Filtered using TimesFM Quantile Corridors + CUDA XGBoost Models (Walk-Forward Out-of-Sample Validated). Minimum filters: Accuracy ≥ 70%, Sharpe ≥ 2.0."
+        )
+
+
 def render_trading_cockpit(selected_ticker: str):
     st.markdown(
         """
@@ -192,10 +259,12 @@ def render_trading_cockpit(selected_ticker: str):
 
     _render_voice_morning_briefing_widget()
     _render_monday_premarket_intel()
+    _render_tier1_asymmetric_radar_widget()
 
     tabs = [
         "🔮 Directional Signals",
         "🏛️ 5-Agent Committee War Room",
+        "🧬 Proprietary Alpha & Physics",
         "🤖 Autonomous Paper Trader",
         "⚡ Broker Execution Webhooks",
         "🎙️ Morning AI Audio Briefing",
@@ -218,6 +287,10 @@ def render_trading_cockpit(selected_ticker: str):
         render_live_prediction_workspace(selected_ticker)
     elif selected_tab == "🏛️ 5-Agent Committee War Room":
         render_committee_workspace(selected_ticker)
+    elif selected_tab == "🧬 Proprietary Alpha & Physics":
+        from src.ui.ws_proprietary_alpha import render_proprietary_alpha_workspace
+
+        render_proprietary_alpha_workspace(selected_ticker)
     elif selected_tab == "🤖 Autonomous Paper Trader":
         render_autonomous_trader_workspace(selected_ticker)
     elif selected_tab == "⚡ Broker Execution Webhooks":

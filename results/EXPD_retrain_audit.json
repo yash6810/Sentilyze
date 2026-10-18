@@ -1,0 +1,14 @@
+{
+  "ticker": "EXPD",
+  "timestamp": "2026-10-16T16:51:33.712560+00:00",
+  "elapsed_seconds": 35.69,
+  "dataset_rows": 1564,
+  "features_used": 26,
+  "champion_accuracy": 0.58,
+  "challenger_accuracy": 0.5038,
+  "accuracy_delta_pct": -7.62,
+  "challenger_roc_auc": 0.4902,
+  "challenger_precision": 0.5178,
+  "deployment_verdict": "\ud83d\udee1\ufe0f RETAINED (Existing Champion retained; Challenger did not beat OOS baseline)",
+  "is_promoted": false
+}

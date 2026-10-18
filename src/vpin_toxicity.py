@@ -160,19 +160,49 @@ def calculate_vpin(
     }
 
 
-def evaluate_ticker_toxicity(ticker: str, period: str = "3mo") -> Dict[str, Any]:
+def evaluate_ticker_toxicity(
+    ticker: str, period: str = "5d", interval: str = "5m"
+) -> Dict[str, Any]:
     """
     Pulls price history and evaluates institutional order flow toxicity for a given ticker.
+    First attempts to pull intraday 5-min bars (Easley, Lopez de Prado & O'Hara 2012)
+    to compute micro-bucket VPIN accurately. If unavailable or insufficient,
+    gracefully falls back to daily bars.
 
     Args:
         ticker: Stock symbol (e.g. 'NVDA', 'PGR', 'FANG').
-        period: Historical lookback period (default '3mo').
+        period: Historical lookback period for intraday data (default '5d').
+        interval: Bar interval for micro-buckets (default '5m').
 
     Returns:
         Structured VPIN toxicity report.
     """
+    # 1. Primary Attempt: 5-minute Intraday Bars for micro-bucket BVC (Easley et al. 2012)
     try:
-        df = get_price_history(ticker, period=period, use_cache=True)
+        import yfinance as yf
+
+        t_obj = yf.Ticker(ticker)
+        df_intraday = t_obj.history(period=period, interval=interval)
+        if (
+            df_intraday is not None
+            and isinstance(df_intraday, pd.DataFrame)
+            and len(df_intraday) >= 30
+            and "Close" in df_intraday.columns
+            and "Volume" in df_intraday.columns
+        ):
+            res = calculate_vpin(df_intraday, num_buckets=50, rolling_window=20)
+            res["ticker"] = ticker
+            res["data_source"] = "5m_intraday"
+            return res
+    except Exception as e:
+        logger.debug(
+            f"Could not fetch 5m intraday for {ticker} ({e}), falling back to daily bars."
+        )
+
+    # 2. Secondary Fallback: Daily Bars
+    try:
+        daily_period = "3mo" if period in ["5d", "1d"] else period
+        df = get_price_history(ticker, period=daily_period, use_cache=True)
         if df is None or df.empty:
             return {
                 "ticker": ticker,
@@ -180,9 +210,11 @@ def evaluate_ticker_toxicity(ticker: str, period: str = "3mo") -> Dict[str, Any]
                 "toxicity_regime": "NO_PRICE_DATA",
                 "is_toxic_dumping": False,
                 "cro_veto_recommended": False,
+                "data_source": "none",
             }
-        res = calculate_vpin(df)
+        res = calculate_vpin(df, num_buckets=30, rolling_window=10)
         res["ticker"] = ticker
+        res["data_source"] = "daily_fallback"
         return res
     except Exception as e:
         logger.error(f"Error evaluating VPIN toxicity for {ticker}: {e}")
@@ -192,6 +224,7 @@ def evaluate_ticker_toxicity(ticker: str, period: str = "3mo") -> Dict[str, Any]
             "toxicity_regime": "ERROR_FALLBACK",
             "is_toxic_dumping": False,
             "cro_veto_recommended": False,
+            "data_source": "error_fallback",
         }
 
 

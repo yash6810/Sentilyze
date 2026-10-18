@@ -1,0 +1,24 @@
+{
+  "initial_capital": 25000.0,
+  "cash": 25000.0,
+  "total_equity": 25000.0,
+  "unrealized_pnl": 0,
+  "realized_pnl": 0.0,
+  "win_rate": 0.0,
+  "total_trades": 0,
+  "winning_trades": 0,
+  "losing_trades": 0,
+  "open_positions": {},
+  "closed_trades": [],
+  "equity_history": [
+    {
+      "date": "2026-10-16",
+      "timestamp": "2026-10-16T11:03:19.229910+00:00",
+      "total_equity": 25000.0,
+      "cash": 25000.0,
+      "invested": 0,
+      "daily_return": 0.0
+    }
+  ],
+  "last_updated": "2026-10-16T16:52:09.468795+00:00"
+}

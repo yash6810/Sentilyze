@@ -1,0 +1,255 @@
+{
+  "NVDA": {
+    "spot_price": 213.7864990234375,
+    "patchtst_5d_forecast": [
+      212.32,
+      213.72,
+      214.05,
+      213.16,
+      212.53
+    ],
+    "projected_gain_pct": -0.59
+  },
+  "AAPL": {
+    "spot_price": 341.4800109863281,
+    "patchtst_5d_forecast": [
+      340.51,
+      342.98,
+      342.83,
+      338.41,
+      340.36
+    ],
+    "projected_gain_pct": -0.33
+  },
+  "MSFT": {
+    "spot_price": 525.1900024414062,
+    "patchtst_5d_forecast": [
+      520.82,
+      526.8,
+      527.16,
+      525.78,
+      520.26
+    ],
+    "projected_gain_pct": -0.94
+  },
+  "AMZN": {
+    "spot_price": 248.9199981689453,
+    "patchtst_5d_forecast": [
+      245.83,
+      247.0,
+      247.98,
+      250.06,
+      248.53
+    ],
+    "projected_gain_pct": -0.16
+  },
+  "GOOGL": {
+    "spot_price": 339.3299865722656,
+    "patchtst_5d_forecast": [
+      336.61,
+      337.5,
+      336.79,
+      339.11,
+      339.59
+    ],
+    "projected_gain_pct": 0.08
+  },
+  "META": {
+    "spot_price": 704.2000122070312,
+    "patchtst_5d_forecast": [
+      703.18,
+      706.53,
+      705.12,
+      704.3,
+      699.11
+    ],
+    "projected_gain_pct": -0.72
+  },
+  "TSLA": {
+    "spot_price": 349.739990234375,
+    "patchtst_5d_forecast": [
+      347.5,
+      347.25,
+      348.82,
+      348.58,
+      345.72
+    ],
+    "projected_gain_pct": -1.15
+  },
+  "AMD": {
+    "spot_price": 531.614990234375,
+    "patchtst_5d_forecast": [
+      528.89,
+      531.29,
+      532.08,
+      530.59,
+      529.66
+    ],
+    "projected_gain_pct": -0.37
+  },
+  "AVGO": {
+    "spot_price": 330.1650085449219,
+    "patchtst_5d_forecast": [
+      327.46,
+      330.54,
+      328.8,
+      329.13,
+      330.09
+    ],
+    "projected_gain_pct": -0.02
+  },
+  "QCOM": {
+    "spot_price": 172.69000244140625,
+    "patchtst_5d_forecast": [
+      173.74,
+      173.32,
+      171.61,
+      171.02,
+      172.02
+    ],
+    "projected_gain_pct": -0.39
+  },
+  "JPM": {
+    "spot_price": 338.760009765625,
+    "patchtst_5d_forecast": [
+      338.8,
+      340.26,
+      334.68,
+      335.47,
+      337.67
+    ],
+    "projected_gain_pct": -0.32
+  },
+  "BAC": {
+    "spot_price": 51.39500045776367,
+    "patchtst_5d_forecast": [
+      51.42,
+      51.66,
+      50.92,
+      50.78,
+      51.37
+    ],
+    "projected_gain_pct": -0.05
+  },
+  "GS": {
+    "spot_price": 878.0560913085938,
+    "patchtst_5d_forecast": [
+      878.47,
+      884.91,
+      871.46,
+      870.67,
+      877.73
+    ],
+    "projected_gain_pct": -0.04
+  },
+  "V": {
+    "spot_price": 400.5400085449219,
+    "patchtst_5d_forecast": [
+      398.66,
+      399.61,
+      399.73,
+      398.57,
+      397.34
+    ],
+    "projected_gain_pct": -0.8
+  },
+  "XOM": {
+    "spot_price": 178.57000732421875,
+    "patchtst_5d_forecast": [
+      178.72,
+      179.17,
+      179.41,
+      178.15,
+      177.23
+    ],
+    "projected_gain_pct": -0.75
+  },
+  "CVX": {
+    "spot_price": 224.70550537109375,
+    "patchtst_5d_forecast": [
+      224.83,
+      225.45,
+      224.33,
+      222.38,
+      222.38
+    ],
+    "projected_gain_pct": -1.03
+  },
+  "LLY": {
+    "spot_price": 1254.7099609375,
+    "patchtst_5d_forecast": [
+      1244.4,
+      1258.83,
+      1253.88,
+      1247.03,
+      1256.18
+    ],
+    "projected_gain_pct": 0.12
+  },
+  "UNH": {
+    "spot_price": 401.7799987792969,
+    "patchtst_5d_forecast": [
+      399.26,
+      404.96,
+      400.85,
+      398.72,
+      398.13
+    ],
+    "projected_gain_pct": -0.91
+  },
+  "CAT": {
+    "spot_price": 731.4199829101562,
+    "patchtst_5d_forecast": [
+      733.21,
+      732.03,
+      733.7,
+      722.52,
+      730.8
+    ],
+    "projected_gain_pct": -0.08
+  },
+  "GE": {
+    "spot_price": 314.17999267578125,
+    "patchtst_5d_forecast": [
+      314.27,
+      315.61,
+      315.38,
+      309.97,
+      315.39
+    ],
+    "projected_gain_pct": 0.39
+  },
+  "BTC-USD": {
+    "spot_price": 80990.40625,
+    "patchtst_5d_forecast": [
+      81280.62,
+      81497.36,
+      81144.63,
+      80490.21,
+      81364.33
+    ],
+    "projected_gain_pct": 0.46
+  },
+  "ETH-USD": {
+    "spot_price": 2399.949951171875,
+    "patchtst_5d_forecast": [
+      2419.72,
+      2406.82,
+      2395.74,
+      2372.65,
+      2402.81
+    ],
+    "projected_gain_pct": 0.12
+  },
+  "SOL-USD": {
+    "spot_price": 102.72000122070312,
+    "patchtst_5d_forecast": [
+      103.34,
+      102.49,
+      102.47,
+      101.7,
+      102.92
+    ],
+    "projected_gain_pct": 0.19
+  }
+}

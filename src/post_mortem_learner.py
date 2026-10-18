@@ -64,20 +64,10 @@ class TradePostMortemLearner:
             return pd.DataFrame()
         try:
             df = pd.read_csv(self.trades_csv_path)
-            # Ensure expected columns exist
-            expected_cols = [
-                "ticker",
-                "shares",
-                "entry_price",
-                "exit_price",
-                "entry_date",
-                "exit_date",
-                "pnl",
-                "return_pct",
-                "exit_reason",
-            ]
-            if len(df.columns) >= len(expected_cols):
-                df.columns = expected_cols[: len(df.columns)]
+            if "reason" in df.columns and "exit_reason" not in df.columns:
+                df["exit_reason"] = df["reason"]
+            elif "exit_reason" in df.columns and "reason" not in df.columns:
+                df["reason"] = df["exit_reason"]
             return df
         except Exception as e:
             logger.error(f"Failed to read executed trades: {e}")
@@ -89,18 +79,41 @@ class TradePostMortemLearner:
             try:
                 with open(self.weights_path, "r", encoding="utf-8") as f:
                     weights = json.load(f)
-                    total = sum(weights.values())
-                    if total > 0:
-                        return {k: round(v / total, 4) for k, v in weights.items()}
+                    if isinstance(weights, dict):
+                        clean_weights = {}
+                        for k, v in weights.items():
+                            fv = float(v)
+                            if np.isnan(fv) or np.isinf(fv) or fv < 0:
+                                raise ValueError(f"Invalid weight {fv} for {k}")
+                            clean_weights[k] = fv
+                        total = sum(clean_weights.values())
+                        if total > 0 and not np.isnan(total) and not np.isinf(total):
+                            return {
+                                k: round(v / total, 4) for k, v in clean_weights.items()
+                            }
             except Exception as e:
                 logger.warning(f"Could not load weights from {self.weights_path}: {e}")
         return DEFAULT_WEIGHTS.copy()
 
     def categorize_trade(self, row: pd.Series) -> Dict[str, Any]:
         """Categorizes trade outcome and assigns attribution scores."""
-        pnl = float(row.get("pnl", 0.0))
-        ret_pct = float(row.get("return_pct", 0.0))
-        reason = str(row.get("exit_reason", "")).upper()
+        pnl_raw = row.get("pnl", 0.0)
+        try:
+            pnl = float(pnl_raw)
+            if np.isnan(pnl) or np.isinf(pnl):
+                pnl = 0.0
+        except (ValueError, TypeError):
+            pnl = 0.0
+
+        ret_raw = row.get("return_pct", 0.0)
+        try:
+            ret_pct = float(ret_raw)
+            if np.isnan(ret_pct) or np.isinf(ret_pct):
+                ret_pct = 0.0
+        except (ValueError, TypeError):
+            ret_pct = 0.0
+
+        reason = str(row.get("exit_reason", row.get("reason", ""))).upper()
         ticker = str(row.get("ticker", "UNKNOWN"))
 
         if pnl > 0 and ("PROFIT" in reason or "TARGET" in reason or ret_pct >= 1.0):
@@ -142,8 +155,14 @@ class TradePostMortemLearner:
         deltas = {k: 0.0 for k in DEFAULT_WEIGHTS}
 
         for t in analyzed_trades:
-            ret = t["return_pct"]
-            qual = t["quality"]
+            try:
+                ret = float(t.get("return_pct", 0.0))
+                if np.isnan(ret) or np.isinf(ret):
+                    ret = 0.0
+            except (ValueError, TypeError):
+                ret = 0.0
+
+            qual = t.get("quality", "NEUTRAL")
 
             if qual == "WINNER":
                 # Winners validate Technical momentum and FinBERT catalysts
@@ -171,7 +190,10 @@ class TradePostMortemLearner:
 
         # Normalize deltas by trade count
         n = max(len(analyzed_trades), 1)
-        return {k: round(v / n, 4) for k, v in deltas.items()}
+        return {
+            k: 0.0 if np.isnan(v / n) or np.isinf(v / n) else round(v / n, 4)
+            for k, v in deltas.items()
+        }
 
     def update_weights_bayesian(
         self, current_weights: Dict[str, float], deltas: Dict[str, float]
@@ -182,29 +204,74 @@ class TradePostMortemLearner:
         Constrained between 0.10 (floor) and 0.35 (ceiling) to prevent monopoly.
         """
         scores = {}
-        for agent, w in current_weights.items():
+        for agent in DEFAULT_WEIGHTS.keys():
+            w = current_weights.get(agent, DEFAULT_WEIGHTS[agent])
+            try:
+                w_val = float(w)
+                if np.isnan(w_val) or np.isinf(w_val) or w_val <= 0:
+                    w_val = DEFAULT_WEIGHTS[agent]
+            except (ValueError, TypeError):
+                w_val = DEFAULT_WEIGHTS[agent]
+
             delta = deltas.get(agent, 0.0)
-            log_w = np.log(max(w, 0.01))
-            scores[agent] = log_w + self.learning_rate * delta
+            try:
+                d_val = float(delta)
+                if np.isnan(d_val) or np.isinf(d_val):
+                    d_val = 0.0
+            except (ValueError, TypeError):
+                d_val = 0.0
+
+            log_w = np.log(max(w_val, 0.01))
+            score = log_w + self.learning_rate * d_val
+            scores[agent] = 0.0 if (np.isnan(score) or np.isinf(score)) else score
+
+        if not scores:
+            return DEFAULT_WEIGHTS.copy()
 
         # Numerical stability softmax
         max_score = max(scores.values())
-        exp_scores = {k: np.exp(v - max_score) for k, v in scores.items()}
+        if np.isnan(max_score) or np.isinf(max_score):
+            max_score = 0.0
+        exp_scores = {
+            k: float(np.exp(np.clip(v - max_score, -50.0, 50.0)))
+            for k, v in scores.items()
+        }
         sum_exp = sum(exp_scores.values())
+        if np.isnan(sum_exp) or np.isinf(sum_exp) or sum_exp <= 0:
+            return DEFAULT_WEIGHTS.copy()
+
         raw_weights = {k: v / sum_exp for k, v in exp_scores.items()}
 
-        # Apply floors (0.10) and ceilings (0.35)
+        # Apply floors (0.10) and ceilings (0.35) via iterative bounded simplex projection
         floor = 0.10
         ceiling = 0.35
-        clamped = {k: np.clip(v, floor, ceiling) for k, v in raw_weights.items()}
-        total_clamped = sum(clamped.values())
-        normalized = {k: round(float(v / total_clamped), 4) for k, v in clamped.items()}
+        w_dict = {k: float(v) for k, v in raw_weights.items()}
+        for _ in range(20):
+            w_dict = {k: float(np.clip(v, floor, ceiling)) for k, v in w_dict.items()}
+            tot = sum(w_dict.values())
+            if abs(tot - 1.0) < 1e-5:
+                break
+            excess = tot - 1.0
+            if excess > 0:
+                free = [k for k, v in w_dict.items() if v > floor + 1e-4]
+            else:
+                free = [k for k, v in w_dict.items() if v < ceiling - 1e-4]
+            if not free:
+                break
+            adj = excess / len(free)
+            for k in free:
+                w_dict[k] -= adj
+
+        normalized = {k: round(float(v), 4) for k, v in w_dict.items()}
 
         # Guarantee exact 1.0 sum
         diff = round(1.0 - sum(normalized.values()), 4)
         if diff != 0:
-            first_key = list(normalized.keys())[0]
-            normalized[first_key] = round(normalized[first_key] + diff, 4)
+            cand_key = max(
+                normalized.keys(),
+                key=lambda k: min(ceiling - normalized[k], normalized[k] - floor),
+            )
+            normalized[cand_key] = round(normalized[cand_key] + diff, 4)
 
         return normalized
 

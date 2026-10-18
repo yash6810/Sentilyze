@@ -1,15 +1,95 @@
 import os
 import json
+import shutil
+import tempfile
+import time
 import pandas as pd
 import numpy as np
 from datetime import datetime, timezone
 from typing import Dict, List, Any, Optional
 from src.utils import get_logger
+from src.market_session import get_current_ny_time, is_crypto_asset
 
 logger = get_logger(__name__)
 
 PORTFOLIO_FILE = os.path.join("results", "paper_portfolio.json")
 INITIAL_CAPITAL = 100000.00
+
+
+def reconcile_split_if_needed(pos: dict, ticker: str, curr_price: float) -> bool:
+    """
+    Reconciles open position state against forward and reverse stock splits.
+    Prevents false stop-outs or synthetic take-profit liquidations.
+    """
+    try:
+        from src.market_session import is_crypto_asset
+
+        if is_crypto_asset(ticker):
+            return False
+        entry_price = float(pos.get("entry_price", 0.0))
+        if entry_price <= 0.0 or curr_price <= 0.0:
+            return False
+
+        ratio = entry_price / curr_price
+        inv_ratio = curr_price / entry_price
+        common_factors = [2.0, 3.0, 4.0, 5.0, 7.0, 8.0, 10.0, 20.0]
+
+        # Check forward split (e.g., 2:1, 10:1, spot price drops by factor f)
+        if ratio >= 1.85:
+            for f in common_factors:
+                if abs(ratio - f) / f <= 0.08:
+                    old_shares = pos.get("shares", 1)
+                    pos["shares"] = int(round(float(old_shares) * f))
+                    pos["entry_price"] = round(entry_price / f, 2)
+                    if "sl_target" in pos:
+                        pos["sl_target"] = round(float(pos["sl_target"]) / f, 2)
+                    if "tp1_target" in pos:
+                        pos["tp1_target"] = round(float(pos["tp1_target"]) / f, 2)
+                    if "tp2_target" in pos:
+                        pos["tp2_target"] = round(float(pos["tp2_target"]) / f, 2)
+                    if "highest_price_seen" in pos:
+                        pos["highest_price_seen"] = round(
+                            float(pos["highest_price_seen"]) / f, 2
+                        )
+                    if "high_water_mark" in pos:
+                        pos["high_water_mark"] = round(
+                            float(pos["high_water_mark"]) / f, 2
+                        )
+                    logger.info(
+                        f"🔄 [STOCK SPLIT RECONCILIATION] Reconciled {f:g}:1 split for {ticker}: "
+                        f"shares {old_shares} -> {pos['shares']}, basis ${entry_price:.2f} -> ${pos['entry_price']:.2f}"
+                    )
+                    return True
+
+        # Check reverse split (e.g., 1:5, 1:10, spot price surges by factor f)
+        if inv_ratio >= 1.85:
+            for f in common_factors:
+                if abs(inv_ratio - f) / f <= 0.08:
+                    old_shares = pos.get("shares", 1)
+                    pos["shares"] = max(1, int(round(float(old_shares) / f)))
+                    pos["entry_price"] = round(entry_price * f, 2)
+                    if "sl_target" in pos:
+                        pos["sl_target"] = round(float(pos["sl_target"]) * f, 2)
+                    if "tp1_target" in pos:
+                        pos["tp1_target"] = round(float(pos["tp1_target"]) * f, 2)
+                    if "tp2_target" in pos:
+                        pos["tp2_target"] = round(float(pos["tp2_target"]) * f, 2)
+                    if "highest_price_seen" in pos:
+                        pos["highest_price_seen"] = round(
+                            float(pos["highest_price_seen"]) * f, 2
+                        )
+                    if "high_water_mark" in pos:
+                        pos["high_water_mark"] = round(
+                            float(pos["high_water_mark"]) * f, 2
+                        )
+                    logger.info(
+                        f"🔄 [REVERSE SPLIT RECONCILIATION] Reconciled 1:{f:g} reverse split for {ticker}: "
+                        f"shares {old_shares} -> {pos['shares']}, basis ${entry_price:.2f} -> ${pos['entry_price']:.2f}"
+                    )
+                    return True
+    except Exception as e:
+        logger.debug(f"Split reconciliation notice for {ticker}: {e}")
+    return False
 
 
 def compute_corwin_schultz_spread(df: pd.DataFrame) -> float:
@@ -160,13 +240,18 @@ class PaperBroker:
 
         save_data["last_updated"] = datetime.now(timezone.utc).isoformat()
         target_dir = os.path.dirname(self.portfolio_path)
-        os.makedirs(target_dir, exist_ok=True)
+        if target_dir:
+            os.makedirs(target_dir, exist_ok=True)
+        else:
+            target_dir = "."
 
-        tmp_path = f"{self.portfolio_path}.tmp"
         bak_path = f"{self.portfolio_path}.bak"
+        tmp_fd, tmp_path = tempfile.mkstemp(
+            prefix="portfolio_", suffix=".tmp", dir=target_dir
+        )
 
         try:
-            with open(tmp_path, "w", encoding="utf-8") as f:
+            with open(tmp_fd, "w", encoding="utf-8") as f:
                 json.dump(save_data, f, indent=2)
                 f.flush()
                 os.fsync(f.fileno())
@@ -178,7 +263,19 @@ class PaperBroker:
                 except Exception:
                     pass
 
-            os.replace(tmp_path, self.portfolio_path)
+            # Safe atomic replace with retry on Windows file lock collisions
+            replaced = False
+            for attempt in range(5):
+                try:
+                    os.replace(tmp_path, self.portfolio_path)
+                    replaced = True
+                    break
+                except (PermissionError, OSError) as pe:
+                    time.sleep(0.05 * (2**attempt))
+            if not replaced:
+                logger.error(
+                    f"Failed to replace portfolio file after 5 attempts on Windows"
+                )
         except Exception as e:
             logger.error(f"Error saving portfolio atomically: {e}")
             if os.path.exists(tmp_path):
@@ -207,10 +304,17 @@ class PaperBroker:
                         "reason",
                     ]
                 )
-            trades_csv_path = os.path.join(
+            trades_csv_path = self.trades_path or os.path.join(
                 os.path.dirname(self.portfolio_path), "executed_trades.csv"
             )
             df_trades.to_csv(trades_csv_path, index=False, encoding="utf-8")
+            try:
+                from src.cloud_lakehouse import export_trades_to_parquet
+
+                parquet_out = trades_csv_path.replace(".csv", ".parquet")
+                export_trades_to_parquet(closed, output_path=parquet_out)
+            except Exception as pe:
+                logger.debug(f"Notice exporting lakehouse parquet: {pe}")
         except Exception as e:
             logger.debug(f"Notice exporting executed_trades.csv: {e}")
 
@@ -265,10 +369,10 @@ class PaperBroker:
         2. Closes positions if Model Signal turned SELL.
         3. Concentrates new BUY entries into the Top-2 highest conviction setups (~$45k each).
         """
-        now_utc = datetime.now(timezone.utc)
-        now_str = now_utc.isoformat()
+        now_ny = get_current_ny_time()
+        now_str = now_ny.isoformat()
         if date_str is None:
-            date_str = now_str[:10]
+            date_str = now_ny.strftime("%Y-%m-%d")
 
         executed_actions = {
             "buys": [],
@@ -293,6 +397,9 @@ class PaperBroker:
                 else float(pos["current_price"])
             )
             pos["current_price"] = curr_price
+
+            # Reconcile corporate actions (forward/reverse splits) to prevent false liquidations
+            reconcile_split_if_needed(pos, ticker, curr_price)
 
             shares = pos["shares"]
             entry_price = pos["entry_price"]
@@ -376,42 +483,86 @@ class PaperBroker:
 
             # Check Stage 1 Scale-Out (+2.5 ATR)
             if not scaled_out and curr_price >= tp1_target:
-                half_shares = max(1, shares // 2)
-                proceeds = float(half_shares * curr_price)
+                from src.market_session import is_crypto_asset
+
+                is_crypto = is_crypto_asset(ticker)
+                raw_shares = float(shares)
+                if is_crypto or not raw_shares.is_integer():
+                    half_shares = round(raw_shares / 2.0, 6)
+                elif raw_shares > 1.0:
+                    half_shares = int(raw_shares) // 2
+                else:
+                    # 1 whole share: close 100% at TP1 since it cannot be split into whole shares
+                    half_shares = shares
+
+                gross_proceeds = float(half_shares * curr_price)
+                exit_friction = float(gross_proceeds * 0.00035)
+                proceeds = float(gross_proceeds - exit_friction)
                 cost_basis = float(half_shares * entry_price)
                 pnl = float(proceeds - cost_basis)
                 ret_pct = float((curr_price - entry_price) / entry_price * 100.0)
 
                 self.state["cash"] += proceeds
                 self.state["realized_pnl"] += pnl
-                pos["shares"] = shares - half_shares
-                pos["scaled_out"] = True
-                # Move Stop-Loss to Break-Even + small buffer (Risk-Free Trade)
-                pos["sl_target"] = round(entry_price * 1.002, 2)
+                remaining_shares = shares - half_shares
 
-                trade_record = {
-                    "ticker": ticker,
-                    "shares": half_shares,
-                    "entry_price": entry_price,
-                    "exit_price": curr_price,
-                    "entry_date": pos["entry_date"],
-                    "exit_date": date_str,
-                    "pnl": round(pnl, 2),
-                    "return_pct": round(ret_pct, 2),
-                    "reason": "TAKE_PROFIT",
-                    "scale_stage": "STAGE_1_50PCT",
-                    "status": "RISK_FREE_RUNNER",
-                }
-                self._record_trade_closure(trade_record)
-                executed_actions["take_profits_tp1"].append(trade_record)
-                executed_actions["take_profits"].append(trade_record)
-                logger.info(
-                    f"🎯 [STAGE 1 SCALE-OUT] Banked 50% of {ticker} ({half_shares} shares @ ${curr_price:.2f}) | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%) | SL Moved to Break-Even ${pos['sl_target']:.2f}"
-                )
+                if remaining_shares <= 1e-6:
+                    self.state["total_trades"] += 1
+                    self.state["winning_trades"] += 1
+                    trade_record = {
+                        "ticker": ticker,
+                        "shares": half_shares,
+                        "entry_price": entry_price,
+                        "exit_price": curr_price,
+                        "entry_date": pos["entry_date"],
+                        "exit_date": date_str,
+                        "pnl": round(pnl, 2),
+                        "return_pct": round(ret_pct, 2),
+                        "reason": "TAKE_PROFIT",
+                        "scale_stage": "STAGE_1_100PCT_COMPLETE",
+                        "status": "COMPLETED_PROFIT_HARVEST",
+                        "exit_friction": round(exit_friction, 2),
+                    }
+                    self._record_trade_closure(trade_record)
+                    del self.state["open_positions"][ticker]
+                    closed_today_tickers.add(ticker)
+                    executed_actions["take_profits_tp1"].append(trade_record)
+                    executed_actions["take_profits"].append(trade_record)
+                    logger.info(
+                        f"🎯 [STAGE 1 COMPLETE EXIT] Closed 100% {ticker} ({half_shares} shares @ ${curr_price:.2f}) | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%)"
+                    )
+                else:
+                    pos["shares"] = remaining_shares
+                    pos["scaled_out"] = True
+                    # Move Stop-Loss to Break-Even + small buffer (Risk-Free Trade)
+                    pos["sl_target"] = round(entry_price * 1.002, 2)
+
+                    trade_record = {
+                        "ticker": ticker,
+                        "shares": half_shares,
+                        "entry_price": entry_price,
+                        "exit_price": curr_price,
+                        "entry_date": pos["entry_date"],
+                        "exit_date": date_str,
+                        "pnl": round(pnl, 2),
+                        "return_pct": round(ret_pct, 2),
+                        "reason": "TAKE_PROFIT",
+                        "scale_stage": "STAGE_1_50PCT",
+                        "status": "RISK_FREE_RUNNER",
+                        "exit_friction": round(exit_friction, 2),
+                    }
+                    self._record_trade_closure(trade_record)
+                    executed_actions["take_profits_tp1"].append(trade_record)
+                    executed_actions["take_profits"].append(trade_record)
+                    logger.info(
+                        f"🎯 [STAGE 1 SCALE-OUT] Banked 50% of {ticker} ({half_shares} shares @ ${curr_price:.2f}) | PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%) | SL Moved to Break-Even ${pos['sl_target']:.2f}"
+                    )
 
             # Check Stage 2 Runner Target (+4.5 ATR) on remaining shares
             elif scaled_out and curr_price >= tp2_target:
-                proceeds = float(pos["shares"] * curr_price)
+                gross_proceeds = float(pos["shares"] * curr_price)
+                exit_friction = float(gross_proceeds * 0.00035)
+                proceeds = float(gross_proceeds - exit_friction)
                 cost_basis = float(pos["shares"] * entry_price)
                 pnl = float(proceeds - cost_basis)
                 ret_pct = float((curr_price - entry_price) / entry_price * 100.0)
@@ -432,6 +583,7 @@ class PaperBroker:
                     "return_pct": round(ret_pct, 2),
                     "reason": "TAKE_PROFIT",
                     "scale_stage": "STAGE_2_RUNNER",
+                    "exit_friction": round(exit_friction, 2),
                 }
                 self._record_trade_closure(trade_record)
                 del self.state["open_positions"][ticker]
@@ -444,7 +596,9 @@ class PaperBroker:
 
             # Check Stop-Loss Trigger (or Break-Even stop)
             elif curr_price <= sl_target:
-                proceeds = float(pos["shares"] * curr_price)
+                gross_proceeds = float(pos["shares"] * curr_price)
+                exit_friction = float(gross_proceeds * 0.00035)
+                proceeds = float(gross_proceeds - exit_friction)
                 cost_basis = float(pos["shares"] * entry_price)
                 pnl = float(proceeds - cost_basis)
                 ret_pct = float((curr_price - entry_price) / entry_price * 100.0)
@@ -468,6 +622,7 @@ class PaperBroker:
                     "pnl": round(pnl, 2),
                     "return_pct": round(ret_pct, 2),
                     "reason": reason,
+                    "exit_friction": round(exit_friction, 2),
                 }
                 self._record_trade_closure(trade_record)
                 del self.state["open_positions"][ticker]
@@ -489,10 +644,18 @@ class PaperBroker:
                 except Exception:
                     days_held = 2
 
-                # Only exit on MODEL_SELL if severe breakdown (< 0.40) or (held >= 2 days and conf < 0.45)
+                # Anti-Churn Hysteresis: Only exit on severe breakdown (< 0.40) or catastrophic CRO veto
+                # Eliminates premature day-2 noise liquidation (conf 0.40-0.45)
                 is_severe_breakdown = conf < 0.40
-                if is_severe_breakdown or (days_held >= 2 and conf < 0.45):
-                    proceeds = float(pos["shares"] * curr_price)
+                cro_veto = bool(signal_data.get("cro_veto", False))
+                is_catastrophic = cro_veto or bool(
+                    signal_data.get("is_catastrophic", False)
+                )
+
+                if is_severe_breakdown or is_catastrophic:
+                    gross_proceeds = float(pos["shares"] * curr_price)
+                    exit_friction = float(gross_proceeds * 0.00035)
+                    proceeds = float(gross_proceeds - exit_friction)
                     cost_basis = float(pos["shares"] * entry_price)
                     pnl = float(proceeds - cost_basis)
                     ret_pct = float((curr_price - entry_price) / entry_price * 100.0)
@@ -515,6 +678,7 @@ class PaperBroker:
                         "pnl": round(pnl, 2),
                         "return_pct": round(ret_pct, 2),
                         "reason": "MODEL_SELL",
+                        "exit_friction": round(exit_friction, 2),
                     }
                     self._record_trade_closure(trade_record)
                     del self.state["open_positions"][ticker]
@@ -553,15 +717,17 @@ class PaperBroker:
             buy_signals, key=lambda x: x.get("confidence", 0), reverse=True
         )
 
-        # Anti-Whipsaw Cooldown: Quarantine any ticker closed within the last 3 days
+        # Anti-Whipsaw Cooldown: Quarantine tickers closed within 24h (scratch/breakeven) or 3 days (losses)
         quarantined_tickers = set()
         for ct in self.state.get("closed_trades", []):
             exit_d = ct.get("exit_date", "")
+            pnl_val = float(ct.get("pnl", 0.0))
             if exit_d:
                 try:
                     d_exit = datetime.fromisoformat(str(exit_d)[:10])
                     d_now = datetime.fromisoformat(str(date_str)[:10])
-                    if (d_now - d_exit).days < 3:
+                    days_diff = (d_now - d_exit).days
+                    if days_diff < 1 or (pnl_val < 0 and days_diff < 3):
                         quarantined_tickers.add(ct.get("ticker"))
                 except Exception:
                     pass
@@ -914,7 +1080,7 @@ class PaperBroker:
             else 0.0
         )
 
-        now_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        now_date = get_current_ny_time().strftime("%Y-%m-%d")
         eq_history = self.state.get("equity_history", [])
         start_of_day_equity = float(self.initial_cash)
         if eq_history:
@@ -1074,9 +1240,9 @@ class PaperBroker:
                 "error": f"Insufficient cash (${self.state['cash']:,.2f} available, required ${total_cost:,.2f})",
             }
 
-        now_utc = datetime.now(timezone.utc)
-        date_str = now_utc.strftime("%Y-%m-%d")
-        now_str = now_utc.isoformat()
+        now_ny = get_current_ny_time()
+        date_str = now_ny.strftime("%Y-%m-%d")
+        now_str = now_ny.isoformat()
 
         atr_base = atr if atr and atr > 0 else max(price * 0.025, price * 0.03)
         tp1 = (
@@ -1182,11 +1348,15 @@ class PaperBroker:
         pos["entry_price"] = round(blended_entry, 2)
         pos["current_price"] = price
         pos["pyramid_units_filled"] = unit_num
-        pos["sl_target"] = max(float(pos.get("sl_target", 0.0)), float(new_sl))
+        # Leung & Zhang (2017): Pyramided stop must NEVER be below blended cost basis
+        be_floor = round(blended_entry * 1.002, 2)
+        pos["sl_target"] = max(
+            float(pos.get("sl_target", 0.0)), float(new_sl), be_floor
+        )
 
-        now_utc = datetime.now(timezone.utc)
-        date_str = now_utc.strftime("%Y-%m-%d")
-        now_str = now_utc.isoformat()
+        now_ny = get_current_ny_time()
+        date_str = now_ny.strftime("%Y-%m-%d")
+        now_str = now_ny.isoformat()
 
         self._recalculate_metrics(date_str, now_str)
         self._save()
@@ -1231,7 +1401,9 @@ class PaperBroker:
         shares = raw_shares if not raw_shares.is_integer() else int(raw_shares)
         entry_price = float(pos["entry_price"])
 
-        proceeds = float(shares * exit_price)
+        gross_proceeds = float(shares * exit_price)
+        exit_friction = float(gross_proceeds * 0.00035)
+        proceeds = float(gross_proceeds - exit_friction)
         cost_basis = float(shares * entry_price)
         pnl = float(proceeds - cost_basis)
         ret_pct = (
@@ -1248,9 +1420,9 @@ class PaperBroker:
         else:
             self.state["losing_trades"] += 1
 
-        now_utc = datetime.now(timezone.utc)
-        date_str = now_utc.strftime("%Y-%m-%d")
-        now_str = now_utc.isoformat()
+        now_ny = get_current_ny_time()
+        date_str = now_ny.strftime("%Y-%m-%d")
+        now_str = now_ny.isoformat()
 
         trade_record = {
             "ticker": ticker,
@@ -1262,6 +1434,7 @@ class PaperBroker:
             "pnl": round(pnl, 2),
             "return_pct": round(ret_pct, 2),
             "reason": reason,
+            "exit_friction": round(exit_friction, 2),
         }
         self._record_trade_closure(trade_record)
         del self.state["open_positions"][ticker]
@@ -1291,16 +1464,25 @@ class PaperBroker:
             if price and price > 0
             else pos.get("current_price", pos["entry_price"])
         )
+        from src.market_session import is_crypto_asset
+
+        is_crypto = is_crypto_asset(ticker)
         raw_shares = float(pos["shares"])
-        if not raw_shares.is_integer():
+        if is_crypto or not raw_shares.is_integer():
             half_shares = round(raw_shares / 2.0, 6)
             shares = raw_shares
-        else:
+        elif raw_shares > 1.0:
             shares = int(raw_shares)
-            half_shares = max(1, shares // 2)
+            half_shares = shares // 2
+        else:
+            shares = raw_shares
+            half_shares = raw_shares
+
         entry_price = float(pos["entry_price"])
 
-        proceeds = float(half_shares * curr_price)
+        gross_proceeds = float(half_shares * curr_price)
+        exit_friction = float(gross_proceeds * 0.00035)
+        proceeds = float(gross_proceeds - exit_friction)
         cost_basis = float(half_shares * entry_price)
         pnl = float(proceeds - cost_basis)
         ret_pct = (
@@ -1311,32 +1493,60 @@ class PaperBroker:
 
         self.state["cash"] += proceeds
         self.state["realized_pnl"] += pnl
-        pos["shares"] = shares - half_shares
-        pos["scaled_out"] = True
-        pos["sl_target"] = round(entry_price * 1.002, 2)
+        remaining_shares = shares - half_shares
 
-        now_utc = datetime.now(timezone.utc)
-        date_str = now_utc.strftime("%Y-%m-%d")
-        now_str = now_utc.isoformat()
+        now_ny = get_current_ny_time()
+        date_str = now_ny.strftime("%Y-%m-%d")
+        now_str = now_ny.isoformat()
 
-        trade_record = {
-            "ticker": ticker,
-            "shares": half_shares,
-            "entry_price": entry_price,
-            "exit_price": curr_price,
-            "entry_date": pos["entry_date"],
-            "exit_date": date_str,
-            "pnl": round(pnl, 2),
-            "return_pct": round(ret_pct, 2),
-            "reason": "MANUAL_50PCT_SCALE_OUT",
-            "scale_stage": "STAGE_1_50PCT",
-            "status": "RISK_FREE_RUNNER",
-        }
-        self._record_trade_closure(trade_record)
+        if remaining_shares <= 1e-6:
+            self.state["total_trades"] += 1
+            self.state["winning_trades"] += 1
+            del self.state["open_positions"][ticker]
+            trade_record = {
+                "ticker": ticker,
+                "shares": half_shares,
+                "entry_price": entry_price,
+                "exit_price": curr_price,
+                "entry_date": pos["entry_date"],
+                "exit_date": date_str,
+                "pnl": round(pnl, 2),
+                "return_pct": round(ret_pct, 2),
+                "reason": "MANUAL_100PCT_COMPLETE_SCALE_OUT",
+                "scale_stage": "STAGE_1_100PCT_COMPLETE",
+                "status": "COMPLETED_PROFIT_HARVEST",
+                "exit_friction": round(exit_friction, 2),
+            }
+            self._record_trade_closure(trade_record)
+            self._recalculate_metrics(date_str, now_str)
+            self._save()
+            logger.info(
+                f"🎯 [MANUAL COMPLETE EXIT] Closed 100% of {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f}"
+            )
+            return {"success": True, "trade": trade_record}
+        else:
+            pos["shares"] = remaining_shares
+            pos["scaled_out"] = True
+            pos["sl_target"] = round(entry_price * 1.002, 2)
 
-        self._recalculate_metrics(date_str, now_str)
-        self._save()
-        logger.info(
-            f"🎯 [MANUAL 50% SCALE-OUT] Banked 50% of {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} | SL Moved to Break-Even"
-        )
-        return {"success": True, "trade": trade_record}
+            trade_record = {
+                "ticker": ticker,
+                "shares": half_shares,
+                "entry_price": entry_price,
+                "exit_price": curr_price,
+                "entry_date": pos["entry_date"],
+                "exit_date": date_str,
+                "pnl": round(pnl, 2),
+                "return_pct": round(ret_pct, 2),
+                "reason": "MANUAL_50PCT_SCALE_OUT",
+                "scale_stage": "STAGE_1_50PCT",
+                "status": "RISK_FREE_RUNNER",
+                "exit_friction": round(exit_friction, 2),
+            }
+            self._record_trade_closure(trade_record)
+            self._recalculate_metrics(date_str, now_str)
+            self._save()
+            logger.info(
+                f"🎯 [MANUAL 50% SCALE-OUT] Banked 50% of {ticker} @ ${curr_price:.2f} | PnL: ${pnl:+,.2f} | SL Moved to Break-Even"
+            )
+            return {"success": True, "trade": trade_record}

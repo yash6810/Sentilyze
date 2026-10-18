@@ -380,11 +380,26 @@ class AgentMemoryStore:
             # 1. Episodic prior decay: alpha = 1.0 + gamma * (alpha - 1.0)
             for a in agents:
                 alpha[a] = 1.0 + decay_gamma * (alpha[a] - 1.0)
+                if np.isnan(alpha[a]) or np.isinf(alpha[a]) or alpha[a] <= 0:
+                    alpha[a] = 1.0
 
-            r_mult = float(p.get("r_multiple", 0.0))
+            try:
+                r_mult = float(p.get("r_multiple", 0.0))
+            except Exception:
+                r_mult = 0.0
+            if np.isnan(r_mult) or np.isinf(r_mult):
+                r_mult = 0.0
+
             if r_mult == 0.0:
-                pnl_pct = float(p.get("pnl_pct", 0.0))
+                try:
+                    pnl_pct = float(p.get("pnl_pct", 0.0))
+                except Exception:
+                    pnl_pct = 0.0
+                if np.isnan(pnl_pct) or np.isinf(pnl_pct):
+                    pnl_pct = 0.0
                 r_mult = pnl_pct / 2.5
+
+            r_mult = float(np.clip(r_mult, -10.0, 10.0))
 
             votes = p.get("agent_votes", {})
             trade_dir = p.get("direction", "LONG")
@@ -425,15 +440,34 @@ class AgentMemoryStore:
                     dir_term = np.tanh(r_mult * action_k) * (abs(r_mult) ** 0.75)
                     reward_k = dir_term * psi
 
+                if np.isnan(reward_k) or np.isinf(reward_k):
+                    reward_k = 0.0
+
                 # Gradient step
-                alpha[agent] = max(0.50, alpha[agent] + learning_rate * reward_k)
+                new_alpha = alpha[agent] + learning_rate * reward_k
+                alpha[agent] = (
+                    max(0.50, float(new_alpha))
+                    if not (np.isnan(new_alpha) or np.isinf(new_alpha))
+                    else 1.0
+                )
 
         # Temperature-scaled Softmax over normalized Dirichlet parameters
         sum_alpha = sum(alpha.values())
+        if np.isnan(sum_alpha) or sum_alpha <= 0:
+            return dict(DEFAULT_AGENT_WEIGHTS)
+
         z_vals = {a: alpha[a] / sum_alpha for a in agents}
-        exp_logits = {a: np.exp(z_vals[a] / base_temperature) for a in agents}
+        temp = max(0.05, float(base_temperature))
+        exp_logits = {
+            a: float(np.exp(np.clip(z_vals[a] / temp, -20.0, 20.0))) for a in agents
+        }
         sum_exp = sum(exp_logits.values())
+        if np.isnan(sum_exp) or sum_exp <= 0:
+            return dict(DEFAULT_AGENT_WEIGHTS)
+
         calibrated = {a: round(float(exp_logits[a] / sum_exp), 4) for a in agents}
+        if any(np.isnan(v) or np.isinf(v) or v <= 0 for v in calibrated.values()):
+            return dict(DEFAULT_AGENT_WEIGHTS)
 
         try:
             with open(self.weights_file, "w", encoding="utf-8") as f:
@@ -453,7 +487,14 @@ class AgentMemoryStore:
                 with open(self.weights_file, "r", encoding="utf-8") as f:
                     weights = json.load(f)
                 if weights and isinstance(weights, dict):
-                    return weights
+                    is_valid = True
+                    for k, v in weights.items():
+                        fv = float(v)
+                        if np.isnan(fv) or np.isinf(fv) or fv < 0:
+                            is_valid = False
+                            break
+                    if is_valid and sum(float(v) for v in weights.values()) > 0:
+                        return weights
             except Exception:
                 pass
         return dict(DEFAULT_AGENT_WEIGHTS)

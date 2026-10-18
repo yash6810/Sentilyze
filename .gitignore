@@ -25,9 +25,9 @@ results/.*.lock
 
 
 # Notebooks
-*.ipynb
-/notebooks/
+/notebooks/*
 !notebooks/demo.ipynb
+!notebooks/sentilyze_all_in_one_gpu_powerhouse.ipynb
 
 # Gemini context and task files
 gemini.md

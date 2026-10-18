@@ -28,3 +28,36 @@ def test_compute_compound_position_size():
     assert sizing["allocated_dollars"] > 0
     assert sizing["allocated_dollars"] <= 150000.0 * 0.25
     assert sizing["max_risk_dollars"] == 150000.0 * 0.020
+
+
+def test_calculate_conformal_pyramid_plan():
+    """Verify Invention 4: Conformal Quantile Pyramiding locks risk at breakeven before scale-in."""
+    from src.compound_engine import calculate_conformal_pyramid_plan
+
+    # Case 1: Early trade, P10 has NOT ratcheted above entry -> scale-in BLOCKED
+    plan_blocked = calculate_conformal_pyramid_plan(
+        entry_price=100.0,
+        current_price=103.0,
+        cqr_p10_lower=99.5,
+        cqr_p50_median=104.0,
+        cqr_p90_upper=108.0,
+        current_units_held=1,
+        total_allocation_dollars=12000.0,
+    )
+    assert plan_blocked["can_pyramid"] is False
+    assert "P10 lower bound has not locked in breakeven" in plan_blocked["reason"]
+
+    # Case 2: P10 has ratcheted above entry + 0.2% breakeven floor -> scale-in APPROVED with ZERO additional risk
+    plan_approved = calculate_conformal_pyramid_plan(
+        entry_price=100.0,
+        current_price=106.0,
+        cqr_p10_lower=101.5,
+        cqr_p50_median=107.0,
+        cqr_p90_upper=112.0,
+        current_units_held=1,
+        total_allocation_dollars=12000.0,
+    )
+    assert plan_approved["can_pyramid"] is True
+    assert plan_approved["next_unit_index"] == 2
+    assert plan_approved["unified_stop_loss"] >= 100.2
+    assert plan_approved["additional_dollar_risk"] == 0.0
