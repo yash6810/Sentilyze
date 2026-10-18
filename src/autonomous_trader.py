@@ -172,6 +172,27 @@ class FormalLogicZ3RuleGate:
                 f"Cost (${cost:.2f}) exceeds cash (${cash:.2f}) minus buffer (${self.min_cash_buffer:.2f})"
             )
 
+        # 3b. 1,000,000-Path Continuous Jump-Diffusion Neural SDE Capital Floor Invariant
+        if not is_crypto_asset(ticker):
+            sde_floor = 118014.06
+            try:
+                sde_file = os.path.join("results", "cvar_stress_report.json")
+                if os.path.exists(sde_file):
+                    with open(sde_file, "r", encoding="utf-8") as sfp:
+                        sde_floor = float(
+                            json.load(sfp).get(
+                                "recommended_dynamic_cash_floor", 118014.06
+                            )
+                        )
+            except Exception:
+                pass
+            inv_sde_floor = (cash - cost) >= sde_floor
+            invariants_checked["neural_sde_cash_floor"] = inv_sde_floor
+            if not inv_sde_floor:
+                violations.append(
+                    f"Order cost (${cost:,.2f}) breaches Neural SDE survival floor (${sde_floor:,.2f}). Remaining liquid cash (${cash - cost:,.2f}) is below capital moat."
+                )
+
         # 4. Bracket Monotonicity
         cro_dict = (
             deliberation.get("cro_signoff", {})
@@ -1688,9 +1709,22 @@ class AutonomousTradingEngine:
 
             learner = TradePostMortemLearner()
             post_mortem_res = learner.run_post_mortem_cycle()
-            learning_state["bayesian_council_calibration"] = post_mortem_res.get(
-                "calibrated_weights", {}
-            )
+            if isinstance(post_mortem_res, dict):
+                learning_state["bayesian_council_calibration"] = post_mortem_res.get(
+                    "calibrated_weights", {}
+                )
+                learning_state["total_trades_analyzed"] = post_mortem_res.get(
+                    "trades_analyzed", 0
+                )
+                learning_state["win_rate_pct"] = post_mortem_res.get(
+                    "win_rate_pct", 0.0
+                )
+                learning_state["total_realized_pnl"] = post_mortem_res.get(
+                    "total_realized_pnl", 0.0
+                )
+                learning_state["calibrated_weights"] = post_mortem_res.get(
+                    "calibrated_weights", {}
+                )
             logger.info(
                 f"🧠 [BAYESIAN POST-MORTEM LEARNER] Analyzed {post_mortem_res.get('trades_analyzed', 0)} closed trades. Calibrated Council weights: {post_mortem_res.get('calibrated_weights')}"
             )

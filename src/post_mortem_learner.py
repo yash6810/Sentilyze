@@ -24,11 +24,12 @@ from src.utils import get_logger
 logger = get_logger(__name__)
 
 DEFAULT_WEIGHTS = {
-    "Technical Momentum": 0.25,
-    "FinBERT Sentiment": 0.25,
-    "Fundamental Valuation": 0.20,
+    "Technical Momentum": 0.20,
+    "FinBERT Sentiment": 0.20,
+    "Price Action Scout": 0.20,
+    "Fundamental Valuation": 0.15,
     "Chief Risk Officer": 0.15,
-    "Adversarial Red-Team": 0.15,
+    "Adversarial Red-Team": 0.10,
 }
 
 WEIGHTS_FILE = os.path.join("results", "agent_memory", "committee_weights.json")
@@ -165,9 +166,10 @@ class TradePostMortemLearner:
             qual = t.get("quality", "NEUTRAL")
 
             if qual == "WINNER":
-                # Winners validate Technical momentum and FinBERT catalysts
+                # Winners validate Technical momentum, FinBERT catalysts, and Price Scout PoC/volume profile
                 deltas["Technical Momentum"] += min(ret * 0.1, 1.0)
                 deltas["FinBERT Sentiment"] += min(ret * 0.1, 1.0)
+                deltas["Price Action Scout"] += min(ret * 0.1, 1.0)
                 deltas["Fundamental Valuation"] += min(ret * 0.05, 0.5)
                 deltas["Chief Risk Officer"] += 0.2  # Approved valid sizing
                 deltas["Adversarial Red-Team"] -= 0.1  # If too cautious
@@ -177,16 +179,19 @@ class TradePostMortemLearner:
                 deltas["Adversarial Red-Team"] += 0.5
                 deltas["Technical Momentum"] -= 0.3
                 deltas["FinBERT Sentiment"] -= 0.3
+                deltas["Price Action Scout"] -= 0.2
             elif qual == "SEVERE_LOSS":
                 # Severe breakdown penalizes bullish specialists
                 deltas["Technical Momentum"] -= 1.0
                 deltas["FinBERT Sentiment"] -= 1.0
+                deltas["Price Action Scout"] -= 0.8
                 deltas["Fundamental Valuation"] -= 0.5
                 deltas["Adversarial Red-Team"] += 1.0  # Red team should have vetoed
                 deltas["Chief Risk Officer"] -= 0.5
             else:
                 # Breakeven
                 deltas["Chief Risk Officer"] += 0.1
+                deltas["Price Action Scout"] += 0.05
 
         # Normalize deltas by trade count
         n = max(len(analyzed_trades), 1)

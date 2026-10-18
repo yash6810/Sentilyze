@@ -757,10 +757,11 @@ class ChiefRiskOfficerAgent:
         # Load calibrated specialist weights from Bayesian Post-Mortem Learner
         weights_file = os.path.join("results", "agent_memory", "committee_weights.json")
         agent_weights = {
-            "Technical Momentum Specialist": 0.25,
-            "Sentiment & Alternative Data Specialist": 0.25,
-            "Fundamental Valuation Specialist": 0.20,
-            "Forensic & Valuation Auditor": 0.20,
+            "Technical Momentum Specialist": 0.20,
+            "Sentiment & Alternative Data Specialist": 0.20,
+            "Price Action Scout": 0.20,
+            "Fundamental Valuation Specialist": 0.15,
+            "Forensic & Valuation Auditor": 0.15,
             "Adversarial Red-Team Specialist": 0.15,
             "Chief Risk Officer": 0.15,
         }
@@ -770,16 +771,22 @@ class ChiefRiskOfficerAgent:
                     wdata = json.load(f)
                     if isinstance(wdata, dict):
                         agent_weights["Technical Momentum Specialist"] = float(
-                            wdata.get("Technical Momentum", 0.25)
+                            wdata.get("Technical Momentum", 0.20)
                         )
                         agent_weights["Sentiment & Alternative Data Specialist"] = (
-                            float(wdata.get("FinBERT Sentiment", 0.25))
+                            float(wdata.get("FinBERT Sentiment", 0.20))
                         )
-                        fund_w = float(wdata.get("Fundamental Valuation", 0.20))
+                        agent_weights["Price Action Scout"] = float(
+                            wdata.get("Price Action Scout", 0.20)
+                        )
+                        fund_w = float(wdata.get("Fundamental Valuation", 0.15))
                         agent_weights["Fundamental Valuation Specialist"] = fund_w
                         agent_weights["Forensic & Valuation Auditor"] = fund_w
                         agent_weights["Adversarial Red-Team Specialist"] = float(
                             wdata.get("Adversarial Red-Team", 0.15)
+                        )
+                        agent_weights["Chief Risk Officer"] = float(
+                            wdata.get("Chief Risk Officer", 0.15)
                         )
             except Exception:
                 pass

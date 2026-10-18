@@ -2199,66 +2199,66 @@
     "p_trade": 0.5057
   },
   "NVDA": {
-    "timestamp": "2026-10-16T06:54:31.904443+00:00",
+    "timestamp": "2026-10-18T17:26:07.620532+00:00",
     "ticker": "NVDA",
-    "spot_price": 217.23,
-    "final_resolution": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
-    "action_code": "SCALE_IN",
-    "verdict": "SCALE_IN",
-    "consensus_conviction_pct": 69.1,
-    "conviction": 69.1,
-    "approved_leverage": 1.0,
-    "kelly_allocation_pct": 3.5,
-    "tp1_target": 232.13,
-    "tp2_target": 244.05,
-    "stop_loss_target": 211.26,
+    "spot_price": 135.0,
+    "final_resolution": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
+    "action_code": "VETO",
+    "verdict": "VETO",
+    "consensus_conviction_pct": 49.2,
+    "conviction": 49.2,
+    "approved_leverage": 0.0,
+    "kelly_allocation_pct": 0.0,
+    "tp1_target": 149.9,
+    "tp2_target": 161.82,
+    "stop_loss_target": 131.29,
     "atr_14": 5.96,
-    "atr_pct": 2.74,
+    "atr_pct": 4.41,
     "quantum_telemetry": {
       "ticker": "NVDA",
-      "spot_price": 217.23,
+      "spot_price": 135.0,
       "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
       "risk_multiplier": 1.0,
       "hmm_regime": "Bull",
-      "crisis_probability": 0.076,
+      "crisis_probability": 0.0957,
       "cusum_alarm": false,
       "cusum_direction": "NONE",
-      "poc_price": 182.4,
-      "vah_price": 210.41,
-      "val_price": 174.16,
-      "dist_to_poc_pct": 19.1,
-      "conformal_lower_bound": 210.17,
-      "conformal_upper_bound": 224.29,
-      "momentum_zscore": 0.0,
-      "vol_scaled_exposure": 0.0,
-      "realized_vol_annual": 0.2,
+      "poc_price": 6.67,
+      "vah_price": 31.85,
+      "val_price": 1.64,
+      "dist_to_poc_pct": 3150.26,
+      "conformal_lower_bound": 130.58,
+      "conformal_upper_bound": 139.42,
+      "momentum_zscore": 0.41,
+      "vol_scaled_exposure": 0.15,
+      "realized_vol_annual": 0.308,
       "credit_divergence": false,
       "alpha158_factors": {
-        "KMID": 0.00896,
-        "KLEN": 0.0261,
-        "KMID2": 0.34342,
-        "KUP": 0.00576,
-        "KUP2": 0.22064,
-        "KLOW": 0.01138,
-        "KLOW2": 0.43594,
-        "KSFT": 0.01458,
-        "KSFT2": 0.55872,
-        "CORR5": -0.85823,
-        "CORR20": -0.11202,
-        "CORD5": -0.33254,
-        "CORD20": -0.06829,
-        "WVMA10": 0.00844,
-        "RSV5": 0.20788,
-        "RSV20": 0.14351,
-        "MAX10": 0.12033,
-        "MIN10": -0.02016,
-        "QTLU20": 0.06559,
-        "QTLD20": 0.03564,
-        "ROC5": -0.05749,
-        "ROC20": -0.00962,
-        "BETA10": -0.0101,
-        "RSQR20": 0.00236,
-        "RESI10": -0.01458
+        "KMID": 0.00736,
+        "KLEN": 0.02025,
+        "KMID2": 0.36353,
+        "KUP": 0.00132,
+        "KUP2": 0.06537,
+        "KLOW": 0.01156,
+        "KLOW2": 0.5711,
+        "KSFT": 0.0176,
+        "KSFT2": 0.86926,
+        "CORR5": 0.399,
+        "CORR20": 0.2575,
+        "CORD5": 0.06211,
+        "CORD20": 0.10623,
+        "WVMA10": 0.01135,
+        "RSV5": 0.1934,
+        "RSV20": 0.13352,
+        "MAX10": 0.12191,
+        "MIN10": -0.01878,
+        "QTLU20": 0.06709,
+        "QTLD20": 0.0371,
+        "ROC5": -0.05881,
+        "ROC20": -0.01101,
+        "BETA10": -0.01019,
+        "RSQR20": 0.00191,
+        "RESI10": -0.01553
       },
       "insider_signals": {
         "ticker": "NVDA",
@@ -2266,37 +2266,15 @@
         "signal": "\ud83d\udfe2 STRONG_INSIDER_ACCUMULATION",
         "cluster_buy_detected": true,
         "distinct_buyers_count": 5,
-        "total_buy_usd": 12382496.28,
+        "total_buy_usd": 9019267.73,
         "total_sale_usd": 0,
-        "net_purchased_usd": 12382496.28,
+        "net_purchased_usd": 9019267.73,
         "buy_count": 5,
         "sale_count": 0,
         "transactions": [
           {
             "ticker": "NVDA",
-            "filing_date": "2026-09-24",
-            "officer_name": "Executive Officer D.",
-            "officer_title": "Executive VP",
-            "transaction_type": "P - Purchase (Open Market)",
-            "shares": 2500,
-            "price": 117.7,
-            "value_usd": 294256.83,
-            "is_purchase": true
-          },
-          {
-            "ticker": "NVDA",
-            "filing_date": "2026-08-27",
-            "officer_name": "Executive Officer A.",
-            "officer_title": "Chief Executive Officer (CEO)",
-            "transaction_type": "P - Purchase (Open Market)",
-            "shares": 15000,
-            "price": 345.41,
-            "value_usd": 5181189.59,
-            "is_purchase": true
-          },
-          {
-            "ticker": "NVDA",
-            "filing_date": "2026-08-01",
+            "filing_date": "2026-08-30",
             "officer_name": "Executive Officer E.",
             "officer_title": "Chief Financial Officer (CFO)",
             "transaction_type": "P - Purchase (Open Market)",
@@ -2307,7 +2285,7 @@
           },
           {
             "ticker": "NVDA",
-            "filing_date": "2026-07-27",
+            "filing_date": "2026-08-25",
             "officer_name": "Executive Officer B.",
             "officer_title": "10% Owner",
             "transaction_type": "P - Purchase (Open Market)",
@@ -2318,18 +2296,40 @@
           },
           {
             "ticker": "NVDA",
-            "filing_date": "2026-07-25",
+            "filing_date": "2026-08-20",
+            "officer_name": "Executive Officer D.",
+            "officer_title": "Executive VP",
+            "transaction_type": "P - Purchase (Open Market)",
+            "shares": 2500,
+            "price": 117.7,
+            "value_usd": 294256.83,
+            "is_purchase": true
+          },
+          {
+            "ticker": "NVDA",
+            "filing_date": "2026-08-13",
             "officer_name": "Executive Officer C.",
             "officer_title": "Executive VP",
             "transaction_type": "P - Purchase (Open Market)",
+            "shares": 10000,
+            "price": 171.54,
+            "value_usd": 1715353.1,
+            "is_purchase": true
+          },
+          {
+            "ticker": "NVDA",
+            "filing_date": "2026-07-23",
+            "officer_name": "Executive Officer A.",
+            "officer_title": "Chief Executive Officer (CEO)",
+            "transaction_type": "P - Purchase (Open Market)",
             "shares": 15000,
-            "price": 338.57,
-            "value_usd": 5078581.65,
+            "price": 345.41,
+            "value_usd": 5181189.59,
             "is_purchase": true
           }
         ],
-        "summary": "Aggressive C-Suite Insider Buying: $12,382,496 purchased across 5 officers.",
-        "timestamp": "2026-10-16T06:54:23.816938+00:00"
+        "summary": "Aggressive C-Suite Insider Buying: $9,019,268 purchased across 5 officers.",
+        "timestamp": "2026-10-18T17:25:45.788979+00:00"
       },
       "sec_catalysts": [],
       "social_buzz": {
@@ -2344,17 +2344,17 @@
         "color": "#3B82F6"
       },
       "options_data": {
-        "spot_price": 217.23,
+        "spot_price": 135.0,
         "net_gex": 0.0,
         "gamma_regime": "Neutral Gamma",
-        "max_pain_strike": 217.23
+        "max_pain_strike": 135.0
       },
       "macro_blackout": {
         "is_blackout_active": false,
         "status": "NORMAL_LIQUIDITY",
-        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 468.1h",
+        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 409.6h",
         "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-        "minutes_to_event": 28085.6,
+        "minutes_to_event": 24574.0,
         "tier": "TIER_1_CRITICAL",
         "expected_spy_dispersion_pct": 0.81,
         "expected_qqq_dispersion_pct": 1.19,
@@ -2368,12 +2368,12 @@
         "risk_profile": "NORMAL"
       },
       "execution_latency": {
-        "total_nanoseconds": 602826768,
-        "total_microseconds": 602826.77,
-        "hmm_micros": 216794.21,
-        "cusum_micros": 13.71,
-        "volume_profile_micros": 9151.56,
-        "momentum_micros": 220.05
+        "total_nanoseconds": 1994174400,
+        "total_microseconds": 1994174.4,
+        "hmm_micros": 44088.6,
+        "cusum_micros": 30.2,
+        "volume_profile_micros": 107390.9,
+        "momentum_micros": 8847.9
       }
     },
     "agent_testimonies": [
@@ -2385,28 +2385,37 @@
           "Paper 25: Zarattini, Barbon, Aziz (2024) 5-Min Opening Range Breakout (ORB)",
           "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)",
           "Institutional Market Microstructure: SqueezeMetrics Gamma Exposure (GEX)",
-          "Stoikov (2018) / Easley-de Prado-O'Hara (2012) ARAR Absorption & Order Book Imbalance"
+          "Stoikov (2018) / Easley-de Prado-O'Hara (2012) ARAR Absorption & Order Book Imbalance",
+          "Amazon Chronos-2: Probabilistic Time-Series Foundation Corridors"
         ],
-        "vote": "BUY",
-        "conviction_score": 90.0,
+        "vote": "HOLD",
+        "conviction_score": 52.0,
         "key_metrics": {
-          "estimated_rsi": 41.1,
+          "estimated_rsi": 40.8,
           "sma_200": 202.84,
-          "ma_21": 228.14,
-          "return_5d_pct": -5.75,
-          "trend_status": "BULLISH_MOMENTUM_EXPANSION",
-          "acpm_calibrated_prob": 0.568,
-          "kmid": 0.00896,
-          "klen": 0.0261,
-          "corr5": -0.85823,
-          "wvma10": 0.00844,
-          "arar_score": 32704668.12,
+          "ma_21": 228.13,
+          "return_5d_pct": -5.88,
+          "trend_status": "ORB_BEARISH_BREAKDOWN",
+          "acpm_calibrated_prob": 0.4186,
+          "kmid": 0.00736,
+          "klen": 0.02025,
+          "corr5": 0.399,
+          "wvma10": 0.01135,
+          "arar_score": 18947225.28,
           "arar_normalized": 1.0,
-          "obi": 0.559,
-          "cvd": 808839979.1,
-          "is_absorption_active": true
+          "obi": 0.869,
+          "cvd": 50630797283.1,
+          "is_absorption_active": true,
+          "p10_floor": 202.53,
+          "p90_ceiling": 229.43,
+          "upside_to_downside_ratio": 944300.0,
+          "chronos_corridors": {
+            "p10_floor": 202.53,
+            "p90_ceiling": 229.43,
+            "upside_to_downside_ratio": 944300.0
+          }
         },
-        "thesis": "Asset is in structural uptrend above 200 SMA ($202.84) with optimal pullback RSI (41.1). \ud83d\udee1\ufe0f ARAR Institutional Absorption Wall active (Score: 32704668.1, OBI: +0.56); aggressive sellers absorbed by resting bid."
+        "thesis": "Asset is trading below its 200-day SMA ($202.84), signaling prevailing macro downtrend. \u26a0\ufe0f Below 15-Min Opening Low ($212.85); downward momentum dominant. ACPM Conformal Model signals caution (41.9% probability). \ud83d\udee1\ufe0f ARAR Institutional Absorption Wall active (Score: 18947225.3, OBI: +0.87); aggressive sellers absorbed by resting bid. \ud83d\udd2e GPU Chronos Corridor favorable: Near P10 floor ($202.53) with 944300.0x asymmetric upside to P90 ceiling ($229.43)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -2420,14 +2429,14 @@
         "vote": "HOLD",
         "conviction_score": 65.0,
         "key_metrics": {
-          "finbert_polarity": 0.057,
+          "finbert_polarity": 0.055,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
-          "headlines_analyzed": 119,
-          "pead_signal": "IN_LINE_DRIFT",
-          "sue_score": 0.38,
-          "eps_surprise_pct": 6.16,
+          "headlines_analyzed": 120,
+          "pead_signal": "NEUTRAL_DRIFT",
+          "sue_score": 0.0,
+          "eps_surprise_pct": 0.0,
           "sec_8k_count": 0,
           "insider_score": 98.0,
           "insider_cluster_buy": true,
@@ -2438,7 +2447,7 @@
           "swift_urgency": "NORMAL",
           "swift_action": ""
         },
-        "thesis": "Balanced sentiment environment (+0.06 polarity across 119 headlines; Event: GENERAL_MARKET_FLOW). \ud83d\udc54 SEC FORM 4 CLUSTER: 7 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 98.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
+        "thesis": "Balanced sentiment environment (+0.06 polarity across 120 headlines; Event: GENERAL_MARKET_FLOW). \ud83d\udc54 SEC FORM 4 CLUSTER: 7 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 98.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -2453,25 +2462,41 @@
           "data_available": true,
           "piotroski_f_score": 5,
           "altman_z_score": 25.0,
-          "dcf_fair_value": 65.16899871826172,
+          "dcf_fair_value": 64.90199890136718,
           "dcf_margin_of_safety_pct": -70.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $65.17 (Margin of Safety: -70.0%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $64.90 (Margin of Safety: -70.0%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "NVDA",
-        "spot_price": 217.23,
-        "day_high": 218.47,
-        "day_low": 212.85,
-        "change_pct": -1.84,
-        "range_position_pct": 77.9,
-        "rvol": 1.17,
-        "momentum_velocity_pct": -5.26,
-        "conviction_score": 73.0,
-        "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.17x, Range 78%, 5D Vel -5.3%)",
-        "timestamp": "2026-10-16T06:54:25.326473+00:00"
+        "spot_price": 135.0,
+        "day_high": 218.68,
+        "day_low": 213.32,
+        "change_pct": -1.43,
+        "range_position_pct": 0.0,
+        "rvol": 0.48,
+        "momentum_velocity_pct": -41.12,
+        "conviction_score": 40.0,
+        "vote": "HOLD",
+        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 0%, RVOL 0.48x, 5D Vel -41.1%)",
+        "fvg_analysis": {
+          "has_active_fvg": true,
+          "is_mitigating": false,
+          "active_bullish_fvg": null,
+          "active_bearish_fvg": {
+            "top": 223.06,
+            "bottom": 217.21,
+            "consequent_encroachment": 220.14,
+            "date": "2026-10-14"
+          },
+          "tactical_limit_entry": 135.0,
+          "invalidation_stop": 130.95,
+          "summary": "No active bullish FVG in 30-day window"
+        },
+        "tactical_limit_entry": 135.0,
+        "invalidation_stop": 130.95,
+        "timestamp": "2026-10-18T17:25:48.370289+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -2481,16 +2506,18 @@
           "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)",
           "Paper 16: Page (1954) CUSUM Change-Point Surveillance"
         ],
-        "vote": "CLEAR",
-        "severity_score": 0.0,
-        "conviction_score": 100.0,
-        "risk_factors": [],
+        "vote": "CAUTION",
+        "severity_score": 40.0,
+        "conviction_score": 60.0,
+        "risk_factors": [
+          "Severe breakdown: Trading -33.4% below 200-day SMA ($202.84) \u2014 falling knife regime."
+        ],
         "key_metrics": {
-          "vulnerabilities_detected": 0,
-          "severity_score": 0.0,
-          "tail_risk_status": "LOW"
+          "vulnerabilities_detected": 1,
+          "severity_score": 40.0,
+          "tail_risk_status": "MODERATE"
         },
-        "thesis": "RED-TEAM CLEAR: No critical failure vectors, tail risks, or overextension anomalies detected."
+        "thesis": "RED-TEAM CAUTION: Moderate downside risks identified (1 risk factors). Strict position sizing and tight stops advised."
       }
     ],
     "cro_signoff": {
@@ -2502,36 +2529,36 @@
         "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
         "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
       ],
-      "final_resolution": "\ud83d\udfe1 AGILE SCALE-IN (Quorum Approved)",
-      "action_code": "SCALE_IN",
-      "buy_votes": 2,
+      "final_resolution": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
+      "action_code": "VETO",
+      "buy_votes": 0,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 69.1,
-      "unweighted_conviction_pct": 70.4,
-      "weighted_conviction_pct": 67.8,
-      "approved_leverage": 1.0,
-      "kelly_allocation_pct": 3.5,
+      "consensus_conviction_pct": 49.2,
+      "unweighted_conviction_pct": 48.2,
+      "weighted_conviction_pct": 50.3,
+      "approved_leverage": 0.0,
+      "kelly_allocation_pct": 0.0,
       "kelly_details": {
         "full_kelly_pct": 18.29,
-        "fractional_kelly_pct": 4.38,
-        "cf_haircut_multiplier": 0.9591,
+        "fractional_kelly_pct": 2.39,
+        "cf_haircut_multiplier": 0.5218,
         "edge": 0.32,
         "kelly_fraction": 0.25,
         "win_rate": 0.48,
         "payoff_ratio": 1.75,
-        "skewness": 0.2545262530294414,
-        "excess_kurtosis": 0.65397292848195,
+        "skewness": 0.4909229557287897,
+        "excess_kurtosis": 7.650805916330727,
         "status": "POSITIVE_EXPECTANCY"
       },
       "atr_14": 5.96,
-      "atr_pct": 2.74,
-      "tp1_target": 232.13,
-      "tp2_target": 244.05,
-      "stop_loss_target": 211.26,
-      "portfolio_diversity_grade": "A+",
-      "conformal_lower_bound": 210.17,
-      "conformal_upper_bound": 224.29,
-      "cro_thesis": "Committee Consensus: 2/5 specialist agents voted BUY (Average Conviction: 70.4%). ATR14 is $5.96 (2.7% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 3.5%. Trade signed off for execution.",
+      "atr_pct": 4.41,
+      "tp1_target": 149.9,
+      "tp2_target": 161.82,
+      "stop_loss_target": 131.29,
+      "portfolio_diversity_grade": "A-",
+      "conformal_lower_bound": 130.58,
+      "conformal_upper_bound": 139.42,
+      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 48.2%). ATR14 is $5.96 (4.4% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: FinJEPA Physics Hazard: LIQUIDITY_DROUGHT_HAZARD (High latent dispersion anomaly).",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false,
@@ -2540,49 +2567,49 @@
       "hmm_veto_triggered": false,
       "quantum_telemetry": {
         "ticker": "NVDA",
-        "spot_price": 217.23,
+        "spot_price": 135.0,
         "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
         "risk_multiplier": 1.0,
         "hmm_regime": "Bull",
-        "crisis_probability": 0.076,
+        "crisis_probability": 0.0957,
         "cusum_alarm": false,
         "cusum_direction": "NONE",
-        "poc_price": 182.4,
-        "vah_price": 210.41,
-        "val_price": 174.16,
-        "dist_to_poc_pct": 19.1,
-        "conformal_lower_bound": 210.17,
-        "conformal_upper_bound": 224.29,
-        "momentum_zscore": 0.0,
-        "vol_scaled_exposure": 0.0,
-        "realized_vol_annual": 0.2,
+        "poc_price": 6.67,
+        "vah_price": 31.85,
+        "val_price": 1.64,
+        "dist_to_poc_pct": 3150.26,
+        "conformal_lower_bound": 130.58,
+        "conformal_upper_bound": 139.42,
+        "momentum_zscore": 0.41,
+        "vol_scaled_exposure": 0.15,
+        "realized_vol_annual": 0.308,
         "credit_divergence": false,
         "alpha158_factors": {
-          "KMID": 0.00896,
-          "KLEN": 0.0261,
-          "KMID2": 0.34342,
-          "KUP": 0.00576,
-          "KUP2": 0.22064,
-          "KLOW": 0.01138,
-          "KLOW2": 0.43594,
-          "KSFT": 0.01458,
-          "KSFT2": 0.55872,
-          "CORR5": -0.85823,
-          "CORR20": -0.11202,
-          "CORD5": -0.33254,
-          "CORD20": -0.06829,
-          "WVMA10": 0.00844,
-          "RSV5": 0.20788,
-          "RSV20": 0.14351,
-          "MAX10": 0.12033,
-          "MIN10": -0.02016,
-          "QTLU20": 0.06559,
-          "QTLD20": 0.03564,
-          "ROC5": -0.05749,
-          "ROC20": -0.00962,
-          "BETA10": -0.0101,
-          "RSQR20": 0.00236,
-          "RESI10": -0.01458
+          "KMID": 0.00736,
+          "KLEN": 0.02025,
+          "KMID2": 0.36353,
+          "KUP": 0.00132,
+          "KUP2": 0.06537,
+          "KLOW": 0.01156,
+          "KLOW2": 0.5711,
+          "KSFT": 0.0176,
+          "KSFT2": 0.86926,
+          "CORR5": 0.399,
+          "CORR20": 0.2575,
+          "CORD5": 0.06211,
+          "CORD20": 0.10623,
+          "WVMA10": 0.01135,
+          "RSV5": 0.1934,
+          "RSV20": 0.13352,
+          "MAX10": 0.12191,
+          "MIN10": -0.01878,
+          "QTLU20": 0.06709,
+          "QTLD20": 0.0371,
+          "ROC5": -0.05881,
+          "ROC20": -0.01101,
+          "BETA10": -0.01019,
+          "RSQR20": 0.00191,
+          "RESI10": -0.01553
         },
         "insider_signals": {
           "ticker": "NVDA",
@@ -2590,37 +2617,15 @@
           "signal": "\ud83d\udfe2 STRONG_INSIDER_ACCUMULATION",
           "cluster_buy_detected": true,
           "distinct_buyers_count": 5,
-          "total_buy_usd": 12382496.28,
+          "total_buy_usd": 9019267.73,
           "total_sale_usd": 0,
-          "net_purchased_usd": 12382496.28,
+          "net_purchased_usd": 9019267.73,
           "buy_count": 5,
           "sale_count": 0,
           "transactions": [
             {
               "ticker": "NVDA",
-              "filing_date": "2026-09-24",
-              "officer_name": "Executive Officer D.",
-              "officer_title": "Executive VP",
-              "transaction_type": "P - Purchase (Open Market)",
-              "shares": 2500,
-              "price": 117.7,
-              "value_usd": 294256.83,
-              "is_purchase": true
-            },
-            {
-              "ticker": "NVDA",
-              "filing_date": "2026-08-27",
-              "officer_name": "Executive Officer A.",
-              "officer_title": "Chief Executive Officer (CEO)",
-              "transaction_type": "P - Purchase (Open Market)",
-              "shares": 15000,
-              "price": 345.41,
-              "value_usd": 5181189.59,
-              "is_purchase": true
-            },
-            {
-              "ticker": "NVDA",
-              "filing_date": "2026-08-01",
+              "filing_date": "2026-08-30",
               "officer_name": "Executive Officer E.",
               "officer_title": "Chief Financial Officer (CFO)",
               "transaction_type": "P - Purchase (Open Market)",
@@ -2631,7 +2636,7 @@
             },
             {
               "ticker": "NVDA",
-              "filing_date": "2026-07-27",
+              "filing_date": "2026-08-25",
               "officer_name": "Executive Officer B.",
               "officer_title": "10% Owner",
               "transaction_type": "P - Purchase (Open Market)",
@@ -2642,18 +2647,40 @@
             },
             {
               "ticker": "NVDA",
-              "filing_date": "2026-07-25",
+              "filing_date": "2026-08-20",
+              "officer_name": "Executive Officer D.",
+              "officer_title": "Executive VP",
+              "transaction_type": "P - Purchase (Open Market)",
+              "shares": 2500,
+              "price": 117.7,
+              "value_usd": 294256.83,
+              "is_purchase": true
+            },
+            {
+              "ticker": "NVDA",
+              "filing_date": "2026-08-13",
               "officer_name": "Executive Officer C.",
               "officer_title": "Executive VP",
               "transaction_type": "P - Purchase (Open Market)",
+              "shares": 10000,
+              "price": 171.54,
+              "value_usd": 1715353.1,
+              "is_purchase": true
+            },
+            {
+              "ticker": "NVDA",
+              "filing_date": "2026-07-23",
+              "officer_name": "Executive Officer A.",
+              "officer_title": "Chief Executive Officer (CEO)",
+              "transaction_type": "P - Purchase (Open Market)",
               "shares": 15000,
-              "price": 338.57,
-              "value_usd": 5078581.65,
+              "price": 345.41,
+              "value_usd": 5181189.59,
               "is_purchase": true
             }
           ],
-          "summary": "Aggressive C-Suite Insider Buying: $12,382,496 purchased across 5 officers.",
-          "timestamp": "2026-10-16T06:54:23.816938+00:00"
+          "summary": "Aggressive C-Suite Insider Buying: $9,019,268 purchased across 5 officers.",
+          "timestamp": "2026-10-18T17:25:45.788979+00:00"
         },
         "sec_catalysts": [],
         "social_buzz": {
@@ -2668,17 +2695,17 @@
           "color": "#3B82F6"
         },
         "options_data": {
-          "spot_price": 217.23,
+          "spot_price": 135.0,
           "net_gex": 0.0,
           "gamma_regime": "Neutral Gamma",
-          "max_pain_strike": 217.23
+          "max_pain_strike": 135.0
         },
         "macro_blackout": {
           "is_blackout_active": false,
           "status": "NORMAL_LIQUIDITY",
-          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 468.1h",
+          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 409.6h",
           "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-          "minutes_to_event": 28085.6,
+          "minutes_to_event": 24574.0,
           "tier": "TIER_1_CRITICAL",
           "expected_spy_dispersion_pct": 0.81,
           "expected_qqq_dispersion_pct": 1.19,
@@ -2692,12 +2719,12 @@
           "risk_profile": "NORMAL"
         },
         "execution_latency": {
-          "total_nanoseconds": 602826768,
-          "total_microseconds": 602826.77,
-          "hmm_micros": 216794.21,
-          "cusum_micros": 13.71,
-          "volume_profile_micros": 9151.56,
-          "momentum_micros": 220.05
+          "total_nanoseconds": 1994174400,
+          "total_microseconds": 1994174.4,
+          "hmm_micros": 44088.6,
+          "cusum_micros": 30.2,
+          "volume_profile_micros": 107390.9,
+          "momentum_micros": 8847.9
         }
       },
       "memory_risk_adjustment": {
@@ -2724,21 +2751,47 @@
       "meta_label_metrics": {
         "ticker": "NVDA",
         "approved": true,
-        "barrier_touch_prob": 0.9507,
-        "barrier_touch_prob_pct": 95.1,
+        "barrier_touch_prob": 0.8577,
+        "barrier_touch_prob_pct": 85.8,
         "verdict": "META_LABEL_APPROVED_HIGH_PROBABILITY_BARRIER_TOUCH",
         "meta_label": 1,
         "factors": {
-          "base_logit": 1.273,
+          "base_logit": -0.053,
           "trend_factor": 0.65,
           "rsi_factor": 0.0,
-          "micro_factor": 0.835,
+          "micro_factor": 1.0,
           "vol_factor": 0.2
         },
-        "reason": "Upper barrier probability 95.1% exceeds 50% threshold. Structural trend and microstructure support favorable risk/reward."
+        "reason": "Upper barrier probability 85.8% exceeds 50% threshold. Structural trend and microstructure support favorable risk/reward."
       },
       "meta_label_veto_triggered": false,
-      "vpin": 0.5988,
+      "mahalanobis_veto_triggered": false,
+      "mahalanobis_metrics": {
+        "status": "SUCCESS",
+        "ticker": "NVDA",
+        "mahalanobis_distance": 2.057,
+        "critical_threshold_99": 3.884,
+        "p_value": 0.51677,
+        "degrees_of_freedom": 5,
+        "is_anomaly": false,
+        "regime_verdict": "NORMAL_REGIME_STATISTICALLY_STABLE",
+        "action_recommendation": "STANDARD_EXECUTION"
+      },
+      "finjepa_metrics": {
+        "finjepa_regime": "LIQUIDITY_DROUGHT_HAZARD",
+        "finjepa_displacement": 6.8301,
+        "finjepa_confidence": 0.4,
+        "finjepa_veto": true
+      },
+      "finjepa_veto_triggered": true,
+      "sde_tail_risk_metrics": {
+        "cvar99_floor": 118014.06,
+        "var99": 10733.22
+      },
+      "drl_policy_metrics": {
+        "drl_leverage_multiplier": 0.725
+      },
+      "vpin": 0.5813,
       "toxicity_regime": "BALANCED_ORDER_FLOW"
     },
     "adaptive_execution": {
@@ -2748,15 +2801,15 @@
       "tp_atr_multiple": 1.89,
       "sl_atr_multiple": 1.72,
       "fast_harvest_target_pct": 2.5,
-      "strategy_directive": "\u2696\ufe0f [HYBRID BALANCED MODE] H=0.50 | Net GEX=+0.0M. Standard progressive profit locks (+3% -> +1% locked, +5% -> +2.5% locked). Allow single pyramid unit at +1N ATR on confirmed Volume PoC migration.",
+      "strategy_directive": "\u2696\ufe0f [HYBRID BALANCED MODE] H=0.51 | Net GEX=+0.0M. Standard progressive profit locks (+3% -> +1% locked, +5% -> +2.5% locked). Allow single pyramid unit at +1N ATR on confirmed Volume PoC migration.",
       "microstructure_signals": {
-        "hurst_exponent": 0.502,
+        "hurst_exponent": 0.509,
         "hurst_regime": "RANDOM_WALK_NEUTRAL",
         "net_gex_millions": 0.0,
-        "gamma_flip_level": 217.23,
-        "call_wall_resistance": 155.0,
-        "put_wall_support": 155.0,
-        "has_real_options_data": true
+        "gamma_flip_level": 135.0,
+        "call_wall_resistance": 130.62,
+        "put_wall_support": 128.75,
+        "has_real_options_data": false
       },
       "genetic_genome_source": {
         "genome_id": "GEN_94550",
@@ -2768,45 +2821,165 @@
         "sl_atr_multiple": 1.72,
         "sentiment_gate": 0.23
       },
-      "timestamp": "2026-10-16T06:54:32.354107+00:00"
+      "timestamp": "2026-10-18T17:26:11.233093+00:00"
     },
     "execution_mode": "HYBRID_BALANCED",
     "pyramiding_enabled": true,
     "tri_force_fusion": {
       "ticker": "NVDA",
-      "p_trade": 0.7707,
-      "trade_conviction_pct": 77.07,
-      "composite_raw_signal": 0.4041,
-      "regime": "MOMENTUM_TREND_DOMINANT",
+      "p_trade": 0.928,
+      "trade_conviction_pct": 92.8,
+      "composite_raw_signal": 0.8523,
+      "regime": "HIGH_VOLATILITY_MICROSTRUCTURE_DOMINANT",
       "weights": {
-        "w_microstructure": 0.3784,
-        "w_statarb": 0.0319,
-        "w_trend": 0.5898
+        "w_microstructure": 0.8477,
+        "w_statarb": 0.0056,
+        "w_trend": 0.1467
       },
       "signals": {
         "s_microstructure": 1.0,
-        "s_statarb": 0.807,
+        "s_statarb": 0.814,
         "s_trend": 0.0
       },
       "arar_details": {
-        "arar_score": 32704668.12,
+        "arar_score": 18947225.28,
         "arar_normalized": 1.0,
-        "obi": 0.559,
-        "cvd": 808839979.1,
-        "delta_price_pct": -1.839,
+        "obi": 0.869,
+        "cvd": 50630797283.1,
+        "delta_price_pct": -1.977,
         "is_absorption_active": true,
         "absorption_verdict": "INSTITUTIONAL_ICEBERG_ABSORPTION_LONG",
         "microstructure_signal": 1.0
       },
       "telemetry": {
-        "hurst_exponent": 0.298,
-        "realized_vol_pct": 37.37,
-        "trend_adx": 31.7,
+        "hurst_exponent": 0.396,
+        "realized_vol_pct": 50.08,
+        "trend_adx": 33.0,
         "vix_level": 16.5
       },
       "recommendation": "SUPER_MAJORITY_INSTITUTIONAL_BUY"
     },
-    "p_trade": 0.7707
+    "p_trade": 0.928,
+    "tree_of_thought_deliberation": {
+      "status": "SUCCESS",
+      "evaluated_tree": [
+        {
+          "id": "BRANCH_1_BULLISH_EXPANSION",
+          "label": "Bullish Trend Expansion",
+          "target_price": 146.92,
+          "stop_price": 129.04,
+          "expected_drift": 0.002,
+          "volatility_multiplier": 1.0,
+          "prior_probability": 0.2105,
+          "is_pruned": false
+        },
+        {
+          "id": "BRANCH_2_MEAN_REVERSION",
+          "label": "Consolidation Dip & Rebound",
+          "target_price": 142.15,
+          "stop_price": 130.23,
+          "expected_drift": 0.0005,
+          "volatility_multiplier": 0.8,
+          "prior_probability": 0.6842,
+          "is_pruned": false
+        },
+        {
+          "id": "BRANCH_3_VOLATILITY_BREAKDOWN",
+          "label": "Liquidity Flush & Breakdown",
+          "target_price": 120.1,
+          "stop_price": 140.96,
+          "expected_drift": -0.003,
+          "volatility_multiplier": 1.8,
+          "prior_probability": 0.1053,
+          "is_pruned": true
+        }
+      ],
+      "rollout_results": {
+        "dominant_branch": "BRANCH_2_MEAN_REVERSION",
+        "dominant_label": "Consolidation Dip & Rebound",
+        "composite_tp_probability": 0.37,
+        "composite_sl_probability": 0.4751,
+        "branch_simulations": {
+          "BRANCH_1_BULLISH_EXPANSION": {
+            "status": "ACTIVE",
+            "tp_hit_rate": 0.36,
+            "sl_hit_rate": 0.48,
+            "expected_pnl_multiple": 2.0
+          },
+          "BRANCH_2_MEAN_REVERSION": {
+            "status": "ACTIVE",
+            "tp_hit_rate": 0.43,
+            "sl_hit_rate": 0.5467,
+            "expected_pnl_multiple": 1.5
+          },
+          "BRANCH_3_VOLATILITY_BREAKDOWN": {
+            "status": "PRUNED",
+            "tp_hit_rate": 0.0,
+            "sl_hit_rate": 0.0
+          }
+        }
+      },
+      "recommended_action": "DEFENSIVE_HOLD"
+    },
+    "wavelet_sifter": {
+      "noise_d1_pct": 51.57,
+      "swing_d2_pct": 20.5,
+      "cyclical_d3_pct": 17.91,
+      "macro_a3_pct": 10.02,
+      "shannon_entropy": 1.7383,
+      "normalized_entropy": 0.8692,
+      "regime": "HIGH_ENTROPY_CHOP_VETO",
+      "veto_active": true,
+      "conviction_multiplier": 0.0,
+      "ticker": "NVDA",
+      "sample_bars": 64
+    },
+    "finjepa_physics": {
+      "latent_displacement": 6.8301,
+      "latent_cosine_alignment": 0.2728,
+      "latent_dispersion": 1.0277,
+      "regime": "LIQUIDITY_DROUGHT_HAZARD",
+      "risk_verdict": "DEFENSIVE_HOLD",
+      "physics_confidence": 0.4,
+      "cro_veto": true,
+      "ticker": "NVDA"
+    },
+    "jev_catalyst": {
+      "ticker": "NVDA",
+      "headline": "[Ephemeral_Key] Ephemeral_Key: Anonymized institutional order routing signature confirmed on $NVDA",
+      "material_catalyst": false,
+      "event_type": "NEUTRAL_MARKET_NOISE",
+      "calibrated_prob_up": 0.5,
+      "tail_risk_probability": 0.1,
+      "conviction_tier": "TIER_3_MONITOR",
+      "immediate_action": "IGNORE_NOISE",
+      "latency_ms": 0.047,
+      "timestamp": "2026-10-18T17:26:11.401233+00:00"
+    },
+    "soros_reflexivity": {
+      "price_velocity": -0.0254,
+      "price_acceleration": -0.0119,
+      "sentiment_velocity": 0.0,
+      "sentiment_acceleration": 0.0,
+      "soros_metric_r": -0.0101,
+      "regime": "TRANSITIONAL_EQUILIBRIUM",
+      "conviction_boost": 1.0,
+      "cro_veto": false
+    },
+    "working_memory_tape": {
+      "ticker": "NVDA",
+      "tape_length": 0,
+      "status": "INSUFFICIENT_TICKS",
+      "velocity_10": 0.0,
+      "velocity_50": 0.0,
+      "acceleration": 0.0,
+      "flow_toxicity_score": 0.0,
+      "spread_expansion_hazard": false,
+      "volatility_burst_flag": false,
+      "tape_pressure": "EQUILIBRIUM",
+      "median_spread_bps": 0.0,
+      "current_spread_bps": 0.0
+    }
   },
   "AVGO": {
     "timestamp": "2026-09-01T16:49:50.129436+00:00",
