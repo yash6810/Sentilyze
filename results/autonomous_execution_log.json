@@ -1,9 +1,34 @@
 {
-  "timestamp": "2026-10-19T05:35:20.611580-04:00",
+  "timestamp": "2026-10-19T12:49:04.307544-04:00",
   "buys": [],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
-  "stop_losses": [],
+  "stop_losses": [
+    {
+      "ticker": "GD",
+      "shares": 2,
+      "entry_price": 337.31,
+      "exit_price": 341.9,
+      "entry_date": "2026-10-08",
+      "exit_date": "2026-10-19",
+      "pnl": 8.94,
+      "return_pct": 1.36,
+      "reason": "STOP_LOSS",
+      "exit_friction": 0.24
+    },
+    {
+      "ticker": "ALLE",
+      "shares": 35,
+      "entry_price": 153.13,
+      "exit_price": 155.47,
+      "entry_date": "2026-10-13",
+      "exit_date": "2026-10-19",
+      "pnl": 80.0,
+      "return_pct": 1.53,
+      "reason": "STOP_LOSS",
+      "exit_friction": 1.9
+    }
+  ],
   "veto_exits": [],
   "committee_resolutions": {},
   "portfolio_equity": 136628.09,
@@ -13,18 +38,18 @@
   "self_improvement": {
     "total_cycles": 1,
     "agent_weights": {
-      "technicals_weight": 0.3,
-      "sentiment_weight": 0.35,
-      "valuation_weight": 0.15,
-      "cro_weight": 0.2
+      "technicals_weight": 0.294,
+      "sentiment_weight": 0.363,
+      "valuation_weight": 0.147,
+      "cro_weight": 0.196
     },
-    "kelly_multiplier": 1.0,
-    "new_autopsies_count": 0
+    "kelly_multiplier": 1.04,
+    "new_autopsies_count": 2
   },
-  "elapsed_seconds": 2.93,
+  "elapsed_seconds": 4.65,
   "execution_telemetry": {
-    "cycle_latency_ns": 2934726123,
-    "cycle_latency_us": 2934726.12,
-    "cycle_latency_ms": 2934.726
+    "cycle_latency_ns": 4650054798,
+    "cycle_latency_us": 4650054.8,
+    "cycle_latency_ms": 4650.055
   }
 }

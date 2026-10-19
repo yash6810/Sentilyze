@@ -1,37 +1,14 @@
 {
   "initial_capital": 100000.0,
-  "cash": 120167.63090319672,
-  "total_equity": 136628.09,
-  "unrealized_pnl": 222.59,
-  "realized_pnl": 54009.0440863037,
-  "win_rate": 62.1,
-  "total_trades": 87,
-  "winning_trades": 54,
+  "cash": 126290.73706569673,
+  "total_equity": 136583.84,
+  "unrealized_pnl": 89.4,
+  "realized_pnl": 54097.9802488037,
+  "win_rate": 62.9,
+  "total_trades": 89,
+  "winning_trades": 56,
   "losing_trades": 34,
   "open_positions": {
-    "GD": {
-      "ticker": "GD",
-      "shares": 2,
-      "initial_shares": 1,
-      "entry_price": 337.31,
-      "current_price": 344.23,
-      "entry_date": "2026-10-08",
-      "tp1_target": 345.68,
-      "tp2_target": 357.92,
-      "sl_target": 342.85,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_Turtle_Pyramid_Kelly",
-      "friction_paid": 0.12,
-      "pyramid_units_filled": 2,
-      "target_units": 3,
-      "unit_shares": 1,
-      "atr_14": 6.12,
-      "highest_price_seen": 344.2300109863281,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED",
-      "high_water_mark": 344.2300109863281,
-      "last_eval_price": 344.23
-    },
     "PG": {
       "shares": 31,
       "initial_shares": 31,
@@ -47,29 +24,6 @@
       "friction_paid": 1.66,
       "highest_price_seen": 159.35000610351562,
       "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
-    },
-    "ALLE": {
-      "ticker": "ALLE",
-      "shares": 35,
-      "initial_shares": 35,
-      "entry_price": 153.13,
-      "current_price": 156.54,
-      "entry_date": "2026-10-13",
-      "tp1_target": 162.58,
-      "tp2_target": 170.14,
-      "sl_target": 155.86,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_Turtle_Pyramid_Kelly",
-      "friction_paid": 1.88,
-      "pyramid_units_filled": 1,
-      "target_units": 3,
-      "unit_shares": 35,
-      "atr_14": 3.78,
-      "highest_price_seen": 156.54,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED",
-      "high_water_mark": 156.54,
-      "last_eval_price": 156.54
     },
     "NVDA": {
       "ticker": "NVDA",
@@ -1094,6 +1048,30 @@
       "pnl": 9.12,
       "return_pct": 1.19,
       "reason": "STOP_LOSS"
+    },
+    {
+      "ticker": "GD",
+      "shares": 2,
+      "entry_price": 337.31,
+      "exit_price": 341.9,
+      "entry_date": "2026-10-08",
+      "exit_date": "2026-10-19",
+      "pnl": 8.94,
+      "return_pct": 1.36,
+      "reason": "STOP_LOSS",
+      "exit_friction": 0.24
+    },
+    {
+      "ticker": "ALLE",
+      "shares": 35,
+      "entry_price": 153.13,
+      "exit_price": 155.47,
+      "entry_date": "2026-10-13",
+      "exit_date": "2026-10-19",
+      "pnl": 80.0,
+      "return_pct": 1.53,
+      "reason": "STOP_LOSS",
+      "exit_friction": 1.9
     }
   ],
   "equity_history": [
@@ -1420,11 +1398,11 @@
     {
       "date": "2026-10-19",
       "timestamp": "2026-10-19T05:35:20.611580-04:00",
-      "total_equity": 136628.09,
-      "cash": 120167.63,
-      "invested": 16460.46,
+      "total_equity": 136583.84,
+      "cash": 126290.74,
+      "invested": 10293.1,
       "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-19T09:35:23.546775+00:00"
+  "last_updated": "2026-10-19T16:49:08.958032+00:00"
 }
