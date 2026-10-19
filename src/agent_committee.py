@@ -1267,14 +1267,14 @@ class ChiefRiskOfficerAgent:
         elif (
             (
                 buy_votes >= 3
-                and effective_conviction >= (68.0 if require_supermajority else 62.0)
+                and effective_conviction >= (65.0 if require_supermajority else 58.0)
             )
             or (
                 not require_supermajority
                 and buy_votes >= 2
-                and effective_conviction >= 74.0
+                and effective_conviction >= 72.0
             )
-            or (is_catalyst_trade and buy_votes >= 2 and effective_conviction >= 65.0)
+            or (is_catalyst_trade and buy_votes >= 2 and effective_conviction >= 58.0)
         ):
             final_resolution = "🚀 HIGH CONVICTION COMMITTEE BUY"
             action_code = "EXECUTE_BUY"
@@ -1283,8 +1283,8 @@ class ChiefRiskOfficerAgent:
         elif (
             not require_supermajority
             and buy_votes >= 2
-            and effective_conviction >= 65.0
-        ) or (is_catalyst_trade and buy_votes >= 2 and effective_conviction >= 65.0):
+            and effective_conviction >= 55.0
+        ) or (is_catalyst_trade and buy_votes >= 1 and effective_conviction >= 55.0):
             final_resolution = "🟡 AGILE SCALE-IN (Quorum Approved)"
             action_code = "SCALE_IN"
             approved_leverage = 1.0
@@ -1554,6 +1554,9 @@ def convene_trading_committee(
         logger.debug(f"Tri-Force fusion notice for {ticker}: {tf_err}")
         resolution_packet["p_trade"] = 0.50
 
+    # Fast-Track Catalyst Lane: If breaking news catalyst is explicitly present, bypass historical price chop
+    is_fast_track = bool(catalyst_headlines and len(catalyst_headlines) > 0)
+
     # Sprint 4, Module 4.4 / Idea 41: Tree-of-Thought (ToT) Monte Carlo Branching Search
     if enable_tot:
         try:
@@ -1569,7 +1572,8 @@ def convene_trading_committee(
             resolution_packet["tree_of_thought_deliberation"] = tot_result
             # If dominant branch is a breakdown or composite TP probability is weak, override to DEFENSIVE_HOLD
             if (
-                tot_result.get("recommended_action") == "DEFENSIVE_HOLD"
+                not is_fast_track
+                and tot_result.get("recommended_action") == "DEFENSIVE_HOLD"
                 and resolution_packet.get("action_code") == "EXECUTE_BUY"
             ):
                 resolution_packet["action_code"] = "DEFENSIVE_HOLD"
@@ -1587,7 +1591,8 @@ def convene_trading_committee(
         wavelet_eval = evaluate_wavelet_invalidation_gate(ticker=ticker)
         resolution_packet["wavelet_sifter"] = wavelet_eval
         if (
-            wavelet_eval.get("veto_active")
+            not is_fast_track
+            and wavelet_eval.get("veto_active")
             and resolution_packet.get("action_code") == "EXECUTE_BUY"
         ):
             resolution_packet["action_code"] = "DEFENSIVE_HOLD"
@@ -1602,7 +1607,8 @@ def convene_trading_committee(
         finjepa_eval = evaluate_finjepa_physics_gate(ticker=ticker)
         resolution_packet["finjepa_physics"] = finjepa_eval
         if (
-            finjepa_eval.get("cro_veto")
+            not is_fast_track
+            and finjepa_eval.get("cro_veto")
             and resolution_packet.get("action_code") == "EXECUTE_BUY"
         ):
             resolution_packet["action_code"] = "DEFENSIVE_HOLD"
@@ -1617,7 +1623,8 @@ def convene_trading_committee(
         jev_verdict = evaluate_jev_catalyst_gate(ticker=ticker)
         resolution_packet["jev_catalyst"] = jev_verdict.to_dict()
         if (
-            jev_verdict.conviction_tier == "TIER_4_VETO"
+            not is_fast_track
+            and jev_verdict.conviction_tier == "TIER_4_VETO"
             and resolution_packet.get("action_code") == "EXECUTE_BUY"
         ):
             resolution_packet["action_code"] = "DEFENSIVE_HOLD"
@@ -1642,7 +1649,8 @@ def convene_trading_committee(
             soros_eval = soros_engine.calculate_kinematics(p_arr, s_arr)
             resolution_packet["soros_reflexivity"] = soros_eval
             if (
-                soros_eval.get("cro_veto")
+                not is_fast_track
+                and soros_eval.get("cro_veto")
                 and resolution_packet.get("action_code") == "EXECUTE_BUY"
             ):
                 resolution_packet["action_code"] = "DEFENSIVE_HOLD"
@@ -1667,7 +1675,8 @@ def convene_trading_committee(
         micro_state = mem_tape.get_microstructure_state(ticker)
         resolution_packet["working_memory_tape"] = micro_state
         if (
-            micro_state.get("spread_expansion_hazard")
+            not is_fast_track
+            and micro_state.get("spread_expansion_hazard")
             and resolution_packet.get("action_code") == "EXECUTE_BUY"
         ):
             resolution_packet["action_code"] = "DEFENSIVE_HOLD"

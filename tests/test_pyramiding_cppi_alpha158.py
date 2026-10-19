@@ -111,13 +111,13 @@ def test_paper_broker_execute_pyramid_unit(tmp_path):
     assert broker.state["open_positions"]["NVDA"]["shares"] == 50
     assert broker.state["open_positions"]["NVDA"]["entry_price"] == 100.0
 
-    # Execute Pyramid Unit 2: Add 50 shares @ $104, raise SL to $100.20
+    # Execute Pyramid Unit 2: Add 50 shares @ $104, raise SL to $102.20
     pyr_res = broker.execute_pyramid_unit(
         ticker="NVDA",
         unit_num=2,
         shares=50,
         price=104.0,
-        new_sl=100.20,
+        new_sl=102.20,
     )
     assert pyr_res["success"] is True
     assert pyr_res["total_shares"] == 100
@@ -125,7 +125,7 @@ def test_paper_broker_execute_pyramid_unit(tmp_path):
     assert pyr_res["blended_entry"] == 102.0
     assert broker.state["open_positions"]["NVDA"]["entry_price"] == 102.0
     assert broker.state["open_positions"]["NVDA"]["pyramid_units_filled"] == 2
-    assert broker.state["open_positions"]["NVDA"]["sl_target"] == 100.20
+    assert broker.state["open_positions"]["NVDA"]["sl_target"] == 102.20
 
 
 def test_alpha158_top25_calculation():

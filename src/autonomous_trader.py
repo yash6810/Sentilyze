@@ -131,9 +131,11 @@ class FormalLogicZ3RuleGate:
         self,
         min_cash_buffer: float = 1000.0,
         max_position_pct: float = 0.25,
+        sde_cash_floor: Optional[float] = None,
     ):
         self.min_cash_buffer = min_cash_buffer
         self.max_position_pct = max_position_pct
+        self.sde_cash_floor = sde_cash_floor
 
     def verify_trade(
         self,
@@ -175,24 +177,30 @@ class FormalLogicZ3RuleGate:
 
         # 3b. 1,000,000-Path Continuous Jump-Diffusion Neural SDE Capital Floor Invariant
         if not is_crypto_asset(ticker):
-            sde_floor = 118014.06
-            try:
-                sde_file = os.path.join("results", "cvar_stress_report.json")
-                if os.path.exists(sde_file):
-                    with open(sde_file, "r", encoding="utf-8") as sfp:
-                        sde_floor = float(
-                            json.load(sfp).get(
-                                "recommended_dynamic_cash_floor", 118014.06
+            sde_floor = self.sde_cash_floor
+            if sde_floor is None:
+                try:
+                    sde_file = os.path.join("results", "cvar_stress_report.json")
+                    if os.path.exists(sde_file):
+                        with open(sde_file, "r", encoding="utf-8") as sfp:
+                            sde_floor = float(
+                                json.load(sfp).get(
+                                    "recommended_dynamic_cash_floor", 118014.06
+                                )
                             )
-                        )
-            except Exception:
-                pass
-            inv_sde_floor = (cash - cost) >= sde_floor
-            invariants_checked["neural_sde_cash_floor"] = inv_sde_floor
-            if not inv_sde_floor:
-                violations.append(
-                    f"Order cost (${cost:,.2f}) breaches Neural SDE survival floor (${sde_floor:,.2f}). Remaining liquid cash (${cash - cost:,.2f}) is below capital moat."
-                )
+                except Exception:
+                    pass
+            tot_eq = float(portfolio_state.get("total_equity", cash))
+            if sde_floor is not None and sde_floor > 0.0 and tot_eq >= sde_floor:
+                inv_sde_floor = (cash - cost) >= sde_floor
+                invariants_checked["neural_sde_cash_floor"] = inv_sde_floor
+                if not inv_sde_floor:
+                    violations.append(
+                        f"Order cost (${cost:,.2f}) breaches Neural SDE survival floor (${sde_floor:,.2f}). Remaining liquid cash (${cash - cost:,.2f}) is below capital moat."
+                    )
+            else:
+                inv_sde_floor = (cash - cost) >= self.min_cash_buffer
+                invariants_checked["neural_sde_cash_floor"] = inv_sde_floor
 
         # 4. Bracket Monotonicity
         cro_dict = (
