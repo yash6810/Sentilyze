@@ -1,9 +1,20 @@
 {
+  "total_learning_cycles": 1,
+  "last_updated": "2026-10-19T19:13:11.068927+00:00",
+  "agent_voting_weights": {
+    "technicals_weight": 0.3,
+    "sentiment_weight": 0.35,
+    "valuation_weight": 0.15,
+    "cro_weight": 0.2
+  },
+  "adaptive_kelly_multiplier": 1.0,
+  "recent_trade_autopsies": [],
+  "retrained_models": [],
   "timestamp": "2026-10-18T18:21:55.255710+00:00",
-  "total_trades_analyzed": 91,
+  "total_trades_analyzed": 93,
   "trades_analyzed": 91,
-  "win_rate_pct": 46.15,
-  "total_realized_pnl": 46980.89,
+  "win_rate_pct": 47.31,
+  "total_realized_pnl": 47069.83,
   "winners_count": 42,
   "controlled_losses_count": 28,
   "severe_losses_count": 8,
@@ -23,12 +34,12 @@
     "Adversarial Red-Team": 0.2925
   },
   "calibrated_weights": {
-    "Technical Momentum": 0.1119,
-    "FinBERT Sentiment": 0.1198,
-    "Price Action Scout": 0.1671,
-    "Fundamental Valuation": 0.1163,
-    "Chief Risk Officer": 0.1924,
-    "Adversarial Red-Team": 0.2925
+    "Technical Momentum": 0.1993,
+    "FinBERT Sentiment": 0.1993,
+    "Price Action Scout": 0.2009,
+    "Fundamental Valuation": 0.1489,
+    "Chief Risk Officer": 0.1512,
+    "Adversarial Red-Team": 0.1004
   },
   "agent_performance_deltas": {
     "Technical Momentum": 0.139,
@@ -83,5 +94,13 @@
   "recent_lessons": [
     "Controlled 28 stop-loss events via Capital Shield.",
     "Harvested 42 high-conviction momentum runs with 46.15% win rate."
-  ]
+  ],
+  "bayesian_council_calibration": {
+    "Technical Momentum": 0.1993,
+    "FinBERT Sentiment": 0.1993,
+    "Price Action Scout": 0.2009,
+    "Fundamental Valuation": 0.1489,
+    "Chief Risk Officer": 0.1512,
+    "Adversarial Red-Team": 0.1004
+  }
 }
