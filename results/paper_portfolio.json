@@ -1,36 +1,20 @@
 {
   "initial_capital": 100000.0,
-  "cash": 126290.73706569673,
-  "total_equity": 136583.84,
-  "unrealized_pnl": 89.4,
-  "realized_pnl": 54097.9802488037,
-  "win_rate": 62.9,
-  "total_trades": 89,
-  "winning_trades": 56,
+  "cash": 131185.7831996967,
+  "total_equity": 136618.28,
+  "unrealized_pnl": -22.0,
+  "realized_pnl": 54243.82647740819,
+  "win_rate": 63.3,
+  "total_trades": 90,
+  "winning_trades": 57,
   "losing_trades": 34,
   "open_positions": {
-    "PG": {
-      "shares": 31,
-      "initial_shares": 31,
-      "entry_price": 153.1999969482422,
-      "current_price": 159.35000610351562,
-      "entry_date": "2026-10-13",
-      "tp1_target": 162.77,
-      "tp2_target": 170.43,
-      "sl_target": 158.12,
-      "scaled_out": false,
-      "confidence": 0.6102321743965149,
-      "regime": "\u25b2 BULLISH (Above SMA200)",
-      "friction_paid": 1.66,
-      "highest_price_seen": 159.35000610351562,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
-    },
     "NVDA": {
       "ticker": "NVDA",
       "shares": 25,
       "initial_shares": 25,
       "entry_price": 218.18,
-      "current_price": 214.1300048828125,
+      "current_price": 217.3,
       "entry_date": "2026-10-15",
       "tp1_target": 233.08,
       "tp2_target": 245.0,
@@ -1072,6 +1056,18 @@
       "return_pct": 1.53,
       "reason": "STOP_LOSS",
       "exit_friction": 1.9
+    },
+    {
+      "ticker": "PG",
+      "shares": 31,
+      "entry_price": 153.1999969482422,
+      "exit_price": 157.96,
+      "entry_date": "2026-10-13",
+      "exit_date": "2026-10-19",
+      "pnl": 145.85,
+      "return_pct": 3.11,
+      "reason": "STOP_LOSS",
+      "exit_friction": 1.71
     }
   ],
   "equity_history": [
@@ -1398,11 +1394,11 @@
     {
       "date": "2026-10-19",
       "timestamp": "2026-10-19T05:35:20.611580-04:00",
-      "total_equity": 136583.84,
-      "cash": 126290.74,
-      "invested": 10293.1,
-      "daily_return": 0.0
+      "total_equity": 136618.28,
+      "cash": 131185.78,
+      "invested": 5432.5,
+      "daily_return": 0.03
     }
   ],
-  "last_updated": "2026-10-19T16:49:08.958032+00:00"
+  "last_updated": "2026-10-19T19:12:40.547441+00:00"
 }
