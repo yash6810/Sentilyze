@@ -209,9 +209,8 @@ def watch_mode(poll_interval: int = 15, custom_path: Optional[str] = None):
     print("=" * 60)
     print(f"🛰️  Sentilyze Google Drive Auto-Sync Daemon Active (Option 2)")
     print(f"   Polling interval: {poll_interval}s")
-    print(
-        f"   Target: {custom_path if custom_path else r'G:\My Drive\Sentilyze_GPU_Artifacts'}"
-    )
+    target_path = custom_path if custom_path else r"G:\My Drive\Sentilyze_GPU_Artifacts"
+    print(f"   Target: {target_path}")
     print("   Press Ctrl+C to terminate.")
     print("=" * 60)
 
