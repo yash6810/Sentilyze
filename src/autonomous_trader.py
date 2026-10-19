@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 from typing import Dict, Any, List, Optional
 import requests
 import pandas as pd
+import numpy as np
 
 from src.utils import get_logger
 from src.paper_broker import PaperBroker

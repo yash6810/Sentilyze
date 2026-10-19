@@ -138,11 +138,11 @@ def query_lakehouse(sql_query: str) -> pd.DataFrame:
         con = duckdb.connect()
         if os.path.exists(TRADES_PARQUET_FILE):
             con.execute(
-                f"CREATE OR REPLACE VIEW sentilyze_trades AS SELECT * FROM '{TRADES_PARQUET_FILE}'"
+                f"CREATE OR REPLACE VIEW sentilyze_trades AS SELECT * FROM '{TRADES_PARQUET_FILE}'"  # nosec B608
             )
         if os.path.exists(EQUITY_PARQUET_FILE):
             con.execute(
-                f"CREATE OR REPLACE VIEW sentilyze_equity_snapshots AS SELECT * FROM '{EQUITY_PARQUET_FILE}'"
+                f"CREATE OR REPLACE VIEW sentilyze_equity_snapshots AS SELECT * FROM '{EQUITY_PARQUET_FILE}'"  # nosec B608
             )
         res_df = con.execute(sql_query).df()
         con.close()

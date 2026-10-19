@@ -1,7 +1,7 @@
-# Graph Report - Sentilyze  (2026-10-18)
+# Graph Report - Sentilyze  (2026-10-19)
 
 ## Corpus Check
-- 2502 files · ~891,499 words
+- 2502 files · ~891,631 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `33a059c1`
+- Built from commit: `4da14111`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -850,7 +850,7 @@ Nodes (13): analyze_triad_cointegration(), fit_ornstein_uhlenbeck(), johansen_co
 
 ### Community 158 - "AgentMemoryStore"
 Cohesion: 0.07
-Nodes (28): AgentMemoryStore, Any, Calculates historical win rate, trade count, and recent trajectory for a…, Synthesizes episodic trade memory to provide risk adjustments to…, Synchronizes executed_trades.csv into trade_postmortems.jsonl and recalibrates…, Retrieves the most recent post-mortems in reverse chronological order., Calibrates committee voting weights using the Softmax Dirichlet RLFF Algorithm.…, Returns current dynamic voting weights. (+20 more)
+Nodes (28): AgentMemoryStore, Any, Appends an episodic trade post-mortem to the JSONL log. Args: ticker: Asset…, Calculates historical win rate, trade count, and recent trajectory for a…, Synthesizes episodic trade memory to provide risk adjustments to…, Synchronizes executed_trades.csv into trade_postmortems.jsonl and recalibrates…, Retrieves the most recent post-mortems in reverse chronological order., Calibrates committee voting weights using the Softmax Dirichlet RLFF Algorithm.… (+20 more)
 
 ### Community 159 - "ultra_quant_engine.py"
 Cohesion: 0.18
