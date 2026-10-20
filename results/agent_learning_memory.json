@@ -1,6 +1,6 @@
 {
-  "total_learning_cycles": 1,
-  "last_updated": "2026-10-19T19:13:11.068927+00:00",
+  "total_learning_cycles": 2,
+  "last_updated": "2026-10-20T17:59:32.404609+00:00",
   "agent_voting_weights": {
     "technicals_weight": 0.3,
     "sentiment_weight": 0.35,
@@ -11,10 +11,10 @@
   "recent_trade_autopsies": [],
   "retrained_models": [],
   "timestamp": "2026-10-18T18:21:55.255710+00:00",
-  "total_trades_analyzed": 93,
+  "total_trades_analyzed": 94,
   "trades_analyzed": 91,
-  "win_rate_pct": 47.31,
-  "total_realized_pnl": 47069.83,
+  "win_rate_pct": 47.87,
+  "total_realized_pnl": 47215.68,
   "winners_count": 42,
   "controlled_losses_count": 28,
   "severe_losses_count": 8,
@@ -34,12 +34,12 @@
     "Adversarial Red-Team": 0.2925
   },
   "calibrated_weights": {
-    "Technical Momentum": 0.1993,
-    "FinBERT Sentiment": 0.1993,
-    "Price Action Scout": 0.2009,
-    "Fundamental Valuation": 0.1489,
-    "Chief Risk Officer": 0.1512,
-    "Adversarial Red-Team": 0.1004
+    "Technical Momentum": 0.2078,
+    "FinBERT Sentiment": 0.2077,
+    "Price Action Scout": 0.1675,
+    "Fundamental Valuation": 0.1655,
+    "Chief Risk Officer": 0.126,
+    "Adversarial Red-Team": 0.1255
   },
   "agent_performance_deltas": {
     "Technical Momentum": 0.139,
@@ -96,11 +96,11 @@
     "Harvested 42 high-conviction momentum runs with 46.15% win rate."
   ],
   "bayesian_council_calibration": {
-    "Technical Momentum": 0.1993,
-    "FinBERT Sentiment": 0.1993,
-    "Price Action Scout": 0.2009,
-    "Fundamental Valuation": 0.1489,
-    "Chief Risk Officer": 0.1512,
-    "Adversarial Red-Team": 0.1004
+    "Technical Momentum": 0.2078,
+    "FinBERT Sentiment": 0.2077,
+    "Price Action Scout": 0.1675,
+    "Fundamental Valuation": 0.1655,
+    "Chief Risk Officer": 0.126,
+    "Adversarial Red-Team": 0.1255
   }
 }
