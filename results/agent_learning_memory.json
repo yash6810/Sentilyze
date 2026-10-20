@@ -1,6 +1,6 @@
 {
-  "total_learning_cycles": 2,
-  "last_updated": "2026-10-20T17:59:32.404609+00:00",
+  "total_learning_cycles": 3,
+  "last_updated": "2026-10-20T21:15:07.536592+00:00",
   "agent_voting_weights": {
     "technicals_weight": 0.3,
     "sentiment_weight": 0.35,
@@ -34,12 +34,12 @@
     "Adversarial Red-Team": 0.2925
   },
   "calibrated_weights": {
-    "Technical Momentum": 0.2078,
-    "FinBERT Sentiment": 0.2077,
-    "Price Action Scout": 0.1675,
-    "Fundamental Valuation": 0.1655,
-    "Chief Risk Officer": 0.126,
-    "Adversarial Red-Team": 0.1255
+    "Technical Momentum": 0.1993,
+    "FinBERT Sentiment": 0.1993,
+    "Price Action Scout": 0.201,
+    "Fundamental Valuation": 0.1489,
+    "Chief Risk Officer": 0.1512,
+    "Adversarial Red-Team": 0.1003
   },
   "agent_performance_deltas": {
     "Technical Momentum": 0.139,
@@ -96,11 +96,11 @@
     "Harvested 42 high-conviction momentum runs with 46.15% win rate."
   ],
   "bayesian_council_calibration": {
-    "Technical Momentum": 0.2078,
-    "FinBERT Sentiment": 0.2077,
-    "Price Action Scout": 0.1675,
-    "Fundamental Valuation": 0.1655,
-    "Chief Risk Officer": 0.126,
-    "Adversarial Red-Team": 0.1255
+    "Technical Momentum": 0.1993,
+    "FinBERT Sentiment": 0.1993,
+    "Price Action Scout": 0.201,
+    "Fundamental Valuation": 0.1489,
+    "Chief Risk Officer": 0.1512,
+    "Adversarial Red-Team": 0.1003
   }
 }
