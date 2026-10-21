@@ -1,17 +1,17 @@
 {
-  "timestamp": "2026-10-21T17:35:47.474579-04:00",
+  "timestamp": "2026-10-21T19:55:28.296090-04:00",
   "buys": [],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
   "stop_losses": [],
   "veto_exits": [],
   "committee_resolutions": {},
-  "portfolio_equity": 136725.78,
+  "portfolio_equity": 136735.03,
   "cash_balance": 131185.7831996967,
-  "unrealized_pnl": 85.5,
+  "unrealized_pnl": 94.75,
   "kill_switch_active": false,
   "self_improvement": {
-    "total_cycles": 5,
+    "total_cycles": 6,
     "agent_weights": {
       "technicals_weight": 0.3,
       "sentiment_weight": 0.35,
@@ -21,10 +21,10 @@
     "kelly_multiplier": 1.0,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 19.8,
+  "elapsed_seconds": 19.14,
   "execution_telemetry": {
-    "cycle_latency_ns": 19799748317,
-    "cycle_latency_us": 19799748.32,
-    "cycle_latency_ms": 19799.748
+    "cycle_latency_ns": 19143105965,
+    "cycle_latency_us": 19143105.96,
+    "cycle_latency_ms": 19143.106
   }
 }
