@@ -1,77 +1,45 @@
 {
-  "session_time": "Oct 20, 2026 \u2022 11:45 PM IST (02:15 PM EDT)",
+  "session_time": "Oct 21, 2026 \u2022 11:53 PM IST (02:23 PM EDT)",
   "stocks_in_play": [
     "FIX",
-    "AXON",
     "EME",
-    "ETN",
-    "CHRW"
+    "AXON",
+    "CHRW",
+    "BLDR"
   ],
-  "signals_count": 3,
+  "signals_count": 1,
   "signals": [
-    {
-      "ticker": "AXON",
-      "signal": "BUY",
-      "current_price": 397.69,
-      "confidence": 0.9221,
-      "take_profit": 433.49,
-      "stop_loss": 379.79
-    },
-    {
-      "ticker": "ETN",
-      "signal": "BUY",
-      "current_price": 381.28,
-      "confidence": 0.1647,
-      "take_profit": 412.58,
-      "stop_loss": 365.63
-    },
     {
       "ticker": "CHRW",
       "signal": "BUY",
-      "current_price": 140.74,
-      "confidence": 0.4572,
-      "take_profit": 154.12,
-      "stop_loss": 134.05
+      "current_price": 141.5,
+      "confidence": 0.3394,
+      "take_profit": 154.38,
+      "stop_loss": 135.06
     }
   ],
   "executed_paper_trades": [
     {
-      "ticker": "AXON",
-      "signal": "BUY",
-      "current_price": 397.69,
-      "confidence": 0.9221,
-      "take_profit": 433.49,
-      "stop_loss": 379.79
-    },
-    {
-      "ticker": "ETN",
-      "signal": "BUY",
-      "current_price": 381.28,
-      "confidence": 0.1647,
-      "take_profit": 412.58,
-      "stop_loss": 365.63
-    },
-    {
       "ticker": "CHRW",
       "signal": "BUY",
-      "current_price": 140.74,
-      "confidence": 0.4572,
-      "take_profit": 154.12,
-      "stop_loss": 134.05
+      "current_price": 141.5,
+      "confidence": 0.3394,
+      "take_profit": 154.38,
+      "stop_loss": 135.06
     }
   ],
   "portfolio_summary": {
-    "total_equity": 136618.53,
+    "total_equity": 136725.78,
     "cash": 131185.7831996967,
-    "invested": 5432.7468003032845,
-    "start_of_day_equity": 136618.28,
-    "daily_pnl": 0.25,
-    "daily_return_pct": 0.0,
-    "unrealized_pnl": -21.75,
-    "unrealized_pnl_pct": -0.4,
+    "invested": 5539.9968003032845,
+    "start_of_day_equity": 136597.53,
+    "daily_pnl": 128.25,
+    "daily_return_pct": 0.09,
+    "unrealized_pnl": 85.5,
+    "unrealized_pnl_pct": 1.54,
     "realized_pnl": 54243.82647740819,
-    "total_pnl": 36618.53,
-    "total_return_pct": 36.62,
+    "total_pnl": 36725.78,
+    "total_return_pct": 36.73,
     "win_rate": 63.3,
     "open_positions_count": 1,
     "total_trades": 90,
