@@ -1,8 +1,8 @@
 {
   "initial_capital": 100000.0,
   "cash": 131185.7831996967,
-  "total_equity": 136597.53,
-  "unrealized_pnl": -42.75,
+  "total_equity": 136725.78,
+  "unrealized_pnl": 85.5,
   "realized_pnl": 54243.82647740819,
   "win_rate": 63.3,
   "total_trades": 90,
@@ -14,11 +14,11 @@
       "shares": 25,
       "initial_shares": 25,
       "entry_price": 218.18,
-      "current_price": 216.47,
+      "current_price": 221.6,
       "entry_date": "2026-10-15",
       "tp1_target": 233.08,
       "tp2_target": 245.0,
-      "sl_target": 212.73,
+      "sl_target": 220.92,
       "scaled_out": false,
       "confidence": 0.85,
       "regime": "Committee_Turtle_Pyramid_Kelly",
@@ -27,8 +27,8 @@
       "target_units": 3,
       "unit_shares": 25,
       "atr_14": 5.96,
-      "highest_price_seen": 218.18,
-      "profit_lock_status": "\ud83d\udee1\ufe0f CAPITAL SHIELD (-2.5% MAX)"
+      "highest_price_seen": 221.6,
+      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
     }
   },
   "closed_trades": [
@@ -1410,11 +1410,11 @@
     {
       "date": "2026-10-21",
       "timestamp": "2026-10-21T05:07:34.135657-04:00",
-      "total_equity": 136597.53,
+      "total_equity": 136725.78,
       "cash": 131185.78,
-      "invested": 5411.75,
-      "daily_return": 0.0
+      "invested": 5540.0,
+      "daily_return": 0.09
     }
   ],
-  "last_updated": "2026-10-21T14:57:29.646118+00:00"
+  "last_updated": "2026-10-21T18:00:22.305642+00:00"
 }
