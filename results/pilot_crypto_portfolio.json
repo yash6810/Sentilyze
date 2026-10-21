@@ -42,7 +42,15 @@
       "cash": 25000.0,
       "invested": 0,
       "daily_return": 0.0
+    },
+    {
+      "date": "2026-10-21",
+      "timestamp": "2026-10-21T05:07:34.135657-04:00",
+      "total_equity": 25000.0,
+      "cash": 25000.0,
+      "invested": 0,
+      "daily_return": 0.0
     }
   ],
-  "last_updated": "2026-10-21T03:10:46.360172+00:00"
+  "last_updated": "2026-10-21T09:07:50.368482+00:00"
 }
