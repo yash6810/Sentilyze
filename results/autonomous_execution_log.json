@@ -1,48 +1,17 @@
 {
-  "timestamp": "2026-10-21T14:00:50.129027-04:00",
+  "timestamp": "2026-10-21T17:35:47.474579-04:00",
   "buys": [],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
   "stop_losses": [],
   "veto_exits": [],
-  "committee_resolutions": {
-    "TJX": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
-    "MAR": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
-    "LIN": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
-    "HST": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "CHD": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
-    "HAS": "\ud83d\udd34 VETO / MAHALANOBIS ANOMALY (MULTIVARIATE DISLOCATION)",
-    "CASY": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "STE": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
-    "NEM": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
-    "DVN": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "VEEV": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "EXPD": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "GEV": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "GNRC": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "ETN": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
-    "DAL": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "EMR": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "HWM": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "CAT": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "FAST": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "JCI": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "HONA": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "CMI": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "AME": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "GWW": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "J": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
-    "FDXF": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "CTAS": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "DD": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "EFX": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD"
-  },
-  "portfolio_equity": 136597.53,
+  "committee_resolutions": {},
+  "portfolio_equity": 136725.78,
   "cash_balance": 131185.7831996967,
-  "unrealized_pnl": -42.75,
+  "unrealized_pnl": 85.5,
   "kill_switch_active": false,
   "self_improvement": {
-    "total_cycles": 4,
+    "total_cycles": 5,
     "agent_weights": {
       "technicals_weight": 0.3,
       "sentiment_weight": 0.35,
@@ -52,10 +21,10 @@
     "kelly_multiplier": 1.0,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 290.83,
+  "elapsed_seconds": 19.8,
   "execution_telemetry": {
-    "cycle_latency_ns": 290828865529,
-    "cycle_latency_us": 290828865.53,
-    "cycle_latency_ms": 290828.866
+    "cycle_latency_ns": 19799748317,
+    "cycle_latency_us": 19799748.32,
+    "cycle_latency_ms": 19799.748
   }
 }
