@@ -1,51 +1,51 @@
 {
-  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Tuesday, October 20, 2026",
+  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Wednesday, October 21, 2026",
   "mode": "MARKET_MASTER",
-  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **17.5**. Top algorithmic focus is on **MRNA, MSCI, RDDT** with **MRNA** leading at 78% conviction. The fund holds **$131,185.78** in liquid cash reserves (96.0% dry powder) alongside 1 active position(s) (NVDA).",
+  "executive_summary": "Global setup reflects a **BULLISH_EXPANSION** environment with VIX steady at **16.6**. Top algorithmic focus is on **MRNA, MSCI, STLD** with **MRNA** leading at 78% conviction. The fund holds **$131,185.78** in liquid cash reserves (96.0% dry powder) alongside 1 active position(s) (NVDA).",
   "macro_posture": {
     "regime": "BULLISH_EXPANSION",
-    "vix_level": 17.520000457763672,
+    "vix_level": 16.649999618530273,
     "10y_treasury": "4.25%",
     "fed_liquidity": "$6.05 Trillion"
   },
   "top_stocks_in_play": [
     {
       "ticker": "MRNA",
-      "last_price": 241.32,
-      "day_change_pct": 6.36,
-      "momentum_5d_pct": 6.64,
-      "atr": 23.25,
-      "tp1_target": 299.46,
-      "tp2_target": 345.97,
-      "sl_target": 206.44,
-      "conviction_pct": 92.7,
+      "last_price": 249.24,
+      "day_change_pct": 2.96,
+      "momentum_5d_pct": 5.39,
+      "atr": 22.62,
+      "tp1_target": 305.79,
+      "tp2_target": 351.04,
+      "sl_target": 215.31,
+      "conviction_pct": 84.0,
       "headline_catalyst": "Solid institutional institutional order flow observed in MRNA.",
       "sentiment_buzz": "Bullish Momentum"
     },
     {
       "ticker": "MSCI",
-      "last_price": 587.99,
-      "day_change_pct": 4.35,
-      "momentum_5d_pct": 4.9,
-      "atr": 13.48,
-      "tp1_target": 621.69,
-      "tp2_target": 648.64,
-      "sl_target": 567.78,
-      "conviction_pct": 86.1,
+      "last_price": 603.13,
+      "day_change_pct": 1.93,
+      "momentum_5d_pct": 4.88,
+      "atr": 16.75,
+      "tp1_target": 644.99,
+      "tp2_target": 678.49,
+      "sl_target": 578.01,
+      "conviction_pct": 81.2,
       "headline_catalyst": "Solid institutional institutional order flow observed in MSCI.",
       "sentiment_buzz": "Bullish Momentum"
     },
     {
-      "ticker": "RDDT",
-      "last_price": 157.15,
-      "day_change_pct": 1.3,
-      "momentum_5d_pct": 5.75,
-      "atr": 9.27,
-      "tp1_target": 180.31,
-      "tp2_target": 198.84,
-      "sl_target": 143.25,
-      "conviction_pct": 81.2,
-      "headline_catalyst": "Solid institutional institutional order flow observed in RDDT.",
+      "ticker": "STLD",
+      "last_price": 248.43,
+      "day_change_pct": 1.66,
+      "momentum_5d_pct": 3.19,
+      "atr": 9.62,
+      "tp1_target": 272.49,
+      "tp2_target": 291.73,
+      "sl_target": 234.0,
+      "conviction_pct": 78.1,
+      "headline_catalyst": "Solid institutional institutional order flow observed in STLD.",
       "sentiment_buzz": "Bullish Momentum"
     }
   ],
@@ -56,7 +56,7 @@
     "rationale": "Strong momentum catalyst and disciplined risk-reward ratio."
   },
   "portfolio_status": {
-    "total_equity": 136613.03,
+    "total_equity": 136597.53,
     "cash_reserves": 131185.7831996967,
     "realized_gain": 54243.82647740819,
     "win_rate_pct": 63.3,
@@ -65,6 +65,6 @@
       "NVDA"
     ]
   },
-  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Tuesday, October 20, 2026. First, in global macro: Volatility remains subdued with the VIX index at 17.5, placing markets in a Bullish Expansion regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: MRNA, MSCI, RDDT. Leading the list is MRNA trading at 241.32 dollars with 93 percent algorithmic conviction, followed by MSCI and RDDT. Turning to portfolio health: Sentilyze manages 136,613.03 dollars in total equity, with 131,185.78 dollars in liquid cash reserves (96 percent dry powder) alongside 1 active position in NVDA, maintaining a 63.3 percent win rate with 54,243.83 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
-  "generated_at": "05:45 PM UTC"
+  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Wednesday, October 21, 2026. First, in global macro: Volatility remains subdued with the VIX index at 16.6, placing markets in a Bullish Expansion regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: MRNA, MSCI, STLD. Leading the list is MRNA trading at 249.24 dollars with 84 percent algorithmic conviction, followed by MSCI and STLD. Turning to portfolio health: Sentilyze manages 136,597.53 dollars in total equity, with 131,185.78 dollars in liquid cash reserves (96 percent dry powder) alongside 1 active position in NVDA, maintaining a 63.3 percent win rate with 54,243.83 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
+  "generated_at": "05:52 PM UTC"
 }
