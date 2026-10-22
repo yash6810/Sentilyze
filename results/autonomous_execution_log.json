@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-22T17:24:57.059675-04:00",
+  "timestamp": "2026-10-22T19:54:06.537528-04:00",
   "buys": [],
   "take_profits_tp1": [],
   "take_profits_tp2": [],
@@ -21,10 +21,10 @@
     "kelly_multiplier": 1.0,
     "new_autopsies_count": 0
   },
-  "elapsed_seconds": 0.91,
+  "elapsed_seconds": 0.78,
   "execution_telemetry": {
-    "cycle_latency_ns": 907041910,
-    "cycle_latency_us": 907041.91,
-    "cycle_latency_ms": 907.042
+    "cycle_latency_ns": 776107806,
+    "cycle_latency_us": 776107.81,
+    "cycle_latency_ms": 776.108
   }
 }
