@@ -1,36 +1,14 @@
 {
   "initial_capital": 100000.0,
-  "cash": 131185.7831996967,
-  "total_equity": 136735.03,
-  "unrealized_pnl": 94.75,
-  "realized_pnl": 54243.82647740819,
-  "win_rate": 63.3,
-  "total_trades": 90,
+  "cash": 136489.1763621967,
+  "total_equity": 136489.18,
+  "unrealized_pnl": 0,
+  "realized_pnl": 54092.71963990819,
+  "win_rate": 62.6,
+  "total_trades": 91,
   "winning_trades": 57,
-  "losing_trades": 34,
-  "open_positions": {
-    "NVDA": {
-      "ticker": "NVDA",
-      "shares": 25,
-      "initial_shares": 25,
-      "entry_price": 218.18,
-      "current_price": 221.97,
-      "entry_date": "2026-10-15",
-      "tp1_target": 233.08,
-      "tp2_target": 245.0,
-      "sl_target": 221.21,
-      "scaled_out": false,
-      "confidence": 0.85,
-      "regime": "Committee_Turtle_Pyramid_Kelly",
-      "friction_paid": 1.91,
-      "pyramid_units_filled": 1,
-      "target_units": 3,
-      "unit_shares": 25,
-      "atr_14": 5.96,
-      "highest_price_seen": 221.97,
-      "profit_lock_status": "\ud83d\udd12 +80% PEAK LOCKED"
-    }
-  },
+  "losing_trades": 35,
+  "open_positions": {},
   "closed_trades": [
     {
       "ticker": "FIX",
@@ -1068,6 +1046,18 @@
       "return_pct": 3.11,
       "reason": "STOP_LOSS",
       "exit_friction": 1.71
+    },
+    {
+      "ticker": "NVDA",
+      "shares": 25,
+      "entry_price": 218.18,
+      "exit_price": 212.21,
+      "entry_date": "2026-10-15",
+      "exit_date": "2026-10-22",
+      "pnl": -151.11,
+      "return_pct": -2.74,
+      "reason": "STOP_LOSS",
+      "exit_friction": 1.86
     }
   ],
   "equity_history": [
@@ -1434,11 +1424,11 @@
     {
       "date": "2026-10-22",
       "timestamp": "2026-10-22T05:10:04.903079-04:00",
-      "total_equity": 136735.03,
-      "cash": 131185.78,
-      "invested": 5549.25,
-      "daily_return": 0.0
+      "total_equity": 136489.18,
+      "cash": 136489.18,
+      "invested": 0,
+      "daily_return": -0.18
     }
   ],
-  "last_updated": "2026-10-22T17:56:39.370741+00:00"
+  "last_updated": "2026-10-22T21:18:58.649795+00:00"
 }
