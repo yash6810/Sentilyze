@@ -1,45 +1,45 @@
 {
-  "session_time": "Oct 21, 2026 \u2022 11:53 PM IST (02:23 PM EDT)",
+  "session_time": "Oct 22, 2026 \u2022 11:49 PM IST (02:19 PM EDT)",
   "stocks_in_play": [
     "FIX",
     "EME",
-    "AXON",
-    "CHRW",
-    "BLDR"
+    "ETN",
+    "CAT",
+    "AXON"
   ],
   "signals_count": 1,
   "signals": [
     {
-      "ticker": "CHRW",
+      "ticker": "AXON",
       "signal": "BUY",
-      "current_price": 141.5,
-      "confidence": 0.3394,
-      "take_profit": 154.38,
-      "stop_loss": 135.06
+      "current_price": 410.0,
+      "confidence": 0.4831,
+      "take_profit": 444.28,
+      "stop_loss": 392.86
     }
   ],
   "executed_paper_trades": [
     {
-      "ticker": "CHRW",
+      "ticker": "AXON",
       "signal": "BUY",
-      "current_price": 141.5,
-      "confidence": 0.3394,
-      "take_profit": 154.38,
-      "stop_loss": 135.06
+      "current_price": 410.0,
+      "confidence": 0.4831,
+      "take_profit": 444.28,
+      "stop_loss": 392.86
     }
   ],
   "portfolio_summary": {
-    "total_equity": 136725.78,
+    "total_equity": 136735.03,
     "cash": 131185.7831996967,
-    "invested": 5539.9968003032845,
-    "start_of_day_equity": 136597.53,
-    "daily_pnl": 128.25,
-    "daily_return_pct": 0.09,
-    "unrealized_pnl": 85.5,
-    "unrealized_pnl_pct": 1.54,
+    "invested": 5549.2468003032845,
+    "start_of_day_equity": 136735.03,
+    "daily_pnl": 0.0,
+    "daily_return_pct": 0.0,
+    "unrealized_pnl": 94.75,
+    "unrealized_pnl_pct": 1.71,
     "realized_pnl": 54243.82647740819,
-    "total_pnl": 36725.78,
-    "total_return_pct": 36.73,
+    "total_pnl": 36735.03,
+    "total_return_pct": 36.74,
     "win_rate": 63.3,
     "open_positions_count": 1,
     "total_trades": 90,
