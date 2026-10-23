@@ -1,5 +1,5 @@
 {
-  "session_time": "Oct 22, 2026 \u2022 11:49 PM IST (02:19 PM EDT)",
+  "session_time": "Oct 23, 2026 \u2022 11:34 PM IST (02:04 PM EDT)",
   "stocks_in_play": [
     "FIX",
     "EME",
@@ -7,43 +7,59 @@
     "CAT",
     "AXON"
   ],
-  "signals_count": 1,
+  "signals_count": 2,
   "signals": [
+    {
+      "ticker": "ETN",
+      "signal": "BUY",
+      "current_price": 368.75,
+      "confidence": 0.5333,
+      "take_profit": 402.15,
+      "stop_loss": 352.05
+    },
     {
       "ticker": "AXON",
       "signal": "BUY",
-      "current_price": 410.0,
-      "confidence": 0.4831,
-      "take_profit": 444.28,
-      "stop_loss": 392.86
+      "current_price": 419.33,
+      "confidence": 0.4948,
+      "take_profit": 455.01,
+      "stop_loss": 401.49
     }
   ],
   "executed_paper_trades": [
     {
+      "ticker": "ETN",
+      "signal": "BUY",
+      "current_price": 368.75,
+      "confidence": 0.5333,
+      "take_profit": 402.15,
+      "stop_loss": 352.05
+    },
+    {
       "ticker": "AXON",
       "signal": "BUY",
-      "current_price": 410.0,
-      "confidence": 0.4831,
-      "take_profit": 444.28,
-      "stop_loss": 392.86
+      "current_price": 419.33,
+      "confidence": 0.4948,
+      "take_profit": 455.01,
+      "stop_loss": 401.49
     }
   ],
   "portfolio_summary": {
-    "total_equity": 136735.03,
-    "cash": 131185.7831996967,
-    "invested": 5549.2468003032845,
-    "start_of_day_equity": 136735.03,
+    "total_equity": 136489.18,
+    "cash": 136489.1763621967,
+    "invested": 0.0036378032818902284,
+    "start_of_day_equity": 136489.18,
     "daily_pnl": 0.0,
     "daily_return_pct": 0.0,
-    "unrealized_pnl": 94.75,
-    "unrealized_pnl_pct": 1.71,
-    "realized_pnl": 54243.82647740819,
-    "total_pnl": 36735.03,
-    "total_return_pct": 36.74,
-    "win_rate": 63.3,
-    "open_positions_count": 1,
-    "total_trades": 90,
+    "unrealized_pnl": 0,
+    "unrealized_pnl_pct": 0.0,
+    "realized_pnl": 54092.71963990819,
+    "total_pnl": 36489.18,
+    "total_return_pct": 36.49,
+    "win_rate": 62.6,
+    "open_positions_count": 0,
+    "total_trades": 91,
     "winning_trades": 57,
-    "losing_trades": 34
+    "losing_trades": 35
   }
 }
