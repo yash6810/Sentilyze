@@ -1,70 +1,68 @@
 {
-  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Thursday, October 22, 2026",
+  "headline": "Sentilyze Pre-Market Intelligence Memo \u2014 Friday, October 23, 2026",
   "mode": "MARKET_MASTER",
-  "executive_summary": "Global setup reflects a **NEUTRAL_CONSOLIDATION** environment with VIX steady at **18.9**. Top algorithmic focus is on **MSCI, BXP, NSC** with **MSCI** leading at 78% conviction. The fund holds **$131,185.78** in liquid cash reserves (95.9% dry powder) alongside 1 active position(s) (NVDA).",
+  "executive_summary": "Global setup reflects a **NEUTRAL_CONSOLIDATION** environment with VIX steady at **20.3**. Top algorithmic focus is on **AKAM, MSCI, BXP** with **AKAM** leading at 78% conviction. The fund holds **$136,489.18** in 100% liquid cash reserves, ready for morning opening range opportunities.",
   "macro_posture": {
     "regime": "NEUTRAL_CONSOLIDATION",
-    "vix_level": 18.889999389648438,
+    "vix_level": 20.299999237060547,
     "10y_treasury": "4.25%",
     "fed_liquidity": "$6.05 Trillion"
   },
   "top_stocks_in_play": [
     {
+      "ticker": "AKAM",
+      "last_price": 93.11,
+      "day_change_pct": 2.17,
+      "momentum_5d_pct": 6.72,
+      "atr": 3.96,
+      "tp1_target": 103.0,
+      "tp2_target": 110.91,
+      "sl_target": 87.18,
+      "conviction_pct": 84.4,
+      "headline_catalyst": "Solid institutional institutional order flow observed in AKAM.",
+      "sentiment_buzz": "Bullish Momentum"
+    },
+    {
       "ticker": "MSCI",
-      "last_price": 622.11,
-      "day_change_pct": 2.92,
-      "momentum_5d_pct": 9.32,
-      "atr": 19.46,
-      "tp1_target": 670.75,
-      "tp2_target": 709.66,
-      "sl_target": 592.93,
-      "conviction_pct": 89.8,
+      "last_price": 613.69,
+      "day_change_pct": -1.06,
+      "momentum_5d_pct": 8.91,
+      "atr": 18.95,
+      "tp1_target": 661.07,
+      "tp2_target": 698.97,
+      "sl_target": 585.26,
+      "conviction_pct": 81.3,
       "headline_catalyst": "Solid institutional institutional order flow observed in MSCI.",
       "sentiment_buzz": "Bullish Momentum"
     },
     {
       "ticker": "BXP",
-      "last_price": 60.74,
-      "day_change_pct": 3.58,
-      "momentum_5d_pct": 2.6,
-      "atr": 1.54,
-      "tp1_target": 64.59,
-      "tp2_target": 67.66,
-      "sl_target": 58.43,
-      "conviction_pct": 81.1,
+      "last_price": 61.71,
+      "day_change_pct": 0.36,
+      "momentum_5d_pct": 6.51,
+      "atr": 1.59,
+      "tp1_target": 65.7,
+      "tp2_target": 68.88,
+      "sl_target": 59.32,
+      "conviction_pct": 80.5,
       "headline_catalyst": "Solid institutional institutional order flow observed in BXP.",
-      "sentiment_buzz": "Bullish Momentum"
-    },
-    {
-      "ticker": "NSC",
-      "last_price": 335.82,
-      "day_change_pct": 2.36,
-      "momentum_5d_pct": 2.72,
-      "atr": 6.72,
-      "tp1_target": 352.61,
-      "tp2_target": 366.04,
-      "sl_target": 325.75,
-      "conviction_pct": 78.8,
-      "headline_catalyst": "Solid institutional institutional order flow observed in NSC.",
       "sentiment_buzz": "Bullish Momentum"
     }
   ],
   "primary_focus": {
-    "ticker": "MSCI",
+    "ticker": "AKAM",
     "committee_decision": "APPROVED",
     "confidence_pct": 78.0,
     "rationale": "Strong momentum catalyst and disciplined risk-reward ratio."
   },
   "portfolio_status": {
-    "total_equity": 136735.03,
-    "cash_reserves": 131185.7831996967,
-    "realized_gain": 54243.82647740819,
-    "win_rate_pct": 63.3,
-    "open_positions": 1,
-    "active_tickers": [
-      "NVDA"
-    ]
+    "total_equity": 136489.18,
+    "cash_reserves": 136489.1763621967,
+    "realized_gain": 54092.71963990819,
+    "win_rate_pct": 62.6,
+    "open_positions": 0,
+    "active_tickers": []
   },
-  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Thursday, October 22, 2026. First, in global macro: Volatility remains subdued with the VIX index at 18.9, placing markets in a Neutral Consolidation regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: MSCI, BXP, NSC. Leading the list is MSCI trading at 622.11 dollars with 90 percent algorithmic conviction, followed by BXP and NSC. Turning to portfolio health: Sentilyze manages 136,735.03 dollars in total equity, with 131,185.78 dollars in liquid cash reserves (96 percent dry powder) alongside 1 active position in NVDA, maintaining a 63.3 percent win rate with 54,243.83 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
-  "generated_at": "05:51 PM UTC"
+  "audio_script": "Good morning. Welcome to the Sentilyze Wall Street Morning Intelligence Podcast for Friday, October 23, 2026. First, in global macro: Volatility remains subdued with the VIX index at 20.3, placing markets in a Neutral Consolidation regime. The benchmark 10-year Treasury yield is at 4.25 percent, while Federal Reserve Net Liquidity stands stable near six trillion dollars. Next, in our universe scan of top stocks in play: Our quantitative algorithms have highlighted three primary alpha leaders today: AKAM, MSCI, BXP. Leading the list is AKAM trading at 93.11 dollars with 84 percent algorithmic conviction, followed by MSCI and BXP. Turning to portfolio health: Sentilyze manages 136,489.18 dollars in total equity, with one hundred percent cash liquidity at 136,489.18 dollars and zero open positions, maintaining a 62.6 percent win rate with 54,092.72 dollars in realized profit. At the 9:30 AM opening bell, watch for opening range breakout volume confirmation and adhere strictly to our two-point-five ATR take profit targets. Have a disciplined and profitable trading day.",
+  "generated_at": "05:41 PM UTC"
 }
