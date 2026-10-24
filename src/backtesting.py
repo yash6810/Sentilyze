@@ -1,3 +1,4 @@
+import threading
 import matplotlib
 
 matplotlib.use("Agg")
@@ -9,6 +10,7 @@ from src.utils import get_logger
 from typing import Tuple, Dict, List, Any, Optional
 
 logger = get_logger(__name__)
+_MATPLOTLIB_LOCK = threading.Lock()
 
 
 def create_monthly_returns_heatmap(portfolio: pd.DataFrame) -> plt.Figure:
@@ -21,47 +23,50 @@ def create_monthly_returns_heatmap(portfolio: pd.DataFrame) -> plt.Figure:
     Returns:
         matplotlib.figure.Figure: A matplotlib Figure object containing the heatmap.
     """
-    plt.clf()  # Clear the current figure to prevent overlap
-    plt.style.use("dark_background")  # Set style for dark theme
-    daily_returns = portfolio["total"].pct_change().fillna(0)
-    monthly_returns = daily_returns.resample("ME").apply(lambda x: (x + 1).prod() - 1)
-    monthly_returns.index = monthly_returns.index.to_period("M")
+    with _MATPLOTLIB_LOCK:
+        plt.clf()  # Clear the current figure to prevent overlap
+        plt.style.use("dark_background")  # Set style for dark theme
+        daily_returns = portfolio["total"].pct_change().fillna(0)
+        monthly_returns = daily_returns.resample("ME").apply(
+            lambda x: (x + 1).prod() - 1
+        )
+        monthly_returns.index = monthly_returns.index.to_period("M")
 
-    # Create pivot table for heatmap
-    returns_pivot = monthly_returns.to_frame(name="returns").pivot_table(
-        values="returns",
-        index=monthly_returns.index.year,
-        columns=monthly_returns.index.month,
-        aggfunc="sum",
-    )
-    returns_pivot.columns = returns_pivot.columns.map(
-        lambda x: pd.to_datetime(str(x), format="%m").strftime("%b")
-    )
+        # Create pivot table for heatmap
+        returns_pivot = monthly_returns.to_frame(name="returns").pivot_table(
+            values="returns",
+            index=monthly_returns.index.year,
+            columns=monthly_returns.index.month,
+            aggfunc="sum",
+        )
+        returns_pivot.columns = returns_pivot.columns.map(
+            lambda x: pd.to_datetime(str(x), format="%m").strftime("%b")
+        )
 
-    # Create heatmap
-    fig, ax = plt.subplots(figsize=(14, 10))
-    sns.heatmap(
-        returns_pivot,
-        annot=True,
-        fmt=".2%",
-        cmap="RdYlGn",
-        center=0,
-        ax=ax,
-        linewidths=0.5,
-        linecolor="gray",
-        cbar_kws={
-            "format": "%.0f%%",
-            "label": "Monthly Return",
-        },
-    )
-    ax.set_title("Monthly Returns Heatmap (Strategy Performance)", fontsize=16)
-    ax.set_xlabel("Month", fontsize=12)
-    ax.set_ylabel("Year", fontsize=12)
-    plt.yticks(rotation=0)
-    plt.xticks(rotation=45, ha="right")
-    plt.tight_layout()
+        # Create heatmap
+        fig, ax = plt.subplots(figsize=(14, 10))
+        sns.heatmap(
+            returns_pivot,
+            annot=True,
+            fmt=".2%",
+            cmap="RdYlGn",
+            center=0,
+            ax=ax,
+            linewidths=0.5,
+            linecolor="gray",
+            cbar_kws={
+                "format": "%.0f%%",
+                "label": "Monthly Return",
+            },
+        )
+        ax.set_title("Monthly Returns Heatmap (Strategy Performance)", fontsize=16)
+        ax.set_xlabel("Month", fontsize=12)
+        ax.set_ylabel("Year", fontsize=12)
+        plt.yticks(rotation=0)
+        plt.xticks(rotation=45, ha="right")
+        plt.tight_layout()
 
-    return fig
+        return fig
 
 
 def run_backtest(

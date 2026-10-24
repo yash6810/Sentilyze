@@ -589,13 +589,16 @@ class AutonomousTradingEngine:
                         pos["profit_lock_status"] = (
                             f"🔒 TIER-1 SECURED (+1.0% @ ${tier1_sl:.2f})"
                         )
-                elif max_gain_pct >= 1.5:
+                elif max_gain_pct >= 1.20:
                     be_sl = round(entry_price * 1.002, 2)  # Breakeven + fee cushion
                     if be_sl > sl_target:
                         pos["sl_target"] = be_sl
                         sl_target = be_sl
                         pos["profit_lock_status"] = (
-                            f"🛡️ BREAKEVEN SECURED (${be_sl:.2f})"
+                            f"🛡️ ZERO-GIVEBACK BREAKEVEN SECURED (${be_sl:.2f})"
+                        )
+                        logger.info(
+                            f"🛡️ [{ticker} ZERO-GIVEBACK BREAKEVEN] Max gain {max_gain_pct:.2f}% >= 1.20%. Locked stop at ${be_sl:.2f}."
                         )
 
             # Level 5: CUSUM Structural Break Early Warning (Page 1954)
@@ -760,8 +763,24 @@ class AutonomousTradingEngine:
                     pos["sl_target"] = max(float(pos.get("sl_target", 0.0)), new_sl_val)
                     sl_target = pos["sl_target"]
 
-            # Check Stage 1 Scale-Out (+2.5 ATR)
-            if not scaled_out and spot_price >= tp1_target:
+            # Check Stage 1 Scale-Out (+2.5 ATR or Proximity Harvester >= 98.5% TP1)
+            is_proximity_tp1 = (
+                not scaled_out
+                and tp1_target > entry_price
+                and (
+                    spot_price >= tp1_target * 0.985 or high_water >= tp1_target * 0.985
+                )
+                and (high_water - spot_price)
+                >= max((tp1_target - entry_price) * 0.10, 0.04)
+            )
+            is_exact_tp1 = not scaled_out and spot_price >= tp1_target
+
+            if is_exact_tp1 or is_proximity_tp1:
+                action_label = (
+                    "TP1_PROXIMITY_HARVEST_50PCT"
+                    if is_proximity_tp1 and not is_exact_tp1
+                    else "TP1_PROFIT_LOCK_50PCT"
+                )
                 from src.market_session import is_crypto_asset
 
                 is_crypto = is_crypto_asset(ticker)
@@ -816,12 +835,12 @@ class AutonomousTradingEngine:
                         "exit_price": spot_price,
                         "pnl": round(pnl, 2),
                         "return_pct": round(ret_pct, 2),
-                        "action": "TP1_PROFIT_LOCK_50PCT",
+                        "action": action_label,
                         "exit_friction": round(exit_friction, 2),
                     }
                     executed_actions["take_profits_tp1"].append(tp1_record)
                     logger.info(
-                        f"💰 [TP1 PROFIT LOCK] Sold {half_shares} shares of {ticker} @ ${spot_price:.2f} | Realized PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%) | Stop moved to ${pos['sl_target']:.2f}"
+                        f"💰 [{action_label}] Sold {half_shares} shares of {ticker} @ ${spot_price:.2f} | Realized PnL: ${pnl:+,.2f} ({ret_pct:+.2f}%) | Stop moved to ${pos['sl_target']:.2f}"
                     )
                 send_discord_execution_alert(
                     {

@@ -110,17 +110,24 @@ def main(ticker: str, leverage: float = 1.5, use_cache: bool = False) -> None:
         # Save the heatmap and immediately release matplotlib memory
         try:
             if heatmap_fig is not None:
-                heatmap_fig.savefig(f"results/{ticker}_monthly_returns_heatmap.png")
+                from src.backtesting import _MATPLOTLIB_LOCK
+
+                with _MATPLOTLIB_LOCK:
+                    heatmap_fig.savefig(f"results/{ticker}_monthly_returns_heatmap.png")
                 mlflow.log_artifact(f"results/{ticker}_monthly_returns_heatmap.png")
                 logger.info(
                     f"Saved monthly returns heatmap to results/{ticker}_monthly_returns_heatmap.png"
                 )
+        except Exception as hm_err:
+            logger.warning(f"Heatmap save notice for {ticker}: {hm_err}")
         finally:
             import matplotlib.pyplot as plt
 
             if heatmap_fig is not None:
-                plt.close(heatmap_fig)
-            plt.close("all")
+                try:
+                    plt.close(heatmap_fig)
+                except Exception:
+                    pass
 
         # Save combined metrics to a JSON file
         combined_metrics = {**metrics, **backtest_metrics}

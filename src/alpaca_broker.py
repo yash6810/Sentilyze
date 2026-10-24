@@ -140,6 +140,46 @@ class AlpacaBrokerBridge:
             logger.error(f"Alpaca order execution error: {e}")
             return {"status": "ERROR", "error": str(e)}
 
+    def replace_order_stop_price(
+        self, order_id: str, new_stop_price: float
+    ) -> Dict[str, Any]:
+        """
+        Replaces an open stop-loss order on Alpaca with a new, higher stop price.
+        Used by the Real-Time Trailing Stop Engine to ratchet protective stops.
+        """
+        if not self.is_connected():
+            logger.info(
+                f"[ALPACA SIMULATED] Replaced stop order {order_id} with new price ${new_stop_price:.2f}"
+            )
+            return {
+                "status": "SIMULATED_REPLACED",
+                "order_id": order_id,
+                "stop_price": new_stop_price,
+            }
+
+        payload = {"stop_price": round(new_stop_price, 2)}
+        try:
+            res = requests.patch(
+                f"{self.base_url}/v2/orders/{order_id}",
+                headers=self.headers,
+                json=payload,
+                timeout=8,
+            )
+            if res.status_code == 200:
+                data = res.json()
+                logger.info(
+                    f"✅ [ALPACA LIVE] Stop order {order_id} replaced to ${new_stop_price:.2f}"
+                )
+                return {"status": "REPLACED", "order": data}
+            else:
+                logger.warning(
+                    f"Alpaca replace order failed for {order_id}: {res.text}"
+                )
+                return {"status": "FAILED", "details": res.text}
+        except Exception as e:
+            logger.error(f"Error replacing Alpaca order {order_id}: {e}")
+            return {"status": "ERROR", "error": str(e)}
+
     def get_open_positions(self) -> List[Dict[str, Any]]:
         """Fetches active positions from Alpaca brokerage."""
         if not self.is_connected():

@@ -1,14 +1,39 @@
 {
-  "total_learning_cycles": 9,
-  "last_updated": "2026-10-23T23:36:27.406040+00:00",
+  "total_learning_cycles": 18,
+  "last_updated": "2026-10-24T11:27:18.306945+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.3,
-    "sentiment_weight": 0.35,
-    "valuation_weight": 0.15,
-    "cro_weight": 0.2
+    "technicals_weight": 0.291,
+    "sentiment_weight": 0.368,
+    "valuation_weight": 0.147,
+    "cro_weight": 0.194
   },
-  "adaptive_kelly_multiplier": 1.0,
-  "recent_trade_autopsies": [],
+  "adaptive_kelly_multiplier": 1.06,
+  "recent_trade_autopsies": [
+    {
+      "ticker": "GD",
+      "pnl": 383.82,
+      "return_pct": 12.83,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
+      "timestamp": "2026-10-24T11:16:43.538521+00:00"
+    },
+    {
+      "ticker": "GD",
+      "pnl": 383.82,
+      "return_pct": 12.83,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
+      "timestamp": "2026-10-24T11:22:51.960351+00:00"
+    },
+    {
+      "ticker": "GD",
+      "pnl": 383.82,
+      "return_pct": 12.83,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
+      "timestamp": "2026-10-24T11:27:18.306988+00:00"
+    }
+  ],
   "retrained_models": [],
   "timestamp": "2026-10-18T18:21:55.255710+00:00",
   "total_trades_analyzed": 95,
@@ -34,12 +59,12 @@
     "Adversarial Red-Team": 0.2925
   },
   "calibrated_weights": {
-    "Technical Momentum": 0.1992,
-    "FinBERT Sentiment": 0.1992,
-    "Price Action Scout": 0.201,
-    "Fundamental Valuation": 0.1489,
-    "Chief Risk Officer": 0.1513,
-    "Adversarial Red-Team": 0.1004
+    "Technical Momentum": 0.1065,
+    "FinBERT Sentiment": 0.1135,
+    "Price Action Scout": 0.1707,
+    "Fundamental Valuation": 0.1073,
+    "Chief Risk Officer": 0.2038,
+    "Adversarial Red-Team": 0.2982
   },
   "agent_performance_deltas": {
     "Technical Momentum": 0.139,
@@ -96,11 +121,11 @@
     "Harvested 42 high-conviction momentum runs with 46.15% win rate."
   ],
   "bayesian_council_calibration": {
-    "Technical Momentum": 0.1992,
-    "FinBERT Sentiment": 0.1992,
-    "Price Action Scout": 0.201,
-    "Fundamental Valuation": 0.1489,
-    "Chief Risk Officer": 0.1513,
-    "Adversarial Red-Team": 0.1004
+    "Technical Momentum": 0.1065,
+    "FinBERT Sentiment": 0.1135,
+    "Price Action Scout": 0.1707,
+    "Fundamental Valuation": 0.1073,
+    "Chief Risk Officer": 0.2038,
+    "Adversarial Red-Team": 0.2982
   }
 }

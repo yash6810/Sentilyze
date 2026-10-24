@@ -1060,6 +1060,7 @@ class ChiefRiskOfficerAgent:
 
         # 2d. 1,000,000-Path Continuous Jump-Diffusion Neural SDE Hard Cash Floor
         sde_metrics = {}
+        high_cash_deployment_valve = False
         try:
             sde_path = os.path.join("results", "cvar_stress_report.json")
             if os.path.exists(sde_path):
@@ -1077,6 +1078,9 @@ class ChiefRiskOfficerAgent:
                         with open(port_path, "r", encoding="utf-8") as pp_fp:
                             pp_data = json.load(pp_fp)
                             live_cash = float(pp_data.get("cash", 125626.0))
+                            live_equity = float(pp_data.get("total_equity", live_cash))
+                            if live_equity > 0 and (live_cash / live_equity) >= 0.80:
+                                high_cash_deployment_valve = True
                             if live_cash <= cvar_floor * 1.02:
                                 calculated_kelly_pct = min(calculated_kelly_pct, 1.5)
                                 logger.warning(
@@ -1281,14 +1285,32 @@ class ChiefRiskOfficerAgent:
             approved_leverage = 1.25
             kelly_allocation_pct = max(calculated_kelly_pct, 5.0)
         elif (
-            not require_supermajority
-            and buy_votes >= 2
-            and effective_conviction >= 55.0
-        ) or (is_catalyst_trade and buy_votes >= 1 and effective_conviction >= 55.0):
-            final_resolution = "🟡 AGILE SCALE-IN (Quorum Approved)"
+            (
+                not require_supermajority
+                and buy_votes >= 2
+                and effective_conviction >= 55.0
+            )
+            or (is_catalyst_trade and buy_votes >= 1 and effective_conviction >= 55.0)
+            or (
+                high_cash_deployment_valve
+                and buy_votes >= 2
+                and effective_conviction >= 54.0
+            )
+        ):
+            final_resolution = (
+                "🟡 HIGH-CASH STARTER SEED (Anti-Paralysis Deployment Valve)"
+                if high_cash_deployment_valve
+                and not is_catalyst_trade
+                and buy_votes == 2
+                else "🟡 AGILE SCALE-IN (Quorum Approved)"
+            )
             action_code = "SCALE_IN"
             approved_leverage = 1.0
-            kelly_allocation_pct = max(round(calculated_kelly_pct * 0.65, 2), 3.5)
+            kelly_allocation_pct = (
+                max(round(calculated_kelly_pct * 0.50, 2), 2.5)
+                if high_cash_deployment_valve and not is_catalyst_trade
+                else max(round(calculated_kelly_pct * 0.65, 2), 3.5)
+            )
         elif buy_votes >= 1 or effective_conviction >= 38.0:
             final_resolution = "⏸️ NEUTRAL HOLD / NO ACTION"
             action_code = "HOLD"
