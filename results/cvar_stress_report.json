@@ -1,11 +1,11 @@
 {
-  "portfolio_equity_evaluated": 136489.18,
+  "portfolio_equity_evaluated": 136618.32,
   "simulated_paths": 1000000,
   "horizon_trading_days": 10,
-  "median_projected_equity_q50": 136845.12,
-  "value_at_risk_var95": 7544.4,
-  "value_at_risk_var99": 10764.96,
-  "expected_shortfall_cvar99": 124081.11,
-  "recommended_dynamic_cash_floor": 117877.05,
-  "device_accelerator": "PyTorch Vectorized Tensor Cores (1,000,000 Batched Paths)"
+  "median_projected_equity_q50": 136965.8,
+  "value_at_risk_var95": 7556.34,
+  "value_at_risk_var99": 10742.73,
+  "expected_shortfall_cvar99": 124235.12,
+  "recommended_dynamic_cash_floor": 118023.37,
+  "device_accelerator": "NVIDIA Tesla T4 CUDA Tensor Cores"
 }

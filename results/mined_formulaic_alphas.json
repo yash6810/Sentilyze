@@ -1,50 +1,50 @@
 [
   {
     "alpha_name": "Alpha_Volatility_Ratio_Breakout",
-    "rank_ic": -0.0236,
-    "icir": -1.53,
+    "rank_ic": -0.0212,
+    "icir": -1.37,
     "status": "LOW_PREDICTIVE_SIGNAL"
   },
   {
     "alpha_name": "Alpha_Intraday_Shadow_Imbalance",
-    "rank_ic": -0.0168,
-    "icir": -1.05,
-    "status": "LOW_PREDICTIVE_SIGNAL"
-  },
-  {
-    "alpha_name": "Alpha_Volume_Price_Divergence",
-    "rank_ic": -0.0122,
-    "icir": -0.75,
+    "rank_ic": -0.0171,
+    "icir": -1.06,
     "status": "LOW_PREDICTIVE_SIGNAL"
   },
   {
     "alpha_name": "Alpha_Short_Term_Exhaustion",
-    "rank_ic": 0.0104,
-    "icir": 0.6,
+    "rank_ic": 0.0103,
+    "icir": 0.59,
+    "status": "LOW_PREDICTIVE_SIGNAL"
+  },
+  {
+    "alpha_name": "Alpha_Volume_Price_Divergence",
+    "rank_ic": -0.0096,
+    "icir": -0.59,
     "status": "LOW_PREDICTIVE_SIGNAL"
   },
   {
     "alpha_name": "Alpha_High_Low_Compression",
-    "rank_ic": 0.0063,
-    "icir": 0.52,
+    "rank_ic": 0.0072,
+    "icir": 0.59,
     "status": "LOW_PREDICTIVE_SIGNAL"
   },
   {
     "alpha_name": "Alpha_Vol_Momentum_Reversal",
-    "rank_ic": 0.0043,
-    "icir": 0.26,
+    "rank_ic": 0.0031,
+    "icir": 0.19,
     "status": "LOW_PREDICTIVE_SIGNAL"
   },
   {
     "alpha_name": "Alpha_Close_to_VWAP_Distance",
-    "rank_ic": 0.0005,
-    "icir": 0.03,
+    "rank_ic": 0.0004,
+    "icir": 0.02,
     "status": "LOW_PREDICTIVE_SIGNAL"
   },
   {
     "alpha_name": "Alpha_Relative_Strength_Leader",
-    "rank_ic": -0.0005,
-    "icir": -0.03,
+    "rank_ic": -0.0004,
+    "icir": -0.02,
     "status": "LOW_PREDICTIVE_SIGNAL"
   }
 ]
