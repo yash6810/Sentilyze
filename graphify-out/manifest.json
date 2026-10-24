@@ -15268,5 +15268,41 @@
     "seen": 1792842265.5255048,
     "ast_hash": "396603536165df58a49ec1a601c61acc",
     "semantic_hash": ""
+  },
+  "src/gpu_alpha_miner.py": {
+    "mtime": 1792871114.104209,
+    "seen": 1792871232.5757077,
+    "ast_hash": "bab77b436b048994e2c17ce507b6cf5d",
+    "semantic_hash": ""
+  },
+  "src/gpu_hyperparameter_search.py": {
+    "mtime": 1792871113.983519,
+    "seen": 1792871232.5757115,
+    "ast_hash": "e2d1c669c361e71fc3c7136f15c8542b",
+    "semantic_hash": ""
+  },
+  "src/omnisearch_gpu.py": {
+    "mtime": 1792871114.112187,
+    "seen": 1792871232.5838583,
+    "ast_hash": "908dab8b5c6499516b113994abef2fbe",
+    "semantic_hash": ""
+  },
+  "tests/test_gpu_alpha_miner.py": {
+    "mtime": 1792871113.9318635,
+    "seen": 1792871232.6204684,
+    "ast_hash": "87374447635f212d88af7554070dc3a8",
+    "semantic_hash": ""
+  },
+  "tests/test_gpu_hyperparameter_search.py": {
+    "mtime": 1792871113.908198,
+    "seen": 1792871232.620471,
+    "ast_hash": "a8e66f4e64e1f59e160e9f2a670fe637",
+    "semantic_hash": ""
+  },
+  "tests/test_omnisearch_gpu.py": {
+    "mtime": 1792870934.2442708,
+    "seen": 1792871232.6258345,
+    "ast_hash": "bb072170a1a91a793a0533b3b65569ad",
+    "semantic_hash": ""
   }
 }
