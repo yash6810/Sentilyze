@@ -1,0 +1,59 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-8.4.2, pluggy-1.6.0 -- D:\Sentilyze\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Sentilyze
+configfile: pyproject.toml
+plugins: anyio-4.11.0, langsmith-0.14.11, cov-7.1.0, mock-3.15.1
+collecting ... collected 2 items
+
+tests/test_readme_traceability.py::test_readme_contains_no_forbidden_legacy_numbers FAILED [ 50%]
+tests/test_readme_traceability.py::test_readme_performance_metrics_match_alpaca_results FAILED [100%]
+
+================================== FAILURES ===================================
+______________ test_readme_contains_no_forbidden_legacy_numbers _______________
+
+    def test_readme_contains_no_forbidden_legacy_numbers():
+        assert os.path.exists("README.md"), "README.md must exist"
+        with open("README.md", "r", encoding="utf-8") as f:
+            content = f.read()
+    
+        found_forbidden = []
+        for num in FORBIDDEN_LEGACY_NUMBERS:
+            if num in content:
+                found_forbidden.append(num)
+    
+>       assert not found_forbidden, (
+            f"README.md contains untraceable/invalid numbers: {found_forbidden}"
+        )
+E       AssertionError: README.md contains untraceable/invalid numbers: ['136,489.18', '54,092.72', '54,092', '54.09%', '201.2%', '346.7%']
+E       assert not ['136,489.18', '54,092.72', '54,092', '54.09%', '201.2%', '346.7%']
+
+tests\test_readme_traceability.py:35: AssertionError
+____________ test_readme_performance_metrics_match_alpaca_results _____________
+
+    def test_readme_performance_metrics_match_alpaca_results():
+        assert os.path.exists("README.md"), "README.md must exist"
+        with open("README.md", "r", encoding="utf-8") as f:
+            content = f.read()
+    
+        # If Alpaca report exists, verify exact return is cited
+        alpaca_vs_spy_file = os.path.join("results", "alpaca_vs_spy.csv")
+        if os.path.exists(alpaca_vs_spy_file):
+            df = pd.read_csv(alpaca_vs_spy_file)
+            start_eq = df["alpaca_equity"].iloc[0]
+            end_eq = df["alpaca_equity"].iloc[-1]
+            alp_ret = ((end_eq / start_eq) - 1.0) * 100.0
+            ret_str = f"{alp_ret:+.2f}%"
+    
+            # The honest status section must quote the exact Alpaca return
+>           assert "+2.44%" in content or ret_str in content, (
+                f"README.md must reflect verified Alpaca return {ret_str}"
+            )
+E           AssertionError: README.md must reflect verified Alpaca return +2.44%
+E           assert ('+2.44%' in '---\\ntitle: Sentilyze Multi-Agent Quant Engine\\nemoji: \U0001f916\\ncolorFrom: indigo\\ncolorTo: purple\\nsdk: streamlit\\nsdk_version: "1.44.1"\\napp_file: app.py\\npinned: false\\nlicense: apache-2.0\\n---\\n\\n# Sentilyze \u2014 Autonomous Multi-Agent Quantitative Trading & NLP Intelligence Platform\\n\\n<div align="center">\\n\\n[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)\\n[![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black%2025.1.0-000000?style=for-the-badge&logo=python&logoColor=white)](https://github.com/psf/black)\\n[![Test Suite](https://img.shields.io/badge/Tests-35%2F35%20Passing-10B981?style=for-the-badge&logo=github-actions&logoColor=white)](tests/)\\n[![Security: CodeQL](https://img.shields.io/badge/Security-Zero%20Pickle%20%7C%20Safe%20JSON-blueviolet?style=for-the-badge&logo=security&logoColor=white)](models/)\\n[![Open In Colab](https://img.shields.io/badge/Google%20Colab-FinMamba--JEPA%20Powerhouse-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/sentilyze_finmamba_jepa_powerhouse.ipynb)\\n[...**AVERAGE**| **+151.20%** | **48.79%**| **0.47** | **-69.65%** | **-86.75%** | **29.49%** | **142.96%** |\\n\\n---\\n\\n## \U0001f6e1\ufe0f Security, Model Serialization & Code Quality\\n\\n- **Zero Insecure Deserialization**: In strict compliance with CodeQL `py/unsafe-deserialization`, models are stored exclusively in native **XGBoost JSON format** (`model.save_model()`) or PyTorch `weights_only=True` (`torch.load(..., weights_only=True)`). Zero `pickle` or `joblib` is permitted anywhere in the repository.\\n- **Pre-computed Results of Truth**: Streamlit Cloud reads directly from pre-computed artifacts in `results/`, ensuring sub-second page loads and zero cold-start GPU lag.\\n- **Code Standards**: The codebase is strictly formatted with `black==25.1.0` and validated against `flake8` (`E9,F63,F7,F82`) with 0 errors.\\n\\n---\\n\\n## \U0001f4c4 License & Disclaimer\\n\\nDistributed under the **Apache 2.0 License**. See [`LICENSE`](LICENSE) for more information.\\n\\n> **Disclaimer**: *Sentilyze is an experimental quantitative research and algorithmic trading platform designed for education and systematic backtesting. It does not constitute investment advice. Live trading involves substantial risk of capital loss.*\\n' or '+2.44%' in '---\\ntitle: Sentilyze Multi-Agent Quant Engine\\nemoji: \U0001f916\\ncolorFrom: indigo\\ncolorTo: purple\\nsdk: streamlit\\nsdk_version: "1.44.1"\\napp_file: app.py\\npinned: false\\nlicense: apache-2.0\\n---\\n\\n# Sentilyze \u2014 Autonomous Multi-Agent Quantitative Trading & NLP Intelligence Platform\\n\\n<div align="center">\\n\\n[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)\\n[![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black%2025.1.0-000000?style=for-the-badge&logo=python&logoColor=white)](https://github.com/psf/black)\\n[![Test Suite](https://img.shields.io/badge/Tests-35%2F35%20Passing-10B981?style=for-the-badge&logo=github-actions&logoColor=white)](tests/)\\n[![Security: CodeQL](https://img.shields.io/badge/Security-Zero%20Pickle%20%7C%20Safe%20JSON-blueviolet?style=for-the-badge&logo=security&logoColor=white)](models/)\\n[![Open In Colab](https://img.shields.io/badge/Google%20Colab-FinMamba--JEPA%20Powerhouse-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/sentilyze_finmamba_jepa_powerhouse.ipynb)\\n[...**AVERAGE**| **+151.20%** | **48.79%**| **0.47** | **-69.65%** | **-86.75%** | **29.49%** | **142.96%** |\\n\\n---\\n\\n## \U0001f6e1\ufe0f Security, Model Serialization & Code Quality\\n\\n- **Zero Insecure Deserialization**: In strict compliance with CodeQL `py/unsafe-deserialization`, models are stored exclusively in native **XGBoost JSON format** (`model.save_model()`) or PyTorch `weights_only=True` (`torch.load(..., weights_only=True)`). Zero `pickle` or `joblib` is permitted anywhere in the repository.\\n- **Pre-computed Results of Truth**: Streamlit Cloud reads directly from pre-computed artifacts in `results/`, ensuring sub-second page loads and zero cold-start GPU lag.\\n- **Code Standards**: The codebase is strictly formatted with `black==25.1.0` and validated against `flake8` (`E9,F63,F7,F82`) with 0 errors.\\n\\n---\\n\\n## \U0001f4c4 License & Disclaimer\\n\\nDistributed under the **Apache 2.0 License**. See [`LICENSE`](LICENSE) for more information.\\n\\n> **Disclaimer**: *Sentilyze is an experimental quantitative research and algorithmic trading platform designed for education and systematic backtesting. It does not constitute investment advice. Live trading involves substantial risk of capital loss.*\\n')
+
+tests\test_readme_traceability.py:55: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_readme_traceability.py::test_readme_contains_no_forbidden_legacy_numbers
+FAILED tests/test_readme_traceability.py::test_readme_performance_metrics_match_alpaca_results
+============================== 2 failed in 1.05s ==============================
