@@ -1,0 +1,54 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-8.4.2, pluggy-1.6.0 -- D:\Sentilyze\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Sentilyze
+configfile: pyproject.toml
+plugins: anyio-4.11.0, langsmith-0.14.11, cov-7.1.0, mock-3.15.1
+collecting ... collected 20 items
+
+tests/test_readme_traceability.py::test_readme_contains_no_forbidden_legacy_numbers PASSED [  5%]
+tests/test_readme_traceability.py::test_readme_performance_metrics_match_alpaca_results PASSED [ 10%]
+tests/test_live_news_gate.py::test_missing_news_skips_trade_and_places_no_order PASSED [ 15%]
+tests/test_agent_committee.py::test_fractional_kelly_sizing PASSED       [ 20%]
+tests/test_agent_committee.py::test_technical_alpha_agent PASSED         [ 25%]
+tests/test_agent_committee.py::test_sentiment_catalyst_agent PASSED      [ 30%]
+tests/test_agent_committee.py::test_forensic_fundamental_agent PASSED    [ 35%]
+tests/test_agent_committee.py::test_cro_agent_approval_and_veto PASSED   [ 40%]
+tests/test_agent_committee.py::test_convene_trading_committee PASSED     [ 45%]
+tests/test_agent_committee.py::test_audit_full_universe_committee PASSED [ 50%]
+tests/test_agent_committee.py::test_tree_of_thought_deliberator PASSED   [ 55%]
+tests/test_paper_broker.py::test_paper_broker_initialization PASSED      [ 60%]
+tests/test_paper_broker.py::test_paper_broker_execute_buy_signals PASSED [ 65%]
+tests/test_paper_broker.py::test_paper_broker_take_profit_exit PASSED    [ 70%]
+tests/test_paper_broker.py::test_paper_broker_stop_loss_exit PASSED      [ 75%]
+tests/test_paper_broker.py::test_paper_broker_dataframes PASSED          [ 80%]
+tests/test_paper_broker.py::test_hysteresis_shield_prevents_premature_exit PASSED [ 85%]
+tests/test_paper_broker.py::test_hysteresis_severe_breakdown_exits PASSED [ 90%]
+tests/test_paper_broker.py::test_quarantine_prevents_recent_exit_rebuy PASSED [ 95%]
+tests/test_paper_broker.py::test_chandelier_trailing_ratchet_locks_profit PASSED [100%]
+
+============================== warnings summary ===============================
+tests/test_agent_committee.py::test_sentiment_catalyst_agent
+  D:\Sentilyze\.venv\Lib\site-packages\transformers\models\bert\tokenization_bert.py:104: DeprecationWarning: Deprecated in 0.9.0: WordPiece.__init__ will not create from files anymore, try `WordPiece.from_file` instead
+    self._tokenizer = Tokenizer(WordPiece(self._vocab, unk_token=str(unk_token)))
+
+tests/test_agent_committee.py::test_sentiment_catalyst_agent
+  D:\Sentilyze\src\fast_finbert.py:68: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+  For migrations of users: 
+  1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+  2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+  3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+  see https://github.com/pytorch/ao/issues/2259 for more details
+    self.model = torch.quantization.quantize_dynamic(
+
+tests/test_agent_committee.py::test_sentiment_catalyst_agent
+  D:\Sentilyze\.venv\Lib\site-packages\torch\ao\quantization\quantize.py:566: DeprecationWarning: torch.ao.quantization is deprecated and will be removed in 2.10. 
+  For migrations of users: 
+  1. Eager mode quantization (torch.ao.quantization.quantize, torch.ao.quantization.quantize_dynamic), please migrate to use torchao eager mode quantize_ API instead 
+  2. FX graph mode quantization (torch.ao.quantization.quantize_fx.prepare_fx,torch.ao.quantization.quantize_fx.convert_fx, please migrate to use torchao pt2e quantization API instead (prepare_pt2e, convert_pt2e) 
+  3. pt2e quantization has been migrated to torchao (https://github.com/pytorch/ao/tree/main/torchao/quantization/pt2e) 
+  see https://github.com/pytorch/ao/issues/2259 for more details
+    convert(model, mapping, inplace=True)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================= 20 passed, 3 warnings in 174.03s (0:02:54) ==================
