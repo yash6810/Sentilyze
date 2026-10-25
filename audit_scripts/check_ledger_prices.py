@@ -18,6 +18,7 @@ from src.data_ingestion import _fetch_direct_yahoo_chart
 ARCHIVED_CSV = os.path.join("archive", "invalid_simulation_2026", "executed_trades.csv")
 OUTPUT_CSV = os.path.join("audit_outputs", "ledger_price_check.csv")
 
+
 def main():
     if not os.path.exists(ARCHIVED_CSV):
         print(f"ERROR: {ARCHIVED_CSV} does not exist!")
@@ -63,7 +64,7 @@ def main():
         if chart is not None and e_date in chart.index:
             day_low = float(chart.loc[e_date, "Low"])
             day_high = float(chart.loc[e_date, "High"])
-            inside = (day_low <= e_price <= day_high)
+            inside = day_low <= e_price <= day_high
             if inside:
                 entry_inside += 1
             else:
@@ -74,22 +75,24 @@ def main():
             inside = "UNKNOWN"
             entry_missing += 1
 
-        records.append({
-            "trade_id": idx,
-            "type": "ENTRY",
-            "ticker": ticker,
-            "date": e_date,
-            "csv_price": e_price,
-            "day_low": day_low,
-            "day_high": day_high,
-            "inside_range": inside
-        })
+        records.append(
+            {
+                "trade_id": idx,
+                "type": "ENTRY",
+                "ticker": ticker,
+                "date": e_date,
+                "csv_price": e_price,
+                "day_low": day_low,
+                "day_high": day_high,
+                "inside_range": inside,
+            }
+        )
 
         # Check Exit Price
         if chart is not None and x_date in chart.index:
             day_low_x = float(chart.loc[x_date, "Low"])
             day_high_x = float(chart.loc[x_date, "High"])
-            inside_x = (day_low_x <= x_price <= day_high_x)
+            inside_x = day_low_x <= x_price <= day_high_x
             if inside_x:
                 exit_inside += 1
             else:
@@ -100,16 +103,18 @@ def main():
             inside_x = "UNKNOWN"
             exit_missing += 1
 
-        records.append({
-            "trade_id": idx,
-            "type": "EXIT",
-            "ticker": ticker,
-            "date": x_date,
-            "csv_price": x_price,
-            "day_low": day_low_x,
-            "day_high": day_high_x,
-            "inside_range": inside_x
-        })
+        records.append(
+            {
+                "trade_id": idx,
+                "type": "EXIT",
+                "ticker": ticker,
+                "date": x_date,
+                "csv_price": x_price,
+                "day_low": day_low_x,
+                "day_high": day_high_x,
+                "inside_range": inside_x,
+            }
+        )
 
     out_df = pd.DataFrame(records)
     os.makedirs(os.path.dirname(OUTPUT_CSV), exist_ok=True)
@@ -118,8 +123,13 @@ def main():
 
     print("\n--- AUDIT SUMMARY ---")
     print(f"Total Trades Evaluated: {len(df_trades)}")
-    print(f"Entry Prices: Inside Range = {entry_inside}, Outside Range = {entry_outside}, Unknown/Date Missing = {entry_missing}")
-    print(f"Exit Prices:  Inside Range = {exit_inside}, Outside Range = {exit_outside}, Unknown/Date Missing = {exit_missing}")
+    print(
+        f"Entry Prices: Inside Range = {entry_inside}, Outside Range = {entry_outside}, Unknown/Date Missing = {entry_missing}"
+    )
+    print(
+        f"Exit Prices:  Inside Range = {exit_inside}, Outside Range = {exit_outside}, Unknown/Date Missing = {exit_missing}"
+    )
+
 
 if __name__ == "__main__":
     main()

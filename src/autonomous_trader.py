@@ -968,6 +968,32 @@ class AutonomousTradingEngine:
         )
 
         curr_open_count = len(self.broker.state.get("open_positions", {}))
+        try:
+            from src.alpaca_broker import AlpacaBrokerBridge
+
+            alpaca_br = AlpacaBrokerBridge()
+            if alpaca_br.is_connected():
+                alp_syms = {
+                    str(p.get("symbol", "")).upper()
+                    for p in alpaca_br.get_open_positions()
+                }
+                for o in alpaca_br.get_open_orders():
+                    if str(o.get("status", "")).lower() in (
+                        "new",
+                        "accepted",
+                        "pending_new",
+                        "open",
+                        "held",
+                        "partially_filled",
+                    ):
+                        alp_syms.add(str(o.get("symbol", "")).upper())
+                active_all = (
+                    set(self.broker.state.get("open_positions", {}).keys()) | alp_syms
+                )
+                curr_open_count = max(curr_open_count, len(active_all))
+        except Exception as e:
+            logger.debug(f"Alpaca open positions count check notice: {e}")
+
         available_slots = max(0, max_concurrent_positions - curr_open_count)
 
         # Task 7 Master Kill Switch Check
@@ -1074,6 +1100,27 @@ class AutonomousTradingEngine:
                     f"🌙 [24/7 CRYPTO GATEWAY] US Equities closed. Routing autonomous scan to 24/7 digital assets: {tickers_to_scan}"
                 )
 
+            alpaca_held_or_pending = set()
+            try:
+                from src.alpaca_broker import AlpacaBrokerBridge
+
+                alpaca_br = AlpacaBrokerBridge()
+                if alpaca_br.is_connected():
+                    for p in alpaca_br.get_open_positions():
+                        alpaca_held_or_pending.add(str(p.get("symbol", "")).upper())
+                    for o in alpaca_br.get_open_orders():
+                        if str(o.get("status", "")).lower() in (
+                            "new",
+                            "accepted",
+                            "pending_new",
+                            "open",
+                            "held",
+                            "partially_filled",
+                        ):
+                            alpaca_held_or_pending.add(str(o.get("symbol", "")).upper())
+            except Exception as alp_err:
+                logger.debug(f"Alpaca candidate screening notice: {alp_err}")
+
             unheld_tickers = [
                 t
                 for t in tickers_to_scan
@@ -1085,6 +1132,7 @@ class AutonomousTradingEngine:
                     or (
                         not is_crypto_asset(t)
                         and t not in self.broker.state.get("open_positions", {})
+                        and t.upper() not in alpaca_held_or_pending
                     )
                 )
                 and t not in quarantined_tickers

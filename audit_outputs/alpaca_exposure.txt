@@ -1,0 +1,57 @@
+==================================================================
+ALPACA PAPER TRADING ACCOUNT AUDIT: EXPOSURE & REALIZED PNL
+Source files: results/alpaca_equity.csv, results/alpaca_orders.csv
+==================================================================
+
+1. REALIZED PERFORMANCE SUMMARY (CLOSED TRADES)
+------------------------------------------------------------------
+Total Closed Round-Trip Lots: 19
+Winning Lots:                 18 (94.74%)
+Losing Lots:                  1
+Total Realized PnL (Gross):   $2,815.34
+Estimated Broker Fees:        $0.00 (Alpaca zero-commission paper trading)
+Total Realized PnL After Cost:$2,815.34
+
+Breakdown by Symbol:
+  - AAPL    :  3 closed lot(s), Realized PnL = $      1.63
+  - AKAM    :  7 closed lot(s), Realized PnL = $    159.78
+  - BTC/USD :  1 closed lot(s), Realized PnL = $      0.00
+  - MPC     :  1 closed lot(s), Realized PnL = $    766.27
+  - NVDA    :  7 closed lot(s), Realized PnL = $  1,887.66
+
+Currently Open Positions (as of 2026-10-24):
+  - AMZN: 6 shares bought on 2026-10-02 @ $250.55 (Cost: $1,503.28)
+  - QCOM: 35 shares bought on 2026-10-02 @ $186.08 (Cost: $6,512.80)
+  Total Open Cost: $8,016.08
+
+2. DAILY PORTFOLIO EXPOSURE (% OF EQUITY INVESTED)
+------------------------------------------------------------------
+Total Inception Trading Days: 172 (2026-02-20 to 2026-10-24)
+Days with 0% Exposure (100% Cash): 151 (87.8%)
+Days with Active Exposure:          21 (12.2%)
+Average Invested % Across All Days: 2.07% (Average Cash = 97.93%)
+Average Invested % on Active Days:  16.96%
+Maximum Daily Invested %:           62.78% (Peak Position Cost = $62,833.99)
+
+Detailed Active Exposure Dates:
+  2026-09-23: Equity=$100,000.00 | PosCost=$8,970.40 | Invested=8.97% | Cash=91.03% | Open: [NVDA: 40.0 sh]
+  2026-09-24: Equity=$100,050.00 | PosCost=$53,808.09 | Invested=53.78% | Cash=46.22% | Open: [NVDA: 240.0 sh]
+  2026-09-25: Equity=$100,091.11 | PosCost=$62,833.99 | Invested=62.78% | Cash=37.22% | Open: [NVDA: 280.0 sh]
+  2026-09-26: Equity=$100,185.61 | PosCost=$62,833.99 | Invested=62.72% | Cash=37.28% | Open: [NVDA: 280.0 sh]
+  2026-10-02: Equity=$101,889.21 | PosCost=$17,707.93 | Invested=17.38% | Cash=82.62% | Open: [AKAM: 15.0 sh, AMZN: 6.0 sh, MPC: 19.0 sh, QCOM: 35.0 sh]
+  2026-10-03: Equity=$102,049.53 | PosCost=$17,707.93 | Invested=17.35% | Cash=82.65% | Open: [AKAM: 15.0 sh, AMZN: 6.0 sh, MPC: 19.0 sh, QCOM: 35.0 sh]
+  2026-10-06: Equity=$102,095.53 | PosCost=$16,025.15 | Invested=15.70% | Cash=84.30% | Open: [AMZN: 6.0 sh, MPC: 19.0 sh, QCOM: 35.0 sh]
+  2026-10-07: Equity=$102,112.18 | PosCost=$16,025.15 | Invested=15.69% | Cash=84.31% | Open: [AMZN: 6.0 sh, MPC: 19.0 sh, QCOM: 35.0 sh]
+  2026-10-08: Equity=$102,185.21 | PosCost=$8,016.08 | Invested=7.84% | Cash=92.16% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-09: Equity=$102,483.40 | PosCost=$8,016.08 | Invested=7.82% | Cash=92.18% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-10: Equity=$102,515.77 | PosCost=$8,016.08 | Invested=7.82% | Cash=92.18% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-13: Equity=$102,460.92 | PosCost=$8,016.08 | Invested=7.82% | Cash=92.18% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-14: Equity=$102,540.27 | PosCost=$8,016.08 | Invested=7.82% | Cash=92.18% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-15: Equity=$102,364.87 | PosCost=$8,016.08 | Invested=7.83% | Cash=92.17% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-16: Equity=$102,571.25 | PosCost=$8,016.10 | Invested=7.82% | Cash=92.18% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-17: Equity=$102,322.49 | PosCost=$8,016.10 | Invested=7.83% | Cash=92.17% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-20: Equity=$102,446.89 | PosCost=$8,016.10 | Invested=7.82% | Cash=92.18% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-21: Equity=$102,524.27 | PosCost=$8,016.10 | Invested=7.82% | Cash=92.18% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-22: Equity=$102,601.46 | PosCost=$8,016.10 | Invested=7.81% | Cash=92.19% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-23: Equity=$102,349.97 | PosCost=$8,016.10 | Invested=7.83% | Cash=92.17% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]
+  2026-10-24: Equity=$102,443.49 | PosCost=$8,016.10 | Invested=7.82% | Cash=92.18% | Open: [AMZN: 6.0 sh, QCOM: 35.0 sh]

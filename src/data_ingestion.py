@@ -505,7 +505,9 @@ def get_news(
 
         if not articles_df.empty:
             articles_df.to_csv(cache_path, index=False)
-            logger.info(f"Saved fresh news ({len(articles_df)} articles) to {cache_path}")
+            logger.info(
+                f"Saved fresh news ({len(articles_df)} articles) to {cache_path}"
+            )
             articles_df.attrs["news_available"] = True
         else:
             articles_df.attrs["news_available"] = False

@@ -2,14 +2,13 @@ name: 🌐 Sentilyze 24/7 Cloud Autonomous Trading & Crypto Daemon
 
 on:
   schedule:
-    # 1. Mon-Fri: Every 15 minutes during US Market Hours (13:30 - 20:30 UTC / 09:30 - 16:30 EDT)
+    # Mon-Fri: Every 15 minutes during US Market Hours (13:30 - 20:30 UTC / 09:30 - 16:30 EDT)
     - cron: '*/15 13-20 * * 1-5'
-    # 2. Mon-Fri: Hourly overnight continuous scan for 24/7 Digital Assets (BTC, ETH, SOL)
-    - cron: '0 0-12,21-23 * * 1-5'
-    # 3. Weekends (Sat-Sun): Hourly 24/7 Crypto Funding & Arbitrage Engine
-    # DISABLED (Audit Step 3): Suspended weekend hourly crypto daemon to eliminate ungrounded state churn and race conditions.
-    # - cron: '0 * * * 0,6'
   workflow_dispatch:
+
+concurrency:
+  group: repo-state
+  cancel-in-progress: false
 
 permissions:
   contents: write

@@ -1,0 +1,78 @@
+==================================================================
+AUDIT REPORT: DUPLICATE BUY ENTRIES WITHIN 24 HOURS
+Source file: results/alpaca_orders.csv
+==================================================================
+
+1. TICKERS WITH MULTIPLE BUY ORDERS WITHIN 24 HOURS
+------------------------------------------------------------------
+
+Ticker: AAPL (Total Duplicate Buys: 3)
+Timestamp (UTC)                  |      Qty |    Price ($) | Status    
+--------------------------------------------------------------------
+2026-10-01T19:00:37.422136Z      |      3.0 |     329.9733 | filled    
+2026-10-01T19:01:35.286155Z      |      3.0 |     329.8200 | filled    
+2026-10-01T19:03:52.396777Z      |      3.0 |     329.7800 | filled    
+
+Ticker: AKAM (Total Duplicate Buys: 7)
+Timestamp (UTC)                  |      Qty |    Price ($) | Status    
+--------------------------------------------------------------------
+2026-10-02T13:31:13.928903Z      |     16.0 |     109.1762 | filled    
+2026-10-02T13:31:47.824668Z      |     16.0 |     109.1500 | filled    
+2026-10-02T13:31:50.380894Z      |     16.0 |     109.1500 | filled    
+2026-10-02T13:32:26.183747Z      |     16.0 |     109.3975 | filled    
+2026-10-02T13:32:40.378813Z      |     16.0 |     109.2019 | filled    
+2026-10-02T13:33:21.060059Z      |     16.0 |     109.4394 | filled    
+2026-10-02T15:42:01.196727Z      |     15.0 |     112.1853 | filled    
+
+Ticker: NVDA (Total Duplicate Buys: 6)
+Timestamp (UTC)                  |      Qty |    Price ($) | Status    
+--------------------------------------------------------------------
+2026-09-24T18:57:49.829256Z      |     40.0 |     224.3152 | filled    
+2026-09-24T18:59:42.173035Z      |     40.0 |     224.2890 | filled    
+2026-09-24T19:01:21.076705Z      |     40.0 |     224.1880 | filled    
+2026-09-24T19:01:25.619567Z      |     40.0 |     224.1300 | filled    
+2026-09-24T19:03:06.181433Z      |     40.0 |     224.0200 | filled    
+2026-09-25T13:33:40.356079Z      |     40.0 |     225.6475 | filled    
+
+2. ROOT CAUSE ANALYSIS: 5 NVDA BUYS IN 6 MINUTES ON 2026-09-24
+------------------------------------------------------------------
+On 2026-09-24 between 18:57:49 UTC and 19:03:06 UTC (5 minutes, 17 seconds),
+5 separate buy orders for 40 shares each of NVDA (~$8,970 each, total $44,845)
+were submitted and filled on Alpaca paper markets:
+  - 2026-09-24 18:57:49 UTC: 40 shares @ $224.31525
+  - 2026-09-24 18:59:42 UTC: 40 shares @ $224.28900
+  - 2026-09-24 19:01:21 UTC: 40 shares @ $224.18800
+  - 2026-09-24 19:01:25 UTC: 40 shares @ $224.13000
+  - 2026-09-24 19:03:06 UTC: 40 shares @ $224.02000
+
+Code Path & Structural Vulnerabilities Identified:
+1. Missing Alpaca Live State Query:
+   In `src/autonomous_trader.py` (Phase B candidate screening, line 1077):
+   `unheld_tickers = [t for t in tickers_to_scan if t not in self.broker.state['open_positions']]`
+   The check evaluated ONLY the local JSON file (`results/paper_portfolio.json`).
+   It NEVER queried Alpaca (`AlpacaBrokerBridge.get_open_positions()` or `/v2/orders?status=open`).
+
+2. GitHub Actions Isolated Container State:
+   Each scheduled GitHub Actions container checkout pulled the latest `main` commit.
+   Because state was only committed at daily close (or failed push due to race conditions),
+   subsequent runner containers had an empty local `open_positions` dict.
+   Every run saw NVDA as unheld and triggered a fresh buy order.
+
+3. Missing Existing Position Guard in `PaperBroker.execute_buy()`:
+   In `src/paper_broker.py` line 1257:
+   `self.state['open_positions'][ticker] = { ... }`
+   The method unconditionally overwrote the position dictionary without checking whether
+   the ticker was already open, blindly accepting repeated buys.
+
+4. Missing Concentration Cap Enforcement in `PaperBroker.execute_buy()`:
+   `execute_buy()` did not verify whether total ticker exposure exceeded 10% of total equity,
+   nor whether total portfolio positions exceeded `MAX_CONCURRENT_POSITIONS` (10).
+
+Required Fix Architecture:
+1. In `AlpacaBrokerBridge`: add `get_open_orders(status='open')` and `has_open_position_or_order(ticker)`.
+2. In `PaperBroker.execute_buy()`:
+   - Query Alpaca for open positions and open orders; reject buy if ticker exists.
+   - Reject if ticker is already in `self.state['open_positions']`.
+   - Enforce `MAX_CONCURRENT_POSITIONS` (default 10) across paper and Alpaca active symbols.
+   - Enforce strict 10% maximum equity concentration cap per ticker across existing and new orders.
+3. In `AutonomousTradingEngine._execute_cycle_body()`: query Alpaca before submitting orders.

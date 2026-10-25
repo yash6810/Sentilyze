@@ -32,7 +32,9 @@ for line in lines:
         or "np.random.seed" in content_lower
     ):
         verdict = "flagged fallback - Synthetic geometric Brownian motion market data generated when API is unavailable"
-    elif "drl_policy_agent.py" in filepath_lower and "np.random.normal" in content_lower:
+    elif (
+        "drl_policy_agent.py" in filepath_lower and "np.random.normal" in content_lower
+    ):
         verdict = "flagged fallback - Fallback synthetic market trajectory when historical series missing"
     elif "microstructure_engine.py" in filepath_lower and "np.random" in content_lower:
         verdict = "flagged fallback - Synthetic tick jumps generated when orderbook stream is dry"
@@ -47,10 +49,16 @@ for line in lines:
     elif "adaptive_execution_router.py" in filepath_lower and "jitter" in content_lower:
         verdict = "legitimate - Anti-sniping execution timing jitter to prevent adverse selection"
     elif "backtesting.py" in filepath_lower and "default_rng" in content_lower:
-        verdict = "legitimate - Permutation Monte Carlo statistical significance test seed"
-    elif "counterfactual_simulator.py" in filepath_lower and "synthetic" in content_lower:
+        verdict = (
+            "legitimate - Permutation Monte Carlo statistical significance test seed"
+        )
+    elif (
+        "counterfactual_simulator.py" in filepath_lower and "synthetic" in content_lower
+    ):
         verdict = "legitimate - Synthetic barrier replay for stress-testing counterfactual drawdowns"
-    elif "conformal_prediction.py" in filepath_lower and "sim_residuals" in content_lower:
+    elif (
+        "conformal_prediction.py" in filepath_lower and "sim_residuals" in content_lower
+    ):
         verdict = "flagged fallback - Synthetic residual sampling when calibration set is unpopulated"
     elif "attribution_analysis.py" in filepath_lower and "np.random" in content_lower:
         verdict = "legitimate - Permutation feature shuffling for Shapley attribution analysis"
@@ -61,7 +69,11 @@ for line in lines:
     elif "hedging_engine.py" in filepath_lower and "synthetic" in content_lower:
         verdict = "legitimate - Synthetic option position replication terminology"
     else:
-        if "dummy" in content_lower or "synthetic" in content_lower or "placeholder" in content_lower:
+        if (
+            "dummy" in content_lower
+            or "synthetic" in content_lower
+            or "placeholder" in content_lower
+        ):
             verdict = "flagged fallback - Fallback data structure or mock object"
         elif "random" in content_lower:
             verdict = "legitimate - Mathematical randomized calculation, perturbation, or seed"

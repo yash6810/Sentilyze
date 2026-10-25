@@ -1,10 +1,15 @@
 name: Weekly Model Retraining & Drift Check
 
 on:
-  schedule:
-    # Runs every Sunday at 04:30 UTC (10:00 AM IST Sunday Morning)
-    - cron: '30 4 * * 0'
+  # Automated schedule disabled to enforce the Strategy Freeze (see STRATEGY_FREEZE.md)
+  # and prevent model drift during the 8-week audit scorecard evaluation window.
+  # schedule:
+  #   - cron: '30 4 * * 0'
   workflow_dispatch: # Allows manual 1-click trigger
+
+concurrency:
+  group: repo-state
+  cancel-in-progress: false
 
 jobs:
   retrain-universe:
@@ -58,11 +63,16 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add models/ results/
+          git add models/*.json results/*_metrics.json results/*_portfolio.json results/*_shap*
+          git reset results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json || true
           if ! git diff --staged --quiet; then
             git commit -m "chore(models): weekly automated universe retraining & walk-forward calibration [skip ci]"
-            git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
-            git push origin main || echo "No changes or push skipped"
+            for i in 1 2 3; do
+            git pull --rebase origin main && git push origin main && break || {
+              if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
+              sleep 5
+            }
+          done
           else
             echo "No retrained model changes to commit."
           fi

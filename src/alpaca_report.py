@@ -79,9 +79,7 @@ def generate_alpaca_report():
     print(f"Saved {len(orders_df)} orders to results/alpaca_orders.csv")
 
     # 2. Fetch daily equity history (all time)
-    history_url = (
-        f"{base_url}/v2/account/portfolio/history?period=all&timeframe=1D"
-    )
+    history_url = f"{base_url}/v2/account/portfolio/history?period=all&timeframe=1D"
     hist_res = requests.get(history_url, headers=headers)
     if hist_res.status_code != 200:
         print(f"ERROR fetching portfolio history: {hist_res.status_code}")
@@ -128,6 +126,7 @@ def generate_alpaca_report():
     spy_df = None
     try:
         import duckdb
+
         db_path = os.path.join(str(PROJECT_ROOT), "data", "sentilyze_market.duckdb")
         if os.path.exists(db_path):
             con = duckdb.connect(db_path, read_only=True)
@@ -144,15 +143,24 @@ def generate_alpaca_report():
         try:
             from src.data_ingestion import _fetch_direct_yahoo_chart
 
-            start_dt = datetime.datetime.strptime(start_date, "%Y-%m-%d") - datetime.timedelta(days=5)
-            end_dt = datetime.datetime.strptime(end_date, "%Y-%m-%d") + datetime.timedelta(days=5)
-            spy_df = _fetch_direct_yahoo_chart("SPY", start_dt.strftime("%Y-%m-%d"), end_dt.strftime("%Y-%m-%d"))
+            start_dt = datetime.datetime.strptime(
+                start_date, "%Y-%m-%d"
+            ) - datetime.timedelta(days=5)
+            end_dt = datetime.datetime.strptime(
+                end_date, "%Y-%m-%d"
+            ) + datetime.timedelta(days=5)
+            spy_df = _fetch_direct_yahoo_chart(
+                "SPY", start_dt.strftime("%Y-%m-%d"), end_dt.strftime("%Y-%m-%d")
+            )
         except Exception as e:
             print(f"Direct Yahoo chart fetch note: {e}")
 
     if spy_df is None or spy_df.empty:
         import yfinance as yf
-        spy_raw = yf.download("SPY", start=start_date, auto_adjust=False, progress=False)
+
+        spy_raw = yf.download(
+            "SPY", start=start_date, auto_adjust=False, progress=False
+        )
         if isinstance(spy_raw.columns, pd.MultiIndex):
             spy_raw.columns = spy_raw.columns.get_level_values(0)
         spy_df = spy_raw
@@ -164,7 +172,7 @@ def generate_alpaca_report():
     # 4. Align Alpaca Equity and SPY
     combined_rows = []
     alpaca_start_equity = equity_df["equity"].iloc[0]
-    
+
     # Find initial SPY price
     initial_spy_price = None
     for d in equity_df["date"]:
@@ -189,7 +197,9 @@ def generate_alpaca_report():
     comp_df = pd.DataFrame(combined_rows)
     comp_df["spy_close"] = comp_df["spy_close"].ffill().bfill()
     if initial_spy_price is not None and initial_spy_price > 0:
-        comp_df["spy_equity"] = alpaca_start_equity * (comp_df["spy_close"] / initial_spy_price)
+        comp_df["spy_equity"] = alpaca_start_equity * (
+            comp_df["spy_close"] / initial_spy_price
+        )
     else:
         comp_df["spy_equity"] = alpaca_start_equity
 
@@ -206,7 +216,11 @@ def generate_alpaca_report():
     alp_dd = (alp_series / alp_roll_max) - 1.0
     alp_mdd = float(alp_dd.min())
     alp_daily_pct = alp_series.pct_change().dropna()
-    alp_sharpe = float((alp_daily_pct.mean() / (alp_daily_pct.std() + 1e-10)) * np.sqrt(252)) if len(alp_daily_pct) > 1 else 0.0
+    alp_sharpe = (
+        float((alp_daily_pct.mean() / (alp_daily_pct.std() + 1e-10)) * np.sqrt(252))
+        if len(alp_daily_pct) > 1
+        else 0.0
+    )
 
     # SPY metrics
     spy_series = comp_df["spy_equity"]
@@ -215,7 +229,11 @@ def generate_alpaca_report():
     spy_dd = (spy_series / spy_roll_max) - 1.0
     spy_mdd = float(spy_dd.min())
     spy_daily_pct = spy_series.pct_change().dropna()
-    spy_sharpe = float((spy_daily_pct.mean() / (spy_daily_pct.std() + 1e-10)) * np.sqrt(252)) if len(spy_daily_pct) > 1 else 0.0
+    spy_sharpe = (
+        float((spy_daily_pct.mean() / (spy_daily_pct.std() + 1e-10)) * np.sqrt(252))
+        if len(spy_daily_pct) > 1
+        else 0.0
+    )
 
     summary_text = f"""======================================================================
 ALPACA PAPER TRADING VS SPY BENCHMARK PERFORMANCE REPORT

@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: trading-state
+  group: repo-state
   cancel-in-progress: false
 
 permissions:

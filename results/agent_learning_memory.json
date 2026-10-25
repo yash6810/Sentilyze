@@ -1,13 +1,13 @@
 {
-  "total_learning_cycles": 18,
-  "last_updated": "2026-10-24T11:27:18.306945+00:00",
+  "total_learning_cycles": 39,
+  "last_updated": "2026-10-25T20:12:25.405606+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.291,
-    "sentiment_weight": 0.368,
-    "valuation_weight": 0.147,
-    "cro_weight": 0.194
+    "technicals_weight": 0.273,
+    "sentiment_weight": 0.404,
+    "valuation_weight": 0.141,
+    "cro_weight": 0.182
   },
-  "adaptive_kelly_multiplier": 1.06,
+  "adaptive_kelly_multiplier": 1.18,
   "recent_trade_autopsies": [
     {
       "ticker": "GD",
@@ -32,14 +32,62 @@
       "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
       "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
       "timestamp": "2026-10-24T11:27:18.306988+00:00"
+    },
+    {
+      "ticker": "GD",
+      "pnl": 383.82,
+      "return_pct": 12.83,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
+      "timestamp": "2026-10-25T19:22:24.834370+00:00"
+    },
+    {
+      "ticker": "GD",
+      "pnl": 383.82,
+      "return_pct": 12.83,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
+      "timestamp": "2026-10-25T19:37:23.768661+00:00"
+    },
+    {
+      "ticker": "GD",
+      "pnl": 383.82,
+      "return_pct": 12.83,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
+      "timestamp": "2026-10-25T20:08:04.594462+00:00"
+    },
+    {
+      "ticker": "GD",
+      "pnl": 383.82,
+      "return_pct": 12.83,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
+      "timestamp": "2026-10-25T20:09:58.755175+00:00"
+    },
+    {
+      "ticker": "GD",
+      "pnl": 383.82,
+      "return_pct": 12.83,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
+      "timestamp": "2026-10-25T20:11:19.834834+00:00"
+    },
+    {
+      "ticker": "GD",
+      "pnl": 383.82,
+      "return_pct": 12.83,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
+      "timestamp": "2026-10-25T20:12:25.405660+00:00"
     }
   ],
   "retrained_models": [],
   "timestamp": "2026-10-18T18:21:55.255710+00:00",
-  "total_trades_analyzed": 95,
+  "total_trades_analyzed": 0,
   "trades_analyzed": 91,
-  "win_rate_pct": 47.37,
-  "total_realized_pnl": 47064.57,
+  "win_rate_pct": 0.0,
+  "total_realized_pnl": 0.0,
   "winners_count": 42,
   "controlled_losses_count": 28,
   "severe_losses_count": 8,
@@ -58,14 +106,7 @@
     "Chief Risk Officer": 0.1924,
     "Adversarial Red-Team": 0.2925
   },
-  "calibrated_weights": {
-    "Technical Momentum": 0.1065,
-    "FinBERT Sentiment": 0.1135,
-    "Price Action Scout": 0.1707,
-    "Fundamental Valuation": 0.1073,
-    "Chief Risk Officer": 0.2038,
-    "Adversarial Red-Team": 0.2982
-  },
+  "calibrated_weights": {},
   "agent_performance_deltas": {
     "Technical Momentum": 0.139,
     "FinBERT Sentiment": 0.139,
@@ -120,12 +161,5 @@
     "Controlled 28 stop-loss events via Capital Shield.",
     "Harvested 42 high-conviction momentum runs with 46.15% win rate."
   ],
-  "bayesian_council_calibration": {
-    "Technical Momentum": 0.1065,
-    "FinBERT Sentiment": 0.1135,
-    "Price Action Scout": 0.1707,
-    "Fundamental Valuation": 0.1073,
-    "Chief Risk Officer": 0.2038,
-    "Adversarial Red-Team": 0.2982
-  }
+  "bayesian_council_calibration": {}
 }

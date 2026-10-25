@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-10-24T11:27:36.487812+00:00",
+  "timestamp": "2026-10-25T20:12:29.760523+00:00",
   "target_ticker": "AAPL",
   "market_shift_verdict": "\ud83d\udfe1 BALANCED_TACTICAL_FLOW (Orderly Range Consolidation)",
   "tactical_posture": "SELECTIVE_QUORUM_ENTRIES",
   "metrics": {
-    "market_entry_probability_pct": 60.0,
-    "double_crash_probability_pct": 40.0,
+    "market_entry_probability_pct": 50.0,
+    "double_crash_probability_pct": 50.0,
     "total_mined_threads": 24,
     "cashflow_threads_count": 8,
     "crash_warning_threads_count": 8,
@@ -43,14 +43,14 @@
   ],
   "sample_mined_threads": {
     "cashflow_and_whales": [
+      "Daily Discussion Thread for October 22, 2026",
       "Apple may overtake Nvidia tomorrow",
-      "Apple\u2019s Cash Flow Machine Makes It Investors\u2019 Favorite AI Hedge",
       "Unusual Options Activity 101: Whale Watching Tips"
     ],
     "crash_and_double_top": [
       "AAPL price debate: still a \u201csafe premium\u201d or quietly becoming dead money?",
       "How come Apple is totally out of the AI race?",
-      "Apple is pretty overpriced right now"
+      "Am I crazy or is there underappreciated risk of AAPL re-rating significantly downward?"
     ],
     "darkpool_and_borrow_relays": [
       "How do dark pools benefit all participants?",

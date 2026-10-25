@@ -10,7 +10,6 @@ import os
 import pandas as pd
 import pytest
 
-
 FORBIDDEN_LEGACY_NUMBERS = [
     "136,489.18",
     "54,092.72",
@@ -32,9 +31,9 @@ def test_readme_contains_no_forbidden_legacy_numbers():
         if num in content:
             found_forbidden.append(num)
 
-    assert not found_forbidden, (
-        f"README.md contains untraceable/invalid numbers: {found_forbidden}"
-    )
+    assert (
+        not found_forbidden
+    ), f"README.md contains untraceable/invalid numbers: {found_forbidden}"
 
 
 def test_readme_performance_metrics_match_alpaca_results():
@@ -52,6 +51,6 @@ def test_readme_performance_metrics_match_alpaca_results():
         ret_str = f"{alp_ret:+.2f}%"
 
         # The honest status section must quote the exact Alpaca return
-        assert "+2.44%" in content or ret_str in content, (
-            f"README.md must reflect verified Alpaca return {ret_str}"
-        )
+        assert (
+            "+2.44%" in content or ret_str in content
+        ), f"README.md must reflect verified Alpaca return {ret_str}"

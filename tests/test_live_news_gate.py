@@ -48,9 +48,9 @@ def test_missing_news_skips_trade_and_places_no_order(mocker):
     res = engine.run_autonomous_cycle(candidate_tickers=["NVDA"])
 
     # 1. Committee was never convened because missing news aborted early
-    assert mock_committee.call_count == 0, (
-        "Trading committee should not be convened when news is missing"
-    )
+    assert (
+        mock_committee.call_count == 0
+    ), "Trading committee should not be convened when news is missing"
 
     # 2. Broker never executed any buy
     assert mock_broker.execute_buy.call_count == 0

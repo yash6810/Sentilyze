@@ -255,6 +255,17 @@ class MasterTradingLoop:
         alpaca_orders: List[Dict[str, Any]] = []
 
         for ticker in candidates:
+            # Skip if already in local open positions or active on Alpaca
+            if ticker in self.broker.state.get("open_positions", {}):
+                logger.info(f"Skipping {ticker}: already held in open paper positions.")
+                continue
+            if self.alpaca.is_connected() and self.alpaca.has_open_position_or_order(
+                ticker
+            ):
+                logger.info(
+                    f"Skipping {ticker}: active position or open order already exists on Alpaca."
+                )
+                continue
             try:
                 # Convene 8-Agent Council
                 delib = convene_trading_committee(ticker, save_resolution=True)

@@ -61,7 +61,18 @@ The live paper trading account (`PA3NFG0UWP3R`) on Alpaca Markets serves as the 
 Walk-forward backtests across equities under real-world market friction (0.10% broker fee, 0.05% slippage, execution at $t+1$ Open) revealed key structural findings:
 
 1. **Missing Historical News**: News headlines were unavailable for ~89% of trading days across 2018–2026; sentiment inputs were zero-filled (score = 0.0).
-2. **FinBERT Sentiment Ablation**: In ablation experiments, adding daily news sentiment generated a **-2.17% return drag** compared to pure technical alpha, caused by headline sparsity, latency, and false-positive sentiment noise. Live trading is now strictly gated to skip trades when verified news is unavailable.
+2. **FinBERT Sentiment Ablation**: Committee ablation experiments (`results/committee_ablation_study.json`) comparing multi-agent performance with vs without FinBERT news sentiment across all 5 evaluated tickers revealed an average **-11.81% return drag** and **-0.18 Sharpe drag** due to headline sparsity and sentiment false-positives:
+
+   | Ticker | Evaluation Days | Return (With FinBERT) | Sharpe (With) | Return (Without FinBERT) | Sharpe (Without) | Delta Return | Delta Sharpe |
+   | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+   | **NVDA** | 500 | -5.39% | 0.08 | +2.59% | 0.21 | **-7.98%** | -0.13 |
+   | **AAPL** | 150 | +1.94% | 0.26 | +1.94% | 0.26 | **+0.00%** | +0.00 |
+   | **MSFT** | 500 | -10.66% | -0.12 | +2.75% | 0.18 | **-13.41%** | -0.30 |
+   | **GOOGL** | 500 | +22.51% | 0.53 | +67.62% | 1.14 | **-45.11%** | -0.61 |
+   | **AMZN** | 500 | +2.89% | 0.19 | -4.54% | 0.07 | **+7.43%** | +0.12 |
+   | **Average** | — | **+2.26%** | **0.19** | **+14.07%** | **0.37** | **-11.81%** | **-0.18** |
+
+   *Note: Evaluation windows differ by ticker in `results/committee_ablation_study.json` (AAPL was evaluated over 150 days; NVDA, MSFT, GOOGL, AMZN over 500 days). Live trading is strictly gated to skip trades when verified news is unavailable.*
 3. **Benchmark Comparison (3-Ticker Out-of-Sample Walk-Forward)**:
    - **NVDA**: Strategy return **+357.47%** (Sharpe 0.92, Max DD -44.16%) vs Buy & Hold **+1,019.21%** (Sharpe 1.23, Max DD -41.57%) — *Strategy did not beat Buy & Hold*.
    - **SPY**: Strategy return **+43.76%** (Sharpe 0.68, Max DD -26.34%) vs Buy & Hold **+85.51%** (Sharpe 0.98, Max DD -19.00%) — *Strategy did not beat Buy & Hold*.

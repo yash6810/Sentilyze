@@ -194,6 +194,47 @@ class AlpacaBrokerBridge:
             logger.error(f"Alpaca positions error: {e}")
         return []
 
+    def get_open_orders(self) -> List[Dict[str, Any]]:
+        """Fetches active/pending orders from Alpaca brokerage."""
+        if not self.is_connected():
+            return []
+        try:
+            res = requests.get(
+                f"{self.base_url}/v2/orders?status=open",
+                headers=self.headers,
+                timeout=6,
+            )
+            if res.status_code == 200:
+                return res.json()
+        except Exception as e:
+            logger.error(f"Alpaca open orders error: {e}")
+        return []
+
+    def has_open_position_or_order(self, ticker: str) -> bool:
+        """Returns True if an open position or open pending order exists for ticker on Alpaca."""
+        if not self.is_connected():
+            return False
+        ticker_clean = ticker.upper().replace("-", "/")
+        # 1. Check open positions
+        for pos in self.get_open_positions():
+            sym = str(pos.get("symbol", "")).upper().replace("-", "/")
+            if sym == ticker_clean or sym == ticker.upper():
+                return True
+        # 2. Check open orders
+        for ord in self.get_open_orders():
+            sym = str(ord.get("symbol", "")).upper().replace("-", "/")
+            status = str(ord.get("status", "")).lower()
+            if (sym == ticker_clean or sym == ticker.upper()) and status in (
+                "new",
+                "accepted",
+                "pending_new",
+                "partially_filled",
+                "held",
+                "open",
+            ):
+                return True
+        return False
+
     def close_position(self, ticker: str) -> Dict[str, Any]:
         """Liquidates an active position on Alpaca and cancels all open child orders."""
         if not self.is_connected():

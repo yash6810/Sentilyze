@@ -1,0 +1,10 @@
+date,shares_held_eod,total_bought_cumulative,total_sold_cumulative,in_equity_csv,reported_equity,explanation
+2026-09-22,0,0,0,True,100000.0,Inception/flat. No orders filled yet.
+2026-09-23,40,40,0,True,100000.0,1 buy order filled at 16:44 UTC for 40 shares @ $224.26.
+2026-09-24,240,240,0,True,100050.0,5 buy orders filled between 18:57 and 19:03 UTC (200 shares). Cumulative: 240 shares.
+2026-09-25,280,280,0,True,100091.11,1 buy order filled at 13:33 UTC for 40 shares @ $225.65. Cumulative peak: 280 shares.
+2026-09-26,280,280,0,True,100185.61,Weekend (markets closed). Position carried over at 280 shares.
+2026-09-27,280,280,0,False,,Weekend (markets closed). Position carried over at 280 shares.
+2026-09-28,0,280,280,False,,"7 sell orders executed between 13:30 and 13:34 UTC (280 shares sold). Position completely closed (0 shares). Alpaca portfolio history endpoint skipped logging a daily snapshot for 2026-09-28, jumping from 2026-09-26 ($100,185.61) directly to 2026-09-29 ($101,887.66) where the realized profit of +$1,887.66 is reflected."
+2026-09-29,0,280,280,True,101887.66,"Flat (0 shares). Cash balance $101,887.66 reflects full NVDA profit realization."
+2026-09-30,0,280,280,True,101887.66,"Flat (0 shares). Cash balance $101,887.66 reflects full NVDA profit realization."

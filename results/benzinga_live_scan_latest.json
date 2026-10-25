@@ -1,5 +1,5 @@
 {
-  "scan_timestamp": "2026-10-16T08:10:32.398901+00:00",
+  "scan_timestamp": "2026-10-25T20:04:06.787286+00:00",
   "total_articles_scraped": 1,
   "total_tickers_identified": 1,
   "top_evaluated_stocks": [
@@ -30,7 +30,7 @@
             "shares": 8,
             "entry_price": 100.0,
             "cost": 800.28,
-            "entry_date": "2026-10-16",
+            "entry_date": "2026-10-25",
             "tp1_target": 106.25,
             "tp2_target": 111.25,
             "sl_target": 96.25,

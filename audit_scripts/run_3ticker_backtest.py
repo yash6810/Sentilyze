@@ -45,11 +45,13 @@ def load_price_data(ticker: str) -> pd.DataFrame:
 
     # Direct Yahoo chart fallback
     from src.data_ingestion import _fetch_direct_yahoo_chart
+
     df = _fetch_direct_yahoo_chart(ticker, period="10y")
     if df is not None and len(df) >= 300:
         return df
 
     import yfinance as yf
+
     raw = yf.download(ticker, start="2019-01-01", auto_adjust=False, progress=False)
     if isinstance(raw.columns, pd.MultiIndex):
         raw.columns = raw.columns.get_level_values(0)
@@ -105,9 +107,17 @@ def run_wfo_backtest(ticker: str):
     data = calculate_features(raw_df)
 
     feature_cols = [
-        "ret_1d", "ret_5d", "ret_10d", "ret_20d",
-        "sma_20", "sma_50", "sma_200",
-        "rsi_14", "atr_pct", "vol_20", "sentiment_score"
+        "ret_1d",
+        "ret_5d",
+        "ret_10d",
+        "ret_20d",
+        "sma_20",
+        "sma_50",
+        "sma_200",
+        "rsi_14",
+        "atr_pct",
+        "vol_20",
+        "sentiment_score",
     ]
 
     total_samples = len(data)
@@ -140,14 +150,16 @@ def run_wfo_backtest(ticker: str):
             subsample=0.8,
             colsample_bytree=0.8,
             random_state=42,
-            eval_metric="logloss"
+            eval_metric="logloss",
         )
         clf.fit(X_train, y_train)
         probs = clf.predict_proba(X_test)[:, 1]
 
         all_oos_dates.extend(test_df.index)
         all_oos_probs.extend(probs)
-        print(f"Fold {fold_idx}: Train {len(train_df)} days -> Test {len(test_df)} days | Mean Prob Up: {probs.mean():.3f}")
+        print(
+            f"Fold {fold_idx}: Train {len(train_df)} days -> Test {len(test_df)} days | Mean Prob Up: {probs.mean():.3f}"
+        )
 
     oos_series = pd.Series(all_oos_probs, index=all_oos_dates)
     test_price_df = raw_df.loc[oos_series.index].copy()
@@ -162,8 +174,8 @@ def run_wfo_backtest(ticker: str):
     trade_count = 0
     wins = 0
 
-    fee_rate = 0.0010   # 0.10% transaction fee
-    slippage = 0.0005   # 0.05% slippage
+    fee_rate = 0.0010  # 0.10% transaction fee
+    slippage = 0.0005  # 0.05% slippage
 
     position_open = False
     stop_loss = 0.0
@@ -204,7 +216,7 @@ def run_wfo_backtest(ticker: str):
             if shares > 0:
                 cost = shares * entry_fill
                 fee = cost * fee_rate
-                cash -= (cost + fee)
+                cash -= cost + fee
                 position = shares
                 entry_price = entry_fill
                 position_open = True
@@ -265,9 +277,13 @@ def run_wfo_backtest(ticker: str):
 
     print(f"Results for {ticker}:")
     print(f"  Trades: {trade_count} | Win Rate: {res['win_rate']}%")
-    print(f"  Strategy Return: {res['strategy_total_return_pct']}% vs B&H: {res['bnh_total_return_pct']}%")
+    print(
+        f"  Strategy Return: {res['strategy_total_return_pct']}% vs B&H: {res['bnh_total_return_pct']}%"
+    )
     print(f"  Strategy Sharpe: {res['strategy_sharpe']} vs B&H: {res['bnh_sharpe']}")
-    print(f"  Strategy Max DD: {res['strategy_max_dd_pct']}% vs B&H: {res['bnh_max_dd_pct']}%")
+    print(
+        f"  Strategy Max DD: {res['strategy_max_dd_pct']}% vs B&H: {res['bnh_max_dd_pct']}%"
+    )
     print(f"  Beats Buy-and-Hold: {res['strategy_beats_bnh']}")
     return res
 

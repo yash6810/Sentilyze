@@ -148,9 +148,20 @@ def test_high_cash_deployment_valve_cro_approval():
         },
     ]
 
-    with patch(
-        "src.finjepa_engine.evaluate_finjepa_physics_gate",
-        return_value={"cro_veto": False, "regime": "NORMAL"},
+    with (
+        patch(
+            "src.finjepa_engine.evaluate_finjepa_physics_gate",
+            return_value={"cro_veto": False, "regime": "NORMAL"},
+        ),
+        patch(
+            "src.vpin_toxicity.evaluate_ticker_toxicity",
+            return_value={
+                "vpin": 0.30,
+                "toxicity_regime": "LOW_TOXICITY_BENIGN",
+                "is_toxic_dumping": False,
+                "cro_veto_recommended": False,
+            },
+        ),
     ):
         signoff = cro.evaluate_and_sign_off("AAPL", 220.0, mock_reports, vix_level=16.0)
 

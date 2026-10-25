@@ -1194,66 +1194,66 @@
     }
   },
   "AAPL": {
-    "timestamp": "2026-10-26T07:36:26.952904+00:00",
+    "timestamp": "2026-10-23T07:13:46.977618+00:00",
     "ticker": "AAPL",
-    "spot_price": 347.73,
-    "final_resolution": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
+    "spot_price": 348.22,
+    "final_resolution": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
     "action_code": "VETO",
     "verdict": "VETO",
-    "consensus_conviction_pct": 61.0,
-    "conviction": 61.0,
+    "consensus_conviction_pct": 64.5,
+    "conviction": 64.5,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 363.21,
-    "tp2_target": 375.59,
-    "stop_loss_target": 343.52,
-    "atr_14": 6.19,
-    "atr_pct": 1.78,
+    "tp1_target": 363.42,
+    "tp2_target": 375.58,
+    "stop_loss_target": 342.69,
+    "atr_14": 6.08,
+    "atr_pct": 1.75,
     "quantum_telemetry": {
       "ticker": "AAPL",
-      "spot_price": 347.73,
+      "spot_price": 348.22,
       "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
       "risk_multiplier": 1.0,
-      "hmm_regime": "Bull",
-      "crisis_probability": 0.1,
+      "hmm_regime": "Normal",
+      "crisis_probability": 0.2144,
       "cusum_alarm": false,
       "cusum_direction": "NONE",
-      "poc_price": 272.75,
-      "vah_price": 311.11,
-      "val_price": 247.93,
-      "dist_to_poc_pct": 27.49,
-      "conformal_lower_bound": 342.24,
-      "conformal_upper_bound": 353.22,
+      "poc_price": 271.84,
+      "vah_price": 309.01,
+      "val_price": 247.79,
+      "dist_to_poc_pct": 28.1,
+      "conformal_lower_bound": 342.69,
+      "conformal_upper_bound": 353.75,
       "momentum_zscore": 0.0,
       "vol_scaled_exposure": 0.0,
       "realized_vol_annual": 0.2,
       "credit_divergence": false,
       "alpha158_factors": {
-        "KMID": -0.00398,
-        "KLEN": 0.01713,
-        "KMID2": -0.23244,
-        "KUP": 0.00748,
-        "KUP2": 0.43646,
-        "KLOW": 0.00567,
-        "KLOW2": 0.3311,
-        "KSFT": -0.00579,
-        "KSFT2": -0.33779,
-        "CORR5": 0.76816,
-        "CORR20": 0.27805,
-        "CORD5": 0.41333,
-        "CORD20": 0.05528,
-        "WVMA10": 0.00622,
-        "RSV5": 0.69302,
-        "RSV20": 0.84568,
-        "MAX10": 0.0115,
-        "MIN10": -0.02913,
-        "QTLU20": -0.01343,
-        "QTLD20": -0.0409,
-        "ROC5": 0.01243,
-        "ROC20": 0.01953,
-        "BETA10": 0.00186,
-        "RSQR20": 0.76698,
-        "RESI10": 0.00437
+        "KMID": 0.00951,
+        "KLEN": 0.01763,
+        "KMID2": 0.53948,
+        "KUP": 0.00041,
+        "KUP2": 0.02302,
+        "KLOW": 0.00771,
+        "KLOW2": 0.4375,
+        "KSFT": 0.01682,
+        "KSFT2": 0.95395,
+        "CORR5": 0.3895,
+        "CORR20": 0.23578,
+        "CORD5": 0.34019,
+        "CORD20": 0.08701,
+        "WVMA10": 0.00604,
+        "RSV5": 0.98551,
+        "RSV20": 0.99379,
+        "MAX10": 0.0004,
+        "MIN10": -0.05031,
+        "QTLU20": -0.01515,
+        "QTLD20": -0.04225,
+        "ROC5": 0.01819,
+        "ROC20": 0.03662,
+        "BETA10": 0.00205,
+        "RSQR20": 0.55129,
+        "RESI10": 0.00807
       },
       "insider_signals": {
         "ticker": "AAPL",
@@ -1269,7 +1269,7 @@
         "transactions": [
           {
             "ticker": "AAPL",
-            "filing_date": "2026-08-06",
+            "filing_date": "2026-08-03",
             "officer_name": "Executive Officer A.",
             "officer_title": "Executive VP",
             "transaction_type": "P - Purchase (Open Market)",
@@ -1280,7 +1280,7 @@
           }
         ],
         "summary": "Balanced insider activity with no dominant directional conviction.",
-        "timestamp": "2026-10-26T07:36:22.736201+00:00"
+        "timestamp": "2026-10-23T07:13:41.556120+00:00"
       },
       "sec_catalysts": [],
       "social_buzz": {
@@ -1295,17 +1295,17 @@
         "color": "#3B82F6"
       },
       "options_data": {
-        "spot_price": 347.73,
+        "spot_price": 348.22,
         "net_gex": 0.0,
         "gamma_regime": "Neutral Gamma",
-        "max_pain_strike": 347.73
+        "max_pain_strike": 348.22
       },
       "macro_blackout": {
         "is_blackout_active": false,
         "status": "NORMAL_LIQUIDITY",
-        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
         "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-        "minutes_to_event": 13643.8,
+        "minutes_to_event": 17986.5,
         "tier": "TIER_1_CRITICAL",
         "expected_spy_dispersion_pct": 0.81,
         "expected_qqq_dispersion_pct": 1.19,
@@ -1319,12 +1319,12 @@
         "risk_profile": "NORMAL"
       },
       "execution_latency": {
-        "total_nanoseconds": 33199446,
-        "total_microseconds": 33199.45,
-        "hmm_micros": 4.29,
-        "cusum_micros": 16.0,
-        "volume_profile_micros": 9550.92,
-        "momentum_micros": 160.34
+        "total_nanoseconds": 25003670,
+        "total_microseconds": 25003.67,
+        "hmm_micros": 4.88,
+        "cusum_micros": 17.81,
+        "volume_profile_micros": 5137.58,
+        "momentum_micros": 150.02
       }
     },
     "agent_testimonies": [
@@ -1340,33 +1340,26 @@
           "Amazon Chronos-2: Probabilistic Time-Series Foundation Corridors"
         ],
         "vote": "HOLD",
-        "conviction_score": 42.0,
+        "conviction_score": 46.0,
         "key_metrics": {
-          "estimated_rsi": 72.3,
-          "sma_200": 294.41,
-          "ma_21": 339.01,
-          "return_5d_pct": 1.24,
+          "estimated_rsi": 71.7,
+          "sma_200": 293.98,
+          "ma_21": 338.45,
+          "return_5d_pct": 1.82,
           "trend_status": "OVERBOUGHT_EXTENDED",
-          "acpm_calibrated_prob": 0.4764,
-          "kmid": -0.00398,
-          "klen": 0.01713,
-          "corr5": 0.76816,
-          "wvma10": 0.00622,
-          "arar_score": 0.0,
-          "arar_normalized": 0.0,
-          "obi": -0.338,
-          "cvd": 654290782.9,
+          "acpm_calibrated_prob": 0.551,
+          "kmid": 0.00951,
+          "klen": 0.01763,
+          "corr5": 0.3895,
+          "wvma10": 0.00604,
+          "arar_score": 4282451.95,
+          "arar_normalized": 1.0,
+          "obi": 0.954,
+          "cvd": 698386802.8,
           "is_absorption_active": false,
-          "p10_floor": 313.15,
-          "p90_ceiling": 356.32,
-          "upside_to_downside_ratio": 0.25,
-          "chronos_corridors": {
-            "p10_floor": 313.15,
-            "p90_ceiling": 356.32,
-            "upside_to_downside_ratio": 0.25
-          }
+          "chronos_corridors": {}
         },
-        "thesis": "Asset RSI is overbought (72.3 > 70), indicating high probability of short-term consolidation."
+        "thesis": "Asset RSI is overbought (71.7 > 70), indicating high probability of short-term consolidation. \ud83d\udcc8 High Order Book Imbalance (OBI: +0.95)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -1380,7 +1373,7 @@
         "vote": "HOLD",
         "conviction_score": 65.0,
         "key_metrics": {
-          "finbert_polarity": 0.135,
+          "finbert_polarity": 0.101,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
@@ -1398,7 +1391,7 @@
           "swift_urgency": "NORMAL",
           "swift_action": ""
         },
-        "thesis": "Balanced sentiment environment (+0.14 polarity across 112 headlines; Event: GENERAL_MARKET_FLOW). \ud83d\udc54 SEC FORM 4 CLUSTER: 12 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 92.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
+        "thesis": "Balanced sentiment environment (+0.10 polarity across 112 headlines; Event: GENERAL_MARKET_FLOW). \ud83d\udc54 SEC FORM 4 CLUSTER: 13 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 92.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -1421,33 +1414,33 @@
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "AAPL",
-        "spot_price": 347.73,
-        "day_high": 351.73,
-        "day_low": 345.75,
-        "change_pct": -0.14,
-        "range_position_pct": 33.1,
-        "rvol": 1.03,
-        "momentum_velocity_pct": 1.4,
-        "conviction_score": 75.0,
+        "spot_price": 348.22,
+        "day_high": 348.36,
+        "day_low": 342.28,
+        "change_pct": 1.23,
+        "range_position_pct": 97.7,
+        "rvol": 1.23,
+        "momentum_velocity_pct": 1.39,
+        "conviction_score": 88.0,
         "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.03x, Range 33%, 5D Vel +1.4%, FVG: Bullish FVG [345.25 - 345.75], CE $345.5 (Testing Mitigation Zone))",
+        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 1.23x, Range 98%, 5D Vel +1.4%, FVG: Bullish FVG [338.61 - 340.74], CE $339.67 (Pullback Target))",
         "fvg_analysis": {
           "has_active_fvg": true,
-          "is_mitigating": true,
+          "is_mitigating": false,
           "active_bullish_fvg": {
-            "top": 345.75,
-            "bottom": 345.25,
-            "consequent_encroachment": 345.5,
-            "date": "2026-10-22"
+            "top": 340.74,
+            "bottom": 338.61,
+            "consequent_encroachment": 339.67,
+            "date": "2026-10-12"
           },
           "active_bearish_fvg": null,
-          "tactical_limit_entry": 347.73,
-          "invalidation_stop": 343.52,
-          "summary": "Bullish FVG [345.25 - 345.75], CE $345.5 (Testing Mitigation Zone)"
+          "tactical_limit_entry": 340.74,
+          "invalidation_stop": 336.92,
+          "summary": "Bullish FVG [338.61 - 340.74], CE $339.67 (Pullback Target)"
         },
-        "tactical_limit_entry": 347.73,
-        "invalidation_stop": 343.52,
-        "timestamp": "2026-10-26T07:36:23.628854+00:00"
+        "tactical_limit_entry": 340.74,
+        "invalidation_stop": 336.92,
+        "timestamp": "2026-10-23T07:13:42.713096+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -1478,36 +1471,36 @@
         "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
         "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
       ],
-      "final_resolution": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
+      "final_resolution": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
       "action_code": "VETO",
       "buy_votes": 1,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 61.0,
-      "unweighted_conviction_pct": 62.4,
-      "weighted_conviction_pct": 59.7,
+      "consensus_conviction_pct": 64.5,
+      "unweighted_conviction_pct": 65.8,
+      "weighted_conviction_pct": 63.2,
       "approved_leverage": 0.0,
       "kelly_allocation_pct": 0.0,
       "kelly_details": {
         "full_kelly_pct": 18.29,
         "fractional_kelly_pct": 2.92,
-        "cf_haircut_multiplier": 0.6393,
+        "cf_haircut_multiplier": 0.6385,
         "edge": 0.32,
         "kelly_fraction": 0.25,
         "win_rate": 0.48,
         "payoff_ratio": 1.75,
-        "skewness": -0.5492818166406156,
-        "excess_kurtosis": 3.5735671192868255,
+        "skewness": -0.556975809652046,
+        "excess_kurtosis": 3.555722245742653,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "atr_14": 6.19,
-      "atr_pct": 1.78,
-      "tp1_target": 363.21,
-      "tp2_target": 375.59,
-      "stop_loss_target": 343.52,
+      "atr_14": 6.08,
+      "atr_pct": 1.75,
+      "tp1_target": 363.42,
+      "tp2_target": 375.58,
+      "stop_loss_target": 342.69,
       "portfolio_diversity_grade": "A",
-      "conformal_lower_bound": 342.24,
-      "conformal_upper_bound": 353.22,
-      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 62.4%). ATR14 is $6.19 (1.8% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: CRO Hard-Veto: Double Crash / Top Exhaustion detected via dark pool put sweeps & options skew (100.0% crash probability).",
+      "conformal_lower_bound": 342.69,
+      "conformal_upper_bound": 353.75,
+      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 65.8%). ATR14 is $6.08 (1.8% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: FinJEPA Physics Hazard: LIQUIDITY_DROUGHT_HAZARD (High latent dispersion anomaly).",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false,
@@ -1516,49 +1509,49 @@
       "hmm_veto_triggered": false,
       "quantum_telemetry": {
         "ticker": "AAPL",
-        "spot_price": 347.73,
+        "spot_price": 348.22,
         "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
         "risk_multiplier": 1.0,
-        "hmm_regime": "Bull",
-        "crisis_probability": 0.1,
+        "hmm_regime": "Normal",
+        "crisis_probability": 0.2144,
         "cusum_alarm": false,
         "cusum_direction": "NONE",
-        "poc_price": 272.75,
-        "vah_price": 311.11,
-        "val_price": 247.93,
-        "dist_to_poc_pct": 27.49,
-        "conformal_lower_bound": 342.24,
-        "conformal_upper_bound": 353.22,
+        "poc_price": 271.84,
+        "vah_price": 309.01,
+        "val_price": 247.79,
+        "dist_to_poc_pct": 28.1,
+        "conformal_lower_bound": 342.69,
+        "conformal_upper_bound": 353.75,
         "momentum_zscore": 0.0,
         "vol_scaled_exposure": 0.0,
         "realized_vol_annual": 0.2,
         "credit_divergence": false,
         "alpha158_factors": {
-          "KMID": -0.00398,
-          "KLEN": 0.01713,
-          "KMID2": -0.23244,
-          "KUP": 0.00748,
-          "KUP2": 0.43646,
-          "KLOW": 0.00567,
-          "KLOW2": 0.3311,
-          "KSFT": -0.00579,
-          "KSFT2": -0.33779,
-          "CORR5": 0.76816,
-          "CORR20": 0.27805,
-          "CORD5": 0.41333,
-          "CORD20": 0.05528,
-          "WVMA10": 0.00622,
-          "RSV5": 0.69302,
-          "RSV20": 0.84568,
-          "MAX10": 0.0115,
-          "MIN10": -0.02913,
-          "QTLU20": -0.01343,
-          "QTLD20": -0.0409,
-          "ROC5": 0.01243,
-          "ROC20": 0.01953,
-          "BETA10": 0.00186,
-          "RSQR20": 0.76698,
-          "RESI10": 0.00437
+          "KMID": 0.00951,
+          "KLEN": 0.01763,
+          "KMID2": 0.53948,
+          "KUP": 0.00041,
+          "KUP2": 0.02302,
+          "KLOW": 0.00771,
+          "KLOW2": 0.4375,
+          "KSFT": 0.01682,
+          "KSFT2": 0.95395,
+          "CORR5": 0.3895,
+          "CORR20": 0.23578,
+          "CORD5": 0.34019,
+          "CORD20": 0.08701,
+          "WVMA10": 0.00604,
+          "RSV5": 0.98551,
+          "RSV20": 0.99379,
+          "MAX10": 0.0004,
+          "MIN10": -0.05031,
+          "QTLU20": -0.01515,
+          "QTLD20": -0.04225,
+          "ROC5": 0.01819,
+          "ROC20": 0.03662,
+          "BETA10": 0.00205,
+          "RSQR20": 0.55129,
+          "RESI10": 0.00807
         },
         "insider_signals": {
           "ticker": "AAPL",
@@ -1574,7 +1567,7 @@
           "transactions": [
             {
               "ticker": "AAPL",
-              "filing_date": "2026-08-06",
+              "filing_date": "2026-08-03",
               "officer_name": "Executive Officer A.",
               "officer_title": "Executive VP",
               "transaction_type": "P - Purchase (Open Market)",
@@ -1585,7 +1578,7 @@
             }
           ],
           "summary": "Balanced insider activity with no dominant directional conviction.",
-          "timestamp": "2026-10-26T07:36:22.736201+00:00"
+          "timestamp": "2026-10-23T07:13:41.556120+00:00"
         },
         "sec_catalysts": [],
         "social_buzz": {
@@ -1600,17 +1593,17 @@
           "color": "#3B82F6"
         },
         "options_data": {
-          "spot_price": 347.73,
+          "spot_price": 348.22,
           "net_gex": 0.0,
           "gamma_regime": "Neutral Gamma",
-          "max_pain_strike": 347.73
+          "max_pain_strike": 348.22
         },
         "macro_blackout": {
           "is_blackout_active": false,
           "status": "NORMAL_LIQUIDITY",
-          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
           "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-          "minutes_to_event": 13643.8,
+          "minutes_to_event": 17986.5,
           "tier": "TIER_1_CRITICAL",
           "expected_spy_dispersion_pct": 0.81,
           "expected_qqq_dispersion_pct": 1.19,
@@ -1624,12 +1617,12 @@
           "risk_profile": "NORMAL"
         },
         "execution_latency": {
-          "total_nanoseconds": 33199446,
-          "total_microseconds": 33199.45,
-          "hmm_micros": 4.29,
-          "cusum_micros": 16.0,
-          "volume_profile_micros": 9550.92,
-          "momentum_micros": 160.34
+          "total_nanoseconds": 25003670,
+          "total_microseconds": 25003.67,
+          "hmm_micros": 4.88,
+          "cusum_micros": 17.81,
+          "volume_profile_micros": 5137.58,
+          "momentum_micros": 150.02
         }
       },
       "memory_risk_adjustment": {
@@ -1656,27 +1649,27 @@
       "meta_label_metrics": {
         "ticker": "AAPL",
         "approved": true,
-        "barrier_touch_prob": 0.7424,
-        "barrier_touch_prob_pct": 74.2,
+        "barrier_touch_prob": 0.9436,
+        "barrier_touch_prob_pct": 94.4,
         "verdict": "META_LABEL_APPROVED_HIGH_PROBABILITY_BARRIER_TOUCH",
         "meta_label": 1,
         "factors": {
-          "base_logit": 0.733,
+          "base_logit": 0.967,
           "trend_factor": 0.65,
-          "rsi_factor": -0.322,
-          "micro_factor": -0.203,
+          "rsi_factor": 0.0,
+          "micro_factor": 1.0,
           "vol_factor": 0.2
         },
-        "reason": "Upper barrier probability 74.2% exceeds 50% threshold. Structural trend and microstructure support favorable risk/reward."
+        "reason": "Upper barrier probability 94.4% exceeds 50% threshold. Structural trend and microstructure support favorable risk/reward."
       },
       "meta_label_veto_triggered": false,
       "mahalanobis_veto_triggered": false,
       "mahalanobis_metrics": {
         "status": "SUCCESS",
         "ticker": "AAPL",
-        "mahalanobis_distance": 1.341,
+        "mahalanobis_distance": 1.396,
         "critical_threshold_99": 3.884,
-        "p_value": 0.87619,
+        "p_value": 0.856,
         "degrees_of_freedom": 5,
         "is_anomaly": false,
         "regime_verdict": "NORMAL_REGIME_STATISTICALLY_STABLE",
@@ -1684,20 +1677,20 @@
       },
       "finjepa_metrics": {
         "finjepa_regime": "LIQUIDITY_DROUGHT_HAZARD",
-        "finjepa_displacement": 5.9503,
+        "finjepa_displacement": 5.7018,
         "finjepa_confidence": 0.4,
         "finjepa_veto": true
       },
       "finjepa_veto_triggered": true,
       "sde_tail_risk_metrics": {
-        "cvar99_floor": 118023.37,
-        "var99": 10742.73
+        "cvar99_floor": 118014.06,
+        "var99": 10733.22
       },
       "drl_policy_metrics": {
-        "drl_leverage_multiplier": 0.829
+        "drl_leverage_multiplier": 0.725
       },
-      "vpin": 0.358,
-      "toxicity_regime": "LOW_TOXICITY_BENIGN"
+      "vpin": 0.4681,
+      "toxicity_regime": "BALANCED_ORDER_FLOW"
     },
     "adaptive_execution": {
       "ticker": "AAPL",
@@ -1706,12 +1699,12 @@
       "tp_atr_multiple": 2.5,
       "sl_atr_multiple": 1.25,
       "fast_harvest_target_pct": 2.5,
-      "strategy_directive": "\u2696\ufe0f [HYBRID BALANCED MODE] H=0.51 | Net GEX=+0.0M. Standard progressive profit locks (+3% -> +1% locked, +5% -> +2.5% locked). Allow single pyramid unit at +1N ATR on confirmed Volume PoC migration.",
+      "strategy_directive": "\u2696\ufe0f [HYBRID BALANCED MODE] H=0.52 | Net GEX=+0.0M. Standard progressive profit locks (+3% -> +1% locked, +5% -> +2.5% locked). Allow single pyramid unit at +1N ATR on confirmed Volume PoC migration.",
       "microstructure_signals": {
-        "hurst_exponent": 0.509,
+        "hurst_exponent": 0.517,
         "hurst_regime": "RANDOM_WALK_NEUTRAL",
         "net_gex_millions": 0.0,
-        "gamma_flip_level": 347.73,
+        "gamma_flip_level": 348.22,
         "call_wall_resistance": 245.0,
         "put_wall_support": 245.0,
         "has_real_options_data": true
@@ -1722,53 +1715,53 @@
         "sentiment_gate": 0.2,
         "rsi_period": 14
       },
-      "timestamp": "2026-10-26T07:36:27.350627+00:00"
+      "timestamp": "2026-10-23T07:13:47.449170+00:00"
     },
     "execution_mode": "HYBRID_BALANCED",
     "pyramiding_enabled": true,
     "tri_force_fusion": {
       "ticker": "AAPL",
-      "p_trade": 0.4837,
-      "trade_conviction_pct": 48.37,
-      "composite_raw_signal": -0.0218,
+      "p_trade": 0.4992,
+      "trade_conviction_pct": 49.92,
+      "composite_raw_signal": -0.0011,
       "regime": "MOMENTUM_TREND_DOMINANT",
       "weights": {
-        "w_microstructure": 0.0229,
-        "w_statarb": 0.0229,
-        "w_trend": 0.9543
+        "w_microstructure": 0.0093,
+        "w_statarb": 0.0093,
+        "w_trend": 0.9813
       },
       "signals": {
-        "s_microstructure": -0.236,
-        "s_statarb": -0.715,
+        "s_microstructure": 0.668,
+        "s_statarb": -0.783,
         "s_trend": 0.0
       },
       "arar_details": {
-        "arar_score": 0.0,
-        "arar_normalized": 0.0,
-        "obi": -0.338,
-        "cvd": 654290782.9,
-        "delta_price_pct": -0.141,
+        "arar_score": 4282451.95,
+        "arar_normalized": 1.0,
+        "obi": 0.954,
+        "cvd": 698386802.8,
+        "delta_price_pct": 1.23,
         "is_absorption_active": false,
-        "absorption_verdict": "BEARISH_ORDER_OVERHANG",
-        "microstructure_signal": -0.236
+        "absorption_verdict": "BULLISH_ORDER_FLOW",
+        "microstructure_signal": 0.668
       },
       "telemetry": {
-        "hurst_exponent": 0.472,
-        "realized_vol_pct": 24.1,
-        "trend_adx": 34.9,
+        "hurst_exponent": 0.471,
+        "realized_vol_pct": 24.12,
+        "trend_adx": 38.6,
         "vix_level": 16.5
       },
       "recommendation": "NEUTRAL_HOLD_WAIT_FOR_ABSORPTION"
     },
-    "p_trade": 0.4837,
+    "p_trade": 0.4992,
     "tree_of_thought_deliberation": {
       "status": "SUCCESS",
       "evaluated_tree": [
         {
           "id": "BRANCH_1_BULLISH_EXPANSION",
           "label": "Bullish Trend Expansion",
-          "target_price": 360.11,
-          "stop_price": 341.54,
+          "target_price": 360.38,
+          "stop_price": 342.14,
           "expected_drift": 0.002,
           "volatility_multiplier": 1.0,
           "prior_probability": 0.3299,
@@ -1777,8 +1770,8 @@
         {
           "id": "BRANCH_2_MEAN_REVERSION",
           "label": "Consolidation Dip & Rebound",
-          "target_price": 355.16,
-          "stop_price": 342.78,
+          "target_price": 355.52,
+          "stop_price": 343.36,
           "expected_drift": 0.0005,
           "volatility_multiplier": 0.8,
           "prior_probability": 0.567,
@@ -1787,8 +1780,8 @@
         {
           "id": "BRANCH_3_VOLATILITY_BREAKDOWN",
           "label": "Liquidity Flush & Breakdown",
-          "target_price": 332.25,
-          "stop_price": 353.92,
+          "target_price": 333.02,
+          "stop_price": 354.3,
           "expected_drift": -0.003,
           "volatility_multiplier": 1.8,
           "prior_probability": 0.1031,
@@ -1798,12 +1791,12 @@
       "rollout_results": {
         "dominant_branch": "BRANCH_2_MEAN_REVERSION",
         "dominant_label": "Consolidation Dip & Rebound",
-        "composite_tp_probability": 0.405,
+        "composite_tp_probability": 0.4072,
         "composite_sl_probability": 0.4369,
         "branch_simulations": {
           "BRANCH_1_BULLISH_EXPANSION": {
             "status": "ACTIVE",
-            "tp_hit_rate": 0.46,
+            "tp_hit_rate": 0.4667,
             "sl_hit_rate": 0.4133,
             "expected_pnl_multiple": 2.0
           },
@@ -1823,12 +1816,12 @@
       "recommended_action": "DEFENSIVE_HOLD"
     },
     "wavelet_sifter": {
-      "noise_d1_pct": 40.58,
-      "swing_d2_pct": 33.62,
-      "cyclical_d3_pct": 16.1,
-      "macro_a3_pct": 9.71,
-      "shannon_entropy": 1.8075,
-      "normalized_entropy": 0.9037,
+      "noise_d1_pct": 39.47,
+      "swing_d2_pct": 34.05,
+      "cyclical_d3_pct": 17.5,
+      "macro_a3_pct": 8.99,
+      "shannon_entropy": 1.811,
+      "normalized_entropy": 0.9055,
       "regime": "HIGH_ENTROPY_CHOP_VETO",
       "veto_active": true,
       "conviction_multiplier": 0.0,
@@ -1836,9 +1829,9 @@
       "sample_bars": 64
     },
     "finjepa_physics": {
-      "latent_displacement": 5.9503,
-      "latent_cosine_alignment": 0.4487,
-      "latent_dispersion": 1.0278,
+      "latent_displacement": 5.7018,
+      "latent_cosine_alignment": 0.495,
+      "latent_dispersion": 1.0315,
       "regime": "LIQUIDITY_DROUGHT_HAZARD",
       "risk_verdict": "DEFENSIVE_HOLD",
       "physics_confidence": 0.4,
@@ -1854,15 +1847,15 @@
       "tail_risk_probability": 0.1,
       "conviction_tier": "TIER_3_MONITOR",
       "immediate_action": "IGNORE_NOISE",
-      "latency_ms": 0.031,
-      "timestamp": "2026-10-26T07:36:27.424484+00:00"
+      "latency_ms": 0.028,
+      "timestamp": "2026-10-23T07:13:47.514642+00:00"
     },
     "soros_reflexivity": {
-      "price_velocity": 0.0054,
-      "price_acceleration": 0.002,
+      "price_velocity": 0.0128,
+      "price_acceleration": 0.0093,
       "sentiment_velocity": 0.0,
       "sentiment_acceleration": 0.0,
-      "soros_metric_r": -0.0005,
+      "soros_metric_r": -0.0053,
       "regime": "TRANSITIONAL_EQUILIBRIUM",
       "conviction_boost": 1.0,
       "cro_veto": false
@@ -1884,66 +1877,66 @@
   },
   "last_deliberated_at": "2026-08-29T14:26:12.354905+00:00",
   "MSFT": {
-    "timestamp": "2026-10-26T07:36:36.145379+00:00",
+    "timestamp": "2026-10-23T07:13:57.628732+00:00",
     "ticker": "MSFT",
-    "spot_price": 524.51,
+    "spot_price": 521.08,
     "final_resolution": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
     "action_code": "VETO",
     "verdict": "VETO",
-    "consensus_conviction_pct": 65.3,
-    "conviction": 65.3,
+    "consensus_conviction_pct": 54.5,
+    "conviction": 54.5,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 552.11,
-    "tp2_target": 574.19,
-    "stop_loss_target": 519.89,
-    "atr_14": 11.04,
-    "atr_pct": 2.1,
+    "tp1_target": 549.53,
+    "tp2_target": 572.29,
+    "stop_loss_target": 507.42,
+    "atr_14": 11.38,
+    "atr_pct": 2.18,
     "quantum_telemetry": {
       "ticker": "MSFT",
-      "spot_price": 524.51,
+      "spot_price": 521.08,
       "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
       "risk_multiplier": 1.0,
-      "hmm_regime": "Bull",
-      "crisis_probability": 0.1,
+      "hmm_regime": "Normal",
+      "crisis_probability": 0.2144,
       "cusum_alarm": false,
       "cusum_direction": "NONE",
       "poc_price": 413.11,
       "vah_price": 485.55,
       "val_price": 349.2,
-      "dist_to_poc_pct": 26.97,
-      "conformal_lower_bound": 510.56,
-      "conformal_upper_bound": 538.46,
+      "dist_to_poc_pct": 26.14,
+      "conformal_lower_bound": 506.74,
+      "conformal_upper_bound": 535.42,
       "momentum_zscore": 0.0,
       "vol_scaled_exposure": 0.0,
       "realized_vol_annual": 0.2,
       "credit_divergence": false,
       "alpha158_factors": {
-        "KMID": 0.01306,
-        "KLEN": 0.01945,
-        "KMID2": 0.6713,
-        "KUP": 0.00243,
-        "KUP2": 0.12512,
-        "KLOW": 0.00396,
-        "KLOW2": 0.20357,
-        "KSFT": 0.01458,
-        "KSFT2": 0.74975,
-        "CORR5": -0.42235,
-        "CORR20": -0.10482,
-        "CORD5": -0.93055,
-        "CORD20": -0.02867,
-        "WVMA10": 0.0061,
-        "RSV5": 0.44338,
-        "RSV20": 0.45555,
-        "MAX10": 0.05079,
-        "MIN10": -0.0168,
-        "QTLU20": 0.01803,
-        "QTLD20": -0.01507,
-        "ROC5": -0.00858,
-        "ROC20": 0.01616,
-        "BETA10": -0.00379,
-        "RSQR20": 0.36763,
-        "RESI10": 0.00075
+        "KMID": -0.02262,
+        "KLEN": 0.02495,
+        "KMID2": -0.90677,
+        "KUP": 0.00086,
+        "KUP2": 0.03458,
+        "KLOW": 0.00146,
+        "KLOW2": 0.05865,
+        "KSFT": -0.02202,
+        "KSFT2": -0.8827,
+        "CORR5": -0.57415,
+        "CORR20": -0.24594,
+        "CORD5": -0.84892,
+        "CORD20": 0.32986,
+        "WVMA10": 0.00796,
+        "RSV5": 0.03316,
+        "RSV20": 0.44211,
+        "MAX10": 0.05771,
+        "MIN10": -0.0015,
+        "QTLU20": 0.02473,
+        "QTLD20": -0.01068,
+        "ROC5": -0.03404,
+        "ROC20": 0.04649,
+        "BETA10": -0.00293,
+        "RSQR20": 0.48245,
+        "RESI10": -0.01184
       },
       "insider_signals": {
         "ticker": "MSFT",
@@ -1969,17 +1962,17 @@
         "color": "#3B82F6"
       },
       "options_data": {
-        "spot_price": 524.51,
+        "spot_price": 521.08,
         "net_gex": 0.0,
         "gamma_regime": "Neutral Gamma",
-        "max_pain_strike": 524.51
+        "max_pain_strike": 521.08
       },
       "macro_blackout": {
         "is_blackout_active": false,
         "status": "NORMAL_LIQUIDITY",
-        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
         "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-        "minutes_to_event": 13643.8,
+        "minutes_to_event": 17986.5,
         "tier": "TIER_1_CRITICAL",
         "expected_spy_dispersion_pct": 0.81,
         "expected_qqq_dispersion_pct": 1.19,
@@ -1993,12 +1986,12 @@
         "risk_profile": "NORMAL"
       },
       "execution_latency": {
-        "total_nanoseconds": 33115074,
-        "total_microseconds": 33115.07,
-        "hmm_micros": 4.3,
-        "cusum_micros": 16.02,
-        "volume_profile_micros": 9741.12,
-        "momentum_micros": 146.44
+        "total_nanoseconds": 25172584,
+        "total_microseconds": 25172.58,
+        "hmm_micros": 4.32,
+        "cusum_micros": 15.76,
+        "volume_profile_micros": 5146.51,
+        "momentum_micros": 179.92
       }
     },
     "agent_testimonies": [
@@ -2014,33 +2007,26 @@
           "Amazon Chronos-2: Probabilistic Time-Series Foundation Corridors"
         ],
         "vote": "HOLD",
-        "conviction_score": 52.0,
+        "conviction_score": 43.0,
         "key_metrics": {
-          "estimated_rsi": 49.6,
-          "sma_200": 436.51,
-          "ma_21": 526.2,
-          "return_5d_pct": -0.86,
+          "estimated_rsi": 52.1,
+          "sma_200": 436.31,
+          "ma_21": 524.93,
+          "return_5d_pct": -3.4,
           "trend_status": "BULLISH_MOMENTUM_EXPANSION",
-          "acpm_calibrated_prob": 0.3001,
-          "kmid": 0.01306,
-          "klen": 0.01945,
-          "corr5": -0.42235,
-          "wvma10": 0.0061,
-          "arar_score": 4353229.69,
-          "arar_normalized": 1.0,
-          "obi": 0.75,
-          "cvd": 74705048.8,
+          "acpm_calibrated_prob": 0.3756,
+          "kmid": -0.02262,
+          "klen": 0.02495,
+          "corr5": -0.57415,
+          "wvma10": 0.00796,
+          "arar_score": 0.0,
+          "arar_normalized": 0.0,
+          "obi": -0.883,
+          "cvd": 81040779.1,
           "is_absorption_active": false,
-          "p10_floor": 461.01,
-          "p90_ceiling": 524.15,
-          "upside_to_downside_ratio": -0.01,
-          "chronos_corridors": {
-            "p10_floor": 461.01,
-            "p90_ceiling": 524.15,
-            "upside_to_downside_ratio": -0.01
-          }
+          "chronos_corridors": {}
         },
-        "thesis": "Asset is in structural uptrend above 200 SMA ($436.51) with optimal pullback RSI (49.6). ACPM Conformal Model signals caution (30.0% probability). \ud83d\udcc8 High Order Book Imbalance (OBI: +0.75). \u26a0\ufe0f GPU Chronos Ceiling: Near P90 target limit ($524.15); risk/reward compressed."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($436.31) with optimal pullback RSI (52.1). ACPM Conformal Model signals caution (37.6% probability). Qlib Alpha158 warns of body rejection (KMID: -0.0226)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -2054,11 +2040,11 @@
         "vote": "HOLD",
         "conviction_score": 75.1,
         "key_metrics": {
-          "finbert_polarity": 0.072,
+          "finbert_polarity": 0.032,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
-          "headlines_analyzed": 109,
+          "headlines_analyzed": 110,
           "pead_signal": "STRONG_POST_EARNINGS_ACCUMULATION",
           "sue_score": 2.01,
           "eps_surprise_pct": 11.81,
@@ -2072,7 +2058,7 @@
           "swift_urgency": "NORMAL",
           "swift_action": ""
         },
-        "thesis": "Balanced sentiment environment (+0.07 polarity across 109 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +11.8% EPS Surprise. \ud83d\udc54 SEC FORM 4 CLUSTER: 2 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 76.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
+        "thesis": "Balanced sentiment environment (+0.03 polarity across 110 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +11.8% EPS Surprise. \ud83d\udc54 SEC FORM 4 CLUSTER: 2 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 76.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -2086,28 +2072,28 @@
         "key_metrics": {
           "data_available": true,
           "piotroski_f_score": 5,
-          "altman_z_score": 19.86,
-          "dcf_fair_value": 157.3530029296875,
+          "altman_z_score": 19.74,
+          "dcf_fair_value": 156.32400512695312,
           "dcf_margin_of_safety_pct": -70.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $157.35 (Margin of Safety: -70.0%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $156.32 (Margin of Safety: -70.0%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "MSFT",
-        "spot_price": 524.51,
-        "day_high": 525.77,
-        "day_low": 515.7,
-        "change_pct": 0.66,
-        "range_position_pct": 87.5,
-        "rvol": 0.68,
-        "momentum_velocity_pct": -1.69,
-        "conviction_score": 80.0,
-        "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 0.68x, Range 87%, 5D Vel -1.7%, FVG: Bullish FVG [522.5 - 528.78], CE $525.64 (Testing Mitigation Zone))",
+        "spot_price": 521.08,
+        "day_high": 533.6,
+        "day_low": 520.3,
+        "change_pct": -2.23,
+        "range_position_pct": 5.9,
+        "rvol": 0.99,
+        "momentum_velocity_pct": -1.51,
+        "conviction_score": 35.0,
+        "vote": "SELL",
+        "verdict": "\ud83d\udd34 Weak Tape / Selling Pressure (RVOL 0.99x, Range 6%, 5D Vel -1.5%)",
         "fvg_analysis": {
           "has_active_fvg": true,
-          "is_mitigating": true,
+          "is_mitigating": false,
           "active_bullish_fvg": {
             "top": 528.78,
             "bottom": 522.5,
@@ -2120,13 +2106,13 @@
             "consequent_encroachment": 542.1,
             "date": "2026-10-14"
           },
-          "tactical_limit_entry": 524.51,
+          "tactical_limit_entry": 525.64,
           "invalidation_stop": 519.89,
-          "summary": "Bullish FVG [522.5 - 528.78], CE $525.64 (Testing Mitigation Zone)"
+          "summary": "Bullish FVG [522.5 - 528.78], CE $525.64 (Pullback Target)"
         },
-        "tactical_limit_entry": 524.51,
+        "tactical_limit_entry": 525.64,
         "invalidation_stop": 519.89,
-        "timestamp": "2026-10-26T07:36:31.744403+00:00"
+        "timestamp": "2026-10-23T07:13:53.017891+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -2159,11 +2145,11 @@
       ],
       "final_resolution": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
       "action_code": "VETO",
-      "buy_votes": 1,
+      "buy_votes": 0,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 65.3,
-      "unweighted_conviction_pct": 66.2,
-      "weighted_conviction_pct": 64.4,
+      "consensus_conviction_pct": 54.5,
+      "unweighted_conviction_pct": 55.4,
+      "weighted_conviction_pct": 53.6,
       "approved_leverage": 0.0,
       "kelly_allocation_pct": 0.0,
       "kelly_details": {
@@ -2174,19 +2160,19 @@
         "kelly_fraction": 0.25,
         "win_rate": 0.48,
         "payoff_ratio": 1.75,
-        "skewness": 1.3063470939922377,
-        "excess_kurtosis": 13.443385910771735,
+        "skewness": 1.3068899019614375,
+        "excess_kurtosis": 13.446761791313484,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "atr_14": 11.04,
-      "atr_pct": 2.1,
-      "tp1_target": 552.11,
-      "tp2_target": 574.19,
-      "stop_loss_target": 519.89,
+      "atr_14": 11.38,
+      "atr_pct": 2.18,
+      "tp1_target": 549.53,
+      "tp2_target": 572.29,
+      "stop_loss_target": 507.42,
       "portfolio_diversity_grade": "A",
-      "conformal_lower_bound": 510.56,
-      "conformal_upper_bound": 538.46,
-      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 66.2%). ATR14 is $11.04 (2.1% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: FinJEPA Physics Hazard: LIQUIDITY_DROUGHT_HAZARD (High latent dispersion anomaly).",
+      "conformal_lower_bound": 506.74,
+      "conformal_upper_bound": 535.42,
+      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 55.4%). ATR14 is $11.38 (2.2% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: FinJEPA Physics Hazard: LIQUIDITY_DROUGHT_HAZARD (High latent dispersion anomaly).",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false,
@@ -2195,49 +2181,49 @@
       "hmm_veto_triggered": false,
       "quantum_telemetry": {
         "ticker": "MSFT",
-        "spot_price": 524.51,
+        "spot_price": 521.08,
         "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
         "risk_multiplier": 1.0,
-        "hmm_regime": "Bull",
-        "crisis_probability": 0.1,
+        "hmm_regime": "Normal",
+        "crisis_probability": 0.2144,
         "cusum_alarm": false,
         "cusum_direction": "NONE",
         "poc_price": 413.11,
         "vah_price": 485.55,
         "val_price": 349.2,
-        "dist_to_poc_pct": 26.97,
-        "conformal_lower_bound": 510.56,
-        "conformal_upper_bound": 538.46,
+        "dist_to_poc_pct": 26.14,
+        "conformal_lower_bound": 506.74,
+        "conformal_upper_bound": 535.42,
         "momentum_zscore": 0.0,
         "vol_scaled_exposure": 0.0,
         "realized_vol_annual": 0.2,
         "credit_divergence": false,
         "alpha158_factors": {
-          "KMID": 0.01306,
-          "KLEN": 0.01945,
-          "KMID2": 0.6713,
-          "KUP": 0.00243,
-          "KUP2": 0.12512,
-          "KLOW": 0.00396,
-          "KLOW2": 0.20357,
-          "KSFT": 0.01458,
-          "KSFT2": 0.74975,
-          "CORR5": -0.42235,
-          "CORR20": -0.10482,
-          "CORD5": -0.93055,
-          "CORD20": -0.02867,
-          "WVMA10": 0.0061,
-          "RSV5": 0.44338,
-          "RSV20": 0.45555,
-          "MAX10": 0.05079,
-          "MIN10": -0.0168,
-          "QTLU20": 0.01803,
-          "QTLD20": -0.01507,
-          "ROC5": -0.00858,
-          "ROC20": 0.01616,
-          "BETA10": -0.00379,
-          "RSQR20": 0.36763,
-          "RESI10": 0.00075
+          "KMID": -0.02262,
+          "KLEN": 0.02495,
+          "KMID2": -0.90677,
+          "KUP": 0.00086,
+          "KUP2": 0.03458,
+          "KLOW": 0.00146,
+          "KLOW2": 0.05865,
+          "KSFT": -0.02202,
+          "KSFT2": -0.8827,
+          "CORR5": -0.57415,
+          "CORR20": -0.24594,
+          "CORD5": -0.84892,
+          "CORD20": 0.32986,
+          "WVMA10": 0.00796,
+          "RSV5": 0.03316,
+          "RSV20": 0.44211,
+          "MAX10": 0.05771,
+          "MIN10": -0.0015,
+          "QTLU20": 0.02473,
+          "QTLD20": -0.01068,
+          "ROC5": -0.03404,
+          "ROC20": 0.04649,
+          "BETA10": -0.00293,
+          "RSQR20": 0.48245,
+          "RESI10": -0.01184
         },
         "insider_signals": {
           "ticker": "MSFT",
@@ -2263,17 +2249,17 @@
           "color": "#3B82F6"
         },
         "options_data": {
-          "spot_price": 524.51,
+          "spot_price": 521.08,
           "net_gex": 0.0,
           "gamma_regime": "Neutral Gamma",
-          "max_pain_strike": 524.51
+          "max_pain_strike": 521.08
         },
         "macro_blackout": {
           "is_blackout_active": false,
           "status": "NORMAL_LIQUIDITY",
-          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
           "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-          "minutes_to_event": 13643.8,
+          "minutes_to_event": 17986.5,
           "tier": "TIER_1_CRITICAL",
           "expected_spy_dispersion_pct": 0.81,
           "expected_qqq_dispersion_pct": 1.19,
@@ -2287,12 +2273,12 @@
           "risk_profile": "NORMAL"
         },
         "execution_latency": {
-          "total_nanoseconds": 33115074,
-          "total_microseconds": 33115.07,
-          "hmm_micros": 4.3,
-          "cusum_micros": 16.02,
-          "volume_profile_micros": 9741.12,
-          "momentum_micros": 146.44
+          "total_nanoseconds": 25172584,
+          "total_microseconds": 25172.58,
+          "hmm_micros": 4.32,
+          "cusum_micros": 15.76,
+          "volume_profile_micros": 5146.51,
+          "momentum_micros": 179.92
         }
       },
       "memory_risk_adjustment": {
@@ -2319,18 +2305,18 @@
       "meta_label_metrics": {
         "ticker": "MSFT",
         "approved": true,
-        "barrier_touch_prob": 0.9683,
-        "barrier_touch_prob_pct": 96.8,
+        "barrier_touch_prob": 0.7773,
+        "barrier_touch_prob_pct": 77.7,
         "verdict": "META_LABEL_APPROVED_HIGH_PROBABILITY_BARRIER_TOUCH",
         "meta_label": 1,
         "factors": {
-          "base_logit": 1.02,
+          "base_logit": 0.3,
           "trend_factor": 0.65,
           "rsi_factor": 0.6,
-          "micro_factor": 0.95,
+          "micro_factor": -0.5,
           "vol_factor": 0.2
         },
-        "reason": "Upper barrier probability 96.8% exceeds 50% threshold. Structural trend and microstructure support favorable risk/reward."
+        "reason": "Upper barrier probability 77.7% exceeds 50% threshold. Structural trend and microstructure support favorable risk/reward."
       },
       "meta_label_veto_triggered": false,
       "mahalanobis_veto_triggered": false,
@@ -2339,7 +2325,7 @@
         "ticker": "MSFT",
         "mahalanobis_distance": 1.045,
         "critical_threshold_99": 3.884,
-        "p_value": 0.95488,
+        "p_value": 0.95477,
         "degrees_of_freedom": 5,
         "is_anomaly": false,
         "regime_verdict": "NORMAL_REGIME_STATISTICALLY_STABLE",
@@ -2347,19 +2333,19 @@
       },
       "finjepa_metrics": {
         "finjepa_regime": "LIQUIDITY_DROUGHT_HAZARD",
-        "finjepa_displacement": 5.7852,
+        "finjepa_displacement": 5.9297,
         "finjepa_confidence": 0.4,
         "finjepa_veto": true
       },
       "finjepa_veto_triggered": true,
       "sde_tail_risk_metrics": {
-        "cvar99_floor": 118023.37,
-        "var99": 10742.73
+        "cvar99_floor": 118014.06,
+        "var99": 10733.22
       },
       "drl_policy_metrics": {
-        "drl_leverage_multiplier": 0.829
+        "drl_leverage_multiplier": 0.725
       },
-      "vpin": 0.5372,
+      "vpin": 0.5059,
       "toxicity_regime": "BALANCED_ORDER_FLOW"
     },
     "adaptive_execution": {
@@ -2369,14 +2355,14 @@
       "tp_atr_multiple": 3.12,
       "sl_atr_multiple": 1.25,
       "fast_harvest_target_pct": null,
-      "strategy_directive": "\ud83d\ude80 [TREND RUNNER MODE] Persistence H=0.57 | Net GEX=+0.0M. Enable 0.5N Turtle Pyramiding (+1N, +2N additions). Ratchet stop to Breakeven at +1N. Let runners ride with Chandelier trailing stop (P_max - 2.5N ATR).",
+      "strategy_directive": "\ud83d\ude80 [TREND RUNNER MODE] Persistence H=0.59 | Net GEX=+0.0M. Enable 0.5N Turtle Pyramiding (+1N, +2N additions). Ratchet stop to Breakeven at +1N. Let runners ride with Chandelier trailing stop (P_max - 2.5N ATR).",
       "microstructure_signals": {
-        "hurst_exponent": 0.568,
+        "hurst_exponent": 0.594,
         "hurst_regime": "TRENDING_PERSISTENT",
         "net_gex_millions": 0.0,
-        "gamma_flip_level": 524.51,
-        "call_wall_resistance": 370.0,
-        "put_wall_support": 370.0,
+        "gamma_flip_level": 521.08,
+        "call_wall_resistance": 365.0,
+        "put_wall_support": 365.0,
         "has_real_options_data": true
       },
       "genetic_genome_source": {
@@ -2385,113 +2371,114 @@
         "sentiment_gate": 0.2,
         "rsi_period": 14
       },
-      "timestamp": "2026-10-26T07:36:36.616388+00:00"
+      "timestamp": "2026-10-23T07:13:58.143829+00:00"
     },
     "execution_mode": "RUNNER_PYRAMID",
     "pyramiding_enabled": true,
     "tri_force_fusion": {
       "ticker": "MSFT",
-      "p_trade": 0.7642,
-      "trade_conviction_pct": 76.42,
-      "composite_raw_signal": 0.3919,
+      "p_trade": 0.2295,
+      "trade_conviction_pct": 22.95,
+      "composite_raw_signal": -0.4038,
       "regime": "HIGH_VOLATILITY_MICROSTRUCTURE_DOMINANT",
       "weights": {
-        "w_microstructure": 0.7147,
+        "w_microstructure": 0.7146,
         "w_statarb": 0.1427,
         "w_trend": 0.1427
       },
       "signals": {
-        "s_microstructure": 0.525,
-        "s_statarb": 0.117,
+        "s_microstructure": -0.618,
+        "s_statarb": 0.265,
         "s_trend": 0.0
       },
       "arar_details": {
-        "arar_score": 4353229.69,
-        "arar_normalized": 1.0,
-        "obi": 0.75,
-        "cvd": 74705048.8,
-        "delta_price_pct": 0.658,
+        "arar_score": 0.0,
+        "arar_normalized": 0.0,
+        "obi": -0.883,
+        "cvd": 81040779.1,
+        "delta_price_pct": -2.227,
         "is_absorption_active": false,
-        "absorption_verdict": "BULLISH_ORDER_FLOW",
-        "microstructure_signal": 0.525
+        "absorption_verdict": "BEARISH_ORDER_OVERHANG",
+        "microstructure_signal": -0.618
       },
       "telemetry": {
-        "hurst_exponent": 0.519,
-        "realized_vol_pct": 33.06,
-        "trend_adx": 6.5,
+        "hurst_exponent": 0.518,
+        "realized_vol_pct": 33.05,
+        "trend_adx": 5.4,
         "vix_level": 16.5
       },
-      "recommendation": "SUPER_MAJORITY_INSTITUTIONAL_BUY"
+      "recommendation": "STRONG_SELL_DEFENSIVE_CASH"
     },
-    "p_trade": 0.7642,
+    "p_trade": 0.2295,
     "tree_of_thought_deliberation": {
       "status": "SUCCESS",
       "evaluated_tree": [
         {
           "id": "BRANCH_1_BULLISH_EXPANSION",
           "label": "Bullish Trend Expansion",
-          "target_price": 546.59,
-          "stop_price": 513.47,
+          "target_price": 543.84,
+          "stop_price": 509.7,
           "expected_drift": 0.002,
           "volatility_multiplier": 1.0,
-          "prior_probability": 0.3299,
+          "prior_probability": 0.202,
           "is_pruned": false
         },
         {
           "id": "BRANCH_2_MEAN_REVERSION",
           "label": "Consolidation Dip & Rebound",
-          "target_price": 537.76,
-          "stop_price": 515.68,
+          "target_price": 534.74,
+          "stop_price": 511.98,
           "expected_drift": 0.0005,
           "volatility_multiplier": 0.8,
-          "prior_probability": 0.567,
+          "prior_probability": 0.5556,
           "is_pruned": false
         },
         {
           "id": "BRANCH_3_VOLATILITY_BREAKDOWN",
           "label": "Liquidity Flush & Breakdown",
-          "target_price": 496.91,
-          "stop_price": 535.55,
+          "target_price": 492.63,
+          "stop_price": 532.46,
           "expected_drift": -0.003,
           "volatility_multiplier": 1.8,
-          "prior_probability": 0.1031,
-          "is_pruned": true
+          "prior_probability": 0.2424,
+          "is_pruned": false
         }
       ],
       "rollout_results": {
         "dominant_branch": "BRANCH_2_MEAN_REVERSION",
         "dominant_label": "Consolidation Dip & Rebound",
-        "composite_tp_probability": 0.3951,
-        "composite_sl_probability": 0.4399,
+        "composite_tp_probability": 0.4786,
+        "composite_sl_probability": 0.5006,
         "branch_simulations": {
           "BRANCH_1_BULLISH_EXPANSION": {
             "status": "ACTIVE",
             "tp_hit_rate": 0.43,
-            "sl_hit_rate": 0.4167,
+            "sl_hit_rate": 0.4233,
             "expected_pnl_multiple": 2.0
           },
           "BRANCH_2_MEAN_REVERSION": {
             "status": "ACTIVE",
-            "tp_hit_rate": 0.4467,
+            "tp_hit_rate": 0.4433,
             "sl_hit_rate": 0.5333,
             "expected_pnl_multiple": 1.5
           },
           "BRANCH_3_VOLATILITY_BREAKDOWN": {
-            "status": "PRUNED",
-            "tp_hit_rate": 0.0,
-            "sl_hit_rate": 0.0
+            "status": "ACTIVE",
+            "tp_hit_rate": 0.6,
+            "sl_hit_rate": 0.49,
+            "expected_pnl_multiple": -284500.0
           }
         }
       },
       "recommended_action": "DEFENSIVE_HOLD"
     },
     "wavelet_sifter": {
-      "noise_d1_pct": 45.87,
-      "swing_d2_pct": 18.64,
-      "cyclical_d3_pct": 14.32,
-      "macro_a3_pct": 21.17,
-      "shannon_entropy": 1.8432,
-      "normalized_entropy": 0.9216,
+      "noise_d1_pct": 46.45,
+      "swing_d2_pct": 17.77,
+      "cyclical_d3_pct": 13.62,
+      "macro_a3_pct": 22.15,
+      "shannon_entropy": 1.8302,
+      "normalized_entropy": 0.9151,
       "regime": "HIGH_ENTROPY_CHOP_VETO",
       "veto_active": true,
       "conviction_multiplier": 0.0,
@@ -2499,9 +2486,9 @@
       "sample_bars": 64
     },
     "finjepa_physics": {
-      "latent_displacement": 5.7852,
-      "latent_cosine_alignment": 0.4803,
-      "latent_dispersion": 1.0314,
+      "latent_displacement": 5.9297,
+      "latent_cosine_alignment": 0.4522,
+      "latent_dispersion": 1.0271,
       "regime": "LIQUIDITY_DROUGHT_HAZARD",
       "risk_verdict": "DEFENSIVE_HOLD",
       "physics_confidence": 0.4,
@@ -2517,15 +2504,15 @@
       "tail_risk_probability": 0.1,
       "conviction_tier": "TIER_3_MONITOR",
       "immediate_action": "IGNORE_NOISE",
-      "latency_ms": 0.044,
-      "timestamp": "2026-10-26T07:36:36.692512+00:00"
+      "latency_ms": 0.029,
+      "timestamp": "2026-10-23T07:13:58.203579+00:00"
     },
     "soros_reflexivity": {
-      "price_velocity": -0.0079,
-      "price_acceleration": -0.0037,
+      "price_velocity": -0.0101,
+      "price_acceleration": -0.0064,
       "sentiment_velocity": 0.0,
       "sentiment_acceleration": 0.0,
-      "soros_metric_r": -0.0014,
+      "soros_metric_r": -0.003,
       "regime": "TRANSITIONAL_EQUILIBRIUM",
       "conviction_boost": 1.0,
       "cro_veto": false
@@ -2546,183 +2533,22 @@
     }
   },
   "NVDA": {
-    "timestamp": "2026-10-26T07:36:18.710812+00:00",
+    "timestamp": "2026-10-25T20:04:04.323615+00:00",
     "ticker": "NVDA",
-    "spot_price": 210.96,
-    "final_resolution": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-    "action_code": "VETO",
-    "verdict": "VETO",
-    "consensus_conviction_pct": 62.2,
-    "conviction": 62.2,
-    "approved_leverage": 0.0,
-    "kelly_allocation_pct": 0.0,
-    "tp1_target": 225.91,
-    "tp2_target": 237.87,
-    "stop_loss_target": 205.16,
-    "atr_14": 5.98,
-    "atr_pct": 2.83,
-    "quantum_telemetry": {
-      "ticker": "NVDA",
-      "spot_price": 210.96,
-      "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
-      "risk_multiplier": 1.0,
-      "hmm_regime": "Bull",
-      "crisis_probability": 0.1,
-      "cusum_alarm": false,
-      "cusum_direction": "NONE",
-      "poc_price": 185.69,
-      "vah_price": 213.71,
-      "val_price": 174.16,
-      "dist_to_poc_pct": 13.61,
-      "conformal_lower_bound": 203.26,
-      "conformal_upper_bound": 218.66,
-      "momentum_zscore": 0.0,
-      "vol_scaled_exposure": 0.0,
-      "realized_vol_annual": 0.2,
-      "credit_divergence": false,
-      "alpha158_factors": {
-        "KMID": -0.00014,
-        "KLEN": 0.01739,
-        "KMID2": -0.00817,
-        "KUP": 0.01355,
-        "KUP2": 0.77929,
-        "KLOW": 0.0037,
-        "KLOW2": 0.21254,
-        "KSFT": -0.01,
-        "KSFT2": -0.57493,
-        "CORR5": -0.23426,
-        "CORR20": 0.07692,
-        "CORD5": -0.43544,
-        "CORD20": -0.1774,
-        "WVMA10": 0.01004,
-        "RSV5": 0.06495,
-        "RSV20": 0.0235,
-        "MAX10": 0.08485,
-        "MIN10": -0.0037,
-        "QTLU20": 0.09726,
-        "QTLD20": 0.02847,
-        "ROC5": -0.0148,
-        "ROC20": -0.06269,
-        "BETA10": -0.00714,
-        "RSQR20": 0.6068,
-        "RESI10": -0.0042
-      },
-      "insider_signals": {
-        "ticker": "NVDA",
-        "conviction_score": 98.0,
-        "signal": "\ud83d\udfe2 STRONG_INSIDER_ACCUMULATION",
-        "cluster_buy_detected": true,
-        "distinct_buyers_count": 5,
-        "total_buy_usd": 12382496.28,
-        "total_sale_usd": 0,
-        "net_purchased_usd": 12382496.28,
-        "buy_count": 5,
-        "sale_count": 0,
-        "transactions": [
-          {
-            "ticker": "NVDA",
-            "filing_date": "2026-10-04",
-            "officer_name": "Executive Officer D.",
-            "officer_title": "Executive VP",
-            "transaction_type": "P - Purchase (Open Market)",
-            "shares": 2500,
-            "price": 117.7,
-            "value_usd": 294256.83,
-            "is_purchase": true
-          },
-          {
-            "ticker": "NVDA",
-            "filing_date": "2026-09-06",
-            "officer_name": "Executive Officer A.",
-            "officer_title": "Chief Executive Officer (CEO)",
-            "transaction_type": "P - Purchase (Open Market)",
-            "shares": 15000,
-            "price": 345.41,
-            "value_usd": 5181189.59,
-            "is_purchase": true
-          },
-          {
-            "ticker": "NVDA",
-            "filing_date": "2026-08-11",
-            "officer_name": "Executive Officer E.",
-            "officer_title": "Chief Financial Officer (CFO)",
-            "transaction_type": "P - Purchase (Open Market)",
-            "shares": 5000,
-            "price": 108.17,
-            "value_usd": 540842.6,
-            "is_purchase": true
-          },
-          {
-            "ticker": "NVDA",
-            "filing_date": "2026-08-06",
-            "officer_name": "Executive Officer B.",
-            "officer_title": "10% Owner",
-            "transaction_type": "P - Purchase (Open Market)",
-            "shares": 5000,
-            "price": 257.53,
-            "value_usd": 1287625.61,
-            "is_purchase": true
-          },
-          {
-            "ticker": "NVDA",
-            "filing_date": "2026-08-04",
-            "officer_name": "Executive Officer C.",
-            "officer_title": "Executive VP",
-            "transaction_type": "P - Purchase (Open Market)",
-            "shares": 15000,
-            "price": 338.57,
-            "value_usd": 5078581.65,
-            "is_purchase": true
-          }
-        ],
-        "summary": "Aggressive C-Suite Insider Buying: $12,382,496 purchased across 5 officers.",
-        "timestamp": "2026-10-26T07:36:11.110842+00:00"
-      },
-      "sec_catalysts": [],
-      "social_buzz": {
-        "ticker": "NVDA",
-        "mention_volume_24h": 1450,
-        "baseline_7d_mentions": 620,
-        "mention_velocity_ratio": 2.34,
-        "bullish_sentiment_pct": 74.5,
-        "bearish_sentiment_pct": 25.5,
-        "bull_bear_ratio": 2.92,
-        "regime": "\u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)",
-        "color": "#3B82F6"
-      },
-      "options_data": {
-        "spot_price": 210.96,
-        "net_gex": 0.0,
-        "gamma_regime": "Neutral Gamma",
-        "max_pain_strike": 210.96
-      },
-      "macro_blackout": {
-        "is_blackout_active": false,
-        "status": "NORMAL_LIQUIDITY",
-        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
-        "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-        "minutes_to_event": 13643.8,
-        "tier": "TIER_1_CRITICAL",
-        "expected_spy_dispersion_pct": 0.81,
-        "expected_qqq_dispersion_pct": 1.19,
-        "stop_tightening_factor": 1.0,
-        "max_kelly_cap_pct": 15.0,
-        "min_cash_reserve_pct": 20.0
-      },
-      "biotech_radar": {
-        "ticker": "NVDA",
-        "is_biotech": false,
-        "risk_profile": "NORMAL"
-      },
-      "execution_latency": {
-        "total_nanoseconds": 560273113,
-        "total_microseconds": 560273.11,
-        "hmm_micros": 188457.25,
-        "cusum_micros": 14.03,
-        "volume_profile_micros": 9619.95,
-        "momentum_micros": 176.32
-      }
-    },
+    "spot_price": 105.0,
+    "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+    "action_code": "EXECUTE_BUY",
+    "verdict": "EXECUTE_BUY",
+    "consensus_conviction_pct": 78.5,
+    "conviction": 78.5,
+    "approved_leverage": 1.25,
+    "kelly_allocation_pct": 8.0,
+    "tp1_target": 115.0,
+    "tp2_target": 125.0,
+    "stop_loss_target": 95.0,
+    "atr_14": 0.0,
+    "atr_pct": 0.0,
+    "quantum_telemetry": {},
     "agent_testimonies": [
       {
         "agent_name": "Technical Momentum Specialist",
@@ -2735,34 +2561,34 @@
           "Stoikov (2018) / Easley-de Prado-O'Hara (2012) ARAR Absorption & Order Book Imbalance",
           "Amazon Chronos-2: Probabilistic Time-Series Foundation Corridors"
         ],
-        "vote": "BUY",
-        "conviction_score": 70.0,
+        "vote": "HOLD",
+        "conviction_score": 44.0,
         "key_metrics": {
-          "estimated_rsi": 22.0,
-          "sma_200": 203.67,
-          "ma_21": 225.52,
-          "return_5d_pct": -1.48,
-          "trend_status": "OVERSOLD_MEAN_REVERSION",
-          "acpm_calibrated_prob": 0.5195,
-          "kmid": -0.00014,
-          "klen": 0.01739,
-          "corr5": -0.23426,
-          "wvma10": 0.01004,
+          "estimated_rsi": 21.7,
+          "sma_200": 203.45,
+          "ma_21": 225.55,
+          "return_5d_pct": -1.45,
+          "trend_status": "ORB_BEARISH_BREAKDOWN",
+          "acpm_calibrated_prob": 0.5344,
+          "kmid": 0.00012,
+          "klen": 0.01692,
+          "corr5": -0.63158,
+          "wvma10": 0.0093,
           "arar_score": 0.0,
           "arar_normalized": 0.0,
-          "obi": -0.575,
-          "cvd": 633066243.7,
+          "obi": -0.552,
+          "cvd": 366399484732.2,
           "is_absorption_active": false,
           "p10_floor": 198.77,
           "p90_ceiling": 232.07,
-          "upside_to_downside_ratio": 1.73,
+          "upside_to_downside_ratio": 1270700.0,
           "chronos_corridors": {
             "p10_floor": 198.77,
             "p90_ceiling": 232.07,
-            "upside_to_downside_ratio": 1.73
+            "upside_to_downside_ratio": 1270700.0
           }
         },
-        "thesis": "Asset RSI is oversold (22.0 < 35), signaling potential mean-reversion opportunity."
+        "thesis": "Asset is trading below its 200-day SMA ($203.45), signaling prevailing macro downtrend. \u26a0\ufe0f Below 15-Min Opening Low ($209.31); downward momentum dominant. \ud83d\udd2e GPU Chronos Corridor favorable: Near P10 floor ($198.77) with 1270700.0x asymmetric upside to P90 ceiling ($232.07)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -2773,17 +2599,17 @@
           "Paper 06: Multi-Agent Coordination Primacy (CPH Survey 2025/2026)",
           "Paper 21: Bifet & Gavald\u00e0 (2007) ADWIN Adaptive Concept Drift Tracking"
         ],
-        "vote": "HOLD",
-        "conviction_score": 57.0,
+        "vote": "BUY",
+        "conviction_score": 95.0,
         "key_metrics": {
-          "finbert_polarity": 0.112,
-          "event_type": "GENERAL_MARKET_FLOW",
-          "urgency_score": 0.2,
-          "is_material": false,
-          "headlines_analyzed": 117,
-          "pead_signal": "IN_LINE_DRIFT",
-          "sue_score": 0.38,
-          "eps_surprise_pct": 6.16,
+          "finbert_polarity": 0.324,
+          "event_type": "EARNINGS_SURPRISE_UP",
+          "urgency_score": 0.75,
+          "is_material": true,
+          "headlines_analyzed": 1,
+          "pead_signal": "NEUTRAL_DRIFT",
+          "sue_score": 0.0,
+          "eps_surprise_pct": 0.0,
           "sec_8k_count": 0,
           "insider_score": 98.0,
           "insider_cluster_buy": true,
@@ -2794,7 +2620,7 @@
           "swift_urgency": "NORMAL",
           "swift_action": ""
         },
-        "thesis": "Balanced sentiment environment (+0.11 polarity across 117 headlines; Event: GENERAL_MARKET_FLOW). \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 98.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
+        "thesis": "\ud83d\ude80 HIGH-IMPACT CATALYST DETECTED: EARNINGS_SURPRISE_UP (Urgency: 75.0%, Polarity: +0.32 across 1 headlines). \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 98.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -2817,33 +2643,33 @@
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "NVDA",
-        "spot_price": 210.96,
+        "spot_price": 105.0,
         "day_high": 213.85,
         "day_low": 210.18,
         "change_pct": -0.59,
-        "range_position_pct": 21.3,
-        "rvol": 0.76,
-        "momentum_velocity_pct": -2.82,
-        "conviction_score": 60.0,
+        "range_position_pct": 0.0,
+        "rvol": 0.94,
+        "momentum_velocity_pct": -51.63,
+        "conviction_score": 50.0,
         "vote": "HOLD",
-        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 21%, RVOL 0.76x, 5D Vel -2.8%)",
+        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 0%, RVOL 0.94x, 5D Vel -51.6%)",
         "fvg_analysis": {
           "has_active_fvg": true,
           "is_mitigating": false,
           "active_bullish_fvg": null,
           "active_bearish_fvg": {
             "top": 217.66,
-            "bottom": 213.85,
-            "consequent_encroachment": 215.76,
+            "bottom": 213.79,
+            "consequent_encroachment": 215.72,
             "date": "2026-10-22"
           },
-          "tactical_limit_entry": 210.96,
-          "invalidation_stop": 204.63,
+          "tactical_limit_entry": 105.0,
+          "invalidation_stop": 101.85,
           "summary": "No active bullish FVG in 30-day window"
         },
-        "tactical_limit_entry": 210.96,
-        "invalidation_stop": 204.63,
-        "timestamp": "2026-10-26T07:36:13.290703+00:00"
+        "tactical_limit_entry": 105.0,
+        "invalidation_stop": 101.85,
+        "timestamp": "2026-10-25T20:04:04.215399+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -2853,291 +2679,30 @@
           "Paper 10: Bailey & L\u00f3pez de Prado (2014) Deflated Sharpe Ratio (DSR)",
           "Paper 16: Page (1954) CUSUM Change-Point Surveillance"
         ],
-        "vote": "CLEAR",
-        "severity_score": 0.0,
-        "conviction_score": 100.0,
-        "risk_factors": [],
+        "vote": "CAUTION",
+        "severity_score": 40.0,
+        "conviction_score": 60.0,
+        "risk_factors": [
+          "Severe breakdown: Trading -48.4% below 200-day SMA ($203.45) \u2014 falling knife regime."
+        ],
         "key_metrics": {
-          "vulnerabilities_detected": 0,
-          "severity_score": 0.0,
-          "tail_risk_status": "LOW"
+          "vulnerabilities_detected": 1,
+          "severity_score": 40.0,
+          "tail_risk_status": "MODERATE"
         },
-        "thesis": "RED-TEAM CLEAR: No critical failure vectors, tail risks, or overextension anomalies detected."
+        "thesis": "RED-TEAM CAUTION: Moderate downside risks identified (1 risk factors). Strict position sizing and tight stops advised."
       }
     ],
     "cro_signoff": {
-      "cro_name": "Chief Risk Officer (Arbitrator)",
-      "academic_grounding": [
-        "Paper 18: Grossman & Zhou (1993) Optimal Drawdown Constraint",
-        "Paper 23: Busseti, Ryu, Boyd (Stanford 2016) Risk-Constrained Kelly Gambling",
-        "Paper 11: L\u00f3pez de Prado (2018) Triple-Barrier ATR Corridors",
-        "Paper 16: Page (1954) CUSUM Change-Point Surveillance",
-        "Paper 17: RiskMetrics (1996) EWMA Dynamic Correlation Monitor"
-      ],
-      "final_resolution": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
-      "action_code": "VETO",
-      "buy_votes": 1,
-      "total_specialist_votes": 5,
-      "consensus_conviction_pct": 62.2,
-      "unweighted_conviction_pct": 62.2,
-      "weighted_conviction_pct": 62.2,
-      "approved_leverage": 0.0,
-      "kelly_allocation_pct": 0.0,
-      "kelly_details": {
-        "full_kelly_pct": 18.29,
-        "fractional_kelly_pct": 4.4,
-        "cf_haircut_multiplier": 0.9627,
-        "edge": 0.32,
-        "kelly_fraction": 0.25,
-        "win_rate": 0.48,
-        "payoff_ratio": 1.75,
-        "skewness": 0.24817205400466513,
-        "excess_kurtosis": 0.5962333362182566,
-        "status": "POSITIVE_EXPECTANCY"
-      },
-      "atr_14": 5.98,
-      "atr_pct": 2.83,
-      "tp1_target": 225.91,
-      "tp2_target": 237.87,
-      "stop_loss_target": 205.16,
-      "portfolio_diversity_grade": "A",
-      "conformal_lower_bound": 203.26,
-      "conformal_upper_bound": 218.66,
-      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 62.2%). ATR14 is $5.98 (2.8% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: FinJEPA Physics Hazard: LIQUIDITY_DROUGHT_HAZARD (High latent dispersion anomaly).",
-      "vix_level": 16.5,
-      "vix_veto_triggered": false,
-      "red_team_veto_triggered": false,
-      "vpin_veto_triggered": false,
-      "cusum_veto_triggered": false,
-      "hmm_veto_triggered": false,
-      "quantum_telemetry": {
-        "ticker": "NVDA",
-        "spot_price": 210.96,
-        "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
-        "risk_multiplier": 1.0,
-        "hmm_regime": "Bull",
-        "crisis_probability": 0.1,
-        "cusum_alarm": false,
-        "cusum_direction": "NONE",
-        "poc_price": 185.69,
-        "vah_price": 213.71,
-        "val_price": 174.16,
-        "dist_to_poc_pct": 13.61,
-        "conformal_lower_bound": 203.26,
-        "conformal_upper_bound": 218.66,
-        "momentum_zscore": 0.0,
-        "vol_scaled_exposure": 0.0,
-        "realized_vol_annual": 0.2,
-        "credit_divergence": false,
-        "alpha158_factors": {
-          "KMID": -0.00014,
-          "KLEN": 0.01739,
-          "KMID2": -0.00817,
-          "KUP": 0.01355,
-          "KUP2": 0.77929,
-          "KLOW": 0.0037,
-          "KLOW2": 0.21254,
-          "KSFT": -0.01,
-          "KSFT2": -0.57493,
-          "CORR5": -0.23426,
-          "CORR20": 0.07692,
-          "CORD5": -0.43544,
-          "CORD20": -0.1774,
-          "WVMA10": 0.01004,
-          "RSV5": 0.06495,
-          "RSV20": 0.0235,
-          "MAX10": 0.08485,
-          "MIN10": -0.0037,
-          "QTLU20": 0.09726,
-          "QTLD20": 0.02847,
-          "ROC5": -0.0148,
-          "ROC20": -0.06269,
-          "BETA10": -0.00714,
-          "RSQR20": 0.6068,
-          "RESI10": -0.0042
-        },
-        "insider_signals": {
-          "ticker": "NVDA",
-          "conviction_score": 98.0,
-          "signal": "\ud83d\udfe2 STRONG_INSIDER_ACCUMULATION",
-          "cluster_buy_detected": true,
-          "distinct_buyers_count": 5,
-          "total_buy_usd": 12382496.28,
-          "total_sale_usd": 0,
-          "net_purchased_usd": 12382496.28,
-          "buy_count": 5,
-          "sale_count": 0,
-          "transactions": [
-            {
-              "ticker": "NVDA",
-              "filing_date": "2026-10-04",
-              "officer_name": "Executive Officer D.",
-              "officer_title": "Executive VP",
-              "transaction_type": "P - Purchase (Open Market)",
-              "shares": 2500,
-              "price": 117.7,
-              "value_usd": 294256.83,
-              "is_purchase": true
-            },
-            {
-              "ticker": "NVDA",
-              "filing_date": "2026-09-06",
-              "officer_name": "Executive Officer A.",
-              "officer_title": "Chief Executive Officer (CEO)",
-              "transaction_type": "P - Purchase (Open Market)",
-              "shares": 15000,
-              "price": 345.41,
-              "value_usd": 5181189.59,
-              "is_purchase": true
-            },
-            {
-              "ticker": "NVDA",
-              "filing_date": "2026-08-11",
-              "officer_name": "Executive Officer E.",
-              "officer_title": "Chief Financial Officer (CFO)",
-              "transaction_type": "P - Purchase (Open Market)",
-              "shares": 5000,
-              "price": 108.17,
-              "value_usd": 540842.6,
-              "is_purchase": true
-            },
-            {
-              "ticker": "NVDA",
-              "filing_date": "2026-08-06",
-              "officer_name": "Executive Officer B.",
-              "officer_title": "10% Owner",
-              "transaction_type": "P - Purchase (Open Market)",
-              "shares": 5000,
-              "price": 257.53,
-              "value_usd": 1287625.61,
-              "is_purchase": true
-            },
-            {
-              "ticker": "NVDA",
-              "filing_date": "2026-08-04",
-              "officer_name": "Executive Officer C.",
-              "officer_title": "Executive VP",
-              "transaction_type": "P - Purchase (Open Market)",
-              "shares": 15000,
-              "price": 338.57,
-              "value_usd": 5078581.65,
-              "is_purchase": true
-            }
-          ],
-          "summary": "Aggressive C-Suite Insider Buying: $12,382,496 purchased across 5 officers.",
-          "timestamp": "2026-10-26T07:36:11.110842+00:00"
-        },
-        "sec_catalysts": [],
-        "social_buzz": {
-          "ticker": "NVDA",
-          "mention_volume_24h": 1450,
-          "baseline_7d_mentions": 620,
-          "mention_velocity_ratio": 2.34,
-          "bullish_sentiment_pct": 74.5,
-          "bearish_sentiment_pct": 25.5,
-          "bull_bear_ratio": 2.92,
-          "regime": "\u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)",
-          "color": "#3B82F6"
-        },
-        "options_data": {
-          "spot_price": 210.96,
-          "net_gex": 0.0,
-          "gamma_regime": "Neutral Gamma",
-          "max_pain_strike": 210.96
-        },
-        "macro_blackout": {
-          "is_blackout_active": false,
-          "status": "NORMAL_LIQUIDITY",
-          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
-          "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-          "minutes_to_event": 13643.8,
-          "tier": "TIER_1_CRITICAL",
-          "expected_spy_dispersion_pct": 0.81,
-          "expected_qqq_dispersion_pct": 1.19,
-          "stop_tightening_factor": 1.0,
-          "max_kelly_cap_pct": 15.0,
-          "min_cash_reserve_pct": 20.0
-        },
-        "biotech_radar": {
-          "ticker": "NVDA",
-          "is_biotech": false,
-          "risk_profile": "NORMAL"
-        },
-        "execution_latency": {
-          "total_nanoseconds": 560273113,
-          "total_microseconds": 560273.11,
-          "hmm_micros": 188457.25,
-          "cusum_micros": 14.03,
-          "volume_profile_micros": 9619.95,
-          "momentum_micros": 176.32
-        }
-      },
-      "memory_risk_adjustment": {
-        "ticker": "NVDA",
-        "caution_level": "NORMAL",
-        "conviction_delta": 0.0,
-        "kelly_scale": 1.0,
-        "require_supermajority": false,
-        "reasons": [],
-        "reputation": {
-          "ticker": "NVDA",
-          "total_trades": 0,
-          "wins": 0,
-          "losses": 0,
-          "win_rate": 0.5,
-          "total_pnl_dollars": 0.0,
-          "last_outcome": "NONE",
-          "consecutive_losses": 0,
-          "last_exit_date": ""
-        }
-      },
-      "require_supermajority": false,
-      "conformal_metrics": {},
-      "meta_label_metrics": {
-        "ticker": "NVDA",
-        "approved": true,
-        "barrier_touch_prob": 0.8479,
-        "barrier_touch_prob_pct": 84.8,
-        "verdict": "META_LABEL_APPROVED_HIGH_PROBABILITY_BARRIER_TOUCH",
-        "meta_label": 1,
-        "factors": {
-          "base_logit": 0.813,
-          "trend_factor": 0.65,
-          "rsi_factor": 0.4,
-          "micro_factor": -0.345,
-          "vol_factor": 0.2
-        },
-        "reason": "Upper barrier probability 84.8% exceeds 50% threshold. Structural trend and microstructure support favorable risk/reward."
-      },
-      "meta_label_veto_triggered": false,
-      "mahalanobis_veto_triggered": false,
-      "mahalanobis_metrics": {
-        "status": "SUCCESS",
-        "ticker": "NVDA",
-        "mahalanobis_distance": 2.745,
-        "critical_threshold_99": 3.884,
-        "p_value": 0.1838,
-        "degrees_of_freedom": 5,
-        "is_anomaly": false,
-        "regime_verdict": "NORMAL_REGIME_STATISTICALLY_STABLE",
-        "action_recommendation": "STANDARD_EXECUTION"
-      },
-      "finjepa_metrics": {
-        "finjepa_regime": "LIQUIDITY_DROUGHT_HAZARD",
-        "finjepa_displacement": 6.7339,
-        "finjepa_confidence": 0.4,
-        "finjepa_veto": true
-      },
-      "finjepa_veto_triggered": true,
-      "sde_tail_risk_metrics": {
-        "cvar99_floor": 118023.37,
-        "var99": 10742.73
-      },
-      "drl_policy_metrics": {
-        "drl_leverage_multiplier": 0.829
-      },
-      "vpin": 0.3425,
-      "toxicity_regime": "LOW_TOXICITY_BENIGN"
+      "action_code": "EXECUTE_BUY",
+      "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
+      "consensus_conviction_pct": 78.5,
+      "approved_leverage": 1.25,
+      "kelly_allocation_pct": 8.0,
+      "dynamic_take_profit_tp1": 115.0,
+      "dynamic_take_profit_tp2": 125.0,
+      "dynamic_stop_loss": 95.0,
+      "agent_reports": []
     },
     "adaptive_execution": {
       "ticker": "NVDA",
@@ -3146,15 +2711,15 @@
       "tp_atr_multiple": 3.0,
       "sl_atr_multiple": 1.72,
       "fast_harvest_target_pct": null,
-      "strategy_directive": "\ud83d\ude80 [TREND RUNNER MODE] Persistence H=0.60 | Net GEX=+0.0M. Enable 0.5N Turtle Pyramiding (+1N, +2N additions). Ratchet stop to Breakeven at +1N. Let runners ride with Chandelier trailing stop (P_max - 2.5N ATR).",
+      "strategy_directive": "\ud83d\ude80 [TREND RUNNER MODE] Persistence H=0.59 | Net GEX=+0.0M. Enable 0.5N Turtle Pyramiding (+1N, +2N additions). Ratchet stop to Breakeven at +1N. Let runners ride with Chandelier trailing stop (P_max - 2.5N ATR).",
       "microstructure_signals": {
-        "hurst_exponent": 0.602,
+        "hurst_exponent": 0.595,
         "hurst_regime": "TRENDING_PERSISTENT",
         "net_gex_millions": 0.0,
-        "gamma_flip_level": 210.96,
-        "call_wall_resistance": 150.0,
-        "put_wall_support": 150.0,
-        "has_real_options_data": true
+        "gamma_flip_level": 105.0,
+        "call_wall_resistance": 113.75,
+        "put_wall_support": 111.88,
+        "has_real_options_data": false
       },
       "genetic_genome_source": {
         "genome_id": "GEN_94550",
@@ -3166,53 +2731,53 @@
         "sl_atr_multiple": 1.72,
         "sentiment_gate": 0.23
       },
-      "timestamp": "2026-10-26T07:36:19.088899+00:00"
+      "timestamp": "2026-10-25T20:04:06.146024+00:00"
     },
     "execution_mode": "RUNNER_PYRAMID",
     "pyramiding_enabled": true,
     "tri_force_fusion": {
       "ticker": "NVDA",
-      "p_trade": 0.4998,
-      "trade_conviction_pct": 49.98,
-      "composite_raw_signal": -0.0002,
-      "regime": "MOMENTUM_TREND_DOMINANT",
+      "p_trade": 0.2399,
+      "trade_conviction_pct": 23.99,
+      "composite_raw_signal": -0.3845,
+      "regime": "HIGH_VOLATILITY_MICROSTRUCTURE_DOMINANT",
       "weights": {
-        "w_microstructure": 0.0006,
+        "w_microstructure": 0.996,
         "w_statarb": 0.0,
-        "w_trend": 0.9994
+        "w_trend": 0.004
       },
       "signals": {
-        "s_microstructure": -0.402,
+        "s_microstructure": -0.386,
         "s_statarb": 0.729,
         "s_trend": 0.0
       },
       "arar_details": {
         "arar_score": 0.0,
         "arar_normalized": 0.0,
-        "obi": -0.575,
-        "cvd": 633066243.7,
+        "obi": -0.552,
+        "cvd": 366399484732.2,
         "delta_price_pct": -0.589,
         "is_absorption_active": false,
         "absorption_verdict": "BEARISH_ORDER_OVERHANG",
-        "microstructure_signal": -0.402
+        "microstructure_signal": -0.386
       },
       "telemetry": {
-        "hurst_exponent": 0.312,
-        "realized_vol_pct": 37.69,
+        "hurst_exponent": 0.372,
+        "realized_vol_pct": 102.59,
         "trend_adx": 60.0,
         "vix_level": 16.5
       },
-      "recommendation": "NEUTRAL_HOLD_WAIT_FOR_ABSORPTION"
+      "recommendation": "STRONG_SELL_DEFENSIVE_CASH"
     },
-    "p_trade": 0.4998,
+    "p_trade": 0.2399,
     "tree_of_thought_deliberation": {
       "status": "SUCCESS",
       "evaluated_tree": [
         {
           "id": "BRANCH_1_BULLISH_EXPANSION",
           "label": "Bullish Trend Expansion",
-          "target_price": 222.92,
-          "stop_price": 204.98,
+          "target_price": 109.2,
+          "stop_price": 102.9,
           "expected_drift": 0.002,
           "volatility_multiplier": 1.0,
           "prior_probability": 0.3299,
@@ -3221,8 +2786,8 @@
         {
           "id": "BRANCH_2_MEAN_REVERSION",
           "label": "Consolidation Dip & Rebound",
-          "target_price": 218.14,
-          "stop_price": 206.18,
+          "target_price": 107.52,
+          "stop_price": 103.32,
           "expected_drift": 0.0005,
           "volatility_multiplier": 0.8,
           "prior_probability": 0.567,
@@ -3231,8 +2796,8 @@
         {
           "id": "BRANCH_3_VOLATILITY_BREAKDOWN",
           "label": "Liquidity Flush & Breakdown",
-          "target_price": 196.01,
-          "stop_price": 216.94,
+          "target_price": 99.75,
+          "stop_price": 107.1,
           "expected_drift": -0.003,
           "volatility_multiplier": 1.8,
           "prior_probability": 0.1031,
@@ -3242,19 +2807,19 @@
       "rollout_results": {
         "dominant_branch": "BRANCH_2_MEAN_REVERSION",
         "dominant_label": "Consolidation Dip & Rebound",
-        "composite_tp_probability": 0.3814,
-        "composite_sl_probability": 0.4557,
+        "composite_tp_probability": 0.3984,
+        "composite_sl_probability": 0.4388,
         "branch_simulations": {
           "BRANCH_1_BULLISH_EXPANSION": {
             "status": "ACTIVE",
-            "tp_hit_rate": 0.4,
-            "sl_hit_rate": 0.4533,
+            "tp_hit_rate": 0.44,
+            "sl_hit_rate": 0.4133,
             "expected_pnl_multiple": 2.0
           },
           "BRANCH_2_MEAN_REVERSION": {
             "status": "ACTIVE",
-            "tp_hit_rate": 0.44,
-            "sl_hit_rate": 0.54,
+            "tp_hit_rate": 0.4467,
+            "sl_hit_rate": 0.5333,
             "expected_pnl_multiple": 1.5
           },
           "BRANCH_3_VOLATILITY_BREAKDOWN": {
@@ -3267,12 +2832,12 @@
       "recommended_action": "DEFENSIVE_HOLD"
     },
     "wavelet_sifter": {
-      "noise_d1_pct": 55.01,
-      "swing_d2_pct": 18.89,
-      "cyclical_d3_pct": 14.51,
-      "macro_a3_pct": 11.59,
-      "shannon_entropy": 1.6928,
-      "normalized_entropy": 0.8464,
+      "noise_d1_pct": 61.2,
+      "swing_d2_pct": 21.52,
+      "cyclical_d3_pct": 9.64,
+      "macro_a3_pct": 7.65,
+      "shannon_entropy": 1.5194,
+      "normalized_entropy": 0.7597,
       "regime": "HIGH_ENTROPY_CHOP_VETO",
       "veto_active": true,
       "conviction_multiplier": 0.0,
@@ -3280,9 +2845,9 @@
       "sample_bars": 64
     },
     "finjepa_physics": {
-      "latent_displacement": 6.7339,
-      "latent_cosine_alignment": 0.2925,
-      "latent_dispersion": 1.0262,
+      "latent_displacement": 6.7126,
+      "latent_cosine_alignment": 0.2973,
+      "latent_dispersion": 1.0264,
       "regime": "LIQUIDITY_DROUGHT_HAZARD",
       "risk_verdict": "DEFENSIVE_HOLD",
       "physics_confidence": 0.4,
@@ -3298,18 +2863,18 @@
       "tail_risk_probability": 0.1,
       "conviction_tier": "TIER_3_MONITOR",
       "immediate_action": "IGNORE_NOISE",
-      "latency_ms": 0.076,
-      "timestamp": "2026-10-26T07:36:19.173200+00:00"
+      "latency_ms": 0.071,
+      "timestamp": "2026-10-25T20:04:06.358276+00:00"
     },
     "soros_reflexivity": {
-      "price_velocity": -0.0248,
-      "price_acceleration": -0.018,
+      "price_velocity": -0.0245,
+      "price_acceleration": -0.0178,
       "sentiment_velocity": 0.0,
       "sentiment_acceleration": 0.0,
-      "soros_metric_r": -0.0152,
-      "regime": "TRANSITIONAL_EQUILIBRIUM",
-      "conviction_boost": 1.0,
-      "cro_veto": false
+      "soros_metric_r": -0.015,
+      "regime": "DISTRIBUTION_EXHAUSTION",
+      "conviction_boost": 0.0,
+      "cro_veto": true
     },
     "working_memory_tape": {
       "ticker": "NVDA",
@@ -6183,66 +5748,66 @@
     ]
   },
   "GOOGL": {
-    "timestamp": "2026-10-26T07:36:44.709015+00:00",
+    "timestamp": "2026-10-23T07:14:09.372310+00:00",
     "ticker": "GOOGL",
-    "spot_price": 320.21,
+    "spot_price": 324.22,
     "final_resolution": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
     "action_code": "VETO",
     "verdict": "VETO",
-    "consensus_conviction_pct": 56.8,
-    "conviction": 56.8,
+    "consensus_conviction_pct": 51.4,
+    "conviction": 51.4,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 341.19,
-    "tp2_target": 357.96,
-    "stop_loss_target": 311.72,
-    "atr_14": 8.39,
+    "tp1_target": 345.42,
+    "tp2_target": 362.38,
+    "stop_loss_target": 315.4,
+    "atr_14": 8.48,
     "atr_pct": 2.62,
     "quantum_telemetry": {
       "ticker": "GOOGL",
-      "spot_price": 320.21,
+      "spot_price": 324.22,
       "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
       "risk_multiplier": 1.0,
-      "hmm_regime": "Bull",
-      "crisis_probability": 0.1,
+      "hmm_regime": "Normal",
+      "crisis_probability": 0.2144,
       "cusum_alarm": false,
       "cusum_direction": "NONE",
-      "poc_price": 335.16,
-      "vah_price": 363.9,
-      "val_price": 300.03,
-      "dist_to_poc_pct": -4.46,
-      "conformal_lower_bound": 311.72,
-      "conformal_upper_bound": 328.7,
+      "poc_price": 346.56,
+      "vah_price": 362.89,
+      "val_price": 297.57,
+      "dist_to_poc_pct": -6.45,
+      "conformal_lower_bound": 315.4,
+      "conformal_upper_bound": 333.04,
       "momentum_zscore": 0.0,
       "vol_scaled_exposure": 0.0,
       "realized_vol_annual": 0.2,
       "credit_divergence": false,
       "alpha158_factors": {
-        "KMID": -0.00293,
-        "KLEN": 0.01354,
-        "KMID2": -0.21609,
-        "KUP": 0.01052,
-        "KUP2": 0.77701,
-        "KLOW": 9e-05,
-        "KLOW2": 0.0069,
-        "KSFT": -0.01336,
-        "KSFT2": -0.98621,
-        "CORR5": -0.1168,
-        "CORR20": -0.14559,
-        "CORD5": -0.42585,
-        "CORD20": -0.22934,
-        "WVMA10": 0.00736,
-        "RSV5": 0.00114,
-        "RSV20": 0.00076,
-        "MAX10": 0.12239,
-        "MIN10": -9e-05,
-        "QTLU20": 0.0914,
-        "QTLD20": 0.0614,
-        "ROC5": -0.05984,
-        "ROC20": -0.06894,
-        "BETA10": -0.01111,
-        "RSQR20": 0.19076,
-        "RESI10": -0.01417
+        "KMID": -0.01888,
+        "KLEN": 0.02854,
+        "KMID2": -0.66172,
+        "KUP": 0.00294,
+        "KUP2": 0.10286,
+        "KLOW": 0.00672,
+        "KLOW2": 0.23542,
+        "KSFT": -0.0151,
+        "KSFT2": -0.52916,
+        "CORR5": -0.55266,
+        "CORR20": -0.4302,
+        "CORD5": -0.58071,
+        "CORD20": -0.31916,
+        "WVMA10": 0.00728,
+        "RSV5": 0.07746,
+        "RSV20": 0.05936,
+        "MAX10": 0.10851,
+        "MIN10": -0.00685,
+        "QTLU20": 0.0779,
+        "QTLD20": 0.0503,
+        "ROC5": -0.07159,
+        "ROC20": -0.05298,
+        "BETA10": -0.00858,
+        "RSQR20": 0.06458,
+        "RESI10": -0.02209
       },
       "insider_signals": {
         "ticker": "GOOGL",
@@ -6268,17 +5833,17 @@
         "color": "#3B82F6"
       },
       "options_data": {
-        "spot_price": 320.21,
+        "spot_price": 324.22,
         "net_gex": 0.0,
         "gamma_regime": "Neutral Gamma",
-        "max_pain_strike": 320.21
+        "max_pain_strike": 324.22
       },
       "macro_blackout": {
         "is_blackout_active": false,
         "status": "NORMAL_LIQUIDITY",
-        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
         "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-        "minutes_to_event": 13643.8,
+        "minutes_to_event": 17986.5,
         "tier": "TIER_1_CRITICAL",
         "expected_spy_dispersion_pct": 0.81,
         "expected_qqq_dispersion_pct": 1.19,
@@ -6292,12 +5857,12 @@
         "risk_profile": "NORMAL"
       },
       "execution_latency": {
-        "total_nanoseconds": 33142673,
-        "total_microseconds": 33142.67,
-        "hmm_micros": 4.24,
-        "cusum_micros": 15.86,
-        "volume_profile_micros": 9673.69,
-        "momentum_micros": 146.73
+        "total_nanoseconds": 27117785,
+        "total_microseconds": 27117.78,
+        "hmm_micros": 5.27,
+        "cusum_micros": 18.46,
+        "volume_profile_micros": 5476.38,
+        "momentum_micros": 163.76
       }
     },
     "agent_testimonies": [
@@ -6313,33 +5878,26 @@
           "Amazon Chronos-2: Probabilistic Time-Series Foundation Corridors"
         ],
         "vote": "HOLD",
-        "conviction_score": 38.0,
+        "conviction_score": 33.0,
         "key_metrics": {
-          "estimated_rsi": 26.4,
-          "sma_200": 341.31,
-          "ma_21": 343.12,
-          "return_5d_pct": -5.98,
+          "estimated_rsi": 32.3,
+          "sma_200": 341.32,
+          "ma_21": 344.18,
+          "return_5d_pct": -7.16,
           "trend_status": "BEARISH_BELOW_SMA200",
-          "acpm_calibrated_prob": 0.4909,
-          "kmid": -0.00293,
-          "klen": 0.01354,
-          "corr5": -0.1168,
-          "wvma10": 0.00736,
+          "acpm_calibrated_prob": 0.5585,
+          "kmid": -0.01888,
+          "klen": 0.02854,
+          "corr5": -0.55266,
+          "wvma10": 0.00728,
           "arar_score": 0.0,
           "arar_normalized": 0.0,
-          "obi": -0.986,
-          "cvd": 54484531.7,
+          "obi": -0.529,
+          "cvd": 96961913.2,
           "is_absorption_active": false,
-          "p10_floor": 299.08,
-          "p90_ceiling": 365.02,
-          "upside_to_downside_ratio": 2.12,
-          "chronos_corridors": {
-            "p10_floor": 299.08,
-            "p90_ceiling": 365.02,
-            "upside_to_downside_ratio": 2.12
-          }
+          "chronos_corridors": {}
         },
-        "thesis": "Asset is trading below its 200-day SMA ($341.31), signaling prevailing macro downtrend."
+        "thesis": "Asset is trading below its 200-day SMA ($341.32), signaling prevailing macro downtrend. Qlib Alpha158 warns of body rejection (KMID: -0.0189)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -6353,11 +5911,11 @@
         "vote": "HOLD",
         "conviction_score": 77.1,
         "key_metrics": {
-          "finbert_polarity": 0.053,
+          "finbert_polarity": 0.059,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
-          "headlines_analyzed": 112,
+          "headlines_analyzed": 111,
           "pead_signal": "STRONG_POST_EARNINGS_ACCUMULATION",
           "sue_score": 2.43,
           "eps_surprise_pct": 214.23,
@@ -6371,7 +5929,7 @@
           "swift_urgency": "NORMAL",
           "swift_action": ""
         },
-        "thesis": "Balanced sentiment environment (+0.05 polarity across 112 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +214.2% EPS Surprise. \ud83d\udc54 SEC FORM 4 CLUSTER: 7 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 92.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
+        "thesis": "Balanced sentiment environment (+0.06 polarity across 111 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +214.2% EPS Surprise. \ud83d\udc54 SEC FORM 4 CLUSTER: 7 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 92.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -6385,42 +5943,42 @@
         "key_metrics": {
           "data_available": true,
           "piotroski_f_score": 5,
-          "altman_z_score": 21.52,
-          "dcf_fair_value": 96.06299743652343,
+          "altman_z_score": 21.74,
+          "dcf_fair_value": 97.26600036621093,
           "dcf_margin_of_safety_pct": -70.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $96.06 (Margin of Safety: -70.0%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $97.27 (Margin of Safety: -70.0%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "GOOGL",
-        "spot_price": 320.21,
-        "day_high": 324.53,
-        "day_low": 320.18,
-        "change_pct": -1.24,
-        "range_position_pct": 0.7,
-        "rvol": 0.74,
-        "momentum_velocity_pct": -6.96,
-        "conviction_score": 50.0,
-        "vote": "HOLD",
-        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 1%, RVOL 0.74x, 5D Vel -7.0%)",
+        "spot_price": 324.22,
+        "day_high": 331.43,
+        "day_low": 322.0,
+        "change_pct": -3.15,
+        "range_position_pct": 23.5,
+        "rvol": 1.15,
+        "momentum_velocity_pct": -4.81,
+        "conviction_score": 28.0,
+        "vote": "SELL",
+        "verdict": "\ud83d\udd34 Weak Tape / Selling Pressure (RVOL 1.15x, Range 24%, 5D Vel -4.8%)",
         "fvg_analysis": {
           "has_active_fvg": true,
           "is_mitigating": false,
           "active_bullish_fvg": null,
           "active_bearish_fvg": {
-            "top": 330.38,
-            "bottom": 324.53,
-            "consequent_encroachment": 327.46,
-            "date": "2026-10-22"
+            "top": 338.36,
+            "bottom": 331.43,
+            "consequent_encroachment": 334.89,
+            "date": "2026-10-21"
           },
-          "tactical_limit_entry": 320.21,
-          "invalidation_stop": 310.6,
+          "tactical_limit_entry": 324.22,
+          "invalidation_stop": 314.49,
           "summary": "No active bullish FVG in 30-day window"
         },
-        "tactical_limit_entry": 320.21,
-        "invalidation_stop": 310.6,
-        "timestamp": "2026-10-26T07:36:40.803670+00:00"
+        "tactical_limit_entry": 324.22,
+        "invalidation_stop": 314.49,
+        "timestamp": "2026-10-23T07:14:04.749234+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -6455,32 +6013,32 @@
       "action_code": "VETO",
       "buy_votes": 0,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 56.8,
-      "unweighted_conviction_pct": 57.8,
-      "weighted_conviction_pct": 55.8,
+      "consensus_conviction_pct": 51.4,
+      "unweighted_conviction_pct": 52.4,
+      "weighted_conviction_pct": 50.4,
       "approved_leverage": 0.0,
       "kelly_allocation_pct": 0.0,
       "kelly_details": {
         "full_kelly_pct": 18.29,
-        "fractional_kelly_pct": 3.69,
-        "cf_haircut_multiplier": 0.8077,
+        "fractional_kelly_pct": 3.71,
+        "cf_haircut_multiplier": 0.8119,
         "edge": 0.32,
         "kelly_fraction": 0.25,
         "win_rate": 0.48,
         "payoff_ratio": 1.75,
-        "skewness": 0.5871983627183676,
-        "excess_kurtosis": 3.0768677244724447,
+        "skewness": 0.5691471886432571,
+        "excess_kurtosis": 3.009056413072943,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "atr_14": 8.39,
+      "atr_14": 8.48,
       "atr_pct": 2.62,
-      "tp1_target": 341.19,
-      "tp2_target": 357.96,
-      "stop_loss_target": 311.72,
+      "tp1_target": 345.42,
+      "tp2_target": 362.38,
+      "stop_loss_target": 315.4,
       "portfolio_diversity_grade": "A",
-      "conformal_lower_bound": 311.72,
-      "conformal_upper_bound": 328.7,
-      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 57.8%). ATR14 is $8.39 (2.6% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200).",
+      "conformal_lower_bound": 315.4,
+      "conformal_upper_bound": 333.04,
+      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 52.4%). ATR14 is $8.48 (2.6% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: Asset is in a structural macro downtrend below its 200-day Moving Average (SMA200).",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false,
@@ -6489,49 +6047,49 @@
       "hmm_veto_triggered": false,
       "quantum_telemetry": {
         "ticker": "GOOGL",
-        "spot_price": 320.21,
+        "spot_price": 324.22,
         "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
         "risk_multiplier": 1.0,
-        "hmm_regime": "Bull",
-        "crisis_probability": 0.1,
+        "hmm_regime": "Normal",
+        "crisis_probability": 0.2144,
         "cusum_alarm": false,
         "cusum_direction": "NONE",
-        "poc_price": 335.16,
-        "vah_price": 363.9,
-        "val_price": 300.03,
-        "dist_to_poc_pct": -4.46,
-        "conformal_lower_bound": 311.72,
-        "conformal_upper_bound": 328.7,
+        "poc_price": 346.56,
+        "vah_price": 362.89,
+        "val_price": 297.57,
+        "dist_to_poc_pct": -6.45,
+        "conformal_lower_bound": 315.4,
+        "conformal_upper_bound": 333.04,
         "momentum_zscore": 0.0,
         "vol_scaled_exposure": 0.0,
         "realized_vol_annual": 0.2,
         "credit_divergence": false,
         "alpha158_factors": {
-          "KMID": -0.00293,
-          "KLEN": 0.01354,
-          "KMID2": -0.21609,
-          "KUP": 0.01052,
-          "KUP2": 0.77701,
-          "KLOW": 9e-05,
-          "KLOW2": 0.0069,
-          "KSFT": -0.01336,
-          "KSFT2": -0.98621,
-          "CORR5": -0.1168,
-          "CORR20": -0.14559,
-          "CORD5": -0.42585,
-          "CORD20": -0.22934,
-          "WVMA10": 0.00736,
-          "RSV5": 0.00114,
-          "RSV20": 0.00076,
-          "MAX10": 0.12239,
-          "MIN10": -9e-05,
-          "QTLU20": 0.0914,
-          "QTLD20": 0.0614,
-          "ROC5": -0.05984,
-          "ROC20": -0.06894,
-          "BETA10": -0.01111,
-          "RSQR20": 0.19076,
-          "RESI10": -0.01417
+          "KMID": -0.01888,
+          "KLEN": 0.02854,
+          "KMID2": -0.66172,
+          "KUP": 0.00294,
+          "KUP2": 0.10286,
+          "KLOW": 0.00672,
+          "KLOW2": 0.23542,
+          "KSFT": -0.0151,
+          "KSFT2": -0.52916,
+          "CORR5": -0.55266,
+          "CORR20": -0.4302,
+          "CORD5": -0.58071,
+          "CORD20": -0.31916,
+          "WVMA10": 0.00728,
+          "RSV5": 0.07746,
+          "RSV20": 0.05936,
+          "MAX10": 0.10851,
+          "MIN10": -0.00685,
+          "QTLU20": 0.0779,
+          "QTLD20": 0.0503,
+          "ROC5": -0.07159,
+          "ROC20": -0.05298,
+          "BETA10": -0.00858,
+          "RSQR20": 0.06458,
+          "RESI10": -0.02209
         },
         "insider_signals": {
           "ticker": "GOOGL",
@@ -6557,17 +6115,17 @@
           "color": "#3B82F6"
         },
         "options_data": {
-          "spot_price": 320.21,
+          "spot_price": 324.22,
           "net_gex": 0.0,
           "gamma_regime": "Neutral Gamma",
-          "max_pain_strike": 320.21
+          "max_pain_strike": 324.22
         },
         "macro_blackout": {
           "is_blackout_active": false,
           "status": "NORMAL_LIQUIDITY",
-          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
           "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-          "minutes_to_event": 13643.8,
+          "minutes_to_event": 17986.5,
           "tier": "TIER_1_CRITICAL",
           "expected_spy_dispersion_pct": 0.81,
           "expected_qqq_dispersion_pct": 1.19,
@@ -6581,12 +6139,12 @@
           "risk_profile": "NORMAL"
         },
         "execution_latency": {
-          "total_nanoseconds": 33142673,
-          "total_microseconds": 33142.67,
-          "hmm_micros": 4.24,
-          "cusum_micros": 15.86,
-          "volume_profile_micros": 9673.69,
-          "momentum_micros": 146.73
+          "total_nanoseconds": 27117785,
+          "total_microseconds": 27117.78,
+          "hmm_micros": 5.27,
+          "cusum_micros": 18.46,
+          "volume_profile_micros": 5476.38,
+          "momentum_micros": 163.76
         }
       },
       "memory_risk_adjustment": {
@@ -6613,15 +6171,15 @@
       "meta_label_metrics": {
         "ticker": "GOOGL",
         "approved": false,
-        "barrier_touch_prob": 0.3437,
-        "barrier_touch_prob_pct": 34.4,
+        "barrier_touch_prob": 0.3049,
+        "barrier_touch_prob_pct": 30.5,
         "verdict": "META_LABEL_VETO_WHIPSAW_TRAP_FILTER",
         "meta_label": 0,
         "factors": {
-          "base_logit": 0.453,
+          "base_logit": 0.093,
           "trend_factor": -1.2,
           "rsi_factor": 0.4,
-          "micro_factor": -0.5,
+          "micro_factor": -0.317,
           "vol_factor": 0.2
         },
         "reason": "Vetoed by Meta-Labeler: Asset below SMA200 has low upper barrier hit rate."
@@ -6631,9 +6189,9 @@
       "mahalanobis_metrics": {
         "status": "SUCCESS",
         "ticker": "GOOGL",
-        "mahalanobis_distance": 1.957,
+        "mahalanobis_distance": 1.825,
         "critical_threshold_99": 3.884,
-        "p_value": 0.57398,
+        "p_value": 0.64895,
         "degrees_of_freedom": 5,
         "is_anomaly": false,
         "regime_verdict": "NORMAL_REGIME_STATISTICALLY_STABLE",
@@ -6641,19 +6199,19 @@
       },
       "finjepa_metrics": {
         "finjepa_regime": "LIQUIDITY_DROUGHT_HAZARD",
-        "finjepa_displacement": 6.5773,
+        "finjepa_displacement": 6.4479,
         "finjepa_confidence": 0.4,
         "finjepa_veto": true
       },
       "finjepa_veto_triggered": true,
       "sde_tail_risk_metrics": {
-        "cvar99_floor": 118023.37,
-        "var99": 10742.73
+        "cvar99_floor": 118014.06,
+        "var99": 10733.22
       },
       "drl_policy_metrics": {
-        "drl_leverage_multiplier": 0.829
+        "drl_leverage_multiplier": 0.725
       },
-      "vpin": 0.4783,
+      "vpin": 0.4859,
       "toxicity_regime": "BALANCED_ORDER_FLOW"
     },
     "adaptive_execution": {
@@ -6663,14 +6221,14 @@
       "tp_atr_multiple": 3.12,
       "sl_atr_multiple": 1.25,
       "fast_harvest_target_pct": null,
-      "strategy_directive": "\ud83d\ude80 [TREND RUNNER MODE] Persistence H=0.75 | Net GEX=+0.0M. Enable 0.5N Turtle Pyramiding (+1N, +2N additions). Ratchet stop to Breakeven at +1N. Let runners ride with Chandelier trailing stop (P_max - 2.5N ATR).",
+      "strategy_directive": "\ud83d\ude80 [TREND RUNNER MODE] Persistence H=0.73 | Net GEX=+0.0M. Enable 0.5N Turtle Pyramiding (+1N, +2N additions). Ratchet stop to Breakeven at +1N. Let runners ride with Chandelier trailing stop (P_max - 2.5N ATR).",
       "microstructure_signals": {
-        "hurst_exponent": 0.753,
+        "hurst_exponent": 0.733,
         "hurst_regime": "TRENDING_PERSISTENT",
         "net_gex_millions": 0.0,
-        "gamma_flip_level": 320.21,
-        "call_wall_resistance": 225.0,
-        "put_wall_support": 225.0,
+        "gamma_flip_level": 324.22,
+        "call_wall_resistance": 230.0,
+        "put_wall_support": 230.0,
         "has_real_options_data": true
       },
       "genetic_genome_source": {
@@ -6679,84 +6237,84 @@
         "sentiment_gate": 0.2,
         "rsi_period": 14
       },
-      "timestamp": "2026-10-26T07:36:45.118546+00:00"
+      "timestamp": "2026-10-23T07:14:09.858068+00:00"
     },
     "execution_mode": "RUNNER_PYRAMID",
     "pyramiding_enabled": true,
     "tri_force_fusion": {
       "ticker": "GOOGL",
-      "p_trade": 0.5,
-      "trade_conviction_pct": 50.0,
-      "composite_raw_signal": 0.0001,
+      "p_trade": 0.5019,
+      "trade_conviction_pct": 50.19,
+      "composite_raw_signal": 0.0025,
       "regime": "MOMENTUM_TREND_DOMINANT",
       "weights": {
-        "w_microstructure": 0.0003,
-        "w_statarb": 0.0003,
-        "w_trend": 0.9993
+        "w_microstructure": 0.0045,
+        "w_statarb": 0.0045,
+        "w_trend": 0.991
       },
       "signals": {
-        "s_microstructure": -0.69,
-        "s_statarb": 0.897,
+        "s_microstructure": -0.37,
+        "s_statarb": 0.925,
         "s_trend": 0.0
       },
       "arar_details": {
         "arar_score": 0.0,
         "arar_normalized": 0.0,
-        "obi": -0.986,
-        "cvd": 54484531.7,
-        "delta_price_pct": -1.237,
+        "obi": -0.529,
+        "cvd": 96961913.2,
+        "delta_price_pct": -3.149,
         "is_absorption_active": false,
         "absorption_verdict": "BEARISH_ORDER_OVERHANG",
-        "microstructure_signal": -0.69
+        "microstructure_signal": -0.37
       },
       "telemetry": {
         "hurst_exponent": 0.463,
-        "realized_vol_pct": 31.64,
-        "trend_adx": 51.9,
+        "realized_vol_pct": 31.71,
+        "trend_adx": 41.6,
         "vix_level": 16.5
       },
       "recommendation": "NEUTRAL_HOLD_WAIT_FOR_ABSORPTION"
     },
-    "p_trade": 0.5,
+    "p_trade": 0.5019,
     "tree_of_thought_deliberation": {
       "status": "SUCCESS",
       "evaluated_tree": [
         {
           "id": "BRANCH_1_BULLISH_EXPANSION",
           "label": "Bullish Trend Expansion",
-          "target_price": 336.99,
-          "stop_price": 311.82,
+          "target_price": 341.18,
+          "stop_price": 315.74,
           "expected_drift": 0.002,
           "volatility_multiplier": 1.0,
-          "prior_probability": 0.2105,
+          "prior_probability": 0.202,
           "is_pruned": false
         },
         {
           "id": "BRANCH_2_MEAN_REVERSION",
           "label": "Consolidation Dip & Rebound",
-          "target_price": 330.28,
-          "stop_price": 313.5,
+          "target_price": 334.4,
+          "stop_price": 317.44,
           "expected_drift": 0.0005,
           "volatility_multiplier": 0.8,
-          "prior_probability": 0.6842,
+          "prior_probability": 0.5556,
           "is_pruned": false
         },
         {
           "id": "BRANCH_3_VOLATILITY_BREAKDOWN",
           "label": "Liquidity Flush & Breakdown",
-          "target_price": 299.23,
-          "stop_price": 328.6,
+          "target_price": 303.02,
+          "stop_price": 332.7,
           "expected_drift": -0.003,
           "volatility_multiplier": 1.8,
-          "prior_probability": 0.1053,
-          "is_pruned": true
+          "prior_probability": 0.2424,
+          "is_pruned": false
         }
       ],
       "rollout_results": {
         "dominant_branch": "BRANCH_2_MEAN_REVERSION",
         "dominant_label": "Consolidation Dip & Rebound",
-        "composite_tp_probability": 0.3875,
-        "composite_sl_probability": 0.4628,
+        "composite_tp_probability": 0.4717,
+        "composite_sl_probability": 0.5132,
         "branch_simulations": {
           "BRANCH_1_BULLISH_EXPANSION": {
             "status": "ACTIVE",
@@ -6771,21 +6329,22 @@
             "expected_pnl_multiple": 1.5
           },
           "BRANCH_3_VOLATILITY_BREAKDOWN": {
-            "status": "PRUNED",
-            "tp_hit_rate": 0.0,
-            "sl_hit_rate": 0.0
+            "status": "ACTIVE",
+            "tp_hit_rate": 0.5967,
+            "sl_hit_rate": 0.51,
+            "expected_pnl_multiple": -212000.0
           }
         }
       },
       "recommended_action": "DEFENSIVE_HOLD"
     },
     "wavelet_sifter": {
-      "noise_d1_pct": 42.04,
-      "swing_d2_pct": 32.34,
-      "cyclical_d3_pct": 17.06,
-      "macro_a3_pct": 8.57,
-      "shannon_entropy": 1.7912,
-      "normalized_entropy": 0.8956,
+      "noise_d1_pct": 42.87,
+      "swing_d2_pct": 33.0,
+      "cyclical_d3_pct": 14.75,
+      "macro_a3_pct": 9.39,
+      "shannon_entropy": 1.7793,
+      "normalized_entropy": 0.8897,
       "regime": "HIGH_ENTROPY_CHOP_VETO",
       "veto_active": true,
       "conviction_multiplier": 0.0,
@@ -6793,9 +6352,9 @@
       "sample_bars": 64
     },
     "finjepa_physics": {
-      "latent_displacement": 6.5773,
-      "latent_cosine_alignment": 0.325,
-      "latent_dispersion": 1.026,
+      "latent_displacement": 6.4479,
+      "latent_cosine_alignment": 0.3522,
+      "latent_dispersion": 1.0272,
       "regime": "LIQUIDITY_DROUGHT_HAZARD",
       "risk_verdict": "DEFENSIVE_HOLD",
       "physics_confidence": 0.4,
@@ -6811,15 +6370,15 @@
       "tail_risk_probability": 0.1,
       "conviction_tier": "TIER_3_MONITOR",
       "immediate_action": "IGNORE_NOISE",
-      "latency_ms": 0.032,
-      "timestamp": "2026-10-26T07:36:45.194086+00:00"
+      "latency_ms": 0.031,
+      "timestamp": "2026-10-23T07:14:09.921143+00:00"
     },
     "soros_reflexivity": {
-      "price_velocity": -0.0217,
-      "price_acceleration": -0.004,
+      "price_velocity": -0.0236,
+      "price_acceleration": -0.0116,
       "sentiment_velocity": 0.0,
       "sentiment_acceleration": 0.0,
-      "soros_metric_r": -0.0032,
+      "soros_metric_r": -0.0096,
       "regime": "TRANSITIONAL_EQUILIBRIUM",
       "conviction_boost": 1.0,
       "cro_veto": false
@@ -7050,66 +6609,66 @@
     ]
   },
   "AMZN": {
-    "timestamp": "2026-10-26T07:36:54.000587+00:00",
+    "timestamp": "2026-10-23T07:14:21.147481+00:00",
     "ticker": "AMZN",
-    "spot_price": 248.0,
+    "spot_price": 250.38,
     "final_resolution": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
     "action_code": "VETO",
     "verdict": "VETO",
-    "consensus_conviction_pct": 55.8,
-    "conviction": 55.8,
+    "consensus_conviction_pct": 52.4,
+    "conviction": 52.4,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 265.7,
-    "tp2_target": 279.86,
-    "stop_loss_target": 241.18,
-    "atr_14": 7.08,
-    "atr_pct": 2.85,
+    "tp1_target": 268.15,
+    "tp2_target": 282.38,
+    "stop_loss_target": 243.49,
+    "atr_14": 7.11,
+    "atr_pct": 2.84,
     "quantum_telemetry": {
       "ticker": "AMZN",
-      "spot_price": 248.0,
-      "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
-      "risk_multiplier": 1.0,
-      "hmm_regime": "Bull",
-      "crisis_probability": 0.1,
-      "cusum_alarm": false,
-      "cusum_direction": "NONE",
+      "spot_price": 250.38,
+      "recommended_policy": "STRUCTURAL_BREAKDOWN_VETO",
+      "risk_multiplier": 0.0,
+      "hmm_regime": "Normal",
+      "crisis_probability": 0.2144,
+      "cusum_alarm": true,
+      "cusum_direction": "DOWN",
       "poc_price": 232.1,
       "vah_price": 272.0,
-      "val_price": 226.4,
-      "dist_to_poc_pct": 6.85,
-      "conformal_lower_bound": 236.23,
-      "conformal_upper_bound": 259.77,
+      "val_price": 222.6,
+      "dist_to_poc_pct": 7.88,
+      "conformal_lower_bound": 238.56,
+      "conformal_upper_bound": 262.2,
       "momentum_zscore": 0.0,
       "vol_scaled_exposure": 0.0,
       "realized_vol_annual": 0.2,
       "credit_divergence": false,
       "alpha158_factors": {
-        "KMID": -0.00342,
-        "KLEN": 0.01431,
-        "KMID2": -0.23877,
-        "KUP": 0.00466,
-        "KUP2": 0.32584,
-        "KLOW": 0.00623,
-        "KLOW2": 0.43539,
-        "KSFT": -0.00185,
-        "KSFT2": -0.12921,
-        "CORR5": 0.26666,
-        "CORR20": 0.01145,
-        "CORD5": 0.02114,
-        "CORD20": -0.06249,
-        "WVMA10": 0.01205,
-        "RSV5": 0.08205,
-        "RSV20": 0.15866,
-        "MAX10": 0.06992,
-        "MIN10": -0.00625,
-        "QTLU20": 0.05004,
-        "QTLD20": 0.0039,
-        "ROC5": -0.008,
-        "ROC20": -0.00669,
-        "BETA10": -0.00204,
-        "RSQR20": 0.18977,
-        "RESI10": -0.02418
+        "KMID": -0.03021,
+        "KLEN": 0.04032,
+        "KMID2": -0.74928,
+        "KUP": 0.00089,
+        "KUP2": 0.0221,
+        "KLOW": 0.00922,
+        "KLOW2": 0.22863,
+        "KSFT": -0.02188,
+        "KSFT2": -0.54275,
+        "CORR5": -0.26502,
+        "CORR20": -0.08873,
+        "CORD5": -0.11671,
+        "CORD20": -0.1475,
+        "WVMA10": 0.01366,
+        "RSV5": 0.13725,
+        "RSV20": 0.27414,
+        "MAX10": 0.05975,
+        "MIN10": -0.00951,
+        "QTLU20": 0.04006,
+        "QTLD20": -0.00325,
+        "ROC5": -0.01719,
+        "ROC20": 0.00401,
+        "BETA10": -0.00116,
+        "RSQR20": 0.3841,
+        "RESI10": -0.02409
       },
       "insider_signals": {
         "ticker": "AMZN",
@@ -7125,7 +6684,7 @@
         "transactions": [
           {
             "ticker": "AMZN",
-            "filing_date": "2026-10-23",
+            "filing_date": "2026-10-20",
             "officer_name": "Executive Officer A.",
             "officer_title": "Executive VP",
             "transaction_type": "P - Purchase (Open Market)",
@@ -7136,7 +6695,7 @@
           },
           {
             "ticker": "AMZN",
-            "filing_date": "2026-08-14",
+            "filing_date": "2026-08-11",
             "officer_name": "Executive Officer B.",
             "officer_title": "10% Owner",
             "transaction_type": "M - Option Exercise",
@@ -7147,7 +6706,7 @@
           }
         ],
         "summary": "Net Insider Outflow: $753,867 in open-market dispositions.",
-        "timestamp": "2026-10-26T07:36:48.597775+00:00"
+        "timestamp": "2026-10-23T07:14:14.869622+00:00"
       },
       "sec_catalysts": [],
       "social_buzz": {
@@ -7162,17 +6721,17 @@
         "color": "#3B82F6"
       },
       "options_data": {
-        "spot_price": 248.0,
+        "spot_price": 250.38,
         "net_gex": 0.0,
         "gamma_regime": "Neutral Gamma",
-        "max_pain_strike": 248.0
+        "max_pain_strike": 250.38
       },
       "macro_blackout": {
         "is_blackout_active": false,
         "status": "NORMAL_LIQUIDITY",
-        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
         "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-        "minutes_to_event": 13643.8,
+        "minutes_to_event": 17986.5,
         "tier": "TIER_1_CRITICAL",
         "expected_spy_dispersion_pct": 0.81,
         "expected_qqq_dispersion_pct": 1.19,
@@ -7186,12 +6745,12 @@
         "risk_profile": "NORMAL"
       },
       "execution_latency": {
-        "total_nanoseconds": 33063939,
-        "total_microseconds": 33063.94,
-        "hmm_micros": 5.88,
-        "cusum_micros": 48.05,
-        "volume_profile_micros": 9579.04,
-        "momentum_micros": 156.53
+        "total_nanoseconds": 25320897,
+        "total_microseconds": 25320.9,
+        "hmm_micros": 3.84,
+        "cusum_micros": 16.16,
+        "volume_profile_micros": 4839.89,
+        "momentum_micros": 171.74
       }
     },
     "agent_testimonies": [
@@ -7207,33 +6766,33 @@
           "Amazon Chronos-2: Probabilistic Time-Series Foundation Corridors"
         ],
         "vote": "HOLD",
-        "conviction_score": 48.0,
+        "conviction_score": 43.0,
         "key_metrics": {
-          "estimated_rsi": 47.3,
-          "sma_200": 243.29,
-          "ma_21": 254.2,
-          "return_5d_pct": -0.8,
+          "estimated_rsi": 49.1,
+          "sma_200": 243.26,
+          "ma_21": 254.27,
+          "return_5d_pct": -1.72,
           "trend_status": "BULLISH_MOMENTUM_EXPANSION",
-          "acpm_calibrated_prob": 0.4161,
-          "kmid": -0.00342,
-          "klen": 0.01431,
-          "corr5": 0.26666,
-          "wvma10": 0.01205,
+          "acpm_calibrated_prob": 0.4335,
+          "kmid": -0.03021,
+          "klen": 0.04032,
+          "corr5": -0.26502,
+          "wvma10": 0.01366,
           "arar_score": 0.0,
           "arar_normalized": 0.0,
-          "obi": -0.129,
-          "cvd": 254088436.4,
+          "obi": -0.543,
+          "cvd": 298279994.9,
           "is_absorption_active": false,
-          "p10_floor": 223.14,
-          "p90_ceiling": 306.29,
-          "upside_to_downside_ratio": 2.34,
+          "p10_floor": 236.27,
+          "p90_ceiling": 269.74,
+          "upside_to_downside_ratio": 1.37,
           "chronos_corridors": {
-            "p10_floor": 223.14,
-            "p90_ceiling": 306.29,
-            "upside_to_downside_ratio": 2.34
+            "p10_floor": 236.27,
+            "p90_ceiling": 269.74,
+            "upside_to_downside_ratio": 1.37
           }
         },
-        "thesis": "Asset is in structural uptrend above 200 SMA ($243.29) with optimal pullback RSI (47.3). ACPM Conformal Model signals caution (41.6% probability)."
+        "thesis": "Asset is in structural uptrend above 200 SMA ($243.26) with optimal pullback RSI (49.1). ACPM Conformal Model signals caution (43.3% probability). Qlib Alpha158 warns of body rejection (KMID: -0.0302)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -7247,11 +6806,11 @@
         "vote": "HOLD",
         "conviction_score": 62.5,
         "key_metrics": {
-          "finbert_polarity": 0.075,
+          "finbert_polarity": 0.032,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
-          "headlines_analyzed": 110,
+          "headlines_analyzed": 114,
           "pead_signal": "STRONG_POST_EARNINGS_ACCUMULATION",
           "sue_score": 2.51,
           "eps_surprise_pct": 214.89,
@@ -7265,7 +6824,7 @@
           "swift_urgency": "NORMAL",
           "swift_action": ""
         },
-        "thesis": "Balanced sentiment environment (+0.07 polarity across 110 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +214.9% EPS Surprise. \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
+        "thesis": "Balanced sentiment environment (+0.03 polarity across 114 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +214.9% EPS Surprise. \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -7279,42 +6838,42 @@
         "key_metrics": {
           "data_available": true,
           "piotroski_f_score": 5,
-          "altman_z_score": 8.91,
-          "dcf_fair_value": 74.39999999999999,
+          "altman_z_score": 8.98,
+          "dcf_fair_value": 75.11400146484375,
           "dcf_margin_of_safety_pct": -70.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $74.40 (Margin of Safety: -70.0%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $75.11 (Margin of Safety: -70.0%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "AMZN",
-        "spot_price": 248.0,
-        "day_high": 250.01,
-        "day_low": 246.45,
-        "change_pct": -0.95,
-        "range_position_pct": 43.5,
-        "rvol": 0.71,
-        "momentum_velocity_pct": -5.51,
-        "conviction_score": 50.0,
+        "spot_price": 250.38,
+        "day_high": 258.36,
+        "day_low": 248.0,
+        "change_pct": -4.57,
+        "range_position_pct": 23.0,
+        "rvol": 1.34,
+        "momentum_velocity_pct": 0.15,
+        "conviction_score": 38.0,
         "vote": "HOLD",
-        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 44%, RVOL 0.71x, 5D Vel -5.5%)",
+        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 23%, RVOL 1.34x, 5D Vel +0.1%)",
         "fvg_analysis": {
           "has_active_fvg": true,
           "is_mitigating": false,
           "active_bullish_fvg": null,
           "active_bearish_fvg": {
-            "top": 259.29,
-            "bottom": 250.01,
-            "consequent_encroachment": 254.65,
-            "date": "2026-10-22"
+            "top": 260.42,
+            "bottom": 258.41,
+            "consequent_encroachment": 259.42,
+            "date": "2026-10-21"
           },
-          "tactical_limit_entry": 248.0,
-          "invalidation_stop": 240.56,
+          "tactical_limit_entry": 250.38,
+          "invalidation_stop": 242.87,
           "summary": "No active bullish FVG in 30-day window"
         },
-        "tactical_limit_entry": 248.0,
-        "invalidation_stop": 240.56,
-        "timestamp": "2026-10-26T07:36:49.408569+00:00"
+        "tactical_limit_entry": 250.38,
+        "invalidation_stop": 242.87,
+        "timestamp": "2026-10-23T07:14:15.997180+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -7349,83 +6908,83 @@
       "action_code": "VETO",
       "buy_votes": 0,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 55.8,
-      "unweighted_conviction_pct": 56.9,
-      "weighted_conviction_pct": 54.7,
+      "consensus_conviction_pct": 52.4,
+      "unweighted_conviction_pct": 53.5,
+      "weighted_conviction_pct": 51.2,
       "approved_leverage": 0.0,
       "kelly_allocation_pct": 0.0,
       "kelly_details": {
         "full_kelly_pct": 18.29,
-        "fractional_kelly_pct": 1.76,
-        "cf_haircut_multiplier": 0.3851,
+        "fractional_kelly_pct": 1.77,
+        "cf_haircut_multiplier": 0.3879,
         "edge": 0.32,
         "kelly_fraction": 0.25,
         "win_rate": 0.48,
         "payoff_ratio": 1.75,
-        "skewness": 1.637558596300231,
-        "excess_kurtosis": 9.838533687417844,
+        "skewness": 1.6243073794253964,
+        "excess_kurtosis": 9.793966982307646,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "atr_14": 7.08,
-      "atr_pct": 2.85,
-      "tp1_target": 265.7,
-      "tp2_target": 279.86,
-      "stop_loss_target": 241.18,
+      "atr_14": 7.11,
+      "atr_pct": 2.84,
+      "tp1_target": 268.15,
+      "tp2_target": 282.38,
+      "stop_loss_target": 243.49,
       "portfolio_diversity_grade": "A",
-      "conformal_lower_bound": 236.23,
-      "conformal_upper_bound": 259.77,
-      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 56.9%). ATR14 is $7.08 (2.9% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: FinJEPA Physics Hazard: LIQUIDITY_DROUGHT_HAZARD (High latent dispersion anomaly).",
+      "conformal_lower_bound": 238.56,
+      "conformal_upper_bound": 262.2,
+      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 53.5%). ATR14 is $7.11 (2.8% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: CUSUM Structural Break VETO (Page 1954): Acute downward changepoint detected in price series.",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false,
       "vpin_veto_triggered": false,
-      "cusum_veto_triggered": false,
+      "cusum_veto_triggered": true,
       "hmm_veto_triggered": false,
       "quantum_telemetry": {
         "ticker": "AMZN",
-        "spot_price": 248.0,
-        "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
-        "risk_multiplier": 1.0,
-        "hmm_regime": "Bull",
-        "crisis_probability": 0.1,
-        "cusum_alarm": false,
-        "cusum_direction": "NONE",
+        "spot_price": 250.38,
+        "recommended_policy": "STRUCTURAL_BREAKDOWN_VETO",
+        "risk_multiplier": 0.0,
+        "hmm_regime": "Normal",
+        "crisis_probability": 0.2144,
+        "cusum_alarm": true,
+        "cusum_direction": "DOWN",
         "poc_price": 232.1,
         "vah_price": 272.0,
-        "val_price": 226.4,
-        "dist_to_poc_pct": 6.85,
-        "conformal_lower_bound": 236.23,
-        "conformal_upper_bound": 259.77,
+        "val_price": 222.6,
+        "dist_to_poc_pct": 7.88,
+        "conformal_lower_bound": 238.56,
+        "conformal_upper_bound": 262.2,
         "momentum_zscore": 0.0,
         "vol_scaled_exposure": 0.0,
         "realized_vol_annual": 0.2,
         "credit_divergence": false,
         "alpha158_factors": {
-          "KMID": -0.00342,
-          "KLEN": 0.01431,
-          "KMID2": -0.23877,
-          "KUP": 0.00466,
-          "KUP2": 0.32584,
-          "KLOW": 0.00623,
-          "KLOW2": 0.43539,
-          "KSFT": -0.00185,
-          "KSFT2": -0.12921,
-          "CORR5": 0.26666,
-          "CORR20": 0.01145,
-          "CORD5": 0.02114,
-          "CORD20": -0.06249,
-          "WVMA10": 0.01205,
-          "RSV5": 0.08205,
-          "RSV20": 0.15866,
-          "MAX10": 0.06992,
-          "MIN10": -0.00625,
-          "QTLU20": 0.05004,
-          "QTLD20": 0.0039,
-          "ROC5": -0.008,
-          "ROC20": -0.00669,
-          "BETA10": -0.00204,
-          "RSQR20": 0.18977,
-          "RESI10": -0.02418
+          "KMID": -0.03021,
+          "KLEN": 0.04032,
+          "KMID2": -0.74928,
+          "KUP": 0.00089,
+          "KUP2": 0.0221,
+          "KLOW": 0.00922,
+          "KLOW2": 0.22863,
+          "KSFT": -0.02188,
+          "KSFT2": -0.54275,
+          "CORR5": -0.26502,
+          "CORR20": -0.08873,
+          "CORD5": -0.11671,
+          "CORD20": -0.1475,
+          "WVMA10": 0.01366,
+          "RSV5": 0.13725,
+          "RSV20": 0.27414,
+          "MAX10": 0.05975,
+          "MIN10": -0.00951,
+          "QTLU20": 0.04006,
+          "QTLD20": -0.00325,
+          "ROC5": -0.01719,
+          "ROC20": 0.00401,
+          "BETA10": -0.00116,
+          "RSQR20": 0.3841,
+          "RESI10": -0.02409
         },
         "insider_signals": {
           "ticker": "AMZN",
@@ -7441,7 +7000,7 @@
           "transactions": [
             {
               "ticker": "AMZN",
-              "filing_date": "2026-10-23",
+              "filing_date": "2026-10-20",
               "officer_name": "Executive Officer A.",
               "officer_title": "Executive VP",
               "transaction_type": "P - Purchase (Open Market)",
@@ -7452,7 +7011,7 @@
             },
             {
               "ticker": "AMZN",
-              "filing_date": "2026-08-14",
+              "filing_date": "2026-08-11",
               "officer_name": "Executive Officer B.",
               "officer_title": "10% Owner",
               "transaction_type": "M - Option Exercise",
@@ -7463,7 +7022,7 @@
             }
           ],
           "summary": "Net Insider Outflow: $753,867 in open-market dispositions.",
-          "timestamp": "2026-10-26T07:36:48.597775+00:00"
+          "timestamp": "2026-10-23T07:14:14.869622+00:00"
         },
         "sec_catalysts": [],
         "social_buzz": {
@@ -7478,17 +7037,17 @@
           "color": "#3B82F6"
         },
         "options_data": {
-          "spot_price": 248.0,
+          "spot_price": 250.38,
           "net_gex": 0.0,
           "gamma_regime": "Neutral Gamma",
-          "max_pain_strike": 248.0
+          "max_pain_strike": 250.38
         },
         "macro_blackout": {
           "is_blackout_active": false,
           "status": "NORMAL_LIQUIDITY",
-          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
           "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-          "minutes_to_event": 13643.8,
+          "minutes_to_event": 17986.5,
           "tier": "TIER_1_CRITICAL",
           "expected_spy_dispersion_pct": 0.81,
           "expected_qqq_dispersion_pct": 1.19,
@@ -7502,12 +7061,12 @@
           "risk_profile": "NORMAL"
         },
         "execution_latency": {
-          "total_nanoseconds": 33063939,
-          "total_microseconds": 33063.94,
-          "hmm_micros": 5.88,
-          "cusum_micros": 48.05,
-          "volume_profile_micros": 9579.04,
-          "momentum_micros": 156.53
+          "total_nanoseconds": 25320897,
+          "total_microseconds": 25320.9,
+          "hmm_micros": 3.84,
+          "cusum_micros": 16.16,
+          "volume_profile_micros": 4839.89,
+          "momentum_micros": 171.74
         }
       },
       "memory_risk_adjustment": {
@@ -7534,27 +7093,27 @@
       "meta_label_metrics": {
         "ticker": "AMZN",
         "approved": true,
-        "barrier_touch_prob": 0.8531,
-        "barrier_touch_prob_pct": 85.3,
+        "barrier_touch_prob": 0.7832,
+        "barrier_touch_prob_pct": 78.3,
         "verdict": "META_LABEL_APPROVED_HIGH_PROBABILITY_BARRIER_TOUCH",
         "meta_label": 1,
         "factors": {
-          "base_logit": 0.387,
+          "base_logit": 0.16,
           "trend_factor": 0.65,
           "rsi_factor": 0.6,
-          "micro_factor": -0.077,
+          "micro_factor": -0.326,
           "vol_factor": 0.2
         },
-        "reason": "Upper barrier probability 85.3% exceeds 50% threshold. Structural trend and microstructure support favorable risk/reward."
+        "reason": "Upper barrier probability 78.3% exceeds 50% threshold. Structural trend and microstructure support favorable risk/reward."
       },
       "meta_label_veto_triggered": false,
       "mahalanobis_veto_triggered": false,
       "mahalanobis_metrics": {
         "status": "SUCCESS",
         "ticker": "AMZN",
-        "mahalanobis_distance": 0.975,
+        "mahalanobis_distance": 1.084,
         "critical_threshold_99": 3.884,
-        "p_value": 0.96649,
+        "p_value": 0.94721,
         "degrees_of_freedom": 5,
         "is_anomaly": false,
         "regime_verdict": "NORMAL_REGIME_STATISTICALLY_STABLE",
@@ -7562,36 +7121,36 @@
       },
       "finjepa_metrics": {
         "finjepa_regime": "LIQUIDITY_DROUGHT_HAZARD",
-        "finjepa_displacement": 6.4677,
+        "finjepa_displacement": 6.2813,
         "finjepa_confidence": 0.4,
         "finjepa_veto": true
       },
       "finjepa_veto_triggered": true,
       "sde_tail_risk_metrics": {
-        "cvar99_floor": 118023.37,
-        "var99": 10742.73
+        "cvar99_floor": 118014.06,
+        "var99": 10733.22
       },
       "drl_policy_metrics": {
-        "drl_leverage_multiplier": 0.829
+        "drl_leverage_multiplier": 0.725
       },
-      "vpin": 0.4943,
+      "vpin": 0.4734,
       "toxicity_regime": "BALANCED_ORDER_FLOW"
     },
     "adaptive_execution": {
       "ticker": "AMZN",
-      "execution_mode": "HYBRID_BALANCED",
+      "execution_mode": "RUNNER_PYRAMID",
       "pyramiding_enabled": true,
-      "tp_atr_multiple": 2.5,
+      "tp_atr_multiple": 3.12,
       "sl_atr_multiple": 1.25,
-      "fast_harvest_target_pct": 2.5,
-      "strategy_directive": "\u2696\ufe0f [HYBRID BALANCED MODE] H=0.55 | Net GEX=+0.0M. Standard progressive profit locks (+3% -> +1% locked, +5% -> +2.5% locked). Allow single pyramid unit at +1N ATR on confirmed Volume PoC migration.",
+      "fast_harvest_target_pct": null,
+      "strategy_directive": "\ud83d\ude80 [TREND RUNNER MODE] Persistence H=0.58 | Net GEX=+0.0M. Enable 0.5N Turtle Pyramiding (+1N, +2N additions). Ratchet stop to Breakeven at +1N. Let runners ride with Chandelier trailing stop (P_max - 2.5N ATR).",
       "microstructure_signals": {
-        "hurst_exponent": 0.548,
-        "hurst_regime": "RANDOM_WALK_NEUTRAL",
+        "hurst_exponent": 0.578,
+        "hurst_regime": "TRENDING_PERSISTENT",
         "net_gex_millions": 0.0,
-        "gamma_flip_level": 248.0,
-        "call_wall_resistance": 175.0,
-        "put_wall_support": 175.0,
+        "gamma_flip_level": 250.38,
+        "call_wall_resistance": 180.0,
+        "put_wall_support": 180.0,
         "has_real_options_data": true
       },
       "genetic_genome_source": {
@@ -7600,53 +7159,53 @@
         "sentiment_gate": 0.2,
         "rsi_period": 14
       },
-      "timestamp": "2026-10-26T07:36:54.381850+00:00"
+      "timestamp": "2026-10-23T07:14:21.679205+00:00"
     },
-    "execution_mode": "HYBRID_BALANCED",
+    "execution_mode": "RUNNER_PYRAMID",
     "pyramiding_enabled": true,
     "tri_force_fusion": {
       "ticker": "AMZN",
-      "p_trade": 0.6074,
-      "trade_conviction_pct": 60.74,
-      "composite_raw_signal": 0.1455,
-      "regime": "HIGH_VOLATILITY_MICROSTRUCTURE_DOMINANT",
+      "p_trade": 0.7225,
+      "trade_conviction_pct": 72.25,
+      "composite_raw_signal": 0.319,
+      "regime": "SIDEWAYS_CHOP_STATARB_DOMINANT",
       "weights": {
-        "w_microstructure": 0.6461,
-        "w_statarb": 0.2632,
-        "w_trend": 0.0907
+        "w_microstructure": 0.0809,
+        "w_statarb": 0.9078,
+        "w_trend": 0.0113
       },
       "signals": {
-        "s_microstructure": 0.0,
-        "s_statarb": 0.553,
+        "s_microstructure": -0.38,
+        "s_statarb": 0.385,
         "s_trend": 0.0
       },
       "arar_details": {
         "arar_score": 0.0,
         "arar_normalized": 0.0,
-        "obi": -0.129,
-        "cvd": 254088436.4,
-        "delta_price_pct": -0.951,
+        "obi": -0.543,
+        "cvd": 298279994.9,
+        "delta_price_pct": -4.57,
         "is_absorption_active": false,
-        "absorption_verdict": "NEUTRAL_FLOW",
-        "microstructure_signal": 0.0
+        "absorption_verdict": "BEARISH_ORDER_OVERHANG",
+        "microstructure_signal": -0.38
       },
       "telemetry": {
-        "hurst_exponent": 0.434,
-        "realized_vol_pct": 34.81,
-        "trend_adx": 18.4,
+        "hurst_exponent": 0.437,
+        "realized_vol_pct": 34.83,
+        "trend_adx": 5.0,
         "vix_level": 16.5
       },
-      "recommendation": "MODERATE_BUY_ALLOCATION"
+      "recommendation": "SUPER_MAJORITY_INSTITUTIONAL_BUY"
     },
-    "p_trade": 0.6074,
+    "p_trade": 0.7225,
     "tree_of_thought_deliberation": {
       "status": "SUCCESS",
       "evaluated_tree": [
         {
           "id": "BRANCH_1_BULLISH_EXPANSION",
           "label": "Bullish Trend Expansion",
-          "target_price": 262.16,
-          "stop_price": 240.92,
+          "target_price": 264.6,
+          "stop_price": 243.27,
           "expected_drift": 0.002,
           "volatility_multiplier": 1.0,
           "prior_probability": 0.2105,
@@ -7655,8 +7214,8 @@
         {
           "id": "BRANCH_2_MEAN_REVERSION",
           "label": "Consolidation Dip & Rebound",
-          "target_price": 256.5,
-          "stop_price": 242.34,
+          "target_price": 258.91,
+          "stop_price": 244.69,
           "expected_drift": 0.0005,
           "volatility_multiplier": 0.8,
           "prior_probability": 0.6842,
@@ -7665,8 +7224,8 @@
         {
           "id": "BRANCH_3_VOLATILITY_BREAKDOWN",
           "label": "Liquidity Flush & Breakdown",
-          "target_price": 230.3,
-          "stop_price": 255.08,
+          "target_price": 232.6,
+          "stop_price": 257.49,
           "expected_drift": -0.003,
           "volatility_multiplier": 1.8,
           "prior_probability": 0.1053,
@@ -7676,12 +7235,12 @@
       "rollout_results": {
         "dominant_branch": "BRANCH_2_MEAN_REVERSION",
         "dominant_label": "Consolidation Dip & Rebound",
-        "composite_tp_probability": 0.3845,
+        "composite_tp_probability": 0.3852,
         "composite_sl_probability": 0.4656,
         "branch_simulations": {
           "BRANCH_1_BULLISH_EXPANSION": {
             "status": "ACTIVE",
-            "tp_hit_rate": 0.3967,
+            "tp_hit_rate": 0.4,
             "sl_hit_rate": 0.4567,
             "expected_pnl_multiple": 2.0
           },
@@ -7701,12 +7260,12 @@
       "recommended_action": "DEFENSIVE_HOLD"
     },
     "wavelet_sifter": {
-      "noise_d1_pct": 37.62,
-      "swing_d2_pct": 35.59,
-      "cyclical_d3_pct": 17.83,
-      "macro_a3_pct": 8.95,
-      "shannon_entropy": 1.8163,
-      "normalized_entropy": 0.9081,
+      "noise_d1_pct": 38.06,
+      "swing_d2_pct": 35.47,
+      "cyclical_d3_pct": 17.24,
+      "macro_a3_pct": 9.23,
+      "shannon_entropy": 1.8153,
+      "normalized_entropy": 0.9076,
       "regime": "HIGH_ENTROPY_CHOP_VETO",
       "veto_active": true,
       "conviction_multiplier": 0.0,
@@ -7714,9 +7273,9 @@
       "sample_bars": 64
     },
     "finjepa_physics": {
-      "latent_displacement": 6.4677,
-      "latent_cosine_alignment": 0.3478,
-      "latent_dispersion": 1.0269,
+      "latent_displacement": 6.2813,
+      "latent_cosine_alignment": 0.3854,
+      "latent_dispersion": 1.0274,
       "regime": "LIQUIDITY_DROUGHT_HAZARD",
       "risk_verdict": "DEFENSIVE_HOLD",
       "physics_confidence": 0.4,
@@ -7732,15 +7291,15 @@
       "tail_risk_probability": 0.1,
       "conviction_tier": "TIER_3_MONITOR",
       "immediate_action": "IGNORE_NOISE",
-      "latency_ms": 0.033,
-      "timestamp": "2026-10-26T07:36:54.457447+00:00"
+      "latency_ms": 0.041,
+      "timestamp": "2026-10-23T07:14:21.750146+00:00"
     },
     "soros_reflexivity": {
-      "price_velocity": -0.0274,
-      "price_acceleration": -0.0136,
+      "price_velocity": -0.0233,
+      "price_acceleration": -0.0243,
       "sentiment_velocity": 0.0,
       "sentiment_acceleration": 0.0,
-      "soros_metric_r": -0.012,
+      "soros_metric_r": -0.02,
       "regime": "TRANSITIONAL_EQUILIBRIUM",
       "conviction_boost": 1.0,
       "cro_veto": false
@@ -7761,66 +7320,66 @@
     }
   },
   "TSLA": {
-    "timestamp": "2026-10-26T07:37:22.494467+00:00",
+    "timestamp": "2026-10-23T07:15:16.992642+00:00",
     "ticker": "TSLA",
-    "spot_price": 372.22,
+    "spot_price": 374.58,
     "final_resolution": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
     "action_code": "VETO",
     "verdict": "VETO",
-    "consensus_conviction_pct": 59.6,
-    "conviction": 59.6,
+    "consensus_conviction_pct": 55.5,
+    "conviction": 55.5,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 401.47,
-    "tp2_target": 424.87,
+    "tp1_target": 404.65,
+    "tp2_target": 428.71,
     "stop_loss_target": 367.73,
-    "atr_14": 11.7,
-    "atr_pct": 3.14,
+    "atr_14": 12.03,
+    "atr_pct": 3.21,
     "quantum_telemetry": {
       "ticker": "TSLA",
-      "spot_price": 372.22,
-      "recommended_policy": "VALUE_AREA_MEAN_REVERSION_BUY",
-      "risk_multiplier": 1.15,
-      "hmm_regime": "Bull",
-      "crisis_probability": 0.1,
+      "spot_price": 374.58,
+      "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
+      "risk_multiplier": 1.0,
+      "hmm_regime": "Normal",
+      "crisis_probability": 0.2144,
       "cusum_alarm": false,
       "cusum_direction": "NONE",
       "poc_price": 402.3,
       "vah_price": 456.86,
       "val_price": 372.92,
-      "dist_to_poc_pct": -7.48,
-      "conformal_lower_bound": 357.03,
-      "conformal_upper_bound": 387.41,
+      "dist_to_poc_pct": -6.89,
+      "conformal_lower_bound": 358.71,
+      "conformal_upper_bound": 390.45,
       "momentum_zscore": 0.0,
       "vol_scaled_exposure": 0.0,
       "realized_vol_annual": 0.2,
       "credit_divergence": false,
       "alpha158_factors": {
-        "KMID": -0.00263,
-        "KLEN": 0.03229,
-        "KMID2": -0.08133,
-        "KUP": 0.01104,
-        "KUP2": 0.34191,
-        "KLOW": 0.01862,
-        "KLOW2": 0.57676,
-        "KSFT": 0.00496,
-        "KSFT2": 0.15353,
-        "CORR5": 0.53699,
-        "CORR20": -0.16214,
-        "CORD5": 0.01018,
-        "CORD20": 0.06604,
-        "WVMA10": 0.00713,
-        "RSV5": 0.51614,
-        "RSV20": 0.61284,
-        "MAX10": 0.04471,
-        "MIN10": -0.0615,
-        "QTLU20": 0.01598,
-        "QTLD20": -0.0411,
-        "ROC5": 0.04933,
-        "ROC20": 0.0003,
-        "BETA10": 0.00141,
-        "RSQR20": 0.16365,
-        "RESI10": -0.00379
+        "KMID": 0.00077,
+        "KLEN": 0.04048,
+        "KMID2": 0.01914,
+        "KUP": 0.03815,
+        "KUP2": 0.94258,
+        "KLOW": 0.00155,
+        "KLOW2": 0.03828,
+        "KSFT": -0.03583,
+        "KSFT2": -0.88515,
+        "CORR5": -0.33649,
+        "CORR20": -0.14934,
+        "CORD5": -0.46829,
+        "CORD20": 0.00093,
+        "WVMA10": 0.00588,
+        "RSV5": 0.63875,
+        "RSV20": 0.66775,
+        "MAX10": 0.03812,
+        "MIN10": -0.06741,
+        "QTLU20": 0.00958,
+        "QTLD20": -0.04714,
+        "ROC5": 0.03349,
+        "ROC20": -0.00889,
+        "BETA10": -0.00043,
+        "RSQR20": 0.13354,
+        "RESI10": 0.008
       },
       "insider_signals": {
         "ticker": "TSLA",
@@ -7836,7 +7395,7 @@
         "transactions": [
           {
             "ticker": "TSLA",
-            "filing_date": "2026-10-09",
+            "filing_date": "2026-10-06",
             "officer_name": "Executive Officer B.",
             "officer_title": "Director",
             "transaction_type": "P - Purchase (Open Market)",
@@ -7847,7 +7406,7 @@
           },
           {
             "ticker": "TSLA",
-            "filing_date": "2026-08-19",
+            "filing_date": "2026-08-16",
             "officer_name": "Executive Officer A.",
             "officer_title": "Chief Executive Officer (CEO)",
             "transaction_type": "P - Purchase (Open Market)",
@@ -7858,7 +7417,7 @@
           },
           {
             "ticker": "TSLA",
-            "filing_date": "2026-08-01",
+            "filing_date": "2026-07-29",
             "officer_name": "Executive Officer C.",
             "officer_title": "Chief Executive Officer (CEO)",
             "transaction_type": "P - Purchase (Open Market)",
@@ -7869,7 +7428,7 @@
           }
         ],
         "summary": "Aggressive C-Suite Insider Buying: $2,815,504 purchased across 3 officers.",
-        "timestamp": "2026-10-26T07:37:16.935428+00:00"
+        "timestamp": "2026-10-23T07:15:11.107312+00:00"
       },
       "sec_catalysts": [
         {
@@ -7897,17 +7456,17 @@
         "color": "#3B82F6"
       },
       "options_data": {
-        "spot_price": 372.22,
+        "spot_price": 374.58,
         "net_gex": 0.0,
         "gamma_regime": "Neutral Gamma",
-        "max_pain_strike": 372.22
+        "max_pain_strike": 374.58
       },
       "macro_blackout": {
         "is_blackout_active": false,
         "status": "NORMAL_LIQUIDITY",
-        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
         "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-        "minutes_to_event": 13643.8,
+        "minutes_to_event": 17986.5,
         "tier": "TIER_1_CRITICAL",
         "expected_spy_dispersion_pct": 0.81,
         "expected_qqq_dispersion_pct": 1.19,
@@ -7921,12 +7480,12 @@
         "risk_profile": "NORMAL"
       },
       "execution_latency": {
-        "total_nanoseconds": 276874061,
-        "total_microseconds": 276874.06,
-        "hmm_micros": 20700.21,
-        "cusum_micros": 14.08,
-        "volume_profile_micros": 9279.2,
-        "momentum_micros": 153.26
+        "total_nanoseconds": 26669875,
+        "total_microseconds": 26669.88,
+        "hmm_micros": 5.21,
+        "cusum_micros": 18.08,
+        "volume_profile_micros": 4918.36,
+        "momentum_micros": 162.94
       }
     },
     "agent_testimonies": [
@@ -7942,33 +7501,26 @@
           "Amazon Chronos-2: Probabilistic Time-Series Foundation Corridors"
         ],
         "vote": "HOLD",
-        "conviction_score": 46.0,
+        "conviction_score": 38.0,
         "key_metrics": {
-          "estimated_rsi": 46.4,
-          "sma_200": 386.35,
-          "ma_21": 369.97,
-          "return_5d_pct": 4.93,
+          "estimated_rsi": 52.1,
+          "sma_200": 386.64,
+          "ma_21": 370.25,
+          "return_5d_pct": 3.35,
           "trend_status": "BEARISH_BELOW_SMA200",
-          "acpm_calibrated_prob": 0.4706,
-          "kmid": -0.00263,
-          "klen": 0.03229,
-          "corr5": 0.53699,
-          "wvma10": 0.00713,
-          "arar_score": 4778079.74,
-          "arar_normalized": 1.0,
-          "obi": 0.154,
-          "cvd": 82305524.8,
-          "is_absorption_active": true,
-          "p10_floor": 333.89,
-          "p90_ceiling": 439.11,
-          "upside_to_downside_ratio": 1.75,
-          "chronos_corridors": {
-            "p10_floor": 333.89,
-            "p90_ceiling": 439.11,
-            "upside_to_downside_ratio": 1.75
-          }
+          "acpm_calibrated_prob": 0.5373,
+          "kmid": 0.00077,
+          "klen": 0.04048,
+          "corr5": -0.33649,
+          "wvma10": 0.00588,
+          "arar_score": 0.0,
+          "arar_normalized": 0.0,
+          "obi": -0.885,
+          "cvd": -54633154.5,
+          "is_absorption_active": false,
+          "chronos_corridors": {}
         },
-        "thesis": "Asset is trading below its 200-day SMA ($386.35), signaling prevailing macro downtrend. \ud83d\udee1\ufe0f ARAR Institutional Absorption Wall active (Score: 4778079.7, OBI: +0.15); aggressive sellers absorbed by resting bid."
+        "thesis": "Asset is trading below its 200-day SMA ($386.64), signaling prevailing macro downtrend."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -7982,11 +7534,11 @@
         "vote": "HOLD",
         "conviction_score": 59.5,
         "key_metrics": {
-          "finbert_polarity": 0.083,
+          "finbert_polarity": 0.084,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
-          "headlines_analyzed": 122,
+          "headlines_analyzed": 114,
           "pead_signal": "STRONG_POST_EARNINGS_ACCUMULATION",
           "sue_score": 0.49,
           "eps_surprise_pct": 10.96,
@@ -8000,7 +7552,7 @@
           "swift_urgency": "NORMAL",
           "swift_action": ""
         },
-        "thesis": "Balanced sentiment environment (+0.08 polarity across 122 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +11.0% EPS Surprise. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 98.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
+        "thesis": "Balanced sentiment environment (+0.08 polarity across 114 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +11.0% EPS Surprise. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 98.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -8015,24 +7567,24 @@
           "data_available": true,
           "piotroski_f_score": 5,
           "altman_z_score": 25.0,
-          "dcf_fair_value": 111.66600036621094,
+          "dcf_fair_value": 112.37399597167969,
           "dcf_margin_of_safety_pct": -70.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $111.67 (Margin of Safety: -70.0%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $112.37 (Margin of Safety: -70.0%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "TSLA",
-        "spot_price": 372.22,
-        "day_high": 377.3,
-        "day_low": 365.27,
-        "change_pct": -0.63,
-        "range_position_pct": 57.8,
-        "rvol": 0.96,
-        "momentum_velocity_pct": 1.13,
-        "conviction_score": 75.0,
-        "vote": "BUY",
-        "verdict": "\ud83d\udfe2 Strong Tape Momentum (RVOL 0.96x, Range 58%, 5D Vel +1.1%, FVG: Bullish FVG [369.58 - 380.51], CE $375.04 (Testing Mitigation Zone))",
+        "spot_price": 374.58,
+        "day_high": 388.86,
+        "day_low": 373.71,
+        "change_pct": -3.08,
+        "range_position_pct": 5.7,
+        "rvol": 1.4,
+        "momentum_velocity_pct": 5.6,
+        "conviction_score": 63.0,
+        "vote": "HOLD",
+        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 6%, RVOL 1.4x, 5D Vel +5.6%)",
         "fvg_analysis": {
           "has_active_fvg": true,
           "is_mitigating": true,
@@ -8043,18 +7595,18 @@
             "date": "2026-10-20"
           },
           "active_bearish_fvg": {
-            "top": 380.51,
-            "bottom": 377.32,
-            "consequent_encroachment": 378.92,
-            "date": "2026-10-22"
+            "top": 371.3,
+            "bottom": 363.75,
+            "consequent_encroachment": 367.52,
+            "date": "2026-10-14"
           },
-          "tactical_limit_entry": 372.22,
+          "tactical_limit_entry": 374.58,
           "invalidation_stop": 367.73,
           "summary": "Bullish FVG [369.58 - 380.51], CE $375.04 (Testing Mitigation Zone)"
         },
-        "tactical_limit_entry": 372.22,
+        "tactical_limit_entry": 374.58,
         "invalidation_stop": 367.73,
-        "timestamp": "2026-10-26T07:37:17.792891+00:00"
+        "timestamp": "2026-10-23T07:15:12.100649+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -8087,34 +7639,34 @@
       ],
       "final_resolution": "\ud83d\udd34 VETO / DOUBLE CRASH EXHAUSTION DETECTED",
       "action_code": "VETO",
-      "buy_votes": 1,
+      "buy_votes": 0,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 59.6,
-      "unweighted_conviction_pct": 60.9,
-      "weighted_conviction_pct": 58.3,
+      "consensus_conviction_pct": 55.5,
+      "unweighted_conviction_pct": 56.9,
+      "weighted_conviction_pct": 54.1,
       "approved_leverage": 0.0,
       "kelly_allocation_pct": 0.0,
       "kelly_details": {
         "full_kelly_pct": 18.29,
-        "fractional_kelly_pct": 3.46,
-        "cf_haircut_multiplier": 0.7575,
+        "fractional_kelly_pct": 3.49,
+        "cf_haircut_multiplier": 0.7631,
         "edge": 0.32,
         "kelly_fraction": 0.25,
         "win_rate": 0.48,
         "payoff_ratio": 1.75,
-        "skewness": -0.38888569489428476,
-        "excess_kurtosis": 2.3236957125437754,
+        "skewness": -0.3806677244237115,
+        "excess_kurtosis": 2.267383428496366,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "atr_14": 11.7,
-      "atr_pct": 3.14,
-      "tp1_target": 401.47,
-      "tp2_target": 424.87,
+      "atr_14": 12.03,
+      "atr_pct": 3.21,
+      "tp1_target": 404.65,
+      "tp2_target": 428.71,
       "stop_loss_target": 367.73,
       "portfolio_diversity_grade": "A",
-      "conformal_lower_bound": 357.03,
-      "conformal_upper_bound": 387.41,
-      "cro_thesis": "Committee Consensus: 1/5 specialist agents voted BUY (Average Conviction: 60.9%). ATR14 is $11.70 (3.1% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: CRO Hard-Veto: Double Crash / Top Exhaustion detected via dark pool put sweeps & options skew (66.7% crash probability).",
+      "conformal_lower_bound": 358.71,
+      "conformal_upper_bound": 390.45,
+      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 56.9%). ATR14 is $12.03 (3.2% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: CRO Hard-Veto: Double Crash / Top Exhaustion detected via dark pool put sweeps & options skew (100.0% crash probability).",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false,
@@ -8123,49 +7675,49 @@
       "hmm_veto_triggered": false,
       "quantum_telemetry": {
         "ticker": "TSLA",
-        "spot_price": 372.22,
-        "recommended_policy": "VALUE_AREA_MEAN_REVERSION_BUY",
-        "risk_multiplier": 1.15,
-        "hmm_regime": "Bull",
-        "crisis_probability": 0.1,
+        "spot_price": 374.58,
+        "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
+        "risk_multiplier": 1.0,
+        "hmm_regime": "Normal",
+        "crisis_probability": 0.2144,
         "cusum_alarm": false,
         "cusum_direction": "NONE",
         "poc_price": 402.3,
         "vah_price": 456.86,
         "val_price": 372.92,
-        "dist_to_poc_pct": -7.48,
-        "conformal_lower_bound": 357.03,
-        "conformal_upper_bound": 387.41,
+        "dist_to_poc_pct": -6.89,
+        "conformal_lower_bound": 358.71,
+        "conformal_upper_bound": 390.45,
         "momentum_zscore": 0.0,
         "vol_scaled_exposure": 0.0,
         "realized_vol_annual": 0.2,
         "credit_divergence": false,
         "alpha158_factors": {
-          "KMID": -0.00263,
-          "KLEN": 0.03229,
-          "KMID2": -0.08133,
-          "KUP": 0.01104,
-          "KUP2": 0.34191,
-          "KLOW": 0.01862,
-          "KLOW2": 0.57676,
-          "KSFT": 0.00496,
-          "KSFT2": 0.15353,
-          "CORR5": 0.53699,
-          "CORR20": -0.16214,
-          "CORD5": 0.01018,
-          "CORD20": 0.06604,
-          "WVMA10": 0.00713,
-          "RSV5": 0.51614,
-          "RSV20": 0.61284,
-          "MAX10": 0.04471,
-          "MIN10": -0.0615,
-          "QTLU20": 0.01598,
-          "QTLD20": -0.0411,
-          "ROC5": 0.04933,
-          "ROC20": 0.0003,
-          "BETA10": 0.00141,
-          "RSQR20": 0.16365,
-          "RESI10": -0.00379
+          "KMID": 0.00077,
+          "KLEN": 0.04048,
+          "KMID2": 0.01914,
+          "KUP": 0.03815,
+          "KUP2": 0.94258,
+          "KLOW": 0.00155,
+          "KLOW2": 0.03828,
+          "KSFT": -0.03583,
+          "KSFT2": -0.88515,
+          "CORR5": -0.33649,
+          "CORR20": -0.14934,
+          "CORD5": -0.46829,
+          "CORD20": 0.00093,
+          "WVMA10": 0.00588,
+          "RSV5": 0.63875,
+          "RSV20": 0.66775,
+          "MAX10": 0.03812,
+          "MIN10": -0.06741,
+          "QTLU20": 0.00958,
+          "QTLD20": -0.04714,
+          "ROC5": 0.03349,
+          "ROC20": -0.00889,
+          "BETA10": -0.00043,
+          "RSQR20": 0.13354,
+          "RESI10": 0.008
         },
         "insider_signals": {
           "ticker": "TSLA",
@@ -8181,7 +7733,7 @@
           "transactions": [
             {
               "ticker": "TSLA",
-              "filing_date": "2026-10-09",
+              "filing_date": "2026-10-06",
               "officer_name": "Executive Officer B.",
               "officer_title": "Director",
               "transaction_type": "P - Purchase (Open Market)",
@@ -8192,7 +7744,7 @@
             },
             {
               "ticker": "TSLA",
-              "filing_date": "2026-08-19",
+              "filing_date": "2026-08-16",
               "officer_name": "Executive Officer A.",
               "officer_title": "Chief Executive Officer (CEO)",
               "transaction_type": "P - Purchase (Open Market)",
@@ -8203,7 +7755,7 @@
             },
             {
               "ticker": "TSLA",
-              "filing_date": "2026-08-01",
+              "filing_date": "2026-07-29",
               "officer_name": "Executive Officer C.",
               "officer_title": "Chief Executive Officer (CEO)",
               "transaction_type": "P - Purchase (Open Market)",
@@ -8214,7 +7766,7 @@
             }
           ],
           "summary": "Aggressive C-Suite Insider Buying: $2,815,504 purchased across 3 officers.",
-          "timestamp": "2026-10-26T07:37:16.935428+00:00"
+          "timestamp": "2026-10-23T07:15:11.107312+00:00"
         },
         "sec_catalysts": [
           {
@@ -8242,17 +7794,17 @@
           "color": "#3B82F6"
         },
         "options_data": {
-          "spot_price": 372.22,
+          "spot_price": 374.58,
           "net_gex": 0.0,
           "gamma_regime": "Neutral Gamma",
-          "max_pain_strike": 372.22
+          "max_pain_strike": 374.58
         },
         "macro_blackout": {
           "is_blackout_active": false,
           "status": "NORMAL_LIQUIDITY",
-          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
           "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-          "minutes_to_event": 13643.8,
+          "minutes_to_event": 17986.5,
           "tier": "TIER_1_CRITICAL",
           "expected_spy_dispersion_pct": 0.81,
           "expected_qqq_dispersion_pct": 1.19,
@@ -8266,12 +7818,12 @@
           "risk_profile": "NORMAL"
         },
         "execution_latency": {
-          "total_nanoseconds": 276874061,
-          "total_microseconds": 276874.06,
-          "hmm_micros": 20700.21,
-          "cusum_micros": 14.08,
-          "volume_profile_micros": 9279.2,
-          "momentum_micros": 153.26
+          "total_nanoseconds": 26669875,
+          "total_microseconds": 26669.88,
+          "hmm_micros": 5.21,
+          "cusum_micros": 18.08,
+          "volume_profile_micros": 4918.36,
+          "momentum_micros": 162.94
         }
       },
       "memory_risk_adjustment": {
@@ -8298,15 +7850,15 @@
       "meta_label_metrics": {
         "ticker": "TSLA",
         "approved": false,
-        "barrier_touch_prob": 0.6969,
-        "barrier_touch_prob_pct": 69.7,
+        "barrier_touch_prob": 0.3697,
+        "barrier_touch_prob_pct": 37.0,
         "verdict": "META_LABEL_VETO_WHIPSAW_TRAP_FILTER",
         "meta_label": 0,
         "factors": {
-          "base_logit": 0.64,
+          "base_logit": 0.367,
           "trend_factor": -1.2,
           "rsi_factor": 0.6,
-          "micro_factor": 0.592,
+          "micro_factor": -0.5,
           "vol_factor": 0.2
         },
         "reason": "Vetoed by Meta-Labeler: Asset below SMA200 has low upper barrier hit rate."
@@ -8316,9 +7868,9 @@
       "mahalanobis_metrics": {
         "status": "SUCCESS",
         "ticker": "TSLA",
-        "mahalanobis_distance": 1.445,
+        "mahalanobis_distance": 2.057,
         "critical_threshold_99": 3.884,
-        "p_value": 0.83694,
+        "p_value": 0.5169,
         "degrees_of_freedom": 5,
         "is_anomaly": false,
         "regime_verdict": "NORMAL_REGIME_STATISTICALLY_STABLE",
@@ -8326,19 +7878,19 @@
       },
       "finjepa_metrics": {
         "finjepa_regime": "LIQUIDITY_DROUGHT_HAZARD",
-        "finjepa_displacement": 6.3102,
+        "finjepa_displacement": 6.2468,
         "finjepa_confidence": 0.4,
         "finjepa_veto": true
       },
       "finjepa_veto_triggered": true,
       "sde_tail_risk_metrics": {
-        "cvar99_floor": 118023.37,
-        "var99": 10742.73
+        "cvar99_floor": 118014.06,
+        "var99": 10733.22
       },
       "drl_policy_metrics": {
-        "drl_leverage_multiplier": 0.829
+        "drl_leverage_multiplier": 0.725
       },
-      "vpin": 0.2752,
+      "vpin": 0.3078,
       "toxicity_regime": "LOW_TOXICITY_BENIGN"
     },
     "adaptive_execution": {
@@ -8348,14 +7900,14 @@
       "tp_atr_multiple": 2.5,
       "sl_atr_multiple": 1.25,
       "fast_harvest_target_pct": 2.5,
-      "strategy_directive": "\u2696\ufe0f [HYBRID BALANCED MODE] H=0.29 | Net GEX=+0.0M. Standard progressive profit locks (+3% -> +1% locked, +5% -> +2.5% locked). Allow single pyramid unit at +1N ATR on confirmed Volume PoC migration.",
+      "strategy_directive": "\u2696\ufe0f [HYBRID BALANCED MODE] H=0.31 | Net GEX=+0.0M. Standard progressive profit locks (+3% -> +1% locked, +5% -> +2.5% locked). Allow single pyramid unit at +1N ATR on confirmed Volume PoC migration.",
       "microstructure_signals": {
-        "hurst_exponent": 0.29,
+        "hurst_exponent": 0.31,
         "hurst_regime": "MEAN_REVERTING_CHOP",
         "net_gex_millions": 0.0,
-        "gamma_flip_level": 372.22,
-        "call_wall_resistance": 262.5,
-        "put_wall_support": 262.5,
+        "gamma_flip_level": 374.58,
+        "call_wall_resistance": 265.0,
+        "put_wall_support": 265.0,
         "has_real_options_data": true
       },
       "genetic_genome_source": {
@@ -8364,89 +7916,89 @@
         "sentiment_gate": 0.2,
         "rsi_period": 14
       },
-      "timestamp": "2026-10-26T07:37:23.049208+00:00"
+      "timestamp": "2026-10-23T07:15:17.492364+00:00"
     },
     "execution_mode": "HYBRID_BALANCED",
     "pyramiding_enabled": true,
     "tri_force_fusion": {
       "ticker": "TSLA",
-      "p_trade": 0.8942,
-      "trade_conviction_pct": 89.42,
-      "composite_raw_signal": 0.7115,
-      "regime": "HIGH_VOLATILITY_MICROSTRUCTURE_DOMINANT",
+      "p_trade": 0.2338,
+      "trade_conviction_pct": 23.38,
+      "composite_raw_signal": -0.3957,
+      "regime": "SIDEWAYS_CHOP_STATARB_DOMINANT",
       "weights": {
-        "w_microstructure": 0.7419,
-        "w_statarb": 0.2447,
-        "w_trend": 0.0134
+        "w_microstructure": 0.4056,
+        "w_statarb": 0.5872,
+        "w_trend": 0.0072
       },
       "signals": {
-        "s_microstructure": 1.0,
-        "s_statarb": -0.124,
+        "s_microstructure": -0.62,
+        "s_statarb": -0.246,
         "s_trend": 0.0
       },
       "arar_details": {
-        "arar_score": 4778079.74,
-        "arar_normalized": 1.0,
-        "obi": 0.154,
-        "cvd": 82305524.8,
-        "delta_price_pct": -0.63,
-        "is_absorption_active": true,
-        "absorption_verdict": "INSTITUTIONAL_ICEBERG_ABSORPTION_LONG",
-        "microstructure_signal": 1.0
+        "arar_score": 0.0,
+        "arar_normalized": 0.0,
+        "obi": -0.885,
+        "cvd": -54633154.5,
+        "delta_price_pct": -3.077,
+        "is_absorption_active": false,
+        "absorption_verdict": "BEARISH_ORDER_OVERHANG",
+        "microstructure_signal": -0.62
       },
       "telemetry": {
-        "hurst_exponent": 0.421,
-        "realized_vol_pct": 45.06,
-        "trend_adx": 11.6,
+        "hurst_exponent": 0.422,
+        "realized_vol_pct": 45.18,
+        "trend_adx": 5.5,
         "vix_level": 16.5
       },
-      "recommendation": "SUPER_MAJORITY_INSTITUTIONAL_BUY"
+      "recommendation": "STRONG_SELL_DEFENSIVE_CASH"
     },
-    "p_trade": 0.8942,
+    "p_trade": 0.2338,
     "tree_of_thought_deliberation": {
       "status": "SUCCESS",
       "evaluated_tree": [
         {
           "id": "BRANCH_1_BULLISH_EXPANSION",
           "label": "Bullish Trend Expansion",
-          "target_price": 395.62,
-          "stop_price": 360.52,
+          "target_price": 398.64,
+          "stop_price": 362.55,
           "expected_drift": 0.002,
           "volatility_multiplier": 1.0,
-          "prior_probability": 0.3299,
+          "prior_probability": 0.2105,
           "is_pruned": false
         },
         {
           "id": "BRANCH_2_MEAN_REVERSION",
           "label": "Consolidation Dip & Rebound",
-          "target_price": 386.26,
-          "stop_price": 362.86,
+          "target_price": 389.02,
+          "stop_price": 364.96,
           "expected_drift": 0.0005,
           "volatility_multiplier": 0.8,
-          "prior_probability": 0.567,
+          "prior_probability": 0.6842,
           "is_pruned": false
         },
         {
           "id": "BRANCH_3_VOLATILITY_BREAKDOWN",
           "label": "Liquidity Flush & Breakdown",
-          "target_price": 342.97,
-          "stop_price": 383.92,
+          "target_price": 344.5,
+          "stop_price": 386.61,
           "expected_drift": -0.003,
           "volatility_multiplier": 1.8,
-          "prior_probability": 0.1031,
+          "prior_probability": 0.1053,
           "is_pruned": true
         }
       ],
       "rollout_results": {
         "dominant_branch": "BRANCH_2_MEAN_REVERSION",
         "dominant_label": "Consolidation Dip & Rebound",
-        "composite_tp_probability": 0.3763,
-        "composite_sl_probability": 0.4568,
+        "composite_tp_probability": 0.3809,
+        "composite_sl_probability": 0.4663,
         "branch_simulations": {
           "BRANCH_1_BULLISH_EXPANSION": {
             "status": "ACTIVE",
             "tp_hit_rate": 0.39,
-            "sl_hit_rate": 0.4567,
+            "sl_hit_rate": 0.46,
             "expected_pnl_multiple": 2.0
           },
           "BRANCH_2_MEAN_REVERSION": {
@@ -8465,12 +8017,12 @@
       "recommended_action": "DEFENSIVE_HOLD"
     },
     "wavelet_sifter": {
-      "noise_d1_pct": 66.05,
-      "swing_d2_pct": 17.65,
-      "cyclical_d3_pct": 12.47,
-      "macro_a3_pct": 3.83,
-      "shannon_entropy": 1.3917,
-      "normalized_entropy": 0.6959,
+      "noise_d1_pct": 65.63,
+      "swing_d2_pct": 17.92,
+      "cyclical_d3_pct": 12.69,
+      "macro_a3_pct": 3.76,
+      "shannon_entropy": 1.3991,
+      "normalized_entropy": 0.6995,
       "regime": "HIGH_ENTROPY_CHOP_VETO",
       "veto_active": true,
       "conviction_multiplier": 0.0,
@@ -8478,9 +8030,9 @@
       "sample_bars": 64
     },
     "finjepa_physics": {
-      "latent_displacement": 6.3102,
-      "latent_cosine_alignment": 0.3796,
-      "latent_dispersion": 1.0277,
+      "latent_displacement": 6.2468,
+      "latent_cosine_alignment": 0.3921,
+      "latent_dispersion": 1.027,
       "regime": "LIQUIDITY_DROUGHT_HAZARD",
       "risk_verdict": "DEFENSIVE_HOLD",
       "physics_confidence": 0.4,
@@ -8496,15 +8048,15 @@
       "tail_risk_probability": 0.1,
       "conviction_tier": "TIER_3_MONITOR",
       "immediate_action": "IGNORE_NOISE",
-      "latency_ms": 0.032,
-      "timestamp": "2026-10-26T07:37:23.125460+00:00"
+      "latency_ms": 0.035,
+      "timestamp": "2026-10-23T07:15:17.557361+00:00"
     },
     "soros_reflexivity": {
-      "price_velocity": -0.0184,
-      "price_acceleration": -0.0217,
+      "price_velocity": 0.0012,
+      "price_acceleration": -0.0128,
       "sentiment_velocity": 0.0,
       "sentiment_acceleration": 0.0,
-      "soros_metric_r": -0.0158,
+      "soros_metric_r": 0.0007,
       "regime": "TRANSITIONAL_EQUILIBRIUM",
       "conviction_boost": 1.0,
       "cro_veto": false
@@ -13643,70 +13195,70 @@
     ]
   },
   "META": {
-    "timestamp": "2026-10-26T07:37:11.593584+00:00",
+    "timestamp": "2026-10-23T07:15:01.399342+00:00",
     "ticker": "META",
-    "spot_price": 642.62,
+    "spot_price": 648.85,
     "final_resolution": "\ud83d\udd34 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD",
     "action_code": "VETO",
     "verdict": "VETO",
-    "consensus_conviction_pct": 59.7,
-    "conviction": 59.7,
+    "consensus_conviction_pct": 54.0,
+    "conviction": 54.0,
     "approved_leverage": 0.0,
     "kelly_allocation_pct": 0.0,
-    "tp1_target": 705.82,
-    "tp2_target": 756.38,
-    "stop_loss_target": 624.95,
-    "atr_14": 25.28,
-    "atr_pct": 3.93,
+    "tp1_target": 712.77,
+    "tp2_target": 763.91,
+    "stop_loss_target": 631.01,
+    "atr_14": 25.57,
+    "atr_pct": 3.94,
     "quantum_telemetry": {
       "ticker": "META",
-      "spot_price": 642.62,
-      "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
-      "risk_multiplier": 1.0,
-      "hmm_regime": "Bull",
-      "crisis_probability": 0.1,
-      "cusum_alarm": false,
-      "cusum_direction": "NONE",
+      "spot_price": 648.85,
+      "recommended_policy": "STRUCTURAL_BREAKDOWN_VETO",
+      "risk_multiplier": 0.0,
+      "hmm_regime": "Normal",
+      "crisis_probability": 0.2144,
+      "cusum_alarm": true,
+      "cusum_direction": "DOWN",
       "poc_price": 666.26,
       "vah_price": 671.67,
-      "val_price": 574.34,
-      "dist_to_poc_pct": -3.55,
-      "conformal_lower_bound": 609.89,
-      "conformal_upper_bound": 675.35,
+      "val_price": 563.52,
+      "dist_to_poc_pct": -2.61,
+      "conformal_lower_bound": 614.38,
+      "conformal_upper_bound": 683.32,
       "momentum_zscore": 0.0,
       "vol_scaled_exposure": 0.0,
       "realized_vol_annual": 0.2,
       "credit_divergence": false,
       "alpha158_factors": {
-        "KMID": 0.00696,
-        "KLEN": 0.02314,
-        "KMID2": 0.30061,
-        "KUP": 0.00849,
-        "KUP2": 0.36696,
-        "KLOW": 0.00769,
-        "KLOW2": 0.33243,
-        "KSFT": 0.00616,
-        "KSFT2": 0.26608,
-        "CORR5": -0.20517,
-        "CORR20": -0.26396,
-        "CORD5": -0.23486,
-        "CORD20": 0.03872,
-        "WVMA10": 0.01258,
-        "RSV5": 0.11695,
-        "RSV20": 0.06775,
-        "MAX10": 0.2002,
-        "MIN10": -0.01455,
-        "QTLU20": 0.14968,
-        "QTLD20": 0.09529,
-        "ROC5": -0.09405,
-        "ROC20": -0.14507,
-        "BETA10": -0.01914,
-        "RSQR20": 0.37298,
-        "RESI10": -0.01523
+        "KMID": -0.04066,
+        "KLEN": 0.06118,
+        "KMID2": -0.66457,
+        "KUP": 0.00698,
+        "KUP2": 0.11407,
+        "KLOW": 0.01354,
+        "KLOW2": 0.22136,
+        "KSFT": -0.0341,
+        "KSFT2": -0.55727,
+        "CORR5": -0.8027,
+        "CORR20": -0.35542,
+        "CORD5": -0.16011,
+        "CORD20": 0.08719,
+        "WVMA10": 0.01334,
+        "RSV5": 0.09271,
+        "RSV20": 0.06961,
+        "MAX10": 0.18867,
+        "MIN10": -0.01412,
+        "QTLU20": 0.13968,
+        "QTLD20": 0.09201,
+        "ROC5": -0.11927,
+        "ROC20": -0.16556,
+        "BETA10": -0.01318,
+        "RSQR20": 0.31886,
+        "RESI10": -0.04321
       },
       "insider_signals": {
         "ticker": "META",
-        "conviction_score": 76.0,
+        "conviction_score": 92.0,
         "signal": "NEUTRAL_NO_FILINGS",
         "cluster_buy_detected": true,
         "net_purchased_usd": 0.0,
@@ -13743,17 +13295,17 @@
         "color": "#3B82F6"
       },
       "options_data": {
-        "spot_price": 642.62,
+        "spot_price": 648.85,
         "net_gex": 0.0,
         "gamma_regime": "Neutral Gamma",
-        "max_pain_strike": 642.62
+        "max_pain_strike": 648.85
       },
       "macro_blackout": {
         "is_blackout_active": false,
         "status": "NORMAL_LIQUIDITY",
-        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+        "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
         "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-        "minutes_to_event": 13643.8,
+        "minutes_to_event": 17986.5,
         "tier": "TIER_1_CRITICAL",
         "expected_spy_dispersion_pct": 0.81,
         "expected_qqq_dispersion_pct": 1.19,
@@ -13767,12 +13319,12 @@
         "risk_profile": "NORMAL"
       },
       "execution_latency": {
-        "total_nanoseconds": 33479891,
-        "total_microseconds": 33479.89,
-        "hmm_micros": 4.37,
-        "cusum_micros": 16.16,
-        "volume_profile_micros": 9550.76,
-        "momentum_micros": 152.79
+        "total_nanoseconds": 648579477,
+        "total_microseconds": 648579.48,
+        "hmm_micros": 19380.8,
+        "cusum_micros": 14.25,
+        "volume_profile_micros": 4925.61,
+        "momentum_micros": 148.63
       }
     },
     "agent_testimonies": [
@@ -13788,33 +13340,26 @@
           "Amazon Chronos-2: Probabilistic Time-Series Foundation Corridors"
         ],
         "vote": "HOLD",
-        "conviction_score": 56.0,
+        "conviction_score": 43.0,
         "key_metrics": {
-          "estimated_rsi": 24.3,
-          "sma_200": 632.53,
-          "ma_21": 719.27,
-          "return_5d_pct": -9.4,
+          "estimated_rsi": 30.3,
+          "sma_200": 632.56,
+          "ma_21": 725.7,
+          "return_5d_pct": -11.93,
           "trend_status": "OVERSOLD_MEAN_REVERSION",
-          "acpm_calibrated_prob": 0.373,
-          "kmid": 0.00696,
-          "klen": 0.02314,
-          "corr5": -0.20517,
-          "wvma10": 0.01258,
-          "arar_score": 2444098.96,
-          "arar_normalized": 1.0,
-          "obi": 0.266,
-          "cvd": -50259235.9,
-          "is_absorption_active": true,
-          "p10_floor": 592.71,
-          "p90_ceiling": 774.45,
-          "upside_to_downside_ratio": 2.64,
-          "chronos_corridors": {
-            "p10_floor": 592.71,
-            "p90_ceiling": 774.45,
-            "upside_to_downside_ratio": 2.64
-          }
+          "acpm_calibrated_prob": 0.4071,
+          "kmid": -0.04066,
+          "klen": 0.06118,
+          "corr5": -0.8027,
+          "wvma10": 0.01334,
+          "arar_score": 0.0,
+          "arar_normalized": 0.0,
+          "obi": -0.557,
+          "cvd": -41280430.2,
+          "is_absorption_active": false,
+          "chronos_corridors": {}
         },
-        "thesis": "Asset RSI is oversold (24.3 < 35), signaling potential mean-reversion opportunity. ACPM Conformal Model signals caution (37.3% probability). \ud83d\udee1\ufe0f ARAR Institutional Absorption Wall active (Score: 2444099.0, OBI: +0.27); aggressive sellers absorbed by resting bid."
+        "thesis": "Asset RSI is oversold (30.3 < 35), signaling potential mean-reversion opportunity. ACPM Conformal Model signals caution (40.7% probability). Qlib Alpha158 warns of body rejection (KMID: -0.0407)."
       },
       {
         "agent_name": "Sentiment & Alternative Data Specialist",
@@ -13828,16 +13373,16 @@
         "vote": "HOLD",
         "conviction_score": 72.5,
         "key_metrics": {
-          "finbert_polarity": 0.047,
+          "finbert_polarity": 0.09,
           "event_type": "GENERAL_MARKET_FLOW",
           "urgency_score": 0.2,
           "is_material": false,
-          "headlines_analyzed": 117,
+          "headlines_analyzed": 115,
           "pead_signal": "STRONG_POST_EARNINGS_ACCUMULATION",
           "sue_score": 1.49,
           "eps_surprise_pct": 56.79,
           "sec_8k_count": 1,
-          "insider_score": 76.0,
+          "insider_score": 92.0,
           "insider_cluster_buy": true,
           "social_velocity": 2.34,
           "is_biotech": false,
@@ -13846,7 +13391,7 @@
           "swift_urgency": "NORMAL",
           "swift_action": ""
         },
-        "thesis": "Balanced sentiment environment (+0.05 polarity across 117 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +56.8% EPS Surprise. \ud83d\udc54 SEC FORM 4 CLUSTER: 2 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 76.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
+        "thesis": "Balanced sentiment environment (+0.09 polarity across 115 headlines; Event: GENERAL_MARKET_FLOW). PEAD Catalyst (STRONG_POST_EARNINGS_ACCUMULATION): +56.8% EPS Surprise. \ud83d\udc54 SEC FORM 4 CLUSTER: 4 C-suite filings within 5 days. \ud83d\udc54 EXECUTIVE CLUSTER BUY: Multiple officers buying shares (Score: 92.0/100). \u26a1 Social Buzz (2.3x velocity): \u26a1 ABOVE-AVERAGE RETAIL INTEREST (Active Organic Discussion)."
       },
       {
         "agent_name": "Forensic & Valuation Auditor",
@@ -13860,42 +13405,42 @@
         "key_metrics": {
           "data_available": true,
           "piotroski_f_score": 5,
-          "altman_z_score": 10.95,
-          "dcf_fair_value": 192.78599853515624,
+          "altman_z_score": 11.14,
+          "dcf_fair_value": 194.65499267578124,
           "dcf_margin_of_safety_pct": -70.0
         },
-        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $192.79 (Margin of Safety: -70.0%)."
+        "thesis": "Valuation caution: Piotroski F-Score 5/9, DCF Fair Value $194.65 (Margin of Safety: -70.0%)."
       },
       {
         "agent_name": "Real-Time Price & Tape Scout",
         "ticker": "META",
-        "spot_price": 642.62,
-        "day_high": 648.04,
-        "day_low": 633.27,
-        "change_pct": -0.96,
-        "range_position_pct": 63.3,
-        "rvol": 0.77,
-        "momentum_velocity_pct": -8.91,
-        "conviction_score": 50.0,
-        "vote": "HOLD",
-        "verdict": "\ud83d\udfe1 Neutral Tape Flow (Range 63%, RVOL 0.77x, 5D Vel -8.9%)",
+        "spot_price": 648.85,
+        "day_high": 681.07,
+        "day_low": 639.69,
+        "change_pct": -6.98,
+        "range_position_pct": 22.1,
+        "rvol": 2.04,
+        "momentum_velocity_pct": -8.53,
+        "conviction_score": 35.0,
+        "vote": "SELL",
+        "verdict": "\ud83d\udd34 Weak Tape / Selling Pressure (RVOL 2.04x, Range 22%, 5D Vel -8.5%)",
         "fvg_analysis": {
           "has_active_fvg": true,
           "is_mitigating": false,
           "active_bullish_fvg": null,
           "active_bearish_fvg": {
-            "top": 689.68,
-            "bottom": 648.04,
-            "consequent_encroachment": 668.86,
-            "date": "2026-10-22"
+            "top": 702.71,
+            "bottom": 696.51,
+            "consequent_encroachment": 699.61,
+            "date": "2026-10-19"
           },
-          "tactical_limit_entry": 642.62,
-          "invalidation_stop": 623.34,
+          "tactical_limit_entry": 648.85,
+          "invalidation_stop": 629.38,
           "summary": "No active bullish FVG in 30-day window"
         },
-        "tactical_limit_entry": 642.62,
-        "invalidation_stop": 623.34,
-        "timestamp": "2026-10-26T07:37:06.771243+00:00"
+        "tactical_limit_entry": 648.85,
+        "invalidation_stop": 629.38,
+        "timestamp": "2026-10-23T07:14:54.830530+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -13930,87 +13475,87 @@
       "action_code": "VETO",
       "buy_votes": 0,
       "total_specialist_votes": 5,
-      "consensus_conviction_pct": 59.7,
-      "unweighted_conviction_pct": 60.5,
-      "weighted_conviction_pct": 59.0,
+      "consensus_conviction_pct": 54.0,
+      "unweighted_conviction_pct": 54.9,
+      "weighted_conviction_pct": 53.0,
       "approved_leverage": 0.0,
       "kelly_allocation_pct": 0.0,
       "kelly_details": {
         "full_kelly_pct": 18.29,
-        "fractional_kelly_pct": 3.51,
-        "cf_haircut_multiplier": 0.7669,
+        "fractional_kelly_pct": 3.5,
+        "cf_haircut_multiplier": 0.7667,
         "edge": 0.32,
         "kelly_fraction": 0.25,
         "win_rate": 0.48,
         "payoff_ratio": 1.75,
-        "skewness": 0.18716130017127738,
-        "excess_kurtosis": 3.730001670928256,
+        "skewness": 0.18047773377299514,
+        "excess_kurtosis": 3.732112192494917,
         "status": "POSITIVE_EXPECTANCY"
       },
-      "atr_14": 25.28,
-      "atr_pct": 3.93,
-      "tp1_target": 705.82,
-      "tp2_target": 756.38,
-      "stop_loss_target": 624.95,
+      "atr_14": 25.57,
+      "atr_pct": 3.94,
+      "tp1_target": 712.77,
+      "tp2_target": 763.91,
+      "stop_loss_target": 631.01,
       "portfolio_diversity_grade": "A",
-      "conformal_lower_bound": 609.89,
-      "conformal_upper_bound": 675.35,
-      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 60.5%). ATR14 is $25.28 (3.9% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: FinJEPA Physics Hazard: LIQUIDITY_DROUGHT_HAZARD (High latent dispersion anomaly).",
+      "conformal_lower_bound": 614.38,
+      "conformal_upper_bound": 683.32,
+      "cro_thesis": "Committee Consensus: 0/5 specialist agents voted BUY (Average Conviction: 54.9%). ATR14 is $25.57 (3.9% vol). VIX is 16.5 (NORMAL). Fractional Kelly: 0.0%. Trade blocked: CUSUM Structural Break VETO (Page 1954): Acute downward changepoint detected in price series.",
       "vix_level": 16.5,
       "vix_veto_triggered": false,
       "red_team_veto_triggered": false,
       "vpin_veto_triggered": false,
-      "cusum_veto_triggered": false,
+      "cusum_veto_triggered": true,
       "hmm_veto_triggered": false,
       "quantum_telemetry": {
         "ticker": "META",
-        "spot_price": 642.62,
-        "recommended_policy": "MOMENTUM_TREND_FOLLOWING",
-        "risk_multiplier": 1.0,
-        "hmm_regime": "Bull",
-        "crisis_probability": 0.1,
-        "cusum_alarm": false,
-        "cusum_direction": "NONE",
+        "spot_price": 648.85,
+        "recommended_policy": "STRUCTURAL_BREAKDOWN_VETO",
+        "risk_multiplier": 0.0,
+        "hmm_regime": "Normal",
+        "crisis_probability": 0.2144,
+        "cusum_alarm": true,
+        "cusum_direction": "DOWN",
         "poc_price": 666.26,
         "vah_price": 671.67,
-        "val_price": 574.34,
-        "dist_to_poc_pct": -3.55,
-        "conformal_lower_bound": 609.89,
-        "conformal_upper_bound": 675.35,
+        "val_price": 563.52,
+        "dist_to_poc_pct": -2.61,
+        "conformal_lower_bound": 614.38,
+        "conformal_upper_bound": 683.32,
         "momentum_zscore": 0.0,
         "vol_scaled_exposure": 0.0,
         "realized_vol_annual": 0.2,
         "credit_divergence": false,
         "alpha158_factors": {
-          "KMID": 0.00696,
-          "KLEN": 0.02314,
-          "KMID2": 0.30061,
-          "KUP": 0.00849,
-          "KUP2": 0.36696,
-          "KLOW": 0.00769,
-          "KLOW2": 0.33243,
-          "KSFT": 0.00616,
-          "KSFT2": 0.26608,
-          "CORR5": -0.20517,
-          "CORR20": -0.26396,
-          "CORD5": -0.23486,
-          "CORD20": 0.03872,
-          "WVMA10": 0.01258,
-          "RSV5": 0.11695,
-          "RSV20": 0.06775,
-          "MAX10": 0.2002,
-          "MIN10": -0.01455,
-          "QTLU20": 0.14968,
-          "QTLD20": 0.09529,
-          "ROC5": -0.09405,
-          "ROC20": -0.14507,
-          "BETA10": -0.01914,
-          "RSQR20": 0.37298,
-          "RESI10": -0.01523
+          "KMID": -0.04066,
+          "KLEN": 0.06118,
+          "KMID2": -0.66457,
+          "KUP": 0.00698,
+          "KUP2": 0.11407,
+          "KLOW": 0.01354,
+          "KLOW2": 0.22136,
+          "KSFT": -0.0341,
+          "KSFT2": -0.55727,
+          "CORR5": -0.8027,
+          "CORR20": -0.35542,
+          "CORD5": -0.16011,
+          "CORD20": 0.08719,
+          "WVMA10": 0.01334,
+          "RSV5": 0.09271,
+          "RSV20": 0.06961,
+          "MAX10": 0.18867,
+          "MIN10": -0.01412,
+          "QTLU20": 0.13968,
+          "QTLD20": 0.09201,
+          "ROC5": -0.11927,
+          "ROC20": -0.16556,
+          "BETA10": -0.01318,
+          "RSQR20": 0.31886,
+          "RESI10": -0.04321
         },
         "insider_signals": {
           "ticker": "META",
-          "conviction_score": 76.0,
+          "conviction_score": 92.0,
           "signal": "NEUTRAL_NO_FILINGS",
           "cluster_buy_detected": true,
           "net_purchased_usd": 0.0,
@@ -14047,17 +13592,17 @@
           "color": "#3B82F6"
         },
         "options_data": {
-          "spot_price": 642.62,
+          "spot_price": 648.85,
           "net_gex": 0.0,
           "gamma_regime": "Neutral Gamma",
-          "max_pain_strike": 642.62
+          "max_pain_strike": 648.85
         },
         "macro_blackout": {
           "is_blackout_active": false,
           "status": "NORMAL_LIQUIDITY",
-          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 227.4h",
+          "reason": "Next catalyst: FOMC Rate Decision & Policy Statement in 299.8h",
           "nearest_event_name": "FOMC Rate Decision & Policy Statement",
-          "minutes_to_event": 13643.8,
+          "minutes_to_event": 17986.5,
           "tier": "TIER_1_CRITICAL",
           "expected_spy_dispersion_pct": 0.81,
           "expected_qqq_dispersion_pct": 1.19,
@@ -14071,12 +13616,12 @@
           "risk_profile": "NORMAL"
         },
         "execution_latency": {
-          "total_nanoseconds": 33479891,
-          "total_microseconds": 33479.89,
-          "hmm_micros": 4.37,
-          "cusum_micros": 16.16,
-          "volume_profile_micros": 9550.76,
-          "momentum_micros": 152.79
+          "total_nanoseconds": 648579477,
+          "total_microseconds": 648579.48,
+          "hmm_micros": 19380.8,
+          "cusum_micros": 14.25,
+          "volume_profile_micros": 4925.61,
+          "momentum_micros": 148.63
         }
       },
       "memory_risk_adjustment": {
@@ -14103,47 +13648,47 @@
       "meta_label_metrics": {
         "ticker": "META",
         "approved": true,
-        "barrier_touch_prob": 0.928,
-        "barrier_touch_prob_pct": 92.8,
+        "barrier_touch_prob": 0.7654,
+        "barrier_touch_prob_pct": 76.5,
         "verdict": "META_LABEL_APPROVED_HIGH_PROBABILITY_BARRIER_TOUCH",
         "meta_label": 1,
         "factors": {
-          "base_logit": 0.647,
+          "base_logit": 0.267,
           "trend_factor": 0.65,
           "rsi_factor": 0.4,
-          "micro_factor": 0.66,
+          "micro_factor": -0.334,
           "vol_factor": 0.2
         },
-        "reason": "Upper barrier probability 92.8% exceeds 50% threshold. Structural trend and microstructure support favorable risk/reward."
+        "reason": "Upper barrier probability 76.5% exceeds 50% threshold. Structural trend and microstructure support favorable risk/reward."
       },
       "meta_label_veto_triggered": false,
       "mahalanobis_veto_triggered": false,
       "mahalanobis_metrics": {
         "status": "SUCCESS",
         "ticker": "META",
-        "mahalanobis_distance": 2.128,
+        "mahalanobis_distance": 3.52,
         "critical_threshold_99": 3.884,
-        "p_value": 0.47592,
+        "p_value": 0.02984,
         "degrees_of_freedom": 5,
         "is_anomaly": false,
-        "regime_verdict": "NORMAL_REGIME_STATISTICALLY_STABLE",
-        "action_recommendation": "STANDARD_EXECUTION"
+        "regime_verdict": "ELEVATED_STATISTICAL_DISPERSION",
+        "action_recommendation": "MONITOR_CLOSELY"
       },
       "finjepa_metrics": {
         "finjepa_regime": "LIQUIDITY_DROUGHT_HAZARD",
-        "finjepa_displacement": 6.7624,
+        "finjepa_displacement": 6.6614,
         "finjepa_confidence": 0.4,
         "finjepa_veto": true
       },
       "finjepa_veto_triggered": true,
       "sde_tail_risk_metrics": {
-        "cvar99_floor": 118023.37,
-        "var99": 10742.73
+        "cvar99_floor": 118014.06,
+        "var99": 10733.22
       },
       "drl_policy_metrics": {
-        "drl_leverage_multiplier": 0.829
+        "drl_leverage_multiplier": 0.725
       },
-      "vpin": 0.3473,
+      "vpin": 0.3816,
       "toxicity_regime": "LOW_TOXICITY_BENIGN"
     },
     "adaptive_execution": {
@@ -14153,14 +13698,14 @@
       "tp_atr_multiple": 2.5,
       "sl_atr_multiple": 1.25,
       "fast_harvest_target_pct": 2.5,
-      "strategy_directive": "\u2696\ufe0f [HYBRID BALANCED MODE] H=0.46 | Net GEX=+0.0M. Standard progressive profit locks (+3% -> +1% locked, +5% -> +2.5% locked). Allow single pyramid unit at +1N ATR on confirmed Volume PoC migration.",
+      "strategy_directive": "\u2696\ufe0f [HYBRID BALANCED MODE] H=0.53 | Net GEX=+0.0M. Standard progressive profit locks (+3% -> +1% locked, +5% -> +2.5% locked). Allow single pyramid unit at +1N ATR on confirmed Volume PoC migration.",
       "microstructure_signals": {
-        "hurst_exponent": 0.461,
+        "hurst_exponent": 0.526,
         "hurst_regime": "RANDOM_WALK_NEUTRAL",
         "net_gex_millions": 0.0,
-        "gamma_flip_level": 642.62,
-        "call_wall_resistance": 450.0,
-        "put_wall_support": 450.0,
+        "gamma_flip_level": 648.85,
+        "call_wall_resistance": 455.0,
+        "put_wall_support": 455.0,
         "has_real_options_data": true
       },
       "genetic_genome_source": {
@@ -14169,84 +13714,84 @@
         "sentiment_gate": 0.2,
         "rsi_period": 14
       },
-      "timestamp": "2026-10-26T07:37:12.241095+00:00"
+      "timestamp": "2026-10-23T07:15:02.037272+00:00"
     },
     "execution_mode": "HYBRID_BALANCED",
     "pyramiding_enabled": true,
     "tri_force_fusion": {
       "ticker": "META",
-      "p_trade": 0.5012,
-      "trade_conviction_pct": 50.12,
-      "composite_raw_signal": 0.0016,
+      "p_trade": 0.4995,
+      "trade_conviction_pct": 49.95,
+      "composite_raw_signal": -0.0007,
       "regime": "MOMENTUM_TREND_DOMINANT",
       "weights": {
-        "w_microstructure": 0.0016,
-        "w_statarb": 0.0,
-        "w_trend": 0.9984
+        "w_microstructure": 0.002,
+        "w_statarb": 0.0001,
+        "w_trend": 0.998
       },
       "signals": {
-        "s_microstructure": 1.0,
-        "s_statarb": 0.887,
+        "s_microstructure": -0.39,
+        "s_statarb": 0.931,
         "s_trend": 0.0
       },
       "arar_details": {
-        "arar_score": 2444098.96,
-        "arar_normalized": 1.0,
-        "obi": 0.266,
-        "cvd": -50259235.9,
-        "delta_price_pct": -0.96,
-        "is_absorption_active": true,
-        "absorption_verdict": "INSTITUTIONAL_ICEBERG_ABSORPTION_LONG",
-        "microstructure_signal": 1.0
+        "arar_score": 0.0,
+        "arar_normalized": 0.0,
+        "obi": -0.557,
+        "cvd": -41280430.2,
+        "delta_price_pct": -6.978,
+        "is_absorption_active": false,
+        "absorption_verdict": "BEARISH_ORDER_OVERHANG",
+        "microstructure_signal": -0.39
       },
       "telemetry": {
-        "hurst_exponent": 0.459,
+        "hurst_exponent": 0.466,
         "realized_vol_pct": 42.73,
-        "trend_adx": 60.0,
+        "trend_adx": 59.1,
         "vix_level": 16.5
       },
       "recommendation": "NEUTRAL_HOLD_WAIT_FOR_ABSORPTION"
     },
-    "p_trade": 0.5012,
+    "p_trade": 0.4995,
     "tree_of_thought_deliberation": {
       "status": "SUCCESS",
       "evaluated_tree": [
         {
           "id": "BRANCH_1_BULLISH_EXPANSION",
           "label": "Bullish Trend Expansion",
-          "target_price": 693.18,
-          "stop_price": 617.34,
+          "target_price": 699.99,
+          "stop_price": 623.28,
           "expected_drift": 0.002,
           "volatility_multiplier": 1.0,
-          "prior_probability": 0.2105,
+          "prior_probability": 0.202,
           "is_pruned": false
         },
         {
           "id": "BRANCH_2_MEAN_REVERSION",
           "label": "Consolidation Dip & Rebound",
-          "target_price": 672.96,
-          "stop_price": 622.4,
+          "target_price": 679.53,
+          "stop_price": 628.39,
           "expected_drift": 0.0005,
           "volatility_multiplier": 0.8,
-          "prior_probability": 0.6842,
+          "prior_probability": 0.5556,
           "is_pruned": false
         },
         {
           "id": "BRANCH_3_VOLATILITY_BREAKDOWN",
           "label": "Liquidity Flush & Breakdown",
-          "target_price": 579.42,
-          "stop_price": 667.9,
+          "target_price": 584.93,
+          "stop_price": 674.42,
           "expected_drift": -0.003,
           "volatility_multiplier": 1.8,
-          "prior_probability": 0.1053,
-          "is_pruned": true
+          "prior_probability": 0.2424,
+          "is_pruned": false
         }
       ],
       "rollout_results": {
         "dominant_branch": "BRANCH_2_MEAN_REVERSION",
         "dominant_label": "Consolidation Dip & Rebound",
-        "composite_tp_probability": 0.3744,
-        "composite_sl_probability": 0.4707,
+        "composite_tp_probability": 0.4577,
+        "composite_sl_probability": 0.5229,
         "branch_simulations": {
           "BRANCH_1_BULLISH_EXPANSION": {
             "status": "ACTIVE",
@@ -14261,21 +13806,22 @@
             "expected_pnl_multiple": 1.5
           },
           "BRANCH_3_VOLATILITY_BREAKDOWN": {
-            "status": "PRUNED",
-            "tp_hit_rate": 0.0,
-            "sl_hit_rate": 0.0
+            "status": "ACTIVE",
+            "tp_hit_rate": 0.5867,
+            "sl_hit_rate": 0.52,
+            "expected_pnl_multiple": -639200.0
           }
         }
       },
       "recommended_action": "DEFENSIVE_HOLD"
     },
     "wavelet_sifter": {
-      "noise_d1_pct": 54.74,
-      "swing_d2_pct": 22.09,
-      "cyclical_d3_pct": 9.5,
-      "macro_a3_pct": 13.67,
-      "shannon_entropy": 1.6722,
-      "normalized_entropy": 0.8361,
+      "noise_d1_pct": 55.22,
+      "swing_d2_pct": 22.23,
+      "cyclical_d3_pct": 9.31,
+      "macro_a3_pct": 13.24,
+      "shannon_entropy": 1.6604,
+      "normalized_entropy": 0.8302,
       "regime": "HIGH_ENTROPY_CHOP_VETO",
       "veto_active": true,
       "conviction_multiplier": 0.0,
@@ -14283,9 +13829,9 @@
       "sample_bars": 64
     },
     "finjepa_physics": {
-      "latent_displacement": 6.7624,
-      "latent_cosine_alignment": 0.287,
-      "latent_dispersion": 1.0275,
+      "latent_displacement": 6.6614,
+      "latent_cosine_alignment": 0.3091,
+      "latent_dispersion": 1.0277,
       "regime": "LIQUIDITY_DROUGHT_HAZARD",
       "risk_verdict": "DEFENSIVE_HOLD",
       "physics_confidence": 0.4,
@@ -14301,15 +13847,15 @@
       "tail_risk_probability": 0.1,
       "conviction_tier": "TIER_3_MONITOR",
       "immediate_action": "IGNORE_NOISE",
-      "latency_ms": 0.033,
-      "timestamp": "2026-10-26T07:37:12.317312+00:00"
+      "latency_ms": 0.038,
+      "timestamp": "2026-10-23T07:15:02.107986+00:00"
     },
     "soros_reflexivity": {
-      "price_velocity": -0.0394,
-      "price_acceleration": -0.0169,
+      "price_velocity": -0.0327,
+      "price_acceleration": -0.011,
       "sentiment_velocity": 0.0,
       "sentiment_acceleration": 0.0,
-      "soros_metric_r": -0.0162,
+      "soros_metric_r": -0.0102,
       "regime": "TRANSITIONAL_EQUILIBRIUM",
       "conviction_boost": 1.0,
       "cro_veto": false
