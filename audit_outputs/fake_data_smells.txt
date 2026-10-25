@@ -1,0 +1,162 @@
+src\adaptive_execution_router.py:231 [\bnp\.random\b] np.random.seed(42)  # Deterministic seed for reproducible tests -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\adaptive_execution_router.py:240 [\bnp\.random\b] jitter = int(np.random.uniform(-0.25, 0.25) * interval_sec) -> legitimate - Anti-sniping execution timing jitter to prevent adverse selection
+src\agent_committee.py:2053 [\bnp\.random\b] np.random.seed(42) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\agent_committee.py:2077 [\bnp\.random\b] random_shocks = np.random.normal(drift - 0.5 * vol**2, vol, size=(sims, T)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\attribution_analysis.py:51 [\bnp\.random\b] np.random.seed(seed) -> legitimate - Permutation feature shuffling for Shapley attribution analysis
+src\attribution_analysis.py:132 [\bnp\.random\b] np.random.uniform(0.0, 1.0, len(df_eval)), index=df_eval.index -> legitimate - Permutation feature shuffling for Shapley attribution analysis
+src\backtesting.py:445 [\bnp\.random\b] rng = np.random.default_rng(random_seed) -> legitimate - Permutation Monte Carlo statistical significance test seed
+src\conformal_prediction.py:90 [\bnp\.random\b] np.random.seed(42) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\conformal_prediction.py:91 [\bnp\.random\b] sim_residuals = np.abs(np.random.normal(0.0, 0.018, 90)) -> flagged fallback - Synthetic residual sampling when calibration set is unpopulated
+src\counterfactual_simulator.py:123 [\bsynthetic\b] # Analytical synthetic replay based on baseline return and barrier distances -> legitimate - Synthetic barrier replay for stress-testing counterfactual drawdowns
+src\credit_risk.py:2 [\bsynthetic\b] Synthetic CDS & Merton Structural Credit Risk Model (Sprint 2, Module 2.2 / Idea 28) -> legitimate - Merton model structural synthetic CDS spread formula (ISDA standard terminology)
+src\credit_risk.py:12 [\bsynthetic\b] 3. Synthetic CDS Spread (basis points) -> legitimate - Merton model structural synthetic CDS spread formula (ISDA standard terminology)
+src\credit_risk.py:84 [\bsynthetic\b] # Synthetic CDS spread in basis points (ISDA standard: CDS = DP * (1 - Recovery) * 10,000) -> legitimate - Merton model structural synthetic CDS spread formula (ISDA standard terminology)
+src\credit_risk.py:188 [\bsynthetic\b] """Helper returning synthetic CDS spread in basis points.""" -> legitimate - Merton model structural synthetic CDS spread formula (ISDA standard terminology)
+src\cross_asset_matrix.py:87 [\bsynthetic\b] # Calibrated synthetic fallback if offline or API throttled -> flagged fallback - Synthetic geometric Brownian motion market data generated when API is unavailable
+src\cross_asset_matrix.py:89 [\bnp\.random\b] np.random.seed(42) -> flagged fallback - Synthetic geometric Brownian motion market data generated when API is unavailable
+src\cross_asset_matrix.py:93 [\bnp\.random\b] spy = 550.0 * np.exp(np.cumsum(np.random.normal(0.0004, 0.009, n))) -> flagged fallback - Synthetic geometric Brownian motion market data generated when API is unavailable
+src\cross_asset_matrix.py:94 [\bnp\.random\b] qqq = 480.0 * np.exp(np.cumsum(np.random.normal(0.0005, 0.012, n))) -> flagged fallback - Synthetic geometric Brownian motion market data generated when API is unavailable
+src\cross_asset_matrix.py:95 [\bnp\.random\b] hyg = 78.0 * np.exp(np.cumsum(np.random.normal(0.0001, 0.004, n))) -> flagged fallback - Synthetic geometric Brownian motion market data generated when API is unavailable
+src\cross_asset_matrix.py:96 [\bnp\.random\b] lqd = 110.0 * np.exp(np.cumsum(np.random.normal(0.0000, 0.003, n))) -> flagged fallback - Synthetic geometric Brownian motion market data generated when API is unavailable
+src\cross_asset_matrix.py:97 [\bnp\.random\b] tnx = 4.25 + np.cumsum(np.random.normal(0.0, 0.03, n)) -> flagged fallback - Synthetic geometric Brownian motion market data generated when API is unavailable
+src\cross_asset_matrix.py:98 [\bnp\.random\b] uso = 75.0 * np.exp(np.cumsum(np.random.normal(0.0002, 0.015, n))) -> flagged fallback - Synthetic geometric Brownian motion market data generated when API is unavailable
+src\cross_asset_matrix.py:99 [\bnp\.random\b] gld = 230.0 * np.exp(np.cumsum(np.random.normal(0.0006, 0.007, n))) -> flagged fallback - Synthetic geometric Brownian motion market data generated when API is unavailable
+src\cross_asset_matrix.py:100 [\bnp\.random\b] btc = 64000.0 * np.exp(np.cumsum(np.random.normal(0.0010, 0.025, n))) -> flagged fallback - Synthetic geometric Brownian motion market data generated when API is unavailable
+src\data_ingestion.py:481 [\bsynthetic\b] # 11. Fallback: Existing Cache or Synthetic Generation -> flagged fallback - Fallback data structure or mock object
+src\data_ingestion.py:513 [\bdummy\b] """Generates dummy news data for showcase purposes when the API fails.""" -> silent fabrication - Generates biased synthetic news headlines and persists them to cache when API fails
+src\data_ingestion.py:514 [\bdummy\b] logger.info(f"Generating dummy news data for {ticker}...") -> silent fabrication - Generates biased synthetic news headlines and persists them to cache when API fails
+src\data_ingestion.py:532 [\brandom\.] days_ago = random.randint(0, 14)  # nosec B311 -> silent fabrication - Generates biased synthetic news headlines and persists them to cache when API fails
+src\data_ingestion.py:538 [\brandom\.] "Title": random.choice(titles),  # nosec B311 -> silent fabrication - Generates biased synthetic news headlines and persists them to cache when API fails
+src\data_ingestion.py:539 [\bdummy\b] "description": f"This is a generated dummy description for {ticker} to demonstrate pipeline capabilities without an active API connection.", -> silent fabrication - Generates biased synthetic news headlines and persists them to cache when API fails
+src\data_ingestion.py:540 [\bdummy\b] "url": "https://example.com/dummy-news", -> silent fabrication - Generates biased synthetic news headlines and persists them to cache when API fails
+src\drl_policy_agent.py:146 [\bnp\.random\b] np.random.seed(42) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\drl_policy_agent.py:147 [\bnp\.random\b] returns = np.random.normal(0.0008, 0.015, 200).astype(np.float32) -> flagged fallback - Fallback synthetic market trajectory when historical series missing
+src\drl_policy_agent.py:148 [\bnp\.random\b] vols = np.abs(np.random.normal(0.015, 0.005, 200)).astype(np.float32) -> flagged fallback - Fallback synthetic market trajectory when historical series missing
+src\drl_policy_agent.py:149 [\bnp\.random\b] sents = np.random.uniform(-0.5, 0.8, 200).astype(np.float32) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\etf_arbitrage.py:4 [\bsynthetic\b] Monitors the real-time basis spread between Sector ETFs and synthetic constituent stock baskets: -> legitimate - Industry standard terminology for synthetic constituent basket and iNAV
+src\etf_arbitrage.py:71 [\bsynthetic\b] Computes synthetic indicative Net Asset Value (iNAV) from constituent equity prices. -> legitimate - Industry standard terminology for synthetic constituent basket and iNAV
+src\etf_arbitrage.py:160 [\bsynthetic\b] # Base synthetic average -> legitimate - Industry standard terminology for synthetic constituent basket and iNAV
+src\execution_algo.py:321 [\bdummy\b] # Dummy action for the current step to build tensor -> flagged fallback - Fallback data structure or mock object
+src\fast_agent_pipeline.py:85 [\bsynthetic\b] # Fast default synthetic state -> flagged fallback - Fallback data structure or mock object
+src\gpu_alpha_miner.py:292 [\brandom\.] term1 = random.choice(["close", "volume", "high", "low", "vwap"]) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\gpu_alpha_miner.py:293 [\brandom\.] term2 = random.choice(["close", "vwap", "volume"]) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\gpu_alpha_miner.py:294 [\brandom\.] op = random.choice(["+", "-", "*"]) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\gpu_alpha_miner.py:295 [\brandom\.] window = random.choice([5, 10, 20]) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\gpu_alpha_miner.py:305 [\brandom\.] return random.choice(templates) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\gpu_alpha_miner.py:321 [\brandom\.] random.seed(seed) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\gpu_hyperparameter_search.py:175 [\brandom\.] random.seed(seed) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\gpu_hyperparameter_search.py:182 [\brandom\.] sample_params = {k: random.choice(space[k]) for k in keys} -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\hedging_engine.py:6 [\bsynthetic\b] 1. Synthetic Down-and-Out Floor (Dynamic Delta-Gamma Futures Replication - Idea 37) -> legitimate - Synthetic option position replication terminology
+src\insider_signals.py:49 [\bnp\.random\b] np.random.seed(seed) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\insider_signals.py:67 [\bnp\.random\b] num_tx = np.random.randint(3, 7) if is_high_conviction else np.random.randint(0, 4) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\insider_signals.py:84 [\bnp\.random\b] days_ago = int(np.random.randint(2, max(5, days_back))) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\insider_signals.py:90 [\bnp\.random\b] shares = int(np.random.choice([5000, 10000, 15000, 25000])) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\insider_signals.py:91 [\bnp\.random\b] share_price = float(np.random.uniform(150.0, 400.0)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\insider_signals.py:93 [\bnp\.random\b] tx_type = str(np.random.choice(tx_types)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\insider_signals.py:94 [\bnp\.random\b] shares = int(np.random.choice([1000, 2500, 5000, 12000])) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\insider_signals.py:95 [\bnp\.random\b] share_price = float(np.random.uniform(100.0, 350.0)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\insider_signals.py:98 [\bnp\.random\b] officer_title = str(np.random.choice(titles)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\liquidity_heatmap.py:36 [\bnp\.random\b] np.random.randint(1500, 4500) * (3.5 if is_cluster else 1.0) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\liquidity_heatmap.py:56 [\bnp\.random\b] np.random.randint(1500, 4500) * (3.2 if is_cluster else 1.0) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\liquidity_heatmap.py:106 [\bnp\.random\b] gaussian_weights * 50000 + np.random.randint(2000, 8000, size=len(price_bins)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\macro_liquidity.py:195 [\bsynthetic\b] else "Synthetic / Proxy" -> flagged fallback - Fallback data structure or mock object
+src\microstructure_engine.py:72 [\bsynthetic\b] # Synthetic spread proxy based on daily/intraday range -> flagged fallback - Fallback data structure or mock object
+src\news_filter.py:29 [\bEphemeral_Key\b] "ephemeral_key": 2.8, -> legitimate - Neutral variable naming
+src\news_filter.py:113 [\bEphemeral_Key\b] for dp_key in ["darkpooldiver", "marianarelay", "ephemeral_key", "_0xwhale"]: -> legitimate - Neutral variable naming
+src\options_flow.py:69 [\bsynthetic\b] Generates a realistic calibrated synthetic option chain if API rate limits occur. -> flagged fallback - Fallback data structure or mock object
+src\options_flow.py:81 [\bnp\.random\b] c_oi = int(np.random.normal(5000, 1500) * np.exp(-abs(moneyness) * 2)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\options_flow.py:82 [\bnp\.random\b] p_oi = int(np.random.normal(4500, 1200) * np.exp(-abs(moneyness) * 2)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\paper_broker.py:22 [\bsynthetic\b] Prevents false stop-outs or synthetic take-profit liquidations. -> flagged fallback - Fallback data structure or mock object
+src\pdf_generator.py:131 [\bnp\.random\b] np.random.seed(42) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\pdf_generator.py:134 [\bnp\.random\b] strat_rets = np.random.normal(0.0012, 0.010, size=n_days) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\pdf_generator.py:135 [\bnp\.random\b] bench_rets = np.random.normal(0.0004, 0.012, size=n_days) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\pdf_generator.py:204 [\bnp\.random\b] row_vals = [round(float(np.random.normal(1.8, 2.5)), 1) for _ in range(12)] -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\performance_factsheet.py:31 [\bnp\.random\b] np.random.seed(42) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\performance_factsheet.py:34 [\bnp\.random\b] daily_returns = np.random.normal(0.0008, 0.0095, len(dates)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\performance_factsheet.py:38 [\bnp\.random\b] np.random.seed(101) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\performance_factsheet.py:39 [\bnp\.random\b] benchmark_daily = np.random.normal(0.00045, 0.011, len(returns_series)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\portfolio_monte_carlo.py:43 [\bnp\.random\b] np.random.seed(random_seed) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\portfolio_monte_carlo.py:87 [\bnp\.random\b] Z = np.random.normal(0, 1, size=(num_simulations, forecast_days)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\realtime_tracker.py:155 [\bsynthetic\b] # Approximate base price for mega-caps only; never invent synthetic prices for unknown tickers -> flagged fallback - Fallback data structure or mock object
+src\realtime_tracker.py:307 [\bplaceholder\b] # Default offline placeholder for remaining assets -> flagged fallback - Fallback data structure or mock object
+src\real_market_analyzer.py:206 [\bEphemeral_Key\b] - Dark Pool & Black Trade Relays: DarkPoolDiver, MarianaRelay, _0xWhale, Ephemeral_Key, r/Borrow -> legitimate - Neutral variable naming
+src\real_market_analyzer.py:255 [\bEphemeral_Key\b] "Ephemeral_Key", -> legitimate - Neutral variable naming
+src\reddit_premarket_station.py:167 [\bEphemeral_Key\b] "station_name": "_0xWhale / Ephemeral_Key [Whale Block Orders & Anonymized Relays]", -> legitimate - Neutral variable naming
+src\reddit_premarket_station.py:438 [\bEphemeral_Key\b] "Ephemeral_Key", -> legitimate - Neutral variable naming
+src\reddit_premarket_station.py:439 [\bEphemeral_Key\b] f"Ephemeral_Key: Anonymized institutional order routing signature confirmed on ${ticker}", -> legitimate - Neutral variable naming
+src\regime_allocator.py:121 [\bnp\.random\b] rng = np.random.RandomState(self.random_state) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\regime_allocator.py:123 [\bnp\.random\b] regimes = np.random.choice([0, 1, 2], size=days, p=[0.60, 0.28, 0.12]) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\statarb_engine.py:176 [\bsynthetic\b] # Fallback synthetic co-integrated benchmark -> flagged fallback - Fallback data structure or mock object
+src\statarb_engine.py:177 [\bnp\.random\b] np.random.seed(42) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\statarb_engine.py:180 [\bnp\.random\b] p1 = trend + np.random.normal(0, 1, n) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\statarb_engine.py:181 [\bnp\.random\b] p2 = trend * 0.8 + np.random.normal(0, 1, n) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\statarb_engine.py:182 [\bnp\.random\b] p3 = trend * 0.6 + np.random.normal(0, 1, n) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\strategy_incubator.py:42 [\bnp\.random\b] self.genome_id = genome_id or f"GEN_{np.random.randint(10000, 99999)}" -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:71 [\bnp\.random\b] rsi_period=int(np.random.choice([7, 9, 14])), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:72 [\bnp\.random\b] rsi_entry_threshold=float(np.random.uniform(22.0, 35.0)), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:73 [\bnp\.random\b] macd_fast=int(np.random.choice([6, 8, 12])), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:74 [\bnp\.random\b] macd_slow=int(np.random.choice([18, 22, 26])), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:75 [\bnp\.random\b] tp_atr_multiple=float(np.random.uniform(1.2, 2.2)), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:76 [\bnp\.random\b] sl_atr_multiple=float(np.random.uniform(0.8, 1.4)), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:77 [\bnp\.random\b] sentiment_gate=float(np.random.uniform(-0.2, 0.2)), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:81 [\bnp\.random\b] rsi_period=int(np.random.choice([9, 14, 21])), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:82 [\bnp\.random\b] rsi_entry_threshold=float(np.random.uniform(35.0, 52.0)), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:83 [\bnp\.random\b] macd_fast=int(np.random.choice([8, 12, 16])), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:84 [\bnp\.random\b] macd_slow=int(np.random.choice([21, 26, 34])), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:85 [\bnp\.random\b] tp_atr_multiple=float(np.random.uniform(2.0, 4.5)), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:86 [\bnp\.random\b] sl_atr_multiple=float(np.random.uniform(1.2, 2.0)), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:87 [\bnp\.random\b] sentiment_gate=float(np.random.uniform(0.1, 0.5)), -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:95 [\bnp\.random\b] np.clip(self.rsi_period + np.random.choice([-2, 0, 2]), 5, 30) -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:98 [\bnp\.random\b] np.clip(self.rsi_entry_threshold + np.random.normal(0, 2.0), 20.0, 55.0) -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:101 [\bnp\.random\b] np.clip(self.macd_fast + np.random.choice([-2, 0, 2]), 5, 20) -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:104 [\bnp\.random\b] np.clip(self.macd_slow + np.random.choice([-2, 0, 2]), 18, 45) -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:107 [\bnp\.random\b] np.clip(self.tp_atr_multiple + np.random.normal(0, 0.25), 1.2, 5.0) -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:110 [\bnp\.random\b] np.clip(self.sl_atr_multiple + np.random.normal(0, 0.15), 0.7, 2.5) -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:113 [\bnp\.random\b] np.clip(self.sentiment_gate + np.random.normal(0, 0.05), -0.5, 0.8) -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:131 [\bnp\.random\b] np.random.seed(42) -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:133 [\bnp\.random\b] returns = np.random.normal(0.0008, 0.012, n_pts) -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:166 [\bnp\.random\b] noise = np.random.normal(-0.0002, 0.001, len(oos_returns))  # Slippage drag -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_incubator.py:242 [\bnp\.random\b] parent = np.random.choice(elites) -> legitimate - Genetic algorithm mutation and crossover exploration in incubator
+src\strategy_optimizer.py:54 [\bsynthetic\b] # Synthetic confidence based on trend strength -> flagged fallback - Fallback data structure or mock object
+src\stress_simulator.py:2 [\bsynthetic\b] Synthetic Crash Diffusion Engine & Black Swan Stress Simulator (Sprint 3, Module 3.5 / Idea 6) -> flagged fallback - Fallback data structure or mock object
+src\stress_simulator.py:8 [\bsynthetic\b] - Portfolio stress testing across synthetic 2008, 2020, 2022, and 1987 shock regimes -> flagged fallback - Fallback data structure or mock object
+src\stress_simulator.py:84 [\bsynthetic\b] Simulates conditional fat-tailed synthetic black swan paths. -> flagged fallback - Fallback data structure or mock object
+src\stress_simulator.py:112 [\bsynthetic\b] Samples N synthetic black-swan return paths using the reverse diffusion process. -> flagged fallback - Fallback data structure or mock object
+src\stress_simulator.py:152 [\bsynthetic\b] # Scale synthetic trajectories to align with crash severity -> flagged fallback - Fallback data structure or mock object
+src\stress_simulator.py:196 [\bsynthetic\b] # Value at Risk & Expected Shortfall across entire synthetic crisis distribution -> flagged fallback - Fallback data structure or mock object
+src\stress_tester.py:54 [\bnp\.random\b] np.random.seed(42) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\stress_tester.py:55 [\bnp\.random\b] shocks = np.random.normal(0, 1, size=(num_simulations, time_horizon_days)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\tearsheet.py:171 [\bsynthetic\b] # Synthetic placeholder curve for clean rendering -> flagged fallback - Fallback data structure or mock object
+src\tearsheet.py:173 [\bnp\.random\b] y = 100000 + np.cumsum(np.random.normal(120, 200, 30)) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\tearsheet_generator.py:153 [\bnp\.random\b] np.random.seed(42) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\tearsheet_generator.py:154 [\bsynthetic\b] # Synthetic realistic 10-year daily equity simulation based on exact CAGR -> flagged fallback - Fallback data structure or mock object
+src\tearsheet_generator.py:156 [\bnp\.random\b] (1 + cagr / 100) ** (1 / 252) - 1 + np.random.normal(0, 0.012, days) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\tearsheet_generator.py:158 [\bnp\.random\b] daily_ret_spy = (1 + 0.142) ** (1 / 252) - 1 + np.random.normal(0, 0.011, days) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\temporal_fusion.py:54 [\bnp\.random\b] np.random.seed(42) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\temporal_fusion.py:57 [\bnp\.random\b] self.w_proj = np.random.randn(feature_dim, self.d_model) * 0.1 -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\temporal_fusion.py:58 [\bnp\.random\b] self.w_q = np.random.randn(self.d_model, self.d_model) * 0.1 -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\temporal_fusion.py:59 [\bnp\.random\b] self.w_k = np.random.randn(self.d_model, self.d_model) * 0.1 -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\temporal_fusion.py:60 [\bnp\.random\b] self.w_v = np.random.randn(self.d_model, self.d_model) * 0.1 -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\temporal_fusion.py:64 [\bnp\.random\b] np.random.randn(self.d_model, 3) * 0.05 -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\temporal_fusion.py:66 [\bnp\.random\b] self.w_5d = np.random.randn(self.d_model, 3) * 0.05 -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\temporal_fusion.py:67 [\bnp\.random\b] self.w_10d = np.random.randn(self.d_model, 3) * 0.05 -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\temporal_fusion.py:68 [\bnp\.random\b] self.w_21d = np.random.randn(self.d_model, 3) * 0.05 -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\wavelet_entropy_sifter.py:222 [\bplaceholder\b] # Minimal placeholder return if completely unavailable -> flagged fallback - Fallback data structure or mock object
+src\models\chronos_forecaster.py:126 [\bnp\.random\b] noise = np.random.normal( -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\ui\cockpit_portfolio.py:26 [\bsynthetic\b] Hierarchical Risk Parity (HRP), regime-aware Kelly capital growth, synthetic diffusion crash testing, and corporate solvency radar. -> flagged fallback - Fallback data structure or mock object
+src\ui\cockpit_portfolio.py:37 [\bsynthetic\b] "💥 Synthetic Crash Simulator", -> flagged fallback - Fallback data structure or mock object
+src\ui\cockpit_portfolio.py:60 [\bsynthetic\b] elif selected_tab == "💥 Synthetic Crash Simulator": -> flagged fallback - Fallback data structure or mock object
+src\ui\ws_alpha_dag.py:147 [\bnp\.random\b] np.random.seed(42) -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\ui\ws_alpha_dag.py:150 [\bnp\.random\b] bnh_drift = np.cumsum(np.random.normal(0.0006, 0.016, days)) + 1.0 -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\ui\ws_alpha_dag.py:151 [\bnp\.random\b] gen3_drift = np.cumsum(np.random.normal(0.0009, 0.011, days)) + 1.0 -> legitimate - Mathematical randomized calculation, perturbation, or seed
+src\ui\ws_alternative_data.py:316 [\bplaceholder\b] placeholder="e.g. NVDA, PLTR, AMD, TSLA, AAPL", -> flagged fallback - Fallback data structure or mock object
+src\ui\ws_alternative_data.py:406 [\bplaceholder\b] placeholder="https://example.com/press-release-or-article", -> flagged fallback - Fallback data structure or mock object
+src\ui\ws_autonomous_trader.py:533 [\bplaceholder\b] placeholder="e.g. PLTR, AMD, CVS...", -> flagged fallback - Fallback data structure or mock object
+src\ui\ws_broker_webhooks.py:72 [\bplaceholder\b] placeholder="Enter private HMAC secret...", -> flagged fallback - Fallback data structure or mock object
+src\ui\ws_credit_risk.py:3 [\bsynthetic\b] Evaluates corporate solvency, synthetic CDS spreads, equity-credit decoupling, -> legitimate - Merton model structural synthetic CDS spread formula (ISDA standard terminology)
+src\ui\ws_credit_risk.py:29 [\bsynthetic\b] st.subheader(f"Corporate Solvency & Synthetic CDS Spread: {selected_ticker}") -> legitimate - Merton model structural synthetic CDS spread formula (ISDA standard terminology)
+src\ui\ws_credit_risk.py:53 [\bsynthetic\b] "🏷️ Synthetic CDS Spread", -> legitimate - Merton model structural synthetic CDS spread formula (ISDA standard terminology)
+src\ui\ws_portfolio.py:442 [\bplaceholder\b] placeholder="e.g. NVDA, Apple, Microsoft, Eli Lilly...", -> flagged fallback - Fallback data structure or mock object
+src\ui\ws_stress_simulator.py:2 [\bsynthetic\b] Workspace: Synthetic Crash Diffusion Engine & Black Swan Stress Simulator. -> flagged fallback - Fallback data structure or mock object
+src\ui\ws_stress_simulator.py:15 [\bsynthetic\b] title="💥 Synthetic Crash & Black Swan Stress Simulator", -> flagged fallback - Fallback data structure or mock object
+src\ui\ws_stress_simulator.py:41 [\bsynthetic\b] with st.spinner("Simulating 400+ fat-tailed synthetic diffusion trajectories..."): -> flagged fallback - Fallback data structure or mock object

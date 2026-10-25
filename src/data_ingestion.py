@@ -478,13 +478,20 @@ def get_news(
             except Exception as e:
                 logger.debug(f"Web scraper live news notice for {ticker}: {e}")
 
-        # 11. Fallback: Existing Cache or Synthetic Generation
+        # 11. Fallback: Existing Cache or Empty Result (NO SYNTHETIC GENERATION)
         if articles_df.empty:
             if os.path.exists(cache_path):
                 logger.warning(f"Using existing cached news for {ticker} as fallback.")
                 articles_df = pd.read_csv(cache_path)
             else:
-                articles_df = _generate_dummy_news(ticker)
+                logger.warning(
+                    f"No real news available for {ticker} from APIs or cache. Setting news_available=False."
+                )
+                empty_df = pd.DataFrame(
+                    columns=["Title", "publishedAt", "source", "url", "description"]
+                )
+                empty_df.attrs["news_available"] = False
+                return empty_df
 
         # 12. Fast Semantic Deduplication & Authority Weight Assignment
         try:
@@ -496,8 +503,12 @@ def get_news(
             if "Title" in articles_df.columns:
                 articles_df.drop_duplicates(subset=["Title"], inplace=True)
 
-        articles_df.to_csv(cache_path, index=False)
-        logger.info(f"Saved fresh news ({len(articles_df)} articles) to {cache_path}")
+        if not articles_df.empty:
+            articles_df.to_csv(cache_path, index=False)
+            logger.info(f"Saved fresh news ({len(articles_df)} articles) to {cache_path}")
+            articles_df.attrs["news_available"] = True
+        else:
+            articles_df.attrs["news_available"] = False
 
     # Standardize the DataFrame to have a timezone-aware DatetimeIndex
     if "publishedAt" in articles_df.columns:

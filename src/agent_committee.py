@@ -1065,20 +1065,22 @@ class ChiefRiskOfficerAgent:
             sde_path = os.path.join("results", "cvar_stress_report.json")
             if os.path.exists(sde_path):
                 with open(sde_path, "r", encoding="utf-8") as sde_fp:
-                    sde_data = json.load(sde_fp)
-                    cvar_floor = float(
-                        sde_data.get("recommended_dynamic_cash_floor", 118014.06)
-                    )
-                    sde_metrics = {
-                        "cvar99_floor": cvar_floor,
-                        "var99": float(sde_data.get("value_at_risk_var99", 0.0)),
-                    }
                     port_path = os.path.join("results", "paper_portfolio.json")
                     if os.path.exists(port_path):
                         with open(port_path, "r", encoding="utf-8") as pp_fp:
                             pp_data = json.load(pp_fp)
-                            live_cash = float(pp_data.get("cash", 125626.0))
+                            live_cash = float(pp_data.get("cash", 100000.0))
                             live_equity = float(pp_data.get("total_equity", live_cash))
+                            cvar_floor = float(
+                                sde_data.get("recommended_dynamic_cash_floor", live_equity * 0.85)
+                            )
+                            # Ensure floor scales proportionally with live equity baseline
+                            if cvar_floor >= live_equity:
+                                cvar_floor = live_equity * 0.85
+                            sde_metrics = {
+                                "cvar99_floor": cvar_floor,
+                                "var99": float(sde_data.get("value_at_risk_var99", 0.0)),
+                            }
                             if live_equity > 0 and (live_cash / live_equity) >= 0.80:
                                 high_cash_deployment_valve = True
                             if live_cash <= cvar_floor * 1.02:
@@ -1191,9 +1193,12 @@ class ChiefRiskOfficerAgent:
                     p_state = json.load(pf)
                 curr_eq = float(p_state.get("total_equity", 100000.0))
                 # Protect baseline initial capital floor ($95k CPPI floor) with 25% max tolerance from peak
+                peak_wealth = float(p_state.get("peak_equity", curr_eq))
+                if peak_wealth < curr_eq:
+                    peak_wealth = curr_eq
                 gz_alloc = uq_engine.evaluate_grossman_zhou_allocation(
                     current_wealth=curr_eq,
-                    peak_wealth=max(curr_eq, 150000.0),
+                    peak_wealth=peak_wealth,
                     max_drawdown_tolerance=0.25,
                 )
                 if gz_alloc.get("at_floor", False):

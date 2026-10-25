@@ -1223,7 +1223,28 @@ class AutonomousTradingEngine:
                 try:
                     q_data = quotes_map.get(ticker_sym, {})
                     cached_price = float(q_data.get("price", 0.0))
-                    get_news(ticker_sym, use_cache=True)
+                    news_df = get_news(ticker_sym, use_cache=True)
+                    news_available = getattr(news_df, "attrs", {}).get(
+                        "news_available",
+                        (
+                            not news_df.empty
+                            if isinstance(news_df, pd.DataFrame)
+                            else bool(news_df)
+                        ),
+                    )
+                    if not news_available or (
+                        isinstance(news_df, pd.DataFrame) and news_df.empty
+                    ):
+                        logger.warning(
+                            f"SKIPPING_TRADE_NO_REAL_NEWS: Real news unavailable for {ticker_sym}. Skipping trade."
+                        )
+                        return ticker_sym, {
+                            "action_code": "SKIP",
+                            "final_resolution": "VETO",
+                            "veto_reason": "NO_REAL_NEWS",
+                            "news_available": False,
+                        }
+
                     delib_res = convene_trading_committee(
                         ticker_sym,
                         save_resolution=False,
