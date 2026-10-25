@@ -895,7 +895,9 @@ def get_price_history(
         try:
             from src.duckdb_engine import DuckDBMarketEngine
 
-            duck_db_path = os.path.join(DATA_DIR, "sentilyze_market.duckdb")
+            duck_db_path = os.path.join(PROJECT_ROOT, "data", "sentilyze_market.duckdb")
+            if not os.path.exists(duck_db_path):
+                duck_db_path = os.path.join(DATA_DIR, "sentilyze_market.duckdb")
             duck_eng = DuckDBMarketEngine(db_path=duck_db_path)
             duck_bars = duck_eng.get_bars(ticker)
             if not duck_bars.empty and len(duck_bars) >= min_required_bars:
@@ -908,11 +910,17 @@ def get_price_history(
 
         if history.empty and os.path.exists(cache_path):
             logger.info(f"Loading price history for {ticker} from cache...")
-            history = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
-            if history.index.tz is None:
-                history.index = history.index.tz_localize("UTC").normalize()
+            cached_df = pd.read_csv(cache_path, index_col="Date", parse_dates=True)
+            if len(cached_df) >= min_required_bars:
+                history = cached_df
+                if history.index.tz is None:
+                    history.index = history.index.tz_localize("UTC").normalize()
+                else:
+                    history.index = history.index.tz_convert("UTC").normalize()
             else:
-                history.index = history.index.tz_convert("UTC").normalize()
+                logger.warning(
+                    f"Cache at {cache_path} has only {len(cached_df)} bars (need >= {min_required_bars}). Ignoring truncated cache."
+                )
     if history.empty:
         logger.info(f"Routing live price history fetch for {ticker}...")
         # 1. Alpaca Markets Data API v2

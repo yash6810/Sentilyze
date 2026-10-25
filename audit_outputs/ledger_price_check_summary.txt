@@ -1,0 +1,63 @@
+Loaded 95 trades from archive\invalid_simulation_2026\executed_trades.csv
+2026-10-26 00:37:03 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for FIX via query1.finance.yahoo.com
+2026-10-26 00:37:04 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for DE via query1.finance.yahoo.com
+2026-10-26 00:37:04 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for QCOM via query1.finance.yahoo.com
+2026-10-26 00:37:05 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for AMD via query1.finance.yahoo.com
+2026-10-26 00:37:05 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for PLTR via query1.finance.yahoo.com
+2026-10-26 00:37:06 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for CRWD via query1.finance.yahoo.com
+2026-10-26 00:37:06 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for UNH via query1.finance.yahoo.com
+2026-10-26 00:37:07 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for MDT via query1.finance.yahoo.com
+2026-10-26 00:37:08 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for VRTX via query1.finance.yahoo.com
+2026-10-26 00:37:08 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for CVS via query1.finance.yahoo.com
+2026-10-26 00:37:09 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for STLD via query1.finance.yahoo.com
+2026-10-26 00:37:09 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for UNP via query1.finance.yahoo.com
+2026-10-26 00:37:10 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for FDX via query1.finance.yahoo.com
+2026-10-26 00:37:10 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for EXPE via query1.finance.yahoo.com
+2026-10-26 00:37:11 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for WFC via query1.finance.yahoo.com
+2026-10-26 00:37:12 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for DIS via query1.finance.yahoo.com
+2026-10-26 00:37:12 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for CL via query1.finance.yahoo.com
+2026-10-26 00:37:13 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for ED via query1.finance.yahoo.com
+2026-10-26 00:37:13 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for KKR via query1.finance.yahoo.com
+2026-10-26 00:37:14 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for BG via query1.finance.yahoo.com
+2026-10-26 00:37:15 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for WRB via query1.finance.yahoo.com
+2026-10-26 00:37:15 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for AOS via query1.finance.yahoo.com
+2026-10-26 00:37:16 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for EMR via query1.finance.yahoo.com
+2026-10-26 00:37:16 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for FERG via query1.finance.yahoo.com
+2026-10-26 00:37:17 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for DAL via query1.finance.yahoo.com
+2026-10-26 00:37:18 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for GEV via query1.finance.yahoo.com
+2026-10-26 00:37:18 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for LHX via query1.finance.yahoo.com
+2026-10-26 00:37:19 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for ETN via query1.finance.yahoo.com
+2026-10-26 00:37:19 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for DOV via query1.finance.yahoo.com
+2026-10-26 00:37:20 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for EXPD via query1.finance.yahoo.com
+2026-10-26 00:37:20 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for NEM via query1.finance.yahoo.com
+2026-10-26 00:37:21 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for ORLY via query1.finance.yahoo.com
+2026-10-26 00:37:22 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for PTC via query1.finance.yahoo.com
+2026-10-26 00:37:22 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for SNDK via query1.finance.yahoo.com
+2026-10-26 00:37:23 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for Q via query1.finance.yahoo.com
+2026-10-26 00:37:23 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for APTV via query1.finance.yahoo.com
+2026-10-26 00:37:24 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 105 price bars for FDXF via query1.finance.yahoo.com
+2026-10-26 00:37:24 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for BNY via query1.finance.yahoo.com
+2026-10-26 00:37:25 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for PGR via query1.finance.yahoo.com
+2026-10-26 00:37:26 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for FANG via query1.finance.yahoo.com
+2026-10-26 00:37:26 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for ITW via query1.finance.yahoo.com
+2026-10-26 00:37:27 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for IEX via query1.finance.yahoo.com
+2026-10-26 00:37:27 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for J via query1.finance.yahoo.com
+2026-10-26 00:37:28 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for ALLE via query1.finance.yahoo.com
+2026-10-26 00:37:29 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for FAST via query1.finance.yahoo.com
+2026-10-26 00:37:29 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for ADP via query1.finance.yahoo.com
+2026-10-26 00:37:30 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for DD via query1.finance.yahoo.com
+2026-10-26 00:37:30 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for DVN via query1.finance.yahoo.com
+2026-10-26 00:37:31 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for MPC via query1.finance.yahoo.com
+2026-10-26 00:37:32 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for AAPL via query1.finance.yahoo.com
+2026-10-26 00:37:32 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for EME via query1.finance.yahoo.com
+2026-10-26 00:37:33 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for BR via query1.finance.yahoo.com
+2026-10-26 00:37:34 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for CSX via query1.finance.yahoo.com
+2026-10-26 00:37:34 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for GD via query1.finance.yahoo.com
+2026-10-26 00:37:35 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for PG via query1.finance.yahoo.com
+2026-10-26 00:37:35 - src.data_ingestion - INFO - [Yahoo Chart] Directly fetched 127 price bars for NVDA via query1.finance.yahoo.com
+Saved audit output to audit_outputs\ledger_price_check.csv
+
+--- AUDIT SUMMARY ---
+Total Trades Evaluated: 95
+Entry Prices: Inside Range = 51, Outside Range = 38, Unknown/Date Missing = 6
+Exit Prices:  Inside Range = 74, Outside Range = 9, Unknown/Date Missing = 12
