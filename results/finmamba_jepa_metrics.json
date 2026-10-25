@@ -1,0 +1,16 @@
+{
+  "target_ticker": "NVDA",
+  "architecture": "FinMamba-JEPA",
+  "total_return_strategy": 0.009796738624572754,
+  "total_return_benchmark": 0.280148983001709,
+  "sharpe_strategy": 1.0975639808151478,
+  "sharpe_benchmark": 1.318549930698072,
+  "sortino_strategy": 1.9360960079256702,
+  "sortino_benchmark": 2.2775821804351684,
+  "max_drawdown_strategy": 0.010133881121873856,
+  "max_drawdown_benchmark": 0.1930457502603531,
+  "win_rate_strategy": 0.4097222222222222,
+  "vetoed_bars_count": 29,
+  "vetoed_bars_pct": 0.2013888888888889,
+  "timestamp": "2026-10-25T08:29:41Z"
+}
