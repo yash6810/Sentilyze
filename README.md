@@ -16,54 +16,85 @@ license: apache-2.0
 
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Code Style: Black](https://img.shields.io/badge/Code%20Style-Black%2025.1.0-000000?style=for-the-badge&logo=python&logoColor=white)](https://github.com/psf/black)
-[![Test Suite](https://img.shields.io/badge/Tests-35%2F35%20Passing-10B981?style=for-the-badge&logo=github-actions&logoColor=white)](tests/)
+[![Test Suite](https://img.shields.io/badge/Tests-Verified%20Passing-10B981?style=for-the-badge&logo=github-actions&logoColor=white)](tests/)
 [![Security: CodeQL](https://img.shields.io/badge/Security-Zero%20Pickle%20%7C%20Safe%20JSON-blueviolet?style=for-the-badge&logo=security&logoColor=white)](models/)
 [![Open In Colab](https://img.shields.io/badge/Google%20Colab-FinMamba--JEPA%20Powerhouse-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/sentilyze_finmamba_jepa_powerhouse.ipynb)
 [![Streamlit Interface](https://img.shields.io/badge/Mission%20Control-5%20Master%20Cockpits-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://sentilyze.streamlit.app/)
-[![Paper Portfolio](https://img.shields.io/badge/Portfolio-+$54,092%20Profit%20(62.6%25%20Win)-10B981?style=for-the-badge&logo=cashapp&logoColor=white)](results/paper_portfolio.json)
+[![Alpaca Paper Equity](https://img.shields.io/badge/Alpaca%20Paper%20Equity-$102,443.49%20(+2.44%25)-10B981?style=for-the-badge&logo=alpaca)](results/alpaca_vs_spy.csv)
 [![Discord Alerts](https://img.shields.io/badge/Live%20Alerts-Discord%20Hub-5865F2?style=for-the-badge&logo=discord&logoColor=white)](src/alerts.py)
 
 <p align="center">
-  <b>An Autonomous Quantitative Multi-Agent Trading Engine combining Transformer Sentiment NLP (FinBERT), Walk-Forward Machine Learning (Native XGBoost Across S&P 500 Equities), 5-Agent Deliberation Council, Continuous-Time FinMamba-JEPA Foundation Models, and Institutional Execution Routing.</b>
+  <b>An Experimental Quantitative Multi-Agent Trading Engine combining Transformer Sentiment NLP (FinBERT), Walk-Forward Machine Learning (Native XGBoost Across Equities), Multi-Agent Deliberation, and Institutional Brokerage Connectivity.</b>
 </p>
 
-[**🚀 Live App**](https://sentilyze.streamlit.app/) • [**🧠 FinMamba-JEPA Colab**](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/sentilyze_finmamba_jepa_powerhouse.ipynb) • [**⚡ Quickstart**](#-quickstart-guide) • [**🏛️ Multi-Agent Council**](#-grounded-5-agent-deliberation-council) • [**💼 Live Portfolio ($136k)**](#-live-paper-trading-portfolio-state) • [**📂 5 Master Cockpits**](#-interactive-mission-control--5-master-cockpits)
+[**🚀 Live App**](https://sentilyze.streamlit.app/) • [**🧠 FinMamba-JEPA Colab**](https://colab.research.google.com/github/yash6810/Sentilyze/blob/main/notebooks/sentilyze_finmamba_jepa_powerhouse.ipynb) • [**⚡ Quickstart**](#-quickstart-guide) • [**🏛️ Multi-Agent Council**](#-grounded-5-agent-deliberation-council) • [**📊 Current Status (Honest & Audited)**](#-current-status-honest--audited) • [**📂 5 Master Cockpits**](#-interactive-mission-control--5-master-cockpits)
 
 </div>
 
 ---
 
-## 🌟 Deployed & Validated Systems
+## 📊 Current Status (Honest & Audited)
 
-Sentilyze moves beyond generic retail indicators and conversational text prompts into **empirically validated quantitative engineering**:
+Following a comprehensive quantitative audit, all performance claims in this repository are grounded strictly in empirical files on disk. Previous ungrounded simulation ledgers have been archived to [`archive/invalid_simulation_2026/`](archive/invalid_simulation_2026/).
 
-1. 🏛️ **5-Agent Quantitative Decision Council**: Fully deployed in [`src/agent_committee.py`](src/agent_committee.py). Technical Alpha, Sentiment NLP, Fundamental Forensic Valuation, and Tape Scouts deliberate under a Chief Risk Officer (CRO) arbitrator before capital is committed.
-2. 🧠 **FinMamba-JEPA Foundation Model**: Fully implemented in [`src/finmamba_jepa.py`](src/finmamba_jepa.py) and runnable via Google Colab GPU. Combines Continuous-Time S6 State Space, FiLM catalyst cross-attention, non-generative JEPA latent liquidity prediction, and Bayesian epistemic uncertainty gates.
-3. ⚡ **Jev TypeSafe Catalyst Engine**: Deployed in [`src/jev_catalyst.py`](src/jev_catalyst.py). Ingests real-time catalysts in sub-15ms, producing strictly typed Pydantic risk enums (`TIER_1_MAX_CONVICTION`, `TIER_4_VETO`) with zero token hallucinations.
-4. 🌊 **Hawkes Order-Flow Cascade Engine**: Deployed in [`src/hawkes_cascade_engine.py`](src/hawkes_cascade_engine.py). Tracks self-exciting order flow point-processes, measuring the branching ratio $\eta \ge 1.0$ to freeze buying before liquidity cascade flash-crashes.
-5. 📊 **Multimodal Chart Structure Analyst**: Deployed in [`src/multimodal_chart_analyst.py`](src/multimodal_chart_analyst.py). Programmatically isolates Smart Money Concepts (SMC) liquidity sweeps, Fair Value Gaps (FVG), and Gemini Vision multi-timeframe chart structure.
-6. 🔄 **Kalman Pairs Trading & Cointegration**: Deployed in [`src/kalman_statarb_engine.py`](src/kalman_statarb_engine.py). Dynamic Kalman filter tracking of rolling hedge ratios and Ornstein-Uhlenbeck half-life mean reversion.
-7. 🚀 **Adaptive Institutional Execution Router**: Deployed in [`src/adaptive_execution_router.py`](src/adaptive_execution_router.py). Selects optimal execution pathways (ISOR, TWAP, VWAP, POV) and computes non-linear market impact using the Almgren-Chriss square-root model.
-8. 🛡️ **Forensic Accounting & Zero-Hallucination Valuation**: Deployed in [`src/forensic_accounting.py`](src/forensic_accounting.py). Evaluates deterministic Piotroski F-Score, Altman Z-Score, and 2-Year Beneish M-Score manipulation detection.
-9. 🤖 **Autonomous Paper Trader**: Deployed in [`src/autonomous_trader.py`](src/autonomous_trader.py). Actively manages risk, staged scaling (+50% banked at TP1, breakeven stop-trail, runner to TP2), and logs execution to [`results/executed_trades.csv`](results/executed_trades.csv).
+### 1. Alpaca Paper Trading Performance (Live Source of Truth)
+
+The live paper trading account (`PA3NFG0UWP3R`) on Alpaca Markets serves as the sole external execution record. Below is the verified performance comparison against the SPY benchmark rebased to the identical starting balance over the exact same period:
+
+| Metric | Alpaca Paper Trading (Sentilyze) | SPY Buy & Hold Benchmark | Delta / Spread |
+| :--- | :---: | :---: | :---: |
+| **Starting Balance** | **$100,000.00** | **$100,000.00** | $0.00 |
+| **Current Liquid Equity** | **$102,443.49** | **$110,231.64** | -$7,788.15 |
+| **Total Net Return** | **+2.44%** | **+10.23%** | -7.79% (Lagged Benchmark) |
+| **Maximum Drawdown** | **-0.25%** | **-8.52%** | **+8.27% (Lower Peak Loss)** |
+| **Annualized Sharpe Ratio** | **1.64** | **1.13** | +0.51 |
+| **Total Realized Orders** | **62 orders** | Buy & Hold (1 entry) | — |
+| **Active Open Positions** | 6 AMZN, 35 QCOM | 100% SPY | Conservative Risk Profile |
+
+> [!NOTE]
+> **Performance Disclosure**: The strategy achieved positive net return (+2.44%) with tight drawdown control (-0.25%), but **lagged the SPY benchmark (+10.23%)** due to conservative cash reservation policies (holding 85%+ cash) and selective entry gating.
 
 ---
 
-## 💼 Live Paper Trading Portfolio State
+### 2. Audited Walk-Forward Backtest Findings (2018–2026)
 
-Sentilyze maintains a strict, verified live paper portfolio state ([`results/paper_portfolio.json`](results/paper_portfolio.json) and [`results/executed_trades.csv`](results/executed_trades.csv)):
+Walk-forward backtests across equities under real-world market friction (0.10% broker fee, 0.05% slippage, execution at $t+1$ Open) revealed key structural findings:
 
-| Portfolio Metric | Deployed Production Value | Operational Status |
-| :--- | :---: | :--- |
-| **Starting Capital Baseline** | **$100,000.00** | Initial Balance |
-| **Total Liquid Equity** | **$136,489.18** | **+54.09% Realized Net Gain** |
-| **Realized Net Profit** | **+$54,092.72** | **100% Banked Cash Reserves** |
-| **Cash Reserves (Dry Powder)** | **$136,489.18** | **100% Available Capital (0 Open Risk)** |
-| **Trade Win Rate** | **62.6%** | **57 Wins / 35 Losses (91 Closed Trades)** |
-| **Open Market Exposure** | **0 Active Positions** | **Flat (Preserving Capital in Cash)** |
+1. **Missing Historical News**: News headlines were unavailable for ~89% of trading days across 2018–2026; sentiment inputs were zero-filled (score = 0.0).
+2. **FinBERT Sentiment Ablation**: In ablation experiments, adding daily news sentiment generated a **-2.17% return drag** compared to pure technical alpha, caused by headline sparsity, latency, and false-positive sentiment noise. Live trading is now strictly gated to skip trades when verified news is unavailable.
+3. **Benchmark Comparison (3-Ticker Out-of-Sample Walk-Forward)**:
+   - **NVDA**: Strategy return **+357.47%** (Sharpe 0.92, Max DD -44.16%) vs Buy & Hold **+1,019.21%** (Sharpe 1.23, Max DD -41.57%) — *Strategy did not beat Buy & Hold*.
+   - **SPY**: Strategy return **+43.76%** (Sharpe 0.68, Max DD -26.34%) vs Buy & Hold **+85.51%** (Sharpe 0.98, Max DD -19.00%) — *Strategy did not beat Buy & Hold*.
+   - **WMT**: Strategy return **+104.67%** (Sharpe 0.75, Max DD -29.44%) vs Buy & Hold **+158.01%** (Sharpe 0.89, Max DD -26.01%) — *Strategy did not beat Buy & Hold*.
+4. **SPY Maximum Drawdown Correction**: SPY buy-and-hold historical maximum drawdown was **-33.72%** (during the March 2020 COVID crash). The previous figure of -72.68% was the drawdown of an experimental `always_long_strategy` subjected to 5% annual margin borrowing interest and trailing stop whipsaws, not passive index buy-and-hold.
 
-> [!IMPORTANT]
-> **Strict Portfolio Preservation Rule**: `results/paper_portfolio.json` and `results/executed_trades.csv` represent the live paper trading state ($136,489.18 cash, +$54,092.72 profit). They are permanently preserved and protected against wipes or overwrites across all tests and builds.
+---
+
+### 3. Quantitative Architecture & Module Classification
+
+To maintain scientific transparency, repository modules are classified into three operational categories:
+
+- **(a) Live in Decision Loop**:
+  - [`src/autonomous_trader.py`](src/autonomous_trader.py) — Autonomous cycle orchestrator with verified news gating.
+  - [`src/agent_committee.py`](src/agent_committee.py) — 5-agent deliberation council (Technical Momentum, Sentiment Catalyst, Fundamental Forensic, CRO Arbitrator).
+  - [`src/paper_broker.py`](src/paper_broker.py) — Local execution simulation and order book tracker.
+  - [`src/alpaca_broker.py`](src/alpaca_broker.py) — Institutional Alpaca paper/live execution bridge.
+  - [`src/realtime_tracker.py`](src/realtime_tracker.py) — Live price polling, stop-loss trailing, and Discord alerting.
+
+- **(b) Dashboard Only**:
+  - [`app.py`](app.py) & [`src/ui/*`](src/ui/) — Streamlit analytical mission control interface.
+  - [`src/sentiment_analysis.py`](src/sentiment_analysis.py) — On-demand headline sentiment scoring.
+  - [`src/stock_image_provider.py`](src/stock_image_provider.py) — Brand asset and company logo retrieval.
+  - [`src/pdf_generator.py`](src/pdf_generator.py) & [`src/tearsheet_generator.py`](src/tearsheet_generator.py) — Factsheet generation.
+  - [`src/alerts.py`](src/alerts.py) — Webhook dispatchers for Discord/Slack notifications.
+
+- **(c) Research & Experimental (Unintegrated in Live Decision Loop)**:
+  - [`src/finmamba_jepa.py`](src/finmamba_jepa.py) — Standalone prototype exploring continuous-time S6 state space and JEPA representations (runnable in Google Colab; not deployed in live execution).
+  - [`src/hawkes_cascade_engine.py`](src/hawkes_cascade_engine.py) — Research point-process order-flow clustering model.
+  - [`src/multimodal_chart_analyst.py`](src/multimodal_chart_analyst.py) — Computer vision liquidity sweep chart analyzer.
+  - [`src/kalman_statarb_engine.py`](src/kalman_statarb_engine.py) — Statistical arbitrage pair cointegration scanner.
+  - [`src/adaptive_execution_router.py`](src/adaptive_execution_router.py) — Theoretical Almgren-Chriss execution router.
+  - [`src/forensic_accounting.py`](src/forensic_accounting.py) — Fundamental accounting metrics engine.
 
 ---
 
@@ -137,8 +168,8 @@ Audit any stock ticker or inspect the live paper portfolio straight from your te
 # 🏛️ Run Multi-Agent Deliberation on any stock ticker
 python sentilyze.py NVDA
 
-# 💼 Inspect live paper portfolio ledger, equity, and realized gains
-python sentilyze.py portfolio
+# 💼 Generate Alpaca Paper Trading Performance Report
+python src/alpaca_report.py
 ```
 
 ---
@@ -167,7 +198,7 @@ Sentilyze Mission Control
 ├── 🎯 Cockpit 1: Live Trading & Alpha Cockpit
 │   ├── 🔮 Tab 1: Directional Signals & Microstructure Alpha
 │   ├── 🏛️ Tab 2: 5-Agent Committee War Room
-│   ├── 🤖 Tab 3: Autonomous Paper Trader ($136k Liquid Capital)
+│   ├── 🤖 Tab 3: Autonomous Paper Trader (Alpaca Broker Bridge)
 │   ├── ⚡ Tab 4: Broker Execution Bridge (Alpaca API)
 │   └── 🎙️ Tab 5: AI Pre-Market Audio Briefing (.mp3)
 ├── 🌊 Cockpit 2: Smart Money & Alternative Data
@@ -189,24 +220,6 @@ Sentilyze Mission Control
     ├── 🌪️ Tab 3: Black Swan Crisis & Macro Stress Simulator
     └── 🕵️ Tab 4: Forensic Accounting (Beneish M-Score) & DCF Intrinsic Valuation
 ```
-
----
-
-## 📊 Empirical Alpha Attribution & Benchmark Performance
-
-Decomposition of strategy performance under real market friction ($0.10\%$ transaction fees, $0.05\%$ slippage) across walk-forward historical testing (2018–2026):
-
-| Ticker | ML Strategy Return (%) | Win Rate (%) | Sharpe Ratio | Max Drawdown (%) | Buy & Hold Max DD (%) | ML Predictive Edge Share (%) | Risk Management Protection (%) |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| **NVDA** | **+738.61%** | 52.67% | **0.90** | **-52.95%** | -86.07% | 24.5% | **201.2%** |
-| **AAPL** | **+76.56%** | 50.27% | **0.48** | **-67.87%** | -83.52% | 18.2% | **174.2%** |
-| **MSFT** | **+48.23%** | 49.03% | **0.37** | **-71.10%** | -84.82% | 14.1% | **346.7%** |
-| **GOOGL** | **+63.78%** | 47.49% | **0.36** | **-75.47%** | -87.93% | **20.4%** | **79.6%** |
-| **AMZN** | **+17.18%** | 43.75% | **0.40** | **-72.61%** | -85.28% | **15.6%** | **84.4%** |
-| **META** | **+50.15%** | 47.25% | **0.42** | **-69.01%** | -95.76% | **24.8%** | **75.2%** |
-| **TSLA** | **+138.03%** | 49.35% | **0.47** | **-88.67%** | -97.92% | **79.2%** | **20.8%** |
-| **SPY** | **+77.03%** | 50.51% | **0.33** | **-59.55%** | -72.68% | **39.0%** | **61.0%** |
-| **AVERAGE**| **+151.20%** | **48.79%**| **0.47** | **-69.65%** | **-86.75%** | **29.49%** | **142.96%** |
 
 ---
 
