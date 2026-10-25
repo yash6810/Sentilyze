@@ -46,15 +46,7 @@ jobs:
         run: |
           python -c "from src.realtime_tracker import update_live_holdings_prices_and_alert_discord; res = update_live_holdings_prices_and_alert_discord(notify_discord=True); print('Fast Intraday Holdings Price & Discord Heartbeat:', res)"
 
-      - name: Commit Updated Paper Portfolio State
+      # State commits disabled in Step 3 to ensure exactly ONE workflow (autonomous_live_trader) manages trading state
+      - name: Intraday Monitor Heartbeat Complete
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add results/paper_portfolio.json results/executed_trades.csv
-          if ! git diff --staged --quiet; then
-            git commit -m "chore(portfolio): 5-min intraday scale-out execution [skip ci]"
-            git pull --rebase --autostash origin main || git pull origin main --no-rebase -X ours || true
-            git push origin main || echo "Nothing to push"
-          else
-            echo "No portfolio state changes to commit."
-          fi
+          echo "Intraday price monitoring and Discord alerting cycle complete. Trading state persistence is managed solely by autonomous_live_trader.yml."
