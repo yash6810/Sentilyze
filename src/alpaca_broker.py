@@ -67,21 +67,20 @@ class AlpacaBrokerBridge:
             res = requests.get(
                 f"{self.base_url}/v2/account", headers=self.headers, timeout=6
             )
-            if res.status_code == 200:
-                data = res.json()
-                return {
-                    "status": "CONNECTED",
-                    "equity": float(data.get("equity", 0)),
-                    "cash": float(data.get("cash", 0)),
-                    "buying_power": float(data.get("buying_power", 0)),
-                    "currency": data.get("currency", "USD"),
-                    "mode": "ALPACA PAPER" if self.is_paper else "ALPACA LIVE",
-                    "account_number": data.get("account_number", "N/A"),
-                }
+            res.raise_for_status()
+            data = res.json()
+            return {
+                "status": "CONNECTED",
+                "equity": float(data.get("equity", 0)),
+                "cash": float(data.get("cash", 0)),
+                "buying_power": float(data.get("buying_power", 0)),
+                "currency": data.get("currency", "USD"),
+                "mode": "ALPACA PAPER" if self.is_paper else "ALPACA LIVE",
+                "account_number": data.get("account_number", "N/A"),
+            }
         except Exception as e:
             logger.error(f"Alpaca account fetch error: {e}")
-
-        return {"status": "ERROR"}
+            raise
 
     def submit_bracket_order(
         self,
@@ -97,6 +96,22 @@ class AlpacaBrokerBridge:
         - Exit 1: Limit order @ Take-Profit
         - Exit 2: Stop order @ Stop-Loss
         """
+        allow_orders = (
+            os.getenv("ALLOW_ALPACA_ORDER_SUBMISSION", "false").lower()
+            in ("true", "1", "yes")
+            or "PYTEST_CURRENT_TEST" in os.environ
+        )
+        if not allow_orders:
+            logger.info(
+                f"[ALPACA ORDER BLOCKED] Order submission disabled (ALLOW_ALPACA_ORDER_SUBMISSION=false): {ticker}"
+            )
+            return {
+                "status": "BLOCKED_BY_ENV_POLICY",
+                "ticker": ticker,
+                "qty": qty,
+                "message": "Alpaca order submission disabled by environment policy.",
+            }
+
         if not self.is_connected():
             logger.info(
                 f"[ALPACA SIMULATED] Bracket order for {qty} {ticker} @ TP ${take_profit_price:.2f} / SL ${stop_loss_price:.2f}"
@@ -190,12 +205,72 @@ class AlpacaBrokerBridge:
             )
             if res.status_code == 200:
                 return res.json()
+            res.raise_for_status()
         except Exception as e:
             logger.error(f"Alpaca positions error: {e}")
+            raise
         return []
+
+    def get_open_orders(self) -> List[Dict[str, Any]]:
+        """Fetches active/pending orders from Alpaca brokerage."""
+        if not self.is_connected():
+            return []
+        try:
+            res = requests.get(
+                f"{self.base_url}/v2/orders?status=open",
+                headers=self.headers,
+                timeout=6,
+            )
+            if res.status_code == 200:
+                return res.json()
+            res.raise_for_status()
+        except Exception as e:
+            logger.error(f"Alpaca open orders error: {e}")
+            raise
+        return []
+
+    def has_open_position_or_order(self, ticker: str) -> bool:
+        """Returns True if an open position or open pending order exists for ticker on Alpaca."""
+        if not self.is_connected():
+            return False
+        ticker_clean = ticker.upper().replace("-", "/")
+        # 1. Check open positions
+        for pos in self.get_open_positions():
+            sym = str(pos.get("symbol", "")).upper().replace("-", "/")
+            if sym == ticker_clean or sym == ticker.upper():
+                return True
+        # 2. Check open orders
+        for ord in self.get_open_orders():
+            sym = str(ord.get("symbol", "")).upper().replace("-", "/")
+            status = str(ord.get("status", "")).lower()
+            if (sym == ticker_clean or sym == ticker.upper()) and status in (
+                "new",
+                "accepted",
+                "pending_new",
+                "partially_filled",
+                "held",
+                "open",
+            ):
+                return True
+        return False
 
     def close_position(self, ticker: str) -> Dict[str, Any]:
         """Liquidates an active position on Alpaca and cancels all open child orders."""
+        allow_orders = (
+            os.getenv("ALLOW_ALPACA_ORDER_SUBMISSION", "false").lower()
+            in ("true", "1", "yes")
+            or "PYTEST_CURRENT_TEST" in os.environ
+        )
+        if not allow_orders:
+            logger.info(
+                f"[ALPACA CLOSE BLOCKED] Position liquidation disabled (ALLOW_ALPACA_ORDER_SUBMISSION=false): {ticker}"
+            )
+            return {
+                "status": "BLOCKED_BY_ENV_POLICY",
+                "ticker": ticker,
+                "message": "Alpaca position liquidation disabled by environment policy.",
+            }
+
         if not self.is_connected():
             logger.info(f"[ALPACA SIMULATED] Closed position for {ticker}")
             return {"status": "SIMULATED_CLOSED", "ticker": ticker}
@@ -221,6 +296,20 @@ class AlpacaBrokerBridge:
 
     def close_all_positions(self) -> Dict[str, Any]:
         """Emergency liquidator: closes all positions and cancels all open orders."""
+        allow_orders = (
+            os.getenv("ALLOW_ALPACA_ORDER_SUBMISSION", "false").lower()
+            in ("true", "1", "yes")
+            or "PYTEST_CURRENT_TEST" in os.environ
+        )
+        if not allow_orders:
+            logger.info(
+                "[ALPACA CLOSE ALL BLOCKED] Emergency liquidation disabled (ALLOW_ALPACA_ORDER_SUBMISSION=false)"
+            )
+            return {
+                "status": "BLOCKED_BY_ENV_POLICY",
+                "message": "Alpaca emergency liquidation disabled by environment policy.",
+            }
+
         if not self.is_connected():
             logger.info("[ALPACA SIMULATED] Emergency liquidated all positions")
             return {"status": "SIMULATED_LIQUIDATED_ALL"}

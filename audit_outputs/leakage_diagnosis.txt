@@ -1,0 +1,86 @@
+================================================================================
+AUDIT REPORT: PERFORMANCE LEAKAGE & METRIC ANOMALY DIAGNOSIS
+================================================================================
+Target Scope: All sampled tickers exhibiting Accuracy=1.0, ROC-AUC=1.0,
+              Sharpe 6.0-11.0+, and total_trades=0.
+Evidence Source Files:
+  - src/modeling.py (lines 182-195)
+  - src/backtesting.py (lines 334-351, lines 408-417)
+  - src/feature_engineering.py (lines 405-428)
+  - train.py (lines 40-75, lines 132-150)
+
+--------------------------------------------------------------------------------
+1. ROOT CAUSE FOR SHARPE 6.0 - 11.0+ (src/modeling.py lines 183-187)
+--------------------------------------------------------------------------------
+In `src/modeling.py`, the strategy Sharpe ratio logged into `_metrics.json` is
+computed using an artificial formula that completely disregards actual price returns:
+
+```python
+# Lines 183-187 in src/modeling.py:
+strat_signals = np.where(np.array(oos_predictions) > 0.50, 1.0, -0.5)
+strat_returns = strat_signals * np.where(np.array(oos_true) == 1, 0.01, -0.01)
+sharpe = float(
+    np.mean(strat_returns) / (np.std(strat_returns) + 1e-8) * np.sqrt(252)
+)
+```
+Structural Flaw:
+- Returns are assumed to be a synthetic deterministic +/- 1.0% on every single period.
+- Slippage (0.05%) and broker transaction fees (0.10%) are completely omitted.
+- Whenever accuracy is high (or 100%), `strat_returns` becomes an invariant array of
+  +0.01s. Its sample standard deviation approaches 0.0 (offset only by epsilon 1e-8).
+- Dividing a positive mean (+0.01) by near-zero variance causes the Sharpe ratio
+  to explode to 6.99 - 11.75+. This metric does not represent market Sharpe.
+
+--------------------------------------------------------------------------------
+2. ROOT CAUSE FOR ACCURACY 1.0 & ROC-AUC 1.0 (OVERFITTING ON MICRO DATASETS)
+--------------------------------------------------------------------------------
+Files: `results/ACP_metrics.json`, `results/AEG_metrics.json`, `results/ALC_metrics.json`
+Parameters: `max_depth: 6`, `learning_rate: 0.0826`, `total_test_samples: 95`.
+
+Structural Flaw:
+- For several secondary universe tickers, the total available sample size was only
+  95 days.
+- In `src/modeling.py`, when `total_samples` < 80 or when small splits are generated,
+  an unregularized XGBoost tree with `max_depth: 6` trained on a small feature space
+  with 44 indicators memorized the 95-day sample perfectly, achieving 1.0 accuracy.
+- Furthermore, in `src/feature_engineering.py`, indicators such as moving averages,
+  rolling volatilities, and min-max feature scalers were pre-calculated on the whole
+  series before fold isolation, allowing distributional statistics from the future
+  to inform current features.
+
+--------------------------------------------------------------------------------
+3. ROOT CAUSE FOR total_trades = 0 (src/backtesting.py lines 334-351)
+--------------------------------------------------------------------------------
+In `src/backtesting.py`, trade count and win rate are computed by:
+
+```python
+def _calculate_trade_outcomes(portfolio: pd.DataFrame) -> List[float]:
+    pnl_list = []
+    position_open = False
+    entry_price = 0.0
+    trade_events = portfolio[portfolio["signal"] != 0]
+
+    for i, row in trade_events.iterrows():
+        signal = row["signal"]
+        if signal == 1 and not position_open:
+            entry_price = row["Open"]
+            position_open = True
+        elif signal == -1 and position_open:
+            exit_price = row["Open"]
+            pnl_list.append(exit_price - entry_price)
+            position_open = False
+    return pnl_list
+```
+Structural Flaw:
+- `_calculate_trade_outcomes` only appends to `pnl_list` when it encounters an
+  explicit exit signal `signal == -1` (triggered only by a stop-loss breach, ATR
+  take-profit target hit, or margin call).
+- If a position is entered on Day 1 (`signal == 1`) and held throughout the backtest
+  without triggering the stop-loss or take-profit, NO exit signal (`signal == -1`)
+  is ever registered.
+- Consequently, `pnl_list` remains empty `[]`, `len(trade_outcomes) == 0`, and
+  `total_trades` is reported as 0, despite the portfolio experiencing substantial
+  holdings return and daily equity variation.
+- Conversely, for tickers where `prob_up` never crossed the 0.52 entry threshold,
+  0 trades were entered, also resulting in `total_trades = 0`.
+================================================================================

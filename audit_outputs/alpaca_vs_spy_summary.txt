@@ -1,0 +1,15 @@
+======================================================================
+ALPACA PAPER TRADING VS SPY BENCHMARK PERFORMANCE REPORT
+======================================================================
+Account ID:           PA3NFG0UWP3R
+Evaluation Period:    2026-02-20 to 2026-10-24 (172 trading days)
+Starting Capital:     $100,000.00
+Total Orders Count:   62
+
+METRIC                   ALPACA (SENTILYZE)       SPY BENCHMARK
+----------------------------------------------------------------------
+Ending Equity:           $102,443.49          $110,231.64
+Total Return:              +2.44%                  +10.23%
+Max Drawdown:              -0.25%                   -8.52%
+Annualized Sharpe:           1.64                     1.13
+======================================================================

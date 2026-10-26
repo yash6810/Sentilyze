@@ -1066,26 +1066,100 @@ class ChiefRiskOfficerAgent:
             if os.path.exists(sde_path):
                 with open(sde_path, "r", encoding="utf-8") as sde_fp:
                     sde_data = json.load(sde_fp)
+                    live_alpaca_required = os.getenv(
+                        "LIVE_ALPACA_REQUIRED", "false"
+                    ).lower() in ("true", "1", "yes")
+                    if live_alpaca_required:
+                        try:
+                            from src.alpaca_broker import AlpacaBrokerBridge
+
+                            alp = AlpacaBrokerBridge()
+                            if not alp.is_connected():
+                                logger.warning(
+                                    "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca disconnected in live mode"
+                                )
+                                return {
+                                    "verdict": "VETO",
+                                    "confidence": 0.0,
+                                    "final_resolution": "VETO",
+                                    "veto_active": True,
+                                    "veto_reason": "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca disconnected in live mode",
+                                    "risk_score": 100.0,
+                                    "approved_leverage": 0.0,
+                                    "kelly_allocation_pct": 0.0,
+                                    "stop_loss_target": None,
+                                    "tp1_target": None,
+                                    "tp2_target": None,
+                                    "action": "VETO",
+                                }
+                            acc = alp.get_account_summary()
+                            if acc.get("status") != "CONNECTED":
+                                logger.warning(
+                                    "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca account query failed"
+                                )
+                                return {
+                                    "verdict": "VETO",
+                                    "confidence": 0.0,
+                                    "final_resolution": "VETO",
+                                    "veto_active": True,
+                                    "veto_reason": "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca account query failed",
+                                    "risk_score": 100.0,
+                                    "approved_leverage": 0.0,
+                                    "kelly_allocation_pct": 0.0,
+                                    "stop_loss_target": None,
+                                    "tp1_target": None,
+                                    "tp2_target": None,
+                                    "action": "VETO",
+                                }
+                            live_cash = float(acc.get("cash", 0.0))
+                            live_equity = float(acc.get("equity", live_cash))
+                        except Exception as alp_err:
+                            logger.warning(f"BUY_SKIPPED_ALPACA_UNAVAILABLE: {alp_err}")
+                            return {
+                                "verdict": "VETO",
+                                "confidence": 0.0,
+                                "final_resolution": "VETO",
+                                "veto_active": True,
+                                "veto_reason": f"BUY_SKIPPED_ALPACA_UNAVAILABLE: {alp_err}",
+                                "risk_score": 100.0,
+                                "approved_leverage": 0.0,
+                                "kelly_allocation_pct": 0.0,
+                                "stop_loss_target": None,
+                                "tp1_target": None,
+                                "tp2_target": None,
+                                "action": "VETO",
+                            }
+                    else:
+                        port_path = os.path.join("results", "paper_portfolio.json")
+                        if os.path.exists(port_path):
+                            with open(port_path, "r", encoding="utf-8") as pp_fp:
+                                pp_data = json.load(pp_fp)
+                                live_cash = float(pp_data.get("cash", 100000.0))
+                                live_equity = float(
+                                    pp_data.get("total_equity", live_cash)
+                                )
+                        else:
+                            live_cash = 100000.0
+                            live_equity = 100000.0
                     cvar_floor = float(
-                        sde_data.get("recommended_dynamic_cash_floor", 118014.06)
+                        sde_data.get(
+                            "recommended_dynamic_cash_floor", live_equity * 0.85
+                        )
                     )
+                    # Ensure floor scales proportionally with live equity baseline
+                    if cvar_floor >= live_equity:
+                        cvar_floor = live_equity * 0.85
                     sde_metrics = {
                         "cvar99_floor": cvar_floor,
                         "var99": float(sde_data.get("value_at_risk_var99", 0.0)),
                     }
-                    port_path = os.path.join("results", "paper_portfolio.json")
-                    if os.path.exists(port_path):
-                        with open(port_path, "r", encoding="utf-8") as pp_fp:
-                            pp_data = json.load(pp_fp)
-                            live_cash = float(pp_data.get("cash", 125626.0))
-                            live_equity = float(pp_data.get("total_equity", live_cash))
-                            if live_equity > 0 and (live_cash / live_equity) >= 0.80:
-                                high_cash_deployment_valve = True
-                            if live_cash <= cvar_floor * 1.02:
-                                calculated_kelly_pct = min(calculated_kelly_pct, 1.5)
-                                logger.warning(
-                                    f"🛡️ [NEURAL SDE SURVIVAL GATE] Cash ${live_cash:,.2f} near CVaR99 floor ${cvar_floor:,.2f}. Capping allocation at {calculated_kelly_pct}%."
-                                )
+                    if live_equity > 0 and (live_cash / live_equity) >= 0.80:
+                        high_cash_deployment_valve = True
+                    if live_cash <= cvar_floor * 1.02:
+                        calculated_kelly_pct = min(calculated_kelly_pct, 1.5)
+                        logger.warning(
+                            f"🛡️ [NEURAL SDE SURVIVAL GATE] Cash ${live_cash:,.2f} near CVaR99 floor ${cvar_floor:,.2f}. Capping allocation at {calculated_kelly_pct}%."
+                        )
         except Exception as sde_err:
             logger.debug(f"Neural SDE check notice: {sde_err}")
 
@@ -1185,15 +1259,30 @@ class ChiefRiskOfficerAgent:
             from src.ultra_quant_engine import get_ultra_quant_engine
 
             uq_engine = get_ultra_quant_engine()
-            portfolio_file = os.path.join("results", "paper_portfolio.json")
-            if os.path.exists(portfolio_file):
-                with open(portfolio_file, "r", encoding="utf-8") as pf:
-                    p_state = json.load(pf)
-                curr_eq = float(p_state.get("total_equity", 100000.0))
-                # Protect baseline initial capital floor ($95k CPPI floor) with 25% max tolerance from peak
+            live_alpaca_required = os.getenv(
+                "LIVE_ALPACA_REQUIRED", "false"
+            ).lower() in ("true", "1", "yes")
+            if live_alpaca_required:
+                curr_eq = live_equity
+                peak_wealth = max(
+                    curr_eq, float(os.getenv("ALPACA_PEAK_EQUITY", curr_eq))
+                )
+            else:
+                portfolio_file = os.path.join("results", "paper_portfolio.json")
+                if os.path.exists(portfolio_file):
+                    with open(portfolio_file, "r", encoding="utf-8") as pf:
+                        p_state = json.load(pf)
+                    curr_eq = float(p_state.get("total_equity", 100000.0))
+                    # Protect baseline initial capital floor ($95k CPPI floor) with 25% max tolerance from peak
+                    peak_wealth = float(p_state.get("peak_equity", curr_eq))
+                    if peak_wealth < curr_eq:
+                        peak_wealth = curr_eq
+                else:
+                    curr_eq = 100000.0
+                    peak_wealth = 100000.0
                 gz_alloc = uq_engine.evaluate_grossman_zhou_allocation(
                     current_wealth=curr_eq,
-                    peak_wealth=max(curr_eq, 150000.0),
+                    peak_wealth=peak_wealth,
                     max_drawdown_tolerance=0.25,
                 )
                 if gz_alloc.get("at_floor", False):
@@ -1460,6 +1549,7 @@ def convene_trading_committee(
     vix_level: float = 16.5,
     vix_change_pct: float = -1.2,
     save_resolution: bool = True,
+    resolution_file: Optional[str] = None,
     spot_price: Optional[float] = None,
     catalyst_headlines: Optional[List[str]] = None,
     enable_tot: bool = True,
@@ -1713,27 +1803,30 @@ def convene_trading_committee(
         logger.debug(f"Proprietary gates notice for {ticker}: {prop_err}")
 
     if save_resolution:
-        _persist_committee_resolution(ticker, resolution_packet)
+        _persist_committee_resolution(
+            ticker, resolution_packet, file_path=resolution_file
+        )
 
     return resolution_packet
 
 
 def _persist_committee_resolution(
-    ticker: str, resolution_packet: Dict[str, Any]
+    ticker: str, resolution_packet: Dict[str, Any], file_path: Optional[str] = None
 ) -> None:
-    """Saves the committee resolution into results/committee_resolutions.json."""
+    """Saves the committee resolution into target file (defaults to results/committee_resolutions.json)."""
+    target_file = file_path or COMMITTEE_FILE
     try:
-        os.makedirs(os.path.dirname(COMMITTEE_FILE), exist_ok=True)
+        os.makedirs(os.path.dirname(target_file), exist_ok=True)
         data = {}
-        if os.path.exists(COMMITTEE_FILE):
+        if os.path.exists(target_file):
             try:
-                with open(COMMITTEE_FILE, "r", encoding="utf-8") as f:
+                with open(target_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
             except Exception:
                 data = {}
 
         data[ticker] = resolution_packet
-        with open(COMMITTEE_FILE, "w", encoding="utf-8") as f:
+        with open(target_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
     except Exception as e:
         logger.warning(f"Failed to persist committee resolution for {ticker}: {e}")
@@ -1741,6 +1834,7 @@ def _persist_committee_resolution(
 
 def audit_full_universe_committee(
     universe_tickers: Optional[List[str]] = None,
+    output_file: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Runs committee deliberation across the provided universe of tickers."""
     tickers = universe_tickers or [
@@ -1752,10 +1846,13 @@ def audit_full_universe_committee(
         "META",
         "TSLA",
     ]
+    target_file = output_file or "results/committee_audit_resolutions.json"
     resolutions = {}
     for t in tickers:
         try:
-            res = convene_trading_committee(t, save_resolution=True)
+            res = convene_trading_committee(
+                t, save_resolution=True, resolution_file=target_file
+            )
             resolutions[t] = res
         except Exception as e:
             logger.error(f"Error deliberating for {t}: {e}")
@@ -1764,6 +1861,7 @@ def audit_full_universe_committee(
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "total_audited": len(resolutions),
         "resolutions": resolutions,
+        "output_file": target_file,
     }
 
 

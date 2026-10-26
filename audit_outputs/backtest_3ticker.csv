@@ -1,0 +1,4 @@
+ticker,eval_days,trade_count,win_rate,strategy_total_return_pct,bnh_total_return_pct,strategy_sharpe,bnh_sharpe,strategy_max_dd_pct,bnh_max_dd_pct,strategy_beats_bnh
+NVDA,1078,190,48.42,357.47,1019.21,0.92,1.23,-44.16,-41.57,False
+SPY,1058,37,51.35,43.76,85.51,0.68,0.98,-26.34,-19.0,False
+WMT,1388,79,49.37,104.67,158.01,0.75,0.89,-29.44,-26.01,False

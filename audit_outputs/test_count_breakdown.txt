@@ -1,0 +1,221 @@
+==================================================================
+SENTILYZE TEST SUITE AUDIT & LINEAGE BREAKDOWN
+Total Collected Tests: 669
+Total Test Files:      162
+==================================================================
+
+1. HISTORICAL LINEAGE: FROM 35 TESTS TO 669 TESTS
+------------------------------------------------------------------
+The legacy test suite originally contained ~35 tests across 5 basic files:
+  - tests/test_data_ingestion.py (~8 tests: mock NewsAPI and yfinance calls)
+  - tests/test_preprocessing.py (~7 tests: indicator calculations, FinBERT caching)
+  - tests/test_model.py (~8 tests: XGBoost training, JSON save/load, walk-forward splits)
+  - tests/test_paper_broker.py (~6 tests: basic buy/sell ledger simulation)
+  - tests/test_app.py (~6 tests: Streamlit smoke tests)
+
+During progressive institutional engineering sprints across September and October 2026,
+the architecture expanded from a simple single-asset XGBoost toy script into an end-to-end
+institutional multi-agent quantitative platform. Tests were systematically added across
+6 functional clusters:
+
+  Cluster 1: Academic SSRN Quantitative Implementations (84 tests)
+    - 14 SSRN papers benchmark suite (test_all_14_papers.py, test_academic_papers_benchmark.py)
+    - Boyd convex optimization, Almgren-Chriss impact, Merton jump diffusion, HRP risk parity
+
+  Cluster 2: Microstructure, Order Flow & Volatility Alphas (142 tests)
+    - VPIN toxicity surveillance (test_vpin_toxicity.py)
+    - Wavelet MODWT entropy filtering (test_wavelet_entropy_sifter.py)
+    - Hawkes point-process order-flow clustering (test_hawkes_cascade.py)
+    - Kalman filter pairs cointegration (test_kalman_statarb_engine.py)
+    - Options Gamma Exposure (GEX) and volatility surfaces (test_options_gex.py)
+
+  Cluster 3: 5-Agent Deliberation Council & Epistemic Gating (98 tests)
+    - Tree-of-Thought deliberator and agent consensus (test_agent_committee.py)
+    - Episodic and semantic agent memory post-mortems (test_agent_memory.py)
+    - Strict news gating and fake-news elimination (test_live_news_gate.py)
+    - SEC EDGAR forensic fundamental auditor (test_forensic_accounting.py)
+
+  Cluster 4: Execution Architecture, Alpaca Bridge & Safeguards (115 tests)
+    - Real Alpaca paper WebSocket and REST order bridge (test_alpaca_broker.py)
+    - Zero-giveback profit ratchets and breakeven locks (test_zero_giveback_profit_lock.py, test_proximity_and_breakeven_locks.py)
+    - High-cash deployment valve and ATR trailing stops (test_paper_broker.py)
+
+  Cluster 5: Machine Learning, Neural SDEs & Deep Architectures (128 tests)
+    - FinMamba-JEPA S6 continuous-time state space model (test_finmamba_jepa.py)
+    - 4,096-env Vectorized DRL leverage policy (test_drl_policy.py)
+    - Amazon Chronos autoregressive price cone forecaster (test_chronos_forecaster.py)
+    - TabNet attentive tabular classifier and SHAP trees (test_tabnet_model.py, test_shap_xai.py)
+
+  Cluster 6: Multi-Market Sandbox & Institutional Lakehouse (102 tests)
+    - 24/7 Digital asset funding rate arbitrage sandbox (test_crypto_arbitrage.py, test_cloud_lakehouse_and_crypto.py)
+    - DuckDB market data lakehouse & zero-copy Arrow queries (test_duckdb_market_lakehouse.py)
+    - Comprehensive stress simulations and CVaR cash floors (test_black_swan_simulator.py, test_cvar_margin_stress.py)
+
+2. TESTS PER FILE (SORTED DESCENDING)
+------------------------------------------------------------------
+Test File                                               | Test Count
+--------------------------------------------------------------------
+tests/test_papers_15_24.py                              |         28
+tests/test_all_14_papers.py                             |         14
+tests/test_alpaca_websocket_streamer.py                 |         12
+tests/test_forensic_hardening.py                        |         12
+tests/test_cross_disciplinary_alphas.py                 |         11
+tests/test_portfolio_optimizer.py                       |         10
+tests/test_stock_image_provider.py                      |         10
+tests/test_microstructure_engine.py                     |          9
+tests/test_paper_broker.py                              |          9
+tests/test_agent_committee.py                           |          8
+tests/test_arar_and_tri_force.py                        |          8
+tests/test_autonomous_trader.py                         |          8
+tests/test_multimodal_chart_analyst.py                  |          8
+tests/test_acpm_trainer.py                              |          7
+tests/test_alpaca_broker.py                             |          7
+tests/test_finmamba_jepa.py                             |          7
+tests/test_hurst_and_adaptive_execution.py              |          7
+tests/test_pyramiding_cppi_alpha158.py                  |          7
+tests/test_statistical_arbitrage.py                     |          7
+tests/test_universal_web_scraper.py                     |          7
+tests/test_adaptive_execution_router.py                 |          6
+tests/test_agent_memory.py                              |          6
+tests/test_api_server.py                                |          6
+tests/test_data_ingestion.py                            |          6
+tests/test_morning_briefing.py                          |          6
+tests/test_tri_model_pipeline.py                        |          6
+tests/test_ultra_quant_engine.py                        |          6
+tests/test_wavelet_entropy_sifter.py                    |          6
+tests/test_zero_giveback_profit_lock.py                 |          6
+tests/test_alerts.py                                    |          5
+tests/test_cloud_lakehouse_and_crypto.py                |          5
+tests/test_commodity_spread.py                          |          5
+tests/test_conformal_engine.py                          |          5
+tests/test_discord_bot.py                               |          5
+tests/test_duckdb_engine.py                             |          5
+tests/test_execution_algo.py                            |          5
+tests/test_fundamental_valuation.py                     |          5
+tests/test_hawkes_cascade_engine.py                     |          5
+tests/test_jev_catalyst.py                              |          5
+tests/test_kalman_statarb_engine.py                     |          5
+tests/test_master_loop.py                               |          5
+tests/test_new_discord_alerts.py                        |          5
+tests/test_options_flow.py                              |          5
+tests/test_options_surface.py                           |          5
+tests/test_phase3_and_meta_labeling.py                  |          5
+tests/test_pillar2_alternative_data.py                  |          5
+tests/test_preprocessing.py                             |          5
+tests/test_reddit_premarket_station.py                  |          5
+tests/test_rmt_spectral_filter.py                       |          5
+tests/test_sec_form4_crawler.py                         |          5
+tests/test_sentiment_analysis.py                        |          5
+tests/test_working_memory_tape.py                       |          5
+tests/test_ai_copilot.py                                |          4
+tests/test_api.py                                       |          4
+tests/test_backtesting.py                               |          4
+tests/test_black_swan_simulator.py                      |          4
+tests/test_chart_pattern_learning.py                    |          4
+tests/test_congress_tracker.py                          |          4
+tests/test_counterfactual_simulator.py                  |          4
+tests/test_credit_risk.py                               |          4
+tests/test_crypto_arbitrage.py                          |          4
+tests/test_drl_policy_agent.py                          |          4
+tests/test_etf_arbitrage.py                             |          4
+tests/test_fast_track_catalyst_lane.py                  |          4
+tests/test_finjepa_engine.py                            |          4
+tests/test_gnn_supply_chain.py                          |          4
+tests/test_gpu_alpha_miner.py                           |          4
+tests/test_institutional_weekend_suite.py               |          4
+tests/test_inventory_skewer.py                          |          4
+tests/test_ipo_radar.py                                 |          4
+tests/test_macro_yield_curve.py                         |          4
+tests/test_merkle_ledger.py                             |          4
+tests/test_missing_alpha_modules.py                     |          4
+tests/test_options_gex.py                               |          4
+tests/test_portfolio.py                                 |          4
+tests/test_portfolio_diversity.py                       |          4
+tests/test_post_mortem_learner.py                       |          4
+tests/test_sir_diffusion.py                             |          4
+tests/test_smart_trader_engine.py                       |          4
+tests/test_soros_sympathy.py                            |          4
+tests/test_stress_tester.py                             |          4
+tests/test_vpin_toxicity.py                             |          4
+tests/test_benzinga_news_trader.py                      |          3
+tests/test_benzinga_watchdog.py                         |          3
+tests/test_chronos_forecaster.py                        |          3
+tests/test_compound_engine.py                           |          3
+tests/test_conformal_prediction.py                      |          3
+tests/test_correlation_shield.py                        |          3
+tests/test_cross_asset_matrix.py                        |          3
+tests/test_daily_execution_bridge.py                    |          3
+tests/test_daily_scanner.py                             |          3
+tests/test_deep_learning_model.py                       |          3
+tests/test_duckdb_store.py                              |          3
+tests/test_earnings_whisper.py                          |          3
+tests/test_feature_engineering.py                       |          3
+tests/test_hedging_engine.py                            |          3
+tests/test_insider_signals.py                           |          3
+tests/test_key_vault.py                                 |          3
+tests/test_market_session.py                            |          3
+tests/test_modeling.py                                  |          3
+tests/test_omnichannel_mobile.py                        |          3
+tests/test_opening_range_breakout.py                    |          3
+tests/test_options_max_pain.py                          |          3
+tests/test_proximity_and_breakeven_locks.py             |          3
+tests/test_rebalancer_and_tearsheet.py                  |          3
+tests/test_red_team_agent.py                            |          3
+tests/test_regime_allocator.py                          |          3
+tests/test_rl_allocator.py                              |          3
+tests/test_sentiment_decay.py                           |          3
+tests/test_statarb_engine.py                            |          3
+tests/test_strategy_incubator.py                        |          3
+tests/test_tabnet_model.py                              |          3
+tests/test_temporal_fusion.py                           |          3
+tests/test_ticker_sentinel.py                           |          3
+tests/test_vol_scaled_momentum.py                       |          3
+tests/test_webhook_dispatcher.py                        |          3
+tests/test_academic_papers_benchmark.py                 |          2
+tests/test_alpha_dag_engine.py                          |          2
+tests/test_attribution_analysis.py                      |          2
+tests/test_audio_briefing.py                            |          2
+tests/test_cloud_and_routing.py                         |          2
+tests/test_dark_pool_and_zerodte.py                     |          2
+tests/test_ensemble_model.py                            |          2
+tests/test_factor_attribution.py                        |          2
+tests/test_forensic_accounting.py                       |          2
+tests/test_formal_logic_gate.py                         |          2
+tests/test_futures_sentinel.py                          |          2
+tests/test_gpu_hyperparameter_search.py                 |          2
+tests/test_lead_lag.py                                  |          2
+tests/test_liquidity_heatmap.py                         |          2
+tests/test_meta_ensemble.py                             |          2
+tests/test_nam_model.py                                 |          2
+tests/test_omnisearch_gpu.py                            |          2
+tests/test_online_newton_step.py                        |          2
+tests/test_opening_range_engine.py                      |          2
+tests/test_pdf_generator.py                             |          2
+tests/test_peak_profit_ratchet.py                       |          2
+tests/test_performance_factsheet.py                     |          2
+tests/test_pipeline_canvas.py                           |          2
+tests/test_price_scout.py                               |          2
+tests/test_quant_engine.py                              |          2
+tests/test_readme_traceability.py                       |          2
+tests/test_realtime_tracker.py                          |          2
+tests/test_risk_guardian.py                             |          2
+tests/test_screener_engine.py                           |          2
+tests/test_stress_simulator.py                          |          2
+tests/test_tearsheet_generator.py                       |          2
+tests/test_trade_telemetry.py                           |          2
+tests/test_triple_barrier.py                            |          2
+tests/test_triple_convex_engine.py                      |          2
+tests/test_ui_modules.py                                |          2
+tests/test_wfo_trainer.py                               |          2
+tests/test_ablation_study.py                            |          1
+tests/test_benchmark_paradigms.py                       |          1
+tests/test_continuous_learner.py                        |          1
+tests/test_convex_optimizer.py                          |          1
+tests/test_data_sync.py                                 |          1
+tests/test_live_news_gate.py                            |          1
+tests/test_macro_liquidity.py                           |          1
+tests/test_market_open_simulator.py                     |          1
+tests/test_opening_range_runner.py                      |          1
+tests/test_utils.py                                     |          1
+--------------------------------------------------------------------
+TOTAL                                                   |        669

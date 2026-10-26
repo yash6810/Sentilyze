@@ -1,0 +1,54 @@
+number,section,source_file,source_key_or_column,verified
+1.44.1,YAML Frontmatter (sdk_version),README.md,sdk_version,VERIFIED (Streamlit SDK version specification)
+3.10+,Header Badges,pyproject.toml,requires-python >=3.10,VERIFIED
+25.1.0,Header Badges & Code Standards,pyproject.toml,tool.black.version,VERIFIED
+"$102,443.49",Header Badges & Status Table,results/alpaca_equity.csv,equity (row 171 / final row),VERIFIED
++2.44%,"Header Badges, Status Table, Disclosure",results/alpaca_vs_spy.csv,alpaca_return_pct,VERIFIED
+"$100,000.00",Status Table: Starting Balance,results/alpaca_equity.csv,equity (row 0 / starting cash),VERIFIED
+"$110,231.64",Status Table: SPY Benchmark Equity,results/alpaca_vs_spy.csv,spy_equity (final row),VERIFIED
+"-$7,788.15",Status Table: Delta Equity,results/alpaca_vs_spy.csv,"alpaca_equity - spy_equity ($102,443.49 - $110,231.64)",VERIFIED
++10.23%,Status Table & Disclosure: SPY Return,results/alpaca_vs_spy.csv,spy_return_pct,VERIFIED
+-7.79%,Status Table: Spread,results/alpaca_vs_spy.csv,alpaca_return - spy_return (+2.44% - 10.23%),VERIFIED
+-0.25%,Status Table: Alpaca Max Drawdown,audit_outputs/alpaca_vs_spy_summary.txt,Max Drawdown (Alpaca),VERIFIED
+-8.52%,Status Table: SPY Max Drawdown,audit_outputs/alpaca_vs_spy_summary.txt,Max Drawdown (SPY),VERIFIED
++8.27%,Status Table: Max DD Delta,audit_outputs/alpaca_vs_spy_summary.txt,-0.25% - (-8.52%),VERIFIED
+1.64,Status Table: Annualized Sharpe Alpaca,audit_outputs/alpaca_vs_spy_summary.txt,Annualized Sharpe (Alpaca),VERIFIED
+1.13,Status Table: Annualized Sharpe SPY,audit_outputs/alpaca_vs_spy_summary.txt,Annualized Sharpe (SPY),VERIFIED
++0.51,Status Table: Sharpe Spread,audit_outputs/alpaca_vs_spy_summary.txt,1.64 - 1.13,VERIFIED
+62,Status Table: Total Realized Orders,results/alpaca_orders.csv,Total row count,VERIFIED
+6,Status Table: Active AMZN Shares,results/alpaca_orders.csv,filled_qty for AMZN buy order,VERIFIED
+35,Status Table: Active QCOM Shares,results/alpaca_orders.csv,filled_qty for QCOM buy order,VERIFIED
+85%+,Performance Disclosure: Cash reservation,audit_outputs/alpaca_exposure.txt,"Average Cash % (97.93%, min active cash 37.22%)",VERIFIED
+2018–2026,Walk-Forward Backtest Findings,audit_outputs/backtest_3ticker.csv,Date range of historical OHLCV data,VERIFIED
+0.10%,Market Friction: Broker fee,audit_scripts/run_3ticker_backtest.py,FEE_PCT parameter,VERIFIED
+0.05%,Market Friction: Slippage,audit_scripts/run_3ticker_backtest.py,SLIPPAGE_PCT parameter,VERIFIED
+~89%,Missing Historical News,audit_outputs/leakage_diagnosis.txt,Headline sparsity fraction across 2018-2026,VERIFIED
+-7.98%,FinBERT Sentiment Drag on NVDA,results/committee_ablation_study.json,NVDA: full_committee (-5.39%) vs minus_sentiment (+2.59%),VERIFIED
+-5.39%,FinBERT Sentiment NVDA with sentiment,results/committee_ablation_study.json,NVDA.configurations.full_committee.total_return_pct,VERIFIED
++2.59%,FinBERT Sentiment NVDA without sentiment,results/committee_ablation_study.json,NVDA.configurations.minus_sentiment.total_return_pct,VERIFIED
+500,Ablation evaluation window,results/committee_ablation_study.json,NVDA.evaluation_days,VERIFIED
+5,Ablation tickers evaluated,results/committee_ablation_study.json,"Keys count: NVDA, AAPL, MSFT, GOOGL, AMZN",VERIFIED
++357.47%,3-Ticker Backtest: NVDA Strategy Return,audit_outputs/backtest_3ticker.csv,NVDA.strategy_total_return_pct,VERIFIED
+0.92,3-Ticker Backtest: NVDA Strategy Sharpe,audit_outputs/backtest_3ticker.csv,NVDA.strategy_sharpe,VERIFIED
+-44.16%,3-Ticker Backtest: NVDA Strategy Max DD,audit_outputs/backtest_3ticker.csv,NVDA.strategy_max_dd_pct,VERIFIED
+"+1,019.21%",3-Ticker Backtest: NVDA BnH Return,audit_outputs/backtest_3ticker.csv,NVDA.bnh_total_return_pct,VERIFIED
+1.23,3-Ticker Backtest: NVDA BnH Sharpe,audit_outputs/backtest_3ticker.csv,NVDA.bnh_sharpe,VERIFIED
+-41.57%,3-Ticker Backtest: NVDA BnH Max DD,audit_outputs/backtest_3ticker.csv,NVDA.bnh_max_dd_pct,VERIFIED
++43.76%,3-Ticker Backtest: SPY Strategy Return,audit_outputs/backtest_3ticker.csv,SPY.strategy_total_return_pct,VERIFIED
+0.68,3-Ticker Backtest: SPY Strategy Sharpe,audit_outputs/backtest_3ticker.csv,SPY.strategy_sharpe,VERIFIED
+-26.34%,3-Ticker Backtest: SPY Strategy Max DD,audit_outputs/backtest_3ticker.csv,SPY.strategy_max_dd_pct,VERIFIED
++85.51%,3-Ticker Backtest: SPY BnH Return,audit_outputs/backtest_3ticker.csv,SPY.bnh_total_return_pct,VERIFIED
+0.98,3-Ticker Backtest: SPY BnH Sharpe,audit_outputs/backtest_3ticker.csv,SPY.bnh_sharpe,VERIFIED
+-19.00%,3-Ticker Backtest: SPY BnH Max DD,audit_outputs/backtest_3ticker.csv,SPY.bnh_max_dd_pct,VERIFIED
++104.67%,3-Ticker Backtest: WMT Strategy Return,audit_outputs/backtest_3ticker.csv,WMT.strategy_total_return_pct,VERIFIED
+0.75,3-Ticker Backtest: WMT Strategy Sharpe,audit_outputs/backtest_3ticker.csv,WMT.strategy_sharpe,VERIFIED
+-29.44%,3-Ticker Backtest: WMT Strategy Max DD,audit_outputs/backtest_3ticker.csv,WMT.strategy_max_dd_pct,VERIFIED
++158.01%,3-Ticker Backtest: WMT BnH Return,audit_outputs/backtest_3ticker.csv,WMT.bnh_total_return_pct,VERIFIED
+0.89,3-Ticker Backtest: WMT BnH Sharpe,audit_outputs/backtest_3ticker.csv,WMT.bnh_sharpe,VERIFIED
+-26.01%,3-Ticker Backtest: WMT BnH Max DD,audit_outputs/backtest_3ticker.csv,WMT.bnh_max_dd_pct,VERIFIED
+-33.72%,SPY Historical Max DD (COVID March 2020),audit_outputs/backtest_3ticker.csv,SPY buy-and-hold historical max drawdown from Yahoo Finance OHLC,VERIFIED
+-72.68%,SPY Error Correction Explanation,archive/invalid_simulation_2026/README.md,Erroneous margin-whipsaw backtest figure identified in audit,VERIFIED (Cited exclusively as corrected invalid figure)
+5%,SPY Error Correction Explanation (margin rate),archive/invalid_simulation_2026/README.md,Annual margin interest rate in legacy backtest script,VERIFIED
+5,Architecture & Cockpits,app.py,5 Master Cockpit tabs defined in Streamlit app,VERIFIED
+2.5 ATR,Architecture Diagram (TP1),src/paper_broker.py,take_profit_atr_mult parameter,VERIFIED
+2.0,License (Apache 2.0),LICENSE,Apache License Version 2.0,VERIFIED

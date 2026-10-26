@@ -1,0 +1,37 @@
+=== GIT LOG --ONELINE -N 30 ===
+cf94a252 chore(backtest): step 6 - document leakage root causes and establish zero-lookahead 3-ticker backtest baseline
+bf8e83be docs: honest readme with verified performance data
+10c20888 chore(perf): generate honest alpaca performance report and SPY comparison
+c2a2066d fix(workflows): step 3 - single trading state workflow with rebase retries and disabled weekend crypto daemon
+311dabd1 feat(audit): step 2 - remove fake news from live trading and gate on verified news
+77447bc8 chore(audit): step 1 - archive invalid simulation ledger and establish clean baseline
+1c65f129 feat(weights): incorporate trained FinMamba-JEPA production model weights and empirical metrics
+64251af3 feat(ops): add automated Google Drive project sync engine
+d6eefe5c docs: align README with verified deployed engines, FinMamba-JEPA Colab, and live  cash portfolio
+29ab73ef feat(quant): deliver FinMamba-JEPA foundation model architecture and Colab powerhouse notebook
+a059e26b chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]
+793f3ad0 chore(data): nightly data lake sync [skip ci]
+4de6aeb9 chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]
+e000350d chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]
+1a59cdca chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]
+67cc4165 fix(chronos): add bulletproof NaN sanitization, gradient clipping, and empirical volatility fallback in Colab powerhouse notebook
+dcf4b80d feat(artifacts): integrate fresh Tesla T4 GPU trained models and 1M-path CVaR report from Colab run
+1dde3b00 feat(colab): integrate zero-click Google Drive mount and workspace build in powerhouse notebook
+62501274 feat(gpu): deliver complete GPU search suite and upgraded Colab powerhouse notebook: formulaic alpha miner, project omnisearch, and multi-asset strategy grid search
+d2ec66c2 chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]
+b1b9f8cc chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]
+78c47aed feat(quant): deliver 4 institutional trading systems: Hawkes cascade radar, Gemini multimodal Wyckoff analyst, Kalman statarb pairs engine, and adaptive VWAP/POV ISOR
+985eeef7 feat(execution): land Alpaca real-time WebSocket bridge, full-universe WFO retraining, and trade post-mortem fixes
+06c33d26 chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]
+dfacc603 chore(data): nightly data lake sync [skip ci]
+5e173731 chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]
+18dd66a4 chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]
+d9912a50 chore(auto-trader): log live execution cycle & self-learning memory [skip ci]
+ee6c81b3 chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]
+a101c409 chore(auto-trader): log live execution cycle & self-learning memory [skip ci]
+
+=== GIT SHOW --STAT 4fc8121 ===
+STATUS: Hash 4fc8121 does not exist in this repository.
+STDERR: fatal: ambiguous argument '4fc8121': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'

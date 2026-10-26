@@ -311,6 +311,20 @@ class TradePostMortemLearner:
         win_rate_pct = round(len(winners) / len(analyzed_trades) * 100.0, 2)
         total_realized_pnl = round(sum(t["pnl"] for t in analyzed_trades), 2)
 
+        # Enforce Strategy Freeze: Weight updates frozen during evaluation
+        if os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes") or (
+            "PYTEST_CURRENT_TEST" in os.environ and self.memory_path == MEMORY_FILE
+        ):
+            logger.info(
+                "🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Post-mortem weight writes skipped."
+            )
+            return {
+                "trades_analyzed": len(analyzed_trades),
+                "win_rate_pct": win_rate_pct,
+                "total_realized_pnl": total_realized_pnl,
+                "calibrated_weights": current_weights,
+            }
+
         # Save calibrated weights
         try:
             os.makedirs(os.path.dirname(self.weights_path), exist_ok=True)

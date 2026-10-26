@@ -1,5 +1,5 @@
 {
-  "scan_timestamp": "2026-10-16T08:10:32.398901+00:00",
+  "scan_timestamp": "2026-10-26T04:22:53.703815+00:00",
   "total_articles_scraped": 1,
   "total_tickers_identified": 1,
   "top_evaluated_stocks": [
@@ -26,16 +26,15 @@
       "result": {
         "buys": [
           {
+            "success": true,
             "ticker": "TEST",
             "shares": 8,
-            "entry_price": 100.0,
+            "price": 100.0,
             "cost": 800.28,
-            "entry_date": "2026-10-16",
             "tp1_target": 106.25,
             "tp2_target": 111.25,
             "sl_target": 96.25,
-            "confidence": 78.0,
-            "quarter_kelly_pct": 12.0
+            "strategy": "Concentrated_Top2_ScaleOut"
           }
         ],
         "take_profits": [],

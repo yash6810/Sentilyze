@@ -56,6 +56,7 @@ class ACPMTrainer:
         feature_cols: List[str],
         target_col: str = "Target",
         benchmark_returns: Optional[pd.Series] = None,
+        model_dir: str = "models",
     ) -> Tuple[Any, Dict[str, Any], pd.Series]:
         """
         Executes end-to-end ACPM training for a target equity.
@@ -186,8 +187,8 @@ class ACPMTrainer:
         final_model.fit(X, y)
 
         # Save model natively as UBJSON / JSON
-        os.makedirs("models", exist_ok=True)
-        model_path = f"models/{ticker}_model.json"
+        os.makedirs(model_dir, exist_ok=True)
+        model_path = os.path.join(model_dir, f"{ticker}_model.json")
         save_model(final_model, model_path)
         logger.info(f"Saved native ACPM model to {model_path}")
 

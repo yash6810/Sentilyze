@@ -1,0 +1,369 @@
+diff --git a/.github/workflows/agent_committee_audit.yml b/.github/workflows/agent_committee_audit.yml
+index db116b5b..899f71e2 100644
+--- a/.github/workflows/agent_committee_audit.yml
++++ b/.github/workflows/agent_committee_audit.yml
+@@ -6,6 +6,10 @@ on:
+     - cron: '0 2 * * 1-5'
+   workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+ 
++concurrency:
++  group: repo-state
++  cancel-in-progress: false
++
+ jobs:
+   deliberate-and-audit:
+     name: Convene Multi-Agent Trading Committee
+@@ -42,25 +46,28 @@ jobs:
+           ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL || secrets.TRADE_BOT }}
+         run: |
+-          python -u -c "from src.agent_committee import audit_full_universe_committee; audit_full_universe_committee()"
+-
++          python -u -c "from src.agent_committee import audit_full_universe_committee; audit_full_universe_committee(output_file='results/committee_audit_resolutions.json')"
+ 
+       - name: Upload Committee Resolutions Artifact
+         uses: actions/upload-artifact@v4
+         with:
+-          name: committee-resolutions-${{ github.run_id }}
+-          path: results/committee_resolutions.json
++          name: committee-audit-resolutions-${{ github.run_id }}
++          path: results/committee_audit_resolutions.json
+           retention-days: 14
+ 
+-      - name: Commit & Push Updated Committee Resolutions
++      - name: Commit & Push Updated Committee Audit Resolutions
+         run: |
+           git config --global user.name "github-actions[bot]"
+           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+-          git add results/committee_resolutions.json
++          git add results/committee_audit_resolutions.json
+           if ! git diff --staged --quiet; then
+-            git commit -m "chore(committee): record autonomous trading committee resolutions [skip ci]"
+-            git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
+-            git push origin main || echo "No changes or push skipped"
++            git commit -m "chore(committee): record autonomous trading committee audit resolutions [skip ci]"
++            for i in 1 2 3; do
++              git pull --rebase origin main && git push origin main && break || {
++                if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
++                sleep 5
++              }
++            done
+           else
+             echo "No committee resolutions changes to commit."
+           fi
+diff --git a/.github/workflows/autonomous_live_trader.yml b/.github/workflows/autonomous_live_trader.yml
+index a689627c..b5e0be35 100644
+--- a/.github/workflows/autonomous_live_trader.yml
++++ b/.github/workflows/autonomous_live_trader.yml
+@@ -6,6 +6,10 @@ on:
+     - cron: '*/5 13-20 * * 1-5'
+   workflow_dispatch:
+ 
++concurrency:
++  group: repo-state
++  cancel-in-progress: false
++
+ permissions:
+   contents: write
+ 
+@@ -52,15 +56,24 @@ jobs:
+         run: |
+           python -u -m src.autonomous_trader --once
+ 
+-      - name: Commit & Push Execution Telemetry & Self-Learning Memory
++      - name: Commit & Push Execution Telemetry (Daily Session Close Only)
+         run: |
+-          git config user.name "github-actions[bot]"
+-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+-          git add results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json results/agent_learning_memory.json results/agent_memory/ results/*_retrain_audit.json models/*.json || true
+-          if ! git diff --staged --quiet; then
+-            git commit -m "chore(auto-trader): log live execution cycle & self-learning memory [skip ci]"
+-            git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
+-            git push origin main || echo "No changes or push skipped"
++          CURRENT_HOUR=$(date -u +%H)
++          if [ "$CURRENT_HOUR" -ge 20 ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
++            git config user.name "github-actions[bot]"
++            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
++            git add results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json
++            if ! git diff --staged --quiet; then
++              git commit -m "chore(auto-trader): log daily execution cycle state [skip ci]"
++              for i in 1 2 3; do
++                git pull --rebase origin main && git push origin main && break || {
++                  if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
++                  sleep 5
++                }
++              done
++            else
++              echo "No portfolio state changes to commit."
++            fi
+           else
+-            echo "No portfolio state changes to commit."
++            echo "Intraday trading cycle complete. State commit scheduled for session close (>=20:00 UTC)."
+           fi
+diff --git a/.github/workflows/daily_signals.yml b/.github/workflows/daily_signals.yml
+index 6021ef03..bc5443b6 100644
+--- a/.github/workflows/daily_signals.yml
++++ b/.github/workflows/daily_signals.yml
+@@ -8,6 +8,10 @@ on:
+     - cron: '30 12 * * 1-5'
+   workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+ 
++concurrency:
++  group: repo-state
++  cancel-in-progress: false
++
+ jobs:
+   scan-and-alert:
+     name: Generate Signals & Dispatch Alerts
+@@ -58,11 +62,15 @@ jobs:
+         run: |
+           git config --global user.name "github-actions[bot]"
+           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+-          git add results/
++          git add results/daily_signals_latest.json
+           if ! git diff --staged --quiet; then
+-            git commit -m "chore(data): sync latest market prices, news sentiment, and daily signals [skip ci]"
+-            git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
+-            git push origin main || echo "No changes or push skipped"
++            git commit -m "chore(data): sync latest daily signals [skip ci]"
++            for i in 1 2 3; do
++              git pull --rebase origin main && git push origin main && break || {
++                if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
++                sleep 5
++              }
++            done
+           else
+             echo "No data changes to commit."
+           fi
+diff --git a/.github/workflows/intraday_market_tracker.yml b/.github/workflows/intraday_market_tracker.yml
+index d025e1aa..b24fe82b 100644
+--- a/.github/workflows/intraday_market_tracker.yml
++++ b/.github/workflows/intraday_market_tracker.yml
+@@ -46,15 +46,7 @@ jobs:
+         run: |
+           python -c "from src.realtime_tracker import update_live_holdings_prices_and_alert_discord; res = update_live_holdings_prices_and_alert_discord(notify_discord=True); print('Fast Intraday Holdings Price & Discord Heartbeat:', res)"
+ 
+-      - name: Commit Updated Paper Portfolio State
++      # State commits disabled in Step 3 to ensure exactly ONE workflow (autonomous_live_trader) manages trading state
++      - name: Intraday Monitor Heartbeat Complete
+         run: |
+-          git config --global user.name "github-actions[bot]"
+-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+-          git add results/paper_portfolio.json results/executed_trades.csv
+-          if ! git diff --staged --quiet; then
+-            git commit -m "chore(portfolio): 5-min intraday scale-out execution [skip ci]"
+-            git pull --rebase --autostash origin main || git pull origin main --no-rebase -X ours || true
+-            git push origin main || echo "Nothing to push"
+-          else
+-            echo "No portfolio state changes to commit."
+-          fi
++          echo "Intraday price monitoring and Discord alerting cycle complete. Trading state persistence is managed solely by autonomous_live_trader.yml."
+diff --git a/.github/workflows/nightly_data_sync.yml b/.github/workflows/nightly_data_sync.yml
+index c562e704..452d32ec 100644
+--- a/.github/workflows/nightly_data_sync.yml
++++ b/.github/workflows/nightly_data_sync.yml
+@@ -6,6 +6,10 @@ on:
+     - cron: '0 0 * * *'
+   workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+ 
++concurrency:
++  group: repo-state
++  cancel-in-progress: false
++
+ jobs:
+   sync-data:
+     name: Sync Market Prices & News
+@@ -46,11 +50,15 @@ jobs:
+         run: |
+           git config --global user.name "github-actions[bot]"
+           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+-          git add results/
++          git add results/data_sync_latest.json
+           if ! git diff --staged --quiet; then
+             git commit -m "chore(data): nightly data lake sync [skip ci]"
+-            git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
+-            git push origin main || echo "No changes or push skipped"
++            for i in 1 2 3; do
++              git pull --rebase origin main && git push origin main && break || {
++                if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
++                sleep 5
++              }
++            done
+           else
+             echo "No data sync changes to commit."
+           fi
+diff --git a/.github/workflows/opening_range_breakout.yml b/.github/workflows/opening_range_breakout.yml
+index d7450cc9..83196707 100644
+--- a/.github/workflows/opening_range_breakout.yml
++++ b/.github/workflows/opening_range_breakout.yml
+@@ -6,6 +6,10 @@ on:
+     - cron: '35 13 * * 1-5'
+   workflow_dispatch: # Manual on-demand trigger
+ 
++concurrency:
++  group: repo-state
++  cancel-in-progress: false
++
+ jobs:
+   opening-range-breakout:
+     name: ORB Stocks in Play Breakout Execution
+@@ -53,11 +57,15 @@ jobs:
+         run: |
+           git config --global user.name "github-actions[bot]"
+           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+-          git add results/
++          git add results/opening_range_latest.json
+           if ! git diff --staged --quiet; then
+             git commit -m "chore(auto): update simulated paper portfolio & ORB breakout log [skip ci]"
+-            git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
+-            git push origin main || echo "No changes or push skipped"
++            for i in 1 2 3; do
++            git pull --rebase origin main && git push origin main && break || {
++              if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
++              sleep 5
++            }
++          done
+           else
+             echo "No portfolio changes to commit."
+           fi
+diff --git a/.github/workflows/portfolio_stress_audit.yml b/.github/workflows/portfolio_stress_audit.yml
+index 45736521..53bf5d24 100644
+--- a/.github/workflows/portfolio_stress_audit.yml
++++ b/.github/workflows/portfolio_stress_audit.yml
+@@ -6,6 +6,10 @@ on:
+     - cron: '0 5 * * 0'
+   workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+ 
++concurrency:
++  group: repo-state
++  cancel-in-progress: false
++
+ jobs:
+   stress-test:
+     name: Run Black Swan & Monte Carlo Risk Stress Audit
+@@ -42,11 +46,15 @@ jobs:
+         run: |
+           git config --global user.name "github-actions[bot]"
+           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+-          git add results/
++          git add results/black_swan_crisis_audit.json
+           if ! git diff --staged --quiet; then
+             git commit -m "chore(risk): update weekly Black Swan & Monte Carlo stress test metrics [skip ci]"
+-            git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
+-            git push origin main || echo "No changes or push skipped"
++            for i in 1 2 3; do
++            git pull --rebase origin main && git push origin main && break || {
++              if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
++              sleep 5
++            }
++          done
+           else
+             echo "No risk audit changes to commit."
+           fi
+diff --git a/.github/workflows/premarket_briefing.yml b/.github/workflows/premarket_briefing.yml
+index 464977e2..19cc12b3 100644
+--- a/.github/workflows/premarket_briefing.yml
++++ b/.github/workflows/premarket_briefing.yml
+@@ -6,6 +6,10 @@ on:
+     - cron: '0 13 * * 1-5'
+   workflow_dispatch:
+ 
++concurrency:
++  group: repo-state
++  cancel-in-progress: false
++
+ permissions:
+   contents: write
+ 
+@@ -45,7 +49,7 @@ jobs:
+         run: |
+           git config user.name "github-actions[bot]"
+           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+-          git add results/morning_briefing_latest.json || true
++          git add results/morning_briefing_latest.json
+           if ! git diff --staged --quiet; then
+             git commit -m "chore(briefing): update morning briefing state [skip ci]"
+             git pull --rebase origin main || true
+diff --git a/.github/workflows/sentilyze_247_cloud.yml b/.github/workflows/sentilyze_247_cloud.yml
+index 8ed72000..87abb7d1 100644
+--- a/.github/workflows/sentilyze_247_cloud.yml
++++ b/.github/workflows/sentilyze_247_cloud.yml
+@@ -2,14 +2,14 @@ name: 🌐 Sentilyze 24/7 Cloud Autonomous Trading & Crypto Daemon
+ 
+ on:
+   schedule:
+-    # 1. Mon-Fri: Every 15 minutes during US Market Hours (13:30 - 20:30 UTC / 09:30 - 16:30 EDT)
++    # Mon-Fri: Every 15 minutes during US Market Hours (13:30 - 20:30 UTC / 09:30 - 16:30 EDT)
+     - cron: '*/15 13-20 * * 1-5'
+-    # 2. Mon-Fri: Hourly overnight continuous scan for 24/7 Digital Assets (BTC, ETH, SOL)
+-    - cron: '0 0-12,21-23 * * 1-5'
+-    # 3. Weekends (Sat-Sun): Hourly 24/7 Crypto Funding & Arbitrage Engine
+-    - cron: '0 * * * 0,6'
+   workflow_dispatch:
+ 
++concurrency:
++  group: repo-state
++  cancel-in-progress: false
++
+ permissions:
+   contents: write
+ 
+@@ -49,14 +49,19 @@ jobs:
+         run: |
+           python scripts/run_247_daemon.py --single-run
+ 
+-      - name: Commit & Push Isolated Portfolios, Crypto Ledger & Lakehouse Parquet
++      - name: Commit & Push Isolated Sandbox Telemetry & Lakehouse Parquet
+         run: |
+           git config user.name "github-actions[bot]"
+           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+-          git add results/paper_portfolio.json results/executed_trades.csv results/pilot_crypto_portfolio.json results/pilot_crypto_trades.csv results/lakehouse/ results/autonomous_execution_log.json results/committee_resolutions.json results/agent_memory/ models/ || true
++          git add results/pilot_crypto_portfolio.json results/pilot_crypto_trades.csv results/lakehouse/
+           if ! git diff --staged --quiet; then
+-            git commit -m "chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]"
+-            git push origin main
++            git commit -m "chore(autonomous): 24/7 cloud crypto sandbox & lakehouse update [skip ci]"
++            for i in 1 2 3; do
++              git pull --rebase origin main && git push origin main && break || {
++                if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
++                sleep 5
++              }
++            done
+           else
+             echo "No state changes to commit."
+           fi
+diff --git a/.github/workflows/weekly_retrain.yml b/.github/workflows/weekly_retrain.yml
+index 1ecce9ed..c3869baa 100644
+--- a/.github/workflows/weekly_retrain.yml
++++ b/.github/workflows/weekly_retrain.yml
+@@ -6,6 +6,10 @@ on:
+     - cron: '30 4 * * 0'
+   workflow_dispatch: # Allows manual 1-click trigger
+ 
++concurrency:
++  group: repo-state
++  cancel-in-progress: false
++
+ jobs:
+   retrain-universe:
+     name: Retrain Models & Update Backtests
+@@ -58,11 +62,16 @@ jobs:
+         run: |
+           git config --global user.name "github-actions[bot]"
+           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+-          git add models/ results/
++          git add models/*.json results/*_metrics.json results/*_portfolio.json results/*_shap*
++          git reset results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json || true
+           if ! git diff --staged --quiet; then
+             git commit -m "chore(models): weekly automated universe retraining & walk-forward calibration [skip ci]"
+-            git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
+-            git push origin main || echo "No changes or push skipped"
++            for i in 1 2 3; do
++            git pull --rebase origin main && git push origin main && break || {
++              if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
++              sleep 5
++            }
++          done
+           else
+             echo "No retrained model changes to commit."
+           fi

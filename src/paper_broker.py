@@ -6,7 +6,7 @@ import time
 import pandas as pd
 import numpy as np
 from datetime import datetime, timezone
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Union
 from src.utils import get_logger
 from src.market_session import get_current_ny_time, is_crypto_asset
 
@@ -927,11 +927,6 @@ class PaperBroker:
                 friction_cost = float(gross_cost * spread_fraction)
                 total_cost = gross_cost + friction_cost
 
-                if total_cost > self.state["cash"]:
-                    continue
-
-                self.state["cash"] -= total_cost
-
                 # Use microstructure targets/stops if provided, else fallback to ATR brackets
                 if s.get("microstructure_stop_loss"):
                     sl_target = float(s["microstructure_stop_loss"])
@@ -947,39 +942,28 @@ class PaperBroker:
                     tp2_target = round(price + (4.5 * atr_base), 2)
                     sl_target = round(price - (1.5 * atr_base), 2)
 
-                self.state["open_positions"][ticker] = {
-                    "shares": shares,
-                    "initial_shares": shares,
-                    "entry_price": price,
-                    "current_price": price,
-                    "entry_date": date_str,
-                    "tp1_target": tp1_target,
-                    "tp2_target": tp2_target,
-                    "sl_target": sl_target,
-                    "scaled_out": False,
-                    "confidence": float(s.get("confidence", 0.5)),
-                    "regime": s.get("regime", "BULLISH"),
-                    "friction_paid": round(friction_cost, 2),
-                }
+                buy_record = self.execute_buy(
+                    ticker=ticker,
+                    shares=shares,
+                    price=price,
+                    strategy_name="Concentrated_Top2_ScaleOut",
+                    tp1_target=tp1_target,
+                    tp2_target=tp2_target,
+                    stop_loss=sl_target,
+                    confidence=float(s.get("confidence", 0.5)),
+                )
+                if not buy_record.get("success"):
+                    logger.info(
+                        f"Skipping daily signals buy for {ticker}: {buy_record.get('error')}"
+                    )
+                    continue
 
-                buy_record = {
-                    "ticker": ticker,
-                    "shares": shares,
-                    "entry_price": price,
-                    "cost": round(total_cost, 2),
-                    "entry_date": date_str,
-                    "tp1_target": tp1_target,
-                    "tp2_target": tp2_target,
-                    "sl_target": sl_target,
-                    "confidence": round(float(s.get("confidence", 0.5)) * 100, 1),
-                    "quarter_kelly_pct": round(quarter_kelly * 100, 1),
-                }
                 executed_actions["buys"].append(buy_record)
                 logger.info(
-                    f"🚀 [QUARTER-KELLY ENTRY] Bought {shares} shares of {ticker} @ ${price:.2f} (Total: ${total_cost:,.2f} | Kelly%: {quarter_kelly:.1%} | TP1: ${tp1_target:.2f} | SL: ${sl_target:.2f})"
+                    f"🚀 [QUARTER-KELLY ENTRY] Bought {shares} shares of {ticker} @ ${price:.2f} (Total: ${buy_record.get('cost', 0):,.2f} | Kelly%: {quarter_kelly:.1%} | TP1: ${tp1_target:.2f} | SL: ${sl_target:.2f})"
                 )
 
-                # Live Alpaca Bracket Order Mirroring
+                # Live Alpaca Bracket Order Mirroring - strictly requires successful execute_buy
                 try:
                     from src.alpaca_broker import AlpacaBrokerBridge
 
@@ -1214,7 +1198,7 @@ class PaperBroker:
     def execute_buy(
         self,
         ticker: str,
-        shares: int,
+        shares: Union[int, float],
         price: float,
         strategy_name: str = "Quantitative_Alpha",
         tp1_target: Optional[float] = None,
@@ -1222,18 +1206,203 @@ class PaperBroker:
         stop_loss: Optional[float] = None,
         atr: Optional[float] = None,
         confidence: float = 0.85,
+        max_equity_pct: Optional[float] = None,
     ) -> Dict[str, Any]:
         """
         Executes an institutional BUY order into the virtual paper broker ledger.
         Supports automated TP1, TP2, and Stop-Loss parameterization.
+        Enforces:
+        - Duplicate prevention: blocks buy if ticker is already held or pending on Alpaca.
+        - MAX_CONCURRENT_POSITIONS cap (default 10).
+        - Maximum 10% equity concentration cap per ticker across active and pending orders.
         """
         if price <= 0 or shares <= 0:
             return {"success": False, "error": "Invalid price or shares count"}
+
+        # Alpaca live broker query (queried once per buy execution)
+        alpaca_positions: List[Dict[str, Any]] = []
+        alpaca_orders: List[Dict[str, Any]] = []
+        alpaca_connected = False
+        live_alpaca_required = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in (
+            "true",
+            "1",
+            "yes",
+        )
+
+        alpaca_equity = None
+        alpaca_cash = None
+        try:
+            from src.alpaca_broker import AlpacaBrokerBridge
+
+            alpaca = AlpacaBrokerBridge()
+            if alpaca.is_connected():
+                alpaca_connected = True
+                alpaca_positions = alpaca.get_open_positions()
+                alpaca_orders = alpaca.get_open_orders()
+                alpaca_acc = alpaca.get_account_summary()
+                if alpaca_acc.get("status") == "CONNECTED":
+                    alpaca_equity = float(alpaca_acc.get("equity", 0.0))
+                    alpaca_cash = float(alpaca_acc.get("cash", 0.0))
+                elif live_alpaca_required:
+                    logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE")
+                    return {
+                        "success": False,
+                        "error": "BUY_SKIPPED_ALPACA_UNAVAILABLE",
+                    }
+            elif live_alpaca_required:
+                logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE")
+                return {
+                    "success": False,
+                    "error": "BUY_SKIPPED_ALPACA_UNAVAILABLE",
+                }
+        except Exception as e:
+            if live_alpaca_required:
+                logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE")
+                return {
+                    "success": False,
+                    "error": "BUY_SKIPPED_ALPACA_UNAVAILABLE",
+                }
+            logger.debug(f"Alpaca pre-buy query notice: {e}")
+
+        # 1. Guard against duplicate buys: check local open positions
+        if not live_alpaca_required and ticker in self.state.get("open_positions", {}):
+            return {
+                "success": False,
+                "error": f"Position already exists for {ticker} in paper portfolio.",
+            }
+
+        # 2. Guard against duplicate buys: check Alpaca live positions and open pending orders
+        if alpaca_connected:
+            ticker_clean = ticker.upper().replace("-", "/")
+            for pos in alpaca_positions:
+                sym = str(pos.get("symbol", "")).upper().replace("-", "/")
+                if sym == ticker_clean or sym == ticker.upper():
+                    return {
+                        "success": False,
+                        "error": f"Active position already exists on Alpaca for {ticker}.",
+                    }
+            for ord in alpaca_orders:
+                sym = str(ord.get("symbol", "")).upper().replace("-", "/")
+                status = str(ord.get("status", "")).lower()
+                if (sym == ticker_clean or sym == ticker.upper()) and status in (
+                    "new",
+                    "accepted",
+                    "pending_new",
+                    "open",
+                    "held",
+                    "partially_filled",
+                ):
+                    return {
+                        "success": False,
+                        "error": f"Pending order already exists on Alpaca for {ticker}.",
+                    }
+
+        # 3. Guard: Enforce MAX_CONCURRENT_POSITIONS (default 10)
+        max_concurrent = int(os.getenv("MAX_CONCURRENT_POSITIONS", "10"))
+        active_positions = (
+            set()
+            if live_alpaca_required
+            else set(self.state.get("open_positions", {}).keys())
+        )
+        if alpaca_connected:
+            for p in alpaca_positions:
+                sym = str(p.get("symbol", "")).upper()
+                if sym:
+                    active_positions.add(sym)
+            for ord in alpaca_orders:
+                if str(ord.get("status", "")).lower() in (
+                    "new",
+                    "accepted",
+                    "pending_new",
+                    "open",
+                    "held",
+                    "partially_filled",
+                ):
+                    sym = str(ord.get("symbol", "")).upper()
+                    if sym:
+                        active_positions.add(sym)
+
+        if len(active_positions) >= max_concurrent:
+            return {
+                "success": False,
+                "error": f"Maximum concurrent positions ({max_concurrent}) reached. Buy blocked for {ticker}.",
+            }
 
         gross_cost = float(shares * price)
         # Deduct realistic transaction friction (Corwin-Schultz spread + impact: ~3.5 bps)
         friction_cost = float(gross_cost * 0.00035)
         total_cost = gross_cost + friction_cost
+
+        # 4. Guard: Enforce maximum 10% of equity per ticker (counting positions and pending orders)
+        target_max_pct = (
+            max_equity_pct
+            if max_equity_pct is not None
+            else (
+                float(os.getenv("MAX_TICKER_EQUITY_PCT", "0.10"))
+                if strategy_name != "Crypto_Pilot_Sandbox"
+                else 1.0
+            )
+        )
+        if live_alpaca_required or (
+            alpaca_connected and alpaca_equity is not None and alpaca_equity > 0
+        ):
+            if alpaca_equity is None or alpaca_equity <= 0:
+                logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE")
+                return {
+                    "success": False,
+                    "error": "BUY_SKIPPED_ALPACA_UNAVAILABLE",
+                }
+            total_equity = alpaca_equity
+        else:
+            total_equity = float(self.state.get("total_equity", 0.0))
+            if total_equity <= 0:
+                invested_val = sum(
+                    pos["shares"]
+                    * pos.get("current_price", pos.get("entry_price", 0.0))
+                    for pos in self.state.get("open_positions", {}).values()
+                )
+                total_equity = float(self.state.get("cash", 0.0) + invested_val)
+            if total_equity <= 0:
+                total_equity = float(self.initial_cash)
+
+        max_equity_per_ticker = total_equity * target_max_pct
+
+        existing_ticker_exposure = 0.0
+        if not live_alpaca_required and ticker in self.state.get("open_positions", {}):
+            pos_info = self.state["open_positions"][ticker]
+            existing_ticker_exposure += float(pos_info.get("shares", 0.0)) * float(
+                pos_info.get("current_price", pos_info.get("entry_price", price))
+            )
+
+        if alpaca_connected:
+            ticker_upper = ticker.upper().replace("-", "/")
+            for pos in alpaca_positions:
+                sym = str(pos.get("symbol", "")).upper().replace("-", "/")
+                if sym == ticker_upper or sym == ticker.upper():
+                    existing_ticker_exposure += abs(float(pos.get("market_value", 0.0)))
+            for ord in alpaca_orders:
+                sym = str(ord.get("symbol", "")).upper().replace("-", "/")
+                if (sym == ticker_upper or sym == ticker.upper()) and str(
+                    ord.get("status", "")
+                ).lower() in (
+                    "new",
+                    "accepted",
+                    "pending_new",
+                    "open",
+                    "held",
+                    "partially_filled",
+                ):
+                    qty = float(ord.get("qty", 0.0) or 0.0)
+                    ord_price = float(ord.get("limit_price", 0.0) or price)
+                    existing_ticker_exposure += qty * ord_price
+
+        proposed_exposure = gross_cost + existing_ticker_exposure
+        if proposed_exposure > (max_equity_per_ticker + 0.01):
+            return {
+                "success": False,
+                "error": f"Position exposure (${proposed_exposure:,.2f}) exceeds max {target_max_pct:.0%} of equity (${max_equity_per_ticker:,.2f}) for {ticker}. Buy blocked.",
+            }
+
         if total_cost > self.state["cash"]:
             return {
                 "success": False,

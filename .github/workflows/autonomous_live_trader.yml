@@ -2,9 +2,13 @@ name: 🤖 Autonomous Live Trading & Self-Improving Agent Daemon
 
 on:
   schedule:
-    # Runs every 5 minutes during US market open hours (13:30 - 20:00 UTC, Mon-Fri)
-    - cron: '*/5 13-20 * * 1-5'
+    # Runs every 15 minutes during US market open hours (13:30 - 20:00 UTC, Mon-Fri)
+    - cron: '*/15 13-20 * * 1-5'
   workflow_dispatch:
+
+concurrency:
+  group: live-autonomous-trader
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -23,8 +27,16 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-          cache: "pip"
+          python-version: "3.11.9"
+
+      - name: Cache Pip Wheels
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-3.11.9-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-3.11.9-
+            ${{ runner.os }}-pip-
 
       - name: Install Dependencies
         run: |
@@ -39,6 +51,9 @@ jobs:
         env:
           PYTHONPATH: .
           SENTILYZE_AUTOPILOT: "true"
+          LIVE_ALPACA_REQUIRED: "true"
+          ALLOW_ALPACA_ORDER_SUBMISSION: "true"
+          LEARNING_FROZEN: "true"
           MAX_CONCURRENT_POSITIONS: "10"
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
           MARKETAUX_API_KEY: ${{ secrets.MARKETAUX_API_KEY }}
@@ -52,15 +67,19 @@ jobs:
         run: |
           python -u -m src.autonomous_trader --once
 
-      - name: Commit & Push Execution Telemetry & Self-Learning Memory
+      - name: Commit & Push Execution Telemetry & Funnel Log
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json results/agent_learning_memory.json results/agent_memory/ results/*_retrain_audit.json models/*.json || true
+          git add results/news_cache_*.json results/funnel_log.jsonl results/funnel.json results/funnel.md results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json
           if ! git diff --staged --quiet; then
-            git commit -m "chore(auto-trader): log live execution cycle & self-learning memory [skip ci]"
-            git pull --rebase origin main || git pull origin main --no-rebase -X ours || true
-            git push origin main || echo "No changes or push skipped"
+            git commit -m "chore(auto-trader): log execution cycle state & funnel telemetry [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push origin main && break || {
+                if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
+                sleep 5
+              }
+            done
           else
-            echo "No portfolio state changes to commit."
+            echo "No portfolio or funnel state changes to commit."
           fi

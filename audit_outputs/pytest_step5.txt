@@ -1,0 +1,13 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.9, pytest-8.4.2, pluggy-1.6.0 -- D:\Sentilyze\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Sentilyze
+configfile: pyproject.toml
+plugins: anyio-4.11.0, langsmith-0.14.11, cov-7.1.0, mock-3.15.1
+collecting ... collected 3 items
+
+tests/test_readme_traceability.py::test_readme_contains_no_forbidden_legacy_numbers PASSED [ 33%]
+tests/test_readme_traceability.py::test_readme_performance_metrics_match_alpaca_results PASSED [ 66%]
+tests/test_live_news_gate.py::test_missing_news_skips_trade_and_places_no_order PASSED [100%]
+
+============================== 3 passed in 1.38s ==============================

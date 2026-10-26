@@ -1,0 +1,60 @@
+name: Weekly Forward Performance Scorecard
+
+on:
+  schedule:
+    # Runs every Sunday at 12:00 UTC (No other triggers permitted by strategy freeze)
+    - cron: '0 12 * * 0'
+
+concurrency:
+  group: repo-state
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  evaluate-scorecard:
+    name: Generate Forward Alpha Scorecard vs SPY
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          lfs: false
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+
+      - name: Execute Scorecard Audit Engine
+        env:
+          PYTHONPATH: .
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+        run: |
+          python scripts/weekly_scorecard.py
+
+      - name: Commit & Push Forward Scorecard
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/scorecard.md
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(audit): update weekly forward scorecard [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push origin main && break || {
+                if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
+                sleep 5
+              }
+            done
+          else
+            echo "No scorecard changes to commit."
+          fi

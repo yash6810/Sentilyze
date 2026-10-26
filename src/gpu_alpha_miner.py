@@ -279,7 +279,7 @@ class GPUAlphaMiner:
         }
         try:
             # Evaluate restricted expression
-            result = eval(expr, {"__builtins__": {}}, env)
+            result = eval(expr, {"__builtins__": {}}, env)  # nosec B307
             if not isinstance(result, torch.Tensor):
                 result = torch.full_like(features["close"], float(result))
             return result

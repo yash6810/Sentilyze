@@ -968,6 +968,32 @@ class AutonomousTradingEngine:
         )
 
         curr_open_count = len(self.broker.state.get("open_positions", {}))
+        try:
+            from src.alpaca_broker import AlpacaBrokerBridge
+
+            alpaca_br = AlpacaBrokerBridge()
+            if alpaca_br.is_connected():
+                alp_syms = {
+                    str(p.get("symbol", "")).upper()
+                    for p in alpaca_br.get_open_positions()
+                }
+                for o in alpaca_br.get_open_orders():
+                    if str(o.get("status", "")).lower() in (
+                        "new",
+                        "accepted",
+                        "pending_new",
+                        "open",
+                        "held",
+                        "partially_filled",
+                    ):
+                        alp_syms.add(str(o.get("symbol", "")).upper())
+                active_all = (
+                    set(self.broker.state.get("open_positions", {}).keys()) | alp_syms
+                )
+                curr_open_count = max(curr_open_count, len(active_all))
+        except Exception as e:
+            logger.debug(f"Alpaca open positions count check notice: {e}")
+
         available_slots = max(0, max_concurrent_positions - curr_open_count)
 
         # Task 7 Master Kill Switch Check
@@ -1032,7 +1058,37 @@ class AutonomousTradingEngine:
         except Exception as mb_err:
             logger.debug(f"Macro blackout gate notice: {mb_err}")
 
-        cash_available = self.broker.state.get("cash", 0.0)
+        is_live = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in (
+            "true",
+            "1",
+            "yes",
+        )
+        alpaca_live_equity = None
+        alpaca_live_cash = None
+        if is_live:
+            try:
+                if not self.alpaca.is_connected():
+                    logger.warning(
+                        "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca client is not connected in live mode"
+                    )
+                    return executed_actions
+                acc_summary = self.alpaca.get_account_summary()
+                if acc_summary.get("status") != "CONNECTED":
+                    logger.warning(
+                        "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca account summary is not connected"
+                    )
+                    return executed_actions
+                alpaca_live_equity = float(acc_summary.get("equity", 0.0))
+                alpaca_live_cash = float(acc_summary.get("cash", 0.0))
+            except Exception as alp_err:
+                logger.warning(f"BUY_SKIPPED_ALPACA_UNAVAILABLE: {alp_err}")
+                return executed_actions
+
+        cash_available = (
+            alpaca_live_cash
+            if (is_live and alpaca_live_cash is not None)
+            else self.broker.state.get("cash", 0.0)
+        )
 
         if available_slots > 0 and cash_available > 5000.0:
             # Anti-Whipsaw Cooldown: Quarantine any exit within 24h (scratch/breakeven) to stop ping-pong churn,
@@ -1074,6 +1130,27 @@ class AutonomousTradingEngine:
                     f"🌙 [24/7 CRYPTO GATEWAY] US Equities closed. Routing autonomous scan to 24/7 digital assets: {tickers_to_scan}"
                 )
 
+            alpaca_held_or_pending = set()
+            try:
+                from src.alpaca_broker import AlpacaBrokerBridge
+
+                alpaca_br = AlpacaBrokerBridge()
+                if alpaca_br.is_connected():
+                    for p in alpaca_br.get_open_positions():
+                        alpaca_held_or_pending.add(str(p.get("symbol", "")).upper())
+                    for o in alpaca_br.get_open_orders():
+                        if str(o.get("status", "")).lower() in (
+                            "new",
+                            "accepted",
+                            "pending_new",
+                            "open",
+                            "held",
+                            "partially_filled",
+                        ):
+                            alpaca_held_or_pending.add(str(o.get("symbol", "")).upper())
+            except Exception as alp_err:
+                logger.debug(f"Alpaca candidate screening notice: {alp_err}")
+
             unheld_tickers = [
                 t
                 for t in tickers_to_scan
@@ -1085,6 +1162,7 @@ class AutonomousTradingEngine:
                     or (
                         not is_crypto_asset(t)
                         and t not in self.broker.state.get("open_positions", {})
+                        and t.upper() not in alpaca_held_or_pending
                     )
                 )
                 and t not in quarantined_tickers
@@ -1119,94 +1197,12 @@ class AutonomousTradingEngine:
                 if p > 5.0:  # Filter out illiquid penny stocks
                     scored_candidates.append((t, chg * vol))
 
-            # Prioritize the verified "Most Increasable" Set and Tier-1 Asymmetric Radar Set
-            verified_priority_tickers = []
-            try:
-                radar_file = os.path.join("results", "tier1_asymmetric_radar.json")
-                if os.path.exists(radar_file):
-                    with open(radar_file, "r", encoding="utf-8") as rf:
-                        radar_data = json.load(rf)
-                    for item in radar_data[:25]:
-                        tkr = item.get("ticker")
-                        if (
-                            tkr
-                            and tkr in unheld_tickers
-                            and tkr not in verified_priority_tickers
-                        ):
-                            verified_priority_tickers.append(tkr)
-            except Exception as r_err:
-                logger.debug(f"Tier-1 radar prioritization notice: {r_err}")
-
-            try:
-                inc_file = os.path.join(
-                    "results", "most_increasable_trade_set_latest.json"
-                )
-                if os.path.exists(inc_file):
-                    with open(inc_file, "r", encoding="utf-8") as f:
-                        inc_data = json.load(f)
-                    for item in inc_data.get("selected_candidates", []):
-                        tkr = item.get("ticker")
-                        if (
-                            tkr
-                            and tkr in unheld_tickers
-                            and tkr not in verified_priority_tickers
-                        ):
-                            verified_priority_tickers.append(tkr)
-            except Exception as inc_err:
-                logger.debug(f"Most increasable set prioritization notice: {inc_err}")
-
-            # Prioritize candidates flagged with RAPID_BULLISH_EXPANSION by SwiftShiftRadar
-            try:
-                swift_file = os.path.join("results", "swift_shift_radar_latest.json")
-                if os.path.exists(swift_file):
-                    with open(swift_file, "r", encoding="utf-8") as sf:
-                        s_data = json.load(sf)
-                    s_tkr = s_data.get("ticker")
-                    if (
-                        s_tkr
-                        and s_tkr in unheld_tickers
-                        and s_tkr not in verified_priority_tickers
-                        and s_data.get("shift_direction") == "RAPID_BULLISH_EXPANSION"
-                    ):
-                        verified_priority_tickers.insert(0, s_tkr)
-            except Exception as ss_err:
-                logger.debug(f"Swift shift priority notice: {ss_err}")
-
-            # Prioritize breaking catalyst tickers identified on the Benzinga wire
-            benzinga_priority_tickers = []
-            try:
-                from src.benzinga_news_trader import fetch_top_benzinga_news_wire
-
-                bz_articles = fetch_top_benzinga_news_wire(limit=30)
-                for art in bz_articles:
-                    if art.get("catalyst_sentiment") == "BULLISH":
-                        for bt in art.get("extracted_tickers", []):
-                            if (
-                                bt in unheld_tickers
-                                and bt not in verified_priority_tickers
-                                and bt not in benzinga_priority_tickers
-                            ):
-                                benzinga_priority_tickers.append(bt)
-                if benzinga_priority_tickers:
-                    logger.info(
-                        f"⚡ [BENZINGA PRIORITY] Prioritizing {len(benzinga_priority_tickers)} breaking catalyst tickers: {benzinga_priority_tickers}"
-                    )
-            except Exception as bz_err:
-                logger.debug(f"Benzinga prioritization notice: {bz_err}")
-
+            # Rank candidates dynamically from live real-time price & volume momentum (no static/refreshing radar dependencies)
             scored_candidates.sort(key=lambda x: x[1], reverse=True)
-            other_cands = [
-                t
-                for t, _ in scored_candidates
-                if t not in verified_priority_tickers
-                and t not in benzinga_priority_tickers
-            ]
-            top_candidates = (
-                benzinga_priority_tickers + verified_priority_tickers + other_cands
-            )[:30]
+            top_candidates = [t for t, _ in scored_candidates[:25]]
 
             logger.info(
-                f"🌐 [LEAN MULTI-AGENT SCAN] Evaluating top {len(top_candidates)} active candidates (Priority Set: {verified_priority_tickers}): {top_candidates}"
+                f"🌐 [LEAN MULTI-AGENT SCAN] Evaluating top {len(top_candidates)} active candidates by live market momentum: {top_candidates}"
             )
 
             # Pre-warm FinBERT singleton once before spawning threads
@@ -1223,7 +1219,45 @@ class AutonomousTradingEngine:
                 try:
                     q_data = quotes_map.get(ticker_sym, {})
                     cached_price = float(q_data.get("price", 0.0))
-                    get_news(ticker_sym, use_cache=True)
+                    news_df = get_news(ticker_sym, use_cache=True)
+                    news_available = getattr(news_df, "attrs", {}).get(
+                        "news_available",
+                        (
+                            not news_df.empty
+                            if isinstance(news_df, pd.DataFrame)
+                            else bool(news_df)
+                        ),
+                    )
+                    quota_or_err = getattr(news_df, "attrs", {}).get(
+                        "quota_or_error", False
+                    )
+                    if quota_or_err and (
+                        not news_available
+                        or (isinstance(news_df, pd.DataFrame) and news_df.empty)
+                    ):
+                        logger.warning(
+                            f"SKIPPING_TRADE_NEWS_QUOTA_ERROR: Real news quota or API error for {ticker_sym}. Skipping trade."
+                        )
+                        return ticker_sym, {
+                            "action_code": "SKIP",
+                            "final_resolution": "VETO",
+                            "veto_reason": "NEWS_QUOTA_OR_ERROR",
+                            "news_available": False,
+                            "quota_or_error": True,
+                        }
+                    elif not news_available or (
+                        isinstance(news_df, pd.DataFrame) and news_df.empty
+                    ):
+                        logger.warning(
+                            f"SKIPPING_TRADE_NO_REAL_NEWS: Real news unavailable for {ticker_sym}. Skipping trade."
+                        )
+                        return ticker_sym, {
+                            "action_code": "SKIP",
+                            "final_resolution": "VETO",
+                            "veto_reason": "NO_REAL_NEWS",
+                            "news_available": False,
+                        }
+
                     delib_res = convene_trading_committee(
                         ticker_sym,
                         save_resolution=False,
@@ -1235,6 +1269,13 @@ class AutonomousTradingEngine:
                     return ticker_sym, None
 
             deliberations = []
+            funnel_scanned = len(top_candidates)
+            funnel_skipped_news = 0
+            funnel_skipped_quota_error = 0
+            funnel_vetoed: Dict[str, int] = {}
+            funnel_blocked: Dict[str, int] = {}
+            funnel_orders_submitted = 0
+
             # Lean thread pool (2 workers) to preserve system memory and responsiveness
             with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
                 results = executor.map(_deliberate_single, top_candidates)
@@ -1244,6 +1285,13 @@ class AutonomousTradingEngine:
                         executed_actions["committee_resolutions"][t] = delib.get(
                             "final_resolution", "NEUTRAL"
                         )
+                        if delib.get("veto_reason") == "NEWS_QUOTA_OR_ERROR":
+                            funnel_skipped_quota_error += 1
+                        elif delib.get("veto_reason") == "NO_REAL_NEWS":
+                            funnel_skipped_news += 1
+                        elif delib.get("action_code") == "VETO":
+                            vr = str(delib.get("veto_reason") or "COMMITTEE_VETO")[:40]
+                            funnel_vetoed[vr] = funnel_vetoed.get(vr, 0) + 1
 
             # Sort candidate opportunities by CRO consensus conviction safely
             buy_candidates = [
@@ -1322,7 +1370,12 @@ class AutonomousTradingEngine:
 
             # Task 8 Max Position Size Hard Constraint: Max 10% of total portfolio equity for 8-10 position dynamic model
             total_eq = max(
-                float(portfolio_summary.get("total_equity") or 100000.0), 1.0
+                float(
+                    alpaca_live_equity
+                    if (is_live and alpaca_live_equity is not None)
+                    else (portfolio_summary.get("total_equity") or 100000.0)
+                ),
+                1.0,
             )
 
             # Neural SDE Dynamic CPPI Survival Floor & Cushion (Black & Jones 1987 / Grossman & Zhou 1993)
@@ -1373,6 +1426,9 @@ class AutonomousTradingEngine:
                     logger.warning(
                         f"🛡️ [SECTOR SHIELD VETO] Candidate {t} rejected: Sector '{cand_sector}' already occupied in active portfolio."
                     )
+                    funnel_vetoed["SECTOR_SHIELD_OCCUPIED"] = (
+                        funnel_vetoed.get("SECTOR_SHIELD_OCCUPIED", 0) + 1
+                    )
                     continue
 
                 # Portfolio Correlation Matrix Shield Check (Markowitz Diversification)
@@ -1386,6 +1442,9 @@ class AutonomousTradingEngine:
                 if not corr_check.get("allowed"):
                     logger.warning(
                         f"🛡️ [CORRELATION SHIELD VETO] Candidate {t} rejected: {corr_check.get('reason')}"
+                    )
+                    funnel_vetoed["CORRELATION_SHIELD_EXCEEDED"] = (
+                        funnel_vetoed.get("CORRELATION_SHIELD_EXCEEDED", 0) + 1
                     )
                     continue
 
@@ -1429,7 +1488,15 @@ class AutonomousTradingEngine:
 
                 # Formal Logic Z3 Rule Gate Verification (Sprint 4, Module 4.5 / Idea 47)
                 target_b = self.get_target_broker(t)
-                target_equity = float(target_b.state.get("total_equity", 100000.0))
+                target_equity = (
+                    alpaca_live_equity
+                    if (
+                        is_live
+                        and alpaca_live_equity is not None
+                        and not is_crypto_asset(t)
+                    )
+                    else float(target_b.state.get("total_equity", 100000.0))
+                )
                 if is_crypto_asset(t):
                     shares_est = round(
                         float(target_equity * (approved_kelly / 100.0) / spot_price), 6
@@ -1441,16 +1508,28 @@ class AutonomousTradingEngine:
                             int(target_equity * (approved_kelly / 100.0) / spot_price)
                         ),
                     )
+                live_port_state = (
+                    {
+                        "cash": alpaca_live_cash,
+                        "total_equity": alpaca_live_equity,
+                        "open_positions": target_b.state.get("open_positions", {}),
+                    }
+                    if (is_live and alpaca_live_cash is not None)
+                    else target_b.state
+                )
                 gate_eval = self.rule_gate.verify_trade(
                     ticker=t,
                     spot_price=spot_price,
                     shares=shares_est,
                     deliberation=delib,
-                    portfolio_state=target_b.state,
+                    portfolio_state=live_port_state,
                 )
                 if not gate_eval["is_valid"]:
                     logger.warning(
                         f"🛑 [FORMAL LOGIC RULE GATE VETO] Trade for {t} rejected: {gate_eval['violations']}"
+                    )
+                    funnel_vetoed["RULE_GATE_CONSTRAINT_VIOLATION"] = (
+                        funnel_vetoed.get("RULE_GATE_CONSTRAINT_VIOLATION", 0) + 1
                     )
                     continue
 
@@ -1458,6 +1537,7 @@ class AutonomousTradingEngine:
                     ticker=t, deliberation=delib, broker=target_b
                 )
                 if order_res.get("success"):
+                    funnel_orders_submitted += 1
                     executed_actions["buys"].append(order_res)
                     resolution_text = delib.get("final_resolution", "APPROVED")
 
@@ -1487,6 +1567,29 @@ class AutonomousTradingEngine:
                     logger.info(
                         f"🚀 [AUTONOMOUS BUY] Executed {order_res.get('shares')} shares of {t} @ ${spot_price:.2f} (Verdict: {resolution_text})"
                     )
+
+                    # Mirror execution to Alpaca Broker Bridge strictly after execute_buy returned success
+                    try:
+                        from src.alpaca_broker import AlpacaBrokerBridge
+
+                        alpaca = AlpacaBrokerBridge()
+                        shares_b = int(order_res.get("shares", 0))
+                        if alpaca.is_connected() and shares_b > 0:
+                            tp1_p = float(delib.get("tp1_target", spot_price * 1.06))
+                            sl_p = float(
+                                delib.get("stop_loss_target", spot_price * 0.965)
+                            )
+                            alpaca.submit_bracket_order(
+                                ticker=t,
+                                qty=shares_b,
+                                take_profit_price=tp1_p,
+                                stop_loss_price=sl_p,
+                                side="buy",
+                            )
+                    except Exception as alp_err:
+                        logger.error(
+                            f"Alpaca live order execution mirror error for {t}: {alp_err}"
+                        )
                     send_discord_execution_alert(
                         {
                             "action": "BUY",
@@ -1505,6 +1608,44 @@ class AutonomousTradingEngine:
                         }
                     )
                     send_discord_committee_alert(delib)
+                else:
+                    blk_err = str(
+                        order_res.get("error")
+                        or order_res.get("reason")
+                        or "ORDER_BLOCKED"
+                    )[:40]
+                    funnel_blocked[blk_err] = funnel_blocked.get(blk_err, 0) + 1
+
+        # Record execution funnel telemetry to results/funnel.json and results/funnel.md
+        try:
+            from src.funnel_tracker import record_funnel_run
+
+            record_funnel_run(
+                tickers_scanned=(
+                    funnel_scanned
+                    if "funnel_scanned" in locals()
+                    else len(tickers_to_scan)
+                ),
+                skipped_no_real_news=(
+                    funnel_skipped_news if "funnel_skipped_news" in locals() else 0
+                ),
+                vetoed_by_reason=funnel_vetoed if "funnel_vetoed" in locals() else {},
+                buy_blocked_guards=(
+                    funnel_blocked if "funnel_blocked" in locals() else {}
+                ),
+                orders_submitted=(
+                    funnel_orders_submitted
+                    if "funnel_orders_submitted" in locals()
+                    else 0
+                ),
+                skipped_news_quota_or_error=(
+                    funnel_skipped_quota_error
+                    if "funnel_skipped_quota_error" in locals()
+                    else 0
+                ),
+            )
+        except Exception as fe:
+            logger.debug(f"Funnel telemetry record notice: {fe}")
 
         # 4. Phase C: Update Portfolio Summary Ledger
         self.broker._recalculate_metrics(date_str, now_str)
@@ -1623,6 +1764,25 @@ class AutonomousTradingEngine:
                 logger.warning(
                     f"Notice loading agent learning memory from {memory_file} ({e}). Initializing default learning state."
                 )
+
+        # Enforce Strategy Freeze: Learning and adaptive weight updates frozen during evaluation
+        if (
+            os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes")
+            or "PYTEST_CURRENT_TEST" in os.environ
+            or getattr(self.paper_broker, "portfolio_file", "")
+            != os.path.join("results", "paper_portfolio.json")
+        ):
+            logger.info(
+                "🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Self-improvement learning feedback loop is read-only."
+            )
+            return {
+                "total_cycles": learning_state.get("total_learning_cycles", 0),
+                "agent_weights": learning_state.get("agent_voting_weights", {}),
+                "kelly_multiplier": learning_state.get(
+                    "adaptive_kelly_multiplier", 1.0
+                ),
+                "new_autopsies_count": 0,
+            }
 
         if not isinstance(learning_state.get("agent_voting_weights"), dict):
             learning_state["agent_voting_weights"] = {

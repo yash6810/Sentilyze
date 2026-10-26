@@ -1,14 +1,14 @@
 name: 🌐 Sentilyze 24/7 Cloud Autonomous Trading & Crypto Daemon
 
+# Scheduled execution disabled during Strategy Freeze (2026-11-02 forward).
+# Keeps only manual workflow_dispatch to guarantee autonomous_live_trader.yml is the
+# SOLE automated process that commits equity state, executes trades, and updates results/.
 on:
-  schedule:
-    # 1. Mon-Fri: Every 15 minutes during US Market Hours (13:30 - 20:30 UTC / 09:30 - 16:30 EDT)
-    - cron: '*/15 13-20 * * 1-5'
-    # 2. Mon-Fri: Hourly overnight continuous scan for 24/7 Digital Assets (BTC, ETH, SOL)
-    - cron: '0 0-12,21-23 * * 1-5'
-    # 3. Weekends (Sat-Sun): Hourly 24/7 Crypto Funding & Arbitrage Engine
-    - cron: '0 * * * 0,6'
   workflow_dispatch:
+
+concurrency:
+  group: repo-state
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -49,14 +49,19 @@ jobs:
         run: |
           python scripts/run_247_daemon.py --single-run
 
-      - name: Commit & Push Isolated Portfolios, Crypto Ledger & Lakehouse Parquet
+      - name: Commit & Push Isolated Sandbox Telemetry & Lakehouse Parquet
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add results/paper_portfolio.json results/executed_trades.csv results/pilot_crypto_portfolio.json results/pilot_crypto_trades.csv results/lakehouse/ results/autonomous_execution_log.json results/committee_resolutions.json results/agent_memory/ models/ || true
+          git add results/pilot_crypto_portfolio.json results/pilot_crypto_trades.csv results/lakehouse/
           if ! git diff --staged --quiet; then
-            git commit -m "chore(autonomous): 24/7 cloud execution telemetry, crypto sandbox & lakehouse update [skip ci]"
-            git push origin main
+            git commit -m "chore(autonomous): 24/7 cloud crypto sandbox & lakehouse update [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push origin main && break || {
+                if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
+                sleep 5
+              }
+            done
           else
             echo "No state changes to commit."
           fi
