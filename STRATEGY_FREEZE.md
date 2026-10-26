@@ -24,25 +24,25 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 | File Path | SHA-256 Digest |
 | :--- | :--- |
 | `.github/workflows/autonomous_live_trader.yml` | `54e423ac2bea2e3c882b0859414f8d46680ae72778fad0e716f9d8da9331d52a` |
-| `requirements.txt` | `ecb8365cf752da713623a1c701ac6c158dfc5b7efd1c91b412e33c7f0869475c` |
-| `requirements-dev.txt` | `4c9e67f52217c5c10dfd725804913f3d36294f8981f8b3f4d9d0b2a30330f780` |
+| `requirements.txt` | `ee23bdc75df9a6fbf1b0951988c74378793a76217a03ff0be5048f2cc5fb5796` |
+| `requirements-dev.txt` | `39a00628a6af2a70af77909db146ecb9fcbadd0ee4375ede98ce47468a65ba5a` |
 | `scripts/run_247_daemon.py` | `05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce` |
-| `scripts/weekly_scorecard.py` | `2b61eb95af650a699047d7a44447028a33b8bacf7a088422def1ddeb18ac1c81` |
-| `results/agent_learning_memory.json` | `9c5b84f27812d179d845d4722e6b90d781941199b728916baea7893f622a644b` |
-| `results/agent_memory/committee_weights.json` | `523f964dcc6bccf3cd383aa0ecfb32ab8278468c1befdb0f6f89ebaa513bbd58` |
-| `results/agent_memory/semantic_rules.json` | `244897ab6250ee84963d1ab99c15a3bd74251cf735d739d11bf40c5c5b26a206` |
-| `results/agent_memory/session_episodic_memory.json` | `2f5b75a57fcdfb06c51c9868c25978c9afc87d7b7b6e9b02d0e5a7f53525e5e9` |
+| `scripts/weekly_scorecard.py` | `135f2c072f10184465d2624afdc31c2ddc701939fdc904716388b86fd7ce40ea` |
+| `results/agent_learning_memory.json` | `95d03a2ca3deddaaffbec754840bc4df934b631c91503688c4119a7b4a04c605` |
+| `results/agent_memory/committee_weights.json` | `c527d4b9dba60da44522500ea16e5b66390de36bb5b3146263823105ded808ee` |
+| `results/agent_memory/semantic_rules.json` | `e835d22aa834acb8cdf6d90d78e46bcbf29d9b61c368338e62e28555edc514e1` |
+| `results/agent_memory/session_episodic_memory.json` | `f43e9a9cd8dec4269a0f47b90fbb71f2f34858fd50b44f9a71d7429ebc4fa0ea` |
 | `results/agent_memory/trade_postmortems.jsonl` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
 
 ## 3. Core Strategy Modules Sample (SHA-256)
 
 | Core Module | SHA-256 Digest |
 | :--- | :--- |
-| `src/agent_committee.py` | `e3d6712c8c2affb52d089a39c585cc2ea8466a3b4e64b9f45465d11da842e927` |
-| `src/autonomous_trader.py` | `bc75d7a3e850afd9cee0277152edd28f8127e9c599b13ad747b9af6824830dcf` |
-| `src/paper_broker.py` | `6e47ed5fe0073792e01f98114bdf20c7239cfedf9d2e589a4c4479484603a406` |
-| `src/alpaca_broker.py` | `d48079772b2e89df98f8e3e3aa46d0fef0ee62ce3ed89173bc0d73014e3ff596` |
-| `src/post_mortem_learner.py` | `e56670a47ae6074d2a2e528d019c9eb8fbfe8a024c1c57c7fcbb3fa192f67eed` |
+| `src/agent_committee.py` | `20aaaa19a158eeb2085f7342d9870afd9debe588cbb88aa9fcccca228bd27a54` |
+| `src/autonomous_trader.py` | `b66c49a42062c81a6612fcfef5fbd0845a5e44c7edb7687bd9f9cc63e289c459` |
+| `src/paper_broker.py` | `ab2c84ffea7913b8bedb32ce53ab9df56a401440db92f8cd3f333f05e4c1e8ac` |
+| `src/alpaca_broker.py` | `09b44590ad7fc032f62a127f63201a4a2be44459366786a97f437075503add24` |
+| `src/post_mortem_learner.py` | `efcbf27b9a5721690e68642b6dc3004b75d81a4b11545bba5844781fa72a1902` |
 | `src/agent_memory.py` | `d6c4ef9b2a91a16b685006bce8a1a8d633108cae61ec14c3aee9cfd29ecc7ca2` |
 
 ## 4. Production Model Weights (1974 Models)
@@ -51,16 +51,16 @@ All 1974 XGBoost production models in `models/*.json` are cryptographically froz
 
 | Model File | SHA-256 Digest |
 | :--- | :--- |
-| `models/NVDA_model.json` | `cb6708b9e4614729063bd4f38d103f9de43b40127c3b67fdbbc03674c032dcb2` |
-| `models/AAPL_model.json` | `b8c1e20dda370c0525100c0e1ca6cd94370f89a60a13c850aae235d1bb9573cf` |
-| `models/MSFT_model.json` | `e752e0e9b1a0264391e740af18e18af4fd9341a907019d8f1ce4d37497e2caf3` |
-| `models/GOOGL_model.json` | `b1a5521057ba0296a04f7588c577661a3b3f8b5271655121dd02fb5de9361271` |
-| `models/AMZN_model.json` | `d8333357a895074917209d001bb49093bb087c03aa53e2505188cd5168dc45c2` |
-| `models/META_model.json` | `2500941fda415e9e4cb5f9127984a814bb97d965e4997fe43f6c9277921cde78` |
-| `models/TSLA_model.json` | `21af4b8905c11173dbf55b7c5e5e2c104be26840836c9df1f99470423361a27b` |
-| `models/SPY_model.json` | `4789d6461e45b3243b5ce3549cdb324a5387ab31b5416687ebeacfb06b5cb331` |
-| `models/QQQ_model.json` | `c38284fe59614dbd133b1f3439ca354b89b673a08f03cdf6c29cdbe900c29268` |
-| `models/WMT_model.json` | `ab09fa25e44c169b3df1a9847218d103ea87c26d1a35b6fe2bfccc8b53b25d80` |
+| `models/NVDA_model.json` | `f0405af43ff1d3ea8a5d9b52960a2bb59f05504373ef78c8c599a2ee7c786737` |
+| `models/AAPL_model.json` | `f8a0eb6d516210fa59a96d0a543d51655d2f4bfdd1a62656d65fa2f7b68bbd4a` |
+| `models/MSFT_model.json` | `0ca03a46c8b561d51029295ef19b6273a2b77f8ed65921d4df63eed37a224bc3` |
+| `models/GOOGL_model.json` | `ba98ab5daab3b58776817f9b1a36d90003709de38bed25f4eb8a18df4606980e` |
+| `models/AMZN_model.json` | `dbd283df3ff33f70a8645b5141880cd3774ca9174cc9323eace8e3f31f5bb391` |
+| `models/META_model.json` | `1fa7488cd180b606f156a0ff0a7b1882c8c272ea87287d97916853cf76e1fc5c` |
+| `models/TSLA_model.json` | `37ef678b73fc0cbea1587858d445d727dbc9789eb6a503d3f8d20e0ad3478334` |
+| `models/SPY_model.json` | `37f7a77b738265d7928f0c515988716047f28da1286b2a3736e21178706efae3` |
+| `models/QQQ_model.json` | `c6a3f4154c0ab40a2289c7164f84bf20c698ff25d488785b3aa1bfaa7a151c13` |
+| `models/WMT_model.json` | `248b1bef6bb8120f4b548b352e71c95c84b0faffcb7756e741c4e851c8433371` |
 
 ## 5. Runtime Inputs & Neural Tensorial Weights (SHA-256)
 
