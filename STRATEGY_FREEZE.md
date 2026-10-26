@@ -1,7 +1,7 @@
 # Sentilyze Quantitative Strategy Freeze Protocol
 
 **Effective Freeze Date**: `2026-10-26`  
-**Baseline Fix Commit Hash**: `2dd8289be64afb6d0e03d4e7f42f24b2233d1063` (`2dd8289b`)  
+**Baseline Fix Commit Hash**: `88a2865e91ebfc18c0df98a44b931e51240ca84f` (`88a2865e`)  
 **Freeze Expiration**: When `results/scorecard.md` outputs `PASS` or `FAIL` (minimum 8 full weeks and 30 closed trades).  
 **Enforcement Mechanism**: Automated CI test [`tests/test_strategy_freeze.py`](tests/test_strategy_freeze.py).  
 
