@@ -35,11 +35,31 @@ CONFIG_AND_WORKFLOW_FILES = [
     "scripts/weekly_scorecard.py",
 ]
 
+RUNTIME_INPUT_FILES = [
+    "stocks.txt",
+    "results/chronos_probabilistic_corridors.json",
+    "results/cvar_stress_report.json",
+    "results/most_increasable_trade_set_latest.json",
+    "results/swift_shift_radar_latest.json",
+    "results/tier1_asymmetric_radar.json",
+]
+
+NON_JSON_MODELS = sorted(
+    glob.glob("models/*.pt")
+    + glob.glob("models/drl_policy/*.pt")
+    + glob.glob("models/finbert-fine-tuned/*.*")
+)
+
 SRC_FILES = sorted(glob.glob("src/*.py"))
 MODELS = sorted(glob.glob("models/*.json"))
 
 ALL_FROZEN_PATHS = sorted(
-    SRC_FILES + CONFIG_AND_WORKFLOW_FILES + LEARNED_STATE_FILES + MODELS
+    SRC_FILES
+    + CONFIG_AND_WORKFLOW_FILES
+    + LEARNED_STATE_FILES
+    + RUNTIME_INPUT_FILES
+    + NON_JSON_MODELS
+    + MODELS
 )
 
 
@@ -133,6 +153,17 @@ def main():
         m_path = f"models/{t}_model.json"
         if m_path in hashes:
             lines.append(f"| `{m_path}` | `{hashes[m_path]}` |")
+
+    lines.append("")
+    lines.append("## 5. Runtime Inputs & Neural Tensorial Weights (SHA-256)")
+    lines.append("")
+    lines.append("Every non-.py file read on the live execution path is cryptographically signed:")
+    lines.append("")
+    lines.append("| File Path | SHA-256 Digest |")
+    lines.append("| :--- | :--- |")
+    for r in RUNTIME_INPUT_FILES + NON_JSON_MODELS:
+        norm_r = r.replace("\\", "/")
+        lines.append(f"| `{norm_r}` | `{hashes[norm_r]}` |")
 
     lines.append("")
     lines.append("---")

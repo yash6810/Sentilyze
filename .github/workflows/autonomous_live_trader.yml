@@ -59,24 +59,19 @@ jobs:
         run: |
           python -u -m src.autonomous_trader --once
 
-      - name: Commit & Push Execution Telemetry (Daily Session Close Only)
+      - name: Commit & Push Execution Telemetry & Funnel Log
         run: |
-          CURRENT_HOUR=$(date -u +%H)
-          if [ "$CURRENT_HOUR" -ge 20 ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json results/funnel.json results/funnel.md
-            if ! git diff --staged --quiet; then
-              git commit -m "chore(auto-trader): log daily execution cycle state [skip ci]"
-              for i in 1 2 3; do
-                git pull --rebase origin main && git push origin main && break || {
-                  if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
-                  sleep 5
-                }
-              done
-            else
-              echo "No portfolio state changes to commit."
-            fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/funnel_log.jsonl results/funnel.json results/funnel.md results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(auto-trader): log execution cycle state & funnel telemetry [skip ci]"
+            for i in 1 2 3; do
+              git pull --rebase origin main && git push origin main && break || {
+                if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
+                sleep 5
+              }
+            done
           else
-            echo "Intraday trading cycle complete. State commit scheduled for session close (>=20:00 UTC)."
+            echo "No portfolio or funnel state changes to commit."
           fi

@@ -22,6 +22,7 @@ logger = get_logger(__name__)
 
 FUNNEL_JSON_PATH = os.path.join("results", "funnel.json")
 FUNNEL_MD_PATH = os.path.join("results", "funnel.md")
+FUNNEL_LOG_PATH = os.path.join("results", "funnel_log.jsonl")
 
 
 def record_funnel_run(
@@ -32,9 +33,11 @@ def record_funnel_run(
     orders_submitted: int,
     json_path: str = FUNNEL_JSON_PATH,
     md_path: str = FUNNEL_MD_PATH,
+    log_path: str = FUNNEL_LOG_PATH,
 ) -> Dict[str, Any]:
     """
-    Records cycle funnel metrics to results/funnel.json and accumulates daily total in results/funnel.md.
+    Records cycle funnel metrics to results/funnel.json, appends to results/funnel_log.jsonl,
+    and accumulates daily total in results/funnel.md.
     """
     now_utc = datetime.now(timezone.utc)
     today_str = now_utc.strftime("%Y-%m-%d")
@@ -60,42 +63,64 @@ def record_funnel_run(
     except Exception as e:
         logger.warning(f"Notice saving {json_path}: {e}")
 
-    # 2. Update results/funnel.md (accumulate daily totals)
+    # 2. Append to results/funnel_log.jsonl (persistent log across ephemeral runs)
+    try:
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+        with open(log_path, "a", encoding="utf-8") as lf:
+            lf.write(json.dumps(run_record) + "\n")
+    except Exception as le:
+        logger.warning(f"Notice appending {log_path}: {le}")
+
+    # 3. Update results/funnel.md (accumulate daily totals from persistent log)
     try:
         os.makedirs(os.path.dirname(md_path), exist_ok=True)
         daily_records: Dict[str, Dict[str, Any]] = {}
-        history_file = os.path.join(os.path.dirname(md_path), "funnel_history.json")
-        if os.path.exists(history_file):
-            try:
-                with open(history_file, "r", encoding="utf-8") as hf:
-                    daily_records = json.load(hf)
-            except Exception:
-                daily_records = {}
 
-        if today_str not in daily_records:
+        # If log_path exists, aggregate all runs by date
+        if os.path.exists(log_path):
+            with open(log_path, "r", encoding="utf-8") as lf:
+                for line in lf:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        entry = json.loads(line)
+                        d_str = entry.get("date") or entry.get("timestamp", "")[:10]
+                        if not d_str:
+                            continue
+                        if d_str not in daily_records:
+                            daily_records[d_str] = {
+                                "date": d_str,
+                                "tickers_scanned": 0,
+                                "skipped_no_real_news": 0,
+                                "vetoed_by_reason": {},
+                                "buy_blocked_guards": {},
+                                "orders_submitted": 0,
+                                "runs_count": 0,
+                            }
+                        day = daily_records[d_str]
+                        day["runs_count"] += 1
+                        day["tickers_scanned"] += int(entry.get("tickers_scanned", 0))
+                        day["skipped_no_real_news"] += int(entry.get("skipped_no_real_news", 0))
+                        day["orders_submitted"] += int(entry.get("orders_submitted", 0))
+
+                        for k, v in entry.get("vetoed_by_reason", {}).items():
+                            day["vetoed_by_reason"][k] = day["vetoed_by_reason"].get(k, 0) + v
+                        for k, v in entry.get("buy_blocked_guards", {}).items():
+                            day["buy_blocked_guards"][k] = day["buy_blocked_guards"].get(k, 0) + v
+                    except Exception:
+                        continue
+        else:
+            # Fallback to single run record
             daily_records[today_str] = {
                 "date": today_str,
-                "tickers_scanned": 0,
-                "skipped_no_real_news": 0,
-                "vetoed_by_reason": {},
-                "buy_blocked_guards": {},
-                "orders_submitted": 0,
-                "runs_count": 0,
+                "tickers_scanned": run_record["tickers_scanned"],
+                "skipped_no_real_news": run_record["skipped_no_real_news"],
+                "vetoed_by_reason": dict(vetoed_by_reason),
+                "buy_blocked_guards": dict(buy_blocked_guards),
+                "orders_submitted": run_record["orders_submitted"],
+                "runs_count": 1,
             }
-
-        day = daily_records[today_str]
-        day["runs_count"] += 1
-        day["tickers_scanned"] += run_record["tickers_scanned"]
-        day["skipped_no_real_news"] += run_record["skipped_no_real_news"]
-        day["orders_submitted"] += run_record["orders_submitted"]
-
-        for k, v in vetoed_by_reason.items():
-            day["vetoed_by_reason"][k] = day["vetoed_by_reason"].get(k, 0) + v
-        for k, v in buy_blocked_guards.items():
-            day["buy_blocked_guards"][k] = day["buy_blocked_guards"].get(k, 0) + v
-
-        with open(history_file, "w", encoding="utf-8") as hf:
-            json.dump(daily_records, hf, indent=2)
 
         # Render Markdown Table
         lines = [

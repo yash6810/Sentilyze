@@ -220,10 +220,63 @@ def main():
         "",
     ]
 
-    # Incorporate Funnel Table from results/funnel.json or results/funnel.md
+    # Incorporate Funnel Table from results/funnel_log.jsonl or results/funnel.json
+    funnel_log_path = os.path.join("results", "funnel_log.jsonl")
     funnel_json_path = os.path.join("results", "funnel.json")
-    funnel_history_path = os.path.join("results", "funnel_history.json")
-    if os.path.exists(funnel_json_path):
+
+    total_scanned = 0
+    total_skipped_news = 0
+    total_vetoed = 0
+    total_blocked = 0
+    total_orders = 0
+    vetoes_by_reason: Dict[str, int] = {}
+    blocked_by_guard: Dict[str, int] = {}
+    runs_count = 0
+
+    if os.path.exists(funnel_log_path):
+        try:
+            with open(funnel_log_path, "r", encoding="utf-8") as fl:
+                for line in fl:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    entry = json.loads(line)
+                    runs_count += 1
+                    total_scanned += int(entry.get("tickers_scanned", 0))
+                    total_skipped_news += int(entry.get("skipped_no_real_news", 0))
+                    total_vetoed += int(entry.get("total_vetoed", sum(entry.get("vetoed_by_reason", {}).values())))
+                    total_blocked += int(entry.get("total_buy_blocked", sum(entry.get("buy_blocked_guards", {}).values())))
+                    total_orders += int(entry.get("orders_submitted", 0))
+
+                    for r, c in entry.get("vetoed_by_reason", {}).items():
+                        vetoes_by_reason[r] = vetoes_by_reason.get(r, 0) + c
+                    for g, c in entry.get("buy_blocked_guards", {}).items():
+                        blocked_by_guard[g] = blocked_by_guard.get(g, 0) + c
+
+            lines.extend([
+                "## 🔍 Cumulative Execution Funnel Telemetry",
+                "",
+                f"Aggregated across **{runs_count}** autonomous live trading cycles recorded in `results/funnel_log.jsonl`:",
+                "",
+                "| Total Cycles | Total Scanned | Skipped (No Real News) | Total Vetoed | Blocked (Risk Guards) | Orders Submitted |",
+                "| :---: | :---: | :---: | :---: | :---: | :---: |",
+                f"| {runs_count} | {total_scanned} | {total_skipped_news} | {total_vetoed} | {total_blocked} | **{total_orders}** |",
+                "",
+            ])
+            if vetoes_by_reason:
+                lines.append("**Cumulative Vetoes by Reason**:")
+                for r, c in sorted(vetoes_by_reason.items(), key=lambda x: x[1], reverse=True):
+                    lines.append(f"- `{r}`: {c}")
+                lines.append("")
+            if blocked_by_guard:
+                lines.append("**Cumulative Orders Blocked by Position/Risk Guards**:")
+                for g, c in sorted(blocked_by_guard.items(), key=lambda x: x[1], reverse=True):
+                    lines.append(f"- `{g}`: {c}")
+                lines.append("")
+        except Exception as fe:
+            lines.append(f"*(Funnel telemetry log error: {fe})*")
+            lines.append("")
+    elif os.path.exists(funnel_json_path):
         try:
             with open(funnel_json_path, "r", encoding="utf-8") as f_json:
                 fj = json.load(f_json)
