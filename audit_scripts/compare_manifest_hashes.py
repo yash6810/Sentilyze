@@ -1,9 +1,16 @@
 import json
 import subprocess
 
+
 def get_manifest_at(commit):
-    res = subprocess.run(["git", "show", f"{commit}:results/strategy_freeze_manifest.json"], capture_output=True, text=True, check=True)
+    res = subprocess.run(
+        ["git", "show", f"{commit}:results/strategy_freeze_manifest.json"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
     return json.loads(res.stdout)
+
 
 m_old = get_manifest_at("2dd8289b")
 m_new = get_manifest_at("76287264")

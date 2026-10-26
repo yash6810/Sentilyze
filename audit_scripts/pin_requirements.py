@@ -1,6 +1,7 @@
 import importlib.metadata
 import re
 
+
 def pin_requirements_file(filepath):
     with open(filepath, "r", encoding="utf-8") as f:
         lines = f.readlines()
@@ -19,17 +20,24 @@ def pin_requirements_file(filepath):
             pinned_lines.append(f"{pkg_name}=={ver}\n")
         except importlib.metadata.PackageNotFoundError:
             # Try normalizing hyphens/underscores
-            alt_name = pkg_name.replace("-", "_") if "-" in pkg_name else pkg_name.replace("_", "-")
+            alt_name = (
+                pkg_name.replace("-", "_")
+                if "-" in pkg_name
+                else pkg_name.replace("_", "-")
+            )
             try:
                 ver = importlib.metadata.version(alt_name)
                 pinned_lines.append(f"{pkg_name}=={ver}\n")
             except Exception:
-                print(f"Could not find version for {pkg_name}, keeping original: {stripped}")
+                print(
+                    f"Could not find version for {pkg_name}, keeping original: {stripped}"
+                )
                 pinned_lines.append(line)
 
     with open(filepath, "w", encoding="utf-8") as f:
         f.writelines(pinned_lines)
     print(f"Pinned {filepath}")
+
 
 pin_requirements_file("requirements.txt")
 pin_requirements_file("requirements-dev.txt")

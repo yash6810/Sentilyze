@@ -412,7 +412,9 @@ def get_news(
                         articles_df["publishedAt"] = pd.to_datetime(
                             articles_df["publishedAt"], utc=True, format="mixed"
                         )
-                        articles_df = articles_df.set_index("publishedAt").sort_index(ascending=False)
+                        articles_df = articles_df.set_index("publishedAt").sort_index(
+                            ascending=False
+                        )
                     logger.info(
                         f"Loaded {len(articles_df)} articles for {ticker} from daily cache {daily_cache_path}"
                     )

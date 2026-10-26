@@ -54,7 +54,10 @@ def test_news_cache_quota_retry_and_live_fetch(tmp_path, monkeypatch):
             patch.object(di, "_fetch_sec_8k_news", return_value=empty_df),
             patch.object(di, "_fetch_benzinga_news", return_value=empty_df),
             patch.object(di, "_fetch_reddit_financial_news", return_value=empty_df),
-            patch("src.universal_web_scraper.scrape_ticker_news_from_web", return_value=empty_df),
+            patch(
+                "src.universal_web_scraper.scrape_ticker_news_from_web",
+                return_value=empty_df,
+            ),
             patch.dict(os.environ, {"NEWS_API_KEY": ""}, clear=False),
         ):
             res_df = di.get_news("NVDA", use_cache=True)
@@ -66,25 +69,31 @@ def test_news_cache_quota_retry_and_live_fetch(tmp_path, monkeypatch):
             if os.path.exists(target_cache_file):
                 with open(target_cache_file, "r", encoding="utf-8") as f:
                     cache_content = json.load(f)
-                assert "NVDA" not in cache_content, "Quota-exhausted ticker must NOT be cached!"
+                assert (
+                    "NVDA" not in cache_content
+                ), "Quota-exhausted ticker must NOT be cached!"
 
             # Next run retries live fetch because NVDA was not cached
-            success_df = pd.DataFrame([
-                {
-                    "Title": "NVIDIA Breakthrough AI Chip Unveiled",
-                    "publishedAt": "2030-05-20T12:00:00Z",
-                    "source": "Mock Wire",
-                    "url": "https://example.com/nvda",
-                    "description": "NVIDIA announcements today."
-                }
-            ])
+            success_df = pd.DataFrame(
+                [
+                    {
+                        "Title": "NVIDIA Breakthrough AI Chip Unveiled",
+                        "publishedAt": "2030-05-20T12:00:00Z",
+                        "source": "Mock Wire",
+                        "url": "https://example.com/nvda",
+                        "description": "NVIDIA announcements today.",
+                    }
+                ]
+            )
             with patch.object(di, "_fetch_google_news_rss", return_value=success_df):
                 retry_df = di.get_news("NVDA", use_cache=True)
                 assert not retry_df.empty
                 assert len(retry_df) == 1
                 assert retry_df.attrs.get("news_available") is True
                 assert retry_df.attrs.get("quota_or_error") is False
-                assert "NVIDIA Breakthrough AI Chip Unveiled" in retry_df["Title"].values
+                assert (
+                    "NVIDIA Breakthrough AI Chip Unveiled" in retry_df["Title"].values
+                )
 
             # Part (b): Ticker missing from cache is fetched live, cached, and subsequent read uses cache
             assert os.path.exists(target_cache_file)
@@ -94,7 +103,11 @@ def test_news_cache_quota_retry_and_live_fetch(tmp_path, monkeypatch):
             assert len(updated_cache["NVDA"]) == 1
 
             # Fetching again should hit the daily cache without calling any live fetch functions
-            with patch.object(di, "_fetch_google_news_rss", side_effect=AssertionError("Should hit daily cache!")):
+            with patch.object(
+                di,
+                "_fetch_google_news_rss",
+                side_effect=AssertionError("Should hit daily cache!"),
+            ):
                 cached_res = di.get_news("NVDA", use_cache=True)
                 assert not cached_res.empty
                 assert len(cached_res) == 1
@@ -119,11 +132,11 @@ def test_daily_cache_file_is_committed_by_live_workflow():
         workflow_content = f.read()
 
     # Must stage results/news_cache_*.json
-    assert "results/news_cache_*.json" in workflow_content, (
-        "Live trader workflow must stage results/news_cache_*.json"
-    )
+    assert (
+        "results/news_cache_*.json" in workflow_content
+    ), "Live trader workflow must stage results/news_cache_*.json"
 
     # Must commit state
-    assert "git commit" in workflow_content, (
-        "Live trader workflow must commit staged state"
-    )
+    assert (
+        "git commit" in workflow_content
+    ), "Live trader workflow must commit staged state"

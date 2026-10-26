@@ -1058,17 +1058,25 @@ class AutonomousTradingEngine:
         except Exception as mb_err:
             logger.debug(f"Macro blackout gate notice: {mb_err}")
 
-        is_live = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in ("true", "1", "yes")
+        is_live = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in (
+            "true",
+            "1",
+            "yes",
+        )
         alpaca_live_equity = None
         alpaca_live_cash = None
         if is_live:
             try:
                 if not self.alpaca.is_connected():
-                    logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca client is not connected in live mode")
+                    logger.warning(
+                        "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca client is not connected in live mode"
+                    )
                     return executed_actions
                 acc_summary = self.alpaca.get_account_summary()
                 if acc_summary.get("status") != "CONNECTED":
-                    logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca account summary is not connected")
+                    logger.warning(
+                        "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca account summary is not connected"
+                    )
                     return executed_actions
                 alpaca_live_equity = float(acc_summary.get("equity", 0.0))
                 alpaca_live_cash = float(acc_summary.get("cash", 0.0))
@@ -1076,7 +1084,11 @@ class AutonomousTradingEngine:
                 logger.warning(f"BUY_SKIPPED_ALPACA_UNAVAILABLE: {alp_err}")
                 return executed_actions
 
-        cash_available = alpaca_live_cash if (is_live and alpaca_live_cash is not None) else self.broker.state.get("cash", 0.0)
+        cash_available = (
+            alpaca_live_cash
+            if (is_live and alpaca_live_cash is not None)
+            else self.broker.state.get("cash", 0.0)
+        )
 
         if available_slots > 0 and cash_available > 5000.0:
             # Anti-Whipsaw Cooldown: Quarantine any exit within 24h (scratch/breakeven) to stop ping-pong churn,
@@ -1358,7 +1370,11 @@ class AutonomousTradingEngine:
 
             # Task 8 Max Position Size Hard Constraint: Max 10% of total portfolio equity for 8-10 position dynamic model
             total_eq = max(
-                float(alpaca_live_equity if (is_live and alpaca_live_equity is not None) else (portfolio_summary.get("total_equity") or 100000.0)),
+                float(
+                    alpaca_live_equity
+                    if (is_live and alpaca_live_equity is not None)
+                    else (portfolio_summary.get("total_equity") or 100000.0)
+                ),
                 1.0,
             )
 
@@ -1410,7 +1426,9 @@ class AutonomousTradingEngine:
                     logger.warning(
                         f"🛡️ [SECTOR SHIELD VETO] Candidate {t} rejected: Sector '{cand_sector}' already occupied in active portfolio."
                     )
-                    funnel_vetoed["SECTOR_SHIELD_OCCUPIED"] = funnel_vetoed.get("SECTOR_SHIELD_OCCUPIED", 0) + 1
+                    funnel_vetoed["SECTOR_SHIELD_OCCUPIED"] = (
+                        funnel_vetoed.get("SECTOR_SHIELD_OCCUPIED", 0) + 1
+                    )
                     continue
 
                 # Portfolio Correlation Matrix Shield Check (Markowitz Diversification)
@@ -1425,7 +1443,9 @@ class AutonomousTradingEngine:
                     logger.warning(
                         f"🛡️ [CORRELATION SHIELD VETO] Candidate {t} rejected: {corr_check.get('reason')}"
                     )
-                    funnel_vetoed["CORRELATION_SHIELD_EXCEEDED"] = funnel_vetoed.get("CORRELATION_SHIELD_EXCEEDED", 0) + 1
+                    funnel_vetoed["CORRELATION_SHIELD_EXCEEDED"] = (
+                        funnel_vetoed.get("CORRELATION_SHIELD_EXCEEDED", 0) + 1
+                    )
                     continue
 
                 # Ensure Kelly sizing allocation does not breach max position size
@@ -1470,7 +1490,11 @@ class AutonomousTradingEngine:
                 target_b = self.get_target_broker(t)
                 target_equity = (
                     alpaca_live_equity
-                    if (is_live and alpaca_live_equity is not None and not is_crypto_asset(t))
+                    if (
+                        is_live
+                        and alpaca_live_equity is not None
+                        and not is_crypto_asset(t)
+                    )
                     else float(target_b.state.get("total_equity", 100000.0))
                 )
                 if is_crypto_asset(t):
@@ -1504,7 +1528,9 @@ class AutonomousTradingEngine:
                     logger.warning(
                         f"🛑 [FORMAL LOGIC RULE GATE VETO] Trade for {t} rejected: {gate_eval['violations']}"
                     )
-                    funnel_vetoed["RULE_GATE_CONSTRAINT_VIOLATION"] = funnel_vetoed.get("RULE_GATE_CONSTRAINT_VIOLATION", 0) + 1
+                    funnel_vetoed["RULE_GATE_CONSTRAINT_VIOLATION"] = (
+                        funnel_vetoed.get("RULE_GATE_CONSTRAINT_VIOLATION", 0) + 1
+                    )
                     continue
 
                 order_res = execute_committee_order(
@@ -1550,7 +1576,9 @@ class AutonomousTradingEngine:
                         shares_b = int(order_res.get("shares", 0))
                         if alpaca.is_connected() and shares_b > 0:
                             tp1_p = float(delib.get("tp1_target", spot_price * 1.06))
-                            sl_p = float(delib.get("stop_loss_target", spot_price * 0.965))
+                            sl_p = float(
+                                delib.get("stop_loss_target", spot_price * 0.965)
+                            )
                             alpaca.submit_bracket_order(
                                 ticker=t,
                                 qty=shares_b,
@@ -1559,7 +1587,9 @@ class AutonomousTradingEngine:
                                 side="buy",
                             )
                     except Exception as alp_err:
-                        logger.error(f"Alpaca live order execution mirror error for {t}: {alp_err}")
+                        logger.error(
+                            f"Alpaca live order execution mirror error for {t}: {alp_err}"
+                        )
                     send_discord_execution_alert(
                         {
                             "action": "BUY",
@@ -1579,7 +1609,11 @@ class AutonomousTradingEngine:
                     )
                     send_discord_committee_alert(delib)
                 else:
-                    blk_err = str(order_res.get("error") or order_res.get("reason") or "ORDER_BLOCKED")[:40]
+                    blk_err = str(
+                        order_res.get("error")
+                        or order_res.get("reason")
+                        or "ORDER_BLOCKED"
+                    )[:40]
                     funnel_blocked[blk_err] = funnel_blocked.get(blk_err, 0) + 1
 
         # Record execution funnel telemetry to results/funnel.json and results/funnel.md
@@ -1587,12 +1621,28 @@ class AutonomousTradingEngine:
             from src.funnel_tracker import record_funnel_run
 
             record_funnel_run(
-                tickers_scanned=funnel_scanned if "funnel_scanned" in locals() else len(tickers_to_scan),
-                skipped_no_real_news=funnel_skipped_news if "funnel_skipped_news" in locals() else 0,
+                tickers_scanned=(
+                    funnel_scanned
+                    if "funnel_scanned" in locals()
+                    else len(tickers_to_scan)
+                ),
+                skipped_no_real_news=(
+                    funnel_skipped_news if "funnel_skipped_news" in locals() else 0
+                ),
                 vetoed_by_reason=funnel_vetoed if "funnel_vetoed" in locals() else {},
-                buy_blocked_guards=funnel_blocked if "funnel_blocked" in locals() else {},
-                orders_submitted=funnel_orders_submitted if "funnel_orders_submitted" in locals() else 0,
-                skipped_news_quota_or_error=funnel_skipped_quota_error if "funnel_skipped_quota_error" in locals() else 0,
+                buy_blocked_guards=(
+                    funnel_blocked if "funnel_blocked" in locals() else {}
+                ),
+                orders_submitted=(
+                    funnel_orders_submitted
+                    if "funnel_orders_submitted" in locals()
+                    else 0
+                ),
+                skipped_news_quota_or_error=(
+                    funnel_skipped_quota_error
+                    if "funnel_skipped_quota_error" in locals()
+                    else 0
+                ),
             )
         except Exception as fe:
             logger.debug(f"Funnel telemetry record notice: {fe}")
@@ -1719,7 +1769,8 @@ class AutonomousTradingEngine:
         if (
             os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes")
             or "PYTEST_CURRENT_TEST" in os.environ
-            or getattr(self.paper_broker, "portfolio_file", "") != os.path.join("results", "paper_portfolio.json")
+            or getattr(self.paper_broker, "portfolio_file", "")
+            != os.path.join("results", "paper_portfolio.json")
         ):
             logger.info(
                 "🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Self-improvement learning feedback loop is read-only."
@@ -1727,7 +1778,9 @@ class AutonomousTradingEngine:
             return {
                 "total_cycles": learning_state.get("total_learning_cycles", 0),
                 "agent_weights": learning_state.get("agent_voting_weights", {}),
-                "kelly_multiplier": learning_state.get("adaptive_kelly_multiplier", 1.0),
+                "kelly_multiplier": learning_state.get(
+                    "adaptive_kelly_multiplier", 1.0
+                ),
                 "new_autopsies_count": 0,
             }
 

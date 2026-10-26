@@ -1,5 +1,6 @@
 import os, json
 from dotenv import load_dotenv
+
 load_dotenv()
 
 from src.alpaca_broker import AlpacaBrokerBridge

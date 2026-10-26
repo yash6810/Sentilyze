@@ -4,6 +4,7 @@ import tempfile
 import json
 from src.funnel_tracker import record_funnel_run
 
+
 def simulate_funnel_persistence():
     base_dir = tempfile.mkdtemp(prefix="sentilyze_funnel_persist_")
     print(f"Simulation root: {base_dir}")
@@ -103,6 +104,7 @@ def simulate_funnel_persistence():
         print(f"\nTotal lines in persistent results/funnel_log.jsonl: {len(entries)}")
 
     shutil.rmtree(base_dir)
+
 
 if __name__ == "__main__":
     simulate_funnel_persistence()

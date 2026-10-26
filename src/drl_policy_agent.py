@@ -221,9 +221,7 @@ def train_drl_policy(
     # Save trained model weights
     target_dir = model_dir or DRL_MODEL_DIR
     os.makedirs(target_dir, exist_ok=True)
-    save_path = os.path.join(
-        target_dir, f"{sanitize_filename(ticker)}_drl_weights.pt"
-    )
+    save_path = os.path.join(target_dir, f"{sanitize_filename(ticker)}_drl_weights.pt")
     try:
         torch.save(model.state_dict(), save_path)
     except Exception as e:

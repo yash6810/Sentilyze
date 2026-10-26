@@ -49,6 +49,10 @@ print("Reset results/agent_memory/trade_postmortems.jsonl to empty (0 trades).")
 
 # 5. Remove or empty results/agent_memory/session_episodic_memory.json
 if os.path.exists("results/agent_memory/session_episodic_memory.json"):
-    with open("results/agent_memory/session_episodic_memory.json", "w", encoding="utf-8") as f:
-        json.dump({"project_name": "Sentilyze", "status": "RESET_TO_DEFAULTS"}, f, indent=2)
+    with open(
+        "results/agent_memory/session_episodic_memory.json", "w", encoding="utf-8"
+    ) as f:
+        json.dump(
+            {"project_name": "Sentilyze", "status": "RESET_TO_DEFAULTS"}, f, indent=2
+        )
     print("Reset results/agent_memory/session_episodic_memory.json.")

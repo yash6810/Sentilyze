@@ -2,7 +2,7 @@ with open("src/alpaca_broker.py", "r", encoding="utf-8") as f:
     alp_code = f.read()
 
 # Update get_account_summary to raise on error if requests fails
-target_gas = '''        try:
+target_gas = """        try:
             res = requests.get(
                 f"{self.base_url}/v2/account", headers=self.headers, timeout=6
             )
@@ -20,9 +20,9 @@ target_gas = '''        try:
         except Exception as e:
             logger.error(f"Alpaca account fetch error: {e}")
 
-        return {"status": "ERROR"}'''
+        return {"status": "ERROR"}"""
 
-replacement_gas = '''        try:
+replacement_gas = """        try:
             res = requests.get(
                 f"{self.base_url}/v2/account", headers=self.headers, timeout=6
             )
@@ -39,7 +39,7 @@ replacement_gas = '''        try:
             }
         except Exception as e:
             logger.error(f"Alpaca account fetch error: {e}")
-            raise'''
+            raise"""
 
 assert target_gas in alp_code, "target_gas not found in alpaca_broker.py"
 alp_code = alp_code.replace(target_gas, replacement_gas, 1)

@@ -257,7 +257,9 @@ class AgentMemoryStore:
     ) -> int:
         """Synchronizes executed_trades.csv into trade_postmortems.jsonl and recalibrates weights."""
         if os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes"):
-            logger.info("🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Trade sync skipped.")
+            logger.info(
+                "🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Trade sync skipped."
+            )
             return 0
         if not os.path.exists(csv_path):
             return 0

@@ -1,14 +1,14 @@
 with open("src/agent_committee.py", "r", encoding="utf-8") as f:
     code = f.read()
 
-target_cash_floor = '''                    port_path = os.path.join("results", "paper_portfolio.json")
+target_cash_floor = """                    port_path = os.path.join("results", "paper_portfolio.json")
                     if os.path.exists(port_path):
                         with open(port_path, "r", encoding="utf-8") as pp_fp:
                             pp_data = json.load(pp_fp)
                             live_cash = float(pp_data.get("cash", 100000.0))
-                            live_equity = float(pp_data.get("total_equity", live_cash))'''
+                            live_equity = float(pp_data.get("total_equity", live_cash))"""
 
-replacement_cash_floor = '''                    live_alpaca_required = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in ("true", "1", "yes")
+replacement_cash_floor = """                    live_alpaca_required = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in ("true", "1", "yes")
                     if live_alpaca_required:
                         try:
                             from src.alpaca_broker import AlpacaBrokerBridge
@@ -73,12 +73,12 @@ replacement_cash_floor = '''                    live_alpaca_required = os.getenv
                                 live_equity = float(pp_data.get("total_equity", live_cash))
                         else:
                             live_cash = 100000.0
-                            live_equity = 100000.0'''
+                            live_equity = 100000.0"""
 
 assert target_cash_floor in code, "target_cash_floor not found in agent_committee.py"
 code = code.replace(target_cash_floor, replacement_cash_floor, 1)
 
-target_gz = '''            portfolio_file = os.path.join("results", "paper_portfolio.json")
+target_gz = """            portfolio_file = os.path.join("results", "paper_portfolio.json")
             if os.path.exists(portfolio_file):
                 with open(portfolio_file, "r", encoding="utf-8") as pf:
                     p_state = json.load(pf)
@@ -86,9 +86,9 @@ target_gz = '''            portfolio_file = os.path.join("results", "paper_portf
                 # Protect baseline initial capital floor ($95k CPPI floor) with 25% max tolerance from peak
                 peak_wealth = float(p_state.get("peak_equity", curr_eq))
                 if peak_wealth < curr_eq:
-                    peak_wealth = curr_eq'''
+                    peak_wealth = curr_eq"""
 
-replacement_gz = '''            live_alpaca_required = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in ("true", "1", "yes")
+replacement_gz = """            live_alpaca_required = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in ("true", "1", "yes")
             if live_alpaca_required:
                 curr_eq = live_equity
                 peak_wealth = max(curr_eq, float(os.getenv("ALPACA_PEAK_EQUITY", curr_eq)))
@@ -104,7 +104,7 @@ replacement_gz = '''            live_alpaca_required = os.getenv("LIVE_ALPACA_RE
                         peak_wealth = curr_eq
                 else:
                     curr_eq = 100000.0
-                    peak_wealth = 100000.0'''
+                    peak_wealth = 100000.0"""
 
 assert target_gz in code, "target_gz not found in agent_committee.py"
 code = code.replace(target_gz, replacement_gz, 1)

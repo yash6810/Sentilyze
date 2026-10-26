@@ -1066,13 +1066,18 @@ class ChiefRiskOfficerAgent:
             if os.path.exists(sde_path):
                 with open(sde_path, "r", encoding="utf-8") as sde_fp:
                     sde_data = json.load(sde_fp)
-                    live_alpaca_required = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in ("true", "1", "yes")
+                    live_alpaca_required = os.getenv(
+                        "LIVE_ALPACA_REQUIRED", "false"
+                    ).lower() in ("true", "1", "yes")
                     if live_alpaca_required:
                         try:
                             from src.alpaca_broker import AlpacaBrokerBridge
+
                             alp = AlpacaBrokerBridge()
                             if not alp.is_connected():
-                                logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca disconnected in live mode")
+                                logger.warning(
+                                    "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca disconnected in live mode"
+                                )
                                 return {
                                     "verdict": "VETO",
                                     "confidence": 0.0,
@@ -1089,7 +1094,9 @@ class ChiefRiskOfficerAgent:
                                 }
                             acc = alp.get_account_summary()
                             if acc.get("status") != "CONNECTED":
-                                logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca account query failed")
+                                logger.warning(
+                                    "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca account query failed"
+                                )
                                 return {
                                     "verdict": "VETO",
                                     "confidence": 0.0,
@@ -1128,23 +1135,23 @@ class ChiefRiskOfficerAgent:
                             with open(port_path, "r", encoding="utf-8") as pp_fp:
                                 pp_data = json.load(pp_fp)
                                 live_cash = float(pp_data.get("cash", 100000.0))
-                                live_equity = float(pp_data.get("total_equity", live_cash))
+                                live_equity = float(
+                                    pp_data.get("total_equity", live_cash)
+                                )
                         else:
                             live_cash = 100000.0
                             live_equity = 100000.0
                     cvar_floor = float(
-                                sde_data.get(
-                                    "recommended_dynamic_cash_floor", live_equity * 0.85
-                                )
-                            )
+                        sde_data.get(
+                            "recommended_dynamic_cash_floor", live_equity * 0.85
+                        )
+                    )
                     # Ensure floor scales proportionally with live equity baseline
                     if cvar_floor >= live_equity:
                         cvar_floor = live_equity * 0.85
                     sde_metrics = {
                         "cvar99_floor": cvar_floor,
-                        "var99": float(
-                            sde_data.get("value_at_risk_var99", 0.0)
-                        ),
+                        "var99": float(sde_data.get("value_at_risk_var99", 0.0)),
                     }
                     if live_equity > 0 and (live_cash / live_equity) >= 0.80:
                         high_cash_deployment_valve = True
@@ -1252,10 +1259,14 @@ class ChiefRiskOfficerAgent:
             from src.ultra_quant_engine import get_ultra_quant_engine
 
             uq_engine = get_ultra_quant_engine()
-            live_alpaca_required = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in ("true", "1", "yes")
+            live_alpaca_required = os.getenv(
+                "LIVE_ALPACA_REQUIRED", "false"
+            ).lower() in ("true", "1", "yes")
             if live_alpaca_required:
                 curr_eq = live_equity
-                peak_wealth = max(curr_eq, float(os.getenv("ALPACA_PEAK_EQUITY", curr_eq)))
+                peak_wealth = max(
+                    curr_eq, float(os.getenv("ALPACA_PEAK_EQUITY", curr_eq))
+                )
             else:
                 portfolio_file = os.path.join("results", "paper_portfolio.json")
                 if os.path.exists(portfolio_file):

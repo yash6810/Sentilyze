@@ -38,12 +38,12 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 
 | Core Module | SHA-256 Digest |
 | :--- | :--- |
-| `src/agent_committee.py` | `20aaaa19a158eeb2085f7342d9870afd9debe588cbb88aa9fcccca228bd27a54` |
-| `src/autonomous_trader.py` | `b66c49a42062c81a6612fcfef5fbd0845a5e44c7edb7687bd9f9cc63e289c459` |
+| `src/agent_committee.py` | `1c6d7e1e010bc08d32afe9ad8e9580cb55ffeeec0b6a5403bad17dfed4ee5d6b` |
+| `src/autonomous_trader.py` | `a150e6e350c6cfde45825b1cd2f885f1696cd8a6ad0a2476a7de80bd66edea7c` |
 | `src/paper_broker.py` | `ab2c84ffea7913b8bedb32ce53ab9df56a401440db92f8cd3f333f05e4c1e8ac` |
 | `src/alpaca_broker.py` | `09b44590ad7fc032f62a127f63201a4a2be44459366786a97f437075503add24` |
-| `src/post_mortem_learner.py` | `efcbf27b9a5721690e68642b6dc3004b75d81a4b11545bba5844781fa72a1902` |
-| `src/agent_memory.py` | `d6c4ef9b2a91a16b685006bce8a1a8d633108cae61ec14c3aee9cfd29ecc7ca2` |
+| `src/post_mortem_learner.py` | `1fa773dc90a1b4468eb9ea85e4b495ee610ce19b5d0ce434bedf6252ce628eb8` |
+| `src/agent_memory.py` | `be1a6aee7c2e754d9b7a4dfdcdd1d5b13c3d97a0ac13c7dde8ddcc1f701b39af` |
 
 ## 4. Production Model Weights (1974 Models)
 
