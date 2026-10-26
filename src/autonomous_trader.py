@@ -277,6 +277,12 @@ class AutonomousTradingEngine:
         )
         self.tickers = load_universe_tickers()
         self.rule_gate = FormalLogicZ3RuleGate()
+        try:
+            from src.alpaca_broker import AlpacaBrokerBridge
+
+            self.alpaca = AlpacaBrokerBridge()
+        except Exception:
+            self.alpaca = None
 
     def get_target_broker(self, ticker: str) -> PaperBroker:
         """Routes execution and state to the isolated crypto sandbox or standard US equity broker."""
@@ -1067,21 +1073,69 @@ class AutonomousTradingEngine:
         alpaca_live_cash = None
         if is_live:
             try:
-                if not self.alpaca.is_connected():
+                alpaca_client = getattr(self, "alpaca", None)
+                if alpaca_client is None:
+                    from src.alpaca_broker import AlpacaBrokerBridge
+
+                    alpaca_client = AlpacaBrokerBridge()
+                    self.alpaca = alpaca_client
+                if not alpaca_client.is_connected():
                     logger.warning(
                         "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca client is not connected in live mode"
                     )
+                    try:
+                        from src.funnel_tracker import record_funnel_run
+
+                        record_funnel_run(
+                            tickers_scanned=len(tickers_to_scan),
+                            skipped_no_real_news=0,
+                            vetoed_by_reason={},
+                            buy_blocked_guards={
+                                "BUY_SKIPPED_ALPACA_UNAVAILABLE": len(tickers_to_scan)
+                            },
+                            orders_submitted=0,
+                        )
+                    except Exception as fe:
+                        logger.debug(f"Funnel record notice: {fe}")
                     return executed_actions
-                acc_summary = self.alpaca.get_account_summary()
+                acc_summary = alpaca_client.get_account_summary()
                 if acc_summary.get("status") != "CONNECTED":
                     logger.warning(
                         "BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca account summary is not connected"
                     )
+                    try:
+                        from src.funnel_tracker import record_funnel_run
+
+                        record_funnel_run(
+                            tickers_scanned=len(tickers_to_scan),
+                            skipped_no_real_news=0,
+                            vetoed_by_reason={},
+                            buy_blocked_guards={
+                                "BUY_SKIPPED_ALPACA_UNAVAILABLE": len(tickers_to_scan)
+                            },
+                            orders_submitted=0,
+                        )
+                    except Exception as fe:
+                        logger.debug(f"Funnel record notice: {fe}")
                     return executed_actions
                 alpaca_live_equity = float(acc_summary.get("equity", 0.0))
                 alpaca_live_cash = float(acc_summary.get("cash", 0.0))
             except Exception as alp_err:
                 logger.warning(f"BUY_SKIPPED_ALPACA_UNAVAILABLE: {alp_err}")
+                try:
+                    from src.funnel_tracker import record_funnel_run
+
+                    record_funnel_run(
+                        tickers_scanned=len(tickers_to_scan),
+                        skipped_no_real_news=0,
+                        vetoed_by_reason={},
+                        buy_blocked_guards={
+                            "BUY_SKIPPED_ALPACA_UNAVAILABLE": len(tickers_to_scan)
+                        },
+                        orders_submitted=0,
+                    )
+                except Exception as fe:
+                    logger.debug(f"Funnel record notice: {fe}")
                 return executed_actions
 
         cash_available = (
