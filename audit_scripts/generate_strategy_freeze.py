@@ -111,26 +111,28 @@ def main():
         norm = p.replace("\\", "/")
         lines.append(f"| `{norm}` | `{hashes[norm]}` |")
 
-    lines.extend([
-        "",
-        "## 3. Core Strategy Modules Sample (SHA-256)",
-        "",
-        "| Core Module | SHA-256 Digest |",
-        "| :--- | :--- |",
-        f"| `src/agent_committee.py` | `{hashes['src/agent_committee.py']}` |",
-        f"| `src/autonomous_trader.py` | `{hashes['src/autonomous_trader.py']}` |",
-        f"| `src/paper_broker.py` | `{hashes['src/paper_broker.py']}` |",
-        f"| `src/alpaca_broker.py` | `{hashes['src/alpaca_broker.py']}` |",
-        f"| `src/post_mortem_learner.py` | `{hashes['src/post_mortem_learner.py']}` |",
-        f"| `src/agent_memory.py` | `{hashes['src/agent_memory.py']}` |",
-        "",
-        f"## 4. Production Model Weights ({len(MODELS)} Models)",
-        "",
-        f"All {len(MODELS)} XGBoost production models in `models/*.json` are cryptographically frozen. The complete list of SHA-256 signatures is tracked in [`results/strategy_freeze_manifest.json`](results/strategy_freeze_manifest.json). Below is a sample of key active universe models:",
-        "",
-        "| Model File | SHA-256 Digest |",
-        "| :--- | :--- |",
-    ])
+    lines.extend(
+        [
+            "",
+            "## 3. Core Strategy Modules Sample (SHA-256)",
+            "",
+            "| Core Module | SHA-256 Digest |",
+            "| :--- | :--- |",
+            f"| `src/agent_committee.py` | `{hashes['src/agent_committee.py']}` |",
+            f"| `src/autonomous_trader.py` | `{hashes['src/autonomous_trader.py']}` |",
+            f"| `src/paper_broker.py` | `{hashes['src/paper_broker.py']}` |",
+            f"| `src/alpaca_broker.py` | `{hashes['src/alpaca_broker.py']}` |",
+            f"| `src/post_mortem_learner.py` | `{hashes['src/post_mortem_learner.py']}` |",
+            f"| `src/agent_memory.py` | `{hashes['src/agent_memory.py']}` |",
+            "",
+            f"## 4. Production Model Weights ({len(MODELS)} Models)",
+            "",
+            f"All {len(MODELS)} XGBoost production models in `models/*.json` are cryptographically frozen. The complete list of SHA-256 signatures is tracked in [`results/strategy_freeze_manifest.json`](results/strategy_freeze_manifest.json). Below is a sample of key active universe models:",
+            "",
+            "| Model File | SHA-256 Digest |",
+            "| :--- | :--- |",
+        ]
+    )
 
     sample_tickers = [
         "NVDA",
@@ -152,7 +154,9 @@ def main():
     lines.append("")
     lines.append("## 5. Runtime Inputs & Neural Tensorial Weights (SHA-256)")
     lines.append("")
-    lines.append("Every non-.py file read on the live execution path is cryptographically signed:")
+    lines.append(
+        "Every non-.py file read on the live execution path is cryptographically signed:"
+    )
     lines.append("")
     lines.append("| File Path | SHA-256 Digest |")
     lines.append("| :--- | :--- |")
@@ -170,7 +174,7 @@ def main():
         "- **Simulation Ledger**: Intraday discretionary exits, breakeven trails, and committee veto exits evaluated in `AutonomousTradingEngine._evaluate_portfolio_exits()` and `PaperBroker.execute_manual_sell()` apply **strictly to the local simulation ledger** (`results/paper_portfolio.json`). They do not submit market or limit sell orders to Alpaca."
     )
     lines.append(
-        "- **Historical Orders Source of Truth**: Across all 19 realized sell executions recorded in `results/alpaca_orders.csv`, exactly 17 closed via limit bracket legs (take-profit fills), 1 closed via a stop bracket leg (AKAM stop-loss fill), and 1 closed via an immediate test market order on `BTC/USD` (order `78c12d32-43d8-4d9f-9ba1-1eb5053baea5` placed on 2026-10-16 at 15:43:21Z; Alpaca does not support OCO brackets on crypto assets). The legacy `MODEL_SELL` hook in `src/paper_broker.py:697` is part of the disabled `daily_signals` workflow and does not run in the live trader daemon."
+        "- **Historical Orders Source of Truth**: Across all 19 realized sell executions recorded in `results/alpaca_orders.csv`, exactly 17 closed via limit bracket legs (take-profit fills), 1 closed via a stop bracket leg (AKAM stop-loss fill), and 1 closed via an immediate test market order on `BTC/USD` (order `78c12d32-43d8-4d9f-9ba1-1eb5053baea5` placed on 2026-10-16 at 15:43:21Z; Alpaca does not support OCO brackets on crypto assets). The function `execute_daily_signals()` (which contains the `MODEL_SELL` hook and calls `alpaca.close_position()` at `src/paper_broker.py:697`) is never called by the live trader (`autonomous_live_trader.yml` / `src/autonomous_trader.py`) nor by any scheduled GitHub Actions workflow (0 occurrences across `.github/workflows/`)."
     )
     lines.append("")
     lines.append("---")

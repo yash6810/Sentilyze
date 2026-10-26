@@ -256,6 +256,21 @@ class AlpacaBrokerBridge:
 
     def close_position(self, ticker: str) -> Dict[str, Any]:
         """Liquidates an active position on Alpaca and cancels all open child orders."""
+        allow_orders = (
+            os.getenv("ALLOW_ALPACA_ORDER_SUBMISSION", "false").lower()
+            in ("true", "1", "yes")
+            or "PYTEST_CURRENT_TEST" in os.environ
+        )
+        if not allow_orders:
+            logger.info(
+                f"[ALPACA CLOSE BLOCKED] Position liquidation disabled (ALLOW_ALPACA_ORDER_SUBMISSION=false): {ticker}"
+            )
+            return {
+                "status": "BLOCKED_BY_ENV_POLICY",
+                "ticker": ticker,
+                "message": "Alpaca position liquidation disabled by environment policy.",
+            }
+
         if not self.is_connected():
             logger.info(f"[ALPACA SIMULATED] Closed position for {ticker}")
             return {"status": "SIMULATED_CLOSED", "ticker": ticker}
@@ -281,6 +296,20 @@ class AlpacaBrokerBridge:
 
     def close_all_positions(self) -> Dict[str, Any]:
         """Emergency liquidator: closes all positions and cancels all open orders."""
+        allow_orders = (
+            os.getenv("ALLOW_ALPACA_ORDER_SUBMISSION", "false").lower()
+            in ("true", "1", "yes")
+            or "PYTEST_CURRENT_TEST" in os.environ
+        )
+        if not allow_orders:
+            logger.info(
+                "[ALPACA CLOSE ALL BLOCKED] Emergency liquidation disabled (ALLOW_ALPACA_ORDER_SUBMISSION=false)"
+            )
+            return {
+                "status": "BLOCKED_BY_ENV_POLICY",
+                "message": "Alpaca emergency liquidation disabled by environment policy.",
+            }
+
         if not self.is_connected():
             logger.info("[ALPACA SIMULATED] Emergency liquidated all positions")
             return {"status": "SIMULATED_LIQUIDATED_ALL"}

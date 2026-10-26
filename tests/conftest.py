@@ -23,3 +23,14 @@ def isolate_news_cache(monkeypatch, tmp_path):
     test_cache_dir.mkdir(parents=True, exist_ok=True)
     monkeypatch.setenv("NEWS_CACHE_DIR", str(test_cache_dir))
     monkeypatch.setenv("SENTILYZE_NEWS_CACHE_DIR", str(test_cache_dir))
+
+
+@pytest.fixture(autouse=True)
+def isolate_funnel_dir(monkeypatch, tmp_path):
+    """
+    Autouse fixture that points FUNNEL_DIR to tmp_path, preventing any test
+    from writing funnel.json, funnel.md, or funnel_log.jsonl to results/.
+    """
+    test_funnel_dir = tmp_path / "test_funnel"
+    test_funnel_dir.mkdir(parents=True, exist_ok=True)
+    monkeypatch.setenv("FUNNEL_DIR", str(test_funnel_dir))

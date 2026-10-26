@@ -265,9 +265,13 @@ def main():
             filled_df["qty_num"] = pd.to_numeric(
                 filled_df["qty"], errors="coerce"
             ).fillna(0.0)
-            buys = filled_df[filled_df["side"] == "buy"].groupby("symbol")["qty_num"].sum()
+            buys = (
+                filled_df[filled_df["side"] == "buy"].groupby("symbol")["qty_num"].sum()
+            )
             sells = (
-                filled_df[filled_df["side"] == "sell"].groupby("symbol")["qty_num"].sum()
+                filled_df[filled_df["side"] == "sell"]
+                .groupby("symbol")["qty_num"]
+                .sum()
             )
             net_pos = buys.subtract(sells, fill_value=0.0)
             open_symbols = net_pos[net_pos > 0.0001]
@@ -308,28 +312,70 @@ def main():
         except Exception:
             pass
 
-    lines.extend([
-        "## 📦 Open Alpaca Positions Telemetry",
-        "",
-        f"- **Total Open Positions**: **{len(open_positions_data)}**",
-        "",
-    ])
+    # Calculate age in days of the oldest open Alpaca position
+    oldest_age_days = 0
+    for pos in open_positions_data:
+        age_str = str(pos.get("age", ""))
+        if "days" in age_str:
+            try:
+                days_val = int(age_str.split()[0])
+                if days_val > oldest_age_days:
+                    oldest_age_days = days_val
+            except Exception:
+                pass
+
+    # Count local-ledger open positions that are NOT on Alpaca (phantoms)
+    local_open_symbols = set()
+    paper_portfolio_path = os.path.join("results", "paper_portfolio.json")
+    if os.path.exists(paper_portfolio_path):
+        try:
+            with open(paper_portfolio_path, "r", encoding="utf-8") as f:
+                port_data = json.load(f)
+                local_open_symbols = set(port_data.get("open_positions", {}).keys())
+        except Exception:
+            pass
+
+    alpaca_open_symbols = {p["symbol"] for p in open_positions_data if p.get("symbol")}
+    phantom_local_positions = [
+        s for s in local_open_symbols if s not in alpaca_open_symbols
+    ]
+    phantom_count = len(phantom_local_positions)
+
+    lines.extend(
+        [
+            "## 📦 Open Alpaca Positions Telemetry",
+            "",
+            f"- **Total Open Positions on Alpaca**: **{len(open_positions_data)}**",
+            f"- **Oldest Open Alpaca Position Age**: **{oldest_age_days} days**",
+            f"- **Local-Ledger Positions NOT on Alpaca (Phantoms)**: **{phantom_count}**"
+            + (
+                f" (`{', '.join(sorted(phantom_local_positions))}`)"
+                if phantom_local_positions
+                else " (None)"
+            ),
+            "",
+        ]
+    )
 
     if open_positions_data:
-        lines.extend([
-            "| Symbol | Open Quantity | Entry Date | Position Age | Avg Entry Price |",
-            "| :--- | :---: | :---: | :---: | :---: |",
-        ])
+        lines.extend(
+            [
+                "| Symbol | Open Quantity | Entry Date | Position Age | Avg Entry Price |",
+                "| :--- | :---: | :---: | :---: | :---: |",
+            ]
+        )
         for pos in sorted(open_positions_data, key=lambda x: x["symbol"]):
             lines.append(
                 f"| `{pos['symbol']}` | {pos['qty']:,.1f} | `{pos['entry_date']}` | {pos['age']} | ${pos['avg_price']:,.2f} |"
             )
         lines.append("")
     else:
-        lines.extend([
-            "*(No active open positions on Alpaca account — 100% liquid cash reserves)*",
-            "",
-        ])
+        lines.extend(
+            [
+                "*(No active open positions on Alpaca account — 100% liquid cash reserves)*",
+                "",
+            ]
+        )
 
     # -------------------------------------------------------------------------
     # Bracket Leg Exit Telemetry (Take-Profit vs Stop-Loss)
@@ -361,23 +407,26 @@ def main():
     sl_pct = (sl_closed_count / denom) * 100.0
     other_pct = (other_closed_count / denom) * 100.0
 
-    lines.extend([
-        "## 🎯 Bracket Order Leg Exits (Alpaca Brokerage)",
-        "",
-        "Breakdown of all filled sell orders executed by Alpaca exchange-side bracket orders:",
-        "",
-        "| Exit Mechanism | Leg Order Type | Orders Closed | Distribution |",
-        "| :--- | :---: | :---: | :---: |",
-        f"| **Take-Profit Leg** | `limit` sell | **{tp_closed_count}** | {tp_pct:.1f}% |",
-        f"| **Stop-Loss Leg** | `stop` / `stop_limit` sell | **{sl_closed_count}** | {sl_pct:.1f}% |",
-        f"| **Discretionary / Other** | `market` sell | **{other_closed_count}** | {other_pct:.1f}% |",
-        f"| **Total Realized Exits** | — | **{total_closed_exits}** | 100.0% |",
-        "",
-    ])
+    lines.extend(
+        [
+            "## 🎯 Bracket Order Leg Exits (Alpaca Brokerage)",
+            "",
+            "Breakdown of all filled sell orders executed by Alpaca exchange-side bracket orders:",
+            "",
+            "| Exit Mechanism | Leg Order Type | Orders Closed | Distribution |",
+            "| :--- | :---: | :---: | :---: |",
+            f"| **Take-Profit Leg** | `limit` sell | **{tp_closed_count}** | {tp_pct:.1f}% |",
+            f"| **Stop-Loss Leg** | `stop` / `stop_limit` sell | **{sl_closed_count}** | {sl_pct:.1f}% |",
+            f"| **Discretionary / Other** | `market` sell | **{other_closed_count}** | {other_pct:.1f}% |",
+            f"| **Total Realized Exits** | — | **{total_closed_exits}** | 100.0% |",
+            "",
+        ]
+    )
 
     # Incorporate Funnel Table from results/funnel_log.jsonl or results/funnel.json
-    funnel_log_path = os.path.join("results", "funnel_log.jsonl")
-    funnel_json_path = os.path.join("results", "funnel.json")
+    funnel_dir = os.getenv("FUNNEL_DIR", "results")
+    funnel_log_path = os.path.join(funnel_dir, "funnel_log.jsonl")
+    funnel_json_path = os.path.join(funnel_dir, "funnel.json")
 
     total_scanned = 0
     total_skipped_news = 0
@@ -400,9 +449,21 @@ def main():
                     runs_count += 1
                     total_scanned += int(entry.get("tickers_scanned", 0))
                     total_skipped_news += int(entry.get("skipped_no_real_news", 0))
-                    total_skipped_quota_error += int(entry.get("skipped_news_quota_or_error", 0))
-                    total_vetoed += int(entry.get("total_vetoed", sum(entry.get("vetoed_by_reason", {}).values())))
-                    total_blocked += int(entry.get("total_buy_blocked", sum(entry.get("buy_blocked_guards", {}).values())))
+                    total_skipped_quota_error += int(
+                        entry.get("skipped_news_quota_or_error", 0)
+                    )
+                    total_vetoed += int(
+                        entry.get(
+                            "total_vetoed",
+                            sum(entry.get("vetoed_by_reason", {}).values()),
+                        )
+                    )
+                    total_blocked += int(
+                        entry.get(
+                            "total_buy_blocked",
+                            sum(entry.get("buy_blocked_guards", {}).values()),
+                        )
+                    )
                     total_orders += int(entry.get("orders_submitted", 0))
 
                     for r, c in entry.get("vetoed_by_reason", {}).items():
@@ -410,24 +471,30 @@ def main():
                     for g, c in entry.get("buy_blocked_guards", {}).items():
                         blocked_by_guard[g] = blocked_by_guard.get(g, 0) + c
 
-            lines.extend([
-                "## 🔍 Cumulative Execution Funnel Telemetry",
-                "",
-                f"Aggregated across **{runs_count}** autonomous live trading cycles recorded in `results/funnel_log.jsonl`:",
-                "",
-                "| Total Cycles | Total Scanned | Skipped (No News) | Skipped (Quota/Error) | Total Vetoed | Blocked (Risk Guards) | Orders Submitted |",
-                "| :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
-                f"| {runs_count} | {total_scanned} | {total_skipped_news} | {total_skipped_quota_error} | {total_vetoed} | {total_blocked} | **{total_orders}** |",
-                "",
-            ])
+            lines.extend(
+                [
+                    "## 🔍 Cumulative Execution Funnel Telemetry",
+                    "",
+                    f"Aggregated across **{runs_count}** autonomous live trading cycles recorded in `results/funnel_log.jsonl`:",
+                    "",
+                    "| Total Cycles | Total Scanned | Skipped (No News) | Skipped (Quota/Error) | Total Vetoed | Blocked (Risk Guards) | Orders Submitted |",
+                    "| :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
+                    f"| {runs_count} | {total_scanned} | {total_skipped_news} | {total_skipped_quota_error} | {total_vetoed} | {total_blocked} | **{total_orders}** |",
+                    "",
+                ]
+            )
             if vetoes_by_reason:
                 lines.append("**Cumulative Vetoes by Reason**:")
-                for r, c in sorted(vetoes_by_reason.items(), key=lambda x: x[1], reverse=True):
+                for r, c in sorted(
+                    vetoes_by_reason.items(), key=lambda x: x[1], reverse=True
+                ):
                     lines.append(f"- `{r}`: {c}")
                 lines.append("")
             if blocked_by_guard:
                 lines.append("**Cumulative Orders Blocked by Position/Risk Guards**:")
-                for g, c in sorted(blocked_by_guard.items(), key=lambda x: x[1], reverse=True):
+                for g, c in sorted(
+                    blocked_by_guard.items(), key=lambda x: x[1], reverse=True
+                ):
                     lines.append(f"- `{g}`: {c}")
                 lines.append("")
         except Exception as fe:
@@ -437,14 +504,16 @@ def main():
         try:
             with open(funnel_json_path, "r", encoding="utf-8") as f_json:
                 fj = json.load(f_json)
-            lines.extend([
-                "## 🔍 Execution Funnel Telemetry",
-                "",
-                "| Latest Run Timestamp | Tickers Scanned | Skipped (No News) | Vetoed | Blocked (Guards) | Orders Submitted |",
-                "| :--- | :---: | :---: | :---: | :---: | :---: |",
-                f"| `{fj.get('timestamp', 'N/A')}` | {fj.get('tickers_scanned', 0)} | {fj.get('skipped_no_real_news', 0)} | {fj.get('total_vetoed', 0)} | {fj.get('total_buy_blocked', 0)} | **{fj.get('orders_submitted', 0)}** |",
-                "",
-            ])
+            lines.extend(
+                [
+                    "## 🔍 Execution Funnel Telemetry",
+                    "",
+                    "| Latest Run Timestamp | Tickers Scanned | Skipped (No News) | Vetoed | Blocked (Guards) | Orders Submitted |",
+                    "| :--- | :---: | :---: | :---: | :---: | :---: |",
+                    f"| `{fj.get('timestamp', 'N/A')}` | {fj.get('tickers_scanned', 0)} | {fj.get('skipped_no_real_news', 0)} | {fj.get('total_vetoed', 0)} | {fj.get('total_buy_blocked', 0)} | **{fj.get('orders_submitted', 0)}** |",
+                    "",
+                ]
+            )
             vetoes = fj.get("vetoed_by_reason", {})
             if vetoes:
                 lines.append("**Recent Vetoes by Reason**:")
@@ -461,7 +530,9 @@ def main():
             lines.append(f"*(Funnel telemetry load notice: {fe})*")
             lines.append("")
 
-    lines.append(f"*Generated automatically by `scripts/weekly_scorecard.py` on {today_utc.isoformat()}.*")
+    lines.append(
+        f"*Generated automatically by `scripts/weekly_scorecard.py` on {today_utc.isoformat()}.*"
+    )
 
     content = "\n".join(lines)
     with open(OUTPUT_MD, "w", encoding="utf-8") as f:

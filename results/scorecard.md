@@ -26,7 +26,9 @@
 
 ## 📦 Open Alpaca Positions Telemetry
 
-- **Total Open Positions**: **2**
+- **Total Open Positions on Alpaca**: **2**
+- **Oldest Open Alpaca Position Age**: **24 days**
+- **Local-Ledger Positions NOT on Alpaca (Phantoms)**: **0** (None)
 
 | Symbol | Open Quantity | Entry Date | Position Age | Avg Entry Price |
 | :--- | :---: | :---: | :---: | :---: |
@@ -43,5 +45,13 @@ Breakdown of all filled sell orders executed by Alpaca exchange-side bracket ord
 | **Stop-Loss Leg** | `stop` / `stop_limit` sell | **1** | 5.3% |
 | **Discretionary / Other** | `market` sell | **1** | 5.3% |
 | **Total Realized Exits** | — | **19** | 100.0% |
+
+## 🔍 Cumulative Execution Funnel Telemetry
+
+Aggregated across **2** autonomous live trading cycles recorded in `results/funnel_log.jsonl`:
+
+| Total Cycles | Total Scanned | Skipped (No News) | Skipped (Quota/Error) | Total Vetoed | Blocked (Risk Guards) | Orders Submitted |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 2 | 2 | 0 | 0 | 0 | 0 | **1** |
 
 *Generated automatically by `scripts/weekly_scorecard.py` on 2026-10-26.*

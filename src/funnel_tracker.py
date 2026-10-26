@@ -20,9 +20,10 @@ from src.utils import get_logger
 
 logger = get_logger(__name__)
 
-FUNNEL_JSON_PATH = os.path.join("results", "funnel.json")
-FUNNEL_MD_PATH = os.path.join("results", "funnel.md")
-FUNNEL_LOG_PATH = os.path.join("results", "funnel_log.jsonl")
+FUNNEL_DIR = os.getenv("FUNNEL_DIR", "results")
+FUNNEL_JSON_PATH = os.path.join(FUNNEL_DIR, "funnel.json")
+FUNNEL_MD_PATH = os.path.join(FUNNEL_DIR, "funnel.md")
+FUNNEL_LOG_PATH = os.path.join(FUNNEL_DIR, "funnel_log.jsonl")
 
 
 def record_funnel_run(
@@ -32,14 +33,21 @@ def record_funnel_run(
     buy_blocked_guards: Dict[str, int],
     orders_submitted: int,
     skipped_news_quota_or_error: int = 0,
-    json_path: str = FUNNEL_JSON_PATH,
-    md_path: str = FUNNEL_MD_PATH,
-    log_path: str = FUNNEL_LOG_PATH,
+    json_path: Optional[str] = None,
+    md_path: Optional[str] = None,
+    log_path: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Records cycle funnel metrics to results/funnel.json, appends to results/funnel_log.jsonl,
     and accumulates daily total in results/funnel.md.
     """
+    funnel_dir = os.getenv("FUNNEL_DIR", "results")
+    if json_path is None:
+        json_path = os.path.join(funnel_dir, "funnel.json")
+    if md_path is None:
+        md_path = os.path.join(funnel_dir, "funnel.md")
+    if log_path is None:
+        log_path = os.path.join(funnel_dir, "funnel_log.jsonl")
     now_utc = datetime.now(timezone.utc)
     today_str = now_utc.strftime("%Y-%m-%d")
     timestamp_str = now_utc.isoformat()
@@ -104,14 +112,22 @@ def record_funnel_run(
                         day = daily_records[d_str]
                         day["runs_count"] += 1
                         day["tickers_scanned"] += int(entry.get("tickers_scanned", 0))
-                        day["skipped_no_real_news"] += int(entry.get("skipped_no_real_news", 0))
-                        day["skipped_news_quota_or_error"] += int(entry.get("skipped_news_quota_or_error", 0))
+                        day["skipped_no_real_news"] += int(
+                            entry.get("skipped_no_real_news", 0)
+                        )
+                        day["skipped_news_quota_or_error"] += int(
+                            entry.get("skipped_news_quota_or_error", 0)
+                        )
                         day["orders_submitted"] += int(entry.get("orders_submitted", 0))
 
                         for k, v in entry.get("vetoed_by_reason", {}).items():
-                            day["vetoed_by_reason"][k] = day["vetoed_by_reason"].get(k, 0) + v
+                            day["vetoed_by_reason"][k] = (
+                                day["vetoed_by_reason"].get(k, 0) + v
+                            )
                         for k, v in entry.get("buy_blocked_guards", {}).items():
-                            day["buy_blocked_guards"][k] = day["buy_blocked_guards"].get(k, 0) + v
+                            day["buy_blocked_guards"][k] = (
+                                day["buy_blocked_guards"].get(k, 0) + v
+                            )
                     except Exception:
                         continue
         else:
@@ -120,7 +136,9 @@ def record_funnel_run(
                 "date": today_str,
                 "tickers_scanned": run_record["tickers_scanned"],
                 "skipped_no_real_news": run_record["skipped_no_real_news"],
-                "skipped_news_quota_or_error": run_record["skipped_news_quota_or_error"],
+                "skipped_news_quota_or_error": run_record[
+                    "skipped_news_quota_or_error"
+                ],
                 "vetoed_by_reason": dict(vetoed_by_reason),
                 "buy_blocked_guards": dict(buy_blocked_guards),
                 "orders_submitted": run_record["orders_submitted"],
@@ -147,26 +165,34 @@ def record_funnel_run(
                 f"| `{d['date']}` | {d['runs_count']} | {d['tickers_scanned']} | {d['skipped_no_real_news']} | {d.get('skipped_news_quota_or_error', 0)} | {v_total} | {b_total} | **{d['orders_submitted']}** |"
             )
 
-        lines.extend([
-            "",
-            f"### Today's Detailed Breakdown (`{today_str}`)",
-            "",
-            "#### Vetoes by Reason",
-        ])
+        lines.extend(
+            [
+                "",
+                f"### Today's Detailed Breakdown (`{today_str}`)",
+                "",
+                "#### Vetoes by Reason",
+            ]
+        )
         today_v = daily_records[today_str].get("vetoed_by_reason", {})
         if today_v:
-            for reason, count in sorted(today_v.items(), key=lambda x: x[1], reverse=True):
+            for reason, count in sorted(
+                today_v.items(), key=lambda x: x[1], reverse=True
+            ):
                 lines.append(f"- **`{reason}`**: {count}")
         else:
             lines.append("- *(No candidate vetoes recorded today)*")
 
-        lines.extend([
-            "",
-            "#### Orders Blocked by Position & Risk Guards",
-        ])
+        lines.extend(
+            [
+                "",
+                "#### Orders Blocked by Position & Risk Guards",
+            ]
+        )
         today_b = daily_records[today_str].get("buy_blocked_guards", {})
         if today_b:
-            for guard, count in sorted(today_b.items(), key=lambda x: x[1], reverse=True):
+            for guard, count in sorted(
+                today_b.items(), key=lambda x: x[1], reverse=True
+            ):
                 lines.append(f"- **`{guard}`**: {count}")
         else:
             lines.append("- *(No guard blocks recorded today)*")

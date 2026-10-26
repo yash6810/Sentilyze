@@ -1,7 +1,7 @@
 # Sentilyze Quantitative Strategy Freeze Protocol
 
 **Effective Freeze Date**: `2026-11-02`  
-**Baseline Fix Commit Hash**: `6ed33007`  
+**Baseline Fix Commit Hash**: `GIT_COMMIT_HASH_PLACEHOLDER`  
 **Freeze Expiration**: When `results/scorecard.md` outputs `PASS` or `FAIL` (minimum 8 full weeks and 30 closed trades).  
 **Enforcement Mechanism**: Automated CI test [`tests/test_strategy_freeze.py`](tests/test_strategy_freeze.py).  
 
@@ -27,7 +27,7 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 | `requirements.txt` | `ecb8365cf752da713623a1c701ac6c158dfc5b7efd1c91b412e33c7f0869475c` |
 | `requirements-dev.txt` | `4c9e67f52217c5c10dfd725804913f3d36294f8981f8b3f4d9d0b2a30330f780` |
 | `scripts/run_247_daemon.py` | `05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce` |
-| `scripts/weekly_scorecard.py` | `f9da0982ac51d04a028be6d81e9c98913068f1ebf14f0606df91486cbf7b1e45` |
+| `scripts/weekly_scorecard.py` | `2b61eb95af650a699047d7a44447028a33b8bacf7a088422def1ddeb18ac1c81` |
 | `results/agent_learning_memory.json` | `9c5b84f27812d179d845d4722e6b90d781941199b728916baea7893f622a644b` |
 | `results/agent_memory/committee_weights.json` | `523f964dcc6bccf3cd383aa0ecfb32ab8278468c1befdb0f6f89ebaa513bbd58` |
 | `results/agent_memory/semantic_rules.json` | `244897ab6250ee84963d1ab99c15a3bd74251cf735d739d11bf40c5c5b26a206` |
@@ -40,8 +40,8 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 | :--- | :--- |
 | `src/agent_committee.py` | `e3d6712c8c2affb52d089a39c585cc2ea8466a3b4e64b9f45465d11da842e927` |
 | `src/autonomous_trader.py` | `bc75d7a3e850afd9cee0277152edd28f8127e9c599b13ad747b9af6824830dcf` |
-| `src/paper_broker.py` | `5b365b19f8691f178e269675e600c917131eed175b2a74a6bfc406cdf979009d` |
-| `src/alpaca_broker.py` | `36f2acee8b77082226ed084fc1985313576d9773ace08ae745826504d23d140a` |
+| `src/paper_broker.py` | `6e47ed5fe0073792e01f98114bdf20c7239cfedf9d2e589a4c4479484603a406` |
+| `src/alpaca_broker.py` | `d48079772b2e89df98f8e3e3aa46d0fef0ee62ce3ed89173bc0d73014e3ff596` |
 | `src/post_mortem_learner.py` | `e56670a47ae6074d2a2e528d019c9eb8fbfe8a024c1c57c7fcbb3fa192f67eed` |
 | `src/agent_memory.py` | `d6c4ef9b2a91a16b685006bce8a1a8d633108cae61ec14c3aee9cfd29ecc7ca2` |
 
@@ -89,7 +89,7 @@ Every non-.py file read on the live execution path is cryptographically signed:
 
 - **Alpaca Live Account**: In the live autonomous execution path (`autonomous_live_trader.yml`), all equity exits on Alpaca (`PA3NFG0UWP3R`) occur **exclusively through native entry-time exchange-side OCO bracket legs** (`take_profit.limit_price` and `stop_loss.stop_price`). Alpaca's matching engine executes either the limit sell (take-profit) or stop sell (stop-loss) automatically; when one leg fills, Alpaca server-side cancels the other leg.
 - **Simulation Ledger**: Intraday discretionary exits, breakeven trails, and committee veto exits evaluated in `AutonomousTradingEngine._evaluate_portfolio_exits()` and `PaperBroker.execute_manual_sell()` apply **strictly to the local simulation ledger** (`results/paper_portfolio.json`). They do not submit market or limit sell orders to Alpaca.
-- **Historical Orders Source of Truth**: Across all 19 realized sell executions recorded in `results/alpaca_orders.csv`, exactly 17 closed via limit bracket legs (take-profit fills), 1 closed via a stop bracket leg (AKAM stop-loss fill), and 1 closed via an immediate test market order on `BTC/USD` (order `78c12d32-43d8-4d9f-9ba1-1eb5053baea5` placed on 2026-10-16 at 15:43:21Z; Alpaca does not support OCO brackets on crypto assets). The legacy `MODEL_SELL` hook in `src/paper_broker.py:697` is part of the disabled `daily_signals` workflow and does not run in the live trader daemon.
+- **Historical Orders Source of Truth**: Across all 19 realized sell executions recorded in `results/alpaca_orders.csv`, exactly 17 closed via limit bracket legs (take-profit fills), 1 closed via a stop bracket leg (AKAM stop-loss fill), and 1 closed via an immediate test market order on `BTC/USD` (order `78c12d32-43d8-4d9f-9ba1-1eb5053baea5` placed on 2026-10-16 at 15:43:21Z; Alpaca does not support OCO brackets on crypto assets). The function `execute_daily_signals()` (which contains the `MODEL_SELL` hook and calls `alpaca.close_position()` at `src/paper_broker.py:697`) is never called by the live trader (`autonomous_live_trader.yml` / `src/autonomous_trader.py`) nor by any scheduled GitHub Actions workflow (0 occurrences across `.github/workflows/`).
 
 ---
 *Enforced by Sentilyze Audit Protocol and `tests/test_strategy_freeze.py`.*

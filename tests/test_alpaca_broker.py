@@ -141,3 +141,24 @@ def test_alpaca_broker_close_all_positions(mock_get, mock_delete):
     )
     res = broker.close_all_positions()
     assert res["status"] == "LIQUIDATED_ALL"
+
+
+def test_alpaca_broker_close_position_blocked_when_env_policy_disabled(monkeypatch):
+    """Asserts that close_position is strictly blocked without sending HTTP requests when ALLOW_ALPACA_ORDER_SUBMISSION is false."""
+    monkeypatch.setenv("ALLOW_ALPACA_ORDER_SUBMISSION", "false")
+    monkeypatch.delenv("PYTEST_CURRENT_TEST", raising=False)
+
+    broker = AlpacaBrokerBridge(
+        api_key="TEST_KEY",
+        secret_key="TEST_SECRET",
+        base_url="https://paper-api.alpaca.markets",
+    )
+    with patch("src.alpaca_broker.requests.delete") as mock_delete:
+        res = broker.close_position("NVDA")
+        assert res["status"] == "BLOCKED_BY_ENV_POLICY"
+        assert res["ticker"] == "NVDA"
+        mock_delete.assert_not_called()
+
+        res_all = broker.close_all_positions()
+        assert res_all["status"] == "BLOCKED_BY_ENV_POLICY"
+        mock_delete.assert_not_called()

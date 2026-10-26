@@ -953,7 +953,9 @@ class PaperBroker:
                     confidence=float(s.get("confidence", 0.5)),
                 )
                 if not buy_record.get("success"):
-                    logger.info(f"Skipping daily signals buy for {ticker}: {buy_record.get('error')}")
+                    logger.info(
+                        f"Skipping daily signals buy for {ticker}: {buy_record.get('error')}"
+                    )
                     continue
 
                 executed_actions["buys"].append(buy_record)
@@ -1263,7 +1265,7 @@ class PaperBroker:
             logger.debug(f"Alpaca pre-buy query notice: {e}")
 
         # 1. Guard against duplicate buys: check local open positions
-        if ticker in self.state.get("open_positions", {}):
+        if not live_alpaca_required and ticker in self.state.get("open_positions", {}):
             return {
                 "success": False,
                 "error": f"Position already exists for {ticker} in paper portfolio.",
@@ -1297,7 +1299,11 @@ class PaperBroker:
 
         # 3. Guard: Enforce MAX_CONCURRENT_POSITIONS (default 10)
         max_concurrent = int(os.getenv("MAX_CONCURRENT_POSITIONS", "10"))
-        active_positions = set(self.state.get("open_positions", {}).keys())
+        active_positions = (
+            set()
+            if live_alpaca_required
+            else set(self.state.get("open_positions", {}).keys())
+        )
         if alpaca_connected:
             for p in alpaca_positions:
                 sym = str(p.get("symbol", "")).upper()
@@ -1337,7 +1343,9 @@ class PaperBroker:
                 else 1.0
             )
         )
-        if live_alpaca_required or (alpaca_connected and alpaca_equity is not None and alpaca_equity > 0):
+        if live_alpaca_required or (
+            alpaca_connected and alpaca_equity is not None and alpaca_equity > 0
+        ):
             if alpaca_equity is None or alpaca_equity <= 0:
                 logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE")
                 return {
@@ -1349,7 +1357,8 @@ class PaperBroker:
             total_equity = float(self.state.get("total_equity", 0.0))
             if total_equity <= 0:
                 invested_val = sum(
-                    pos["shares"] * pos.get("current_price", pos.get("entry_price", 0.0))
+                    pos["shares"]
+                    * pos.get("current_price", pos.get("entry_price", 0.0))
                     for pos in self.state.get("open_positions", {}).values()
                 )
                 total_equity = float(self.state.get("cash", 0.0) + invested_val)
@@ -1359,7 +1368,7 @@ class PaperBroker:
         max_equity_per_ticker = total_equity * target_max_pct
 
         existing_ticker_exposure = 0.0
-        if ticker in self.state.get("open_positions", {}):
+        if not live_alpaca_required and ticker in self.state.get("open_positions", {}):
             pos_info = self.state["open_positions"][ticker]
             existing_ticker_exposure += float(pos_info.get("shares", 0.0)) * float(
                 pos_info.get("current_price", pos_info.get("entry_price", price))

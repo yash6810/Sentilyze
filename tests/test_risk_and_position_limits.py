@@ -1,4 +1,5 @@
 import os
+
 """
 Tests for Risk Controls and Position Limits in Sentilyze.
 Verifies:
@@ -126,7 +127,9 @@ def test_eleventh_concurrent_position_is_blocked(isolated_broker):
         assert "TICK11" not in isolated_broker.state["open_positions"]
 
 
-def test_fail_closed_when_alpaca_unavailable_in_live_mode(isolated_broker, monkeypatch, caplog):
+def test_fail_closed_when_alpaca_unavailable_in_live_mode(
+    isolated_broker, monkeypatch, caplog
+):
     """
     Fail closed: When LIVE_ALPACA_REQUIRED=true, if Alpaca is not connected,
     or if querying positions/orders raises an exception or times out,
@@ -140,7 +143,9 @@ def test_fail_closed_when_alpaca_unavailable_in_live_mode(isolated_broker, monke
     # Case 1: alpaca.is_connected() is False
     with caplog.at_level(logging.WARNING):
         caplog.clear()
-        with patch("src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=False):
+        with patch(
+            "src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=False
+        ):
             res = isolated_broker.execute_buy(ticker="NVDA", shares=10, price=100.0)
             assert res["success"] is False
             assert res["error"] == "BUY_SKIPPED_ALPACA_UNAVAILABLE"
@@ -151,7 +156,9 @@ def test_fail_closed_when_alpaca_unavailable_in_live_mode(isolated_broker, monke
     with caplog.at_level(logging.WARNING):
         caplog.clear()
         with (
-            patch("src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=True),
+            patch(
+                "src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=True
+            ),
             patch(
                 "src.alpaca_broker.AlpacaBrokerBridge.get_open_positions",
                 side_effect=requests.RequestException("Alpaca API connection failure"),
@@ -167,7 +174,9 @@ def test_fail_closed_when_alpaca_unavailable_in_live_mode(isolated_broker, monke
     with caplog.at_level(logging.WARNING):
         caplog.clear()
         with (
-            patch("src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=True),
+            patch(
+                "src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=True
+            ),
             patch(
                 "src.alpaca_broker.AlpacaBrokerBridge.get_open_orders",
                 side_effect=requests.Timeout("Alpaca API timed out"),
@@ -190,11 +199,17 @@ def test_alpaca_order_only_submitted_after_execute_buy_success(isolated_broker):
     mock_alpaca.is_connected.return_value = True
     mock_alpaca.get_open_positions.return_value = []
     mock_alpaca.get_open_orders.return_value = []
-    mock_alpaca.submit_bracket_order.return_value = {"status": "accepted", "id": "test-order-123"}
+    mock_alpaca.submit_bracket_order.return_value = {
+        "status": "accepted",
+        "id": "test-order-123",
+    }
 
     # Mock execute_buy failure (e.g. concentration cap exceeded)
     with patch("src.paper_broker.PaperBroker.execute_buy") as mock_exec_buy:
-        mock_exec_buy.return_value = {"success": False, "error": "Maximum 10% equity cap breached"}
+        mock_exec_buy.return_value = {
+            "success": False,
+            "error": "Maximum 10% equity cap breached",
+        }
 
         # Simulate execution attempt in execute_daily_signals
         signals = [
@@ -209,7 +224,12 @@ def test_alpaca_order_only_submitted_after_execute_buy_success(isolated_broker):
         ]
         with (
             patch("src.alpaca_broker.AlpacaBrokerBridge", return_value=mock_alpaca),
-            patch("os.environ.get", side_effect=lambda k, default=None: "0" if k == "SENTILYZE_DRY_RUN" else default),
+            patch(
+                "os.environ.get",
+                side_effect=lambda k, default=None: (
+                    "0" if k == "SENTILYZE_DRY_RUN" else default
+                ),
+            ),
         ):
             res = isolated_broker.execute_daily_signals(signals, date_str="2026-10-26")
             assert len(res["buys"]) == 0
@@ -227,7 +247,12 @@ def test_alpaca_order_only_submitted_after_execute_buy_success(isolated_broker):
         }
         with (
             patch("src.alpaca_broker.AlpacaBrokerBridge", return_value=mock_alpaca),
-            patch("os.environ.get", side_effect=lambda k, default=None: "0" if k == "SENTILYZE_DRY_RUN" else default),
+            patch(
+                "os.environ.get",
+                side_effect=lambda k, default=None: (
+                    "0" if k == "SENTILYZE_DRY_RUN" else default
+                ),
+            ),
         ):
             res = isolated_broker.execute_daily_signals(signals, date_str="2026-10-26")
             assert len(res["buys"]) == 1
@@ -239,7 +264,9 @@ def test_alpaca_order_only_submitted_after_execute_buy_success(isolated_broker):
             assert call_kwargs["take_profit_price"] == 220.0
 
 
-def test_real_autonomous_cycle_twice_submits_only_one_alpaca_order(tmp_path, monkeypatch):
+def test_real_autonomous_cycle_twice_submits_only_one_alpaca_order(
+    tmp_path, monkeypatch
+):
     """
     Assert that running the real autonomous trading cycle twice with a mocked Alpaca client
     submits an order on the first run, and blocks duplicate submission on the second run.
@@ -249,21 +276,33 @@ def test_real_autonomous_cycle_twice_submits_only_one_alpaca_order(tmp_path, mon
 
     portfolio_file = tmp_path / "paper_portfolio.json"
     trades_file = tmp_path / "executed_trades.csv"
-    broker = PaperBroker(portfolio_path=str(portfolio_file), initial_cash=150000.0, trades_path=str(trades_file))
+    broker = PaperBroker(
+        portfolio_path=str(portfolio_file),
+        initial_cash=150000.0,
+        trades_path=str(trades_file),
+    )
 
     mock_alpaca = MagicMock()
     mock_alpaca.is_connected.return_value = True
     # Initially no positions/orders on Alpaca
     mock_alpaca.get_open_positions.return_value = []
     mock_alpaca.get_open_orders.return_value = []
-    mock_alpaca.submit_bracket_order.return_value = {"status": "SUBMITTED", "order": {"id": "alpaca_1"}}
+    mock_alpaca.submit_bracket_order.return_value = {
+        "status": "SUBMITTED",
+        "order": {"id": "alpaca_1"},
+    }
 
     monkeypatch.setenv("ALLOW_ALPACA_ORDER_SUBMISSION", "true")
     monkeypatch.setenv("SENTILYZE_DRY_RUN", "0")
     monkeypatch.setattr("src.alpaca_broker.AlpacaBrokerBridge", lambda: mock_alpaca)
     monkeypatch.setattr(
         "src.market_session.get_us_market_session",
-        lambda: {"status": "REGULAR_HOURS", "is_open": True, "time_edt": "10:30 AM", "utc_time": "14:30"},
+        lambda: {
+            "status": "REGULAR_HOURS",
+            "is_open": True,
+            "time_edt": "10:30 AM",
+            "utc_time": "14:30",
+        },
     )
 
     # Mock SPY price history so SPY close is above SMA50
@@ -274,18 +313,27 @@ def test_real_autonomous_cycle_twice_submits_only_one_alpaca_order(tmp_path, mon
     monkeypatch.setattr("src.data_ingestion.get_price_history", mock_get_price_history)
 
     # Mock real news to satisfy news gate
-    real_news_df = pd.DataFrame([
-        {
-            "Title": "Nvidia announces record data center revenue growth and new AI platform",
-            "publishedAt": "2026-10-26T08:00:00Z",
-            "source": "Reuters",
-            "url": "https://reuters.com/nvda",
-            "description": "Nvidia beats estimates",
-        }
-    ])
+    real_news_df = pd.DataFrame(
+        [
+            {
+                "Title": "Nvidia announces record data center revenue growth and new AI platform",
+                "publishedAt": "2026-10-26T08:00:00Z",
+                "source": "Reuters",
+                "url": "https://reuters.com/nvda",
+                "description": "Nvidia beats estimates",
+            }
+        ]
+    )
     real_news_df.attrs["news_available"] = True
-    monkeypatch.setattr("src.autonomous_trader.get_news", lambda *args, **kwargs: real_news_df)
-    monkeypatch.setattr("src.autonomous_trader.fetch_universe_live_quotes", lambda tickers: {t: {"ticker": t, "price": 120.0, "status": "LIVE"} for t in tickers})
+    monkeypatch.setattr(
+        "src.autonomous_trader.get_news", lambda *args, **kwargs: real_news_df
+    )
+    monkeypatch.setattr(
+        "src.autonomous_trader.fetch_universe_live_quotes",
+        lambda tickers: {
+            t: {"ticker": t, "price": 120.0, "status": "LIVE"} for t in tickers
+        },
+    )
 
     # Mock committee approval
     approved_resolution = {
@@ -305,7 +353,10 @@ def test_real_autonomous_cycle_twice_submits_only_one_alpaca_order(tmp_path, mon
             "sl_target": 115.0,
         },
     }
-    monkeypatch.setattr("src.autonomous_trader.convene_trading_committee", lambda *args, **kwargs: approved_resolution)
+    monkeypatch.setattr(
+        "src.autonomous_trader.convene_trading_committee",
+        lambda *args, **kwargs: approved_resolution,
+    )
 
     engine = AutonomousTradingEngine(broker=broker)
 
@@ -315,14 +366,14 @@ def test_real_autonomous_cycle_twice_submits_only_one_alpaca_order(tmp_path, mon
     assert mock_alpaca.submit_bracket_order.call_count == 1
 
     # Simulate Alpaca now reporting the newly created open position
-    mock_alpaca.get_open_positions.return_value = [{"symbol": "NVDA", "qty": "41", "side": "long"}]
+    mock_alpaca.get_open_positions.return_value = [
+        {"symbol": "NVDA", "qty": "41", "side": "long"}
+    ]
 
     # Run cycle 2: Second buy must be blocked by duplicate position guard, NO new Alpaca order
     res2 = engine.run_autonomous_cycle(candidate_tickers=["NVDA"])
     assert len(res2.get("buys", [])) == 0
     assert mock_alpaca.submit_bracket_order.call_count == 1  # Still exactly 1!
-
-
 
 
 def test_learning_frozen_preserves_byte_identical_memory(tmp_path, monkeypatch):
@@ -409,7 +460,9 @@ def test_fresh_container_duplicate_alpaca_position_and_order_blocks_buy(tmp_path
             "src.alpaca_broker.AlpacaBrokerBridge.get_account_summary",
             return_value={"status": "CONNECTED", "equity": 100000.0, "cash": 90000.0},
         ),
-        patch("src.alpaca_broker.AlpacaBrokerBridge.submit_bracket_order") as mock_submit1,
+        patch(
+            "src.alpaca_broker.AlpacaBrokerBridge.submit_bracket_order"
+        ) as mock_submit1,
     ):
         fresh_broker1 = PaperBroker(
             portfolio_path=str(tmp_path / "fresh_portfolio_1.json"),
@@ -438,7 +491,9 @@ def test_fresh_container_duplicate_alpaca_position_and_order_blocks_buy(tmp_path
             "src.alpaca_broker.AlpacaBrokerBridge.get_account_summary",
             return_value={"status": "CONNECTED", "equity": 100000.0, "cash": 90000.0},
         ),
-        patch("src.alpaca_broker.AlpacaBrokerBridge.submit_bracket_order") as mock_submit2,
+        patch(
+            "src.alpaca_broker.AlpacaBrokerBridge.submit_bracket_order"
+        ) as mock_submit2,
     ):
         fresh_broker2 = PaperBroker(
             portfolio_path=str(tmp_path / "fresh_portfolio_2.json"),
@@ -453,7 +508,9 @@ def test_fresh_container_duplicate_alpaca_position_and_order_blocks_buy(tmp_path
         mock_submit2.assert_not_called()
 
 
-def test_live_risk_source_reads_alpaca_account_and_skips_when_unavailable(tmp_path, monkeypatch):
+def test_live_risk_source_reads_alpaca_account_and_skips_when_unavailable(
+    tmp_path, monkeypatch
+):
     """
     On live path (LIVE_ALPACA_REQUIRED=true):
     - Reads equity and cash from Alpaca account (/v2/account).
@@ -476,7 +533,9 @@ def test_live_risk_source_reads_alpaca_account_and_skips_when_unavailable(tmp_pa
     # 2. Alpaca connected with live equity $200k -> 10% concentration limit scales to $20k
     with (
         patch("src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=True),
-        patch("src.alpaca_broker.AlpacaBrokerBridge.get_open_positions", return_value=[]),
+        patch(
+            "src.alpaca_broker.AlpacaBrokerBridge.get_open_positions", return_value=[]
+        ),
         patch("src.alpaca_broker.AlpacaBrokerBridge.get_open_orders", return_value=[]),
         patch(
             "src.alpaca_broker.AlpacaBrokerBridge.get_account_summary",
@@ -509,7 +568,9 @@ def test_live_entry_path_does_not_read_refreshing_radar_files(tmp_path, monkeypa
     def guarded_open(file, *args, **kwargs):
         for ff in forbidden_files:
             if ff in str(file):
-                raise AssertionError(f"Live path attempted to read forbidden refreshing file: {file}")
+                raise AssertionError(
+                    f"Live path attempted to read forbidden refreshing file: {file}"
+                )
         return original_open(file, *args, **kwargs)
 
     test_broker = PaperBroker(
@@ -524,7 +585,10 @@ def test_live_entry_path_does_not_read_refreshing_radar_files(tmp_path, monkeypa
     with (
         patch("builtins.open", side_effect=guarded_open),
         patch("src.autonomous_trader.get_news", return_value=dummy_news),
-        patch("src.autonomous_trader.convene_trading_committee", return_value={"action_code": "HOLD"}),
+        patch(
+            "src.autonomous_trader.convene_trading_committee",
+            return_value={"action_code": "HOLD"},
+        ),
     ):
         # Autonomous cycle should rank and deliberate candidates without reading refreshing files
         res = engine.run_autonomous_cycle(candidate_tickers=["NVDA"])
@@ -567,3 +631,87 @@ def test_news_quota_or_error_funnel_counter_and_daily_cache(tmp_path, monkeypatc
         md_content = f.read()
     assert "| Skipped (Quota/Error) |" in md_content
     assert " 5 " in md_content
+
+
+def test_phantom_local_position_bypassed_when_live_alpaca_required(
+    tmp_path, monkeypatch
+):
+    """
+    When LIVE_ALPACA_REQUIRED=true:
+    - duplicate-position, 10-position cap, and 10%-per-ticker checks in execute_buy
+      use ONLY Alpaca positions and open orders, ignoring local phantom positions.
+    - Fresh PaperBroker with phantom NVDA position in local ledger:
+        1. Mocked Alpaca with no NVDA: execute_buy('NVDA') must succeed.
+        2. Mocked Alpaca with NVDA: execute_buy('NVDA') must be blocked.
+    """
+    monkeypatch.setenv("LIVE_ALPACA_REQUIRED", "true")
+    portfolio_file = str(tmp_path / "paper_portfolio.json")
+    trades_file = str(tmp_path / "executed_trades.csv")
+
+    broker = PaperBroker(
+        portfolio_path=portfolio_file,
+        initial_cash=100000.0,
+        trades_path=trades_file,
+    )
+    # Inject phantom NVDA position into local ledger
+    broker.state["open_positions"]["NVDA"] = {
+        "ticker": "NVDA",
+        "shares": 50,
+        "entry_price": 120.0,
+        "current_price": 125.0,
+    }
+
+    # Case 1: Alpaca connected, no NVDA position or order on Alpaca -> buy must succeed
+    with (
+        patch("src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=True),
+        patch(
+            "src.alpaca_broker.AlpacaBrokerBridge.get_account_summary",
+            return_value={"status": "CONNECTED", "equity": 100000.0, "cash": 50000.0},
+        ),
+        patch(
+            "src.alpaca_broker.AlpacaBrokerBridge.get_open_positions", return_value=[]
+        ),
+        patch("src.alpaca_broker.AlpacaBrokerBridge.get_open_orders", return_value=[]),
+        patch(
+            "src.alpaca_broker.AlpacaBrokerBridge.submit_bracket_order",
+            return_value={"id": "ord_phantom_1"},
+        ),
+    ):
+        res1 = broker.execute_buy("NVDA", shares=10, price=100.0)
+        assert (
+            res1["success"] is True
+        ), f"Expected success but got error: {res1.get('error')}"
+
+    # Reset broker with phantom NVDA in local ledger again
+    broker2 = PaperBroker(
+        portfolio_path=str(tmp_path / "paper_portfolio_2.json"),
+        initial_cash=100000.0,
+        trades_path=str(tmp_path / "executed_trades_2.csv"),
+    )
+    broker2.state["open_positions"]["NVDA"] = {
+        "ticker": "NVDA",
+        "shares": 50,
+        "entry_price": 120.0,
+        "current_price": 125.0,
+    }
+
+    # Case 2: Alpaca connected, holds NVDA on Alpaca -> buy must be blocked
+    with (
+        patch("src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=True),
+        patch(
+            "src.alpaca_broker.AlpacaBrokerBridge.get_account_summary",
+            return_value={"status": "CONNECTED", "equity": 100000.0, "cash": 50000.0},
+        ),
+        patch(
+            "src.alpaca_broker.AlpacaBrokerBridge.get_open_positions",
+            return_value=[{"symbol": "NVDA", "market_value": "5000.0"}],
+        ),
+        patch("src.alpaca_broker.AlpacaBrokerBridge.get_open_orders", return_value=[]),
+        patch(
+            "src.alpaca_broker.AlpacaBrokerBridge.submit_bracket_order",
+            return_value={"id": "ord_phantom_2"},
+        ),
+    ):
+        res2 = broker2.execute_buy("NVDA", shares=10, price=100.0)
+        assert res2["success"] is False
+        assert "Active position already exists on Alpaca" in res2["error"]
