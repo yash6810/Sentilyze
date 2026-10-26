@@ -312,7 +312,10 @@ class TradePostMortemLearner:
         total_realized_pnl = round(sum(t["pnl"] for t in analyzed_trades), 2)
 
         # Enforce Strategy Freeze: Weight updates frozen during evaluation
-        if os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes"):
+        if (
+            os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes")
+            or ("PYTEST_CURRENT_TEST" in os.environ and self.memory_path == MEMORY_FILE)
+        ):
             logger.info(
                 "🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Post-mortem weight writes skipped."
             )

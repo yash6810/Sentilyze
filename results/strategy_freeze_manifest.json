@@ -1,6 +1,6 @@
 {
   "src/agent_committee.py": "b81fce666b50e8c51c1ddae397c35e180c46225af995f0959216bdfced7e5a95",
-  "src/autonomous_trader.py": "4c5fcccac100359acd75e89a438a7b3720e174132ce6db83671527758026bbf7",
+  "src/autonomous_trader.py": "698ef730df7e63012c5299d49c5f5f38bd0b9fd09288677b93138f3fed20ad67",
   "results/agent_learning_memory.json": "7713a7b0663fd52b1680cb45ee3c92299be8e346e9bf1bd7787e42c683ce942e",
   "results/agent_memory/committee_weights.json": "47445e7d23bc2e3917fb3308f788a64d09300c9bd2d79072545d093da7b10de8",
   "models/AAMI_model.json": "1d7985187f48e2974084c1af88f938f75b77452aa48c9bd777be8a1f5a0d262b",

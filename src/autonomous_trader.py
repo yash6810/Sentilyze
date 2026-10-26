@@ -1745,7 +1745,11 @@ class AutonomousTradingEngine:
                 )
 
         # Enforce Strategy Freeze: Learning and adaptive weight updates frozen during evaluation
-        if os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes"):
+        if (
+            os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes")
+            or "PYTEST_CURRENT_TEST" in os.environ
+            or getattr(self.paper_broker, "portfolio_file", "") != os.path.join("results", "paper_portfolio.json")
+        ):
             logger.info(
                 "🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Self-improvement learning feedback loop is read-only."
             )

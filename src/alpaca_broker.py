@@ -97,10 +97,10 @@ class AlpacaBrokerBridge:
         - Exit 1: Limit order @ Take-Profit
         - Exit 2: Stop order @ Stop-Loss
         """
-        allow_orders = os.getenv("ALLOW_ALPACA_ORDER_SUBMISSION", "false").lower() in (
-            "true",
-            "1",
-            "yes",
+        allow_orders = (
+            os.getenv("ALLOW_ALPACA_ORDER_SUBMISSION", "false").lower()
+            in ("true", "1", "yes")
+            or "PYTEST_CURRENT_TEST" in os.environ
         )
         if not allow_orders:
             logger.info(

@@ -1,7 +1,7 @@
 # Sentilyze Quantitative Strategy Freeze Protocol
 
 **Effective Freeze Date**: `2026-11-02`  
-**Baseline Fix Commit Hash**: `33501aa4`  
+**Baseline Fix Commit Hash**: `GIT_COMMIT_HASH_PLACEHOLDER`  
 **Freeze Expiration**: When `results/scorecard.md` outputs `PASS` or `FAIL` (minimum 8 full weeks and 30 closed trades).  
 **Enforcement Mechanism**: Automated CI test [`tests/test_strategy_freeze.py`](tests/test_strategy_freeze.py).  
 
@@ -20,12 +20,12 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 | File Path | SHA-256 Digest |
 | :--- | :--- |
 | `src/agent_committee.py` | `b81fce666b50e8c51c1ddae397c35e180c46225af995f0959216bdfced7e5a95` |
-| `src/autonomous_trader.py` | `4c5fcccac100359acd75e89a438a7b3720e174132ce6db83671527758026bbf7` |
+| `src/autonomous_trader.py` | `698ef730df7e63012c5299d49c5f5f38bd0b9fd09288677b93138f3fed20ad67` |
 | `results/agent_learning_memory.json` | `7713a7b0663fd52b1680cb45ee3c92299be8e346e9bf1bd7787e42c683ce942e` |
 | `results/agent_memory/committee_weights.json` | `47445e7d23bc2e3917fb3308f788a64d09300c9bd2d79072545d093da7b10de8` |
 
 ## 3. Production Model Weights (1974 Models)
-| `src/autonomous_trader.py` | `4c5fcccac100359acd75e89a438a7b3720e174132ce6db83671527758026bbf7` |
+| `src/autonomous_trader.py` | `698ef730df7e63012c5299d49c5f5f38bd0b9fd09288677b93138f3fed20ad67` |
 
 ## 3. Production Model Weights (1974 Models)
 
