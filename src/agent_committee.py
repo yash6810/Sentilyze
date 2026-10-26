@@ -886,19 +886,18 @@ class ChiefRiskOfficerAgent:
         # Check Reddit & Dark Pool Double-Crash / Top Exhaustion Veto
         double_crash_veto = False
         try:
-            if not os.environ.get("PYTEST_CURRENT_TEST"):
-                from src.reddit_comment_miner import RedditCommentMiner
+            from src.reddit_comment_miner import RedditCommentMiner
 
-                miner = RedditCommentMiner()
-                miner_res = miner.analyze_market_cashflow_and_shifts(ticker)
-                metrics_miner = miner_res.get("metrics", {})
-                crash_prob = float(metrics_miner.get("double_crash_probability_pct", 0.0))
-                if (
-                    "DOUBLE_CRASH" in str(miner_res.get("market_shift_verdict", ""))
-                    or crash_prob >= 65.0
-                ):
-                    double_crash_veto = True
-                    veto_reason = f"CRO Hard-Veto: Double Crash / Top Exhaustion detected via dark pool put sweeps & options skew ({crash_prob:.1f}% crash probability)."
+            miner = RedditCommentMiner()
+            miner_res = miner.analyze_market_cashflow_and_shifts(ticker)
+            metrics_miner = miner_res.get("metrics", {})
+            crash_prob = float(metrics_miner.get("double_crash_probability_pct", 0.0))
+            if (
+                "DOUBLE_CRASH" in str(miner_res.get("market_shift_verdict", ""))
+                or crash_prob >= 65.0
+            ):
+                double_crash_veto = True
+                veto_reason = f"CRO Hard-Veto: Double Crash / Top Exhaustion detected via dark pool put sweeps & options skew ({crash_prob:.1f}% crash probability)."
         except Exception as de:
             logger.debug(f"Double-crash miner check notice for {ticker}: {de}")
 

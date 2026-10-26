@@ -68,6 +68,9 @@ class RedditCommentMiner:
         self, query: str, limit: int = 15
     ) -> List[Dict[str, Any]]:
         """Mines Reddit posts and comments indexed via Google News RSS without 403 blocks."""
+        if os.environ.get("PYTEST_CURRENT_TEST") and not os.environ.get("ENABLE_LIVE_NETWORK_TESTS"):
+            return []
+
         url = f"https://news.google.com/rss/search?q={requests.utils.quote(query)}&hl=en-US&gl=US&ceid=US:en"
         headers = {"User-Agent": USER_AGENT}
         mined = []

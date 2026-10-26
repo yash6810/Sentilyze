@@ -1,7 +1,7 @@
 # Sentilyze Quantitative Strategy Freeze Protocol
 
 **Effective Freeze Date**: `2026-10-26`  
-**Baseline Fix Commit Hash**: `88a2865e91ebfc18c0df98a44b931e51240ca84f` (`88a2865e`)  
+**Baseline Fix Commit Hash**: `2dd8289be64afb6d0e03d4e7f42f24b2233d1063` (`2dd8289b`)  
 **Freeze Expiration**: When `results/scorecard.md` outputs `PASS` or `FAIL` (minimum 8 full weeks and 30 closed trades).  
 **Enforcement Mechanism**: Automated CI test [`tests/test_strategy_freeze.py`](tests/test_strategy_freeze.py).  
 
@@ -18,7 +18,7 @@ Any modification to strategy parameters, thresholds, risk gates, or model weight
 
 | File Path | SHA-256 Digest |
 | :--- | :--- |
-| `src/agent_committee.py` | `eea15f28cdd3fe6dfb309099cd3aa321b255f0e2ec403f8b72927624d60fd002` |
+| `src/agent_committee.py` | `4f79316b7462cb33660a49e046e6039d038714df1c004f29f8f5c0b0c1076d81` |
 | `src/autonomous_trader.py` | `ce6ce83e58868b813a8ec9f21a9803491fdbd73829b14d6fc3c5feb5d2929ce6` |
 
 ## 3. Production Model Weights (1974 Models)
