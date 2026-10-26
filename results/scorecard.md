@@ -1,16 +1,17 @@
 # Sentilyze Forward Execution Scorecard
 
 **Audit Inception Date**: `2026-10-26`  
-**As Of Date**: `2026-10-25` (`-1` days / `-0.1` weeks elapsed)  
+**As Of Date**: `2026-10-26` (`0 days / 0.0 weeks elapsed`)  
+**Last Alpaca Data Point Used**: `2026-10-24`  
 **Audit Status**: **`IN PROGRESS`**  
-**Status Detail**: Evaluation active: -1 days (-0.1/8.0 weeks elapsed). Minimum 8 weeks required.
+**Status Detail**: Evaluation active: 0 days / 0.0 weeks elapsed (0.0/8.0 weeks elapsed). Minimum 8 weeks required.
 
 ## Performance Comparison
 
 | Metric | Alpaca Paper Portfolio | SPY Benchmark (Adjusted) | Spread / Delta |
 | :--- | :---: | :---: | :---: |
-| **Starting Equity** | **$102,443.49** | **$100,000.00** | $0.00 |
-| **Current Equity** | **$102,443.49** | **$100,000.00** | $2,443.49 |
+| **Starting Equity** | **$100,000.00** | **$100,000.00** | $0.00 |
+| **Current Equity** | **$100,000.00** | **$100,000.00** | $0.00 |
 | **Net Total Return** | **+0.00%** | **+0.00%** | **+0.00%** |
 | **Maximum Drawdown** | **0.00%** | **0.00%** | +0.00% |
 | **Closed Forward Trades** | **0** (min 30 required) | Buy & Hold | — |
@@ -23,4 +24,10 @@
 3. **Alpha Outperformance**: Alpaca net return must strictly exceed SPY adjusted total return.
 4. **Capital Utilization**: Average daily invested exposure (`position_cost / equity`) must be at least 25.0% to reject cash-hiding survivorship.
 
-*Generated automatically by `scripts/weekly_scorecard.py` on 2026-10-25.*
+## 🔍 Execution Funnel Telemetry
+
+| Latest Run Timestamp | Tickers Scanned | Skipped (No News) | Vetoed | Blocked (Guards) | Orders Submitted |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| `2026-10-26T04:13:35.269293+00:00` | 30 | 0 | 0 | 0 | **0** |
+
+*Generated automatically by `scripts/weekly_scorecard.py` on 2026-10-26.*

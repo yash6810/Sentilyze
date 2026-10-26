@@ -80,6 +80,7 @@ SKILL.md
 skills/
 
 # Ignore heavy raw debug test predictions, evaluation reports, and local backtests
+results/strategy_vault.json
 results/*_X_test.csv
 results/*_predictions.csv
 !results/NVDA_predictions.csv

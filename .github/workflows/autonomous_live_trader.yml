@@ -43,6 +43,7 @@ jobs:
         env:
           PYTHONPATH: .
           SENTILYZE_AUTOPILOT: "true"
+          LIVE_ALPACA_REQUIRED: "true"
           MAX_CONCURRENT_POSITIONS: "10"
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
           MARKETAUX_API_KEY: ${{ secrets.MARKETAUX_API_KEY }}
@@ -62,7 +63,7 @@ jobs:
           if [ "$CURRENT_HOUR" -ge 20 ] || [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json
+            git add results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json results/funnel.json results/funnel.md
             if ! git diff --staged --quiet; then
               git commit -m "chore(auto-trader): log daily execution cycle state [skip ci]"
               for i in 1 2 3; do

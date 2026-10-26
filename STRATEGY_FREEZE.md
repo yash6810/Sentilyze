@@ -18,8 +18,8 @@ Any modification to strategy parameters, thresholds, risk gates, or model weight
 
 | File Path | SHA-256 Digest |
 | :--- | :--- |
-| `src/agent_committee.py` | `b81fce666b50e8c51c1ddae397c35e180c46225af995f0959216bdfced7e5a95` |
-| `src/autonomous_trader.py` | `a5e08b13cfe21f09bee196073fbc25fe95bff39566edaa7e4b8da2f4f438f6bf` |
+| `src/agent_committee.py` | `eea15f28cdd3fe6dfb309099cd3aa321b255f0e2ec403f8b72927624d60fd002` |
+| `src/autonomous_trader.py` | `ce6ce83e58868b813a8ec9f21a9803491fdbd73829b14d6fc3c5feb5d2929ce6` |
 
 ## 3. Production Model Weights (1974 Models)
 

@@ -123,3 +123,117 @@ def test_eleventh_concurrent_position_is_blocked(isolated_broker):
         assert res_11th["success"] is False
         assert "Maximum concurrent positions (10) reached" in res_11th["error"]
         assert "TICK11" not in isolated_broker.state["open_positions"]
+
+
+def test_fail_closed_when_alpaca_unavailable_in_live_mode(isolated_broker, monkeypatch, caplog):
+    """
+    Fail closed: When LIVE_ALPACA_REQUIRED=true, if Alpaca is not connected,
+    or if querying positions/orders raises an exception or times out,
+    the buy MUST be skipped and logged at WARNING level 'BUY_SKIPPED_ALPACA_UNAVAILABLE'.
+    """
+    import logging
+    import requests
+
+    monkeypatch.setenv("LIVE_ALPACA_REQUIRED", "true")
+
+    # Case 1: alpaca.is_connected() is False
+    with caplog.at_level(logging.WARNING):
+        caplog.clear()
+        with patch("src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=False):
+            res = isolated_broker.execute_buy(ticker="NVDA", shares=10, price=100.0)
+            assert res["success"] is False
+            assert res["error"] == "BUY_SKIPPED_ALPACA_UNAVAILABLE"
+            assert "BUY_SKIPPED_ALPACA_UNAVAILABLE" in caplog.text
+            assert "NVDA" not in isolated_broker.state["open_positions"]
+
+    # Case 2: Alpaca query raises an exception
+    with caplog.at_level(logging.WARNING):
+        caplog.clear()
+        with (
+            patch("src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=True),
+            patch(
+                "src.alpaca_broker.AlpacaBrokerBridge.get_open_positions",
+                side_effect=requests.RequestException("Alpaca API connection failure"),
+            ),
+        ):
+            res = isolated_broker.execute_buy(ticker="NVDA", shares=10, price=100.0)
+            assert res["success"] is False
+            assert res["error"] == "BUY_SKIPPED_ALPACA_UNAVAILABLE"
+            assert "BUY_SKIPPED_ALPACA_UNAVAILABLE" in caplog.text
+            assert "NVDA" not in isolated_broker.state["open_positions"]
+
+    # Case 3: Alpaca query times out
+    with caplog.at_level(logging.WARNING):
+        caplog.clear()
+        with (
+            patch("src.alpaca_broker.AlpacaBrokerBridge.is_connected", return_value=True),
+            patch(
+                "src.alpaca_broker.AlpacaBrokerBridge.get_open_orders",
+                side_effect=requests.Timeout("Alpaca API timed out"),
+            ),
+        ):
+            res = isolated_broker.execute_buy(ticker="NVDA", shares=10, price=100.0)
+            assert res["success"] is False
+            assert res["error"] == "BUY_SKIPPED_ALPACA_UNAVAILABLE"
+            assert "BUY_SKIPPED_ALPACA_UNAVAILABLE" in caplog.text
+            assert "NVDA" not in isolated_broker.state["open_positions"]
+
+
+def test_alpaca_order_only_submitted_after_execute_buy_success(isolated_broker):
+    """
+    Proves that an Alpaca bracket order can only be submitted after
+    execute_buy returns success for the same ticker in the same call.
+    If execute_buy fails (e.g. concentration limit breached), no Alpaca order is submitted.
+    """
+    mock_alpaca = MagicMock()
+    mock_alpaca.is_connected.return_value = True
+    mock_alpaca.get_open_positions.return_value = []
+    mock_alpaca.get_open_orders.return_value = []
+    mock_alpaca.submit_bracket_order.return_value = {"status": "accepted", "id": "test-order-123"}
+
+    # Mock execute_buy failure (e.g. concentration cap exceeded)
+    with patch("src.paper_broker.PaperBroker.execute_buy") as mock_exec_buy:
+        mock_exec_buy.return_value = {"success": False, "error": "Maximum 10% equity cap breached"}
+
+        # Simulate execution attempt in execute_daily_signals
+        signals = [
+            {
+                "ticker": "NVDA",
+                "signal": "BUY",
+                "current_price": 200.0,
+                "confidence": 0.85,
+                "take_profit": 220.0,
+                "stop_loss": 190.0,
+            }
+        ]
+        with (
+            patch("src.alpaca_broker.AlpacaBrokerBridge", return_value=mock_alpaca),
+            patch("os.environ.get", side_effect=lambda k, default=None: "0" if k == "SENTILYZE_DRY_RUN" else default),
+        ):
+            res = isolated_broker.execute_daily_signals(signals, date_str="2026-10-26")
+            assert len(res["buys"]) == 0
+            # Alpaca bracket order must NOT have been called
+            mock_alpaca.submit_bracket_order.assert_not_called()
+
+    # Now verify success path: execute_buy succeeds, Alpaca bracket order is submitted
+    with patch("src.paper_broker.PaperBroker.execute_buy") as mock_exec_buy:
+        mock_exec_buy.return_value = {
+            "success": True,
+            "ticker": "NVDA",
+            "shares": 10,
+            "entry_price": 200.0,
+            "cost": 2000.0,
+        }
+        with (
+            patch("src.alpaca_broker.AlpacaBrokerBridge", return_value=mock_alpaca),
+            patch("os.environ.get", side_effect=lambda k, default=None: "0" if k == "SENTILYZE_DRY_RUN" else default),
+        ):
+            res = isolated_broker.execute_daily_signals(signals, date_str="2026-10-26")
+            assert len(res["buys"]) == 1
+            assert mock_alpaca.submit_bracket_order.call_count == 1
+            call_kwargs = mock_alpaca.submit_bracket_order.call_args[1]
+            assert call_kwargs["ticker"] == "NVDA"
+            assert call_kwargs["side"] == "buy"
+            assert call_kwargs["qty"] > 0
+            assert call_kwargs["take_profit_price"] == 220.0
+

@@ -927,11 +927,6 @@ class PaperBroker:
                 friction_cost = float(gross_cost * spread_fraction)
                 total_cost = gross_cost + friction_cost
 
-                if total_cost > self.state["cash"]:
-                    continue
-
-                self.state["cash"] -= total_cost
-
                 # Use microstructure targets/stops if provided, else fallback to ATR brackets
                 if s.get("microstructure_stop_loss"):
                     sl_target = float(s["microstructure_stop_loss"])
@@ -947,39 +942,26 @@ class PaperBroker:
                     tp2_target = round(price + (4.5 * atr_base), 2)
                     sl_target = round(price - (1.5 * atr_base), 2)
 
-                self.state["open_positions"][ticker] = {
-                    "shares": shares,
-                    "initial_shares": shares,
-                    "entry_price": price,
-                    "current_price": price,
-                    "entry_date": date_str,
-                    "tp1_target": tp1_target,
-                    "tp2_target": tp2_target,
-                    "sl_target": sl_target,
-                    "scaled_out": False,
-                    "confidence": float(s.get("confidence", 0.5)),
-                    "regime": s.get("regime", "BULLISH"),
-                    "friction_paid": round(friction_cost, 2),
-                }
+                buy_record = self.execute_buy(
+                    ticker=ticker,
+                    shares=shares,
+                    price=price,
+                    strategy_name="Concentrated_Top2_ScaleOut",
+                    tp1_target=tp1_target,
+                    tp2_target=tp2_target,
+                    stop_loss=sl_target,
+                    confidence=float(s.get("confidence", 0.5)),
+                )
+                if not buy_record.get("success"):
+                    logger.info(f"Skipping daily signals buy for {ticker}: {buy_record.get('error')}")
+                    continue
 
-                buy_record = {
-                    "ticker": ticker,
-                    "shares": shares,
-                    "entry_price": price,
-                    "cost": round(total_cost, 2),
-                    "entry_date": date_str,
-                    "tp1_target": tp1_target,
-                    "tp2_target": tp2_target,
-                    "sl_target": sl_target,
-                    "confidence": round(float(s.get("confidence", 0.5)) * 100, 1),
-                    "quarter_kelly_pct": round(quarter_kelly * 100, 1),
-                }
                 executed_actions["buys"].append(buy_record)
                 logger.info(
-                    f"🚀 [QUARTER-KELLY ENTRY] Bought {shares} shares of {ticker} @ ${price:.2f} (Total: ${total_cost:,.2f} | Kelly%: {quarter_kelly:.1%} | TP1: ${tp1_target:.2f} | SL: ${sl_target:.2f})"
+                    f"🚀 [QUARTER-KELLY ENTRY] Bought {shares} shares of {ticker} @ ${price:.2f} (Total: ${buy_record.get('cost', 0):,.2f} | Kelly%: {quarter_kelly:.1%} | TP1: ${tp1_target:.2f} | SL: ${sl_target:.2f})"
                 )
 
-                # Live Alpaca Bracket Order Mirroring
+                # Live Alpaca Bracket Order Mirroring - strictly requires successful execute_buy
                 try:
                     from src.alpaca_broker import AlpacaBrokerBridge
 
@@ -1239,6 +1221,12 @@ class PaperBroker:
         alpaca_positions: List[Dict[str, Any]] = []
         alpaca_orders: List[Dict[str, Any]] = []
         alpaca_connected = False
+        live_alpaca_required = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in (
+            "true",
+            "1",
+            "yes",
+        )
+
         try:
             from src.alpaca_broker import AlpacaBrokerBridge
 
@@ -1247,7 +1235,19 @@ class PaperBroker:
                 alpaca_connected = True
                 alpaca_positions = alpaca.get_open_positions()
                 alpaca_orders = alpaca.get_open_orders()
+            elif live_alpaca_required:
+                logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE")
+                return {
+                    "success": False,
+                    "error": "BUY_SKIPPED_ALPACA_UNAVAILABLE",
+                }
         except Exception as e:
+            if live_alpaca_required:
+                logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE")
+                return {
+                    "success": False,
+                    "error": "BUY_SKIPPED_ALPACA_UNAVAILABLE",
+                }
             logger.debug(f"Alpaca pre-buy query notice: {e}")
 
         # 1. Guard against duplicate buys: check local open positions

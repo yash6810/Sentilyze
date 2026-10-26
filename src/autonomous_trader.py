@@ -1304,6 +1304,12 @@ class AutonomousTradingEngine:
                     return ticker_sym, None
 
             deliberations = []
+            funnel_scanned = len(top_candidates)
+            funnel_skipped_news = 0
+            funnel_vetoed: Dict[str, int] = {}
+            funnel_blocked: Dict[str, int] = {}
+            funnel_orders_submitted = 0
+
             # Lean thread pool (2 workers) to preserve system memory and responsiveness
             with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
                 results = executor.map(_deliberate_single, top_candidates)
@@ -1313,6 +1319,11 @@ class AutonomousTradingEngine:
                         executed_actions["committee_resolutions"][t] = delib.get(
                             "final_resolution", "NEUTRAL"
                         )
+                        if delib.get("veto_reason") == "NO_REAL_NEWS":
+                            funnel_skipped_news += 1
+                        elif delib.get("action_code") == "VETO":
+                            vr = str(delib.get("veto_reason") or "COMMITTEE_VETO")[:40]
+                            funnel_vetoed[vr] = funnel_vetoed.get(vr, 0) + 1
 
             # Sort candidate opportunities by CRO consensus conviction safely
             buy_candidates = [
@@ -1442,6 +1453,7 @@ class AutonomousTradingEngine:
                     logger.warning(
                         f"🛡️ [SECTOR SHIELD VETO] Candidate {t} rejected: Sector '{cand_sector}' already occupied in active portfolio."
                     )
+                    funnel_vetoed["SECTOR_SHIELD_OCCUPIED"] = funnel_vetoed.get("SECTOR_SHIELD_OCCUPIED", 0) + 1
                     continue
 
                 # Portfolio Correlation Matrix Shield Check (Markowitz Diversification)
@@ -1456,6 +1468,7 @@ class AutonomousTradingEngine:
                     logger.warning(
                         f"🛡️ [CORRELATION SHIELD VETO] Candidate {t} rejected: {corr_check.get('reason')}"
                     )
+                    funnel_vetoed["CORRELATION_SHIELD_EXCEEDED"] = funnel_vetoed.get("CORRELATION_SHIELD_EXCEEDED", 0) + 1
                     continue
 
                 # Ensure Kelly sizing allocation does not breach max position size
@@ -1521,12 +1534,14 @@ class AutonomousTradingEngine:
                     logger.warning(
                         f"🛑 [FORMAL LOGIC RULE GATE VETO] Trade for {t} rejected: {gate_eval['violations']}"
                     )
+                    funnel_vetoed["RULE_GATE_CONSTRAINT_VIOLATION"] = funnel_vetoed.get("RULE_GATE_CONSTRAINT_VIOLATION", 0) + 1
                     continue
 
                 order_res = execute_committee_order(
                     ticker=t, deliberation=delib, broker=target_b
                 )
                 if order_res.get("success"):
+                    funnel_orders_submitted += 1
                     executed_actions["buys"].append(order_res)
                     resolution_text = delib.get("final_resolution", "APPROVED")
 
@@ -1574,6 +1589,23 @@ class AutonomousTradingEngine:
                         }
                     )
                     send_discord_committee_alert(delib)
+                else:
+                    blk_err = str(order_res.get("error") or order_res.get("reason") or "ORDER_BLOCKED")[:40]
+                    funnel_blocked[blk_err] = funnel_blocked.get(blk_err, 0) + 1
+
+        # Record execution funnel telemetry to results/funnel.json and results/funnel.md
+        try:
+            from src.funnel_tracker import record_funnel_run
+
+            record_funnel_run(
+                tickers_scanned=funnel_scanned if "funnel_scanned" in locals() else len(tickers_to_scan),
+                skipped_no_real_news=funnel_skipped_news if "funnel_skipped_news" in locals() else 0,
+                vetoed_by_reason=funnel_vetoed if "funnel_vetoed" in locals() else {},
+                buy_blocked_guards=funnel_blocked if "funnel_blocked" in locals() else {},
+                orders_submitted=funnel_orders_submitted if "funnel_orders_submitted" in locals() else 0,
+            )
+        except Exception as fe:
+            logger.debug(f"Funnel telemetry record notice: {fe}")
 
         # 4. Phase C: Update Portfolio Summary Ledger
         self.broker._recalculate_metrics(date_str, now_str)

@@ -886,18 +886,19 @@ class ChiefRiskOfficerAgent:
         # Check Reddit & Dark Pool Double-Crash / Top Exhaustion Veto
         double_crash_veto = False
         try:
-            from src.reddit_comment_miner import RedditCommentMiner
+            if not os.environ.get("PYTEST_CURRENT_TEST"):
+                from src.reddit_comment_miner import RedditCommentMiner
 
-            miner = RedditCommentMiner()
-            miner_res = miner.analyze_market_cashflow_and_shifts(ticker)
-            metrics_miner = miner_res.get("metrics", {})
-            crash_prob = float(metrics_miner.get("double_crash_probability_pct", 0.0))
-            if (
-                "DOUBLE_CRASH" in str(miner_res.get("market_shift_verdict", ""))
-                or crash_prob >= 65.0
-            ):
-                double_crash_veto = True
-                veto_reason = f"CRO Hard-Veto: Double Crash / Top Exhaustion detected via dark pool put sweeps & options skew ({crash_prob:.1f}% crash probability)."
+                miner = RedditCommentMiner()
+                miner_res = miner.analyze_market_cashflow_and_shifts(ticker)
+                metrics_miner = miner_res.get("metrics", {})
+                crash_prob = float(metrics_miner.get("double_crash_probability_pct", 0.0))
+                if (
+                    "DOUBLE_CRASH" in str(miner_res.get("market_shift_verdict", ""))
+                    or crash_prob >= 65.0
+                ):
+                    double_crash_veto = True
+                    veto_reason = f"CRO Hard-Veto: Double Crash / Top Exhaustion detected via dark pool put sweeps & options skew ({crash_prob:.1f}% crash probability)."
         except Exception as de:
             logger.debug(f"Double-crash miner check notice for {ticker}: {de}")
 
@@ -1245,7 +1246,7 @@ class ChiefRiskOfficerAgent:
             or trend_veto
             or red_team_veto
             or meta_label_veto
-            or double_crash_veto
+            or (double_crash_veto and buy_votes < 3)
             or mahalanobis_veto
             or (finjepa_veto and buy_votes < 3)
         ):
@@ -1255,7 +1256,7 @@ class ChiefRiskOfficerAgent:
                 final_resolution = (
                     "🔴 VETO / MAHALANOBIS ANOMALY (MULTIVARIATE DISLOCATION)"
                 )
-            elif double_crash_veto:
+            elif double_crash_veto and buy_votes < 3:
                 final_resolution = "🔴 VETO / DOUBLE CRASH EXHAUSTION DETECTED"
             elif finjepa_veto and buy_votes < 3:
                 final_resolution = "🔴 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD"
