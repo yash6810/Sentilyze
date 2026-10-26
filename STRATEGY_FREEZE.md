@@ -1,7 +1,7 @@
 # Sentilyze Quantitative Strategy Freeze Protocol
 
 **Effective Freeze Date**: `2026-11-02`  
-**Baseline Fix Commit Hash**: `5b4340f7`  
+**Baseline Fix Commit Hash**: `fd2e9a8b`  
 **Freeze Expiration**: When `results/scorecard.md` outputs `PASS` or `FAIL` (minimum 8 full weeks and 30 closed trades).  
 **Enforcement Mechanism**: Automated CI test [`tests/test_strategy_freeze.py`](tests/test_strategy_freeze.py).  
 
@@ -23,11 +23,11 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 
 | File Path | SHA-256 Digest |
 | :--- | :--- |
-| `.github/workflows/autonomous_live_trader.yml` | `60d935bd019d4f1d411d2f19203b6d14c9db57a2702ecbea5c2fe89a203ab21c` |
+| `.github/workflows/autonomous_live_trader.yml` | `563acc1f41477997796539728b015b79610dc0adb1ace0b872f31a081e846eef` |
 | `requirements.txt` | `ecb8365cf752da713623a1c701ac6c158dfc5b7efd1c91b412e33c7f0869475c` |
 | `requirements-dev.txt` | `4c9e67f52217c5c10dfd725804913f3d36294f8981f8b3f4d9d0b2a30330f780` |
 | `scripts/run_247_daemon.py` | `05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce` |
-| `scripts/weekly_scorecard.py` | `cb737f143ced2c6d0a9cc2d0b7be4297dc0bdcf973b29cbcef7486621192656f` |
+| `scripts/weekly_scorecard.py` | `3ce791183e38fe086ee470bcc7bdd7b056c89a11a70350c318c5b41d9af4ec76` |
 | `results/agent_learning_memory.json` | `9c5b84f27812d179d845d4722e6b90d781941199b728916baea7893f622a644b` |
 | `results/agent_memory/committee_weights.json` | `523f964dcc6bccf3cd383aa0ecfb32ab8278468c1befdb0f6f89ebaa513bbd58` |
 | `results/agent_memory/semantic_rules.json` | `244897ab6250ee84963d1ab99c15a3bd74251cf735d739d11bf40c5c5b26a206` |
@@ -61,6 +61,34 @@ All 1974 XGBoost production models in `models/*.json` are cryptographically froz
 | `models/SPY_model.json` | `4789d6461e45b3243b5ce3549cdb324a5387ab31b5416687ebeacfb06b5cb331` |
 | `models/QQQ_model.json` | `c38284fe59614dbd133b1f3439ca354b89b673a08f03cdf6c29cdbe900c29268` |
 | `models/WMT_model.json` | `ab09fa25e44c169b3df1a9847218d103ea87c26d1a35b6fe2bfccc8b53b25d80` |
+
+## 5. Runtime Inputs & Neural Tensorial Weights (SHA-256)
+
+Every non-.py file read on the live execution path is cryptographically signed:
+
+| File Path | SHA-256 Digest |
+| :--- | :--- |
+| `stocks.txt` | `1e97879792f54438b0c7be1b7f3e06a014787f56bd64e238e62e327e509679c6` |
+| `results/chronos_probabilistic_corridors.json` | `f796d1c4918a412a2c8341e3a822e47d692ee822299237e3216c6ff2d03236aa` |
+| `results/cvar_stress_report.json` | `91ef8f0df7d3cb90429b73eccc12277250dd9e032aeeb05bc8348edd0ce97196` |
+| `results/most_increasable_trade_set_latest.json` | `9f1910b8f80254c0656129f485461eb3b312028390519e8872371a8615344805` |
+| `results/swift_shift_radar_latest.json` | `5e44134f5257c4a12d2067d17b762eac95040f48b640ef9653797cc7175b8b02` |
+| `results/tier1_asymmetric_radar.json` | `4b3db8dc8fbcea929824f0f2ae985e5b54f43374ac9c8a45812b4bd7eb4cc062` |
+| `models/drl_policy/ADP_drl_weights.pt` | `52b74dc2b6db9ff286d0846da42ae8885903d4006f8c76971f06b5e635e23d44` |
+| `models/drl_policy/NVDA_drl_weights.pt` | `de5e314f2a2da6e91fa404509fa89247abe74c11e46485831b2c6b8b5a9d6e81` |
+| `models/drl_policy/universal_drl_master_policy.pt` | `a638fc083a4f6ed58b453f26330cb739c1d7e702e2e2fe13837086f5ad296410` |
+| `models/drl_policy/universal_drl_policy.pt` | `65fff01e1b6af260b7f6c6aa759bcfc961d3d0f8388b6d5765b5ae66fd1946b0` |
+| `models/finbert-fine-tuned/config.json` | `49cd08cc0309bd3682c1caa557d48ee586f3587070085a088d226452ac54ae9c` |
+| `models/finbert-fine-tuned/model.safetensors` | `efac5d3b168d32c8c5bd11205822717122018bc05f70404ff0b4e1094a6ce6f5` |
+| `models/finbert-fine-tuned/special_tokens_map.json` | `720daf6039a8e7b67c1d9f4c4c7861ef46e3571056438701790bff4569bb43d3` |
+| `models/finbert-fine-tuned/tokenizer.json` | `b0b91124598d9742e559898743160c7957ef46d10047021a6026836d9ec8c92a` |
+| `models/finbert-fine-tuned/tokenizer_config.json` | `1a7877ca5109efce475863c3dd861c1d6dd00a6bd0a1c2ead4a6b59e0a5a0775` |
+| `models/finbert-fine-tuned/vocab.txt` | `85f2481b4e3c25a7ece5e0e4930631a75c1a5fe2d31b0ecd9b5d51136ab98de8` |
+| `models/fingpt_materiality_adapter.pt` | `8e544950cb2f5fcae621c098b0332a3cbc5519effe65cd4c9f7b6c2e2c898912` |
+| `models/finjepa_latent_physics.pt` | `feb22f2f4dfd350fde0f6c85f44342151b9722256989e963534c26f3969b476a` |
+| `models/finmamba_jepa_master.pt` | `ec372dbd1e8ced55220b49e6edce19b4a39867b60c46bd88a114f9bc9df61e0b` |
+| `models/ft_transformer.pt` | `4f482b9deeabdad0d28c9d72adee1da030e858997cde7c2fbfc710be0b60bf60` |
+| `models/neural_sde_jump.pt` | `023b112a53e2640b769a48b54f46ff41328e0ccec13fa23d33fcdcee67c03826` |
 
 ---
 *Enforced by Sentilyze Audit Protocol and `tests/test_strategy_freeze.py`.*
