@@ -1990,7 +1990,7 @@
   "src/adaptive_execution_router.py": "b90974dc2e9eb5a8805cc385f6cf73bf47e8c2e88345661203fbde8019948ad7",
   "src/advanced_quant_experiments.py": "1c3935c427ee253cb5197b1a3936064e00e13bcfad8a94bdccde0025d937aa1b",
   "src/adwin_detector.py": "a422f87898d6c67d4986c9891a31d750237da7be86f9b44baaab5344a9657e88",
-  "src/agent_committee.py": "2e9ede3b5ad446febfe2a56d80ea004fa655133abce20a906b40c4aba837c404",
+  "src/agent_committee.py": "e3d6712c8c2affb52d089a39c585cc2ea8466a3b4e64b9f45465d11da842e927",
   "src/agent_memory.py": "d6c4ef9b2a91a16b685006bce8a1a8d633108cae61ec14c3aee9cfd29ecc7ca2",
   "src/ai_copilot.py": "9953ba85656b28acadd8d9c39369f95cc14e933117dc2767b647c40b45c7ea4b",
   "src/alerts.py": "018f45dc255ec088f0458b254602ca0065c0861446e6849ae48b40d6deef4771",

@@ -1132,27 +1132,27 @@ class ChiefRiskOfficerAgent:
                         else:
                             live_cash = 100000.0
                             live_equity = 100000.0
-                            cvar_floor = float(
+                    cvar_floor = float(
                                 sde_data.get(
                                     "recommended_dynamic_cash_floor", live_equity * 0.85
                                 )
                             )
-                            # Ensure floor scales proportionally with live equity baseline
-                            if cvar_floor >= live_equity:
-                                cvar_floor = live_equity * 0.85
-                            sde_metrics = {
-                                "cvar99_floor": cvar_floor,
-                                "var99": float(
-                                    sde_data.get("value_at_risk_var99", 0.0)
-                                ),
-                            }
-                            if live_equity > 0 and (live_cash / live_equity) >= 0.80:
-                                high_cash_deployment_valve = True
-                            if live_cash <= cvar_floor * 1.02:
-                                calculated_kelly_pct = min(calculated_kelly_pct, 1.5)
-                                logger.warning(
-                                    f"🛡️ [NEURAL SDE SURVIVAL GATE] Cash ${live_cash:,.2f} near CVaR99 floor ${cvar_floor:,.2f}. Capping allocation at {calculated_kelly_pct}%."
-                                )
+                    # Ensure floor scales proportionally with live equity baseline
+                    if cvar_floor >= live_equity:
+                        cvar_floor = live_equity * 0.85
+                    sde_metrics = {
+                        "cvar99_floor": cvar_floor,
+                        "var99": float(
+                            sde_data.get("value_at_risk_var99", 0.0)
+                        ),
+                    }
+                    if live_equity > 0 and (live_cash / live_equity) >= 0.80:
+                        high_cash_deployment_valve = True
+                    if live_cash <= cvar_floor * 1.02:
+                        calculated_kelly_pct = min(calculated_kelly_pct, 1.5)
+                        logger.warning(
+                            f"🛡️ [NEURAL SDE SURVIVAL GATE] Cash ${live_cash:,.2f} near CVaR99 floor ${cvar_floor:,.2f}. Capping allocation at {calculated_kelly_pct}%."
+                        )
         except Exception as sde_err:
             logger.debug(f"Neural SDE check notice: {sde_err}")
 
