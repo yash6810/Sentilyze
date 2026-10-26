@@ -27,7 +27,7 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 | `requirements.txt` | `ecb8365cf752da713623a1c701ac6c158dfc5b7efd1c91b412e33c7f0869475c` |
 | `requirements-dev.txt` | `4c9e67f52217c5c10dfd725804913f3d36294f8981f8b3f4d9d0b2a30330f780` |
 | `scripts/run_247_daemon.py` | `05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce` |
-| `scripts/weekly_scorecard.py` | `16ad26ad0d6baee385b5dbbc69655f00b70fae8c80e7277fd6eceeea06cc1858` |
+| `scripts/weekly_scorecard.py` | `f9da0982ac51d04a028be6d81e9c98913068f1ebf14f0606df91486cbf7b1e45` |
 | `results/agent_learning_memory.json` | `9c5b84f27812d179d845d4722e6b90d781941199b728916baea7893f622a644b` |
 | `results/agent_memory/committee_weights.json` | `523f964dcc6bccf3cd383aa0ecfb32ab8278468c1befdb0f6f89ebaa513bbd58` |
 | `results/agent_memory/semantic_rules.json` | `244897ab6250ee84963d1ab99c15a3bd74251cf735d739d11bf40c5c5b26a206` |
@@ -84,6 +84,11 @@ Every non-.py file read on the live execution path is cryptographically signed:
 | `models/finmamba_jepa_master.pt` | `ec372dbd1e8ced55220b49e6edce19b4a39867b60c46bd88a114f9bc9df61e0b` |
 | `models/ft_transformer.pt` | `4f482b9deeabdad0d28c9d72adee1da030e858997cde7c2fbfc710be0b60bf60` |
 | `models/neural_sde_jump.pt` | `023b112a53e2640b769a48b54f46ff41328e0ccec13fa23d33fcdcee67c03826` |
+
+## 6. Exit Behavior & Brokerage Execution Model
+
+- **Alpaca Live Account**: Positions on the Alpaca paper brokerage account (`PA3NFG0UWP3R`) exit **exclusively through native entry-time exchange-side OCO bracket legs** (`take_profit.limit_price` and `stop_loss.stop_price`). Alpaca's matching engine executes either the limit sell or stop sell automatically; when one leg fills, Alpaca server-side cancels the other leg.
+- **Simulation Ledger**: Intraday discretionary exits, committee veto exits, and dynamic trailing stops evaluated in `AutonomousTradingEngine._evaluate_portfolio_exits()` apply **strictly to the local simulation ledger** (`results/paper_portfolio.json`). They do not submit market or limit sell orders to Alpaca.
 
 ---
 *Enforced by Sentilyze Audit Protocol and `tests/test_strategy_freeze.py`.*

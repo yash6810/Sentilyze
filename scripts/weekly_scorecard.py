@@ -220,6 +220,161 @@ def main():
         "",
     ]
 
+    # -------------------------------------------------------------------------
+    # Open Alpaca Positions & Age Telemetry
+    # -------------------------------------------------------------------------
+    open_positions_data = []
+
+    try:
+        from src.alpaca_broker import AlpacaBrokerBridge
+
+        alp = AlpacaBrokerBridge()
+        if alp.is_connected():
+            live_pos = alp.get_open_positions()
+            for lp in live_pos:
+                sym = lp.get("symbol")
+                qty = float(lp.get("qty", 0.0))
+                avg_px = float(lp.get("avg_entry_price", 0.0))
+                entry_date_str = "UNKNOWN"
+                age_days_str = "UNKNOWN"
+                if orders_df is not None and not orders_df.empty:
+                    sym_buys = orders_df[
+                        (orders_df["status"] == "filled")
+                        & (orders_df["side"] == "buy")
+                        & (orders_df["symbol"] == sym)
+                    ]
+                    if not sym_buys.empty and "filled_at" in sym_buys.columns:
+                        first_fill = pd.to_datetime(sym_buys["filled_at"]).min()
+                        entry_date_str = first_fill.strftime("%Y-%m-%d")
+                        age_days_str = f"{(today_utc - first_fill.date()).days} days"
+                open_positions_data.append(
+                    {
+                        "symbol": sym,
+                        "qty": qty,
+                        "avg_price": avg_px,
+                        "entry_date": entry_date_str,
+                        "age": age_days_str,
+                    }
+                )
+    except Exception:
+        pass
+
+    if not open_positions_data and orders_df is not None and not orders_df.empty:
+        try:
+            filled_df = orders_df[orders_df["status"] == "filled"].copy()
+            filled_df["qty_num"] = pd.to_numeric(
+                filled_df["qty"], errors="coerce"
+            ).fillna(0.0)
+            buys = filled_df[filled_df["side"] == "buy"].groupby("symbol")["qty_num"].sum()
+            sells = (
+                filled_df[filled_df["side"] == "sell"].groupby("symbol")["qty_num"].sum()
+            )
+            net_pos = buys.subtract(sells, fill_value=0.0)
+            open_symbols = net_pos[net_pos > 0.0001]
+
+            for sym, qty in open_symbols.items():
+                sym_buys = filled_df[
+                    (filled_df["side"] == "buy") & (filled_df["symbol"] == sym)
+                ]
+                first_fill = (
+                    pd.to_datetime(sym_buys["filled_at"]).min()
+                    if ("filled_at" in sym_buys.columns and not sym_buys.empty)
+                    else None
+                )
+                entry_date_str = (
+                    first_fill.strftime("%Y-%m-%d")
+                    if first_fill is not None
+                    else "UNKNOWN"
+                )
+                age_days_str = (
+                    f"{(today_utc - first_fill.date()).days} days"
+                    if first_fill is not None
+                    else "UNKNOWN"
+                )
+                avg_px = (
+                    float(sym_buys["filled_avg_price"].iloc[-1])
+                    if ("filled_avg_price" in sym_buys.columns and not sym_buys.empty)
+                    else 0.0
+                )
+                open_positions_data.append(
+                    {
+                        "symbol": sym,
+                        "qty": qty,
+                        "avg_price": avg_px,
+                        "entry_date": entry_date_str,
+                        "age": age_days_str,
+                    }
+                )
+        except Exception:
+            pass
+
+    lines.extend([
+        "## 📦 Open Alpaca Positions Telemetry",
+        "",
+        f"- **Total Open Positions**: **{len(open_positions_data)}**",
+        "",
+    ])
+
+    if open_positions_data:
+        lines.extend([
+            "| Symbol | Open Quantity | Entry Date | Position Age | Avg Entry Price |",
+            "| :--- | :---: | :---: | :---: | :---: |",
+        ])
+        for pos in sorted(open_positions_data, key=lambda x: x["symbol"]):
+            lines.append(
+                f"| `{pos['symbol']}` | {pos['qty']:,.1f} | `{pos['entry_date']}` | {pos['age']} | ${pos['avg_price']:,.2f} |"
+            )
+        lines.append("")
+    else:
+        lines.extend([
+            "*(No active open positions on Alpaca account — 100% liquid cash reserves)*",
+            "",
+        ])
+
+    # -------------------------------------------------------------------------
+    # Bracket Leg Exit Telemetry (Take-Profit vs Stop-Loss)
+    # -------------------------------------------------------------------------
+    tp_closed_count = 0
+    sl_closed_count = 0
+    other_closed_count = 0
+
+    if orders_df is not None and not orders_df.empty:
+        try:
+            sell_orders = orders_df[
+                (orders_df["status"] == "filled") & (orders_df["side"] == "sell")
+            ].copy()
+            if not sell_orders.empty and "order_type" in sell_orders.columns:
+                for _, s_row in sell_orders.iterrows():
+                    o_type = str(s_row.get("order_type", "")).lower()
+                    if o_type == "limit":
+                        tp_closed_count += 1
+                    elif o_type in ("stop", "stop_limit"):
+                        sl_closed_count += 1
+                    else:
+                        other_closed_count += 1
+        except Exception:
+            pass
+
+    total_closed_exits = tp_closed_count + sl_closed_count + other_closed_count
+    denom = max(1, total_closed_exits)
+    tp_pct = (tp_closed_count / denom) * 100.0
+    sl_pct = (sl_closed_count / denom) * 100.0
+    other_pct = (other_closed_count / denom) * 100.0
+
+    lines.extend([
+        "## 🎯 Bracket Order Leg Exits (Alpaca Brokerage)",
+        "",
+        "Breakdown of all filled sell orders executed by Alpaca exchange-side bracket orders:",
+        "",
+        "| Exit Mechanism | Leg Order Type | Orders Closed | Distribution |",
+        "| :--- | :---: | :---: | :---: |",
+        f"| **Take-Profit Leg** | `limit` sell | **{tp_closed_count}** | {tp_pct:.1f}% |",
+        f"| **Stop-Loss Leg** | `stop` / `stop_limit` sell | **{sl_closed_count}** | {sl_pct:.1f}% |",
+        f"| **Discretionary / Other** | `market` sell | **{other_closed_count}** | {other_pct:.1f}% |",
+        f"| **Total Realized Exits** | — | **{total_closed_exits}** | 100.0% |",
+        "",
+    ])
+
     # Incorporate Funnel Table from results/funnel_log.jsonl or results/funnel.json
     funnel_log_path = os.path.join("results", "funnel_log.jsonl")
     funnel_json_path = os.path.join("results", "funnel.json")

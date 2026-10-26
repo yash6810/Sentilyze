@@ -56,6 +56,14 @@ The live paper trading account (`PA3NFG0UWP3R`) on Alpaca Markets serves as the 
 
 ---
 
+### 1.1 Exit Behavior & Brokerage Execution Architecture
+
+> [!IMPORTANT]
+> **Alpaca Bracket-Only Execution**: The live Alpaca paper trading account exits **only through native entry-time OCO bracket orders** (`take_profit.limit_price` and `stop_loss.stop_price`) submitted at order initiation.
+> Intraday trailing stops, committee veto exits, and Soros reflexivity exits evaluated by `AutonomousTradingEngine` apply **strictly to the local simulation ledger** (`results/paper_portfolio.json`) and do not emit secondary cancellation or closing orders to Alpaca.
+
+---
+
 ### 2. Audited Walk-Forward Backtest Findings (2018–2026)
 
 Walk-forward backtests across equities under real-world market friction (0.10% broker fee, 0.05% slippage, execution at $t+1$ Open) revealed key structural findings:
