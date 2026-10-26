@@ -1,7 +1,7 @@
 # Sentilyze Quantitative Strategy Freeze Protocol
 
 **Effective Freeze Date**: `2026-11-02`  
-**Baseline Fix Commit Hash**: `95271823`  
+**Baseline Fix Commit Hash**: `5b4340f7`  
 **Freeze Expiration**: When `results/scorecard.md` outputs `PASS` or `FAIL` (minimum 8 full weeks and 30 closed trades).  
 **Enforcement Mechanism**: Automated CI test [`tests/test_strategy_freeze.py`](tests/test_strategy_freeze.py).  
 
@@ -38,7 +38,7 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 
 | Core Module | SHA-256 Digest |
 | :--- | :--- |
-| `src/agent_committee.py` | `2e9ede3b5ad446febfe2a56d80ea004fa655133abce20a906b40c4aba837c404` |
+| `src/agent_committee.py` | `e3d6712c8c2affb52d089a39c585cc2ea8466a3b4e64b9f45465d11da842e927` |
 | `src/autonomous_trader.py` | `e45736bd80db6e5bb2e777906a89b44d44eb6ac8b391b86a0f0ce585689500a5` |
 | `src/paper_broker.py` | `5b365b19f8691f178e269675e600c917131eed175b2a74a6bfc406cdf979009d` |
 | `src/alpaca_broker.py` | `36f2acee8b77082226ed084fc1985313576d9773ace08ae745826504d23d140a` |
