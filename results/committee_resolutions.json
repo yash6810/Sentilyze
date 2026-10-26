@@ -2533,7 +2533,7 @@
     }
   },
   "NVDA": {
-    "timestamp": "2026-10-25T20:04:04.323615+00:00",
+    "timestamp": "2026-10-26T04:22:51.454445+00:00",
     "ticker": "NVDA",
     "spot_price": 105.0,
     "final_resolution": "\ud83d\ude80 HIGH CONVICTION COMMITTEE BUY",
@@ -2669,7 +2669,7 @@
         },
         "tactical_limit_entry": 105.0,
         "invalidation_stop": 101.85,
-        "timestamp": "2026-10-25T20:04:04.215399+00:00"
+        "timestamp": "2026-10-26T04:22:51.396533+00:00"
       },
       {
         "agent_name": "Adversarial Red-Team Specialist",
@@ -2731,7 +2731,7 @@
         "sl_atr_multiple": 1.72,
         "sentiment_gate": 0.23
       },
-      "timestamp": "2026-10-25T20:04:06.146024+00:00"
+      "timestamp": "2026-10-26T04:22:53.169701+00:00"
     },
     "execution_mode": "RUNNER_PYRAMID",
     "pyramiding_enabled": true,
@@ -2863,8 +2863,8 @@
       "tail_risk_probability": 0.1,
       "conviction_tier": "TIER_3_MONITOR",
       "immediate_action": "IGNORE_NOISE",
-      "latency_ms": 0.071,
-      "timestamp": "2026-10-25T20:04:06.358276+00:00"
+      "latency_ms": 0.1,
+      "timestamp": "2026-10-26T04:22:53.355622+00:00"
     },
     "soros_reflexivity": {
       "price_velocity": -0.0245,

@@ -6,7 +6,7 @@ Tracks the multi-stage elimination pipeline per trading session: Scanned → New
 
 | Date | Runs | Scanned | Skipped (No News) | Vetoed | Blocked by Guards | Orders Submitted |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| `2026-10-26` | 1 | 30 | 0 | 0 | 0 | **0** |
+| `2026-10-26` | 5 | 1104 | 0 | 0 | 0 | **0** |
 
 ### Today's Detailed Breakdown (`2026-10-26`)
 

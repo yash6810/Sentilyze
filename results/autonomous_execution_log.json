@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-10-25T16:12:24.203921-04:00",
+  "timestamp": "2026-10-26T00:41:11.027549-04:00",
   "buys": [],
   "take_profits_tp1": [
     {
@@ -35,20 +35,20 @@
     }
   ],
   "self_improvement": {
-    "total_cycles": 39,
+    "total_cycles": 43,
     "agent_weights": {
-      "technicals_weight": 0.273,
-      "sentiment_weight": 0.404,
-      "valuation_weight": 0.141,
-      "cro_weight": 0.182
+      "technicals_weight": 0.27,
+      "sentiment_weight": 0.41,
+      "valuation_weight": 0.14,
+      "cro_weight": 0.18
     },
-    "kelly_multiplier": 1.18,
+    "kelly_multiplier": 1.2,
     "new_autopsies_count": 1
   },
-  "elapsed_seconds": 1.21,
+  "elapsed_seconds": 10.89,
   "execution_telemetry": {
-    "cycle_latency_ns": 1205522700,
-    "cycle_latency_us": 1205522.7,
-    "cycle_latency_ms": 1205.523
+    "cycle_latency_ns": 10893470600,
+    "cycle_latency_us": 10893470.6,
+    "cycle_latency_ms": 10893.471
   }
 }

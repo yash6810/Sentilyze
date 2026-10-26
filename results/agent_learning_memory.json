@@ -1,13 +1,13 @@
 {
-  "total_learning_cycles": 39,
-  "last_updated": "2026-10-25T20:12:25.405606+00:00",
+  "total_learning_cycles": 43,
+  "last_updated": "2026-10-26T04:41:21.910136+00:00",
   "agent_voting_weights": {
-    "technicals_weight": 0.273,
-    "sentiment_weight": 0.404,
-    "valuation_weight": 0.141,
-    "cro_weight": 0.182
+    "technicals_weight": 0.27,
+    "sentiment_weight": 0.41,
+    "valuation_weight": 0.14,
+    "cro_weight": 0.18
   },
-  "adaptive_kelly_multiplier": 1.18,
+  "adaptive_kelly_multiplier": 1.2,
   "recent_trade_autopsies": [
     {
       "ticker": "GD",
@@ -80,6 +80,14 @@
       "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
       "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
       "timestamp": "2026-10-25T20:12:25.405660+00:00"
+    },
+    {
+      "ticker": "GD",
+      "pnl": 383.82,
+      "return_pct": 12.83,
+      "verdict": "\ud83c\udfc6 POSITIVE ALPHA HARVEST",
+      "lesson": "Committee conviction on GD succeeded with +12.83% gain.",
+      "timestamp": "2026-10-26T04:41:21.910282+00:00"
     }
   ],
   "retrained_models": [],
