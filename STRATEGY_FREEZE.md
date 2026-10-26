@@ -27,7 +27,7 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 | `requirements.txt` | `ee23bdc75df9a6fbf1b0951988c74378793a76217a03ff0be5048f2cc5fb5796` |
 | `requirements-dev.txt` | `39a00628a6af2a70af77909db146ecb9fcbadd0ee4375ede98ce47468a65ba5a` |
 | `scripts/run_247_daemon.py` | `05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce` |
-| `scripts/weekly_scorecard.py` | `135f2c072f10184465d2624afdc31c2ddc701939fdc904716388b86fd7ce40ea` |
+| `scripts/weekly_scorecard.py` | `9aa24c63099b199d0fe8ebacab80abb5ff4f5d9a2434712a16d6af533a6df1cb` |
 | `results/agent_learning_memory.json` | `95d03a2ca3deddaaffbec754840bc4df934b631c91503688c4119a7b4a04c605` |
 | `results/agent_memory/committee_weights.json` | `c527d4b9dba60da44522500ea16e5b66390de36bb5b3146263823105ded808ee` |
 | `results/agent_memory/semantic_rules.json` | `e835d22aa834acb8cdf6d90d78e46bcbf29d9b61c368338e62e28555edc514e1` |

@@ -1997,7 +1997,7 @@
   "results/agent_memory/session_episodic_memory.json": "f43e9a9cd8dec4269a0f47b90fbb71f2f34858fd50b44f9a71d7429ebc4fa0ea",
   "results/agent_memory/trade_postmortems.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "scripts/run_247_daemon.py": "05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce",
-  "scripts/weekly_scorecard.py": "135f2c072f10184465d2624afdc31c2ddc701939fdc904716388b86fd7ce40ea",
+  "scripts/weekly_scorecard.py": "9aa24c63099b199d0fe8ebacab80abb5ff4f5d9a2434712a16d6af533a6df1cb",
   "src/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "src/ablation_study.py": "72718e16410f5bb0b522d7c3632964b46021a9791f39447542cb539b9600aa33",
   "src/academic_papers_benchmark.py": "50c766c8021668e393400dac33ed1a4c6f53c7d35c099acd2f7d0dfc552fcde2",

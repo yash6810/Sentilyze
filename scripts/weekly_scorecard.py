@@ -434,8 +434,8 @@ def main():
     total_vetoed = 0
     total_blocked = 0
     total_orders = 0
-    vetoes_by_reason: Dict[str, int] = {}
-    blocked_by_guard: Dict[str, int] = {}
+    vetoes_by_reason: dict[str, int] = {}
+    blocked_by_guard: dict[str, int] = {}
     runs_count = 0
 
     if os.path.exists(funnel_log_path):
