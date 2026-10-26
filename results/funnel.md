@@ -6,7 +6,7 @@ Tracks the multi-stage elimination pipeline per trading session: Scanned → New
 
 | Date | Runs | Scanned | Skipped (No News) | Skipped (Quota/Error) | Vetoed | Blocked by Guards | Orders Submitted |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `2026-10-26` | 1 | 536 | 0 | 0 | 0 | 536 | **0** |
+| `2026-10-26` | 2 | 1072 | 0 | 0 | 0 | 1072 | **0** |
 
 ### Today's Detailed Breakdown (`2026-10-26`)
 
@@ -14,4 +14,4 @@ Tracks the multi-stage elimination pipeline per trading session: Scanned → New
 - *(No candidate vetoes recorded today)*
 
 #### Orders Blocked by Position & Risk Guards
-- **`BUY_SKIPPED_ALPACA_UNAVAILABLE`**: 536
+- **`BUY_SKIPPED_ALPACA_UNAVAILABLE`**: 1072
