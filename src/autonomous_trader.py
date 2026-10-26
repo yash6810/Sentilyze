@@ -1185,94 +1185,12 @@ class AutonomousTradingEngine:
                 if p > 5.0:  # Filter out illiquid penny stocks
                     scored_candidates.append((t, chg * vol))
 
-            # Prioritize the verified "Most Increasable" Set and Tier-1 Asymmetric Radar Set
-            verified_priority_tickers = []
-            try:
-                radar_file = os.path.join("results", "tier1_asymmetric_radar.json")
-                if os.path.exists(radar_file):
-                    with open(radar_file, "r", encoding="utf-8") as rf:
-                        radar_data = json.load(rf)
-                    for item in radar_data[:25]:
-                        tkr = item.get("ticker")
-                        if (
-                            tkr
-                            and tkr in unheld_tickers
-                            and tkr not in verified_priority_tickers
-                        ):
-                            verified_priority_tickers.append(tkr)
-            except Exception as r_err:
-                logger.debug(f"Tier-1 radar prioritization notice: {r_err}")
-
-            try:
-                inc_file = os.path.join(
-                    "results", "most_increasable_trade_set_latest.json"
-                )
-                if os.path.exists(inc_file):
-                    with open(inc_file, "r", encoding="utf-8") as f:
-                        inc_data = json.load(f)
-                    for item in inc_data.get("selected_candidates", []):
-                        tkr = item.get("ticker")
-                        if (
-                            tkr
-                            and tkr in unheld_tickers
-                            and tkr not in verified_priority_tickers
-                        ):
-                            verified_priority_tickers.append(tkr)
-            except Exception as inc_err:
-                logger.debug(f"Most increasable set prioritization notice: {inc_err}")
-
-            # Prioritize candidates flagged with RAPID_BULLISH_EXPANSION by SwiftShiftRadar
-            try:
-                swift_file = os.path.join("results", "swift_shift_radar_latest.json")
-                if os.path.exists(swift_file):
-                    with open(swift_file, "r", encoding="utf-8") as sf:
-                        s_data = json.load(sf)
-                    s_tkr = s_data.get("ticker")
-                    if (
-                        s_tkr
-                        and s_tkr in unheld_tickers
-                        and s_tkr not in verified_priority_tickers
-                        and s_data.get("shift_direction") == "RAPID_BULLISH_EXPANSION"
-                    ):
-                        verified_priority_tickers.insert(0, s_tkr)
-            except Exception as ss_err:
-                logger.debug(f"Swift shift priority notice: {ss_err}")
-
-            # Prioritize breaking catalyst tickers identified on the Benzinga wire
-            benzinga_priority_tickers = []
-            try:
-                from src.benzinga_news_trader import fetch_top_benzinga_news_wire
-
-                bz_articles = fetch_top_benzinga_news_wire(limit=30)
-                for art in bz_articles:
-                    if art.get("catalyst_sentiment") == "BULLISH":
-                        for bt in art.get("extracted_tickers", []):
-                            if (
-                                bt in unheld_tickers
-                                and bt not in verified_priority_tickers
-                                and bt not in benzinga_priority_tickers
-                            ):
-                                benzinga_priority_tickers.append(bt)
-                if benzinga_priority_tickers:
-                    logger.info(
-                        f"⚡ [BENZINGA PRIORITY] Prioritizing {len(benzinga_priority_tickers)} breaking catalyst tickers: {benzinga_priority_tickers}"
-                    )
-            except Exception as bz_err:
-                logger.debug(f"Benzinga prioritization notice: {bz_err}")
-
+            # Rank candidates dynamically from live real-time price & volume momentum (no static/refreshing radar dependencies)
             scored_candidates.sort(key=lambda x: x[1], reverse=True)
-            other_cands = [
-                t
-                for t, _ in scored_candidates
-                if t not in verified_priority_tickers
-                and t not in benzinga_priority_tickers
-            ]
-            top_candidates = (
-                benzinga_priority_tickers + verified_priority_tickers + other_cands
-            )[:30]
+            top_candidates = [t for t, _ in scored_candidates[:25]]
 
             logger.info(
-                f"🌐 [LEAN MULTI-AGENT SCAN] Evaluating top {len(top_candidates)} active candidates (Priority Set: {verified_priority_tickers}): {top_candidates}"
+                f"🌐 [LEAN MULTI-AGENT SCAN] Evaluating top {len(top_candidates)} active candidates by live market momentum: {top_candidates}"
             )
 
             # Pre-warm FinBERT singleton once before spawning threads
@@ -1298,7 +1216,24 @@ class AutonomousTradingEngine:
                             else bool(news_df)
                         ),
                     )
-                    if not news_available or (
+                    quota_or_err = getattr(news_df, "attrs", {}).get(
+                        "quota_or_error", False
+                    )
+                    if quota_or_err and (
+                        not news_available
+                        or (isinstance(news_df, pd.DataFrame) and news_df.empty)
+                    ):
+                        logger.warning(
+                            f"SKIPPING_TRADE_NEWS_QUOTA_ERROR: Real news quota or API error for {ticker_sym}. Skipping trade."
+                        )
+                        return ticker_sym, {
+                            "action_code": "SKIP",
+                            "final_resolution": "VETO",
+                            "veto_reason": "NEWS_QUOTA_OR_ERROR",
+                            "news_available": False,
+                            "quota_or_error": True,
+                        }
+                    elif not news_available or (
                         isinstance(news_df, pd.DataFrame) and news_df.empty
                     ):
                         logger.warning(
@@ -1324,6 +1259,7 @@ class AutonomousTradingEngine:
             deliberations = []
             funnel_scanned = len(top_candidates)
             funnel_skipped_news = 0
+            funnel_skipped_quota_error = 0
             funnel_vetoed: Dict[str, int] = {}
             funnel_blocked: Dict[str, int] = {}
             funnel_orders_submitted = 0
@@ -1337,7 +1273,9 @@ class AutonomousTradingEngine:
                         executed_actions["committee_resolutions"][t] = delib.get(
                             "final_resolution", "NEUTRAL"
                         )
-                        if delib.get("veto_reason") == "NO_REAL_NEWS":
+                        if delib.get("veto_reason") == "NEWS_QUOTA_OR_ERROR":
+                            funnel_skipped_quota_error += 1
+                        elif delib.get("veto_reason") == "NO_REAL_NEWS":
                             funnel_skipped_news += 1
                         elif delib.get("action_code") == "VETO":
                             vr = str(delib.get("veto_reason") or "COMMITTEE_VETO")[:40]
@@ -1654,6 +1592,7 @@ class AutonomousTradingEngine:
                 vetoed_by_reason=funnel_vetoed if "funnel_vetoed" in locals() else {},
                 buy_blocked_guards=funnel_blocked if "funnel_blocked" in locals() else {},
                 orders_submitted=funnel_orders_submitted if "funnel_orders_submitted" in locals() else 0,
+                skipped_news_quota_or_error=funnel_skipped_quota_error if "funnel_skipped_quota_error" in locals() else 0,
             )
         except Exception as fe:
             logger.debug(f"Funnel telemetry record notice: {fe}")

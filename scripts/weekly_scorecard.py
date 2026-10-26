@@ -226,6 +226,7 @@ def main():
 
     total_scanned = 0
     total_skipped_news = 0
+    total_skipped_quota_error = 0
     total_vetoed = 0
     total_blocked = 0
     total_orders = 0
@@ -244,6 +245,7 @@ def main():
                     runs_count += 1
                     total_scanned += int(entry.get("tickers_scanned", 0))
                     total_skipped_news += int(entry.get("skipped_no_real_news", 0))
+                    total_skipped_quota_error += int(entry.get("skipped_news_quota_or_error", 0))
                     total_vetoed += int(entry.get("total_vetoed", sum(entry.get("vetoed_by_reason", {}).values())))
                     total_blocked += int(entry.get("total_buy_blocked", sum(entry.get("buy_blocked_guards", {}).values())))
                     total_orders += int(entry.get("orders_submitted", 0))
@@ -258,9 +260,9 @@ def main():
                 "",
                 f"Aggregated across **{runs_count}** autonomous live trading cycles recorded in `results/funnel_log.jsonl`:",
                 "",
-                "| Total Cycles | Total Scanned | Skipped (No Real News) | Total Vetoed | Blocked (Risk Guards) | Orders Submitted |",
-                "| :---: | :---: | :---: | :---: | :---: | :---: |",
-                f"| {runs_count} | {total_scanned} | {total_skipped_news} | {total_vetoed} | {total_blocked} | **{total_orders}** |",
+                "| Total Cycles | Total Scanned | Skipped (No News) | Skipped (Quota/Error) | Total Vetoed | Blocked (Risk Guards) | Orders Submitted |",
+                "| :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
+                f"| {runs_count} | {total_scanned} | {total_skipped_news} | {total_skipped_quota_error} | {total_vetoed} | {total_blocked} | **{total_orders}** |",
                 "",
             ])
             if vetoes_by_reason:

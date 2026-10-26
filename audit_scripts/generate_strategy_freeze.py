@@ -37,11 +37,6 @@ CONFIG_AND_WORKFLOW_FILES = [
 
 RUNTIME_INPUT_FILES = [
     "stocks.txt",
-    "results/chronos_probabilistic_corridors.json",
-    "results/cvar_stress_report.json",
-    "results/most_increasable_trade_set_latest.json",
-    "results/swift_shift_radar_latest.json",
-    "results/tier1_asymmetric_radar.json",
 ]
 
 NON_JSON_MODELS = sorted(

@@ -1,7 +1,7 @@
 # Sentilyze Quantitative Strategy Freeze Protocol
 
 **Effective Freeze Date**: `2026-11-02`  
-**Baseline Fix Commit Hash**: `fd2e9a8b`  
+**Baseline Fix Commit Hash**: `GIT_COMMIT_HASH_PLACEHOLDER`  
 **Freeze Expiration**: When `results/scorecard.md` outputs `PASS` or `FAIL` (minimum 8 full weeks and 30 closed trades).  
 **Enforcement Mechanism**: Automated CI test [`tests/test_strategy_freeze.py`](tests/test_strategy_freeze.py).  
 
@@ -23,11 +23,11 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 
 | File Path | SHA-256 Digest |
 | :--- | :--- |
-| `.github/workflows/autonomous_live_trader.yml` | `563acc1f41477997796539728b015b79610dc0adb1ace0b872f31a081e846eef` |
+| `.github/workflows/autonomous_live_trader.yml` | `eb1745d1f0c7c2c886469417851c76729d55279b501f97bb80cbd442622007d9` |
 | `requirements.txt` | `ecb8365cf752da713623a1c701ac6c158dfc5b7efd1c91b412e33c7f0869475c` |
 | `requirements-dev.txt` | `4c9e67f52217c5c10dfd725804913f3d36294f8981f8b3f4d9d0b2a30330f780` |
 | `scripts/run_247_daemon.py` | `05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce` |
-| `scripts/weekly_scorecard.py` | `3ce791183e38fe086ee470bcc7bdd7b056c89a11a70350c318c5b41d9af4ec76` |
+| `scripts/weekly_scorecard.py` | `16ad26ad0d6baee385b5dbbc69655f00b70fae8c80e7277fd6eceeea06cc1858` |
 | `results/agent_learning_memory.json` | `9c5b84f27812d179d845d4722e6b90d781941199b728916baea7893f622a644b` |
 | `results/agent_memory/committee_weights.json` | `523f964dcc6bccf3cd383aa0ecfb32ab8278468c1befdb0f6f89ebaa513bbd58` |
 | `results/agent_memory/semantic_rules.json` | `244897ab6250ee84963d1ab99c15a3bd74251cf735d739d11bf40c5c5b26a206` |
@@ -39,7 +39,7 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 | Core Module | SHA-256 Digest |
 | :--- | :--- |
 | `src/agent_committee.py` | `e3d6712c8c2affb52d089a39c585cc2ea8466a3b4e64b9f45465d11da842e927` |
-| `src/autonomous_trader.py` | `e45736bd80db6e5bb2e777906a89b44d44eb6ac8b391b86a0f0ce585689500a5` |
+| `src/autonomous_trader.py` | `bc75d7a3e850afd9cee0277152edd28f8127e9c599b13ad747b9af6824830dcf` |
 | `src/paper_broker.py` | `5b365b19f8691f178e269675e600c917131eed175b2a74a6bfc406cdf979009d` |
 | `src/alpaca_broker.py` | `36f2acee8b77082226ed084fc1985313576d9773ace08ae745826504d23d140a` |
 | `src/post_mortem_learner.py` | `e56670a47ae6074d2a2e528d019c9eb8fbfe8a024c1c57c7fcbb3fa192f67eed` |
@@ -69,11 +69,6 @@ Every non-.py file read on the live execution path is cryptographically signed:
 | File Path | SHA-256 Digest |
 | :--- | :--- |
 | `stocks.txt` | `1e97879792f54438b0c7be1b7f3e06a014787f56bd64e238e62e327e509679c6` |
-| `results/chronos_probabilistic_corridors.json` | `f796d1c4918a412a2c8341e3a822e47d692ee822299237e3216c6ff2d03236aa` |
-| `results/cvar_stress_report.json` | `91ef8f0df7d3cb90429b73eccc12277250dd9e032aeeb05bc8348edd0ce97196` |
-| `results/most_increasable_trade_set_latest.json` | `9f1910b8f80254c0656129f485461eb3b312028390519e8872371a8615344805` |
-| `results/swift_shift_radar_latest.json` | `5e44134f5257c4a12d2067d17b762eac95040f48b640ef9653797cc7175b8b02` |
-| `results/tier1_asymmetric_radar.json` | `4b3db8dc8fbcea929824f0f2ae985e5b54f43374ac9c8a45812b4bd7eb4cc062` |
 | `models/drl_policy/ADP_drl_weights.pt` | `52b74dc2b6db9ff286d0846da42ae8885903d4006f8c76971f06b5e635e23d44` |
 | `models/drl_policy/NVDA_drl_weights.pt` | `de5e314f2a2da6e91fa404509fa89247abe74c11e46485831b2c6b8b5a9d6e81` |
 | `models/drl_policy/universal_drl_master_policy.pt` | `a638fc083a4f6ed58b453f26330cb739c1d7e702e2e2fe13837086f5ad296410` |

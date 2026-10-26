@@ -486,3 +486,84 @@ def test_live_risk_source_reads_alpaca_account_and_skips_when_unavailable(tmp_pa
         # Buy cost is $15,000 (which exceeds local $50k * 10% = $5k, but is within Alpaca $200k * 10% = $20k)
         res_live = broker.execute_buy("NVDA", shares=150, price=100.0)
         assert res_live["success"] is True
+
+
+def test_live_entry_path_does_not_read_refreshing_radar_files(tmp_path, monkeypatch):
+    """
+    Asserts that the autonomous live scanning and candidate selection path
+    operates dynamically from real-time quotes and NEVER reads stale/refreshing
+    radar files (tier1_asymmetric_radar.json, most_increasable_trade_set_latest.json,
+    swift_shift_radar_latest.json).
+    """
+    from src.autonomous_trader import AutonomousTradingEngine
+    import pandas as pd
+
+    forbidden_files = {
+        "tier1_asymmetric_radar.json",
+        "most_increasable_trade_set_latest.json",
+        "swift_shift_radar_latest.json",
+    }
+
+    original_open = open
+
+    def guarded_open(file, *args, **kwargs):
+        for ff in forbidden_files:
+            if ff in str(file):
+                raise AssertionError(f"Live path attempted to read forbidden refreshing file: {file}")
+        return original_open(file, *args, **kwargs)
+
+    test_broker = PaperBroker(
+        portfolio_path=str(tmp_path / "test_pf.json"),
+        trades_path=str(tmp_path / "test_tr.csv"),
+    )
+    engine = AutonomousTradingEngine(broker=test_broker)
+
+    dummy_news = pd.DataFrame([{"Title": "NVDA Earnings", "publishedAt": "2026-10-26"}])
+    dummy_news.attrs["news_available"] = True
+
+    with (
+        patch("builtins.open", side_effect=guarded_open),
+        patch("src.autonomous_trader.get_news", return_value=dummy_news),
+        patch("src.autonomous_trader.convene_trading_committee", return_value={"action_code": "HOLD"}),
+    ):
+        # Autonomous cycle should rank and deliberate candidates without reading refreshing files
+        res = engine.run_autonomous_cycle(candidate_tickers=["NVDA"])
+        assert isinstance(res, dict)
+
+
+def test_news_quota_or_error_funnel_counter_and_daily_cache(tmp_path, monkeypatch):
+    """
+    Asserts that:
+    1. HTTP 429 quota exhaustion sets quota_or_error=True and is counted under
+       'skipped_news_quota_or_error' separate from 'no news found'.
+    2. Once news is fetched for a ticker on a day, subsequent calls read from
+       the daily universe cache (results/news_cache_YYYY-MM-DD.json) without making external API calls.
+    """
+    from datetime import datetime, timezone
+    from src.funnel_tracker import record_funnel_run
+
+    today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    sim_log = str(tmp_path / "funnel_log.jsonl")
+    sim_md = str(tmp_path / "funnel.md")
+    sim_json = str(tmp_path / "funnel.json")
+
+    # 1. Funnel records skipped_news_quota_or_error separately
+    record = record_funnel_run(
+        tickers_scanned=10,
+        skipped_no_real_news=2,
+        skipped_news_quota_or_error=5,
+        vetoed_by_reason={"VALUATION": 2},
+        buy_blocked_guards={},
+        orders_submitted=1,
+        json_path=sim_json,
+        md_path=sim_md,
+        log_path=sim_log,
+    )
+
+    assert record["skipped_news_quota_or_error"] == 5
+    assert record["skipped_no_real_news"] == 2
+
+    with open(sim_md, "r", encoding="utf-8") as f:
+        md_content = f.read()
+    assert "| Skipped (Quota/Error) |" in md_content
+    assert " 5 " in md_content

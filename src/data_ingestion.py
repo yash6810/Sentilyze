@@ -160,6 +160,13 @@ def _fetch_finnhub_news(ticker: str, api_key: Optional[str] = None) -> pd.DataFr
                         f"Successfully fetched {len(df)} live news articles for {ticker} from Finnhub"
                     )
                     return df
+        elif res.status_code in (429, 402, 403):
+            logger.warning(
+                f"FINNHUB_RATE_LIMIT_{res.status_code}: API quota exceeded for {ticker}"
+            )
+            df = pd.DataFrame()
+            df.attrs["quota_hit"] = True
+            return df
     except Exception as e:
         logger.debug(f"Finnhub news fetch notice for {ticker}: {e}")
     return pd.DataFrame()
@@ -197,6 +204,13 @@ def _fetch_marketaux_news(ticker: str, api_key: Optional[str] = None) -> pd.Data
                     f"Successfully fetched {len(df)} live news articles for {ticker} from Marketaux"
                 )
                 return df
+        elif res.status_code in (429, 402, 403):
+            logger.warning(
+                f"MARKETAUX_RATE_LIMIT_{res.status_code}: API quota exceeded for {ticker}"
+            )
+            df = pd.DataFrame()
+            df.attrs["quota_hit"] = True
+            return df
     except Exception as e:
         logger.debug(f"Marketaux news fetch notice for {ticker}: {e}")
     return pd.DataFrame()
@@ -238,6 +252,13 @@ def _fetch_polygon_news_feed(
                     f"Successfully fetched {len(df)} live news articles for {ticker} from Polygon"
                 )
                 return df
+        elif res.status_code in (429, 402, 403):
+            logger.warning(
+                f"POLYGON_RATE_LIMIT_{res.status_code}: API quota exceeded for {ticker}"
+            )
+            df = pd.DataFrame()
+            df.attrs["quota_hit"] = True
+            return df
     except Exception as e:
         logger.debug(f"Polygon news fetch notice for {ticker}: {e}")
     return pd.DataFrame()
@@ -367,6 +388,39 @@ def get_news(
     Cascades through Google News RSS -> Yahoo Finance -> Finnhub -> Marketaux -> Polygon -> NewsAPI -> SEC 8-K -> Benzinga Wire -> Reddit 8-Station -> Semantic Deduplicator -> Local Cache.
     """
     clean_ticker = sanitize_filename(ticker)
+    today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    daily_cache_path = os.path.join("results", f"news_cache_{today_str}.json")
+
+    # 0. Check committed Daily Universe Cache (persistent across ephemeral runs)
+    if os.path.exists(daily_cache_path) and use_cache is not False:
+        try:
+            with open(daily_cache_path, "r", encoding="utf-8") as dcf:
+                daily_cache = json.load(dcf)
+            if clean_ticker in daily_cache:
+                cached_items = daily_cache[clean_ticker]
+                if cached_items:
+                    articles_df = pd.DataFrame(cached_items)
+                    articles_df.attrs["news_available"] = True
+                    articles_df.attrs["quota_or_error"] = False
+                    if "publishedAt" in articles_df.columns:
+                        articles_df["publishedAt"] = pd.to_datetime(
+                            articles_df["publishedAt"], utc=True, format="mixed"
+                        )
+                        articles_df = articles_df.set_index("publishedAt").sort_index(ascending=False)
+                    logger.info(
+                        f"Loaded {len(articles_df)} articles for {ticker} from daily cache {daily_cache_path}"
+                    )
+                    return articles_df
+                else:
+                    empty_df = pd.DataFrame(
+                        columns=["Title", "publishedAt", "source", "url", "description"]
+                    )
+                    empty_df.attrs["news_available"] = False
+                    empty_df.attrs["quota_or_error"] = False
+                    return empty_df
+        except Exception as dce:
+            logger.debug(f"Daily news cache load notice for {ticker}: {dce}")
+
     cache_path = safe_path_join(DATA_DIR, f"{clean_ticker}_news.csv")
     os.makedirs(DATA_DIR, exist_ok=True)
 
@@ -390,6 +444,8 @@ def get_news(
         articles_df = pd.read_csv(cache_path)
     else:
         logger.info(f"Routing live news aggregation for {ticker}...")
+        quota_or_error = False
+
         # 1. Primary: Google News RSS (Unlimited, Real-time)
         articles_df = _fetch_google_news_rss(ticker)
 
@@ -399,15 +455,24 @@ def get_news(
 
         # 3. Tier 3: Finnhub Company News
         if articles_df.empty:
-            articles_df = _fetch_finnhub_news(ticker)
+            fh_df = _fetch_finnhub_news(ticker)
+            if getattr(fh_df, "attrs", {}).get("quota_hit"):
+                quota_or_error = True
+            articles_df = fh_df
 
         # 4. Tier 4: Marketaux Financial News
         if articles_df.empty:
-            articles_df = _fetch_marketaux_news(ticker)
+            mx_df = _fetch_marketaux_news(ticker)
+            if getattr(mx_df, "attrs", {}).get("quota_hit"):
+                quota_or_error = True
+            articles_df = mx_df
 
         # 5. Tier 5: Polygon.io Reference News
         if articles_df.empty:
-            articles_df = _fetch_polygon_news_feed(ticker)
+            pg_df = _fetch_polygon_news_feed(ticker)
+            if getattr(pg_df, "attrs", {}).get("quota_hit"):
+                quota_or_error = True
+            articles_df = pg_df
 
         # 6. Tier 6: NewsAPI.org
         if articles_df.empty:
@@ -491,6 +556,20 @@ def get_news(
                     columns=["Title", "publishedAt", "source", "url", "description"]
                 )
                 empty_df.attrs["news_available"] = False
+                empty_df.attrs["quota_or_error"] = quota_or_error
+                # If zero news because of quota exhaustion, don't poison cache
+                if not quota_or_error:
+                    try:
+                        os.makedirs(os.path.dirname(daily_cache_path), exist_ok=True)
+                        d_cache = {}
+                        if os.path.exists(daily_cache_path):
+                            with open(daily_cache_path, "r", encoding="utf-8") as dcf:
+                                d_cache = json.load(dcf)
+                        d_cache[clean_ticker] = []
+                        with open(daily_cache_path, "w", encoding="utf-8") as dcf:
+                            json.dump(d_cache, dcf, indent=2)
+                    except Exception:
+                        pass
                 return empty_df
 
         # 12. Fast Semantic Deduplication & Authority Weight Assignment
@@ -509,8 +588,30 @@ def get_news(
                 f"Saved fresh news ({len(articles_df)} articles) to {cache_path}"
             )
             articles_df.attrs["news_available"] = True
+            articles_df.attrs["quota_or_error"] = False
+
+            # Also persist to daily universe cache (results/news_cache_YYYY-MM-DD.json)
+            try:
+                os.makedirs(os.path.dirname(daily_cache_path), exist_ok=True)
+                d_cache = {}
+                if os.path.exists(daily_cache_path):
+                    with open(daily_cache_path, "r", encoding="utf-8") as dcf:
+                        d_cache = json.load(dcf)
+                records_df = (
+                    articles_df.reset_index()
+                    if "publishedAt" not in articles_df.columns
+                    else articles_df
+                )
+                d_cache[clean_ticker] = json.loads(
+                    records_df.to_json(orient="records", date_format="iso")
+                )
+                with open(daily_cache_path, "w", encoding="utf-8") as dcf:
+                    json.dump(d_cache, dcf, indent=2)
+            except Exception as d_err:
+                logger.debug(f"Daily news cache write notice for {ticker}: {d_err}")
         else:
             articles_df.attrs["news_available"] = False
+            articles_df.attrs["quota_or_error"] = quota_or_error
 
     # Standardize the DataFrame to have a timezone-aware DatetimeIndex
     if "publishedAt" in articles_df.columns:
