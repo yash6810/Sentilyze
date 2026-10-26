@@ -23,7 +23,7 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 
 | File Path | SHA-256 Digest |
 | :--- | :--- |
-| `.github/workflows/autonomous_live_trader.yml` | `54e423ac2bea2e3c882b0859414f8d46680ae72778fad0e716f9d8da9331d52a` |
+| `.github/workflows/autonomous_live_trader.yml` | `554184bebbd58f406a97ad1a490361bcc4a3662e3a8098342ce52650b60d120b` |
 | `requirements.txt` | `ee23bdc75df9a6fbf1b0951988c74378793a76217a03ff0be5048f2cc5fb5796` |
 | `requirements-dev.txt` | `39a00628a6af2a70af77909db146ecb9fcbadd0ee4375ede98ce47468a65ba5a` |
 | `scripts/run_247_daemon.py` | `05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce` |

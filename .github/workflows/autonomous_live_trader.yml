@@ -71,7 +71,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add results/news_cache_*.json results/funnel_log.jsonl results/funnel.json results/funnel.md results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json
+          git add results/funnel_log.jsonl results/funnel.json results/funnel.md results/paper_portfolio.json results/executed_trades.csv results/autonomous_execution_log.json results/committee_resolutions.json
+          git add results/news_cache_*.json 2>/dev/null || true
           if ! git diff --staged --quiet; then
             git commit -m "chore(auto-trader): log execution cycle state & funnel telemetry [skip ci]"
             for i in 1 2 3; do
