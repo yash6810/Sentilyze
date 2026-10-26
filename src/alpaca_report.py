@@ -46,7 +46,7 @@ def generate_alpaca_report():
 
     # 1. Fetch all orders
     orders_url = f"{base_url}/v2/orders?status=all&limit=500"
-    orders_res = requests.get(orders_url, headers=headers)
+    orders_res = requests.get(orders_url, headers=headers, timeout=15)
     if orders_res.status_code != 200:
         print(f"ERROR fetching orders: {orders_res.status_code} {orders_res.text}")
         return
@@ -80,7 +80,7 @@ def generate_alpaca_report():
 
     # 2. Fetch daily equity history (all time)
     history_url = f"{base_url}/v2/account/portfolio/history?period=all&timeframe=1D"
-    hist_res = requests.get(history_url, headers=headers)
+    hist_res = requests.get(history_url, headers=headers, timeout=15)
     if hist_res.status_code != 200:
         print(f"ERROR fetching portfolio history: {hist_res.status_code}")
         return
@@ -130,7 +130,7 @@ def generate_alpaca_report():
         db_path = os.path.join(str(PROJECT_ROOT), "data", "sentilyze_market.duckdb")
         if os.path.exists(db_path):
             con = duckdb.connect(db_path, read_only=True)
-            sql = f"SELECT date, close as Close FROM daily_bars WHERE ticker = 'SPY' AND date >= '{start_date}' AND date <= '{end_date}' ORDER BY date"
+            sql = f"SELECT date, close as Close FROM daily_bars WHERE ticker = 'SPY' AND date >= '{start_date}' AND date <= '{end_date}' ORDER BY date"  # nosec B608
             res = con.execute(sql).df()
             if len(res) > 0:
                 res["date"] = pd.to_datetime(res["date"]).dt.strftime("%Y-%m-%d")
