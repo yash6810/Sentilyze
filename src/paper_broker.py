@@ -1227,6 +1227,8 @@ class PaperBroker:
             "yes",
         )
 
+        alpaca_equity = None
+        alpaca_cash = None
         try:
             from src.alpaca_broker import AlpacaBrokerBridge
 
@@ -1235,6 +1237,16 @@ class PaperBroker:
                 alpaca_connected = True
                 alpaca_positions = alpaca.get_open_positions()
                 alpaca_orders = alpaca.get_open_orders()
+                alpaca_acc = alpaca.get_account_summary()
+                if alpaca_acc.get("status") == "CONNECTED":
+                    alpaca_equity = float(alpaca_acc.get("equity", 0.0))
+                    alpaca_cash = float(alpaca_acc.get("cash", 0.0))
+                elif live_alpaca_required:
+                    logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE")
+                    return {
+                        "success": False,
+                        "error": "BUY_SKIPPED_ALPACA_UNAVAILABLE",
+                    }
             elif live_alpaca_required:
                 logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE")
                 return {
@@ -1325,15 +1337,24 @@ class PaperBroker:
                 else 1.0
             )
         )
-        total_equity = float(self.state.get("total_equity", 0.0))
-        if total_equity <= 0:
-            invested_val = sum(
-                pos["shares"] * pos.get("current_price", pos.get("entry_price", 0.0))
-                for pos in self.state.get("open_positions", {}).values()
-            )
-            total_equity = float(self.state.get("cash", 0.0) + invested_val)
-        if total_equity <= 0:
-            total_equity = float(self.initial_cash)
+        if live_alpaca_required or (alpaca_connected and alpaca_equity is not None and alpaca_equity > 0):
+            if alpaca_equity is None or alpaca_equity <= 0:
+                logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE")
+                return {
+                    "success": False,
+                    "error": "BUY_SKIPPED_ALPACA_UNAVAILABLE",
+                }
+            total_equity = alpaca_equity
+        else:
+            total_equity = float(self.state.get("total_equity", 0.0))
+            if total_equity <= 0:
+                invested_val = sum(
+                    pos["shares"] * pos.get("current_price", pos.get("entry_price", 0.0))
+                    for pos in self.state.get("open_positions", {}).values()
+                )
+                total_equity = float(self.state.get("cash", 0.0) + invested_val)
+            if total_equity <= 0:
+                total_equity = float(self.initial_cash)
 
         max_equity_per_ticker = total_equity * target_max_pct
 

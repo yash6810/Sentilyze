@@ -1,33 +1,51 @@
 # Sentilyze Quantitative Strategy Freeze Protocol
 
 **Effective Freeze Date**: `2026-11-02`  
-**Baseline Fix Commit Hash**: `e0d5535f`  
+**Baseline Fix Commit Hash**: `GIT_COMMIT_HASH_PLACEHOLDER`  
 **Freeze Expiration**: When `results/scorecard.md` outputs `PASS` or `FAIL` (minimum 8 full weeks and 30 closed trades).  
 **Enforcement Mechanism**: Automated CI test [`tests/test_strategy_freeze.py`](tests/test_strategy_freeze.py).  
 
 ## 1. Freeze Mandate
 
 From **November 02, 2026 forward**, no changes, adjustments, re-calibrations, or hotfixes are permitted to:
-1. **Entry Rules & Multi-Agent Deliberation**: [`src/agent_committee.py`](src/agent_committee.py)
-2. **Position Sizing & Execution Schedulers**: [`src/autonomous_trader.py`](src/autonomous_trader.py)
-3. **Persistent Agent Learning Memory**: [`results/agent_learning_memory.json`](results/agent_learning_memory.json) & [`results/agent_memory/committee_weights.json`](results/agent_memory/committee_weights.json)
-4. **Production Model Weights**: All XGBoost JSON models in [`models/*.json`](models/)
+1. **Core Strategy & Risk Source Modules (195 files)**: All modules in [`src/*.py`](src/)
+2. **Production Model Weights (1974 models)**: All XGBoost JSON models in [`models/*.json`](models/)
+3. **Persistent Learned State & Memory**: [`results/agent_learning_memory.json`](results/agent_learning_memory.json) and all files in [`results/agent_memory/`](results/agent_memory/)
+4. **Live Execution Workflow & Scripts**: [`.github/workflows/autonomous_live_trader.yml`](.github/workflows/autonomous_live_trader.yml), [`scripts/run_247_daemon.py`](scripts/run_247_daemon.py), [`scripts/weekly_scorecard.py`](scripts/weekly_scorecard.py)
+5. **Pinned Dependency Requirements**: [`requirements.txt`](requirements.txt) & [`requirements-dev.txt`](requirements-dev.txt)
 
-Any modification to strategy parameters, thresholds, risk gates, learning state, or model weights will cause the continuous integration test `tests/test_strategy_freeze.py` to immediately fail.
+> [!IMPORTANT]
+> **Any change to a frozen file restarts the 8-week clock and must be logged in `CHANGELOG.md` with date and reason.**
 
-## 2. Core Execution Engine & Memory Cryptographic Hashes (SHA-256)
+Any modification to strategy parameters, thresholds, risk gates, learning state, dependencies, or model weights will cause the continuous integration test `tests/test_strategy_freeze.py` to immediately fail.
+
+## 2. Learned State & Pinned Configuration Hashes (SHA-256)
 
 | File Path | SHA-256 Digest |
 | :--- | :--- |
-| `src/agent_committee.py` | `b81fce666b50e8c51c1ddae397c35e180c46225af995f0959216bdfced7e5a95` |
-| `src/autonomous_trader.py` | `698ef730df7e63012c5299d49c5f5f38bd0b9fd09288677b93138f3fed20ad67` |
-| `results/agent_learning_memory.json` | `7713a7b0663fd52b1680cb45ee3c92299be8e346e9bf1bd7787e42c683ce942e` |
-| `results/agent_memory/committee_weights.json` | `47445e7d23bc2e3917fb3308f788a64d09300c9bd2d79072545d093da7b10de8` |
+| `.github/workflows/autonomous_live_trader.yml` | `60d935bd019d4f1d411d2f19203b6d14c9db57a2702ecbea5c2fe89a203ab21c` |
+| `requirements.txt` | `ecb8365cf752da713623a1c701ac6c158dfc5b7efd1c91b412e33c7f0869475c` |
+| `requirements-dev.txt` | `4c9e67f52217c5c10dfd725804913f3d36294f8981f8b3f4d9d0b2a30330f780` |
+| `scripts/run_247_daemon.py` | `05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce` |
+| `scripts/weekly_scorecard.py` | `cb737f143ced2c6d0a9cc2d0b7be4297dc0bdcf973b29cbcef7486621192656f` |
+| `results/agent_learning_memory.json` | `9c5b84f27812d179d845d4722e6b90d781941199b728916baea7893f622a644b` |
+| `results/agent_memory/committee_weights.json` | `523f964dcc6bccf3cd383aa0ecfb32ab8278468c1befdb0f6f89ebaa513bbd58` |
+| `results/agent_memory/semantic_rules.json` | `244897ab6250ee84963d1ab99c15a3bd74251cf735d739d11bf40c5c5b26a206` |
+| `results/agent_memory/session_episodic_memory.json` | `2f5b75a57fcdfb06c51c9868c25978c9afc87d7b7b6e9b02d0e5a7f53525e5e9` |
+| `results/agent_memory/trade_postmortems.jsonl` | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
 
-## 3. Production Model Weights (1974 Models)
-| `src/autonomous_trader.py` | `698ef730df7e63012c5299d49c5f5f38bd0b9fd09288677b93138f3fed20ad67` |
+## 3. Core Strategy Modules Sample (SHA-256)
 
-## 3. Production Model Weights (1974 Models)
+| Core Module | SHA-256 Digest |
+| :--- | :--- |
+| `src/agent_committee.py` | `2e9ede3b5ad446febfe2a56d80ea004fa655133abce20a906b40c4aba837c404` |
+| `src/autonomous_trader.py` | `e45736bd80db6e5bb2e777906a89b44d44eb6ac8b391b86a0f0ce585689500a5` |
+| `src/paper_broker.py` | `5b365b19f8691f178e269675e600c917131eed175b2a74a6bfc406cdf979009d` |
+| `src/alpaca_broker.py` | `36f2acee8b77082226ed084fc1985313576d9773ace08ae745826504d23d140a` |
+| `src/post_mortem_learner.py` | `e56670a47ae6074d2a2e528d019c9eb8fbfe8a024c1c57c7fcbb3fa192f67eed` |
+| `src/agent_memory.py` | `d6c4ef9b2a91a16b685006bce8a1a8d633108cae61ec14c3aee9cfd29ecc7ca2` |
+
+## 4. Production Model Weights (1974 Models)
 
 All 1974 XGBoost production models in `models/*.json` are cryptographically frozen. The complete list of SHA-256 signatures is tracked in [`results/strategy_freeze_manifest.json`](results/strategy_freeze_manifest.json). Below is a sample of key active universe models:
 

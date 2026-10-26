@@ -1058,7 +1058,25 @@ class AutonomousTradingEngine:
         except Exception as mb_err:
             logger.debug(f"Macro blackout gate notice: {mb_err}")
 
-        cash_available = self.broker.state.get("cash", 0.0)
+        is_live = os.getenv("LIVE_ALPACA_REQUIRED", "false").lower() in ("true", "1", "yes")
+        alpaca_live_equity = None
+        alpaca_live_cash = None
+        if is_live:
+            try:
+                if not self.alpaca.is_connected():
+                    logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca client is not connected in live mode")
+                    return executed_actions
+                acc_summary = self.alpaca.get_account_summary()
+                if acc_summary.get("status") != "CONNECTED":
+                    logger.warning("BUY_SKIPPED_ALPACA_UNAVAILABLE: Alpaca account summary is not connected")
+                    return executed_actions
+                alpaca_live_equity = float(acc_summary.get("equity", 0.0))
+                alpaca_live_cash = float(acc_summary.get("cash", 0.0))
+            except Exception as alp_err:
+                logger.warning(f"BUY_SKIPPED_ALPACA_UNAVAILABLE: {alp_err}")
+                return executed_actions
+
+        cash_available = alpaca_live_cash if (is_live and alpaca_live_cash is not None) else self.broker.state.get("cash", 0.0)
 
         if available_slots > 0 and cash_available > 5000.0:
             # Anti-Whipsaw Cooldown: Quarantine any exit within 24h (scratch/breakeven) to stop ping-pong churn,
@@ -1402,7 +1420,8 @@ class AutonomousTradingEngine:
 
             # Task 8 Max Position Size Hard Constraint: Max 10% of total portfolio equity for 8-10 position dynamic model
             total_eq = max(
-                float(portfolio_summary.get("total_equity") or 100000.0), 1.0
+                float(alpaca_live_equity if (is_live and alpaca_live_equity is not None) else (portfolio_summary.get("total_equity") or 100000.0)),
+                1.0,
             )
 
             # Neural SDE Dynamic CPPI Survival Floor & Cushion (Black & Jones 1987 / Grossman & Zhou 1993)
@@ -1511,7 +1530,11 @@ class AutonomousTradingEngine:
 
                 # Formal Logic Z3 Rule Gate Verification (Sprint 4, Module 4.5 / Idea 47)
                 target_b = self.get_target_broker(t)
-                target_equity = float(target_b.state.get("total_equity", 100000.0))
+                target_equity = (
+                    alpaca_live_equity
+                    if (is_live and alpaca_live_equity is not None and not is_crypto_asset(t))
+                    else float(target_b.state.get("total_equity", 100000.0))
+                )
                 if is_crypto_asset(t):
                     shares_est = round(
                         float(target_equity * (approved_kelly / 100.0) / spot_price), 6
@@ -1523,12 +1546,21 @@ class AutonomousTradingEngine:
                             int(target_equity * (approved_kelly / 100.0) / spot_price)
                         ),
                     )
+                live_port_state = (
+                    {
+                        "cash": alpaca_live_cash,
+                        "total_equity": alpaca_live_equity,
+                        "open_positions": target_b.state.get("open_positions", {}),
+                    }
+                    if (is_live and alpaca_live_cash is not None)
+                    else target_b.state
+                )
                 gate_eval = self.rule_gate.verify_trade(
                     ticker=t,
                     spot_price=spot_price,
                     shares=shares_est,
                     deliberation=delib,
-                    portfolio_state=target_b.state,
+                    portfolio_state=live_port_state,
                 )
                 if not gate_eval["is_valid"]:
                     logger.warning(

@@ -1,8 +1,8 @@
 """
 Regression Test: Quantitative Strategy Freeze Enforcement.
-Fails if any frozen core strategy file (src/agent_committee.py, src/autonomous_trader.py,
-results/agent_learning_memory.json, results/agent_memory/committee_weights.json,
-or models/*.json) has been modified from its cryptographic SHA-256 hash recorded on 2026-11-02.
+Fails if any frozen core strategy file, workflow, pinned dependency,
+learned-state file, or production model has been modified from its
+cryptographic SHA-256 hash recorded on 2026-11-02.
 """
 
 import os

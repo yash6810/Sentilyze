@@ -1,9 +1,9 @@
 name: 🌐 Sentilyze 24/7 Cloud Autonomous Trading & Crypto Daemon
 
+# Scheduled execution disabled during Strategy Freeze (2026-11-02 forward).
+# Keeps only manual workflow_dispatch to guarantee autonomous_live_trader.yml is the
+# SOLE automated process that commits equity state, executes trades, and updates results/.
 on:
-  schedule:
-    # Mon-Fri: Every 15 minutes during US Market Hours (13:30 - 20:30 UTC / 09:30 - 16:30 EDT)
-    - cron: '*/15 13-20 * * 1-5'
   workflow_dispatch:
 
 concurrency:

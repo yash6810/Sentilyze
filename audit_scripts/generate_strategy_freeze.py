@@ -1,9 +1,17 @@
 """
 Generates STRATEGY_FREEZE.md and tests/test_strategy_freeze.py.
-Computes SHA-256 hashes of all frozen files:
-- src/agent_committee.py (decision & veto rules)
-- src/autonomous_trader.py (sizing & execution cycle)
-- models/*.json (all trained XGBoost production model weights)
+Computes SHA-256 hashes of all frozen files across:
+- All src/*.py modules
+- Key scripts: scripts/run_247_daemon.py, scripts/weekly_scorecard.py
+- Live trader workflow: .github/workflows/autonomous_live_trader.yml
+- Pinned dependency files: requirements.txt, requirements-dev.txt
+- Persistent learned state files:
+  * results/agent_learning_memory.json
+  * results/agent_memory/committee_weights.json
+  * results/agent_memory/semantic_rules.json
+  * results/agent_memory/session_episodic_memory.json
+  * results/agent_memory/trade_postmortems.jsonl
+- All trained XGBoost production models in models/*.json
 """
 
 import hashlib
@@ -11,13 +19,28 @@ import glob
 import json
 import os
 
-FROZEN_FILES = [
-    "src/agent_committee.py",
-    "src/autonomous_trader.py",
+LEARNED_STATE_FILES = [
     "results/agent_learning_memory.json",
     "results/agent_memory/committee_weights.json",
+    "results/agent_memory/semantic_rules.json",
+    "results/agent_memory/session_episodic_memory.json",
+    "results/agent_memory/trade_postmortems.jsonl",
 ]
+
+CONFIG_AND_WORKFLOW_FILES = [
+    ".github/workflows/autonomous_live_trader.yml",
+    "requirements.txt",
+    "requirements-dev.txt",
+    "scripts/run_247_daemon.py",
+    "scripts/weekly_scorecard.py",
+]
+
+SRC_FILES = sorted(glob.glob("src/*.py"))
 MODELS = sorted(glob.glob("models/*.json"))
+
+ALL_FROZEN_PATHS = sorted(
+    SRC_FILES + CONFIG_AND_WORKFLOW_FILES + LEARNED_STATE_FILES + MODELS
+)
 
 
 def sha256_file(path: str) -> str:
@@ -30,7 +53,7 @@ def sha256_file(path: str) -> str:
 
 def main():
     hashes = {}
-    for f in FROZEN_FILES + MODELS:
+    for f in ALL_FROZEN_PATHS:
         normalized_path = f.replace("\\", "/")
         hashes[normalized_path] = sha256_file(f)
 
@@ -52,32 +75,47 @@ def main():
         "## 1. Freeze Mandate",
         "",
         "From **November 02, 2026 forward**, no changes, adjustments, re-calibrations, or hotfixes are permitted to:",
-        "1. **Entry Rules & Multi-Agent Deliberation**: [`src/agent_committee.py`](src/agent_committee.py)",
-        "2. **Position Sizing & Execution Schedulers**: [`src/autonomous_trader.py`](src/autonomous_trader.py)",
-        "3. **Persistent Agent Learning Memory**: [`results/agent_learning_memory.json`](results/agent_learning_memory.json) & [`results/agent_memory/committee_weights.json`](results/agent_memory/committee_weights.json)",
-        "4. **Production Model Weights**: All XGBoost JSON models in [`models/*.json`](models/)",
+        f"1. **Core Strategy & Risk Source Modules ({len(SRC_FILES)} files)**: All modules in [`src/*.py`](src/)",
+        f"2. **Production Model Weights ({len(MODELS)} models)**: All XGBoost JSON models in [`models/*.json`](models/)",
+        "3. **Persistent Learned State & Memory**: [`results/agent_learning_memory.json`](results/agent_learning_memory.json) and all files in [`results/agent_memory/`](results/agent_memory/)",
+        "4. **Live Execution Workflow & Scripts**: [`.github/workflows/autonomous_live_trader.yml`](.github/workflows/autonomous_live_trader.yml), [`scripts/run_247_daemon.py`](scripts/run_247_daemon.py), [`scripts/weekly_scorecard.py`](scripts/weekly_scorecard.py)",
+        "5. **Pinned Dependency Requirements**: [`requirements.txt`](requirements.txt) & [`requirements-dev.txt`](requirements-dev.txt)",
         "",
-        "Any modification to strategy parameters, thresholds, risk gates, learning state, or model weights will cause the continuous integration test `tests/test_strategy_freeze.py` to immediately fail.",
+        "> [!IMPORTANT]",
+        "> **Any change to a frozen file restarts the 8-week clock and must be logged in `CHANGELOG.md` with date and reason.**",
         "",
-        "## 2. Core Execution Engine & Memory Cryptographic Hashes (SHA-256)",
+        "Any modification to strategy parameters, thresholds, risk gates, learning state, dependencies, or model weights will cause the continuous integration test `tests/test_strategy_freeze.py` to immediately fail.",
+        "",
+        "## 2. Learned State & Pinned Configuration Hashes (SHA-256)",
         "",
         "| File Path | SHA-256 Digest |",
         "| :--- | :--- |",
+    ]
+
+    for p in CONFIG_AND_WORKFLOW_FILES + LEARNED_STATE_FILES:
+        norm = p.replace("\\", "/")
+        lines.append(f"| `{norm}` | `{hashes[norm]}` |")
+
+    lines.extend([
+        "",
+        "## 3. Core Strategy Modules Sample (SHA-256)",
+        "",
+        "| Core Module | SHA-256 Digest |",
+        "| :--- | :--- |",
         f"| `src/agent_committee.py` | `{hashes['src/agent_committee.py']}` |",
         f"| `src/autonomous_trader.py` | `{hashes['src/autonomous_trader.py']}` |",
-        f"| `results/agent_learning_memory.json` | `{hashes['results/agent_learning_memory.json']}` |",
-        f"| `results/agent_memory/committee_weights.json` | `{hashes['results/agent_memory/committee_weights.json']}` |",
+        f"| `src/paper_broker.py` | `{hashes['src/paper_broker.py']}` |",
+        f"| `src/alpaca_broker.py` | `{hashes['src/alpaca_broker.py']}` |",
+        f"| `src/post_mortem_learner.py` | `{hashes['src/post_mortem_learner.py']}` |",
+        f"| `src/agent_memory.py` | `{hashes['src/agent_memory.py']}` |",
         "",
-        f"## 3. Production Model Weights ({len(MODELS)} Models)",
-        f"| `src/autonomous_trader.py` | `{hashes['src/autonomous_trader.py']}` |",
-        "",
-        f"## 3. Production Model Weights ({len(MODELS)} Models)",
+        f"## 4. Production Model Weights ({len(MODELS)} Models)",
         "",
         f"All {len(MODELS)} XGBoost production models in `models/*.json` are cryptographically frozen. The complete list of SHA-256 signatures is tracked in [`results/strategy_freeze_manifest.json`](results/strategy_freeze_manifest.json). Below is a sample of key active universe models:",
         "",
         "| Model File | SHA-256 Digest |",
         "| :--- | :--- |",
-    ]
+    ])
 
     sample_tickers = [
         "NVDA",
@@ -109,9 +147,9 @@ def main():
     # Generate tests/test_strategy_freeze.py
     test_code = '''"""
 Regression Test: Quantitative Strategy Freeze Enforcement.
-Fails if any frozen core strategy file (src/agent_committee.py, src/autonomous_trader.py,
-results/agent_learning_memory.json, results/agent_memory/committee_weights.json,
-or models/*.json) has been modified from its cryptographic SHA-256 hash recorded on 2026-11-02.
+Fails if any frozen core strategy file, workflow, pinned dependency,
+learned-state file, or production model has been modified from its
+cryptographic SHA-256 hash recorded on 2026-11-02.
 """
 
 import os

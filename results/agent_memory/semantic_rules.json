@@ -1,56 +1,23 @@
-{
-  "memory_type": "SEMANTIC_QUANT_RULES",
-  "last_updated": "2026-09-25T06:25:00.000000+00:00",
-  "rules": [
-    {
-      "rule_id": "RULE_01_REGIME_LEVERAGE",
-      "category": "Capital Allocation",
-      "heuristic": "In verified macro bull regimes (Price > 200 EMA & Fast > Slow EMA), scale leverage to 1.8x-2.8x. In bear regimes, immediately de-leverage to 0.0x (100% Cash)."
-    },
-    {
-      "rule_id": "RULE_02_MEGA_CAP_COMPOUNDERS",
-      "category": "Indicator Sensitivity",
-      "heuristic": "Low-beta mega-caps (AAPL, MSFT, LLY) do not crash into RSI < 35 oversold territory during bull runs; use mild 12/16-day EMA pullback tolerance (1.5-4.5%) to eliminate cash drag."
-    },
-    {
-      "rule_id": "RULE_03_NEWS_SHOCK_SHIELD",
-      "category": "Tail-Risk Protection",
-      "heuristic": "When FinBERT news sentiment drops below -0.50 on material regulatory/earnings headlines, liquidate immediately without waiting for moving average technical breakdown (saves +28% drawdown)."
-    },
-    {
-      "rule_id": "RULE_04_ALMGREN_CHRISS_FRICTION",
-      "category": "Execution",
-      "heuristic": "For block orders > $250,000, execute via closed-form hyperbolic Almgren-Chriss slicing to minimize temporary and permanent market impact shortfall."
-    },
-    {
-      "rule_id": "RULE_05_HIGH_WATERMARK_RATCHET",
-      "category": "Profit Taking",
-      "heuristic": "Once a position gains +1.5x ATR, move stop-loss to entry price + 0.5x ATR; continuously lock 65-80% of peak gains as the trade trends upward."
-    },
-    {
-      "rule_id": "RULE_06_ANTI_WHIPSAW_EMBARGO",
-      "category": "Execution & Churn Prevention",
-      "heuristic": "After closing any position on MODEL_SELL or STOP_LOSS, enforce a strict 72-hour quarantine embargo [t_exit, t_exit + 3 days]. Prevents ping-pong wash-sales and frictional whipsaw churn."
-    },
-    {
-      "rule_id": "RULE_07_SECTOR_CLUSTER_IMMUNITY",
-      "category": "Portfolio Diversification",
-      "heuristic": "Limit open portfolio allocation to max 1 asset per GICS sector. Prevents simultaneous multi-asset failure cascades (e.g. holding 8 industrial stocks concurrently)."
-    },
-    {
-      "rule_id": "RULE_08_CHANDELIER_RUNNER_RATCHET",
-      "category": "Profit Maximization",
-      "heuristic": "For winning trades, enforce escalating multi-tier ratchets: +1% locked at +3% gain, +2.5% locked at +5% gain, +5% locked at +8% gain. Bank 50% at TP1 (+2.5 ATR), and trail runner stop at max(P_entry * 1.02, P_max * 0.965)."
-    },
-    {
-      "rule_id": "RULE_09_COMMITTEE_SUPER_MAJORITY",
-      "category": "Consensus Arbitration",
-      "heuristic": "Require at least 3 out of 5 specialist buy votes and >= 58.0% effective conviction to execute an entry. For assets with recent stop-outs or sector caution, demand Super-Majority (>= 3/5 votes and >= 65% conviction)."
-    },
-    {
-      "rule_id": "RULE_10_MACRO_VOLATILITY_GATE",
-      "category": "Tail-Risk Protection",
-      "heuristic": "When market-wide VIX > 24.0 or VPIN Order Flow Toxicity triggers critical dumping signals, pause all new long allocations and preserve 100% cash dry powder."
-    }
-  ]
-}
+[
+  {
+    "rule_id": "RULE-001",
+    "regime": "HIGH_VOLATILITY",
+    "description": "When VIX > 25, technical breakout signals lose predictive power; dynamic leverage must be capped at 1.0x.",
+    "confidence": 0.88,
+    "created_at": "2026-01-15T00:00:00Z"
+  },
+  {
+    "rule_id": "RULE-002",
+    "regime": "EARNINGS_ANNOUNCEMENT",
+    "description": "Pre-earnings sentiment spikes exhibit high mean-reversion risk; tighten ATR trailing stops by 30%.",
+    "confidence": 0.82,
+    "created_at": "2026-02-01T00:00:00Z"
+  },
+  {
+    "rule_id": "RULE-003",
+    "regime": "CHOPPY_MARKET",
+    "description": "In non-trending regimes (ADX < 20), require at least 4/5 council consensus before opening long positions.",
+    "confidence": 0.85,
+    "created_at": "2026-03-01T00:00:00Z"
+  }
+]
