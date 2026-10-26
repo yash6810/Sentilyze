@@ -390,14 +390,15 @@ def get_news(
     """
     clean_ticker = sanitize_filename(ticker)
     today_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    daily_cache_path = os.path.join("results", f"news_cache_{today_str}.json")
+    cache_dir = (
+        os.environ.get("NEWS_CACHE_DIR")
+        or os.environ.get("SENTILYZE_NEWS_CACHE_DIR")
+        or "results"
+    )
+    daily_cache_path = os.path.join(cache_dir, f"news_cache_{today_str}.json")
 
     # 0. Check committed Daily Universe Cache (persistent across ephemeral runs)
-    if (
-        clean_ticker.upper() not in ("TEST", "MOCK")
-        and os.path.exists(daily_cache_path)
-        and use_cache is not False
-    ):
+    if os.path.exists(daily_cache_path) and use_cache is not False:
         try:
             with open(daily_cache_path, "r", encoding="utf-8") as dcf:
                 daily_cache = json.load(dcf)
@@ -563,7 +564,7 @@ def get_news(
                 empty_df.attrs["news_available"] = False
                 empty_df.attrs["quota_or_error"] = quota_or_error
                 # If zero news because of quota exhaustion, don't poison cache
-                if not quota_or_error and clean_ticker.upper() not in ("TEST", "MOCK"):
+                if not quota_or_error:
                     try:
                         os.makedirs(os.path.dirname(daily_cache_path), exist_ok=True)
                         d_cache = {}
@@ -596,25 +597,24 @@ def get_news(
             articles_df.attrs["quota_or_error"] = False
 
             # Also persist to daily universe cache (results/news_cache_YYYY-MM-DD.json)
-            if clean_ticker.upper() not in ("TEST", "MOCK"):
-                try:
-                    os.makedirs(os.path.dirname(daily_cache_path), exist_ok=True)
-                    d_cache = {}
-                    if os.path.exists(daily_cache_path):
-                        with open(daily_cache_path, "r", encoding="utf-8") as dcf:
-                            d_cache = json.load(dcf)
-                    records_df = (
-                        articles_df.reset_index()
-                        if "publishedAt" not in articles_df.columns
-                        else articles_df
-                    )
-                    d_cache[clean_ticker] = json.loads(
-                        records_df.to_json(orient="records", date_format="iso")
-                    )
-                    with open(daily_cache_path, "w", encoding="utf-8") as dcf:
-                        json.dump(d_cache, dcf, indent=2)
-                except Exception as d_err:
-                    logger.debug(f"Daily news cache write notice for {ticker}: {d_err}")
+            try:
+                os.makedirs(os.path.dirname(daily_cache_path), exist_ok=True)
+                d_cache = {}
+                if os.path.exists(daily_cache_path):
+                    with open(daily_cache_path, "r", encoding="utf-8") as dcf:
+                        d_cache = json.load(dcf)
+                records_df = (
+                    articles_df.reset_index()
+                    if "publishedAt" not in articles_df.columns
+                    else articles_df
+                )
+                d_cache[clean_ticker] = json.loads(
+                    records_df.to_json(orient="records", date_format="iso")
+                )
+                with open(daily_cache_path, "w", encoding="utf-8") as dcf:
+                    json.dump(d_cache, dcf, indent=2)
+            except Exception as d_err:
+                logger.debug(f"Daily news cache write notice for {ticker}: {d_err}")
         else:
             articles_df.attrs["news_available"] = False
             articles_df.attrs["quota_or_error"] = quota_or_error

@@ -23,7 +23,7 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 
 | File Path | SHA-256 Digest |
 | :--- | :--- |
-| `.github/workflows/autonomous_live_trader.yml` | `eb1745d1f0c7c2c886469417851c76729d55279b501f97bb80cbd442622007d9` |
+| `.github/workflows/autonomous_live_trader.yml` | `54e423ac2bea2e3c882b0859414f8d46680ae72778fad0e716f9d8da9331d52a` |
 | `requirements.txt` | `ecb8365cf752da713623a1c701ac6c158dfc5b7efd1c91b412e33c7f0869475c` |
 | `requirements-dev.txt` | `4c9e67f52217c5c10dfd725804913f3d36294f8981f8b3f4d9d0b2a30330f780` |
 | `scripts/run_247_daemon.py` | `05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce` |
@@ -87,8 +87,9 @@ Every non-.py file read on the live execution path is cryptographically signed:
 
 ## 6. Exit Behavior & Brokerage Execution Model
 
-- **Alpaca Live Account**: Positions on the Alpaca paper brokerage account (`PA3NFG0UWP3R`) exit **exclusively through native entry-time exchange-side OCO bracket legs** (`take_profit.limit_price` and `stop_loss.stop_price`). Alpaca's matching engine executes either the limit sell or stop sell automatically; when one leg fills, Alpaca server-side cancels the other leg.
-- **Simulation Ledger**: Intraday discretionary exits, committee veto exits, and dynamic trailing stops evaluated in `AutonomousTradingEngine._evaluate_portfolio_exits()` apply **strictly to the local simulation ledger** (`results/paper_portfolio.json`). They do not submit market or limit sell orders to Alpaca.
+- **Alpaca Live Account**: In the live autonomous execution path (`autonomous_live_trader.yml`), all equity exits on Alpaca (`PA3NFG0UWP3R`) occur **exclusively through native entry-time exchange-side OCO bracket legs** (`take_profit.limit_price` and `stop_loss.stop_price`). Alpaca's matching engine executes either the limit sell (take-profit) or stop sell (stop-loss) automatically; when one leg fills, Alpaca server-side cancels the other leg.
+- **Simulation Ledger**: Intraday discretionary exits, breakeven trails, and committee veto exits evaluated in `AutonomousTradingEngine._evaluate_portfolio_exits()` and `PaperBroker.execute_manual_sell()` apply **strictly to the local simulation ledger** (`results/paper_portfolio.json`). They do not submit market or limit sell orders to Alpaca.
+- **Historical Orders Source of Truth**: Across all 19 realized sell executions recorded in `results/alpaca_orders.csv`, exactly 17 closed via limit bracket legs (take-profit fills), 1 closed via a stop bracket leg (AKAM stop-loss fill), and 1 closed via an immediate test market order on `BTC/USD` (order `78c12d32-43d8-4d9f-9ba1-1eb5053baea5` placed on 2026-10-16 at 15:43:21Z; Alpaca does not support OCO brackets on crypto assets). The legacy `MODEL_SELL` hook in `src/paper_broker.py:697` is part of the disabled `daily_signals` workflow and does not run in the live trader daemon.
 
 ---
 *Enforced by Sentilyze Audit Protocol and `tests/test_strategy_freeze.py`.*

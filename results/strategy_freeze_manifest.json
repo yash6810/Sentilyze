@@ -1,5 +1,5 @@
 {
-  ".github/workflows/autonomous_live_trader.yml": "eb1745d1f0c7c2c886469417851c76729d55279b501f97bb80cbd442622007d9",
+  ".github/workflows/autonomous_live_trader.yml": "54e423ac2bea2e3c882b0859414f8d46680ae72778fad0e716f9d8da9331d52a",
   "models/drl_policy/ADP_drl_weights.pt": "52b74dc2b6db9ff286d0846da42ae8885903d4006f8c76971f06b5e635e23d44",
   "models/drl_policy/NVDA_drl_weights.pt": "de5e314f2a2da6e91fa404509fa89247abe74c11e46485831b2c6b8b5a9d6e81",
   "models/drl_policy/universal_drl_master_policy.pt": "a638fc083a4f6ed58b453f26330cb739c1d7e702e2e2fe13837086f5ad296410",
@@ -2053,7 +2053,7 @@
   "src/cusum_detector.py": "da5a0bae994497b0bca56700a2c3438afeceb36670d19f25edba59197dfee100",
   "src/daily_execution_bridge.py": "823f8bda1d070516bb82c710190402df59668711b845a2b831eab5363ca04eec",
   "src/daily_scanner.py": "d8b40b9f799cda5d72b470b77d7672ce653b5c625541581f584f555811b2ce67",
-  "src/data_ingestion.py": "6104965a5efef353c75c91878a1f81236af15ad4da4c6f36372efd3e7c0d2aa7",
+  "src/data_ingestion.py": "a1a30ae4159f93d2e101c5b2f7ffcbd08684097de5451117fafa3ab430835e79",
   "src/data_sync.py": "f2d8d825f957b02e1bb302ec632a9a1a506a5d0be93e4556b236d6f7a0b568e0",
   "src/dcc_correlation.py": "5282030b5aacc66aabc745bc30613f5fc18a42054bab707f1e4f66810bf7cc23",
   "src/deep_learning_model.py": "60e53ae4b0faea77d73e6a0d789570a2eedfad93cd872954d46571ca1d262816",

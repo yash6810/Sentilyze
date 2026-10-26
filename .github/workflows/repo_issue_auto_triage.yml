@@ -12,9 +12,9 @@ on:
 
     types:
       - completed
-  schedule:
-    # Daily check at 06:00 UTC (11:30 AM IST)
-    - cron: '0 6 * * *'
+  # schedule:
+  #   # Daily check at 06:00 UTC (11:30 AM IST)
+  #   - cron: '0 6 * * *'
   workflow_dispatch:
 
 permissions:

@@ -1,9 +1,10 @@
 name: Multi-Agent Trading Committee Audit
 
 on:
-  schedule:
-    # Runs Monday through Friday at 02:00 UTC (7:30 AM IST / Pre-Market Committee Deliberation)
-    - cron: '0 2 * * 1-5'
+  # Automated schedule disabled to prevent quota exhaustion during strategy freeze
+  # schedule:
+  #   # Runs Monday through Friday at 02:00 UTC (7:30 AM IST / Pre-Market Committee Deliberation)
+  #   - cron: '0 2 * * 1-5'
   workflow_dispatch: # Allows manual trigger from GitHub Actions tab
 
 concurrency:

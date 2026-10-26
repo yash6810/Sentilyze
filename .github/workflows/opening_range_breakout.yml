@@ -1,9 +1,10 @@
 name: 5-Minute Opening Range Breakout (Paper 25)
 
 on:
-  schedule:
-    # 09:35 AM EDT (13:35 UTC / 07:05 PM IST) Mon-Fri: Immediate Opening Range Breakout Execution
-    - cron: '35 13 * * 1-5'
+  # Automated schedule disabled to prevent quota exhaustion during strategy freeze
+  # schedule:
+  #   # 09:35 AM EDT (13:35 UTC / 07:05 PM IST) Mon-Fri: Immediate Opening Range Breakout Execution
+  #   - cron: '35 13 * * 1-5'
   workflow_dispatch: # Manual on-demand trigger
 
 concurrency:

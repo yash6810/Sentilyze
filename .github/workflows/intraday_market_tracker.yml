@@ -1,9 +1,9 @@
 name: 5-Minute Autonomous Intraday Market Guardian
 
 on:
-  schedule:
-    # Runs every 5 minutes during active US Trading Session (6:30 PM - 2:30 AM IST / 13:00 - 21:00 UTC, Mon-Fri, covering both DST & Standard Time)
-    - cron: '*/5 13-21 * * 1-5'
+  # Automated schedule disabled to prevent quota exhaustion during strategy freeze
+  # schedule:
+  #   - cron: '*/5 13-21 * * 1-5'
   workflow_dispatch:
 
 permissions:

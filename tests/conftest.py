@@ -11,3 +11,15 @@ def block_external_alerts(monkeypatch):
     monkeypatch.delenv("EMAIL_USER", raising=False)
     monkeypatch.delenv("EMAIL_PASSWORD", raising=False)
     monkeypatch.delenv("EMAIL_RECIPIENT", raising=False)
+
+
+@pytest.fixture(autouse=True)
+def isolate_news_cache(monkeypatch, tmp_path):
+    """
+    Autouse fixture that isolates the daily news cache directory to a temporary path,
+    preventing any test from writing or reading files in results/.
+    """
+    test_cache_dir = tmp_path / "test_news_cache"
+    test_cache_dir.mkdir(parents=True, exist_ok=True)
+    monkeypatch.setenv("NEWS_CACHE_DIR", str(test_cache_dir))
+    monkeypatch.setenv("SENTILYZE_NEWS_CACHE_DIR", str(test_cache_dir))

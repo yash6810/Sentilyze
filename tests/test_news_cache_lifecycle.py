@@ -17,13 +17,9 @@ from unittest.mock import patch, MagicMock
 def test_news_cache_quota_retry_and_live_fetch(tmp_path, monkeypatch):
     import src.data_ingestion as di
 
-    # Use a simulated date so we isolate the cache file
+    # Use a simulated date and tmp_path so we isolate the cache file
     fake_now = datetime(2030, 5, 20, 14, 0, 0, tzinfo=timezone.utc)
-    target_cache_file = os.path.join("results", "news_cache_2030-05-20.json")
-
-    # Clean up before and after
-    if os.path.exists(target_cache_file):
-        os.remove(target_cache_file)
+    target_cache_file = os.path.join(str(tmp_path), "news_cache_2030-05-20.json")
 
     class MockDatetime:
         @classmethod
@@ -32,6 +28,8 @@ def test_news_cache_quota_retry_and_live_fetch(tmp_path, monkeypatch):
 
     monkeypatch.setattr(di, "datetime", MockDatetime)
     monkeypatch.setattr(di, "DATA_DIR", str(tmp_path / "data"))
+    monkeypatch.setenv("NEWS_CACHE_DIR", str(tmp_path))
+    monkeypatch.setenv("SENTILYZE_NEWS_CACHE_DIR", str(tmp_path))
 
     try:
         # Part (a): First fetch returns empty with quota hit

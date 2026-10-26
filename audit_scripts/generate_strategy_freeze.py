@@ -163,8 +163,15 @@ def main():
     lines.append("")
     lines.append("## 6. Exit Behavior & Brokerage Execution Model")
     lines.append("")
-    lines.append("- **Alpaca Live Account**: Positions on the Alpaca paper brokerage account (`PA3NFG0UWP3R`) exit **exclusively through native entry-time exchange-side OCO bracket legs** (`take_profit.limit_price` and `stop_loss.stop_price`). Alpaca's matching engine executes either the limit sell or stop sell automatically; when one leg fills, Alpaca server-side cancels the other leg.")
-    lines.append("- **Simulation Ledger**: Intraday discretionary exits, committee veto exits, and dynamic trailing stops evaluated in `AutonomousTradingEngine._evaluate_portfolio_exits()` apply **strictly to the local simulation ledger** (`results/paper_portfolio.json`). They do not submit market or limit sell orders to Alpaca.")
+    lines.append(
+        "- **Alpaca Live Account**: In the live autonomous execution path (`autonomous_live_trader.yml`), all equity exits on Alpaca (`PA3NFG0UWP3R`) occur **exclusively through native entry-time exchange-side OCO bracket legs** (`take_profit.limit_price` and `stop_loss.stop_price`). Alpaca's matching engine executes either the limit sell (take-profit) or stop sell (stop-loss) automatically; when one leg fills, Alpaca server-side cancels the other leg."
+    )
+    lines.append(
+        "- **Simulation Ledger**: Intraday discretionary exits, breakeven trails, and committee veto exits evaluated in `AutonomousTradingEngine._evaluate_portfolio_exits()` and `PaperBroker.execute_manual_sell()` apply **strictly to the local simulation ledger** (`results/paper_portfolio.json`). They do not submit market or limit sell orders to Alpaca."
+    )
+    lines.append(
+        "- **Historical Orders Source of Truth**: Across all 19 realized sell executions recorded in `results/alpaca_orders.csv`, exactly 17 closed via limit bracket legs (take-profit fills), 1 closed via a stop bracket leg (AKAM stop-loss fill), and 1 closed via an immediate test market order on `BTC/USD` (order `78c12d32-43d8-4d9f-9ba1-1eb5053baea5` placed on 2026-10-16 at 15:43:21Z; Alpaca does not support OCO brackets on crypto assets). The legacy `MODEL_SELL` hook in `src/paper_broker.py:697` is part of the disabled `daily_signals` workflow and does not run in the live trader daemon."
+    )
     lines.append("")
     lines.append("---")
     lines.append(

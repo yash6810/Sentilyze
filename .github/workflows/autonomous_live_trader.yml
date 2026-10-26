@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: repo-state
+  group: live-autonomous-trader
   cancel-in-progress: false
 
 permissions:
