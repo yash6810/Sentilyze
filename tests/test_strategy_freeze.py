@@ -1,7 +1,8 @@
 """
 Regression Test: Quantitative Strategy Freeze Enforcement.
 Fails if any frozen core strategy file (src/agent_committee.py, src/autonomous_trader.py,
-or models/*.json) has been modified from its cryptographic SHA-256 hash recorded on 2026-10-26.
+results/agent_learning_memory.json, results/agent_memory/committee_weights.json,
+or models/*.json) has been modified from its cryptographic SHA-256 hash recorded on 2026-11-02.
 """
 
 import os
@@ -43,6 +44,6 @@ def test_strategy_freeze_hashes_unaltered():
 
     assert not missing_files, f"Frozen strategy files missing: {missing_files}"
     assert not mismatches, (
-        f"STRATEGY FREEZE VIOLATION! The following files have been modified since 2026-10-26: "
+        f"STRATEGY FREEZE VIOLATION! The following files have been modified since 2026-11-02: "
         f"{mismatches}"
     )

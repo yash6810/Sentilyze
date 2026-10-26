@@ -97,6 +97,22 @@ class AlpacaBrokerBridge:
         - Exit 1: Limit order @ Take-Profit
         - Exit 2: Stop order @ Stop-Loss
         """
+        allow_orders = os.getenv("ALLOW_ALPACA_ORDER_SUBMISSION", "false").lower() in (
+            "true",
+            "1",
+            "yes",
+        )
+        if not allow_orders:
+            logger.info(
+                f"[ALPACA ORDER BLOCKED] Order submission disabled (ALLOW_ALPACA_ORDER_SUBMISSION=false): {ticker}"
+            )
+            return {
+                "status": "BLOCKED_BY_ENV_POLICY",
+                "ticker": ticker,
+                "qty": qty,
+                "message": "Alpaca order submission disabled by environment policy.",
+            }
+
         if not self.is_connected():
             logger.info(
                 f"[ALPACA SIMULATED] Bracket order for {qty} {ticker} @ TP ${take_profit_price:.2f} / SL ${stop_loss_price:.2f}"
@@ -190,8 +206,10 @@ class AlpacaBrokerBridge:
             )
             if res.status_code == 200:
                 return res.json()
+            res.raise_for_status()
         except Exception as e:
             logger.error(f"Alpaca positions error: {e}")
+            raise
         return []
 
     def get_open_orders(self) -> List[Dict[str, Any]]:
@@ -206,8 +224,10 @@ class AlpacaBrokerBridge:
             )
             if res.status_code == 200:
                 return res.json()
+            res.raise_for_status()
         except Exception as e:
             logger.error(f"Alpaca open orders error: {e}")
+            raise
         return []
 
     def has_open_position_or_order(self, ticker: str) -> bool:

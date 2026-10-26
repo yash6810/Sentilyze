@@ -137,6 +137,12 @@ class AgentMemoryStore:
             "notes": notes,
         }
 
+        if os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes"):
+            logger.info(
+                f"🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Post-mortem recording skipped for {ticker}."
+            )
+            return entry
+
         try:
             with open(self.postmortems_file, "a", encoding="utf-8") as f:
                 f.write(json.dumps(entry) + "\n")
@@ -250,6 +256,9 @@ class AgentMemoryStore:
         self, csv_path: str = "results/executed_trades.csv"
     ) -> int:
         """Synchronizes executed_trades.csv into trade_postmortems.jsonl and recalibrates weights."""
+        if os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes"):
+            logger.info("🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Trade sync skipped.")
+            return 0
         if not os.path.exists(csv_path):
             return 0
         try:
@@ -367,6 +376,12 @@ class AgentMemoryStore:
         Grounded in Reinforcement Learning from Financial Feedback with 14-session episodic decay,
         duration-efficiency discounting, and an Adversarial Red-Team hedging duality bonus.
         """
+        if os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes"):
+            logger.info(
+                "🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Weight recalibration skipped."
+            )
+            return self.get_calibrated_weights()
+
         postmortems = self.get_recent_postmortems(limit=30)
         if len(postmortems) < 3:
             return self.get_calibrated_weights()
@@ -518,6 +533,11 @@ class AgentMemoryStore:
         confidence: float = 0.85,
     ) -> Dict[str, Any]:
         """Adds a newly discovered semantic rule to memory."""
+        if os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes"):
+            logger.info(
+                "🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Adding semantic rule skipped."
+            )
+            return {}
         rules = self.get_semantic_rules()
         new_id = f"RULE-{len(rules)+1:03d}"
         rule = {

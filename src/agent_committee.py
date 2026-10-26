@@ -1245,7 +1245,7 @@ class ChiefRiskOfficerAgent:
             or trend_veto
             or red_team_veto
             or meta_label_veto
-            or (double_crash_veto and buy_votes < 3)
+            or double_crash_veto
             or mahalanobis_veto
             or (finjepa_veto and buy_votes < 3)
         ):
@@ -1255,7 +1255,7 @@ class ChiefRiskOfficerAgent:
                 final_resolution = (
                     "🔴 VETO / MAHALANOBIS ANOMALY (MULTIVARIATE DISLOCATION)"
                 )
-            elif double_crash_veto and buy_votes < 3:
+            elif double_crash_veto:
                 final_resolution = "🔴 VETO / DOUBLE CRASH EXHAUSTION DETECTED"
             elif finjepa_veto and buy_votes < 3:
                 final_resolution = "🔴 VETO / FINJEPA LATENT PHYSICS REGIME HAZARD"

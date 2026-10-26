@@ -44,6 +44,8 @@ jobs:
           PYTHONPATH: .
           SENTILYZE_AUTOPILOT: "true"
           LIVE_ALPACA_REQUIRED: "true"
+          ALLOW_ALPACA_ORDER_SUBMISSION: "true"
+          LEARNING_FROZEN: "true"
           MAX_CONCURRENT_POSITIONS: "10"
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
           MARKETAUX_API_KEY: ${{ secrets.MARKETAUX_API_KEY }}

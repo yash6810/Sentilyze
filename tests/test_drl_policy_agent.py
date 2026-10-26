@@ -43,8 +43,11 @@ def test_evaluate_drl_policy_action():
     assert "state_value_score" in res
 
 
-def test_train_drl_policy_fast():
-    # 3 quick episodes to test training pipeline
-    res = train_drl_policy("NVDA", episodes=3, learning_rate=0.01)
+def test_train_drl_policy_fast(tmp_path):
+    # 3 quick episodes to test training pipeline in isolated tmp_path
+    res = train_drl_policy(
+        "NVDA", episodes=3, learning_rate=0.01, model_dir=str(tmp_path)
+    )
     assert res["status"] == "TRAINED_SUCCESS"
     assert len(res["learning_curve_rewards"]) == 3
+    assert (tmp_path / "NVDA_drl_weights.pt").exists()

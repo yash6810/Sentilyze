@@ -237,3 +237,88 @@ def test_alpaca_order_only_submitted_after_execute_buy_success(isolated_broker):
             assert call_kwargs["qty"] > 0
             assert call_kwargs["take_profit_price"] == 220.0
 
+
+def test_real_autonomous_cycle_twice_submits_only_one_alpaca_order(tmp_path, monkeypatch):
+    """
+    Assert that running the real autonomous trading cycle twice with a mocked Alpaca client
+    submits an order on the first run, and blocks duplicate submission on the second run.
+    """
+    from src.autonomous_trader import AutonomousTradingEngine
+    import pandas as pd
+
+    portfolio_file = tmp_path / "paper_portfolio.json"
+    trades_file = tmp_path / "executed_trades.csv"
+    broker = PaperBroker(portfolio_path=str(portfolio_file), initial_cash=150000.0, trades_path=str(trades_file))
+
+    mock_alpaca = MagicMock()
+    mock_alpaca.is_connected.return_value = True
+    # Initially no positions/orders on Alpaca
+    mock_alpaca.get_open_positions.return_value = []
+    mock_alpaca.get_open_orders.return_value = []
+    mock_alpaca.submit_bracket_order.return_value = {"status": "SUBMITTED", "order": {"id": "alpaca_1"}}
+
+    monkeypatch.setenv("ALLOW_ALPACA_ORDER_SUBMISSION", "true")
+    monkeypatch.setenv("SENTILYZE_DRY_RUN", "0")
+    monkeypatch.setattr("src.alpaca_broker.AlpacaBrokerBridge", lambda: mock_alpaca)
+    monkeypatch.setattr(
+        "src.market_session.get_us_market_session",
+        lambda: {"status": "REGULAR_HOURS", "is_open": True, "time_edt": "10:30 AM", "utc_time": "14:30"},
+    )
+
+    # Mock SPY price history so SPY close is above SMA50
+    def mock_get_price_history(ticker, *args, **kwargs):
+        dates = pd.date_range("2026-01-01", periods=60)
+        return pd.DataFrame({"Close": [100.0 + i for i in range(60)]}, index=dates)
+
+    monkeypatch.setattr("src.data_ingestion.get_price_history", mock_get_price_history)
+
+    # Mock real news to satisfy news gate
+    real_news_df = pd.DataFrame([
+        {
+            "Title": "Nvidia announces record data center revenue growth and new AI platform",
+            "publishedAt": "2026-10-26T08:00:00Z",
+            "source": "Reuters",
+            "url": "https://reuters.com/nvda",
+            "description": "Nvidia beats estimates",
+        }
+    ])
+    real_news_df.attrs["news_available"] = True
+    monkeypatch.setattr("src.autonomous_trader.get_news", lambda *args, **kwargs: real_news_df)
+    monkeypatch.setattr("src.autonomous_trader.fetch_universe_live_quotes", lambda tickers: {t: {"ticker": t, "price": 120.0, "status": "LIVE"} for t in tickers})
+
+    # Mock committee approval
+    approved_resolution = {
+        "ticker": "NVDA",
+        "action_code": "EXECUTE_BUY",
+        "final_resolution": "EXECUTE_BUY",
+        "spot_price": 120.0,
+        "approved_leverage": 1.0,
+        "kelly_allocation_pct": 0.05,
+        "metrics": {"atr": 2.5},
+        "cro_signoff": {
+            "action_code": "EXECUTE_BUY",
+            "approved_leverage": 1.0,
+            "kelly_allocation_pct": 0.05,
+            "tp1_target": 130.0,
+            "tp2_target": 140.0,
+            "sl_target": 115.0,
+        },
+    }
+    monkeypatch.setattr("src.autonomous_trader.convene_trading_committee", lambda *args, **kwargs: approved_resolution)
+
+    engine = AutonomousTradingEngine(broker=broker)
+
+    # Run cycle 1: Order should be submitted
+    res1 = engine.run_autonomous_cycle(candidate_tickers=["NVDA"])
+    assert len(res1.get("buys", [])) == 1
+    assert mock_alpaca.submit_bracket_order.call_count == 1
+
+    # Simulate Alpaca now reporting the newly created open position
+    mock_alpaca.get_open_positions.return_value = [{"symbol": "NVDA", "qty": "41", "side": "long"}]
+
+    # Run cycle 2: Second buy must be blocked by duplicate position guard, NO new Alpaca order
+    res2 = engine.run_autonomous_cycle(candidate_tickers=["NVDA"])
+    assert len(res2.get("buys", [])) == 0
+    assert mock_alpaca.submit_bracket_order.call_count == 1  # Still exactly 1!
+
+

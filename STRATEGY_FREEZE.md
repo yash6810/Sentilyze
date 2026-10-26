@@ -1,25 +1,31 @@
 # Sentilyze Quantitative Strategy Freeze Protocol
 
-**Effective Freeze Date**: `2026-10-26`  
-**Baseline Fix Commit Hash**: `76287264871d882583cce22db52a78129e92fa02` (`76287264`)  
+**Effective Freeze Date**: `2026-11-02`  
+**Baseline Fix Commit Hash**: `GIT_COMMIT_HASH_PLACEHOLDER`  
 **Freeze Expiration**: When `results/scorecard.md` outputs `PASS` or `FAIL` (minimum 8 full weeks and 30 closed trades).  
 **Enforcement Mechanism**: Automated CI test [`tests/test_strategy_freeze.py`](tests/test_strategy_freeze.py).  
 
 ## 1. Freeze Mandate
 
-From **October 26, 2026 forward**, no changes, adjustments, re-calibrations, or hotfixes are permitted to:
+From **November 02, 2026 forward**, no changes, adjustments, re-calibrations, or hotfixes are permitted to:
 1. **Entry Rules & Multi-Agent Deliberation**: [`src/agent_committee.py`](src/agent_committee.py)
 2. **Position Sizing & Execution Schedulers**: [`src/autonomous_trader.py`](src/autonomous_trader.py)
-3. **Production Model Weights**: All XGBoost JSON models in [`models/*.json`](models/)
+3. **Persistent Agent Learning Memory**: [`results/agent_learning_memory.json`](results/agent_learning_memory.json) & [`results/agent_memory/committee_weights.json`](results/agent_memory/committee_weights.json)
+4. **Production Model Weights**: All XGBoost JSON models in [`models/*.json`](models/)
 
-Any modification to strategy parameters, thresholds, risk gates, or model weights will cause the continuous integration test `tests/test_strategy_freeze.py` to immediately fail.
+Any modification to strategy parameters, thresholds, risk gates, learning state, or model weights will cause the continuous integration test `tests/test_strategy_freeze.py` to immediately fail.
 
-## 2. Core Execution Engine Cryptographic Hashes (SHA-256)
+## 2. Core Execution Engine & Memory Cryptographic Hashes (SHA-256)
 
 | File Path | SHA-256 Digest |
 | :--- | :--- |
-| `src/agent_committee.py` | `4f79316b7462cb33660a49e046e6039d038714df1c004f29f8f5c0b0c1076d81` |
-| `src/autonomous_trader.py` | `ce6ce83e58868b813a8ec9f21a9803491fdbd73829b14d6fc3c5feb5d2929ce6` |
+| `src/agent_committee.py` | `b81fce666b50e8c51c1ddae397c35e180c46225af995f0959216bdfced7e5a95` |
+| `src/autonomous_trader.py` | `4c5fcccac100359acd75e89a438a7b3720e174132ce6db83671527758026bbf7` |
+| `results/agent_learning_memory.json` | `7713a7b0663fd52b1680cb45ee3c92299be8e346e9bf1bd7787e42c683ce942e` |
+| `results/agent_memory/committee_weights.json` | `47445e7d23bc2e3917fb3308f788a64d09300c9bd2d79072545d093da7b10de8` |
+
+## 3. Production Model Weights (1974 Models)
+| `src/autonomous_trader.py` | `4c5fcccac100359acd75e89a438a7b3720e174132ce6db83671527758026bbf7` |
 
 ## 3. Production Model Weights (1974 Models)
 

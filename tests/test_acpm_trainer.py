@@ -182,6 +182,7 @@ def test_acpm_trainer_end_to_end(tmp_path):
         feature_cols=["Close", "RSI", "MACD"],
         target_col="Target",
         benchmark_returns=spy,
+        model_dir=str(tmp_path),
     )
 
     assert model is not None
@@ -189,8 +190,7 @@ def test_acpm_trainer_end_to_end(tmp_path):
     assert "acpm_sharpe" in metrics
     assert "deflated_sharpe_ratio" in metrics
     assert len(oos_series) > 0
-    assert os.path.exists("models/TEST_TICKER_model.json")
+    assert (tmp_path / "TEST_TICKER_model.json").exists()
 
     # Cleanup test model
-    if os.path.exists("models/TEST_TICKER_model.json"):
-        os.remove("models/TEST_TICKER_model.json")
+    # Cleaned up automatically by tmp_path fixture

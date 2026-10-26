@@ -18,7 +18,7 @@ import datetime
 import pandas as pd
 import numpy as np
 
-START_DATE_STR = "2026-10-26"
+START_DATE_STR = "2026-11-02"
 OUTPUT_MD = os.path.join("results", "scorecard.md")
 EQUITY_CSV = os.path.join("results", "alpaca_equity.csv")
 ORDERS_CSV = os.path.join("results", "alpaca_orders.csv")
@@ -213,7 +213,7 @@ def main():
         "",
         "## Strict Evaluation Gate Rules",
         "",
-        "1. **Evaluation Horizon**: Minimum 8 full weeks (56 calendar days) forward from `2026-10-26`.",
+        f"1. **Evaluation Horizon**: Minimum 8 full weeks (56 calendar days) forward from `{START_DATE_STR}`.",
         "2. **Minimum Trade Activity**: At least 30 closed round-trip orders executed on Alpaca paper markets.",
         "3. **Alpha Outperformance**: Alpaca net return must strictly exceed SPY adjusted total return.",
         "4. **Capital Utilization**: Average daily invested exposure (`position_cost / equity`) must be at least 25.0% to reject cash-hiding survivorship.",

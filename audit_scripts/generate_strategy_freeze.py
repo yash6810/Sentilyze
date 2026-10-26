@@ -11,7 +11,12 @@ import glob
 import json
 import os
 
-FROZEN_FILES = ["src/agent_committee.py", "src/autonomous_trader.py"]
+FROZEN_FILES = [
+    "src/agent_committee.py",
+    "src/autonomous_trader.py",
+    "results/agent_learning_memory.json",
+    "results/agent_memory/committee_weights.json",
+]
 MODELS = sorted(glob.glob("models/*.json"))
 
 
@@ -39,25 +44,31 @@ def main():
     lines = [
         "# Sentilyze Quantitative Strategy Freeze Protocol",
         "",
-        "**Effective Freeze Date**: `2026-10-26`  ",
-        "**Baseline Fix Commit Hash**: `2dd8289be64afb6d0e03d4e7f42f24b2233d1063` (`2dd8289b`)  ",
+        "**Effective Freeze Date**: `2026-11-02`  ",
+        "**Baseline Fix Commit Hash**: `GIT_COMMIT_HASH_PLACEHOLDER`  ",
         "**Freeze Expiration**: When `results/scorecard.md` outputs `PASS` or `FAIL` (minimum 8 full weeks and 30 closed trades).  ",
         "**Enforcement Mechanism**: Automated CI test [`tests/test_strategy_freeze.py`](tests/test_strategy_freeze.py).  ",
         "",
         "## 1. Freeze Mandate",
         "",
-        "From **October 26, 2026 forward**, no changes, adjustments, re-calibrations, or hotfixes are permitted to:",
+        "From **November 02, 2026 forward**, no changes, adjustments, re-calibrations, or hotfixes are permitted to:",
         "1. **Entry Rules & Multi-Agent Deliberation**: [`src/agent_committee.py`](src/agent_committee.py)",
         "2. **Position Sizing & Execution Schedulers**: [`src/autonomous_trader.py`](src/autonomous_trader.py)",
-        "3. **Production Model Weights**: All XGBoost JSON models in [`models/*.json`](models/)",
+        "3. **Persistent Agent Learning Memory**: [`results/agent_learning_memory.json`](results/agent_learning_memory.json) & [`results/agent_memory/committee_weights.json`](results/agent_memory/committee_weights.json)",
+        "4. **Production Model Weights**: All XGBoost JSON models in [`models/*.json`](models/)",
         "",
-        "Any modification to strategy parameters, thresholds, risk gates, or model weights will cause the continuous integration test `tests/test_strategy_freeze.py` to immediately fail.",
+        "Any modification to strategy parameters, thresholds, risk gates, learning state, or model weights will cause the continuous integration test `tests/test_strategy_freeze.py` to immediately fail.",
         "",
-        "## 2. Core Execution Engine Cryptographic Hashes (SHA-256)",
+        "## 2. Core Execution Engine & Memory Cryptographic Hashes (SHA-256)",
         "",
         "| File Path | SHA-256 Digest |",
         "| :--- | :--- |",
         f"| `src/agent_committee.py` | `{hashes['src/agent_committee.py']}` |",
+        f"| `src/autonomous_trader.py` | `{hashes['src/autonomous_trader.py']}` |",
+        f"| `results/agent_learning_memory.json` | `{hashes['results/agent_learning_memory.json']}` |",
+        f"| `results/agent_memory/committee_weights.json` | `{hashes['results/agent_memory/committee_weights.json']}` |",
+        "",
+        f"## 3. Production Model Weights ({len(MODELS)} Models)",
         f"| `src/autonomous_trader.py` | `{hashes['src/autonomous_trader.py']}` |",
         "",
         f"## 3. Production Model Weights ({len(MODELS)} Models)",
@@ -99,7 +110,8 @@ def main():
     test_code = '''"""
 Regression Test: Quantitative Strategy Freeze Enforcement.
 Fails if any frozen core strategy file (src/agent_committee.py, src/autonomous_trader.py,
-or models/*.json) has been modified from its cryptographic SHA-256 hash recorded on 2026-10-26.
+results/agent_learning_memory.json, results/agent_memory/committee_weights.json,
+or models/*.json) has been modified from its cryptographic SHA-256 hash recorded on 2026-11-02.
 """
 
 import os
@@ -141,7 +153,7 @@ def test_strategy_freeze_hashes_unaltered():
 
     assert not missing_files, f"Frozen strategy files missing: {missing_files}"
     assert not mismatches, (
-        f"STRATEGY FREEZE VIOLATION! The following files have been modified since 2026-10-26: "
+        f"STRATEGY FREEZE VIOLATION! The following files have been modified since 2026-11-02: "
         f"{mismatches}"
     )
 '''

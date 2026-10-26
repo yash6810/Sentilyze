@@ -134,6 +134,7 @@ def train_drl_policy(
     ticker: str = "NVDA",
     episodes: int = 30,
     learning_rate: float = 0.002,
+    model_dir: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
     Trains an Actor-Critic DRL policy agent on historical market returns and news sentiment.
@@ -218,8 +219,10 @@ def train_drl_policy(
         final_capitals.append(round(float(env.capital), 2))
 
     # Save trained model weights
+    target_dir = model_dir or DRL_MODEL_DIR
+    os.makedirs(target_dir, exist_ok=True)
     save_path = os.path.join(
-        DRL_MODEL_DIR, f"{sanitize_filename(ticker)}_drl_weights.pt"
+        target_dir, f"{sanitize_filename(ticker)}_drl_weights.pt"
     )
     try:
         torch.save(model.state_dict(), save_path)

@@ -1571,6 +1571,25 @@ class AutonomousTradingEngine:
                     logger.info(
                         f"🚀 [AUTONOMOUS BUY] Executed {order_res.get('shares')} shares of {t} @ ${spot_price:.2f} (Verdict: {resolution_text})"
                     )
+
+                    # Mirror execution to Alpaca Broker Bridge strictly after execute_buy returned success
+                    try:
+                        from src.alpaca_broker import AlpacaBrokerBridge
+
+                        alpaca = AlpacaBrokerBridge()
+                        shares_b = int(order_res.get("shares", 0))
+                        if alpaca.is_connected() and shares_b > 0:
+                            tp1_p = float(delib.get("tp1_target", spot_price * 1.06))
+                            sl_p = float(delib.get("stop_loss_target", spot_price * 0.965))
+                            alpaca.submit_bracket_order(
+                                ticker=t,
+                                qty=shares_b,
+                                take_profit_price=tp1_p,
+                                stop_loss_price=sl_p,
+                                side="buy",
+                            )
+                    except Exception as alp_err:
+                        logger.error(f"Alpaca live order execution mirror error for {t}: {alp_err}")
                     send_discord_execution_alert(
                         {
                             "action": "BUY",
@@ -1724,6 +1743,18 @@ class AutonomousTradingEngine:
                 logger.warning(
                     f"Notice loading agent learning memory from {memory_file} ({e}). Initializing default learning state."
                 )
+
+        # Enforce Strategy Freeze: Learning and adaptive weight updates frozen during evaluation
+        if os.getenv("LEARNING_FROZEN", "false").lower() in ("true", "1", "yes"):
+            logger.info(
+                "🔒 [STRATEGY FREEZE] LEARNING_FROZEN=true: Self-improvement learning feedback loop is read-only."
+            )
+            return {
+                "total_cycles": learning_state.get("total_learning_cycles", 0),
+                "agent_weights": learning_state.get("agent_voting_weights", {}),
+                "kelly_multiplier": learning_state.get("adaptive_kelly_multiplier", 1.0),
+                "new_autopsies_count": 0,
+            }
 
         if not isinstance(learning_state.get("agent_voting_weights"), dict):
             learning_state["agent_voting_weights"] = {
