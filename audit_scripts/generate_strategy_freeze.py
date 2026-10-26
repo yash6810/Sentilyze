@@ -59,11 +59,38 @@ ALL_FROZEN_PATHS = sorted(
 
 
 def sha256_file(path: str) -> str:
-    h = hashlib.sha256()
     with open(path, "rb") as f:
-        while chunk := f.read(65536):
-            h.update(chunk)
-    return h.hexdigest()
+        raw = f.read()
+
+    # 1. Git LFS pointer: extract oid sha256
+    if raw.startswith(b"version https://git-lfs.github.com/spec/v1"):
+        for line in raw.decode("utf-8", errors="replace").splitlines():
+            if line.startswith("oid sha256:"):
+                return line.split("oid sha256:")[1].strip()
+
+    # 2. Text files: normalize CRLF to LF
+    text_exts = {
+        ".py",
+        ".json",
+        ".jsonl",
+        ".txt",
+        ".yml",
+        ".yaml",
+        ".md",
+        ".toml",
+        ".ini",
+        ".cfg",
+        ".csv",
+    }
+    ext = os.path.splitext(path)[1].lower()
+    if ext in text_exts or (
+        ext not in {".pt", ".safetensors", ".bin", ".png", ".jpg", ".npy"}
+        and 0 not in raw[:4096]
+    ):
+        raw = raw.replace(bytes([13, 10]), bytes([10]))
+
+    # 3. Hash raw or normalized bytes
+    return hashlib.sha256(raw).hexdigest()
 
 
 def main():
@@ -202,11 +229,29 @@ import pytest
 MANIFEST_PATH = "results/strategy_freeze_manifest.json"
 
 def sha256_file(path: str) -> str:
-    h = hashlib.sha256()
     with open(path, "rb") as f:
-        while chunk := f.read(65536):
-            h.update(chunk)
-    return h.hexdigest()
+        raw = f.read()
+
+    # 1. Git LFS pointer: extract oid sha256
+    if raw.startswith(b"version https://git-lfs.github.com/spec/v1"):
+        for line in raw.decode("utf-8", errors="replace").splitlines():
+            if line.startswith("oid sha256:"):
+                return line.split("oid sha256:")[1].strip()
+
+    # 2. Text files: normalize CRLF to LF
+    text_exts = {
+        ".py", ".json", ".jsonl", ".txt", ".yml", ".yaml",
+        ".md", ".toml", ".ini", ".cfg", ".csv",
+    }
+    ext = os.path.splitext(path)[1].lower()
+    if ext in text_exts or (
+        ext not in {".pt", ".safetensors", ".bin", ".png", ".jpg", ".npy"}
+        and 0 not in raw[:4096]
+    ):
+        raw = raw.replace(bytes([13, 10]), bytes([10]))
+
+    # 3. Hash raw or normalized bytes
+    return hashlib.sha256(raw).hexdigest()
 
 def test_strategy_freeze_hashes_unaltered():
     assert os.path.exists(MANIFEST_PATH), f"Missing freeze manifest at {MANIFEST_PATH}"
