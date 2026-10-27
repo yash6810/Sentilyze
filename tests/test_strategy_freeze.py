@@ -12,7 +12,6 @@ import pytest
 
 MANIFEST_PATH = "results/strategy_freeze_manifest.json"
 
-
 def sha256_file(path: str) -> str:
     with open(path, "rb") as f:
         raw = f.read()
@@ -25,17 +24,8 @@ def sha256_file(path: str) -> str:
 
     # 2. Text files: normalize CRLF to LF
     text_exts = {
-        ".py",
-        ".json",
-        ".jsonl",
-        ".txt",
-        ".yml",
-        ".yaml",
-        ".md",
-        ".toml",
-        ".ini",
-        ".cfg",
-        ".csv",
+        ".py", ".json", ".jsonl", ".txt", ".yml", ".yaml",
+        ".md", ".toml", ".ini", ".cfg", ".csv",
     }
     ext = os.path.splitext(path)[1].lower()
     if ext in text_exts or (
@@ -47,12 +37,9 @@ def sha256_file(path: str) -> str:
     # 3. Hash raw or normalized bytes
     return hashlib.sha256(raw).hexdigest()
 
-
 def test_strategy_freeze_hashes_unaltered():
     assert os.path.exists(MANIFEST_PATH), f"Missing freeze manifest at {MANIFEST_PATH}"
-    assert os.path.exists(
-        "STRATEGY_FREEZE.md"
-    ), "Missing STRATEGY_FREEZE.md protocol document"
+    assert os.path.exists("STRATEGY_FREEZE.md"), "Missing STRATEGY_FREEZE.md protocol document"
 
     with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
         manifest = json.load(f)
@@ -67,13 +54,11 @@ def test_strategy_freeze_hashes_unaltered():
 
         actual_hash = sha256_file(file_path)
         if actual_hash != expected_hash:
-            mismatches.append(
-                {
-                    "file": file_path,
-                    "expected": expected_hash,
-                    "actual": actual_hash,
-                }
-            )
+            mismatches.append({
+                "file": file_path,
+                "expected": expected_hash,
+                "actual": actual_hash,
+            })
 
     assert not missing_files, f"Frozen strategy files missing: {missing_files}"
     assert not mismatches, (

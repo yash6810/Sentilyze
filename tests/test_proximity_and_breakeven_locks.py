@@ -62,6 +62,10 @@ def test_zero_giveback_breakeven_lock_threshold(isolated_broker):
     quotes = {"NVDA": {"ticker": "NVDA", "price": 101.25, "status": "LIVE"}}
 
     with (
+        patch(
+            "src.market_session.get_us_market_session",
+            return_value={"is_open": True, "status": "REGULAR_MARKET_OPEN"},
+        ),
         patch("src.autonomous_trader.fetch_universe_live_quotes", return_value=quotes),
         patch("src.autonomous_trader.fetch_live_quote", return_value=quotes["NVDA"]),
         patch("src.autonomous_trader.send_discord_execution_alert"),
@@ -101,6 +105,10 @@ def test_proximity_tp1_harvester_50pct(isolated_broker):
     quotes = {"GD": {"ticker": "GD", "price": pullback_price, "status": "LIVE"}}
 
     with (
+        patch(
+            "src.market_session.get_us_market_session",
+            return_value={"is_open": True, "status": "REGULAR_MARKET_OPEN"},
+        ),
         patch("src.autonomous_trader.fetch_universe_live_quotes", return_value=quotes),
         patch("src.autonomous_trader.fetch_live_quote", return_value=quotes["GD"]),
         patch("src.autonomous_trader.send_discord_execution_alert"),

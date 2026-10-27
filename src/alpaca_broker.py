@@ -4,6 +4,7 @@ import json
 from typing import Dict, List, Any, Optional
 from dotenv import load_dotenv
 from src.utils import get_logger
+from src.market_session import is_crypto_asset
 
 load_dotenv()
 logger = get_logger(__name__)
@@ -166,6 +167,17 @@ class AlpacaBrokerBridge:
         - Exit 1: Limit order @ Take-Profit
         - Exit 2: Stop order @ Stop-Loss
         """
+        if is_crypto_asset(ticker):
+            logger.warning(
+                f"[ALPACA CRYPTO GUARD] Crypto asset order rejected by Alpaca policy: {ticker}"
+            )
+            return {
+                "status": "BLOCKED_CRYPTO_ASSET",
+                "ticker": ticker,
+                "qty": qty,
+                "message": "Alpaca trading is strictly reserved for US equities. Crypto assets are prohibited.",
+            }
+
         allow_orders = (
             os.getenv("ALLOW_ALPACA_ORDER_SUBMISSION", "false").lower()
             in ("true", "1", "yes")
@@ -326,6 +338,16 @@ class AlpacaBrokerBridge:
 
     def close_position(self, ticker: str) -> Dict[str, Any]:
         """Liquidates an active position on Alpaca and cancels all open child orders."""
+        if is_crypto_asset(ticker):
+            logger.warning(
+                f"[ALPACA CRYPTO GUARD] Crypto position close rejected by Alpaca policy: {ticker}"
+            )
+            return {
+                "status": "BLOCKED_CRYPTO_ASSET",
+                "ticker": ticker,
+                "message": "Alpaca position management is strictly reserved for US equities.",
+            }
+
         allow_orders = (
             os.getenv("ALLOW_ALPACA_ORDER_SUBMISSION", "false").lower()
             in ("true", "1", "yes")
