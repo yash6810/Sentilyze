@@ -437,6 +437,7 @@ def main():
     vetoes_by_reason: dict[str, int] = {}
     blocked_by_guard: dict[str, int] = {}
     runs_count = 0
+    aborted_runs_count = 0
 
     if os.path.exists(funnel_log_path):
         try:
@@ -447,6 +448,9 @@ def main():
                         continue
                     entry = json.loads(line)
                     runs_count += 1
+                    aborted_runs_count += int(
+                        entry.get("runs_aborted_alpaca_unavailable", 0)
+                    )
                     total_scanned += int(entry.get("tickers_scanned", 0))
                     total_skipped_news += int(entry.get("skipped_no_real_news", 0))
                     total_skipped_quota_error += int(
@@ -477,9 +481,9 @@ def main():
                     "",
                     f"Aggregated across **{runs_count}** autonomous live trading cycles recorded in `results/funnel_log.jsonl`:",
                     "",
-                    "| Total Cycles | Total Scanned | Skipped (No News) | Skipped (Quota/Error) | Total Vetoed | Blocked (Risk Guards) | Orders Submitted |",
-                    "| :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
-                    f"| {runs_count} | {total_scanned} | {total_skipped_news} | {total_skipped_quota_error} | {total_vetoed} | {total_blocked} | **{total_orders}** |",
+                    "| Total Runs | Aborted Runs | Total Scanned | Skipped (No News) | Skipped (Quota/Error) | Total Vetoed | Blocked (Risk Guards) | Orders Submitted |",
+                    "| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
+                    f"| {runs_count} | {aborted_runs_count} | {total_scanned} | {total_skipped_news} | {total_skipped_quota_error} | {total_vetoed} | {total_blocked} | **{total_orders}** |",
                     "",
                 ]
             )
@@ -508,9 +512,9 @@ def main():
                 [
                     "## 🔍 Execution Funnel Telemetry",
                     "",
-                    "| Latest Run Timestamp | Tickers Scanned | Skipped (No News) | Vetoed | Blocked (Guards) | Orders Submitted |",
-                    "| :--- | :---: | :---: | :---: | :---: | :---: |",
-                    f"| `{fj.get('timestamp', 'N/A')}` | {fj.get('tickers_scanned', 0)} | {fj.get('skipped_no_real_news', 0)} | {fj.get('total_vetoed', 0)} | {fj.get('total_buy_blocked', 0)} | **{fj.get('orders_submitted', 0)}** |",
+                    "| Latest Run Timestamp | Total Runs | Aborted Runs | Tickers Scanned | Skipped (No News) | Vetoed | Blocked (Guards) | Orders Submitted |",
+                    "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
+                    f"| `{fj.get('timestamp', 'N/A')}` | 1 | {fj.get('runs_aborted_alpaca_unavailable', 0)} | {fj.get('tickers_scanned', 0)} | {fj.get('skipped_no_real_news', 0)} | {fj.get('total_vetoed', 0)} | {fj.get('total_buy_blocked', 0)} | **{fj.get('orders_submitted', 0)}** |",
                     "",
                 ]
             )

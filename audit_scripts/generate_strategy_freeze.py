@@ -31,6 +31,7 @@ CONFIG_AND_WORKFLOW_FILES = [
     ".github/workflows/autonomous_live_trader.yml",
     "requirements.txt",
     "requirements-dev.txt",
+    "scripts/check_alpaca_connectivity.py",
     "scripts/run_247_daemon.py",
     "scripts/weekly_scorecard.py",
 ]

@@ -3,7 +3,7 @@ name: 🤖 Autonomous Live Trading & Self-Improving Agent Daemon
 on:
   schedule:
     # Runs every 15 minutes during US market open hours (13:30 - 20:00 UTC, Mon-Fri)
-    - cron: '*/15 13-20 * * 1-5'
+    - cron: '7,22,37,52 13-20 * * 1-5'
   workflow_dispatch:
 
 concurrency:
@@ -16,6 +16,7 @@ permissions:
 jobs:
   execute-autonomous-trading:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
 
     steps:
       - name: Checkout Code
@@ -46,6 +47,16 @@ jobs:
       - name: Verify US Market Trading Session (NYSE / NASDAQ Eastern Time)
         run: |
           python -c "from src.market_session import get_us_market_session; s = get_us_market_session(); print('🏛️ US Market Session Check:', s)"
+
+      - name: Alpaca Broker Pre-Flight Connectivity Check
+        env:
+          PYTHONPATH: .
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY || secrets.APCA_API_KEY_ID }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY || secrets.APCA_API_SECRET_KEY }}
+          APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID || secrets.ALPACA_API_KEY }}
+          APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY || secrets.ALPACA_SECRET_KEY }}
+        run: |
+          python scripts/check_alpaca_connectivity.py
 
       - name: Execute Autonomous Trading & Self-Improvement Loop
         env:

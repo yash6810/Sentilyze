@@ -33,6 +33,7 @@ def record_funnel_run(
     buy_blocked_guards: Dict[str, int],
     orders_submitted: int,
     skipped_news_quota_or_error: int = 0,
+    runs_aborted_alpaca_unavailable: int = 0,
     json_path: Optional[str] = None,
     md_path: Optional[str] = None,
     log_path: Optional[str] = None,
@@ -55,6 +56,7 @@ def record_funnel_run(
     run_record = {
         "timestamp": timestamp_str,
         "date": today_str,
+        "runs_aborted_alpaca_unavailable": int(runs_aborted_alpaca_unavailable),
         "tickers_scanned": int(tickers_scanned),
         "skipped_no_real_news": int(skipped_no_real_news),
         "skipped_news_quota_or_error": int(skipped_news_quota_or_error),
@@ -108,9 +110,13 @@ def record_funnel_run(
                                 "buy_blocked_guards": {},
                                 "orders_submitted": 0,
                                 "runs_count": 0,
+                                "aborted_runs": 0,
                             }
                         day = daily_records[d_str]
                         day["runs_count"] += 1
+                        day["aborted_runs"] += int(
+                            entry.get("runs_aborted_alpaca_unavailable", 0)
+                        )
                         day["tickers_scanned"] += int(entry.get("tickers_scanned", 0))
                         day["skipped_no_real_news"] += int(
                             entry.get("skipped_no_real_news", 0)
@@ -143,6 +149,7 @@ def record_funnel_run(
                 "buy_blocked_guards": dict(buy_blocked_guards),
                 "orders_submitted": run_record["orders_submitted"],
                 "runs_count": 1,
+                "aborted_runs": int(runs_aborted_alpaca_unavailable),
             }
 
         # Render Markdown Table
@@ -153,8 +160,8 @@ def record_funnel_run(
             "",
             "## Daily Execution Totals",
             "",
-            "| Date | Runs | Scanned | Skipped (No News) | Skipped (Quota/Error) | Vetoed | Blocked by Guards | Orders Submitted |",
-            "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
+            "| Date | Total Runs | Aborted Runs | Scanned | Skipped (No News) | Skipped (Quota/Error) | Vetoed | Blocked by Guards | Orders Submitted |",
+            "| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |",
         ]
 
         for d_key in sorted(daily_records.keys(), reverse=True):
@@ -162,7 +169,7 @@ def record_funnel_run(
             v_total = sum(d.get("vetoed_by_reason", {}).values())
             b_total = sum(d.get("buy_blocked_guards", {}).values())
             lines.append(
-                f"| `{d['date']}` | {d['runs_count']} | {d['tickers_scanned']} | {d['skipped_no_real_news']} | {d.get('skipped_news_quota_or_error', 0)} | {v_total} | {b_total} | **{d['orders_submitted']}** |"
+                f"| `{d['date']}` | {d['runs_count']} | {d.get('aborted_runs', 0)} | {d['tickers_scanned']} | {d['skipped_no_real_news']} | {d.get('skipped_news_quota_or_error', 0)} | {v_total} | {b_total} | **{d['orders_submitted']}** |"
             )
 
         lines.extend(

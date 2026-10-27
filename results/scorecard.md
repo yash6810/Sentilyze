@@ -48,10 +48,13 @@ Breakdown of all filled sell orders executed by Alpaca exchange-side bracket ord
 
 ## 🔍 Cumulative Execution Funnel Telemetry
 
-Aggregated across **2** autonomous live trading cycles recorded in `results/funnel_log.jsonl`:
+Aggregated across **1** autonomous live trading cycles recorded in `results/funnel_log.jsonl`:
 
-| Total Cycles | Total Scanned | Skipped (No News) | Skipped (Quota/Error) | Total Vetoed | Blocked (Risk Guards) | Orders Submitted |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 2 | 2 | 0 | 0 | 0 | 0 | **1** |
+| Total Runs | Aborted Runs | Total Scanned | Skipped (No News) | Skipped (Quota/Error) | Total Vetoed | Blocked (Risk Guards) | Orders Submitted |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| 1 | 0 | 536 | 0 | 0 | 0 | 536 | **0** |
+
+**Cumulative Orders Blocked by Position/Risk Guards**:
+- `BUY_SKIPPED_ALPACA_UNAVAILABLE`: 536
 
 *Generated automatically by `scripts/weekly_scorecard.py` on 2026-10-26.*

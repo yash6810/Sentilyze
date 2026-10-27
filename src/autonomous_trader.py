@@ -1087,13 +1087,13 @@ class AutonomousTradingEngine:
                         from src.funnel_tracker import record_funnel_run
 
                         record_funnel_run(
-                            tickers_scanned=len(tickers_to_scan),
+                            tickers_scanned=0,
                             skipped_no_real_news=0,
                             vetoed_by_reason={},
-                            buy_blocked_guards={
-                                "BUY_SKIPPED_ALPACA_UNAVAILABLE": len(tickers_to_scan)
-                            },
+                            buy_blocked_guards={},
                             orders_submitted=0,
+                            skipped_news_quota_or_error=0,
+                            runs_aborted_alpaca_unavailable=1,
                         )
                     except Exception as fe:
                         logger.debug(f"Funnel record notice: {fe}")
@@ -1107,13 +1107,13 @@ class AutonomousTradingEngine:
                         from src.funnel_tracker import record_funnel_run
 
                         record_funnel_run(
-                            tickers_scanned=len(tickers_to_scan),
+                            tickers_scanned=0,
                             skipped_no_real_news=0,
                             vetoed_by_reason={},
-                            buy_blocked_guards={
-                                "BUY_SKIPPED_ALPACA_UNAVAILABLE": len(tickers_to_scan)
-                            },
+                            buy_blocked_guards={},
                             orders_submitted=0,
+                            skipped_news_quota_or_error=0,
+                            runs_aborted_alpaca_unavailable=1,
                         )
                     except Exception as fe:
                         logger.debug(f"Funnel record notice: {fe}")
@@ -1126,13 +1126,13 @@ class AutonomousTradingEngine:
                     from src.funnel_tracker import record_funnel_run
 
                     record_funnel_run(
-                        tickers_scanned=len(tickers_to_scan),
+                        tickers_scanned=0,
                         skipped_no_real_news=0,
                         vetoed_by_reason={},
-                        buy_blocked_guards={
-                            "BUY_SKIPPED_ALPACA_UNAVAILABLE": len(tickers_to_scan)
-                        },
+                        buy_blocked_guards={},
                         orders_submitted=0,
+                        skipped_news_quota_or_error=0,
+                        runs_aborted_alpaca_unavailable=1,
                     )
                 except Exception as fe:
                     logger.debug(f"Funnel record notice: {fe}")
