@@ -693,7 +693,7 @@ class PaperBroker:
                         from src.alpaca_broker import AlpacaBrokerBridge
 
                         alpaca = AlpacaBrokerBridge()
-                        if alpaca.is_connected():
+                        if not is_crypto_asset(ticker) and alpaca.is_connected():
                             alpaca.close_position(ticker)
                             logger.info(
                                 f"🦙 [ALPACA LIVE MIRROR] Closed position for {ticker}"
@@ -971,7 +971,11 @@ class PaperBroker:
                         os.environ.get("PYTEST_CURRENT_TEST")
                     )
                     alpaca = AlpacaBrokerBridge()
-                    if alpaca.is_connected() and not is_test_or_dry:
+                    if (
+                        not is_crypto_asset(ticker)
+                        and alpaca.is_connected()
+                        and not is_test_or_dry
+                    ):
                         alp_res = alpaca.submit_bracket_order(
                             ticker=ticker,
                             qty=shares,

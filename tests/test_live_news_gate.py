@@ -42,6 +42,17 @@ def test_missing_news_skips_trade_and_places_no_order(mocker):
         return_value={"NVDA": {"ticker": "NVDA", "price": 125.0, "status": "LIVE"}},
     )
 
+    # Mock market session open
+    mocker.patch(
+        "src.market_session.get_us_market_session",
+        return_value={
+            "status": "REGULAR_MARKET_OPEN",
+            "is_open": True,
+            "time_edt": "10:00:00 AM EDT",
+            "utc_time": "2026-10-27 14:00:00 UTC",
+        },
+    )
+
     mock_committee = mocker.patch("src.autonomous_trader.convene_trading_committee")
 
     engine = AutonomousTradingEngine(broker=mock_broker)

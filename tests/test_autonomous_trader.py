@@ -31,10 +31,19 @@ def test_load_universe_tickers():
     assert "NVDA" in tickers or "AAPL" in tickers
 
 
+@patch("src.market_session.get_us_market_session")
 @patch("src.autonomous_trader.fetch_universe_live_quotes")
 @patch("src.autonomous_trader.get_news")
 @patch("src.autonomous_trader.convene_trading_committee")
-def test_autonomous_cycle_execution(mock_committee, mock_news, mock_quotes):
+def test_autonomous_cycle_execution(
+    mock_committee, mock_news, mock_quotes, mock_session
+):
+    mock_session.return_value = {
+        "status": "REGULAR_MARKET_OPEN",
+        "is_open": True,
+        "time_edt": "10:00:00 AM EDT",
+        "utc_time": "2026-10-27 14:00:00 UTC",
+    }
     mock_quotes.return_value = {
         "NVDA": {"ticker": "NVDA", "price": 125.0, "status": "LIVE"},
         "AAPL": {"ticker": "AAPL", "price": 220.0, "status": "LIVE"},

@@ -421,7 +421,9 @@ class AutonomousTradingEngine:
         """Core cycle execution body."""
         start_time = time.time()
         cycle_t0_ns = time.perf_counter_ns()
-        tickers_to_scan = candidate_tickers or self.tickers
+        tickers_to_scan = [
+            t for t in (candidate_tickers or self.tickers) if not is_crypto_asset(t)
+        ]
         now_ny = get_current_ny_time()
         now_str = now_ny.isoformat()
         date_str = now_ny.strftime("%Y-%m-%d")
@@ -430,9 +432,24 @@ class AutonomousTradingEngine:
 
         market_session = get_us_market_session()
         logger.info(
-            f"🏛️ [US MARKET STATUS] {market_session['status']} | EDT: {market_session['time_edt']} | "
-            f"Live Open: {market_session['is_open']} | UTC: {market_session['utc_time']}"
+            f"🏛️ [US MARKET STATUS] {market_session.get('status', 'UNKNOWN')} | EDT: {market_session.get('time_edt', 'N/A')} | "
+            f"Live Open: {market_session.get('is_open', False)} | UTC: {market_session.get('utc_time', 'N/A')}"
         )
+
+        if not market_session.get("is_open", False):
+            logger.info("MARKET_CLOSED_SKIP")
+            return {
+                "status": "MARKET_CLOSED_SKIP",
+                "message": "MARKET_CLOSED_SKIP: US market is closed. Exiting cycle immediately.",
+                "timestamp": now_str,
+                "buys": [],
+                "take_profits_tp1": [],
+                "take_profits_tp2": [],
+                "stop_losses": [],
+                "veto_exits": [],
+                "committee_resolutions": {},
+                "executed_actions": {},
+            }
 
         logger.info(
             f"🤖 [AUTONOMOUS TRADER] Starting execution cycle across {len(tickers_to_scan)} universe assets..."
@@ -787,7 +804,6 @@ class AutonomousTradingEngine:
                     if is_proximity_tp1 and not is_exact_tp1
                     else "TP1_PROFIT_LOCK_50PCT"
                 )
-                from src.market_session import is_crypto_asset
 
                 is_crypto = is_crypto_asset(ticker)
                 raw_shares = float(shares)
@@ -1169,20 +1185,8 @@ class AutonomousTradingEngine:
                 for h in self.broker.state.get("open_positions", {}).keys()
             }
 
-            from src.market_session import is_crypto_asset
-
-            is_us_open = market_session.get("is_open", False)
-            if not is_us_open:
-                crypto_candidates = ["BTC-USD", "ETH-USD", "SOL-USD"]
-                tickers_to_scan = list(
-                    set(
-                        [t for t in tickers_to_scan if is_crypto_asset(t)]
-                        + crypto_candidates
-                    )
-                )
-                logger.info(
-                    f"🌙 [24/7 CRYPTO GATEWAY] US Equities closed. Routing autonomous scan to 24/7 digital assets: {tickers_to_scan}"
-                )
+            # Exclude crypto tickers from live candidate screening
+            tickers_to_scan = [t for t in tickers_to_scan if not is_crypto_asset(t)]
 
             alpaca_held_or_pending = set()
             try:
@@ -1208,37 +1212,20 @@ class AutonomousTradingEngine:
             unheld_tickers = [
                 t
                 for t in tickers_to_scan
-                if (
-                    (
-                        is_crypto_asset(t)
-                        and t not in self.crypto_broker.state.get("open_positions", {})
-                    )
-                    or (
-                        not is_crypto_asset(t)
-                        and t not in self.broker.state.get("open_positions", {})
-                        and t.upper() not in alpaca_held_or_pending
-                    )
-                )
+                if not is_crypto_asset(t)
+                and t not in self.broker.state.get("open_positions", {})
+                and t.upper() not in alpaca_held_or_pending
                 and t not in quarantined_tickers
                 and (
-                    is_crypto_asset(t)
-                    or (
-                        is_us_open
-                        and (
-                            get_sector_for_ticker(t) not in occupied_sectors
-                            or get_sector_for_ticker(t)
-                            in (
-                                "General",
-                                "Unknown",
-                                "General_Market",
-                                "Cryptocurrency",
-                            )
-                        )
+                    get_sector_for_ticker(t) not in occupied_sectors
+                    or get_sector_for_ticker(t)
+                    in (
+                        "General",
+                        "Unknown",
+                        "General_Market",
                     )
                 )
             ]
-            if not is_us_open:
-                unheld_tickers = [t for t in unheld_tickers if is_crypto_asset(t)]
 
             # Lightweight Pre-Screening: Filter to top 15 active/liquid assets
             # This keeps RAM usage minimal (<250MB) and prevents laptop freezing
@@ -1628,7 +1615,11 @@ class AutonomousTradingEngine:
 
                         alpaca = AlpacaBrokerBridge()
                         shares_b = int(order_res.get("shares", 0))
-                        if alpaca.is_connected() and shares_b > 0:
+                        if (
+                            not is_crypto_asset(t)
+                            and alpaca.is_connected()
+                            and shares_b > 0
+                        ):
                             tp1_p = float(delib.get("tp1_target", spot_price * 1.06))
                             sl_p = float(
                                 delib.get("stop_loss_target", spot_price * 0.965)

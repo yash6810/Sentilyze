@@ -46,7 +46,7 @@ from src.autonomous_trader import (
 from src.macro_calendar import evaluate_macro_volatility_blackout
 from src.sec_crawler import SECCatalystCrawler
 from src.biotech_catalyst_radar import compile_biotech_catalyst_radar
-from src.market_session import get_us_market_session
+from src.market_session import get_us_market_session, is_crypto_asset
 
 logger = get_logger(__name__)
 
@@ -318,7 +318,12 @@ class MasterTradingLoop:
                                 or exec_record.get("sl")
                                 or 0.0
                             )
-                            if shares > 0 and tp > 0 and sl > 0:
+                            if (
+                                not is_crypto_asset(ticker)
+                                and shares > 0
+                                and tp > 0
+                                and sl > 0
+                            ):
                                 alpaca_res = self.alpaca.submit_bracket_order(
                                     ticker=ticker,
                                     qty=shares,

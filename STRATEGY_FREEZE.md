@@ -40,9 +40,9 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 | Core Module | SHA-256 Digest |
 | :--- | :--- |
 | `src/agent_committee.py` | `1c6d7e1e010bc08d32afe9ad8e9580cb55ffeeec0b6a5403bad17dfed4ee5d6b` |
-| `src/autonomous_trader.py` | `37f947fd56fbaefd569838a6a9e87fca7eb9a5205c49a1d0735c178fc3bc0dff` |
-| `src/paper_broker.py` | `ab2c84ffea7913b8bedb32ce53ab9df56a401440db92f8cd3f333f05e4c1e8ac` |
-| `src/alpaca_broker.py` | `567ef1045bb17bd05aa753ff8442669afe11f597275da88f98d9ee4b7fcd56d0` |
+| `src/autonomous_trader.py` | `d02819afc8c4f0e2a40210d67f1ec9dd0a0cdd0af2a36ea841b096e75e45ebed` |
+| `src/paper_broker.py` | `71a041b3f44d66c1f5406d28a09f6cc1606d6c42987f5f5fd25b59c3303f8123` |
+| `src/alpaca_broker.py` | `8837fac9e329a280e051796c3a39e3dfffc2e36dca910a01bf259054627be1ef` |
 | `src/post_mortem_learner.py` | `1fa773dc90a1b4468eb9ea85e4b495ee610ce19b5d0ce434bedf6252ce628eb8` |
 | `src/agent_memory.py` | `be1a6aee7c2e754d9b7a4dfdcdd1d5b13c3d97a0ac13c7dde8ddcc1f701b39af` |
 

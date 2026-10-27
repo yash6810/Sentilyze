@@ -119,10 +119,17 @@ def test_funnel_honesty_aborted_run(tmp_path):
     assert "| 1 | 1 | 0 | 0 | 0 | 0 | 0 | **0** |" in content
 
 
+@patch("src.market_session.get_us_market_session")
 def test_autonomous_trader_live_alpaca_unavailable_records_aborted_run(
-    tmp_path, monkeypatch
+    mock_market_session, tmp_path, monkeypatch
 ):
     """Item 2: Autonomous trader live mode abort records tickers_scanned=0 and runs_aborted_alpaca_unavailable=1."""
+    mock_market_session.return_value = {
+        "status": "REGULAR_MARKET_OPEN",
+        "is_open": True,
+        "time_edt": "10:00:00 AM EDT",
+        "utc_time": "2026-10-27 14:00:00 UTC",
+    }
     from src.autonomous_trader import AutonomousTradingEngine
 
     monkeypatch.setenv("LIVE_ALPACA_REQUIRED", "true")
