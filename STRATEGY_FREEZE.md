@@ -26,7 +26,7 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 | `.github/workflows/autonomous_live_trader.yml` | `95aa50a9a114d7b956876aaefee9e5e6f92ec01f9d1a31fcec6556bb092d2338` |
 | `requirements.txt` | `ee23bdc75df9a6fbf1b0951988c74378793a76217a03ff0be5048f2cc5fb5796` |
 | `requirements-dev.txt` | `39a00628a6af2a70af77909db146ecb9fcbadd0ee4375ede98ce47468a65ba5a` |
-| `scripts/check_alpaca_connectivity.py` | `eb7998276a4aa8a4227d5f144d7647b484e990f52818fb7bb4460f7cb1129dfa` |
+| `scripts/check_alpaca_connectivity.py` | `0728d9ac60fdd519a62d28a800eb169689b91df2018d095e0b1ef48799c8aa03` |
 | `scripts/run_247_daemon.py` | `05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce` |
 | `scripts/weekly_scorecard.py` | `04fd01a3deab30e237607980046b50016faffcc0ca841a70204f87a03c94e1b8` |
 | `results/agent_learning_memory.json` | `95d03a2ca3deddaaffbec754840bc4df934b631c91503688c4119a7b4a04c605` |

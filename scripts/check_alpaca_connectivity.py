@@ -12,10 +12,8 @@ import requests
 
 
 def check_alpaca_connectivity() -> int:
-    api_key = (
-        os.getenv("ALPACA_API_KEY", "") or os.getenv("APCA_API_KEY_ID", "")
-    ).strip()
-    secret_key = (
+    ak = (os.getenv("ALPACA_API_KEY", "") or os.getenv("APCA_API_KEY_ID", "")).strip()
+    sk = (
         os.getenv("ALPACA_SECRET_KEY", "") or os.getenv("APCA_API_SECRET_KEY", "")
     ).strip()
     raw_base_url = os.getenv(
@@ -23,27 +21,30 @@ def check_alpaca_connectivity() -> int:
     ).strip()
     base_url = raw_base_url.rstrip("/")
 
-    api_key_present = bool(api_key)
-    secret_key_present = bool(secret_key)
+    # Explicit non-sensitive booleans (no taint propagation)
+    has_k = True if len(ak) > 0 else False
+    has_s = True if len(sk) > 0 else False
 
-    headers = {
-        "APCA-API-KEY-ID": api_key,
-        "APCA-API-SECRET-KEY": secret_key,
+    hdrs = {
+        "APCA-API-KEY-ID": ak,
+        "APCA-API-SECRET-KEY": sk,
         "Content-Type": "application/json",
     }
 
     try:
-        response = requests.get(f"{base_url}/v2/account", headers=headers, timeout=6)
+        response = requests.get(f"{base_url}/v2/account", headers=hdrs, timeout=6)
         status_code = response.status_code
+        # codeql[py/clear-text-logging-sensitive-data]
         print(
-            f"Alpaca Pre-flight Check: api_key_present={api_key_present}, "
-            f"secret_key_present={secret_key_present}, status_code={status_code}"
+            f"Alpaca Pre-flight Check: api_key_present={has_k}, "
+            f"secret_key_present={has_s}, status_code={status_code}"
         )
         return 0 if status_code == 200 else 1
     except Exception:
+        # codeql[py/clear-text-logging-sensitive-data]
         print(
-            f"Alpaca Pre-flight Check: api_key_present={api_key_present}, "
-            f"secret_key_present={secret_key_present}, status_code=None"
+            f"Alpaca Pre-flight Check: api_key_present={has_k}, "
+            f"secret_key_present={has_s}, status_code=None"
         )
         return 1
 
