@@ -3,7 +3,7 @@ name: 🤖 Autonomous Live Trading & Self-Improving Agent Daemon
 on:
   schedule:
     # Runs every 15 minutes during US market open hours (13:30 - 20:00 UTC, Mon-Fri)
-    - cron: '*/15 13-20 * * 1-5'
+    - cron: '7,22,37,52 13-20 * * 1-5'
   workflow_dispatch:
 
 concurrency:
@@ -16,6 +16,7 @@ permissions:
 jobs:
   execute-autonomous-trading:
     runs-on: ubuntu-latest
+    timeout-minutes: 12
 
     steps:
       - name: Checkout Code

@@ -23,7 +23,7 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 
 | File Path | SHA-256 Digest |
 | :--- | :--- |
-| `.github/workflows/autonomous_live_trader.yml` | `2324410d24c86edae51650aadfefe313d5622cbe10a031c9e72f3b5eb6f537ab` |
+| `.github/workflows/autonomous_live_trader.yml` | `95aa50a9a114d7b956876aaefee9e5e6f92ec01f9d1a31fcec6556bb092d2338` |
 | `requirements.txt` | `ee23bdc75df9a6fbf1b0951988c74378793a76217a03ff0be5048f2cc5fb5796` |
 | `requirements-dev.txt` | `39a00628a6af2a70af77909db146ecb9fcbadd0ee4375ede98ce47468a65ba5a` |
 | `scripts/check_alpaca_connectivity.py` | `eb7998276a4aa8a4227d5f144d7647b484e990f52818fb7bb4460f7cb1129dfa` |
