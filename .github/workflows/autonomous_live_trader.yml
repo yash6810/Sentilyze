@@ -90,8 +90,11 @@ jobs:
           git add results/news_cache_*.json 2>/dev/null || true
           if ! git diff --staged --quiet; then
             git commit -m "chore(auto-trader): log execution cycle state & funnel telemetry [skip ci]"
+            git checkout -- .
+            git clean -fd
             for i in 1 2 3; do
               git pull --rebase origin main && git push origin main && break || {
+                git rebase --abort 2>/dev/null || true
                 if [ $i -eq 3 ]; then echo "Push failed after 3 attempts"; exit 1; fi
                 sleep 5
               }

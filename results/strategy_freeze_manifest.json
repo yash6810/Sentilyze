@@ -1,5 +1,5 @@
 {
-  ".github/workflows/autonomous_live_trader.yml": "95aa50a9a114d7b956876aaefee9e5e6f92ec01f9d1a31fcec6556bb092d2338",
+  ".github/workflows/autonomous_live_trader.yml": "04833fc3eeab507f03a8b5b991748c4b9a854d49a3f63a737fd42fd3273cd6a4",
   "models/drl_policy/ADP_drl_weights.pt": "52b74dc2b6db9ff286d0846da42ae8885903d4006f8c76971f06b5e635e23d44",
   "models/drl_policy/NVDA_drl_weights.pt": "de5e314f2a2da6e91fa404509fa89247abe74c11e46485831b2c6b8b5a9d6e81",
   "models/drl_policy/universal_drl_master_policy.pt": "a638fc083a4f6ed58b453f26330cb739c1d7e702e2e2fe13837086f5ad296410",
@@ -2021,7 +2021,7 @@
   "src/arar_microstructure.py": "cace6a27f31596a0d07d240bd7a3f3872a0c699d33f0e9a1ef1e6d67a53fdbda",
   "src/attribution_analysis.py": "0bcff4640f3f3590c50fd6a0ce8af72f4ca276592771aa59577e7f924ac6c9cf",
   "src/audio_briefing.py": "888ae70405ec1e1dbebe8a220f3f09531e5573dec14fd996dcd6bb50c089e18a",
-  "src/autonomous_trader.py": "d02819afc8c4f0e2a40210d67f1ec9dd0a0cdd0af2a36ea841b096e75e45ebed",
+  "src/autonomous_trader.py": "03793ffdaf31b2211b8eab9823faa181b04d9eebd8ed0204a270b57aa783f36c",
   "src/backtest_autopsy.py": "8670ef0be9510d6d0447e94611c7a4a2b27c523dd0e9b3b1059315fe95db0f32",
   "src/backtesting.py": "0d2498fee3fe32f535c94406b600bbe7976f7dc5bce9df5e9a86bfcdc402bb88",
   "src/benchmark_training_paradigms.py": "ddd1d0c136d058f3404772f9037e3af515d5d087563210db1ae5545cdadcca60",

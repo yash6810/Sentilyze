@@ -23,7 +23,7 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 
 | File Path | SHA-256 Digest |
 | :--- | :--- |
-| `.github/workflows/autonomous_live_trader.yml` | `95aa50a9a114d7b956876aaefee9e5e6f92ec01f9d1a31fcec6556bb092d2338` |
+| `.github/workflows/autonomous_live_trader.yml` | `04833fc3eeab507f03a8b5b991748c4b9a854d49a3f63a737fd42fd3273cd6a4` |
 | `requirements.txt` | `ee23bdc75df9a6fbf1b0951988c74378793a76217a03ff0be5048f2cc5fb5796` |
 | `requirements-dev.txt` | `39a00628a6af2a70af77909db146ecb9fcbadd0ee4375ede98ce47468a65ba5a` |
 | `scripts/check_alpaca_connectivity.py` | `0728d9ac60fdd519a62d28a800eb169689b91df2018d095e0b1ef48799c8aa03` |
@@ -40,7 +40,7 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 | Core Module | SHA-256 Digest |
 | :--- | :--- |
 | `src/agent_committee.py` | `1c6d7e1e010bc08d32afe9ad8e9580cb55ffeeec0b6a5403bad17dfed4ee5d6b` |
-| `src/autonomous_trader.py` | `d02819afc8c4f0e2a40210d67f1ec9dd0a0cdd0af2a36ea841b096e75e45ebed` |
+| `src/autonomous_trader.py` | `03793ffdaf31b2211b8eab9823faa181b04d9eebd8ed0204a270b57aa783f36c` |
 | `src/paper_broker.py` | `71a041b3f44d66c1f5406d28a09f6cc1606d6c42987f5f5fd25b59c3303f8123` |
 | `src/alpaca_broker.py` | `8837fac9e329a280e051796c3a39e3dfffc2e36dca910a01bf259054627be1ef` |
 | `src/post_mortem_learner.py` | `1fa773dc90a1b4468eb9ea85e4b495ee610ce19b5d0ce434bedf6252ce628eb8` |

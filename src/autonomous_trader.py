@@ -1438,6 +1438,21 @@ class AutonomousTradingEngine:
                 logger.critical(
                     f"🚨 [NEURAL SDE CPPI FLOOR BREACH] Equity (${total_eq:,.2f}) is at or below dynamic survival floor (${cppi_floor:,.2f}). Freezing all new long exposure."
                 )
+                if buy_candidates:
+                    funnel_blocked["NEURAL_SDE_CPPI_FLOOR_BREACH"] = len(buy_candidates)
+                try:
+                    from src.funnel_tracker import record_funnel_run
+
+                    record_funnel_run(
+                        tickers_scanned=funnel_scanned,
+                        skipped_no_real_news=funnel_skipped_news,
+                        vetoed_by_reason=funnel_vetoed,
+                        buy_blocked_guards=funnel_blocked,
+                        orders_submitted=0,
+                        skipped_news_quota_or_error=funnel_skipped_quota_error,
+                    )
+                except Exception as fe:
+                    logger.debug(f"Funnel record notice on CPPI breach: {fe}")
                 return executed_actions
 
             # Position ticket size bounded by 10% equity ceiling and available CPPI surplus cushion
