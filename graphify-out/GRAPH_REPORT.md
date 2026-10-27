@@ -1,7 +1,7 @@
 # Graph Report - Sentilyze  (2026-10-27)
 
 ## Corpus Check
-- 2576 files · ~891,939 words
+- 2577 files · ~974,866 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `abb39a99`
+- Built from commit: `50bfbfff`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -262,7 +262,7 @@
 - .classify
 - build_orderflow_candlestick_chart
 - _score_text_with_finbert
-- Today's Detailed Breakdown (`2026-10-26`)
+- Today's Detailed Breakdown (`2026-10-27`)
 - .evaluate_catalyst_and_market
 - .fuse
 - _get_browser_session
@@ -1196,9 +1196,9 @@ Nodes (7): build_orderflow_candlestick_chart(), detect_fair_value_gaps(), Any, D
 Cohesion: 0.29
 Nodes (7): clean_financial_text(), _parse_analyzer_output(), Cleans raw financial headlines/descriptions by stripping boilerplate publisher…, Normalizes pipeline output whether given full multi-class probabilities (list…, Scores extracted text using FinBERT sentiment pipeline., _score_text_with_finbert(), test_score_text_with_finbert()
 
-### Community 263 - "Today's Detailed Breakdown (`2026-10-26`)"
+### Community 263 - "Today's Detailed Breakdown (`2026-10-27`)"
 Cohesion: 0.33
-Nodes (5): Daily Execution Totals, Orders Blocked by Position & Risk Guards, 🔍 Sentilyze Execution Funnel Telemetry, Today's Detailed Breakdown (`2026-10-26`), Vetoes by Reason
+Nodes (5): Daily Execution Totals, Orders Blocked by Position & Risk Guards, 🔍 Sentilyze Execution Funnel Telemetry, Today's Detailed Breakdown (`2026-10-27`), Vetoes by Reason
 
 ### Community 264 - ".evaluate_catalyst_and_market"
 Cohesion: 0.50

@@ -672,8 +672,8 @@
     "semantic_hash": "ae987e0aac858f566be0bc4a815063b0"
   },
   "results/autonomous_execution_log.json": {
-    "mtime": 1793094612.1851072,
-    "seen": 1793097181.5337598,
+    "mtime": 1793116675.4761324,
+    "seen": 1793117006.7363,
     "ast_hash": "91a4b5a3f9a24b70e10c239d86844c2a",
     "semantic_hash": ""
   },
@@ -738,9 +738,9 @@
     "semantic_hash": ""
   },
   "src/autonomous_trader.py": {
-    "mtime": 1793097012.3909745,
-    "seen": 1793097181.5691464,
-    "ast_hash": "963563817d8ef051378f5cb313fa6d7b",
+    "mtime": 1793115985.5638409,
+    "seen": 1793117006.7595706,
+    "ast_hash": "448e050ba05f7a9a2e1cb7d05b17a95c",
     "semantic_hash": ""
   },
   "src/backtesting.py": {
@@ -1482,9 +1482,9 @@
     "semantic_hash": ""
   },
   ".github/workflows/autonomous_live_trader.yml": {
-    "mtime": 1793086359.8021836,
-    "seen": 1793097181.726497,
-    "ast_hash": "dbdfe885d189afc03fd7ecb66a18c215",
+    "mtime": 1793115991.2395418,
+    "seen": 1793117006.8467205,
+    "ast_hash": "97fac1a8a2aa99c6efbbb6c78ef6f20c",
     "semantic_hash": ""
   },
   ".github/workflows/ci.yml": {
@@ -1620,8 +1620,8 @@
     "semantic_hash": ""
   },
   "results/committee_ablation_study.json": {
-    "mtime": 1793094612.2076752,
-    "seen": 1793097181.5359411,
+    "mtime": 1793116847.3206825,
+    "seen": 1793117006.737738,
     "ast_hash": "74fbcc726341f30024c6a789ed9865ec",
     "semantic_hash": ""
   },
@@ -14910,8 +14910,8 @@
     "semantic_hash": ""
   },
   "results/pilot_crypto_portfolio.json": {
-    "mtime": 1793094612.25902,
-    "seen": 1793097181.5441387,
+    "mtime": 1793116675.4956596,
+    "seen": 1793117006.7438781,
     "ast_hash": "91c3c5d85c6f6051ad50fc9f83af805a",
     "semantic_hash": ""
   },
@@ -15504,9 +15504,9 @@
     "semantic_hash": ""
   },
   "results/strategy_freeze_manifest.json": {
-    "mtime": 1793097012.3849964,
-    "seen": 1793097181.5463552,
-    "ast_hash": "c1c2364635e34a7eb9f35b02965e2402",
+    "mtime": 1793116009.0428996,
+    "seen": 1793117006.7458386,
+    "ast_hash": "c36e3b591e8ce7fcc4509020febaff4a",
     "semantic_hash": ""
   },
   "scripts/sync_project_to_gdrive.py": {
@@ -15558,8 +15558,8 @@
     "semantic_hash": ""
   },
   "tests/test_strategy_freeze.py": {
-    "mtime": 1793095912.580348,
-    "seen": 1793097181.7122295,
+    "mtime": 1793116017.4454503,
+    "seen": 1793117006.837358,
     "ast_hash": "a26267d4698ee3ceafb41a1eb5e06903",
     "semantic_hash": ""
   },
@@ -15570,9 +15570,9 @@
     "semantic_hash": ""
   },
   "STRATEGY_FREEZE.md": {
-    "mtime": 1793097012.3792837,
-    "seen": 1793097181.7313735,
-    "ast_hash": "a8aa45d87cdd996f5be6828bfd28b870",
+    "mtime": 1793116009.0446546,
+    "seen": 1793117006.8500044,
+    "ast_hash": "dbc619f67bc8df535961e0de3940628d",
     "semantic_hash": ""
   },
   "archive/invalid_simulation_2026/README.md": {
@@ -15738,9 +15738,9 @@
     "semantic_hash": ""
   },
   "results/funnel.json": {
-    "mtime": 1793086359.8080647,
-    "seen": 1793097181.5377662,
-    "ast_hash": "b11f541d2eb5c348c9460cb59625a105",
+    "mtime": 1793116677.9011166,
+    "seen": 1793117006.7392786,
+    "ast_hash": "c1ad03742b5c5876f50758fbf4d7b9c8",
     "semantic_hash": ""
   },
   "scripts/check_alpaca_connectivity.py": {
@@ -15768,9 +15768,9 @@
     "semantic_hash": ""
   },
   "results/funnel.md": {
-    "mtime": 1793086359.8091452,
-    "seen": 1793097181.7426534,
-    "ast_hash": "311c52bb955557550911cfce8f342536",
+    "mtime": 1793116677.90273,
+    "seen": 1793117006.8567429,
+    "ast_hash": "d8b92be5f37ff733f8102359077ca697",
     "semantic_hash": ""
   }
 }
