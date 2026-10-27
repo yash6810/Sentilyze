@@ -4,9 +4,9 @@ Tracks the multi-stage elimination pipeline per trading session: Scanned → New
 
 ## Daily Execution Totals
 
-| Date | Runs | Scanned | Skipped (No News) | Skipped (Quota/Error) | Vetoed | Blocked by Guards | Orders Submitted |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `2026-10-26` | 2 | 1072 | 0 | 0 | 0 | 1072 | **0** |
+| Date | Total Runs | Aborted Runs | Scanned | Skipped (No News) | Skipped (Quota/Error) | Vetoed | Blocked by Guards | Orders Submitted |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `2026-10-26` | 2 | 0 | 1072 | 0 | 0 | 0 | 1072 | **0** |
 
 ### Today's Detailed Breakdown (`2026-10-26`)
 

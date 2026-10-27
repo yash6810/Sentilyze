@@ -47,6 +47,16 @@ jobs:
         run: |
           python -c "from src.market_session import get_us_market_session; s = get_us_market_session(); print('🏛️ US Market Session Check:', s)"
 
+      - name: Alpaca Broker Pre-Flight Connectivity Check
+        env:
+          PYTHONPATH: .
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY || secrets.APCA_API_KEY_ID }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY || secrets.APCA_API_SECRET_KEY }}
+          APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID || secrets.ALPACA_API_KEY }}
+          APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY || secrets.ALPACA_SECRET_KEY }}
+        run: |
+          python scripts/check_alpaca_connectivity.py
+
       - name: Execute Autonomous Trading & Self-Improvement Loop
         env:
           PYTHONPATH: .

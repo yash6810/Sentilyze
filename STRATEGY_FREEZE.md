@@ -23,11 +23,12 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 
 | File Path | SHA-256 Digest |
 | :--- | :--- |
-| `.github/workflows/autonomous_live_trader.yml` | `3e5a5dea43b9d8f6ed3a38550aeeabffda84386674c2b9b401c9bd5be938b795` |
+| `.github/workflows/autonomous_live_trader.yml` | `2324410d24c86edae51650aadfefe313d5622cbe10a031c9e72f3b5eb6f537ab` |
 | `requirements.txt` | `ee23bdc75df9a6fbf1b0951988c74378793a76217a03ff0be5048f2cc5fb5796` |
 | `requirements-dev.txt` | `39a00628a6af2a70af77909db146ecb9fcbadd0ee4375ede98ce47468a65ba5a` |
+| `scripts/check_alpaca_connectivity.py` | `eb7998276a4aa8a4227d5f144d7647b484e990f52818fb7bb4460f7cb1129dfa` |
 | `scripts/run_247_daemon.py` | `05fc3fc025ff2f71ecd749144fce2687ac498b3df6347bd2269811ff483f84ce` |
-| `scripts/weekly_scorecard.py` | `9aa24c63099b199d0fe8ebacab80abb5ff4f5d9a2434712a16d6af533a6df1cb` |
+| `scripts/weekly_scorecard.py` | `04fd01a3deab30e237607980046b50016faffcc0ca841a70204f87a03c94e1b8` |
 | `results/agent_learning_memory.json` | `95d03a2ca3deddaaffbec754840bc4df934b631c91503688c4119a7b4a04c605` |
 | `results/agent_memory/committee_weights.json` | `c527d4b9dba60da44522500ea16e5b66390de36bb5b3146263823105ded808ee` |
 | `results/agent_memory/semantic_rules.json` | `e835d22aa834acb8cdf6d90d78e46bcbf29d9b61c368338e62e28555edc514e1` |
@@ -39,9 +40,9 @@ Any modification to strategy parameters, thresholds, risk gates, learning state,
 | Core Module | SHA-256 Digest |
 | :--- | :--- |
 | `src/agent_committee.py` | `1c6d7e1e010bc08d32afe9ad8e9580cb55ffeeec0b6a5403bad17dfed4ee5d6b` |
-| `src/autonomous_trader.py` | `ca6fc4d7bb8c5a5349711a0a645b697417a819a3ad0d653704417dfc516622a4` |
+| `src/autonomous_trader.py` | `37f947fd56fbaefd569838a6a9e87fca7eb9a5205c49a1d0735c178fc3bc0dff` |
 | `src/paper_broker.py` | `ab2c84ffea7913b8bedb32ce53ab9df56a401440db92f8cd3f333f05e4c1e8ac` |
-| `src/alpaca_broker.py` | `09b44590ad7fc032f62a127f63201a4a2be44459366786a97f437075503add24` |
+| `src/alpaca_broker.py` | `567ef1045bb17bd05aa753ff8442669afe11f597275da88f98d9ee4b7fcd56d0` |
 | `src/post_mortem_learner.py` | `1fa773dc90a1b4468eb9ea85e4b495ee610ce19b5d0ce434bedf6252ce628eb8` |
 | `src/agent_memory.py` | `be1a6aee7c2e754d9b7a4dfdcdd1d5b13c3d97a0ac13c7dde8ddcc1f701b39af` |
 

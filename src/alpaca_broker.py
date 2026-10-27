@@ -25,8 +25,19 @@ class AlpacaBrokerBridge:
         base_url: Optional[str] = None,
         is_paper: bool = True,
     ):
-        self.api_key = api_key or os.getenv("ALPACA_API_KEY", "")
-        self.secret_key = secret_key or os.getenv("ALPACA_SECRET_KEY", "")
+        self.api_key = (
+            api_key
+            if api_key is not None
+            else (os.getenv("ALPACA_API_KEY", "") or os.getenv("APCA_API_KEY_ID", ""))
+        )
+        self.secret_key = (
+            secret_key
+            if secret_key is not None
+            else (
+                os.getenv("ALPACA_SECRET_KEY", "")
+                or os.getenv("APCA_API_SECRET_KEY", "")
+            )
+        )
         raw_url = base_url or os.getenv(
             "ALPACA_BASE_URL",
             (ALPACA_PAPER_BASE_URL if is_paper else ALPACA_LIVE_BASE_URL),
@@ -40,21 +51,68 @@ class AlpacaBrokerBridge:
             "Content-Type": "application/json",
         }
 
+    def _log_alpaca_warning(
+        self,
+        method_name: str,
+        status_code: Optional[int],
+        error_body: str,
+    ):
+        from urllib.parse import urlparse
+
+        host = urlparse(self.base_url).hostname or self.base_url
+        env_keys_status = {
+            "ALPACA_API_KEY": bool(os.getenv("ALPACA_API_KEY")),
+            "ALPACA_SECRET_KEY": bool(os.getenv("ALPACA_SECRET_KEY")),
+            "APCA_API_KEY_ID": bool(os.getenv("APCA_API_KEY_ID")),
+            "APCA_API_SECRET_KEY": bool(os.getenv("APCA_API_SECRET_KEY")),
+            "api_key_loaded": bool(self.api_key),
+            "secret_key_loaded": bool(self.secret_key),
+        }
+        truncated_body = str(error_body)[:200]
+        logger.warning(
+            f"[{method_name}] Alpaca connectivity check warning: "
+            f"key_env_vars_present={env_keys_status}, "
+            f"host='{host}', status_code={status_code}, "
+            f"error_body='{truncated_body}'"
+        )
+
     def is_connected(self) -> bool:
         """Verifies active connection to Alpaca Brokerage API."""
         if not self.api_key or not self.secret_key:
+            self._log_alpaca_warning(
+                "AlpacaBrokerBridge.is_connected",
+                status_code=None,
+                error_body="Missing API key or Secret key",
+            )
             return False
         try:
             res = requests.get(
                 f"{self.base_url}/v2/account", headers=self.headers, timeout=6
             )
-            return res.status_code == 200
-        except Exception:
+            if res.status_code != 200:
+                self._log_alpaca_warning(
+                    "AlpacaBrokerBridge.is_connected",
+                    status_code=res.status_code,
+                    error_body=res.text,
+                )
+                return False
+            return True
+        except Exception as exc:
+            self._log_alpaca_warning(
+                "AlpacaBrokerBridge.is_connected",
+                status_code=None,
+                error_body=str(exc),
+            )
             return False
 
     def get_account_summary(self) -> Dict[str, Any]:
         """Fetches live Alpaca account equity, buying power, and cash."""
         if not self.is_connected():
+            self._log_alpaca_warning(
+                "AlpacaBrokerBridge.get_account_summary",
+                status_code=None,
+                error_body="Broker is not connected",
+            )
             return {
                 "status": "DISCONNECTED",
                 "equity": 100000.0,
@@ -79,6 +137,18 @@ class AlpacaBrokerBridge:
                 "account_number": data.get("account_number", "N/A"),
             }
         except Exception as e:
+            resp = getattr(e, "response", None)
+            code = resp.status_code if resp is not None else None
+            body = (
+                resp.text
+                if (resp is not None and getattr(resp, "text", None) is not None)
+                else str(e)
+            )
+            self._log_alpaca_warning(
+                "AlpacaBrokerBridge.get_account_summary",
+                status_code=code,
+                error_body=body,
+            )
             logger.error(f"Alpaca account fetch error: {e}")
             raise
 
